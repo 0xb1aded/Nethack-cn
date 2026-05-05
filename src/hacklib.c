@@ -344,18 +344,7 @@ strcasecpy(char *dst, const char *src)
 char *
 s_suffix(const char *s)
 {
-    static char buf[BUFSZ];
-
-    Strcpy(buf, s);
-    if (!strcmpi(buf, "it")) /* it -> its */
-        Strcat(buf, "s");
-    else if (!strcmpi(buf, "you")) /* you -> your */
-        Strcat(buf, "r");
-    else if (*(eos(buf) - 1) == 's') /* Xs -> Xs' */
-        Strcat(buf, "'");
-    else /* X -> X's */
-        Strcat(buf, "'s");
-    return buf;
+    return s;
 }
 
 /* construct a gerund (a verb formed by appending "ing" to a noun) */
