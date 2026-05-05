@@ -252,7 +252,7 @@ moveloop_core(void)
                  */
                 if (svm.moves >= 1000000000L) {
                     display_nhwindow(WIN_MESSAGE, TRUE);
-                    urgent_pline("The dungeon capitulates.");
+                    urgent_pline("地牢投降了.");
                     done(ESCAPED);
                 }
                 /* 'moves' is misnamed; it represents turns; hero_seq is
@@ -446,7 +446,7 @@ moveloop_core(void)
     if (u.uhave.amulet && !u.uevent.amulet_wish) {
         u.uevent.amulet_wish = 1;
         display_nhwindow(WIN_MESSAGE, TRUE);
-        urgent_pline("The Amulet is bestowing a wish upon you!");
+        urgent_pline("护身符正在赐予你一个愿望!");
         makewish();
     }
 
@@ -614,7 +614,7 @@ regen_pw(int wtcap)
             u.uen = u.uenmax;
         disp.botl = TRUE;
         if (u.uen == u.uenmax)
-            interrupt_multi("You feel full of energy.");
+            interrupt_multi("你感到充满能量.");
     }
 }
 
@@ -675,7 +675,7 @@ regen_hp(int wtcap)
     }
 
     if (reached_full)
-        interrupt_multi("You are in full health.");
+        interrupt_multi("你完全恢复了健康.");
 }
 
 #undef U_CAN_REGEN
@@ -898,7 +898,7 @@ welcome(boolean new_game) /* false => restoring an old game */
      */
     if (new_game || u.ualignbase[A_ORIGINAL] != u.ualignbase[A_CURRENT] || adrift)
         Sprintf(eos(buf), " %s%s",
-                adrift ? "漂泊 " : "",
+                adrift ? "漂泊的" : "",
                 adrift ? align_str(u.ualign.type)
                        : align_str(u.ualignbase[A_CURRENT]));
 #endif
@@ -911,8 +911,8 @@ welcome(boolean new_game) /* false => restoring an old game */
             (currentgend && gu.urole.name.f) ? gu.urole.name.f
                                              : gu.urole.name.m);
 
-    pline(new_game ? "%s %s，欢迎来到NetHack！你是%s."
-                   : "%s %s，%s，欢迎回到NetHack！",
+    pline(new_game ? "%s %s,欢迎来到NetHack!你是%s."
+                   : "%s %s,%s,欢迎回到NetHack!",
           Hello((struct monst *) 0), svp.plname, buf);
 
     if (new_game) {
