@@ -1972,79 +1972,74 @@ const char *
 mbodypart(struct monst *mon, int part)
 {
     static NEARDATA const char
-        *humanoid_parts[] = { "arm",       "eye",  "face",         "finger",
-                              "fingertip", "foot", "hand",         "handed",
-                              "head",      "leg",  "light headed", "neck",
-                              "spine",     "toe",  "hair",         "blood",
-                              "lung",      "nose", "stomach" },
-        *jelly_parts[] = { "pseudopod", "dark spot", "front",
-                           "pseudopod extension", "pseudopod extremity",
-                           "pseudopod root", "grasp", "grasped",
-                           "cerebral area", "lower pseudopod", "viscous",
-                           "middle", "surface", "pseudopod extremity",
-                           "ripples", "juices", "surface", "sensor",
-                           "stomach" },
-        *animal_parts[] = { "forelimb",  "eye",           "face",
-                            "foreclaw",  "claw tip",      "rear claw",
-                            "foreclaw",  "clawed",        "head",
-                            "rear limb", "light headed",  "neck",
-                            "spine",     "rear claw tip", "fur",
-                            "blood",     "lung",          "nose",
-                            "stomach" },
-        *bird_parts[] = { "wing",     "eye",  "face",         "wing",
-                          "wing tip", "foot", "wing",         "winged",
-                          "head",     "leg",  "light headed", "neck",
-                          "spine",    "toe",  "feathers",     "blood",
-                          "lung",     "bill", "stomach" },
-        *horse_parts[] = { "foreleg",  "eye",           "face",
-                           "forehoof", "hoof tip",      "rear hoof",
-                           "forehoof", "hooved",        "head",
-                           "rear leg", "light headed",  "neck",
-                           "backbone", "rear hoof tip", "mane",
-                           "blood",    "lung",          "nose",
-                           "stomach" },
-        *sphere_parts[] = { "appendage", "optic nerve", "body", "tentacle",
-                            "tentacle tip", "lower appendage", "tentacle",
-                            "tentacled", "body", "lower tentacle",
-                            "rotational", "equator", "body",
-                            "lower tentacle tip", "cilia", "life force",
-                            "retina", "olfactory nerve", "interior" },
-        *fungus_parts[] = { "mycelium", "visual area", "front",
-                            "hypha",    "hypha",       "root",
-                            "strand",   "stranded",    "cap area",
-                            "rhizome",  "sporulated",  "stalk",
-                            "root",     "rhizome tip", "spores",
-                            "juices",   "gill",        "gill",
-                            "interior" },
-        *vortex_parts[] = { "region",        "eye",           "front",
-                            "minor current", "minor current", "lower current",
-                            "swirl",         "swirled",       "central core",
-                            "lower current", "addled",        "center",
-                            "currents",      "edge",          "currents",
-                            "life force",    "center",        "leading edge",
-                            "interior" },
-        *snake_parts[] = { "vestigial limb", "eye", "face", "large scale",
-                           "large scale tip", "rear region", "scale gap",
-                           "scale gapped", "head", "rear region",
-                           "light headed", "neck", "length", "rear scale",
-                           "scales", "blood", "lung", "forked tongue",
-                           "stomach" },
-        *worm_parts[] = { "anterior segment", "light sensitive cell",
-                          "clitellum", "setae", "setae", "posterior segment",
-                          "segment", "segmented", "anterior segment",
-                          "posterior", "over stretched", "clitellum",
-                          "length", "posterior setae", "setae", "blood",
-                          "skin", "prostomium", "stomach" },
-        *spider_parts[] = { "pedipalp", "eye", "face", "pedipalp", "tarsus",
-                            "claw", "pedipalp", "palped", "cephalothorax",
-                            "leg", "spun out", "cephalothorax", "abdomen",
-                            "claw", "hair", "hemolymph", "book lung",
-                            "labrum", "digestive tract" },
-        *fish_parts[] = { "fin", "eye", "premaxillary", "pelvic axillary",
-                          "pelvic fin", "anal fin", "pectoral fin", "finned",
-                          "head", "peduncle", "played out", "gills",
-                          "dorsal fin", "caudal fin", "scales", "blood",
-                          "gill", "nostril", "stomach" };
+        *humanoid_parts[] = { "胳膊",       "眼睛",  "脸",         "手指",
+                              "指尖", "脚", "手",         "手",
+                              "头",      "腿",  "头晕", "脖子",
+                              "脊椎",     "脚趾",  "头发",         "血液",
+                              "肺",      "鼻子", "胃" },
+        *jelly_parts[] = { "伪足", "黑点", "正面",
+                           "延长的伪足", "伪足末端",
+                           "伪足根", "控制", "控制",
+                           "脑区", "下伪足", "粘性",
+                           "中部", "表面", "伪足末端",
+                           "波纹", "汁液", "表面", "感官",
+                           "胃" },
+        *animal_parts[] = { "前肢",  "眼睛",           "脸",
+                            "前爪",  "爪尖",      "后爪",
+                            "前爪",  "爪",        "头",
+                            "后肢", "头晕",  "脖子",
+                            "脊椎",     "后爪尖", "毛",
+                            "血液",     "肺",          "鼻子",
+                            "胃" },
+        *bird_parts[] = { "翅膀",     "眼睛",  "脸",         "翅膀",
+                          "翼梢", "脚", "翅膀",         "翅膀",
+                          "头",     "腿",  "头晕", "脖子",
+                          "脊椎",    "脚趾",  "羽毛",     "血液",
+                          "肺",     "喙", "胃" },
+        *horse_parts[] = { "前腿",  "眼睛",           "脸",
+                           "前蹄", "蹄尖",      "后蹄",
+                           "前蹄", "蹄",        "头",
+                           "后腿", "头晕",  "脖子",
+                           "脊骨", "后蹄尖", "鬃毛",
+                           "血液",    "肺",          "鼻子",
+                           "胃" },
+        *sphere_parts[] = { "附肢", "视神经", "身体", "触手",
+                            "触手尖", "下附肢", "触手",
+                            "触手", "身体", "下触手",
+                            "旋转", "赤道面", "身体",
+                            "下触手尖", "纤毛", "生命力",
+                            "视网膜", "嗅神经", "内部" },
+        *fungus_parts[] = { "菌丝", "视觉中枢", "正面",
+                            "菌丝",    "菌丝",       "根",
+                            "纤维",   "纤维",    "盖区",
+                            "根茎",  "孢子",  "茎",
+                            "根",     "根茎尖", "孢子",
+                            "汁液",   "菌褶",        "菌褶",
+                            "内部" },
+        *vortex_parts[] = { "部位",        "眼睛",           "正面",
+                            "小流动", "小流动", "下流动",
+                            "漩涡",         "漩涡",       "中心核",
+                            "下流动", "混乱",        "中心",
+                            "流动",      "边缘",          "流动",
+                            "生命力",    "中心",        "前缘",
+                            "内部" },
+        *snake_parts[] = { "退化的脚", "眼睛", "脸", "大鳞片",
+                           "大鳞片尖", "尾部区域", "鳞间隙",
+                           "鳞间隙", "头", "尾部区域",
+                           "头晕", "脖子", "长体", "尾部鳞片",
+                           "鳞片", "血液", "肺", "分叉舌",
+                           "胃" },
+        *worm_parts[] = { "前体节", "感光细胞",
+                          "环带", "茸毛", "茸毛", "后体节",
+                          "体节", "体节", "前体节",
+                          "后端", "过度拉伸", "环带",
+                          "长体", "后茸毛", "茸毛", "血液",
+                          "皮肤", "口前叶", "胃" },
+        *fish_parts[] = { "鳍", "眼睛", "前颌骨", "骨盆腋",
+                          "腹鳍", "臀鳍", "胸鳍", "鳍",
+                          "头", "梗节", "衰竭", "鳃",
+                          "背鳍", "尾鳍", "鳞", "血液",
+                          "鳃", "鼻孔", "胃" };
     /* claw attacks are overloaded in mons[]; most humanoids with
        such attacks should still reference hands rather than claws */
     static const char not_claws[] = {
@@ -2064,11 +2059,11 @@ mbodypart(struct monst *mon, int part)
         || mptr->mlet == S_RODENT || mptr == &mons[PM_OWLBEAR]) {
         switch (part) {
         case HAND:
-            return "paw";
+            return "爪子";
         case HANDED:
-            return "pawed";
+            return "爪子";
         case FOOT:
-            return "rear paw";
+            return "后爪";
         case ARM:
         case LEG:
             return horse_parts[part]; /* "foreleg", "rear leg" */
@@ -2083,18 +2078,18 @@ mbodypart(struct monst *mon, int part)
         && (humanoid(mptr) && attacktype(mptr, AT_CLAW)
             && !strchr(not_claws, mptr->mlet) && mptr != &mons[PM_STONE_GOLEM]
             && mptr != &mons[PM_AMOROUS_DEMON]))
-        return (part == HAND) ? "claw" : "clawed";
+        return (part == HAND) ? "爪" : "爪";
     if ((mptr == &mons[PM_MUMAK] || mptr == &mons[PM_MASTODON])
         && part == NOSE)
-        return "trunk";
+        return "象鼻";
     if (mptr == &mons[PM_SHARK] && part == HAIR)
-        return "skin"; /* sharks don't have scales */
+        return "皮肤"; /* sharks don't have scales */
     if ((mptr == &mons[PM_JELLYFISH] || mptr == &mons[PM_KRAKEN])
         && (part == ARM || part == FINGER || part == HAND || part == FOOT
             || part == TOE))
-        return "tentacle";
+        return "触手";
     if (mptr == &mons[PM_FLOATING_EYE] && part == EYE)
-        return "cornea";
+        return "角膜";
     if (humanoid(mptr) && (part == ARM || part == FINGER || part == FINGERTIP
                            || part == HAND || part == HANDED))
         return humanoid_parts[part];
@@ -2108,15 +2103,15 @@ mbodypart(struct monst *mon, int part)
         return horse_parts[part];
     if (mptr->mlet == S_LIGHT) {
         if (part == HANDED)
-            return "rayed";
+            return "光线";
         else if (part == ARM || part == FINGER || part == FINGERTIP
                  || part == HAND)
-            return "ray";
+            return "光线";
         else
-            return "beam";
+            return "光束";
     }
     if (mptr == &mons[PM_STALKER] && part == HEAD)
-        return "head";
+        return "头";
     if (mptr->mlet == S_EEL && mptr != &mons[PM_JELLYFISH])
         return fish_parts[part];
     if (mptr->mlet == S_WORM)
