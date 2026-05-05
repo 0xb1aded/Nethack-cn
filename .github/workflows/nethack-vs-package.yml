@@ -1,0 +1,88 @@
+name: Build NetHack VS package
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: nethack-vs-package-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  SOLUTION_PATH: sys/windows/vs/NetHack.sln
+  BUILD_CONFIGURATION: Release
+  BUILD_PLATFORM: x64
+  PACKAGE_DIR: vspackage
+
+jobs:
+  build:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Set up MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Build Visual Studio solution
+        run: |
+          msbuild $env:SOLUTION_PATH /m /p:Configuration=$env:BUILD_CONFIGURATION /p:Platform=$env:BUILD_PLATFORM /t:Build
+
+      - name: Verify packaged artifacts
+        run: |
+          $packages = Get-ChildItem -Path $env:PACKAGE_DIR -Filter *.zip -File -ErrorAction Stop
+          $packages | Select-Object Name, Length, LastWriteTime | Format-Table -AutoSize
+
+      - name: Upload workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: nethack-vspackage-x64
+          path: vspackage/*.zip
+          if-no-files-found: error
+
+  release:
+    needs: build
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch))
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download packaged artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: nethack-vspackage-x64
+          path: release-assets
+
+      - name: Prepare release metadata
+        id: meta
+        shell: bash
+        run: |
+          short_sha="${GITHUB_SHA::7}"
+          tag="nethack-pre-${GITHUB_RUN_NUMBER}-${short_sha}"
+          name="NetHack prerelease #${GITHUB_RUN_NUMBER} (${short_sha})"
+          {
+            echo "tag=$tag"
+            echo "name=$name"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Publish prerelease
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.meta.outputs.tag }}
+          name: ${{ steps.meta.outputs.name }}
+          prerelease: true
+          files: release-assets/*.zip
+          body: |
+            Automated NetHack Visual Studio package build.
+
+            - Branch: `${{ github.ref_name }}`
+            - Commit: `${{ github.sha }}`
