@@ -324,7 +324,7 @@ choose_windows(const char *s)
             if ('-' == winchoices[i].procs->name[0])
                 continue;
             Sprintf(eos(buf), "%s%s",
-                    first ? "" : ", ", winchoices[i].procs->name);
+                    first ? "" : "， ", winchoices[i].procs->name);
             first = FALSE;
         }
         config_error_add("Window type %s not recognized.  Choices are:  %s",
@@ -682,7 +682,7 @@ hup_nh_poskey(coordxy *x UNUSED, coordxy *y UNUSED, int *mod UNUSED)
 staticfn void
 hup_getlin(const char *prompt UNUSED, char *outbuf)
 {
-    Strcpy(outbuf, "\033");
+    Strcpy(outbuf, "");
 }
 
 /*ARGSUSED*/
@@ -990,31 +990,31 @@ genl_status_update(
             nb = status_vals[idx];
             *nb = '\0';
             if (cond & BL_MASK_STONE)
-                Strcpy(nb = eos(nb), " Stone");
+                Strcpy(nb = eos(nb), "  石化");
             if (cond & BL_MASK_SLIME)
-                Strcpy(nb = eos(nb), " Slime");
+                Strcpy(nb = eos(nb), "  污秽");
             if (cond & BL_MASK_STRNGL)
-                Strcpy(nb = eos(nb), " Strngl");
+                Strcpy(nb = eos(nb), "  束缚");
             if (cond & BL_MASK_FOODPOIS)
-                Strcpy(nb = eos(nb), " FoodPois");
+                Strcpy(nb = eos(nb), "  食物中毒");
             if (cond & BL_MASK_TERMILL)
-                Strcpy(nb = eos(nb), " TermIll");
+                Strcpy(nb = eos(nb), "  生病");
             if (cond & BL_MASK_BLIND)
-                Strcpy(nb = eos(nb), " Blind");
+                Strcpy(nb = eos(nb), "  失明");
             if (cond & BL_MASK_DEAF)
-                Strcpy(nb = eos(nb), " Deaf");
+                Strcpy(nb = eos(nb), "  耳聋");
             if (cond & BL_MASK_STUN)
-                Strcpy(nb = eos(nb), " Stun");
+                Strcpy(nb = eos(nb), "  眩晕");
             if (cond & BL_MASK_CONF)
-                Strcpy(nb = eos(nb), " Conf");
+                Strcpy(nb = eos(nb), "  混乱");
             if (cond & BL_MASK_HALLU)
-                Strcpy(nb = eos(nb), " Hallu");
+                Strcpy(nb = eos(nb), "  幻觉");
             if (cond & BL_MASK_LEV)
-                Strcpy(nb = eos(nb), " Lev");
+                Strcpy(nb = eos(nb), "  飘浮");
             if (cond & BL_MASK_FLY)
-                Strcpy(nb = eos(nb), " Fly");
+                Strcpy(nb = eos(nb), "  飞行");
             if (cond & BL_MASK_RIDE)
-                Strcpy(nb = eos(nb), " Ride");
+                Strcpy(nb = eos(nb), "  乘骑");
             break;
         default:
             Sprintf(status_vals[idx],
@@ -1717,7 +1717,7 @@ choose_classes_menu(const char *prompt,
         add_menu_str(win, "");
         any = cg.zeroany;
         any.a_int = (int) ' ';
-        Sprintf(buf, "%c  %s", (char) any.a_int, "All classes of objects");
+        Sprintf(buf, "%c  %s", (char) any.a_int, "所有类别的物品");
         /* we won't preselect this even if the incoming list is empty;
            having it selected means that it would have to be explicitly
            de-selected in order to select anything else */

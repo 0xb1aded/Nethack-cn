@@ -199,7 +199,7 @@ query_classes(
         oclasses[oclassct = 0] = '\0';
         *one_at_a_time = *everything = FALSE;
         not_everything = filtered = FALSE;
-        Sprintf(qbuf, "What kinds of thing do you want to %s? [%s]", action,
+        Sprintf(qbuf, "你想对什么东西进行 %s？[%s]", action,
                 ilets);
         getlin(qbuf, inbuf);
         if (*inbuf == '\033')
@@ -238,9 +238,9 @@ query_classes(
                         where = !strcmp(action, "pick up") ? "here"
                                 : !strcmp(action, "take out") ? "inside" : "";
                     if (*where)
-                        There("are no %c's %s.", sym, where);
+                        There("没有%c 在%s.", sym, where);
                     else
-                        You("have no %c's.", sym);
+                        You("没有%c.", sym);
                     not_everything = TRUE;
                 }
             }
@@ -292,7 +292,7 @@ fatal_corpse_mistake(struct obj *obj, boolean remotely)
         return FALSE;
     }
 
-    pline("Touching %s is a fatal mistake.",
+    pline("触摸%s是一个致命的错误.",
           corpse_xname(obj, (const char *) 0, CXN_SINGULAR | CXN_ARTICLE));
     instapetrify(killer_xname(obj));
     return TRUE;
@@ -305,8 +305,8 @@ rider_corpse_revival(struct obj *obj, boolean remotely)
     if (!obj || obj->otyp != CORPSE || !is_rider(&mons[obj->corpsenm]))
         return FALSE;
 
-    pline("At your %s, the corpse suddenly moves...",
-          remotely ? "attempted acquisition" : "touch");
+    pline("在你%s的时候, 尸体突然移动了...",
+          remotely ? "试图获得" : "触碰");
     (void) revive_corpse(obj);
     exercise(A_WIS, FALSE);
     return TRUE;
@@ -398,7 +398,7 @@ describe_decor(void)
             dfeature = an(dfeature);
 
         if (flags.verbose) {
-            Sprintf(outbuf, "There is %s here.", dfeature);
+            Sprintf(outbuf, "这里有%s。", dfeature);
         } else {
             if (dfeature != fbuf)
                 Strcpy(fbuf, dfeature);
@@ -727,7 +727,7 @@ pickup(int what) /* should be a long */
             check_here(FALSE);
             if (notake(gy.youmonst.data) && OBJ_AT(u.ux, u.uy)
                 && (autopickup || flags.pickup))
-                You("are physically incapable of picking anything up.");
+                You("身体没法拾取任何东西.");
             return 0;
         }
 
@@ -763,7 +763,7 @@ pickup(int what) /* should be a long */
         if (count) { /* looking for N of something */
             char qbuf[QBUFSZ];
 
-            Sprintf(qbuf, "Pick %d of what?", count);
+            Sprintf(qbuf, "捡起%d 个什么?", count);
             gv.val_for_n_or_more = count; /* set up callback selector */
             n = query_objlist(qbuf, objchain_p, traverse_how,
                               &pick_list, PICK_ONE, n_or_more);
@@ -819,7 +819,7 @@ pickup(int what) /* should be a long */
         } else if (ct >= 2) {
             int via_menu = 0;
 
-            There("are %s objects here.", (ct <= 10) ? "several" : "many");
+            There("有%s物品.", (ct <= 10) ? "几个" : "很多");
             if (!query_classes(oclasses, &selective, &all_of_a_type,
                                "pick up", *objchain_p,
                                (traverse_how & BY_NEXTHERE) ? TRUE : FALSE,
@@ -1148,8 +1148,8 @@ query_objlist(const char *qstr,        /* query string */
 
         any = cg.zeroany;
         if (sorted && n > 1) {
-            Sprintf(buf, "%s Creatures",
-                    digests(u.ustuck->data) ? "Swallowed" : "Engulfed");
+            Sprintf(buf, "%s 生物",
+                    digests(u.ustuck->data) ? "被吞食的" : "被吞没的");
             add_menu_heading(win, buf);
         }
         fake_hero_object = cg.zeroobj;
@@ -1179,11 +1179,11 @@ query_objlist(const char *qstr,        /* query string */
                 /* this isn't actually possible; fake item representing
                    hero is only included for look here (':'), not pickup,
                    and that's PICK_NONE so we can't get here from there */
-                You_cant("pick yourself up!");
+                You_cant("拾取你自己!");
                 continue;
             }
             if (engulfer_minvent && curr->owornmask != 0L) {
-                You_cant("pick %s up.", ysimple_name(curr));
+                You_cant("捡起%s。", ysimple_name(curr));
                 continue;
             }
             if (mi->count == -1L || mi->count > curr->quan)
@@ -1320,8 +1320,8 @@ query_category(
         add_menu(win, &nul_glyphinfo, &any, invlet, 0, ATR_NONE, clr,
                  /* note: menu_remarm() doesn't pass the CHOOSE_ALL flag,
                     so do_worn handling here is moot */
-                 do_worn ? "Auto-select every item being worn or wielded"
-                         : "Auto-select every relevant item",
+                 do_worn ? "自动选择所有穿戴或持握的物品"
+                         : "自动选择所有相关物品",
                  MENU_ITEMFLAGS_SKIPINVERT);
         verify_All = (how == PICK_ANY) && ParanoidAutoAll;
         if (!verify_All) {
@@ -1342,7 +1342,7 @@ query_category(
         any = cg.zeroany;
         any.a_int = ALL_TYPES_SELECTED;
         add_menu(win, &nul_glyphinfo, &any, invlet, 0, ATR_NONE, clr,
-                 do_worn ? "All worn and wielded types" : "All types",
+                 do_worn ? "所有穿戴和持握的类型" : "所有类型",
                  MENU_ITEMFLAGS_SKIPINVERT);
         ++invlet; /* invlet = 'b'; */
     }
@@ -1388,7 +1388,7 @@ query_category(
         any = cg.zeroany;
         any.a_int = 'u';
         add_menu(win, &nul_glyphinfo, &any, invlet, 0,
-                 ATR_NONE, clr, "Unpaid items", MENU_ITEMFLAGS_SKIPINVERT);
+                 ATR_NONE, clr, "未付物品", MENU_ITEMFLAGS_SKIPINVERT);
     }
     /* billed items: checked by caller, so always include if BILLED_TYPES */
     if (do_usedup) {
@@ -1396,7 +1396,7 @@ query_category(
         any = cg.zeroany;
         any.a_int = 'x';
         add_menu(win, &nul_glyphinfo, &any, invlet, 0, ATR_NONE, clr,
-                 "Unpaid items already used up", MENU_ITEMFLAGS_SKIPINVERT);
+                 "未付款物品已用完", MENU_ITEMFLAGS_SKIPINVERT);
     }
 
     /* items with b/u/c/unknown if there are any;
@@ -1407,38 +1407,38 @@ query_category(
         any = cg.zeroany;
         any.a_int = 'B';
         add_menu(win, &nul_glyphinfo, &any, invlet, 0, ATR_NONE, clr,
-                 "Items known to be Blessed", MENU_ITEMFLAGS_SKIPINVERT);
+                 "已知被祝福的物品", MENU_ITEMFLAGS_SKIPINVERT);
     }
     if (do_cursed) {
         invlet = 'C';
         any = cg.zeroany;
         any.a_int = 'C';
         add_menu(win, &nul_glyphinfo, &any, invlet, 0, ATR_NONE, clr,
-                 "Items known to be Cursed", MENU_ITEMFLAGS_SKIPINVERT);
+                 "已知是被诅咒的物品", MENU_ITEMFLAGS_SKIPINVERT);
     }
     if (do_uncursed) {
         invlet = 'U';
         any = cg.zeroany;
         any.a_int = 'U';
         add_menu(win, &nul_glyphinfo, &any, invlet, 0, ATR_NONE, clr,
-                 "Items known to be Uncursed", MENU_ITEMFLAGS_SKIPINVERT);
+                 "已知未被诅咒的物品", MENU_ITEMFLAGS_SKIPINVERT);
     }
     if (do_buc_unknown) {
         invlet = 'X';
         any = cg.zeroany;
         any.a_int = 'X';
         add_menu(win, &nul_glyphinfo, &any, invlet, 0, ATR_NONE, clr,
-                 "Items of unknown Bless/Curse status",
+                 "未知祝福/诅咒状态的物品",
                  MENU_ITEMFLAGS_SKIPINVERT);
     }
     if (num_justpicked) {
         char tmpbuf[BUFSZ];
 
         if (num_justpicked == 1)
-            Sprintf(tmpbuf, "Just picked up: %s",
+            Sprintf(tmpbuf, "刚刚捡起: %s",
                     doname(find_justpicked(olist)));
         else
-            Strcpy(tmpbuf, "Items you just picked up");
+            Strcpy(tmpbuf, "你刚刚捡起的物品");
         invlet = 'P';
         any = cg.zeroany;
         any.a_int = 'P';
@@ -1498,7 +1498,7 @@ query_category(
         free((genericptr_t) *pick_list), *pick_list = 0;
         /* the menu entry description is "Auto-select every relevant item"
            [not sure whether issuing a message here is a good idea...] */
-        pline("No relevant items selected.");
+        pline("没有选中任何相关物品。");
     }
  query_done:
     destroy_nhwindow(win);
@@ -1662,10 +1662,10 @@ carry_count(struct obj *obj,            /* object to pick up... */
         /* some message will be given */
         Strcpy(obj_nambuf, doname(obj));
         if (container) {
-            Sprintf(where, "in %s", the(xname(container)));
+            Sprintf(where, "在%s里面", the(xname(container)));
             verb = "carry";
         } else {
-            Strcpy(where, "lying here");
+            Strcpy(where, "躺在这儿");
             verb = telekinesis ? "acquire" : "lift";
         }
     } else {
@@ -1676,14 +1676,14 @@ carry_count(struct obj *obj,            /* object to pick up... */
     /* we can carry qq of them */
     if (qq > 0) {
         if (qq < count)
-            You("can only %s %s of the %s %s.", verb,
-                (qq == 1L) ? "one" : "some", obj_nambuf, where);
+            You("只能%s %s %s %s.", verb,
+                (qq == 1L) ? "一个" : "一些", obj_nambuf, where);
         *wt_after = wt;
         return qq;
     }
 
     if (!container)
-        Strcpy(where, "here"); /* slightly shorter form */
+        Strcpy(where, "在这儿"); /* slightly shorter form */
     if (gi.invent || umoney) {
         prefx1 = "you cannot ";
         prefx2 = "";
@@ -1693,7 +1693,7 @@ carry_count(struct obj *obj,            /* object to pick up... */
         prefx2 = "is too heavy for you to ";
         suffx = "";
     }
-    There("%s %s %s, but %s%s%s%s.", otense(obj, "are"), obj_nambuf, where,
+    There("%s %s %s, 但%s%s%s%s.", otense(obj, "有"), obj_nambuf, where,
           prefx1, prefx2, verb, suffx);
 
     /* *wt_after = iw; */
@@ -1711,7 +1711,7 @@ lift_object(
     int result, old_wt, new_wt, prev_encumbr, next_encumbr;
 
     if (obj->otyp == BOULDER && Sokoban) {
-        You("cannot get your %s around this %s.", body_part(HAND),
+        You("无法把你的%s围抱着这个%s.", body_part(HAND),
             xname(obj));
         return -1;
     }
@@ -1728,8 +1728,8 @@ lift_object(
            [this was using simpleonames(obj) for shortest description, but
            that's suboptimal for loadstones because it omits user-assigned
            type name which is something of interest for gray stones] */
-        You("are carrying too much stuff to pick up %s %s.",
-            (obj->quan == 1L) ? "another" : "more", xname(obj));
+        You("携带了太多的东西不能拾取%s%s.",
+            (obj->quan == 1L) ? "另一个" : "更多的", xname(obj));
         return -1;
     }
 
@@ -1746,10 +1746,10 @@ lift_object(
            we aren't limited by the 52 item limit for it, but caller and
            "grandcaller" aren't prepared to skip stuff and then pickup
            just gold, so the best we can do here is vary the message */
-        Your("knapsack cannot accommodate any more items%s.",
+        Your("背包不能容纳更多的东西了%s.",
              /* floor follows by nexthere, otherwise container so by nobj */
              nxtobj(obj, GOLD_PIECE, (boolean) (obj->where == OBJ_FLOOR))
-                 ? " (except gold)" : "");
+                 ? " (除了金币)" : "");
         result = -1; /* nothing lifted */
     } else {
         result = 1;
@@ -1770,7 +1770,7 @@ lift_object(
                         : (next_encumbr >= HVY_ENCUMBER) ? nearloadpfx
                           : (next_encumbr >= MOD_ENCUMBER) ? moderateloadpfx
                             : slightloadpfx,
-                        !container ? "lifting" : "removing");
+                        !container ? "提起" : "移除");
                 (void) safe_qbuf(qbuf, qbuf, ".  Continue?", obj, doname,
                                  ansimpleoname, something);
                 obj->quan = savequan;
@@ -1821,7 +1821,7 @@ pickup_object(
         return 0;
     } else if (obj->where == OBJ_MINVENT && obj->owornmask != 0L
                && engulfing_u(obj->ocarry)) {
-        You_cant("pick %s up.", ysimple_name(obj));
+        You_cant("不能捡起%s。", ysimple_name(obj));
         return 0;
     } else if (obj->oartifact && !touch_artifact(obj, &gy.youmonst)) {
         return 0;
@@ -1851,9 +1851,9 @@ pickup_object(
         } else if (!obj->spe && !obj->cursed) {
             obj->spe = 1;
         } else {
-            pline_The("scroll%s %s to dust as you %s %s up.", plur(obj->quan),
-                      otense(obj, "turn"), telekinesis ? "raise" : "pick",
-                      (obj->quan == 1L) ? "it" : "them");
+            pline_The("卷轴%s %s为尘土当你%s %s起来.", plur(obj->quan),
+                      otense(obj, "化"), telekinesis ? "举起" : "捡起",
+                      (obj->quan == 1L) ? "它" : "它们");
             trycall(obj);
             useupf(obj, obj->quan);
             return 1; /* tried to pick something up and failed, but
@@ -1982,35 +1982,35 @@ encumber_msg(void)
     if (go.oldcap < newcap) {
         switch (newcap) {
         case 1:
-            Your("movements are slowed slightly because of your load.");
+            Your("移动速度因你的负担而轻微地变慢.");
             break;
         case 2:
-            You("rebalance your load.  Movement is difficult.");
+            You("调整了下你的负重.  移动比较困难.");
             break;
         case 3:
-            You("%s under your heavy load.  Movement is very hard.",
-                stagger(gy.youmonst.data, "stagger"));
+            You("在重载下%s.  移动非常艰难.",
+                stagger(gy.youmonst.data, "摇摇晃晃"));
             break;
         default:
-            You("%s move a handspan with this load!",
-                newcap == 4 ? "can barely" : "can't even");
+            You("在此负重下%s移动一拃远!",
+                newcap == 4 ? "勉强能" : "甚至不能");
             break;
         }
         disp.botl = TRUE;
     } else if (go.oldcap > newcap) {
         switch (newcap) {
         case 0:
-            Your("movements are now unencumbered.");
+            Your("行动现在畅通无阻。");
             break;
         case 1:
-            Your("movements are only slowed slightly by your load.");
+            Your("移动速度因你的负担而仅轻微地变慢.");
             break;
         case 2:
-            You("rebalance your load.  Movement is still difficult.");
+            You("调整了下你的负重.  移动仍然比较困难.");
             break;
         case 3:
-            You("%s under your load.  Movement is still very hard.",
-                stagger(gy.youmonst.data, "stagger"));
+            You("在重载下%s.  移动仍然非常艰难.",
+                stagger(gy.youmonst.data, "摇摇晃晃"));
             break;
         }
         disp.botl = TRUE;
@@ -2054,14 +2054,14 @@ able_to_loot(
     } else if ((is_pool(x, y) && (looting || !Underwater)) || is_lava(x, y)) {
         /* at present, can't loot in water even when Underwater;
            can tip underwater, but not when over--or stuck in--lava */
-        You("cannot %s things that are deep in the %s.", verb,
-            hliquid(is_lava(x, y) ? "lava" : "water"));
+        You("无法 %s 位于 %s 深处的物品。", verb,
+            hliquid(is_lava(x, y) ? "熔岩" : "水"));
         return FALSE;
     } else if (nolimbs(gy.youmonst.data)) {
-        pline("Without limbs, you cannot %s anything.", verb);
+        pline("没有四肢, 你无法%s任何东西.", verb);
         return FALSE;
     } else if (looting && !freehand()) {
-        pline("Without a free %s, you cannot loot anything.",
+        pline("没有空余的%s, 你不能搜刮任何东西.",
               body_part(HAND));
         return FALSE;
     }
@@ -2104,9 +2104,9 @@ do_loot_cont(
         else
 #endif
         if (cobj->lknown)
-            pline("%s is locked.", The(xname(cobj)));
+            pline("%s是锁着的.", The(xname(cobj)));
         else
-            pline("Hmmm, %s turns out to be locked.", the(xname(cobj)));
+            pline("嗯, %s原来是锁着的.", the(xname(cobj)));
         cobj->lknown = 1;
 
         if (flags.autounlock) {
@@ -2150,8 +2150,8 @@ do_loot_cont(
     if (cobj->otyp == BAG_OF_TRICKS) {
         int tmp;
 
-        You("carefully open %s...", the(xname(cobj)));
-        pline("It develops a huge set of teeth and bites you!");
+        You("小心地打开%s...", the(xname(cobj)));
+        pline("它张开一组巨大的牙齿然后咬到了你!");
         tmp = rnd(10);
         losehp(Maybe_Half_Phys(tmp), "carnivorous bag", KILLED_BY_AN);
         makeknown(BAG_OF_TRICKS);
@@ -2196,14 +2196,14 @@ doloot_core(void)
         return ECMD_OK;
     }
     if (nohands(gy.youmonst.data)) {
-        You("have no hands!"); /* not `body_part(HAND)' */
+        You("没有手！"); /* not `body_part(HAND)' */
         return ECMD_OK;
     }
     if (Confusion) {
         if (rn2(6) && reverse_loot())
             return ECMD_TIME;
         if (rn2(2)) {
-            pline("Being confused, you find nothing to loot.");
+            pline("处于混乱之中, 你找不到任何东西来搜刮.");
             return ECMD_TIME; /* costs a turn */
         }             /* else fallthrough to normal looting */
     }
@@ -2252,7 +2252,7 @@ doloot_core(void)
                     add_menu(win, &nul_glyphinfo, &any, 0, 0, ATR_NONE, clr,
                              doname(cobj), MENU_ITEMFLAGS_NONE);
                 }
-            end_menu(win, "Loot which containers?");
+            end_menu(win, "搜刮哪个箱子?");
             n = select_menu(win, PICK_ANY, &pick_list);
             destroy_nhwindow(win);
 
@@ -2286,7 +2286,7 @@ doloot_core(void)
                 c = 'y';
         }
     } else if (IS_GRAVE(levl[cc.x][cc.y].typ)) {
-        You("need to dig up the grave to effectively loot it...");
+        You("需要掘出坟墓来有效地搜刮它...");
     }
 
     /*
@@ -2302,7 +2302,7 @@ doloot_core(void)
         if (underfoot && container_at(cc.x, cc.y, FALSE))
             goto lootcont;
         if (u.dz < 0) {
-            You("%s to loot on the %s.", dont_find_anything,
+            You("%s东西在%s上来搜刮.", dont_find_anything,
                 ceiling(cc.x, cc.y));
             return ECMD_TIME;
         }
@@ -2325,22 +2325,22 @@ doloot_core(void)
         if (!looted_mon) {
             if (!underfoot && container_at(cc.x, cc.y, FALSE)) {
                 if (mtmp) {
-                    You_cant("loot anything %sthere with %s in the way.",
-                             prev_inquiry ? "else " : "", mon_nam(mtmp));
+                    You_cant("无法掠夺%s的任何东西，因为有%s挡路。",
+                             prev_inquiry ? "别处" : "那里", mon_nam(mtmp));
                     return (timepassed ? ECMD_TIME : ECMD_OK);
                 } else {
-                    You("have to be at a container to loot it.");
+                    You("必须在一旁才能搜刮.");
                 }
             } else {
-                You("%s %s%shere to loot.", dont_find_anything,
-                    (prev_inquiry || prev_loot) ? "else " : "",
-                    !underfoot ? "t" : "");
+                You("%s %s%s里搜刮。", dont_find_anything,
+                    (prev_inquiry || prev_loot) ? "别的" : "",
+                    !underfoot ? "那" : "这");
                 return (timepassed ? ECMD_TIME : ECMD_OK);
             }
         }
     } else if (c != 'y' && c != 'n') {
-        You("%s %s to loot.", dont_find_anything,
-            underfoot ? "here" : "there");
+        You("%s %s 可供搜刮。", dont_find_anything,
+            underfoot ? "这里" : "那里");
     }
     return (timepassed ? ECMD_TIME : ECMD_OK);
 }
@@ -2384,7 +2384,7 @@ reverse_loot(void)
         dropx(goldob);
         /* the dropped gold might have fallen to lower level */
         if (g_at(x, y))
-            pline("Ok, now there is loot here.");
+            pline("好, 现在这儿有战利品.");
     } else {
         /* find original coffers chest if present, otherwise use nearest */
         otmp = 0;
@@ -2414,11 +2414,11 @@ reverse_loot(void)
                    && (mon = makemon(courtmon(), x, y, NO_MM_FLAGS)) != 0) {
             freeinv(goldob);
             add_to_minv(mon, goldob);
-            pline("The exchequer accepts your contribution.");
+            pline("金库接受你的贡献.");
             if (!rn2(10))
                 levl[x][y].looted = T_LOOTED;
         } else {
-            You("drop %s.", doname(goldob));
+            You("丢下 %s.", doname(goldob));
             dropx(goldob);
         }
     }
@@ -2442,16 +2442,16 @@ loot_mon(struct monst *mtmp, int *passed_info, boolean *prev_loot)
     if (mtmp && mtmp != u.usteed && (otmp = which_armor(mtmp, W_SADDLE))) {
         if (passed_info)
             *passed_info = 1;
-        Sprintf(qbuf, "Do you want to remove the saddle from %s?",
+        Sprintf(qbuf, "你想从%s 取下马鞍吗?",
                 x_monnam(mtmp, ARTICLE_THE, (char *) 0,
                          SUPPRESS_SADDLE, FALSE));
         if ((c = yn_function(qbuf, ynqchars, 'n', TRUE)) == 'y') {
             if (nolimbs(gy.youmonst.data)) {
-                You_cant("do that without limbs."); /* not body_part(HAND) */
+                You_cant("做那个不用四肢."); /* not body_part(HAND) */
                 return 0;
             }
             if (otmp->cursed) {
-                You("can't.  The saddle seems to be stuck to %s.",
+                You("没办法.  鞍似乎是粘在%s上.",
                     x_monnam(mtmp, ARTICLE_THE, (char *) 0,
                              SUPPRESS_SADDLE, FALSE));
                 /* the attempt costs you time */
@@ -2459,7 +2459,7 @@ loot_mon(struct monst *mtmp, int *passed_info, boolean *prev_loot)
             }
             extract_from_minvent(mtmp, otmp, TRUE, FALSE);
             if (flags.verbose)
-                You("take %s off of %s.",
+                You("把 %s 从 %s 上取下。",
                     thesimpleoname(otmp), mon_nam(mtmp));
             otmp = hold_another_object(otmp, "You drop %s!", doname(otmp),
                                        (const char *) 0);
@@ -2565,10 +2565,10 @@ in_container(struct obj *obj)
         impossible("<in> no gc.current_container?");
         return 0;
     } else if (obj == uball || obj == uchain) {
-        You("must be kidding.");
+        You("一定在开玩笑.");
         return 0;
     } else if (obj == gc.current_container) {
-        pline("That would be an interesting topological exercise.");
+        pline("那将是一个有趣的拓扑学练习.");
         return 0;
     } else if (obj->owornmask & (W_ARMOR | W_ACCESSORY)) {
         Norep("You cannot %s %s you are wearing.",
@@ -2576,7 +2576,7 @@ in_container(struct obj *obj)
         return 0;
     } else if ((obj->otyp == LOADSTONE) && obj->cursed) {
         set_bknown(obj, 1);
-        pline_The("stone%s won't leave your person.", plur(obj->quan));
+        pline_The("石头%s不会离开你的身体。", plur(obj->quan));
         return 0;
     } else if (obj->otyp == AMULET_OF_YENDOR
                || obj->otyp == CANDELABRUM_OF_INVOCATION
@@ -2586,10 +2586,10 @@ in_container(struct obj *obj)
          * steal them.  It also becomes a pain to check to see if someone
          * has the Amulet.  Ditto for the Candelabrum, the Bell and the Book.
          */
-        pline("%s cannot be confined in such trappings.", The(xname(obj)));
+        pline("%s不能被限制在这种装饰里.", The(xname(obj)));
         return 0;
     } else if (obj->otyp == LEASH && obj->leashmon != 0) {
-        pline("%s attached to your pet.", Tobjnam(obj, "are"));
+        pline("%s拴着你的宠物.", Tobjnam(obj, "是"));
         return 0;
     } else if (obj == uwep) {
         if (welded(obj)) {
@@ -2617,7 +2617,7 @@ in_container(struct obj *obj)
         || (obj->otyp == STATUE && bigmonst(&mons[obj->corpsenm]))) {
         /* consumes multiple obufs but not enough to overwrite the result */
         Strcpy(buf, the(xname(obj)));
-        You("cannot fit %s into %s.", buf, the(xname(gc.current_container)));
+        You("不能把%s装进%s.", buf, the(xname(gc.current_container)));
         return 0;
     }
 
@@ -2695,7 +2695,7 @@ in_container(struct obj *obj)
 
     if (gc.current_container) {
         Strcpy(buf, the(xname(gc.current_container)));
-        You("put %s into %s.", doname(obj), buf);
+        You("把%s 放入%s.", doname(obj), buf);
 
         /* gold in container always needs to be added to credit */
         if (floor_container && obj->oclass == COIN_CLASS)
@@ -2807,9 +2807,9 @@ mbag_item_gone(boolean held, struct obj *item, boolean silent)
 
     if (!silent) {
         if (item->dknown)
-            pline("%s %s vanished!", Doname2(item), otense(item, "have"));
+            pline("%s %s 消失了!", Doname2(item), otense(item, "已经"));
         else
-            You("%s %s disappear!", Blind ? "notice" : "see", doname(item));
+            You("你%s%s消失了！", Blind ? "注意到" : "看到", doname(item));
     }
 
     if (*u.ushops && (shkp = shop_keeper(*u.ushops)) != 0) {
@@ -2850,10 +2850,10 @@ observe_quantum_cat(struct obj *box, boolean makecat, boolean givemsg)
             set_malign(livecat);
             if (givemsg) {
                 if (!canspotmon(livecat))
-                    You("think %s brushed your %s.", something,
+                    You("觉得%s蹭到了你的%s。", something,
                         body_part(FOOT));
                 else
-                    pline("%s inside the box is still alive!",
+                    pline("盒子里面的%s还活着!",
                           Monnam(livecat));
             }
             (void) christen_monst(livecat, sc);
@@ -2874,8 +2874,8 @@ observe_quantum_cat(struct obj *box, boolean makecat, boolean givemsg)
     } else {
         box->spe = 0; /* now an ordinary box (with a cat corpse inside) */
         if (givemsg)
-            pline_The("%s inside the box is dead!",
-                      Hallucination ? rndmonnam((char *) 0) : "housecat");
+            pline_The("箱子里面的%s死了!",
+                      Hallucination ? rndmonnam((char *) 0) : "家猫");
         if (deadcat) {
             /* set_corpsenm() will start the rot timer that was removed
                when makemon() created SchroedingersBox; start it from
@@ -2943,10 +2943,10 @@ boolean
 u_handsy(void)
 {
     if (nohands(gy.youmonst.data)) {
-        You("have no hands!"); /* not `body_part(HAND)' */
+        You("没有手！"); /* not `body_part(HAND)' */
         return FALSE;
     } else if (!freehand()) {
-        You("have no free %s.", body_part(HAND));
+        You("没有空闲的%s。", body_part(HAND));
         return FALSE;
     }
     return TRUE;
@@ -2994,13 +2994,13 @@ use_container(
             update_inventory();
     }
     if (obj->olocked) {
-        pline("%s locked.", Tobjnam(obj, "are"));
+        pline("%s被锁住了。", Tobjnam(obj, "被"));
         if (held)
-            You("must put it down to unlock.");
+            You("必须把它放下来开锁.");
         return ECMD_OK;
     } else if (obj->otrapped) {
         if (held)
-            You("open %s...", the(xname(obj)));
+            You("打开了%s...", the(xname(obj)));
         (void) chest_trap(obj, HAND, FALSE);
         /* even if the trap fails, you've used up this turn */
         if (gm.multi >= 0) { /* in case we didn't become paralyzed */
@@ -3030,7 +3030,7 @@ use_container(
     if (cursed_mbag
         && (loss = boh_loss(gc.current_container, held)) != 0) {
         used = ECMD_TIME;
-        You("owe %ld %s for lost merchandise.", loss, currency(loss));
+        You("因丢失商品需支付 %ld %s。", loss, currency(loss));
         gc.current_container->owt = weight(gc.current_container);
     }
     /* might put something in if carrying anything other than just the
@@ -3040,9 +3040,9 @@ use_container(
     /* might take something out if container isn't empty */
     outokay = Has_contents(gc.current_container);
     if (!outokay) /* preformat the empty-container message */
-        Sprintf(emptymsg, "%s is %sempty.",
+        Sprintf(emptymsg, "%s %s是空的.",
                 Ysimple_name2(gc.current_container),
-                (quantum_cat || cursed_mbag) ? "now " : "");
+                (quantum_cat || cursed_mbag) ? "现在" : "");
 
     /*
      * What-to-do prompt's list of possible actions:
@@ -3102,15 +3102,15 @@ use_container(
             Strcat(inokay ? pbuf : xbuf, "rs");  /* reversed, stash */
             Strcat(pbuf, " ");                   /* separator */
             Strcat(more_containers ? pbuf : xbuf, "n"); /* next container */
-            Strcat(pbuf, "q");                   /* quit */
+            Strcat(pbuf, "退出");                   /* quit */
             if (iflags.cmdassist)
                 /* this unintentionally allows user to answer with 'o' or
                    'r'; fortunately, those are already valid choices here */
-                Strcat(pbuf, " or ?"); /* help */
+                Strcat(pbuf, " 或 ?"); /* help */
             else
                 Strcat(xbuf, "?");
             if (*xbuf)
-                Strcat(strcat(pbuf, "\033"), xbuf);
+                Strcat(strcat(pbuf, ""), xbuf);
             c = yn_function(qbuf, pbuf, more_containers ? 'n' : 'q', TRUE);
         } /* PARTIAL|FULL vs other modes */
 
@@ -3155,8 +3155,8 @@ use_container(
     }
 
     if ((loot_in || stash_one) && !inokay) {
-        You("don't have anything%s to %s.", gi.invent ? " else" : "",
-            stash_one ? "stash" : "put in");
+        You("没有任何%s东西来%s.", gi.invent ? "别的" : "",
+            stash_one ? "藏匿" : "放入");
         loot_in = stash_one = FALSE;
     }
 
@@ -3280,7 +3280,7 @@ menu_loot(int retry, boolean put_in)
         all_categories = (retry == -2);
     } else if (flags.menu_style == MENU_FULL) {
         all_categories = FALSE;
-        Sprintf(buf, "%s what type of objects?", action);
+        Sprintf(buf, "%s什么类型的物品?", action);
         mflags = (ALL_TYPES | UNPAID_TYPES | BUCX_TYPES | CHOOSE_ALL
                   | JUSTPICKED );
         n = query_category(buf,
@@ -3358,7 +3358,7 @@ menu_loot(int retry, boolean put_in)
             mflags |= JUSTPICKED;
         if (!put_in)
             gc.current_container->cknown = 1;
-        Sprintf(buf, "%s what?", action);
+        Sprintf(buf, "%s什么?", action);
         n = query_objlist(buf,
                           put_in ? &gi.invent : &(gc.current_container->cobj),
                           mflags, &pick_list, PICK_ANY,
@@ -3417,35 +3417,35 @@ in_or_out_menu(
     start_menu(win, MENU_BEHAVE_STANDARD);
 
     any.a_int = 1; /* ':' */
-    Sprintf(buf, "Look inside %s", thesimpleoname(obj));
+    Sprintf(buf, "查看%s的里面", thesimpleoname(obj));
     add_menu(win, &nul_glyphinfo, &any, menuselector[any.a_int], 0,
              ATR_NONE, clr, buf, MENU_ITEMFLAGS_NONE);
     if (outokay) {
         any.a_int = 2; /* 'o' */
-        Sprintf(buf, "take %s out", something);
+        Sprintf(buf, "取出%s", something);
         add_menu(win, &nul_glyphinfo, &any, menuselector[any.a_int], 0,
                  ATR_NONE, clr, buf, MENU_ITEMFLAGS_NONE);
     }
     if (inokay) {
         any.a_int = 3; /* 'i' */
-        Sprintf(buf, "put %s in", something);
+        Sprintf(buf, "放入%s", something);
         add_menu(win, &nul_glyphinfo, &any, menuselector[any.a_int], 0,
                  ATR_NONE, clr, buf, MENU_ITEMFLAGS_NONE);
     }
     if (outokay) {
         any.a_int = 4; /* 'b' */
-        Sprintf(buf, "%stake out, then put in", inokay ? "both; " : "");
+        Sprintf(buf, "%s取出, 然后放入", inokay ? "先 " : "");
         add_menu(win, &nul_glyphinfo, &any, menuselector[any.a_int], 0,
                  ATR_NONE, clr, buf, MENU_ITEMFLAGS_NONE);
     }
     if (inokay) {
         any.a_int = 5; /* 'r' */
-        Sprintf(buf, "%sput in, then take out",
-                outokay ? "both reversed; " : "");
+        Sprintf(buf, "%s放入, 然后取出",
+                outokay ? "反向；" : "");
         add_menu(win, &nul_glyphinfo, &any, menuselector[any.a_int], 0,
                  ATR_NONE, clr, buf, MENU_ITEMFLAGS_NONE);
         any.a_int = 6; /* 's' */
-        Sprintf(buf, "stash one item into %s", thesimpleoname(obj));
+        Sprintf(buf, "把一项藏匿到%s", thesimpleoname(obj));
         add_menu(win, &nul_glyphinfo, &any, menuselector[any.a_int], 0,
                  ATR_NONE, clr, buf, MENU_ITEMFLAGS_NONE);
     }
@@ -3453,11 +3453,11 @@ in_or_out_menu(
     if (more_containers) {
         any.a_int = 7; /* 'n' */
         add_menu(win, &nul_glyphinfo, &any, menuselector[any.a_int], 0,
-                 ATR_NONE, clr, "loot next container",
+                 ATR_NONE, clr, "搜刮下一个容器",
                  MENU_ITEMFLAGS_SELECTED);
     }
     any.a_int = 8; /* 'q' */
-    Strcpy(buf, alreadyused ? "done" : "do nothing");
+    Strcpy(buf, alreadyused ? "完成" : "什么都不做");
     add_menu(win, &nul_glyphinfo, &any, menuselector[any.a_int], 0,
              ATR_NONE, clr, buf,
              more_containers ? MENU_ITEMFLAGS_NONE : MENU_ITEMFLAGS_SELECTED);
@@ -3530,10 +3530,10 @@ choose_tip_container_menu(void)
            containers that it's already being used */
         i = (i <= 'i' - 'a' && !flags.lootabc) ? 'i' : 0;
         add_menu(win, &nul_glyphinfo, &any, i, 0, ATR_NONE,
-                 clr, "tip something being carried",
+                 clr, "倾倒携带的物品",
                  MENU_ITEMFLAGS_SELECTED);
     }
-    end_menu(win, "Tip which container?");
+    end_menu(win, "倒出哪个箱子?");
     n = select_menu(win, PICK_ONE, &pick_list);
     destroy_nhwindow(win);
     /*
@@ -3589,8 +3589,8 @@ dotip(void)
     if (boxes > 0
         && (!iflags.menu_requested
             || (flags.menu_style == MENU_TRADITIONAL && boxes > 1))) {
-        Sprintf(buf, "You can't tip %s while carrying so much.",
-                !flags.verbose ? "a container" : (boxes > 1) ? "one" : "it");
+        Sprintf(buf, "你不能在携带如此多的东西时倒出%s.",
+                !flags.verbose ? "一个箱子" : (boxes > 1) ? "一个" : "它");
         if (!check_capacity(buf) && able_to_loot(cc.x, cc.y, FALSE)) {
             if (boxes > 1) {
                 int res;
@@ -3651,12 +3651,12 @@ dotip(void)
     if (spillage) {
         buf[0] = '\0';
         if (is_pool(u.ux, u.uy))
-            Sprintf(buf, " and gradually %s", vtense(spillage, "dissipate"));
+            Sprintf(buf, " 然后逐渐%s了", vtense(spillage, "消散"));
         else if (is_lava(u.ux, u.uy))
-            Sprintf(buf, " and immediately %s away",
-                    vtense(spillage, "burn"));
-        pline("Some %s %s onto the %s%s.", spillage,
-              vtense(spillage, "spill"), surface(u.ux, u.uy), buf);
+            Sprintf(buf, " 然后立即%s掉了",
+                    vtense(spillage, "燃烧"));
+        pline("一些%s%s到%s上%s.", spillage,
+              vtense(spillage, "掉"), surface(u.ux, u.uy), buf);
         /* shop usage message comes after the spill message */
         if (cobj->otyp == CAN_OF_GREASE && cobj->spe > 0) {
             consume_obj_charge(cobj, TRUE);
@@ -3666,11 +3666,11 @@ dotip(void)
     }
     /* anything not covered yet */
     if (cobj->oclass == POTION_CLASS) /* can't pour potions... */
-        pline_The("%s %s securely sealed.", xname(cobj), otense(cobj, "are"));
+        pline_The("%s %s密封牢固的.", xname(cobj), otense(cobj, "是"));
     else if (uarmh && cobj == uarmh)
         return tiphat() ? ECMD_TIME : ECMD_OK;
     else if (cobj->otyp == STATUE)
-        pline("Nothing interesting happens.");
+        pline("没有什么有趣的事情发生.");
     else
         pline1(nothing_happens);
     return ECMD_OK;
@@ -3746,12 +3746,12 @@ tipcontainer(struct obj *box) /* or bag */
          * "ObjK drops to the floor.", "ObjL drops to the floor.", &c.
          */
         if (targetbox)
-            pline("%s into %s.",
-                  box->cobj->nobj ? "Objects tumble" : "An object tumbles",
+            pline("%s 滚进 %s.",
+                  box->cobj->nobj ? "物体" : "一个物体",
                   the(xname(targetbox)));
         else
-            pline("%s out%c",
-              box->cobj->nobj ? "Objects spill" : "An object spills",
+            pline("%s出来%c",
+              box->cobj->nobj ? "东西掉落" : "一个东西掉落",
               terse ? ':' : '.');
 
         for (otmp = box->cobj; otmp; otmp = nobj) {
@@ -3812,8 +3812,8 @@ tipcontainer(struct obj *box) /* or bag */
                 if (altarizing) {
                     doaltarobj(otmp);
                 } else if (!terse) {
-                    pline("%s %s to the %s.", Doname2(otmp),
-                          otense(otmp, "drop"), surface(ox, oy));
+                    pline("%s%s%s上。", Doname2(otmp),
+                          otense(otmp, "掉到"), surface(ox, oy));
                 } else {
                     pline("%s%c", doname(otmp), nobj ? ',' : '.');
                     iflags.last_msg = PLNMSG_OBJNAM_ONLY;
@@ -3828,7 +3828,7 @@ tipcontainer(struct obj *box) /* or bag */
                 iflags.suppress_price--; /* reset */
         }
         if (loss) /* magic bag lost some shop goods */
-            You("owe %ld %s for lost merchandise.", loss, currency(loss));
+            You("因丢失商品欠 %ld %s。", loss, currency(loss));
         box->owt = weight(box); /* mbag_item_gone() doesn't update this */
         if (targetbox)
             targetbox->owt = weight(targetbox);
@@ -3902,7 +3902,7 @@ tipcontainer_gettarget(
     /* tip to floor does not require free hands */
     add_menu(win, &nul_glyphinfo, &any, '-', 0, ATR_NONE, clr,
              /* [TODO? vary destination string depending on surface()] */
-             "on the floor", MENU_ITEMFLAGS_SELECTED);
+             "地板上", MENU_ITEMFLAGS_SELECTED);
     add_menu_str(win, "");
 
     n_conts = 0;
@@ -3927,7 +3927,7 @@ tipcontainer_gettarget(
                  ATR_NONE, clr, buf, MENU_ITEMFLAGS_NONE);
     }
 
-    Sprintf(buf, "Where to tip the contents of %s", doname(box));
+    Sprintf(buf, "将%s中的内容倾倒到何处", doname(box));
     end_menu(win, buf);
     n = select_menu(win, PICK_ONE, &pick_list);
     destroy_nhwindow(win);
@@ -3976,7 +3976,7 @@ tipcontainer_checks(
     }
 
     if (box->olocked) {
-        pline("%s is locked.", upstart(thesimpleoname(box)));
+        pline("%s是锁着的.", upstart(thesimpleoname(box)));
         return TIPCHECK_LOCKED;
 
     } else if (box->otrapped) {
@@ -4038,7 +4038,7 @@ tipcontainer_checks(
         observe_quantum_cat(box, TRUE, TRUE);
         if (!Has_contents(box)) /* evidently a live cat came out */
             /* container type of "large box" is inferred */
-            pline("%sbox is now empty.", Shk_Your(yourbuf, box));
+            pline("%s箱子现在是空的了.", Shk_Your(yourbuf, box));
         else /* holds cat corpse */
             empty_it = TRUE;
         box->cknown = 1;
@@ -4046,7 +4046,7 @@ tipcontainer_checks(
 
     } else if (!allowempty && !Has_contents(box)) {
         box->cknown = 1;
-        pline("%s is empty.", upstart(thesimpleoname(box)));
+        pline("%s 是空的.", upstart(thesimpleoname(box)));
         return TIPCHECK_EMPTY;
 
     }

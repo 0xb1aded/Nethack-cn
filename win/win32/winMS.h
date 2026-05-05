@@ -267,4 +267,14 @@ extern COLORREF message_fg_color;
 #define IS_MAP_ASCII(mode) \
     ((mode) != MAP_MODE_TILES && (mode) != MAP_MODE_TILES_FIT_TO_SCREEN)
 
+
+int DrawTextA_UTF8(HDC hdc, const char *text_utf8, int text_len, LPRECT rect, UINT format);
+int ListView_InsertColumn_UTF8(HWND hwndLV, int iCol, const LV_COLUMN *pcol);
+
+#undef DrawText
+#define DrawText DrawTextA_UTF8
+#undef DrawTextA
+#define DrawTextA DrawTextA_UTF8
+#undef ListView_InsertColumn
+#define ListView_InsertColumn ListView_InsertColumn_UTF8
 #endif /* WINMS_H */

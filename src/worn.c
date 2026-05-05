@@ -373,13 +373,13 @@ check_wornmask_slots(void)
                 if (otmp == o)
                     break;
             if (!otmp)
-                Sprintf(whybuf, "%s (%s) not found in invent",
+                Sprintf(whybuf, "%s (%s) 未在库存中找到",
                         wp->w_what, fmt_ptr(o));
             else if ((o->owornmask & m) == 0L)
-                Sprintf(whybuf, "%s bit not set in owornmask [0x%08lx]",
+                Sprintf(whybuf, "%s 位未在 owornmask 中设置 [0x%08lx]",
                         wp->w_what, o->owornmask);
             else if ((o->owornmask & ~(m | IGNORE_SLOTS)) != 0L)
-                Sprintf(whybuf, "%s wrong bit set in owornmask [0x%08lx]",
+                Sprintf(whybuf, "%s 在 owornmask 中设置了错误的位 [0x%08lx]",
                         wp->w_what, o->owornmask);
             if (whybuf[0])
                 impossible("Worn-slot insanity: %s.", whybuf);
@@ -396,7 +396,7 @@ check_wornmask_slots(void)
                    W_ARM bit set if we didn't screen it out here */
                 && (m != W_ARM || otmp != uskin
                     || (otmp->owornmask & I_SPECIAL) == 0L)) {
-                Sprintf(whybuf, "%s [0x%08lx] has %s mask 0x%08lx bit set",
+                Sprintf(whybuf, "%s [0x%08lx] 有 %s 掩码 0x%08lx 位已设置",
                         simpleonames(otmp), otmp->owornmask, wp->w_what, m);
                 impossible("Worn-slot insanity: %s.", whybuf);
             }
@@ -949,8 +949,8 @@ m_dowear_type(
             }
             pline_mon(mon, "%s%s puts on %s.", Monnam(mon), buf, newarm);
             if (autocurse)
-                pline("%s %s %s %s for a moment.", s_suffix(Monnam(mon)),
-                      simpleonames(best), otense(best, "glow"),
+                pline("%s %s %s %s光芒了片刻.", s_suffix(Monnam(mon)),
+                      simpleonames(best), otense(best, "发出"),
                       hcolor(NH_BLACK));
         } /* can see it */
         m_delay += objects[best->otyp].oc_delay;
@@ -978,22 +978,22 @@ m_dowear_type(
             const char *adesc = arti_light_description(best);
 
             if (sawmon) /* could already see monster */
-                pline("%s %s to shine %s.", Yname2(best),
-                      otense(best, "begin"), adesc);
+                pline("%s%s开始闪耀%s。", Yname2(best),
+                      otense(best, "开始"), adesc);
             else if (canseemon(mon)) /* didn't see it until new light */
-                pline("%s %s shining %s.", Yname2(best),
-                      otense(best, "are"), adesc);
+                pline("%s %s 闪耀着 %s.", Yname2(best),
+                      otense(best, "在"), adesc);
             else if (sawloc) /* saw location but not invisible monster */
-                pline("%s begins to shine %s.", Something, adesc);
+                pline("%s 开始发出%s光芒。", Something, adesc);
             else /* didn't see location until new light */
-                pline("%s is shining %s.", Something, adesc);
+                pline("%s正在发出%s的光芒。", Something, adesc);
         }
     }
     update_mon_extrinsics(mon, best, TRUE, creation);
     /* if couldn't see it but now can, or vice versa */
     if (!creation && (sawmon ^ canseemon(mon))) {
         if (mon->minvis && !See_invisible) {
-            pline("Suddenly you cannot see %s.", nambuf);
+            pline("突然间你看不到%s。", nambuf);
             makeknown(best->otyp);
         /* } else if (!mon->minvis) {
          *     pline("%s suddenly appears!", Amonnam(mon)); */
@@ -1196,7 +1196,7 @@ mon_break_armor(struct monst *mon, boolean polyspot)
                     pline_mon(mon, "%s breaks out of %s armor!",
                               Monnam(mon), ppronoun);
                 else
-                    You_hear("a cracking sound.");
+                    You_hear("一个破裂的声音.");
             }
             m_useup(mon, otmp);
         }
@@ -1214,7 +1214,7 @@ mon_break_armor(struct monst *mon, boolean polyspot)
                     pline_mon(mon, "%s %s tears apart!", s_suffix(Monnam(mon)),
                           cloak_simple_name(otmp));
                 else
-                    You_hear("a ripping sound.");
+                    You_hear("撕裂声。");
                 m_useup(mon, otmp);
             }
         }
@@ -1223,7 +1223,7 @@ mon_break_armor(struct monst *mon, boolean polyspot)
                 pline_mon(mon, "%s shirt rips to shreds!",
                           s_suffix(Monnam(mon)));
             else
-                You_hear("a ripping sound.");
+                You_hear("一阵撕裂声。");
             m_useup(mon, otmp);
         }
     } else if (sliparm(mdat)) {
@@ -1236,7 +1236,7 @@ mon_break_armor(struct monst *mon, boolean polyspot)
                 pline_mon(mon, "%s armor falls around %s!",
                           s_suffix(Monnam(mon)), pronoun);
             else
-                You_hear("a thud.");
+                You_hear("砰的一声.");
             m_lose_armor(mon, otmp, polyspot);
         }
         if ((otmp = which_armor(mon, W_ARMC)) != 0
@@ -1280,7 +1280,7 @@ mon_break_armor(struct monst *mon, boolean polyspot)
                 pline_mon(mon, "%s can no longer hold %s shield!",
                           Monnam(mon), ppronoun);
             else
-                You_hear("a clank.");
+                You_hear("一声铿锵。");
             m_lose_armor(mon, otmp, polyspot);
         }
     }
@@ -1292,7 +1292,7 @@ mon_break_armor(struct monst *mon, boolean polyspot)
                 pline_mon(mon, "%s helmet falls to the %s!",
                           s_suffix(Monnam(mon)), surface(mon->mx, mon->my));
             else
-                You_hear("a clank.");
+                You_hear("一声铿锵声。");
             m_lose_armor(mon, otmp, polyspot);
         }
     }
@@ -1320,12 +1320,12 @@ mon_break_armor(struct monst *mon, boolean polyspot)
             noride = TRUE;
     }
     if (noride || (mon == u.usteed && !can_ride(mon))) {
-        You("can no longer ride %s.", mon_nam(mon));
+        You("无法再骑乘%s。", mon_nam(mon));
         if (touch_petrifies(u.usteed->data) && !Stone_resistance && rnl(3)) {
             char buf[BUFSZ];
 
-            You("touch %s.", mon_nam(u.usteed));
-            Sprintf(buf, "falling off %s",
+            You("触碰了%s。", mon_nam(u.usteed));
+            Sprintf(buf, "跌落下%s",
                     an(pmname(u.usteed->data, Mgender(u.usteed))));
             instapetrify(buf);
         }

@@ -435,3 +435,95 @@ _nhapply_image_transparent(HDC hDC, int x, int y, int width, int height,
 
     return TRUE;
 }
+
+int
+DrawTextA_UTF8(HDC hdc, const char *text_utf8, int text_len, LPRECT rect,
+               UINT format)
+{
+    int result = 0;
+
+    if (!text_utf8 || !hdc) {
+        return 0;
+    }
+
+    /* Calculate required size for UTF-16 conversion */
+    int wlen = MultiByteToWideChar(CP_UTF8, 0, text_utf8, text_len, NULL, 0);
+
+    if (wlen > 0) {
+        /* Allocate buffer for UTF-16 string */
+        wchar_t *text_utf16 =
+            (wchar_t *) malloc((wlen + 1) * sizeof(wchar_t));
+
+        if (text_utf16) {
+            /* Convert UTF-8 to UTF-16 */
+            MultiByteToWideChar(CP_UTF8, 0, text_utf8, text_len, text_utf16,
+                                wlen);
+            text_utf16[wlen] = L'\0';
+
+            /* Use DrawTextW (Unicode version) */
+            RECT temp_rect = *rect;
+            result = DrawTextW(hdc, text_utf16, -1, &temp_rect, format);
+
+            /* Copy modified rect back */
+            *rect = temp_rect;
+
+            free(text_utf16);
+        }
+    }
+
+    return result;
+}
+
+int ListView_InsertColumn_UTF8(HWND hwndLV, int iCol, const LV_COLUMN *pcol)
+{
+    LV_COLUMN col;
+    
+    if (!pcol)
+        return SendMessage(hwndLV, LVM_INSERTCOLUMN, (WPARAM)iCol, (LPARAM)pcol);
+    
+    col = *pcol;
+    
+    /* Convert UTF-8 text to system code page char* */
+    if (pcol->pszText && (pcol->mask & LVCF_TEXT)) {
+        /* First: calculate size needed for UTF-8 to wchar_t */
+        int wlen = MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)pcol->pszText, -1, 
+                                       NULL, 0);
+        
+        if (wlen > 0) {
+            /* Allocate buffer for wchar_t */
+            wchar_t *wbuf = (wchar_t *)malloc(wlen * sizeof(wchar_t));
+            
+            if (wbuf) {
+                /* Convert UTF-8 to wchar_t */
+                MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)pcol->pszText, -1, 
+                                   wbuf, wlen);
+                
+                /* Calculate size needed for wchar_t to system code page */
+                int alen = WideCharToMultiByte(CP_ACP, 0, wbuf, -1, 
+                                              NULL, 0, NULL, NULL);
+                
+                if (alen > 0) {
+                    /* Allocate buffer for system code page char* */
+                    char *abuf = (char *)malloc(alen);
+                    
+                    if (abuf) {
+                        /* Convert wchar_t to system code page */
+                        WideCharToMultiByte(CP_ACP, 0, wbuf, -1, 
+                                           abuf, alen, NULL, NULL);
+                        
+                        col.pszText = abuf;
+                        int result = SendMessage(hwndLV, LVM_INSERTCOLUMN, 
+                                                (WPARAM)iCol, (LPARAM)&col);
+                        
+                        free(abuf);
+                        free(wbuf);
+                        return result;
+                    }
+                }
+                free(wbuf);
+            }
+        }
+    }
+    
+    return SendMessage(hwndLV, LVM_INSERTCOLUMN, (WPARAM)iCol, (LPARAM)&col);
+}

@@ -56,14 +56,14 @@ moveloop_preamble(boolean resuming)
     /* side-effects from the real world */
     flags.moonphase = phase_of_the_moon();
     if (flags.moonphase == FULL_MOON) {
-        You("are lucky!  Full moon tonight.");
+        You("很幸运!  今晚满月.");
         change_luck(1);
     } else if (flags.moonphase == NEW_MOON) {
-        pline("Be careful!  New moon tonight.");
+        pline("要小心!  今晚新月.");
     }
     flags.friday13 = friday_13th();
     if (flags.friday13) {
-        pline("Watch out!  Bad things can happen on Friday the 13th.");
+        pline("注意!  坏的事情会发生在13 号星期五.");
         change_luck(-1);
     }
 
@@ -685,7 +685,7 @@ stop_occupation(void)
 {
     if (go.occupation) {
         if (!maybe_finished_meal(TRUE))
-            You("stop %s.", go.occtxt);
+            You("你停止了%s。", go.occtxt);
         go.occupation = (int (*)(void)) 0;
         disp.botl = TRUE; /* in case u.uhs changed */
         nomul(0);
@@ -862,12 +862,12 @@ welcome(boolean new_game) /* false => restoring an old game */
     /* skip "welcome back" if restoring a doomed character */
     if (!new_game && Upolyd && ugenocided()) {
         /* death via self-genocide is pending */
-        pline("You're back, but you still feel %s inside.", udeadinside());
+        pline("你回来了, 但你仍然感觉内心%s.", udeadinside());
         return;
     }
 
     if (Hallucination)
-        pline("NetHack is filmed in front of an undead studio audience.");
+        pline("NetHack 是在一帮不死的演播室观众面前拍摄的。");
 
     /*
      * The "welcome back" message always describes your innate form
@@ -898,7 +898,7 @@ welcome(boolean new_game) /* false => restoring an old game */
      */
     if (new_game || u.ualignbase[A_ORIGINAL] != u.ualignbase[A_CURRENT] || adrift)
         Sprintf(eos(buf), " %s%s",
-                adrift ? "adrift " : "",
+                adrift ? "漂泊 " : "",
                 adrift ? align_str(u.ualign.type)
                        : align_str(u.ualignbase[A_CURRENT]));
 #endif
@@ -911,8 +911,8 @@ welcome(boolean new_game) /* false => restoring an old game */
             (currentgend && gu.urole.name.f) ? gu.urole.name.f
                                              : gu.urole.name.m);
 
-    pline(new_game ? "%s %s, welcome to NetHack!  You are a%s."
-                   : "%s %s, the%s, welcome back to NetHack!",
+    pline(new_game ? "%s %s，欢迎来到NetHack！你是%s."
+                   : "%s %s，%s，欢迎回到NetHack！",
           Hello((struct monst *) 0), svp.plname, buf);
 
     if (new_game) {

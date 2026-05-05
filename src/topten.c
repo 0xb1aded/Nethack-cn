@@ -153,10 +153,10 @@ formatkiller(
         /* X <= siz: 'sizeof "string"' includes 1 for '\0' terminator */
         if (gm.multi_reason
             && strlen(gm.multi_reason) + sizeof ", while " <= siz)
-            Sprintf(buf, ", while %s", gm.multi_reason);
+            Sprintf(buf, "在%s之时, ", gm.multi_reason);
         /* either gm.multi_reason wasn't specified or wouldn't fit */
         else if (sizeof ", while helpless" <= siz)
-            Strcpy(buf, ", while helpless");
+            Strcpy(buf, "在无助之时, ");
         /* else extra death info won't fit, so leave it out */
     }
 }
@@ -269,7 +269,7 @@ readentry(FILE *rfile, struct toptenentry *tt)
             if ((i = str2role(tt->plrole)) >= 0)
                 Strcpy(tt->plrole, roles[i].filecode);
             Strcpy(tt->plrace, "?");
-            Strcpy(tt->plgend, (tt->plgend[0] == 'M') ? "Mal" : "Fem");
+            Strcpy(tt->plgend, (tt->plgend[0] == 'M') ? "男" : "女");
             Strcpy(tt->plalign, "?");
         } else if (sscanf(inbuf, fmt33, s1, s2, s3, s4, s5, s6) == 6) {
             copynchars(tt->plrole, s1, (int) (sizeof tt->plrole) - 1);
@@ -344,17 +344,17 @@ writexlentry(FILE *rfile, struct toptenentry *tt, int how)
     char buf[BUFSZ], tmpbuf[DTHSZ + 1];
     char achbuf[N_ACH * 40];
 
-    Sprintf(buf, "version=%d.%d.%d", tt->ver_major, tt->ver_minor,
+    Sprintf(buf, "版本=%d.%d.%d", tt->ver_major, tt->ver_minor,
             tt->patchlevel);
-    Sprintf(eos(buf), "%cpoints=%ld%cdeathdnum=%d%cdeathlev=%d", XLOG_SEP,
+    Sprintf(eos(buf), "%c点数=%ld%c死亡编号=%d%c死亡等级=%d", XLOG_SEP,
             tt->points, XLOG_SEP, tt->deathdnum, XLOG_SEP, tt->deathlev);
-    Sprintf(eos(buf), "%cmaxlvl=%d%chp=%d%cmaxhp=%d", XLOG_SEP, tt->maxlvl,
+    Sprintf(eos(buf), "%c最大等级=%d%c生命值=%d%c最大生命值=%d", XLOG_SEP, tt->maxlvl,
             XLOG_SEP, tt->hp, XLOG_SEP, tt->maxhp);
-    Sprintf(eos(buf), "%cdeaths=%d%cdeathdate=%ld%cbirthdate=%ld%cuid=%d",
+    Sprintf(eos(buf), "%c死亡次数=%d%c死亡日期=%ld%c出生日期=%ld%c用户ID=%d",
             XLOG_SEP, tt->deaths, XLOG_SEP, tt->deathdate, XLOG_SEP,
             tt->birthdate, XLOG_SEP, tt->uid);
     Fprintf(rfile, "%s", buf);
-    Sprintf(buf, "%crole=%s%crace=%s%cgender=%s%calign=%s", XLOG_SEP,
+    Sprintf(buf, "%c职业=%s%c种族=%s%c性别=%s%c阵营=%s", XLOG_SEP,
             tt->plrole, XLOG_SEP, tt->plrace, XLOG_SEP, tt->plgend, XLOG_SEP,
             tt->plalign);
     /* make a copy of death reason that doesn't include ", while helpless" */
@@ -565,7 +565,7 @@ encode_extended_achievements(char *buf)
         /* rank 0 is the starting condition, not an achievement; 8 is Xp 30 */
         case ACH_RNK1: case ACH_RNK2: case ACH_RNK3: case ACH_RNK4:
         case ACH_RNK5: case ACH_RNK6: case ACH_RNK7: case ACH_RNK8:
-            Sprintf(rnkbuf, "attained_the_rank_of_%s",
+            Sprintf(rnkbuf, "获得了%s的等级",
                     rank_of(rank_to_xlev(absidx - (ACH_RNK1 - 1)),
                             Role_switch, (achidx < 0) ? TRUE : FALSE));
             strNsubst(rnkbuf, " ", "_", 0); /* replace every ' ' with '_' */
@@ -729,8 +729,8 @@ topten(int how, time_t when)
 
                 topten_print("");
                 Sprintf(pbuf,
-             "Since you were in %s mode, the score list will not be checked.",
-                        wizard ? "wizard" : "discover");
+             "既然你是在%s模式中, 就不会进入到分数排名.",
+                        wizard ? "向导" : "探索");
                 topten_print(pbuf);
             }
         goto showwin;
@@ -792,7 +792,7 @@ topten(int how, time_t when)
                     char pbuf[BUFSZ];
 
                     Sprintf(pbuf,
-                         "You didn't beat your previous score of %ld points.",
+                         "你没能超过你之前的分数%ld.",
                             t1->points);
                     topten_print(pbuf);
                     topten_print("");
@@ -833,7 +833,7 @@ topten(int how, time_t when)
                     char pbuf[BUFSZ];
 
                     Sprintf(pbuf,
-                            "You reached the %d%s place on the top %d list.",
+                            "你达到了排行榜第%d%s名（在最高%d名的榜单中）。",
                             rank0, ordin(rank0), sysopt.entrymax);
                     topten_print(pbuf);
                 }
@@ -931,11 +931,11 @@ outheader(void)
     char linebuf[BUFSZ];
     char *bp;
 
-    Strcpy(linebuf, " No  Points     Name");
+    Strcpy(linebuf, "  排名       分数   姓名");
     bp = eos(linebuf);
     while (bp < linebuf + COLNO - 9)
         *bp++ = ' ';
-    Strcpy(bp, "Hp [max]");
+    Strcpy(bp, "生命值 [最大]");
     topten_print(linebuf);
 }
 
@@ -967,39 +967,39 @@ outentry(int rank, struct toptenentry *t1, boolean so)
      */
     Sprintf(eos(linebuf), "-%s", t1->plgend);
     if (t1->plalign[0] != '?')
-        Sprintf(eos(linebuf), "-%s ", t1->plalign);
+        Sprintf(eos(linebuf), "-%s", t1->plalign);
     else
         Strcat(linebuf, " ");
     if (!strncmp("escaped", t1->death, 7)) {
-        Sprintf(eos(linebuf), "escaped the dungeon %s[max level %d]",
-                !strncmp(" (", t1->death + 7, 2) ? t1->death + 7 + 2 : "",
+        Sprintf(eos(linebuf), "逃离了地牢 %s[最高等级 %d]",
+                !strncmp("（", t1->death + 7, 2) ? t1->death + 7 + 2 : "",
                 t1->maxlvl);
         /* fixup for closing paren in "escaped... with...Amulet)[max..." */
         if ((bp = strchr(linebuf, ')')) != 0)
             *bp = (t1->deathdnum == astral_level.dnum) ? '\0' : ' ';
         second_line = FALSE;
     } else if (!strncmp("ascended", t1->death, 8)) {
-        Sprintf(eos(linebuf), "ascended to demigod%s-hood",
-                (t1->plgend[0] == 'F') ? "dess" : "");
+        Sprintf(eos(linebuf), "升华为半神%s之身",
+                (t1->plgend[0] == 'F') ? "女" : "");
         second_line = FALSE;
     } else {
         if (!strncmp(t1->death, "quit", 4)) {
-            Strcat(linebuf, "quit");
+            Strcat(linebuf, "退出");
             second_line = FALSE;
         } else if (!strncmp(t1->death, "died of st", 10)) {
-            Strcat(linebuf, "starved to death");
+            Strcat(linebuf, "饿死");
             second_line = FALSE;
         } else if (!strncmp(t1->death, "choked", 6)) {
-            Sprintf(eos(linebuf), "choked on h%s food",
+            Sprintf(eos(linebuf), "噎死于 h%s 食物",
                     (t1->plgend[0] == 'F') ? "er" : "is");
         } else if (!strncmp(t1->death, "poisoned", 8)) {
-            Strcat(linebuf, "was poisoned");
+            Strcat(linebuf, "被毒死");
         } else if (!strncmp(t1->death, "crushed", 7)) {
-            Strcat(linebuf, "was crushed to death");
+            Strcat(linebuf, "退出了游戏");
         } else if (!strncmp(t1->death, "petrified by ", 13)) {
-            Strcat(linebuf, "turned to stone");
+            Strcat(linebuf, "饿死了");
         } else
-            Strcat(linebuf, "died");
+            Strcat(linebuf, "死了");
 
         if (t1->deathdnum == astral_level.dnum) {
             const char *arg, *fmt = " on the Plane of %s";
@@ -1027,18 +1027,18 @@ outentry(int rank, struct toptenentry *t1, boolean so)
             }
             Sprintf(eos(linebuf), fmt, arg);
         } else {
-            Sprintf(eos(linebuf), " in %s", svd.dungeons[t1->deathdnum].dname);
+            Sprintf(eos(linebuf), " 在 %s中", svd.dungeons[t1->deathdnum].dname);
             if (t1->deathdnum != knox_level.dnum)
-                Sprintf(eos(linebuf), " on level %d", t1->deathlev);
+                Sprintf(eos(linebuf), " 在第 %d 层", t1->deathlev);
             if (t1->deathlev != t1->maxlvl)
-                Sprintf(eos(linebuf), " [max %d]", t1->maxlvl);
+                Sprintf(eos(linebuf), " [最大 %d]", t1->maxlvl);
         }
 
         /* kludge for "quit while already on Charon's boat" */
         if (!strncmp(t1->death, "quit ", 5))
             Strcat(linebuf, t1->death + 4);
     }
-    Strcat(linebuf, ".");
+    Strcat(linebuf, "死亡");
 
     /* Quit, starved, ascended, and escaped contain no second line */
     if (second_line) {
@@ -1297,15 +1297,15 @@ prscore(int argc, char **argv)
                 (void) outentry(rank, t1, FALSE);
         }
     } else {
-        Sprintf(pbuf, "Cannot find any %sentries for ",
-                current_ver ? "current " : "");
+        Sprintf(pbuf, "无法找到任何%s条目给 ",
+                current_ver ? "当前 " : "");
         if (playerct < 1) {
-            Strcat(pbuf, "you");
+            Strcat(pbuf, "你");
         } else {
             /* minor bug: 'nethack -s -u ziggy' will say "any of"
                even though the '-u' doesn't indicate multiple names */
             if (playerct > 1)
-                Strcat(pbuf, "any of ");
+                Strcat(pbuf, "任何 ");
             for (i = 0; i < playerct; i++) {
                 /* accept '-u name' and '-uname' as well as just 'name'
                    so skip '-u' for the none-found feedback */
@@ -1334,7 +1334,7 @@ prscore(int argc, char **argv)
         }
         /* append end-of-sentence punctuation if there is room */
         if (strlen(pbuf) < BUFSZ - 1)
-            Strcat(pbuf, ".");
+            Strcat(pbuf, "死亡");
         raw_print(pbuf);
         raw_printf("Usage: %s -s [-v] <playertypes> [maxrank] [playernames]",
                    gh.hname);

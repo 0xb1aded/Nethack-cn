@@ -85,10 +85,10 @@ dowrite(struct obj *pen)
     int spell_knowledge;
 
     if (nohands(gy.youmonst.data)) {
-        You("need hands to be able to write!");
+        You("需要有手才能写!");
         return ECMD_OK;
     } else if (Glib) {
-        pline("%s from your %s.", Tobjnam(pen, "slip"),
+        pline("%s从你的%s上。", Tobjnam(pen, "滑落"),
               fingers_or_gloves(FALSE));
         dropx(pen);
         return ECMD_TIME;
@@ -105,25 +105,25 @@ dowrite(struct obj *pen)
                  : "scroll";
     if (Blind) {
         if (!paper->dknown) {
-            You("don't know whether that %s is blank or not.", typeword);
+            You("不知道那个%s是否空白。", typeword);
             return ECMD_OK;
         } else if (paper->oclass == SPBOOK_CLASS) {
             /* can't write a magic book while blind */
-            pline("%s can't create braille text.",
+            pline("%s不能创作盲文.",
                   upstart(ysimple_name(pen)));
             return ECMD_OK;
         }
     }
     observe_object(paper);
     if (paper->otyp != SCR_BLANK_PAPER && paper->otyp != SPE_BLANK_PAPER) {
-        pline("That %s is not blank!", typeword);
+        pline("那个%s不是空白的!", typeword);
         exercise(A_WIS, FALSE);
         return ECMD_TIME;
     }
     makeknown(SCR_BLANK_PAPER);
 
     /* what to write */
-    Sprintf(qbuf, "What type of %s do you want to write?", typeword);
+    Sprintf(qbuf, "你想要写哪种%s?", typeword);
     getlin(qbuf, namebuf);
     (void) mungspaces(namebuf); /* remove any excess whitespace */
     if (namebuf[0] == '\033' || !namebuf[0])
@@ -204,40 +204,40 @@ dowrite(struct obj *pen)
         goto found;
     }
 
-    There("is no such %s!", typeword);
+    There("没有这种%s!", typeword);
     return ECMD_TIME;
  found:
 
     if (i == SCR_BLANK_PAPER || i == SPE_BLANK_PAPER) {
-        You_cant("write that!");
-        pline("It's obscene!");
+        You_cant("写那个!");
+        pline("这是不允许的!");
         return ECMD_TIME;
     } else if (i == SPE_NOVEL) {
         boolean fanfic = !rn2(3), tearup = !rn2(3);
 
         if (!fanfic) {
-            You("%s to write the Great Yendorian Novel, but %s inspiration.",
-                !tearup ? "prepare" : "try",
-                !Hallucination ? "lack" : "have too much");
+            You("%s写伟大的耶诺瑞安小说，但%s灵感。",
+                !tearup ? "准备" : "尝试",
+                !Hallucination ? "缺乏" : "有太多");
         } else {
-            You("%sproduce really %s fan-fiction.",
-                !tearup ? "start to " : "",
-                !Hallucination ? "lame" : "awesome");
+            You("%s创作出真正%s的同人小说。",
+                !tearup ? "开始" : "",
+                !Hallucination ? "糟糕的" : "精彩的");
         }
         if (!tearup) {
-            You("give up on the idea.");
+            You("放弃这个想法。");
         } else {
-            You("tear it up.");
+            You("把它撕碎。");
             useup(paper);
         }
         return ECMD_TIME;
     } else if (i == SPE_BOOK_OF_THE_DEAD) {
-        pline("No mere dungeon adventurer could write that.");
+        pline("没有单单一个冒险家就能写那个.");
         return ECMD_TIME;
     } else if (by_descr && paper->oclass == SPBOOK_CLASS
                && !objects[i].oc_name_known) {
         /* can't write unknown spellbooks by description */
-        pline("Unfortunately you don't have enough information to go on.");
+        pline("不幸的是你没有足够的知识来继续.");
         return ECMD_TIME;
     }
 
@@ -255,7 +255,7 @@ dowrite(struct obj *pen)
     /* see if there's enough ink */
     basecost = cost(new_obj);
     if (pen->spe < basecost / 2) {
-        Your("marker is too dry to write that!");
+        Your("魔笔太干了来写那个!");
         obfree(new_obj, (struct obj *) 0);
         return ECMD_TIME;
     }
@@ -268,13 +268,13 @@ dowrite(struct obj *pen)
     /* dry out marker */
     if (pen->spe < actualcost) {
         pen->spe = 0;
-        Your("marker dries out!");
+        Your("魔笔干了!");
         /* scrolls disappear, spellbooks don't */
         if (paper->oclass == SPBOOK_CLASS) {
-            pline_The("spellbook is left unfinished and your writing fades.");
+            pline_The("魔法书未完成且你写的消退了.");
             update_inventory(); /* pen charges */
         } else {
-            pline_The("scroll is now useless and disappears!");
+            pline_The("卷轴现在没用了并消失了!");
             useup(paper);
         }
         obfree(new_obj, (struct obj *) 0);
@@ -319,19 +319,19 @@ dowrite(struct obj *pen)
         && rnl(((Role_if(PM_WIZARD) && paper->oclass != SPBOOK_CLASS)
                 || spell_knowledge == spe_GoingStale)
                ? 5 : 15)) {
-        You("%s to write that.", by_descr ? "fail" : "don't know how");
+        You("%s去写那个.", by_descr ? "失败了" : "不知道如何");
         /* scrolls disappear, spellbooks don't */
         if (paper->oclass == SPBOOK_CLASS) {
             You(
-      "write in your best handwriting:  \"My Diary\", but it quickly fades.");
+      "写上你最好的字:  \" 我的日记\", 但它很快消退了.");
             update_inventory(); /* pen charges */
         } else {
             if (by_descr) {
                 Strcpy(namebuf, OBJ_DESCR(objects[new_obj->otyp]));
                 wipeout_text(namebuf, (6 + MAXULEV - u.ulevel) / 6, 0);
             } else
-                Sprintf(namebuf, "%s was here!", svp.plname);
-            You("write \"%s\" and the scroll disappears.", namebuf);
+                Sprintf(namebuf, "%s 到此一游!", svp.plname);
+            You("写上 \" %s\"  然后卷轴消失了.", namebuf);
             useup(paper);
         }
         obfree(new_obj, (struct obj *) 0);
@@ -345,7 +345,7 @@ dowrite(struct obj *pen)
            have passed the write-an-unknown scroll test
            above we can still fail this one, so it's doubly
            hard to write an unknown scroll while blind */
-        You("fail to write the scroll correctly and it disappears.");
+        You("无法正确地写卷轴然后它消失了.");
         useup(paper);
         obfree(new_obj, (struct obj *) 0);
         return ECMD_TIME;
@@ -357,7 +357,7 @@ dowrite(struct obj *pen)
     /* success */
     if (new_obj->oclass == SPBOOK_CLASS) {
         /* acknowledge the change in the object's description... */
-        pline_The("spellbook warps strangely, then turns %s.",
+        pline_The("魔法书奇怪地扭曲, 然后变为%s.",
                   new_book_description(new_obj->otyp, namebuf));
     }
     new_obj->blessed = (curseval > 0);
@@ -413,7 +413,7 @@ new_book_description(int booktype, char *outbuf)
         if (!strcmpi(descr, *comp_p))
             break;
 
-    Sprintf(outbuf, "%s%s", *comp_p ? "into " : "", descr);
+    Sprintf(outbuf, "%s%s", *comp_p ? "合成 " : "", descr);
     return outbuf;
 }
 

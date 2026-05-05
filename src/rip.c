@@ -106,7 +106,7 @@ genl_outrip(winid tmpwin, int how, time_t when)
     /* arbitrary upper limit; practical upper limit is quite a bit less */
     if (cash > 999999999L)
         cash = 999999999L;
-    Sprintf(buf, "%ld Au", cash);
+    Sprintf(buf, "%ld 金币", cash);
     center(GOLD_LINE, buf);
 
     /* Put together death description */

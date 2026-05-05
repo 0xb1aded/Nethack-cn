@@ -89,8 +89,8 @@ stealgold(struct monst *mtmp)
         /* reduce "rear hooves/claws" to "hooves/claws" */
         if (!strncmp(what, "rear ", 5))
             what += 5;
-        pline("%s quickly snatches some gold from %s %s %s!", Monnam(mtmp),
-              (Levitation || Flying) ? "beneath" : "between", whose, what);
+        pline("%s迅速从%s %s %s抢走了一些金币！", Monnam(mtmp),
+              (Levitation || Flying) ? "下面" : "之间", whose, what);
         if (!ygold || !rn2(5)) {
             if (!tele_restrict(mtmp))
                 (void) rloc(mtmp, RLOC_MSG);
@@ -107,7 +107,7 @@ stealgold(struct monst *mtmp)
             setnotworn(ygold);
         freeinv(ygold);
         add_to_minv(mtmp, ygold);
-        Your("purse feels lighter.");
+        Your("钱包感觉轻了.");
         if (!tele_restrict(mtmp))
             (void) rloc(mtmp, RLOC_MSG);
         monflee(mtmp, 0, FALSE, FALSE);
@@ -155,7 +155,7 @@ unstolenarm(void)
             break;
     gs.stealoid = 0;
     if (obj) {
-        You("finish taking off your %s.", armor_simple_name(obj));
+        You("完成脱下你的%s。", armor_simple_name(obj));
     }
     return 0;
 }
@@ -189,7 +189,7 @@ stealarm(void)
                     if (otmp->unpaid)
                         subfrombill(otmp, shop_keeper(*u.ushops));
                     freeinv(otmp);
-                    pline("%s steals %s!", Monnam(mtmp), doname(otmp));
+                    pline("%s偷走了%s！", Monnam(mtmp), doname(otmp));
                     (void) mpickobj(mtmp, otmp); /* may free otmp */
                     /* Implies seduction, "you gladly hand over ..."
                        so we don't set mavenge bit here. */
@@ -326,7 +326,7 @@ worn_item_removal(
     verb = ((obj->owornmask & W_WEAPONS) != 0L) ? "disarms"
            : ((obj->owornmask & W_ACCESSORY) != 0L) ? "removes"
              : "takes off";
-    pline("%s %s %s.", Some_Monnam(mon), verb, objbuf);
+    pline("%s %s %s。", Some_Monnam(mon), verb, objbuf);
     iflags.last_msg = PLNMSG_MON_TAKES_OFF_ITEM;
     /* removal might trigger more messages (due to loss of Lev|Fly;
        descending happens before the theft in progress finishes) */
@@ -386,15 +386,15 @@ steal(struct monst *mtmp, char *objnambuf)
 
             /* buried ball is not tracked via 'uball' and there is no chain
                at all (hence no uchain to take off) */
-            pline("%s takes off your unseen chain.", Monnambuf);
+            pline("%s 取下了你隐藏的锁链。", Monnambuf);
             (void) openholdingtrap(&gy.youmonst, &dummy);
         } else if (Blind) {
-            pline("Somebody tries to rob you, but finds nothing to steal.");
+            pline("有人想要偷你的东西, 但是发现你一无所有.");
         } else if (inv_cnt(TRUE) > inv_cnt(FALSE)) {
-            pline("%s tries to rob you, but isn't interested in gold.",
+            pline("%s想要偷你的东西, 但对金子不感兴趣.",
                   Monnambuf);
         } else {
-            pline("%s tries to rob you, but there is nothing to steal!",
+            pline("%s想要偷你的东西, 但是发现你一无所有.",
                   Monnambuf);
         }
         return 1; /* let her flee */
@@ -477,9 +477,9 @@ steal(struct monst *mtmp, char *objnambuf)
                 "steal", "snatch", "grab", "take"
             };
  cant_take:
-            pline("%s tries to %s %s%s but gives up.", Monnambuf,
+            pline("%s试图%s%s%s但放弃了.", Monnambuf,
                   ROLL_FROM(how),
-                  (otmp->owornmask & W_ARMOR) ? "your " : "",
+                  (otmp->owornmask & W_ARMOR) ? "你的 " : "",
                   (otmp->owornmask & W_ARMOR) ? armor_simple_name(otmp)
                                               : yname(otmp));
             /* the fewer items you have, the less likely the thief
@@ -647,7 +647,7 @@ mpickobj(struct monst *mtmp, struct obj *otmp)
     if (obj_sheds_light(otmp) && attacktype(mtmp->data, AT_ENGL)) {
         /* this is probably a burning object that you dropped or threw */
         if (engulfing_u(mtmp) && !Blind)
-            pline("%s out.", Tobjnam(otmp, "go"));
+            pline("%s熄灭了。", Tobjnam(otmp, "熄灭"));
         snuff_otmp = TRUE;
     }
     /* for hero owned object on shop floor, mtmp is taking possession
@@ -759,7 +759,7 @@ stealamulet(struct monst *mtmp)
         freeinv(otmp);
         Strcpy(buf, doname(otmp));
         (void) mpickobj(mtmp, otmp); /* could merge and free otmp but won't */
-        pline("%s steals %s!", Some_Monnam(mtmp), buf);
+        pline("%s 偷走了 %s！", Some_Monnam(mtmp), buf);
         if (can_teleport(mtmp->data) && !tele_restrict(mtmp))
             (void) rloc(mtmp, RLOC_MSG);
         encumber_msg();
@@ -787,23 +787,23 @@ maybe_absorb_item(
         if (cansee(mon->mx, mon->my)) {
             /* Some_Monnam() avoids "It pulls ... and absorbs it!"
                if hero can see the location but not the monster */
-            pline("%s pulls %s away from you and absorbs %s!",
+            pline("%s 把%s从你那里拉走然后吸收了%s!",
                   Some_Monnam(mon), /* Monnam() or "Something" */
-                  yname(obj), (obj->quan > 1L) ? "them" : "it");
+                  yname(obj), (obj->quan > 1L) ? "它们" : "它");
         } else {
             const char *hand_s = body_part(HAND);
 
             if (bimanual(obj))
                 hand_s = makeplural(hand_s);
-            pline("%s %s pulled from your %s!", upstart(yname(obj)),
-                  otense(obj, "are"), hand_s);
+            pline("%s %s你的%s中被拉走!", upstart(yname(obj)),
+                  otense(obj, "从"), hand_s);
         }
         freeinv(obj);
         encumber_msg();
     } else {
         /* not carried; presumably thrown or kicked */
         if (canspotmon(mon))
-            pline("%s absorbs %s!", Monnam(mon), yname(obj));
+            pline("%s 吸收了%s!", Monnam(mon), yname(obj));
     }
     /* add to mon's inventory */
     (void) mpickobj(mon, obj);
@@ -883,8 +883,8 @@ relobj(
     /* vault guard's gold goes away rather than be dropped... */
     if (mtmp->isgd && (otmp = findgold(mtmp->minvent)) != 0) {
         if (canspotmon(mtmp))
-            pline("%s gold %s.", s_suffix(Monnam(mtmp)),
-                  canseemon(mtmp) ? "vanishes" : "seems to vanish");
+            pline("%s 的金币 %s.", s_suffix(Monnam(mtmp)),
+                  canseemon(mtmp) ? "消失了" : "似乎消失了");
         obj_extract_self(otmp);
         obfree(otmp, (struct obj *) 0);
     } /* isgd && has gold */

@@ -948,13 +948,13 @@ touch_artifact(struct obj *obj, struct monst *mon)
 
         if (!yours)
             return 0;
-        You("are blasted by %s power!", s_suffix(the(xname(obj))));
+        You("被%s力量伤到了!", s_suffix(the(xname(obj))));
         touch_blasted = TRUE;
         dmg = d((Antimagic ? 2 : 4), (self_willed ? 10 : 4));
         /* add half (maybe quarter) of the usual silver damage bonus */
         if (objects[obj->otyp].oc_material == SILVER && Hate_silver)
             tmp = rnd(10), dmg += Maybe_Half_Phys(tmp);
-        Sprintf(buf, "touching %s", oart->name);
+        Sprintf(buf, "触摸%s", oart->name);
         losehp(dmg, buf, KILLED_BY); /* magic damage, not physical */
         exercise(A_WIS, FALSE);
     }
@@ -963,9 +963,9 @@ touch_artifact(struct obj *obj, struct monst *mon)
     if (badclass && badalign && self_willed) {
         if (yours) {
             if (!carried(obj))
-                pline("%s your grasp!", Tobjnam(obj, "evade"));
+                pline("%s你的控制!", Tobjnam(obj, "挣脱了"));
             else
-                pline("%s beyond your control!", Tobjnam(obj, "are"));
+                pline("%s超出你的控制!", Tobjnam(obj, "是"));
         }
         return 0;
     }
@@ -1302,7 +1302,7 @@ Mb_hit(struct monst *magr, /* attacker */
     verb = mb_verb[!!Hallucination][attack_indx];
     if (youattack || youdefend || vis) {
         result = TRUE;
-        pline_The("magic-absorbing blade %s %s!",
+        pline_The("魔法吸收的刀%s%s!",
                   vtense((const char *) 0, verb), hittee);
         /* assume probing has some sort of noticeable feedback
            even if it is being done by one monster to another */
@@ -1330,7 +1330,7 @@ Mb_hit(struct monst *magr, /* attacker */
                     if (u.uen > 0)
                         u.uen--;
                     disp.botl = TRUE;
-                    You("lose magical energy!");
+                    You("失去了魔法能量!");
                 }
             } else {
                 /* canceled shapeshifter/vamp may have changed forms, so
@@ -1345,7 +1345,7 @@ Mb_hit(struct monst *magr, /* attacker */
                         u.uenpeak = u.uenmax;
                     u.uen++;
                     disp.botl = TRUE;
-                    You("absorb magical energy!");
+                    You("吸收魔法能量!");
                 }
             }
         }
@@ -1361,7 +1361,7 @@ Mb_hit(struct monst *magr, /* attacker */
                 gn.nomovemsg = "";
                 if (magr && magr == u.ustuck && sticks(gy.youmonst.data)) {
                     set_ustuck((struct monst *) 0);
-                    You("release %s!", mon_nam(magr));
+                    You("放出%s!", mon_nam(magr));
                 }
             }
         } else {
@@ -1380,7 +1380,7 @@ Mb_hit(struct monst *magr, /* attacker */
 
     case MB_INDEX_PROBE:
         if (youattack && (mb->spe == 0 || !rn2(3 * abs(mb->spe)))) {
-            pline_The("%s is insightful.", verb);
+            pline_The("%s是富有洞察力的.", verb);
             /* pre-damage status */
             probe_monster(mdef);
         }
@@ -1411,7 +1411,7 @@ Mb_hit(struct monst *magr, /* attacker */
     if (youattack || youdefend || vis) {
         (void) upstart(hittee); /* capitalize */
         if (resisted) {
-            pline("%s %s!", hittee, vtense(fakename[fakeidx], "resist"));
+            pline("%s %s!", hittee, vtense(fakename[fakeidx], "抵抗"));
             shieldeff(youdefend ? u.ux : mdef->mx,
                       youdefend ? u.uy : mdef->my);
         }
@@ -1420,12 +1420,12 @@ Mb_hit(struct monst *magr, /* attacker */
 
             buf[0] = '\0';
             if (do_stun)
-                Strcat(buf, "stunned");
+                Strcat(buf, "眩晕");
             if (do_stun && do_confuse)
-                Strcat(buf, " and ");
+                Strcat(buf, " 和 ");
             if (do_confuse)
-                Strcat(buf, "confused");
-            pline("%s %s %s%c", hittee, vtense(fakename[fakeidx], "are"), buf,
+                Strcat(buf, "混乱");
+            pline("%s %s %s%c", hittee, vtense(fakename[fakeidx], "是"), buf,
                   (do_stun && do_confuse) ? '!' : '.');
         }
     }
@@ -1481,12 +1481,12 @@ artifact_hit(
     /* the four basic attacks: fire, cold, shock and missiles */
     if (attacks(AD_FIRE, otmp)) {
         if (realizes_damage)
-            pline_The("fiery blade %s %s%c",
+            pline_The("烈焰之刃 %s %s%c",
                       !gs.spec_dbon_applies
-                          ? "hits"
+                          ? "击中"
                           : (mdef->data == &mons[PM_WATER_ELEMENTAL])
-                                ? "vaporizes part of"
-                                : "burns",
+                                ? "蒸发部分"
+                                : "灼烧",
                       hittee, !gs.spec_dbon_applies ? '.' : '!');
         if (!rn2(4)) {
             int itemdmg = destroy_items(mdef, AD_FIRE, *dmgptr);
@@ -1500,8 +1500,8 @@ artifact_hit(
     }
     if (attacks(AD_COLD, otmp)) {
         if (realizes_damage)
-            pline_The("ice-cold blade %s %s%c",
-                      !gs.spec_dbon_applies ? "hits" : "freezes", hittee,
+            pline_The("厚重的铁锤打了一下%s%s%c",
+                      !gs.spec_dbon_applies ? "击中" : "冻结", hittee,
                       !gs.spec_dbon_applies ? '.' : '!');
         if (!rn2(4)) {
             int itemdmg = destroy_items(mdef, AD_COLD, *dmgptr);
@@ -1512,8 +1512,8 @@ artifact_hit(
     }
     if (attacks(AD_ELEC, otmp)) {
         if (realizes_damage)
-            pline_The("massive hammer hits%s %s%c",
-                      !gs.spec_dbon_applies ? "" : "!  Lightning strikes",
+            pline_The("虚幻的小部件打了一下%s%s%c",
+                      !gs.spec_dbon_applies ? "" : "！闪电击中",
                       hittee, !gs.spec_dbon_applies ? '.' : '!');
         if (gs.spec_dbon_applies)
             wake_nearto(mdef->mx, mdef->my, 4 * 4);
@@ -1526,10 +1526,10 @@ artifact_hit(
     }
     if (attacks(AD_MAGM, otmp)) {
         if (realizes_damage)
-            pline_The("imaginary widget hits%s %s%c",
+            pline_The("虚幻的器具击中%s %s%c",
                       !gs.spec_dbon_applies
                           ? ""
-                          : "!  A hail of magic missiles strikes",
+                          : "！ 一阵魔法导弹如冰雹般袭来",
                       hittee, !gs.spec_dbon_applies ? '.' : '!');
         return realizes_damage;
     }
@@ -1552,7 +1552,7 @@ artifact_hit(
             wepdesc = "The razor-sharp blade";
             /* not really beheading, but so close, why add another SPFX */
             if (youattack && engulfing_u(mdef)) {
-                You("slice %s wide open!", mon_nam(mdef));
+                You("深深切入%s!", mon_nam(mdef));
                 *dmgptr = 2 * mdef->mhp + FATAL_DAMAGE_MODIFIER;
                 return TRUE;
             }
@@ -1563,20 +1563,20 @@ artifact_hit(
 
                 if (bigmonst(mdef->data)) {
                     if (youattack)
-                        You("slice deeply into %s!", mon_nam(mdef));
+                        You("深深切入%s！", mon_nam(mdef));
                     else if (vis)
-                        pline("%s cuts deeply into %s!", Monnam(magr),
+                        pline("%s把%s切成两半!", Monnam(magr),
                               hittee);
                     *dmgptr *= 2;
                     return TRUE;
                 }
                 *dmgptr = 2 * mdef->mhp + FATAL_DAMAGE_MODIFIER;
-                pline("%s cuts %s in half!", wepdesc, mon_nam(mdef));
+                pline("%s 将 %s 劈成两半！", wepdesc, mon_nam(mdef));
                 observe_object(otmp);
                 return TRUE;
             } else {
                 if (bigmonst(gy.youmonst.data)) {
-                    pline("%s cuts deeply into you!",
+                    pline("%s 把你切成了两半!",
                           magr ? Monnam(magr) : wepdesc);
                     *dmgptr *= 2;
                     return TRUE;
@@ -1588,7 +1588,7 @@ artifact_hit(
                  * damage does not prevent death.
                  */
                 *dmgptr = 2 * (Upolyd ? u.mh : u.uhp) + FATAL_DAMAGE_MODIFIER;
-                pline("%s cuts you in half!", wepdesc);
+                pline("不知怎的, 你不合理地没打中%s.", wepdesc);
                 observe_object(otmp);
                 return TRUE;
             }
@@ -1603,14 +1603,14 @@ artifact_hit(
             if (!youdefend) {
                 if (!has_head(mdef->data) || gn.notonhead || u.uswallow) {
                     if (youattack)
-                        pline("Somehow, you miss %s wildly.", mon_nam(mdef));
+                        pline("不知怎的, %s 不合理地没打中.", mon_nam(mdef));
                     else if (vis)
-                        pline("Somehow, %s misses wildly.", mon_nam(magr));
+                        pline("不知怎的，%s 疯狂地失手了。", mon_nam(magr));
                     *dmgptr = 0;
                     return (boolean) (youattack || vis);
                 }
                 if (noncorporeal(mdef->data) || amorphous(mdef->data)) {
-                    pline("%s slices through %s %s.", wepdesc,
+                    pline("%s切穿了%s的%s.", wepdesc,
                           s_suffix(mon_nam(mdef)), mbodypart(mdef, NECK));
                     return TRUE;
                 }
@@ -1618,19 +1618,19 @@ artifact_hit(
                 pline(ROLL_FROM(behead_msg), wepdesc,
                       mon_nam(mdef));
                 if (Hallucination && !flags.female)
-                    pline("Good job Henry, but that wasn't Anne.");
+                    pline("干得好，亨利，但那不是安妮。");
                 observe_object(otmp);
                 return TRUE;
             } else {
                 if (!has_head(gy.youmonst.data)) {
-                    pline("Somehow, %s misses you wildly.",
+                    pline("不知怎的，%s 疯狂地没打中你。",
                           magr ? mon_nam(magr) : wepdesc);
                     *dmgptr = 0;
                     return TRUE;
                 }
                 if (noncorporeal(gy.youmonst.data)
                     || amorphous(gy.youmonst.data)) {
-                    pline("%s slices through your %s.", wepdesc,
+                    pline("%s切穿了你的%s.", wepdesc,
                           body_part(NECK));
                     return TRUE;
                 }
@@ -1664,10 +1664,10 @@ artifact_hit(
                 char *otmpname = distant_name(otmp, xname);
 
                 if (is_art(otmp, ART_STORMBRINGER))
-                    pline_The("%s blade draws the %s from %s!",
+                    pline_The("%s的刀刃从%s中抽取了%s！",
                               hcolor(NH_BLACK), life, mon_nam(mdef));
                 else
-                    pline("%s draws the %s from %s!",
+                    pline("%s从%s身上吸取了%s！",
                           The(otmpname), life, mon_nam(mdef));
             }
             if (mdef->m_lev == 0) {
@@ -1694,10 +1694,10 @@ artifact_hit(
             int oldhpmax = u.uhpmax;
 
             if (Blind) {
-                You_feel("an %s drain your %s!",
+                You_feel("一个%s吸取了你的%s！",
                          is_art(otmp, ART_STORMBRINGER)
-                            ? "unholy blade"
-                            : "object",
+                            ? "不洁之刃"
+                            : "物体",
                          life);
             } else {
                 /* call distant_name() for possible side-effects even if
@@ -1705,10 +1705,10 @@ artifact_hit(
                 char *otmpname = distant_name(otmp, xname);
 
                 if (is_art(otmp, ART_STORMBRINGER))
-                    pline_The("%s blade drains your %s!",
+                    pline_The("%s刀锋吸取了你的%s！",
                               hcolor(NH_BLACK), life);
                 else
-                    pline("%s drains your %s!", The(otmpname), life);
+                    pline("%s吸取了你的%s！", The(otmpname), life);
             }
             losexp("life drainage");
             if (magr && magr->mhp < magr->mhpmax) {
@@ -1762,7 +1762,7 @@ staticfn void
 nothing_special(struct obj *obj)
 {
     if (carried(obj))
-        You_feel("a surge of power, but nothing seems to happen.");
+        You_feel("到一股力量, 但似乎无事发生.");
 }
 
 staticfn int
@@ -1785,15 +1785,15 @@ invoke_healing(struct obj *obj)
     if (Upolyd)
         healamt = (u.mhmax + 1 - u.mh) / 2;
     if (healamt || Sick || Slimed || Blinded > creamed)
-        You_feel("better.");
+        You_feel("好一些了。");
     if (healamt || Sick || Slimed || BlindedTimeout > creamed)
-        You_feel("%sbetter.",
+        You_feel("%s好多了。",
                  (!healamt && !Sick && !Slimed
                   /* when healing temporary blindness (aside from
                      goop covering face), might still be blind
                      due to PermaBlind or eyeless polymorph;
                      vary the message in that situation */
-                  && (HBlinded & ~TIMEOUT) != 0L) ? "slightly " : "");
+                  && (HBlinded & ~TIMEOUT) != 0L) ? "稍微" : "");
     else {
         nothing_special(obj);
         return ECMD_TIME;
@@ -1826,7 +1826,7 @@ invoke_energy_boost(struct obj *obj)
     if (epboost) {
         u.uen += epboost;
         disp.botl = TRUE;
-        You_feel("re-energized.");
+        You_feel("到新的活力.");
     } else {
         nothing_special(obj);
         return ECMD_TIME;
@@ -1887,7 +1887,7 @@ invoke_create_portal(struct obj *obj)
         num_ok_dungeons++;
         last_ok_dungeon = i;
     }
-    end_menu(tmpwin, "Open a portal to which dungeon?");
+    end_menu(tmpwin, "打开哪个地牢的入口?");
     if (num_ok_dungeons > 1) {
         /* more than one entry; display menu for choices */
         menu_item *selected;
@@ -1919,12 +1919,12 @@ invoke_create_portal(struct obj *obj)
 
     if (u.uhave.amulet || In_endgame(&u.uz) || In_endgame(&newlev)
         || newlev.dnum == u.uz.dnum || !next_to_u()) {
-        You_feel("very disoriented for a moment.");
+        You_feel("一时感到非常晕头转向。");
     } else {
         if (!Blind)
-            You("are surrounded by a shimmering sphere!");
+            You("被一个闪闪发光的领域包围着!");
         else
-            You_feel("weightless for a moment.");
+            You_feel("片刻失重了.");
         goto_level(&newlev, FALSE, FALSE, FALSE);
     }
     return ECMD_TIME;
@@ -2008,12 +2008,12 @@ invoke_banish(struct obj *obj UNUSED)
 
         if (nvanished == 1)
             *(eos(subject) - 1) = '\0'; /* remove 's' */
-        pline("%s %s %s in a cloud of brimstone!",
+        pline("%s %s %s 在一团硫磺烟雾中！",
               nstayed ? ((nvanished > nstayed)
-                         ? "Most of the"
-                         : "Some of the")
-              : "The",
-              subject, vtense(subject, "disappear"));
+                         ? "大部分"
+                         : "一部分")
+              : "所有",
+              subject, vtense(subject, "消失"));
     }
     return ECMD_TIME;
 }
@@ -2063,7 +2063,7 @@ invoke_blinding_ray(struct obj *obj)
             litroom(TRUE, obj);
             pline("%s", ((!Blind && levl[u.ux][u.uy].lit
                           && !levl[u.ux][u.uy].waslit)
-                         ? "It is lit here now."
+                         ? "这里现在亮了。"
                          : nothing_seems_to_happen));
         } else { /* zapyourself() */
             boolean vulnerable = (u.umonnum == PM_GREMLIN);
@@ -2110,14 +2110,14 @@ arti_invoke_cost(struct obj *obj)
 
         if (pw_cost < 0 || u.uen < pw_cost) {
             /* the artifact is tired :-) */
-            You_feel("that %s %s ignoring you.", the(xname(obj)),
-                     otense(obj, "are"));
+            You_feel("%s%s忽视你。", the(xname(obj)),
+                     otense(obj, "正在"));
             /* and just got more so; patience is essential... */
             obj->age += (long) d(3, 10);
             return FALSE;
         } else {
             /* you pay invoke cost with your own magic */
-            You_feel("drained...");
+            You_feel("被抽干了...");
             u.uen -= pw_cost;
             disp.botl = TRUE;
         }
@@ -2183,8 +2183,8 @@ arti_invoke(struct obj *obj)
         if (on && obj->age > svm.moves) {
             /* the artifact is tired :-) */
             u.uprops[oart->inv_prop].extrinsic ^= W_ARTI;
-            You_feel("that %s %s ignoring you.", the(xname(obj)),
-                     otense(obj, "are"));
+            You_feel("该%s %s在忽略你。", the(xname(obj)),
+                     otense(obj, "在"));
             /* can't just keep repeatedly trying */
             obj->age += (long) d(3, 10);
             return ECMD_TIME;
@@ -2202,9 +2202,9 @@ arti_invoke(struct obj *obj)
         switch (oart->inv_prop) {
         case CONFLICT:
             if (on)
-                You_feel("like a rabble-rouser.");
+                You_feel("像一个煽动者.");
             else
-                You_feel("the tension decrease around you.");
+                You_feel("你周围紧张的气氛减少了.");
             break;
         case LEVITATION:
             if (on) {
@@ -2220,10 +2220,10 @@ arti_invoke(struct obj *obj)
             }
             newsym(u.ux, u.uy);
             if (on)
-                Your("body takes on a %s transparency...",
-                     Hallucination ? "normal" : "strange");
+                Your("身体呈现出一种 %s 的透明感...",
+                     Hallucination ? "正常" : "奇怪");
             else
-                Your("body seems to unfade...");
+                Your("身体似乎显现出来...");
             break;
         }
     }
@@ -2289,7 +2289,7 @@ arti_speak(struct obj *obj)
     line = getrumor(bcsign(obj), buf, TRUE);
     if (!*line)
         line = "NetHack rumors file closed for renovation.";
-    pline("%s:", Tobjnam(obj, "whisper"));
+    pline("%s:", Tobjnam(obj, "低声说"));
     SetVoice((struct monst *) 0, 0, 80, voice_talking_artifact);
     verbalize1(line);
     return ECMD_TIME;
@@ -2476,7 +2476,7 @@ Sting_effects(
         if (orc_count == -1 && gw.warn_obj_cnt > 0) {
             /* -1 means that blindness has just been toggled; give a
                'continue' message that eventual 'stop' message will match */
-            pline("%s is %s.", bare_artifactname(uwep),
+            pline("%s在%s.", bare_artifactname(uwep),
                   glow_verb(Blind ? 0 : gw.warn_obj_cnt, TRUE));
         } else if (newstr > 0 && newstr != oldstr) {
             /* goto_level() -> docrt() -> see_monsters() -> Sting_effects();
@@ -2491,11 +2491,11 @@ Sting_effects(
                       glow_color(uwep->oartifact),
                       (newstr > oldstr) ? '!' : '.');
             else if (oldstr == 0) /* quivers */
-                pline("%s %s slightly.", bare_artifactname(uwep),
+                pline("%s轻微地%s.", bare_artifactname(uwep),
                       otense(uwep, glow_verb(0, FALSE)));
         } else if (orc_count == 0 && gw.warn_obj_cnt > 0) {
             /* 'stop' message */
-            pline("%s stops %s.", bare_artifactname(uwep),
+            pline("%s停止了%s.", bare_artifactname(uwep),
                   glow_verb(Blind ? 0 : gw.warn_obj_cnt, TRUE));
         }
     }
@@ -2529,8 +2529,8 @@ retouch_object(
 
         /* hero can't handle this object, but didn't get touch_artifact()'s
            "<obj> evades your grasp|control" message; give an alternate one */
-        You_cant("handle %s%s!", yname(obj),
-                 obj->owornmask ? " anymore" : "");
+        You_cant("接触%s%s!", yname(obj),
+                 obj->owornmask ? "了" : "");
         /* also inflict damage unless touch_artifact() already did so */
         if (!touch_blasted) {
             const char *what = killer_xname(obj);
@@ -2552,7 +2552,7 @@ retouch_object(
                 tmp = rnd(10), dmg += Maybe_Half_Phys(tmp);
             if (bane)
                 dmg += rnd(10);
-            Sprintf(buf, "handling %s", what);
+            Sprintf(buf, "执握%s", what);
             losehp(dmg, buf, KILLED_BY);
             exercise(A_CON, FALSE);
         }
@@ -2581,7 +2581,7 @@ retouch_object(
             /* dropx gives a message if a dropped item lands on an altar;
                we provide one for other terrain */
             if (!IS_ALTAR(levl[u.ux][u.uy].typ))
-                pline("%s to the %s.", Tobjnam(obj, "fall"),
+                pline("%s到%s.", Tobjnam(obj, "掉落"),
                       surface(u.ux, u.uy));
             dropx(obj);
         }
@@ -2762,7 +2762,7 @@ mkot_trap_warn(void)
 
         if (ntraps != gm.mkot_trap_warn_count) {
             idx = min(ntraps, SIZE(heat) - 1);
-            pline_The("Key feels %s%c", heat[idx], (ntraps > 3) ? '!' : '.');
+            pline_The("感觉钥匙%s%c", heat[idx], (ntraps > 3) ? '!' : '.');
         }
         gm.mkot_trap_warn_count = ntraps;
     } else

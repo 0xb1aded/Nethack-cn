@@ -3421,11 +3421,11 @@ get_table_int_or_random(lua_State *L, const char *name, int rndval)
             lua_pop(L, 1);
             return rndval;
         }
-        Sprintf(buf, "Expected integer or \"random\" for \"%s\", got ", name);
+        Sprintf(buf, "期望整数或\"random\"用于\"%s\"，却得到 ", name);
         if (tmp)
             Sprintf(eos(buf), "\"%s\"", tmp);
         else
-            Strcat(buf, "<Null>");
+            Strcat(buf, "<空>");
         nhl_error(L, buf);
         /*NOTREACHED*/
         lua_pop(L, 1);
@@ -3822,7 +3822,7 @@ lspo_level_flags(lua_State *L)
         else {
             char buf[BUFSZ];
 
-            Sprintf(buf, "Unknown level flag %s", s);
+            Sprintf(buf, "未知的关卡标志 %s", s);
             nhl_error(L, buf);
         }
     }
@@ -5270,7 +5270,7 @@ get_table_intarray_entry(lua_State *L, int tableidx, int entrynum)
     } else {
         char buf[BUFSZ];
 
-        Sprintf(buf, "Array entry #%i is %s, expected number",
+        Sprintf(buf, "数组条目 #%i 是 %s，应为数字",
                 1, luaL_typename(L, -1));
         nhl_error(L, buf);
     }

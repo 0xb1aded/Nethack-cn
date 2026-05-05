@@ -354,13 +354,13 @@ fix_curse_trouble(struct obj *otmp, const char *what)
     }
     if (otmp == uarmg && Glib) {
         make_glib(0);
-        Your("%s are no longer slippery.", gloves_simple_name(uarmg));
+        Your("%s不再很滑了.", gloves_simple_name(uarmg));
         if (!otmp->cursed)
             return;
     }
     if (!Blind || (otmp == ublindf && Blindfolded_only)) {
         pline("%s %s.",
-                what ? what : (const char *) Yobjnam2(otmp, "softly glow"),
+                what ? what : (const char *) Yobjnam2(otmp, "微微发光"),
                 hcolor(NH_AMBER));
         iflags.last_msg = PLNMSG_OBJ_GLOWS;
         otmp->bknown = !Hallucination; /* ok to skip set_bknown() */
@@ -387,10 +387,10 @@ fix_worst_trouble(int trouble)
         break;
     case TROUBLE_STRANGLED:
         if (uamul && uamul->otyp == AMULET_OF_STRANGULATION) {
-            Your("amulet vanishes!");
+            Your("护符消失了！");
             useup(uamul);
         }
-        You("can breathe again.");
+        You("又能呼吸了.");
         Strangled = 0;
         disp.botl = TRUE;
         break;
@@ -406,12 +406,12 @@ fix_worst_trouble(int trouble)
         FALLTHROUGH;
         /* FALLTHRU*/
     case TROUBLE_HUNGRY:
-        Your("%s feels content.", body_part(STOMACH));
+        Your("%s 感觉饱了.", body_part(STOMACH));
         init_uhunger();
         disp.botl = TRUE;
         break;
     case TROUBLE_SICK:
-        You_feel("better.");
+        You_feel("好多了。");
         make_sick(0L, (char *) 0, FALSE, SICK_ALL);
         break;
     case TROUBLE_REGION:
@@ -422,7 +422,7 @@ fix_worst_trouble(int trouble)
         /* "fix all troubles" will keep trying if hero has
            5 or less hit points, so make sure they're always
            boosted to be more than that */
-        You_feel("much better.");
+        You_feel("好多了。");
         if (Upolyd) {
             maxhp = u.mhmax + rnd(5);
             setuhpmax(max(maxhp, 5 + 1), FALSE); /* acts as setmhmax() */
@@ -439,8 +439,8 @@ fix_worst_trouble(int trouble)
         break;
     case TROUBLE_COLLAPSING:
         /* override Fixed_abil; uncurse that if feasible */
-        You_feel("%sstronger.",
-                 (AMAX(A_STR) - ABASE(A_STR) > 6) ? "much " : "");
+        You_feel("强壮%s了.",
+                 (AMAX(A_STR) - ABASE(A_STR) > 6) ? "多 " : "些");
         ABASE(A_STR) = AMAX(A_STR);
         disp.botl = TRUE;
         if (Fixed_abil) {
@@ -461,7 +461,7 @@ fix_worst_trouble(int trouble)
     case TROUBLE_STUCK_IN_WALL:
         /* no control, but works on no-teleport levels */
         if (safe_teleds(TELEDS_NO_FLAGS)) {
-            Your("surroundings change.");
+            Your("周围改变了.");
         } else {
             /* safe_teleds() couldn't find a safe place; perhaps the
                level is completely full.  As a last resort, confer
@@ -473,7 +473,7 @@ fix_worst_trouble(int trouble)
             set_itimeout(&HPasses_walls, (long) (d(4, 4) + 4)); /* 8..20 */
             /* how else could you move between packed rocks or among
                lattice forming "solid" rock? */
-            You_feel("much slimmer.");
+            You_feel("瘦得多了.");
         }
         break;
     case TROUBLE_CURSED_LEVITATION:
@@ -496,7 +496,7 @@ fix_worst_trouble(int trouble)
         }
         if (Upolyd && nohands(gy.youmonst.data)) {
             if (!Unchanging) {
-                Your("shape becomes uncertain.");
+                Your("样子变得不确定了.");
                 rehumanize(); /* "You return to {normal} form." */
             } else if ((otmp = unchanger()) != 0 && otmp->cursed) {
                 /* otmp is an amulet of unchanging */
@@ -517,7 +517,7 @@ fix_worst_trouble(int trouble)
     /*
      */
     case TROUBLE_PUNISHED:
-        Your("chain disappears.");
+        Your("铁链消失了.");
         if (u.utrap && u.utraptype == TT_BURIEDBALL)
             buried_ball_to_freedom();
         else
@@ -541,9 +541,9 @@ fix_worst_trouble(int trouble)
     case TROUBLE_POISONED:
         /* override Fixed_abil; ignore items which confer that */
         if (Hallucination)
-            pline("There's a tiger in your tank.");
+            pline("在你的坦克里有一只老虎.");
         else
-            You_feel("in good health again.");
+            You_feel("身体又健康了.");
         for (i = 0; i < A_MAX; i++) {
             if (ABASE(i) < AMAX(i)) {
                 ABASE(i) = AMAX(i);
@@ -561,15 +561,15 @@ fix_worst_trouble(int trouble)
         if (Blinded) {
             if (eyecount(gy.youmonst.data) != 1)
                 eyes = makeplural(eyes);
-            Sprintf(msgbuf, "Your %s %s better", eyes, vtense(eyes, "feel"));
+            Sprintf(msgbuf, "你的%s%s好些了", eyes, vtense(eyes, "感觉"));
             u.ucreamed = 0;
             make_blinded(0L, FALSE);
         }
         if (cure_deaf) {
             make_deaf(0L, FALSE);
             if (!Deaf)
-                Sprintf(eos(msgbuf), "%s can hear again",
-                        !*msgbuf ? "You" : " and you");
+                Sprintf(eos(msgbuf), "%s又能重新听见了",
+                        !*msgbuf ? "你" : " 并且你");
         }
         if (*msgbuf)
             pline("%s.", msgbuf);
@@ -585,13 +585,13 @@ fix_worst_trouble(int trouble)
         make_confused(0L, TRUE);
         break;
     case TROUBLE_HALLUCINATION:
-        pline("Looks like you are back in Kansas.");
+        pline("看起来你又回到了堪萨斯州.");
         (void) make_hallucinated(0L, FALSE, 0L);
         break;
     case TROUBLE_SADDLE:
         otmp = which_armor(u.usteed, W_SADDLE);
         if (!Blind) {
-            pline("%s %s.", Yobjnam2(otmp, "softly glow"), hcolor(NH_AMBER));
+            pline("%s %s.", Yobjnam2(otmp, "发出柔和的光芒"), hcolor(NH_AMBER));
             set_bknown(otmp, 1);
         }
         uncurse(otmp);
@@ -611,10 +611,10 @@ god_zaps_you(aligntyp resp_god)
 {
     if (u.uswallow) {
         pline(
-          "Suddenly a bolt of lightning comes down at you from the heavens!");
-        pline("It strikes %s!", mon_nam(u.ustuck));
+          "突然一道闪电从天上落到你身上!");
+        pline("它击中了 %s!", mon_nam(u.ustuck));
         if (!resists_elec(u.ustuck)) {
-            pline("%s fries to a crisp!", Monnam(u.ustuck));
+            pline("%s 被电成灰烬!", Monnam(u.ustuck));
             /* Yup, you get experience.  It takes guts to successfully
              * pull off this trick on your god, anyway.
              * Other credit/blame applies (luck or alignment adjustments),
@@ -622,19 +622,19 @@ god_zaps_you(aligntyp resp_god)
              */
             xkilled(u.ustuck, XKILL_NOMSG | XKILL_NOCONDUCT);
         } else
-            pline("%s seems unaffected.", Monnam(u.ustuck));
+            pline("%s似乎未受影响。", Monnam(u.ustuck));
     } else {
-        pline("Suddenly, a bolt of lightning strikes you!");
+        pline("突然, 一道闪电击中你!");
         if (Reflecting) {
             shieldeff(u.ux, u.uy);
             if (Blind)
-                pline("For some reason you're unaffected.");
+                pline("出于某些原因你不受影响.");
             else
                 (void) ureflects("%s reflects from your %s.", "It");
             monstseesu(M_SEEN_REFL);
         } else if (Shock_resistance) {
             shieldeff(u.ux, u.uy);
-            pline("It seems not to affect you.");
+            pline("但是看起来没有影响你.");
             monstseesu(M_SEEN_ELEC);
             monstunseesu(M_SEEN_REFL);
         } else {
@@ -643,17 +643,17 @@ god_zaps_you(aligntyp resp_god)
         }
     }
 
-    pline("%s is not deterred...", align_gname(resp_god));
+    pline("%s 还没停手...", align_gname(resp_god));
     if (u.uswallow) {
-        pline("A wide-angle disintegration beam aimed at you hits %s!",
+        pline("一道大角度的分解光束瞄准你攻击了%s!",
               mon_nam(u.ustuck));
         if (!resists_disint(u.ustuck)) {
-            pline("%s disintegrates into a pile of dust!", Monnam(u.ustuck));
+            pline("%s 被分解为一堆灰尘!", Monnam(u.ustuck));
             xkilled(u.ustuck, XKILL_NOMSG | XKILL_NOCORPSE | XKILL_NOCONDUCT);
         } else
-            pline("%s seems unaffected.", Monnam(u.ustuck));
+            pline("%s似乎不受影响。", Monnam(u.ustuck));
     } else {
-        pline("A wide-angle disintegration beam hits you!");
+        pline("一道大角度的分解光束击中了你!");
 
         /* disintegrate shield and body armor before disintegrating
          * the impudent mortal, like black dragon breath -3.
@@ -673,7 +673,7 @@ god_zaps_you(aligntyp resp_god)
             fry_by_god(resp_god, TRUE);
             monstunseesu(M_SEEN_DISINT);
         } else {
-            You("bask in its %s glow for a minute...", NH_BLACK);
+            You("在%s光芒中沐浴了一分钟...", NH_BLACK);
             godvoice(resp_god, "I believe it not!");
             monstseesu(M_SEEN_DISINT);
         }
@@ -693,10 +693,10 @@ god_zaps_you(aligntyp resp_god)
 staticfn void
 fry_by_god(aligntyp resp_god, boolean via_disintegration)
 {
-    You("%s!", !via_disintegration ? "fry to a crisp"
-                                   : "disintegrate into a pile of dust");
+    You("%s！", !via_disintegration ? "烤得焦脆"
+                                   : "分解成一堆灰尘");
     svk.killer.format = KILLED_BY;
-    Sprintf(svk.killer.name, "the wrath of %s", align_gname(resp_god));
+    Sprintf(svk.killer.name, "%s的愤怒", align_gname(resp_god));
     done(DIED);
 }
 
@@ -725,17 +725,17 @@ angrygods(aligntyp resp_god)
     switch (rn2(maxanger)) {
     case 0:
     case 1:
-        You_feel("that %s is %s.", align_gname(resp_god),
-                 Hallucination ? "bummed" : "displeased");
+        You_feel("那个%s很%s。", align_gname(resp_god),
+                 Hallucination ? "不爽" : "不满");
         break;
     case 2:
     case 3:
         godvoice(resp_god, (char *) 0);
-        pline("\"Thou %s, %s.\"",
+        pline("\" 汝 %s, %s.\"",
               (ugod_is_angry() && resp_god == u.ualign.type)
-                  ? "hast strayed from the path"
-                  : "art arrogant",
-              gy.youmonst.data->mlet == S_HUMAN ? "mortal" : "creature");
+                  ? "迷失了道路"
+                  : "甚傲慢",
+              gy.youmonst.data->mlet == S_HUMAN ? "凡人" : "畜生");
         SetVoice((struct monst *) 0, 0, 80, voice_deity);
         verbalize("Thou must relearn thy lessons!");
         (void) adjattrib(A_WIS, -1, FALSE);
@@ -753,7 +753,7 @@ angrygods(aligntyp resp_god)
     case 5:
         gods_angry(resp_god);
         if (!Blind && !Antimagic)
-            pline("%s glow surrounds you.", An(hcolor(NH_BLACK)));
+            pline("%s 光芒围绕着你.", An(hcolor(NH_BLACK)));
         if (rn2(2) || !attrcurse())
             rndcurse();
         break;
@@ -766,8 +766,8 @@ angrygods(aligntyp resp_god)
                       ? "scorn"
                       : "call upon");
         /* [why isn't this using verbalize()?] */
-        pline("\"Then die, %s!\"",
-              (gy.youmonst.data->mlet == S_HUMAN) ? "mortal" : "creature");
+        pline("\"那么死吧, %s!\"",
+              (gy.youmonst.data->mlet == S_HUMAN) ? "凡人" : "畜生");
         summon_minion(resp_god, FALSE);
         break;
 
@@ -791,12 +791,12 @@ at_your_feet(const char *str)
         str = Something;
     if (u.uswallow) {
         /* barrier between you and the floor */
-        pline("%s %s into %s %s.", str, vtense(str, "drop"),
+        pline("%s %s 进了%s %s里.", str, vtense(str, "掉"),
               s_suffix(mon_nam(u.ustuck)), mbodypart(u.ustuck, STOMACH));
     } else {
-        pline("%s %s %s your %s!", str,
-              vtense(str, Blind ? "land" : "appear"),
-              Levitation ? "beneath" : "at",
+        pline("%s %s %s 你的 %s！", str,
+              vtense(str, Blind ? "落下" : "出现"),
+              Levitation ? "到" : "在",
               makeplural(body_part(FOOT)));
     }
 }
@@ -903,7 +903,7 @@ gcrownu(void)
 
             Strcpy(lbuf, simpleonames(obj)); /* before transformation */
             if (!Blind)
-                Your("sword shines brightly for a moment.");
+                Your("剑明亮地照耀了片刻.");
             obj = oname(obj, artiname(ART_EXCALIBUR),
                         ONAME_GIFT | ONAME_KNOW_ARTI);
             if (is_art(obj, ART_EXCALIBUR)) {
@@ -922,7 +922,7 @@ gcrownu(void)
         if (class_gift != STRANGE_OBJECT) {
             ; /* already got bonus above */
         } else if (obj && in_hand) {
-            Your("%s goes snicker-snack!", xname(obj));
+            Your("%s出鞘虎视眈眈!", xname(obj));
             observe_object(obj);
         } else if (!already_exists) {
             obj = mksobj(LONG_SWORD, FALSE, FALSE);
@@ -944,11 +944,11 @@ gcrownu(void)
     case A_CHAOTIC: {
         char swordbuf[BUFSZ];
 
-        Sprintf(swordbuf, "%s sword", hcolor(NH_BLACK));
+        Sprintf(swordbuf, "%s 剑", hcolor(NH_BLACK));
         if (class_gift != STRANGE_OBJECT) {
             ; /* already got bonus above */
         } else if (obj && in_hand) {
-            Your("%s hums ominously!", swordbuf);
+            Your("%s 预示地发出低沉的声音!", swordbuf);
             observe_object(obj);
         } else if (!already_exists) {
             obj = mksobj(RUNESWORD, FALSE, FALSE);
@@ -985,7 +985,7 @@ gcrownu(void)
         unrestrict_weapon_skill(weapon_type(obj));
     } else if (class_gift == STRANGE_OBJECT) {
         /* opportunity knocked, but there was nobody home... */
-        You_feel("unworthy.");
+        You_feel("无价值的.");
     }
     update_inventory();
 
@@ -1042,13 +1042,13 @@ give_spell(void)
                    is similar to "added to your repertoire, as 'a'"
                    and without any spellbook on hand a novice player
                    might not recognize that 'spe_name' is a spell */
-                pline("Divine knowledge of %s fills your mind!  Spell '%c'.",
+                pline("%s 的神圣知识充满了你的脑海！ 法术 '%c'。",
                       spe_name, spe_let);
             else
-                Your("knowledge of spell '%c' - %s is %s.",
+                Your("关于法术'%c'的知识 - %s已%s。",
                      spe_let, spe_name,
-                     (spe_knowledge == spe_Forgotten) ? "restored"
-                                                      : "refreshed");
+                     (spe_knowledge == spe_Forgotten) ? "恢复"
+                                                      : "刷新");
         }
         obfree(otmp, (struct obj *) 0); /* discard the book */
     } else {
@@ -1074,12 +1074,12 @@ pleased(aligntyp g_align)
     int trouble = in_trouble(); /* what's your worst difficulty? */
     int pat_on_head = 0, kick_on_butt;
 
-    You_feel("that %s is %s.", align_gname(g_align),
+    You_feel("%s 是 %s。", align_gname(g_align),
              (u.ualign.record >= DEVOUT)
-                 ? Hallucination ? "pleased as punch" : "well-pleased"
+                 ? Hallucination ? "开心得像挨了一拳" : "十分满意"
                  : (u.ualign.record >= STRIDENT)
-                       ? Hallucination ? "ticklish" : "pleased"
-                       : Hallucination ? "full" : "satisfied");
+                       ? Hallucination ? "乐得发痒" : "高兴"
+                       : Hallucination ? "饱了" : "满足");
 
     /* not your deity */
     if (on_altar() && gp.p_aligntyp != u.ualign.type) {
@@ -1174,28 +1174,28 @@ pleased(aligntyp g_align)
 
                 *repair_buf = '\0';
                 if (uwep->oeroded || uwep->oeroded2)
-                    Sprintf(repair_buf, " and %s now as good as new",
-                            otense(uwep, "are"));
+                    Sprintf(repair_buf, " 然后现在%s像新的一样好",
+                            otense(uwep, "就"));
 
                 if (uwep->cursed) {
                     if (!Blind) {
-                        pline("%s %s%s.", Yobjnam2(uwep, "softly glow"),
+                        pline("%s%s%s。", Yobjnam2(uwep, "柔和发光"),
                               hcolor(NH_AMBER), repair_buf);
                         iflags.last_msg = PLNMSG_OBJ_GLOWS;
                     } else
-                        You_feel("the power of %s over %s.", u_gname(),
+                        You_feel("%s的力量超越了%s.", u_gname(),
                                  yname(uwep));
                     uncurse(uwep);
                     uwep->bknown = 1; /* ok to bypass set_bknown() */
                     *repair_buf = '\0';
                 } else if (!uwep->blessed) {
                     if (!Blind) {
-                        pline("%s with %s aura%s.",
-                              Yobjnam2(uwep, "softly glow"),
+                        pline("%s 带有%s 光环%s.",
+                              Yobjnam2(uwep, "发出柔和的光芒"),
                               an(hcolor(NH_LIGHT_BLUE)), repair_buf);
                         iflags.last_msg = PLNMSG_OBJ_GLOWS;
                     } else
-                        You_feel("the blessing of %s over %s.", u_gname(),
+                        You_feel("%s的祝福超越了%s.", u_gname(),
                                  yname(uwep));
                     bless(uwep);
                     uwep->bknown = 1; /* ok to bypass set_bknown() */
@@ -1209,8 +1209,8 @@ pleased(aligntyp g_align)
                     /* only give this message if we didn't just bless
                        or uncurse (which has already given a message) */
                     if (*repair_buf)
-                        pline("%s as good as new!",
-                              Yobjnam2(uwep, Blind ? "feel" : "look"));
+                        pline("%s 完好如新！",
+                              Yobjnam2(uwep, Blind ? "感觉" : "看起来"));
                 }
                 update_inventory();
             }
@@ -1234,8 +1234,8 @@ pleased(aligntyp g_align)
                     break;
                 } else if (u.uevent.uheard_tune < 2) {
                     Soundeffect(se_divine_music, 50);
-                    You_hear("a divine music...");
-                    pline("It sounds like:  \"%s\".", svt.tune);
+                    You_hear("一种神圣的音乐...");
+                    pline("它听起来像:  \"%s\".", svt.tune);
                     u.uevent.uheard_tune++;
                     record_achievement(ACH_TUNE);
                     break;
@@ -1245,7 +1245,7 @@ pleased(aligntyp g_align)
             /*FALLTHRU*/
         case 2:
             if (!Blind)
-                You("are surrounded by %s glow.", an(hcolor(NH_GOLDEN)));
+                You("被%s光芒所环绕.", an(hcolor(NH_GOLDEN)));
             /* if any levels have been lost (and not yet regained),
                treat this effect like blessed full healing */
             if (u.ulevel < u.ulevelmax) {
@@ -1285,16 +1285,16 @@ pleased(aligntyp g_align)
             int any = 0;
 
             if (Blind)
-                You_feel("the power of %s.", u_gname());
+                You_feel("到%s的力量.", u_gname());
             else
-                You("are surrounded by %s aura.", an(hcolor(NH_LIGHT_BLUE)));
+                You("被%s 光环所环绕.", an(hcolor(NH_LIGHT_BLUE)));
             for (otmp = gi.invent; otmp; otmp = nextobj) {
                 nextobj = otmp->nobj;
                 if (otmp->cursed
                     && (otmp != uarmh /* [see worst_cursed_item()] */
                         || uarmh->otyp != HELM_OF_OPPOSITE_ALIGNMENT)) {
                     if (!Blind) {
-                        pline("%s %s.", Yobjnam2(otmp, "softly glow"),
+                        pline("%s %s.", Yobjnam2(otmp, "柔和地发光"),
                               hcolor(NH_AMBER));
                         iflags.last_msg = PLNMSG_OBJ_GLOWS;
                         otmp->bknown = 1; /* ok to bypass set_bknown() */
@@ -1402,9 +1402,9 @@ water_prayer(boolean bless_water)
             other = TRUE;
     }
     if (!Blind && changed) {
-        pline("%s potion%s on the altar glow%s %s for a moment.",
-              ((other && changed > 1L) ? "Some of the"
-                                       : (other ? "One of the" : "The")),
+        pline("%s 药水%s 在祭坛上发出%s %s光芒了片刻.",
+              ((other && changed > 1L) ? "一些"
+                                       : (other ? "一瓶" : "")),
               ((other || changed > 1L) ? "s" : ""), (changed > 1L ? "" : "s"),
               (bless_water ? hcolor(NH_LIGHT_BLUE) : hcolor(NH_BLACK)));
     }
@@ -1421,7 +1421,7 @@ godvoice(aligntyp g_align, const char *words)
     else
         words = "";
 
-    pline_The("voice of %s %s: %s%s%s", align_gname(g_align),
+    pline_The("%s的声音%s: %s %s%s", align_gname(g_align),
               ROLL_FROM(godvoices), quot, words, quot);
 }
 
@@ -1448,25 +1448,25 @@ consume_offering(struct obj *otmp)
     if (Hallucination)
         switch (rn2(3)) {
         case 0:
-            Your("sacrifice sprouts wings and a propeller and roars away!");
+            Your("祭品长出了翅膀和螺旋桨并怒吼着离去了!");
             break;
         case 1:
-            Your("sacrifice puffs up, swelling bigger and bigger, and pops!");
+            Your("祭品开始膨胀, 并越来越大, 发出爆裂声!");
             break;
         case 2:
             Your(
-     "sacrifice collapses into a cloud of dancing particles and fades away!");
+     "祭品瓦解为一团舞云并逐渐消失了!");
             break;
         }
     else if (Blind && u.ualign.type == A_LAWFUL)
-        Your("sacrifice disappears!");
+        Your("祭品消失了!");
     else
-        Your("sacrifice is consumed in a %s!",
+        Your("祭品在一阵%s中被消耗殆尽！",
              (u.ualign.type == A_LAWFUL)
-                ? "flash of light"
+                ? "闪光"
                 : (u.ualign.type == A_NEUTRAL)
-                    ? "plume of smoke"
-                    : "burst of flame");
+                    ? "烟雾"
+                    : "火焰");
     if (carried(otmp))
         useup(otmp);
     else
@@ -1488,13 +1488,13 @@ offer_too_soon(aligntyp altaralign)
         gods_upset(A_NONE); /* Moloch becomes angry */
         return;
     }
-    You_feel("%s.", Hallucination
-                    ? "homesick"
+    You_feel("%s。", Hallucination
+                    ? "想家"
                     /* if on track, give a big hint */
                     : (altaralign == u.ualign.type)
-                        ? "an urge to return to the surface"
+                        ? "重返地面的冲动"
                         /* else headed towards celestial disgrace */
-                        : "ashamed");
+                        : "羞愧");
 }
 
 void
@@ -1512,11 +1512,11 @@ desecrate_altar(boolean highaltar, aligntyp altaralign)
         adjalign(-20);
         u.ugangr += 5;
     }
-    You_feel("the air around you grow charged...");
-    pline("Suddenly, you realize that %s has noticed you...",
+    You_feel("你周围的气氛变得紧张...");
+    pline("突然, 你意识到%s 在注意你...",
           align_gname(altaralign));
-    Sprintf(gvbuf, "So, mortal!  You dare desecrate my %s!",
-            highaltar ? "High Temple" : "altar");
+    Sprintf(gvbuf, "所以，凡人！你竟敢亵渎我的%s！",
+            highaltar ? "至高神殿" : "祭坛");
     godvoice(altaralign, gvbuf);
     /* Throw everything we have at the player */
     god_zaps_you(altaralign);
@@ -1539,21 +1539,21 @@ offer_real_amulet(struct obj *otmp, aligntyp altaralign)
     else
         useupf(otmp, 1L);
 
-    You("offer the Amulet of Yendor to %s...", a_gname());
+    You("把岩德护身符献给%s...", a_gname());
 
     if (altaralign == A_NONE) {
         /* Moloch's high altar at the bottom of Gehennom. */
         if (u.ualign.record > -99)
             u.ualign.record = -99;
-        pline("An invisible choir chants, and you are bathed in darkness...");
+        pline("一个无形的唱诗班在吟唱，你沐浴在黑暗之中...");
         /*[apparently shrug/snarl can be sensed without being seen]*/
-        pline("%s shrugs and retains dominion over %s,", Moloch, u_gname());
-        pline("then mercilessly snuffs out your life.");
-        Sprintf(svk.killer.name, "%s indifference", s_suffix(Moloch));
+        pline("%s耸了耸肩并保持着对%s的统治,", Moloch, u_gname());
+        pline("然后残忍地扼杀了你的生命.");
+        Sprintf(svk.killer.name, "%s冷漠", s_suffix(Moloch));
         svk.killer.format = KILLED_BY;
         done(DIED);
         /* life-saved (or declined to die in wizard/explore mode) */
-        pline("%s snarls and tries again...", Moloch);
+        pline("%s 怒吼并再来了一次...", Moloch);
         fry_by_god(A_NONE, TRUE); /* wrath of Moloch */
         /* declined to die in wizard or explore mode */
         pline(cloud_of_smoke, hcolor(NH_BLACK));
@@ -1563,10 +1563,10 @@ offer_real_amulet(struct obj *otmp, aligntyp altaralign)
         /* And the opposing team picks you up and carries you off
            on their shoulders. */
         adjalign(-99);
-        pline("%s accepts your gift, and gains dominion over %s...",
+        pline("%s 接受了你的礼物, 然后获得了对%s的统治...",
               a_gname(), u_gname());
-        pline("%s is enraged...", u_gname());
-        pline("Fortunately, %s permits you to live...", a_gname());
+        pline("%s 是暴怒的...", u_gname());
+        pline("幸运的是, %s 准许你活着...", a_gname());
         pline(cloud_of_smoke, hcolor(NH_ORANGE));
         done(ESCAPED);
         /*NOTREACHED*/
@@ -1574,14 +1574,14 @@ offer_real_amulet(struct obj *otmp, aligntyp altaralign)
         /* You've won the game!  Feedback-wise, it's a bit of a let down. */
         u.uevent.ascended = 1;
         adjalign(10);
-        pline("An invisible choir sings, and you are bathed in radiance...");
+        pline("一个看不见的唱诗班在歌唱, 你沐浴在光辉之中...");
         godvoice(altaralign, "Mortal, thou hast done well!");
         display_nhwindow(WIN_MESSAGE, FALSE);
         SetVoice((struct monst *) 0, 0, 80, voice_deity);
         verbalize(
           "In return for thy service, I grant thee the gift of Immortality!");
-        You("ascend to the status of Demigod%s...",
-            flags.female ? "dess" : "");
+        You("升为%s半神的地位...",
+            flags.female ? "女" : "");
         done(ASCENDED);
         /*NOTREACHED*/
     }
@@ -1609,16 +1609,16 @@ offer_fake_amulet(
         return;
     }
     Soundeffect(se_thunderclap, 100);
-    You_hear("a nearby thunderclap.");
+    You_hear("附近的雷声.");
     if (!otmp->known) {
-        You("realize you have made a %s.",
-            Hallucination ? "boo-boo" : "mistake");
+        You("认识到你造成了一个%s.",
+            Hallucination ? "疏忽" : "错误");
         otmp->known = TRUE;
         change_luck(-1);
     } else {
         /* don't you dare try to fool the gods */
         if (Deaf)
-            pline("Oh, no."); /* didn't hear thunderclap */
+            pline("噢, 不."); /* didn't hear thunderclap */
         change_luck(-3);
         adjalign(-1);
         u.ugangr += 3;
@@ -1637,9 +1637,9 @@ offer_different_alignment_altar(
     if (ugod_is_angry() || (altaralign == A_NONE && Inhell)) {
         if (u.ualignbase[A_CURRENT] == u.ualignbase[A_ORIGINAL]
             && altaralign != A_NONE) {
-            You("have a strong feeling that %s is angry...", u_gname());
+            You("有一种强烈的感觉%s生气了...", u_gname());
             consume_offering(otmp);
-            pline("%s accepts your allegiance.", a_gname());
+            pline("%s 接受了你的忠诚.", a_gname());
 
             uchangealign(altaralign, A_CG_CONVERT);
             /* Beware, Conversion is costly */
@@ -1648,7 +1648,7 @@ offer_different_alignment_altar(
         } else {
             u.ugangr += 3;
             adjalign(-5);
-            pline("%s rejects your sacrifice!", a_gname());
+            pline("%s 拒绝了你的祭品!", a_gname());
             godvoice(altaralign, "Suffer, infidel!");
             change_luck(-5);
             (void) adjattrib(A_WIS, -2, TRUE);
@@ -1657,12 +1657,12 @@ offer_different_alignment_altar(
         }
     } else {
         consume_offering(otmp);
-        You("sense a conflict between %s and %s.", u_gname(), a_gname());
+        You("感觉到%s 和%s之间的冲突.", u_gname(), a_gname());
         if (rn2(8 + u.ulevel) > 5) {
             struct monst *pri;
             boolean shrine;
 
-            You_feel("the power of %s increase.", u_gname());
+            You_feel("%s的力量在增加.", u_gname());
             exercise(A_WIS, TRUE);
             change_luck(1);
             shrine = on_shrine();
@@ -1671,10 +1671,10 @@ offer_different_alignment_altar(
                 levl[u.ux][u.uy].altarmask |= AM_SHRINE;
             newsym(u.ux, u.uy); /* in case Invisible to self */
             if (!Blind)
-                pline_The("altar glows %s.",
+                pline_The("祭坛发出%s光芒.",
                           hcolor((u.ualign.type == A_LAWFUL) ? NH_WHITE
                                  : u.ualign.type ? NH_BLACK
-                                   : (const char *) "gray"));
+                                   : (const char *) "灰色的"));
 
             if (rnl(u.ulevel) > 6 && u.ualign.record > 0
                 && rnd(u.ualign.record) > (3 * ALIGNLIM) / 4)
@@ -1684,7 +1684,7 @@ offer_different_alignment_altar(
                 && !p_coaligned(pri))
                 angry_priest();
         } else {
-            pline("Unluckily, you feel the power of %s decrease.", u_gname());
+            pline("不幸运, 你感觉%s的力量在减少.", u_gname());
             change_luck(-1);
             exercise(A_WIS, FALSE);
             if (rnl(u.ulevel) > 6 && u.ualign.record > 0
@@ -1703,10 +1703,10 @@ sacrifice_your_race(
     int pm;
 
     if (is_demon(gy.youmonst.data)) {
-        You("find the idea very satisfying.");
+        You("发现这个想法很令人满意.");
         exercise(A_WIS, TRUE);
     } else if (u.ualign.type != A_CHAOTIC) {
-        pline("You'll regret this infamous offense!");
+        pline("你会为这种无耻的罪行而后悔!");
         exercise(A_WIS, FALSE);
     }
 
@@ -1716,7 +1716,7 @@ sacrifice_your_race(
         return;
     } else if (altaralign != A_CHAOTIC && altaralign != A_NONE) {
         /* curse the lawful/neutral altar */
-        pline_The("altar is stained with %s blood.", gu.urace.adj);
+        pline_The("祭坛被沾染上%s 的血液.", gu.urace.adj);
         levl[u.ux][u.uy].altarmask = AM_CHAOTIC;
         newsym(u.ux, u.uy); /* in case Invisible to self */
         angry_priest();
@@ -1728,7 +1728,7 @@ sacrifice_your_race(
         /* is equivalent to demon summoning */
         if (altaralign == A_CHAOTIC && u.ualign.type != A_CHAOTIC) {
             pline(
-            "The blood floods the altar, which vanishes in %s cloud!",
+            "血液淹没了祭坛, 祭坛消失在%s 云里!",
                     an(hcolor(NH_BLACK)));
             levl[u.ux][u.uy].typ = ROOM;
             levl[u.ux][u.uy].altarmask = 0;
@@ -1737,7 +1737,7 @@ sacrifice_your_race(
             demonless_msg = "cloud dissipates";
         } else {
             /* either you're chaotic or altar is Moloch's or both */
-            pline_The("blood covers the altar!");
+            pline_The("血液覆盖了祭坛!");
             change_luck(altaralign == A_NONE ? -2 : 2);
             demonless_msg = "blood coagulates";
         }
@@ -1748,18 +1748,18 @@ sacrifice_your_race(
 
             Strcpy(dbuf, a_monnam(dmon));
             if (!strcmpi(dbuf, "it"))
-                Strcpy(dbuf, "something dreadful");
+                Strcpy(dbuf, "可怕的什么东西");
             else
                 dmon->mstrategy &= ~STRAT_APPEARMSG;
-            You("have summoned %s!", dbuf);
+            You("召唤了%s!", dbuf);
             if (sgn(u.ualign.type) == sgn(dmon->data->maligntyp))
                 dmon->mpeaceful = TRUE;
-            You("are terrified, and unable to move.");
+            You("被惊吓住, 无法移动了.");
             nomul(-3);
             gm.multi_reason = "being terrified of a demon";
             gn.nomovemsg = 0;
         } else
-            pline_The("%s.", demonless_msg);
+            pline_The("%s。", demonless_msg);
     }
 
     if (u.ualign.type != A_CHAOTIC) {
@@ -1806,11 +1806,11 @@ bestow_artifact(uchar max_giftvalue)
             if (otmp->cursed)
                 uncurse(otmp);
             otmp->oerodeproof = TRUE;
-            Strcpy(buf, (Hallucination ? "a doodad"
-                            : Blind ? "an object"
+            Strcpy(buf, (Hallucination ? "一件小玩意儿"
+                            : Blind ? "一个物体"
                             : ansimpleoname(otmp)));
             if (!Blind)
-                Sprintf(eos(buf), " named %s",
+                Sprintf(eos(buf), " 名为 %s",
                         bare_artifactname(otmp));
             at_your_feet(upstart(buf));
             dropy(otmp);
@@ -1858,11 +1858,11 @@ dosacrifice(void)
     aligntyp altaralign = a_align(u.ux, u.uy);
 
     if (!on_altar() || u.uswallow) {
-        You("are not %s an altar.",
-            (Levitation || Flying) ? "over" : "on");
+        You("不在祭坛%s。",
+            (Levitation || Flying) ? "上" : "上空");
         return ECMD_OK;
     } else if (Confusion || Stunned) {
-        You("are too impaired to perform the rite.");
+        You("状态太差，无法举行仪式。");
         return ECMD_OK;
     }
     highaltar = (levl[u.ux][u.uy].altarmask & AM_SANCTUM);
@@ -1923,9 +1923,9 @@ eval_offering(struct obj *otmp, aligntyp altaralign)
         if (unicalign == altaralign) {
             /* When same as altar, always a very bad action.
              */
-            pline("Such an action is an insult to %s!",
-                  (unicalign == A_CHAOTIC) ? "chaos"
-                     : unicalign ? "law" : "balance");
+            pline("这样的行为对%s是一种侮辱!",
+                  (unicalign == A_CHAOTIC) ? "混沌"
+                     : unicalign ? "秩序" : "平衡");
             (void) adjattrib(A_WIS, -1, TRUE);
             return -1;
         } else if (u.ualign.type == altaralign) {
@@ -1933,9 +1933,9 @@ eval_offering(struct obj *otmp, aligntyp altaralign)
              * it's a very good action.
              */
             if (u.ualign.record < ALIGNLIM)
-                You_feel("appropriately %s.", align_str(u.ualign.type));
+                You_feel("合适的 %s.", align_str(u.ualign.type));
             else
-                You_feel("you are thoroughly on the right path.");
+                You_feel("你彻底地在正确的道路上.");
             adjalign(5);
             value += 3;
         } else if (unicalign == u.ualign.type) {
@@ -1999,7 +1999,7 @@ offer_corpse(struct obj *otmp, boolean highaltar, aligntyp altaralign)
                && mtmp->mtame) {
             /* mtmp is a temporary pointer to a tame monster's attributes,
              * not a real monster */
-        pline("So this is how you repay loyalty?");
+        pline("所以这就是你如何回报忠诚?");
         adjalign(-3);
         HAggravate_monster |= FROMOUTSIDE;
         offer_negative_valued(highaltar, altaralign);
@@ -2036,24 +2036,24 @@ offer_corpse(struct obj *otmp, boolean highaltar, aligntyp altaralign)
             u.ugangr = 0;
         if (u.ugangr != saved_anger) {
             if (u.ugangr) {
-                pline("%s seems %s.", u_gname(),
-                      Hallucination ? "groovy" : "slightly mollified");
+                pline("%s 似乎 %s。", u_gname(),
+                      Hallucination ? "很时髦" : "怒气稍消");
 
                 if ((int) u.uluck < 0)
                     change_luck(1);
             } else {
-                pline("%s seems %s.", u_gname(),
-                      Hallucination ? "cosmic (not a new fact)"
-                                    : "mollified");
+                pline("%s看起来%s。", u_gname(),
+                      Hallucination ? "宇宙级（并非新事实）"
+                                    : "被安抚");
 
                 if ((int) u.uluck < 0)
                     u.uluck = 0;
             }
         } else { /* not satisfied yet */
             if (Hallucination)
-                pline_The("gods seem tall.");
+                pline_The("神似乎很苛刻.");
             else
-                You("have a feeling of inadequacy.");
+                You("有一种不适当的感觉.");
         }
     } else if (ugod_is_angry()) {
         if (value > MAXVALUE)
@@ -2061,7 +2061,7 @@ offer_corpse(struct obj *otmp, boolean highaltar, aligntyp altaralign)
         if (value > -u.ualign.record)
             value = -u.ualign.record;
         adjalign(value);
-        You_feel("partially absolved.");
+        You_feel("不完全地被赦免了.");
     } else if (u.ublesscnt > 0) {
         int saved_cnt = u.ublesscnt;
         u.ublesscnt -= ((value * (u.ualign.type == A_CHAOTIC ? 500 : 300))
@@ -2071,16 +2071,16 @@ offer_corpse(struct obj *otmp, boolean highaltar, aligntyp altaralign)
         if (u.ublesscnt != saved_cnt) {
             if (u.ublesscnt) {
                 if (Hallucination)
-                    You("realize that the gods are not like you and I.");
+                    You("认识到神们不像你和我.");
                 else
-                    You("have a hopeful feeling.");
+                    You("有一种希望的感觉.");
                 if ((int) u.uluck < 0)
                     change_luck(1);
             } else {
                 if (Hallucination)
-                    pline("Overall, there is a smell of fried onions.");
+                    pline("总的来说, 有一种炸洋葱的味道.");
                 else
-                    You("have a feeling of reconciliation.");
+                    You("有一种和解的感觉.");
                 if ((int) u.uluck < 0)
                     u.uluck = 0;
             }
@@ -2108,12 +2108,12 @@ offer_corpse(struct obj *otmp, boolean highaltar, aligntyp altaralign)
             u.uluck = 0;
         if (u.uluck != orig_luck) {
             if (Blind)
-                You("think %s brushed your %s.", something,
+                You("感觉%s擦过了你的%s.", something,
                     body_part(FOOT));
             else
                 You(Hallucination
-                ? "see crabgrass at your %s.  A funny thing in a dungeon."
-                        : "glimpse a four-leaf clover at your %s.",
+                ? "看见马唐草在你的%s上.  地牢中一个有趣的事物."
+                        : "瞥见四叶草在你的%s上.",
                     makeplural(body_part(FOOT)));
         }
     }
@@ -2131,13 +2131,13 @@ can_pray(boolean praying) /* false means no messages should be given */
     if (is_demon(gy.youmonst.data) /* ok if chaotic or none (Moloch) */
         && (gp.p_aligntyp == A_LAWFUL || gp.p_aligntyp != A_NEUTRAL)) {
         if (praying)
-            pline_The("very idea of praying to a %s god is repugnant to you.",
-                      gp.p_aligntyp ? "lawful" : "neutral");
+            pline_The("向一个%s神祈祷的想法会让你厌恶.",
+                      gp.p_aligntyp ? "秩序" : "中立");
         return FALSE;
     }
 
     if (praying)
-        You("begin praying to %s.", align_gname(gp.p_aligntyp));
+        You("开始向%s 祈祷.", align_gname(gp.p_aligntyp));
 
     if (u.ualign.type && u.ualign.type == -gp.p_aligntyp)
         alignment = -u.ualign.record; /* Opposite alignment altar */
@@ -2265,7 +2265,7 @@ dopray(void)
     if (gp.p_type == 3 && !Inhell) {
         /* if you've been true to your god you can't die while you pray */
         if (!Blind)
-            You("are surrounded by a shimmering light.");
+            You("被微弱的光所环绕.");
         u.uinvulnerable = TRUE;
     }
 
@@ -2280,14 +2280,14 @@ prayer_done(void) /* M. Stephenson (1.0.3b) */
     u.uinvulnerable = FALSE;
     if (gp.p_type == -2) {
         /* praying at an unaligned altar, not necessarily in Gehennom */
-        You("%s diabolical laughter all around you...",
-            !Deaf ? "hear" : "intuit");
+        You("%s恶魔般的笑声在你周围回荡...",
+            !Deaf ? "听到" : "感知到");
         wake_nearby(FALSE);
         adjalign(-2);
         exercise(A_WIS, FALSE);
         if (!Inhell) {
             /* hero's god[dess] seems to be keeping his/her head down */
-            pline("Nothing else happens."); /* not actually true... */
+            pline("没有其他事情发生。"); /* not actually true... */
             return 1;
         } /* else use regular Inhell result below */
     } else if (gp.p_type == -1) {
@@ -2296,7 +2296,7 @@ prayer_done(void) /* M. Stephenson (1.0.3b) */
                  (alignment == A_LAWFUL)
                     ? "Vile creature, thou durst call upon me?"
                     : "Walk no more, perversion of nature!");
-        You_feel("like you are falling apart.");
+        You_feel("你像是四分五裂了.");
         /* KMH -- Gods have mastery over unchanging */
         rehumanize();
         /* no Half_physical_damage adjustment here */
@@ -2305,7 +2305,7 @@ prayer_done(void) /* M. Stephenson (1.0.3b) */
         return 1;
     }
     if (Inhell) {
-        pline("Since you are in Gehennom, %s can't help you.",
+        pline("自从你来到了葛汉诺姆, %s不会再帮助你.",
               align_gname(alignment));
         /* haltingly aligned is least likely to anger */
         if (u.ualign.record <= 0 || rnl(u.ualign.record))
@@ -2359,7 +2359,7 @@ maybe_turn_mon_iter(struct monst *mtmp)
         mtmp->msleeping = 0;
         if (Confusion) {
             if (!turn_undead_msg_cnt++)
-                pline("Unfortunately, your voice falters.");
+                pline("不幸的是, 你的声音结结巴巴.");
             mtmp->mflee = 0;
             mtmp->mfrozen = 0;
             mtmp->mcanmove = 1;
@@ -2420,7 +2420,7 @@ doturn(void)
         /* Try to use the "turn undead" spell. */
         if (known_spell(SPE_TURN_UNDEAD))
             return spelleffects(SPE_TURN_UNDEAD, FALSE, FALSE);
-        You("don't know how to turn undead!");
+        You("不知道如何超度!");
         return ECMD_OK;
     }
     if (!u.uconduct.gnostic++)
@@ -2431,8 +2431,8 @@ doturn(void)
     /* [What about needing free hands (does #turn involve any gesturing)?] */
     if (!can_chant(&gy.youmonst)) {
         /* "evilness": "demons and undead" is too verbose and too precise */
-        You("are %s upon %s to turn aside evilness.",
-            Strangled ? "not able to call" : "incapable of calling", Gname);
+        You("%s%s来驱除邪恶.",
+            Strangled ? "不能呼求" : "无法呼求", Gname);
         /* violates agnosticism due to intent; conduct tracking is not
            supposed to affect play but we make an exception here:  use a
            move if this is the first time agnostic conduct has been broken */
@@ -2442,20 +2442,20 @@ doturn(void)
          && (is_demon(gy.youmonst.data)
              || is_undead(gy.youmonst.data) || is_vampshifter(&gy.youmonst)))
         || u.ugangr > 6) { /* "Die, mortal!" */
-        pline("For some reason, %s seems to ignore you.", Gname);
+        pline("不知何故, %s似乎无视了你.", Gname);
         aggravate();
         exercise(A_WIS, FALSE);
         return ECMD_TIME;
     }
     if (Inhell) {
-        pline("Since you are in Gehennom, %s %s help you.",
+        pline("自从你来到了葛汉诺姆, %s%s再帮助你.",
               /* not actually calling upon Moloch but use alternate
                  phrasing anyway if hallucinatory feedback says it's him */
-              Gname, !strcmp(Gname, Moloch) ? "won't" : "can't");
+              Gname, !strcmp(Gname, Moloch) ? "不会" : "不能");
         aggravate();
         return ECMD_TIME;
     }
-    pline("Calling upon %s, you chant an arcane formula.", Gname);
+    pline("你咏唱一首奥术式来呼唤%s.", Gname);
     exercise(A_WIS, TRUE);
 
     /* note: does not perform unturn_dead() on victims' inventories */
@@ -2658,11 +2658,11 @@ altar_wrath(coordxy x, coordxy y)
         (void) adjattrib(A_WIS, -1, FALSE);
         u.ualign.record--;
     } else {
-        pline("%s %s%s:",
-              !Deaf ? "A voice (could it be"
-                    : "Despite your deafness, you seem to hear",
+        pline("%s%s%s:",
+              !Deaf ? "一个声音(莫非是"
+                    : "虽然耳聋，但是你好像能听见",
               align_gname(altaralign),
-              !Deaf ? "?) whispers" : " say");
+              !Deaf ? "?)低语" : "说");
         SetVoice((struct monst *) 0, 0, 80, voice_deity);
         verbalize("Thou shalt pay, infidel!");
         /* higher luck is more likely to be reduced; as it approaches -5

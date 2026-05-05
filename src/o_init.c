@@ -641,7 +641,7 @@ choose_disco_sort(
         add_menu_str(tmpwin,
                     "      will matter for future use of total discoveries.");
     }
-    end_menu(tmpwin, "Ordering of discoveries");
+    end_menu(tmpwin, "发现的排序");
 
     n = select_menu(tmpwin, PICK_ONE, &selected);
     destroy_nhwindow(tmpwin);
@@ -676,13 +676,13 @@ disco_typename(int otyp)
         if (!actualn) { /* won't happen; used to pacify static analyzer */
             ;
         } else if (strstri(result, " called")) {
-            Sprintf(buf, " [%s] called", actualn);
+            Sprintf(buf, " [%s] 称为", actualn);
             (void) strsubst(result, " called", buf);
         } else if (strstri(result, " (")) {
             Sprintf(buf, " [%s] (", actualn);
             (void) strsubst(result, " (", buf);
         } else {
-            Sprintf(eos(result), " [%s]", actualn);
+            Sprintf(eos(result), " [ %s]", actualn);
         }
     }
     return result;
@@ -733,7 +733,7 @@ disco_fmt_uniq(int uidx, char *outbuf)
        in the unique/relics section we want "papyrus spellbook" instead */
     if (!objects[uidx].oc_name_known
         && objects[uidx].oc_class == SPBOOK_CLASS)
-        Strcat(outbuf, " spellbook");
+        Strcat(outbuf, " 法术书");
 }
 
 /* sort and output sorted_lines to window and free the lines */
@@ -785,7 +785,7 @@ dodiscovered(void) /* free after Robert Viduya */
     sortindx = strchr(disco_order_let, flags.discosort) - disco_order_let;
 
     tmpwin = create_nhwindow(NHW_TEXT);
-    Sprintf(buf, "Discoveries, %s", disco_orders_descr[sortindx]);
+    Sprintf(buf, "发现物，%s", disco_orders_descr[sortindx]);
     putstr(tmpwin, 0, buf);
     putstr(tmpwin, 0, "");
 
@@ -854,7 +854,7 @@ dodiscovered(void) /* free after Robert Viduya */
         }
     }
     if (ct == 0) {
-        You("haven't discovered anything yet...");
+        You("目前还没有发现任何物品...");
     } else {
         if (sorted_ct) {
             /* if we're alphabetizing by class, we've already shown the
@@ -940,7 +940,7 @@ doclassdisco(void)
         uidx = uniq_objs[i];
         if (objects[uidx].oc_name_known
             || (objects[uidx].oc_encountered && uidx != AMULET_OF_YENDOR)) {
-            Strcat(discosyms, "u");
+            Strcat(discosyms, "a");
             if (!traditional) {
                 any.a_int = 'u';
                 /* FIXME: having 'r' as an accelerator to provide an unseen
@@ -1081,10 +1081,10 @@ doclassdisco(void)
         /* this should never happen but has been observed via the fuzzer */
         if (oclass == MAXOCLASSES)
             impossible("doclassdisco: invalid object class '%s'", visctrl(c));
-        Sprintf(buf, "Discovered %s in %s", let_to_name(oclass, FALSE, FALSE),
-                (flags.discosort == 'o') ? "order of discovery"
-                : (flags.discosort == 's') ? "'sortloot' order"
-                  : "alphabetical order");
+        Sprintf(buf, "发现了 %s 于 %s", let_to_name(oclass, FALSE, FALSE),
+                (flags.discosort == 'o') ? "发现顺序"
+                : (flags.discosort == 's') ? "'sortloot'顺序"
+                  : "字母顺序");
         putstr(tmpwin, 0, buf); /* skip iflags.menu_headings */
         sorted_ct = 0;
         for (i = svb.bases[(int) oclass]; i <= svb.bases[oclass + 1] - 1;
@@ -1178,11 +1178,11 @@ rename_disco(void)
         }
     }
     if (ct == 0) {
-        You("haven't discovered anything yet...");
+        You("目前还没有发现任何物品...");
     } else if (mn == 0) {
-        pline("None of your discoveries can be assigned names...");
+        pline("你的发现物没有一个能被指定名字...");
     } else {
-        end_menu(tmpwin, "Pick an object type to name");
+        end_menu(tmpwin, "选择一个对象来命名");
         dis = STRANGE_OBJECT;
         sl = select_menu(tmpwin, PICK_ONE, &selected);
         if (sl > 0) {
@@ -1214,7 +1214,7 @@ get_sortdisco(char *opts, boolean cnf)
     if (!p)
         flags.discosort = 'o', p = disco_order_let;
     if (cnf)
-        Sprintf(opts, "%c", flags.discosort);
+        Sprintf(opts, "%s", flags.discosort);
     else
         Strcpy(opts, disco_orders_descr[p - disco_order_let]);
 }

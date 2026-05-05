@@ -146,7 +146,7 @@ engulfer_explosion_msg(uchar adtyp, char olet)
             adj = "fried";
             break;
         }
-        pline("%s gets %s!", Monnam(u.ustuck), adj);
+        pline("%s %s!", Monnam(u.ustuck), adj);
     } else {
         switch (adtyp) {
         case AD_FIRE:
@@ -174,7 +174,7 @@ engulfer_explosion_msg(uchar adtyp, char olet)
             adj = "fried";
             break;
         }
-        pline("%s gets slightly %s!", Monnam(u.ustuck), adj);
+        pline("%s 有些轻微的%s!", Monnam(u.ustuck), adj);
     }
 }
 
@@ -443,13 +443,13 @@ explode(
         }
         if (!Deaf && olet != SCROLL_CLASS) {
             Soundeffect(se_blast, 75);
-            You_hear("a blast.");
+            You_hear("爆炸声.");
             didmsg = TRUE;
         }
     }
 
     if (!Deaf && !didmsg)
-        pline("Boom!");
+        pline("轰！");
 
     /* apply effects to monsters and floor objects first, in case the
        damage to the hero is fatal and leaves bones */
@@ -495,7 +495,7 @@ explode(
                        like "Barney" here in order to suppress "the" below,
                        so avoid any which begins with a capital letter) */
                     do {
-                        Sprintf(hallu_buf, "%s explosion",
+                        Sprintf(hallu_buf, "%s的爆炸",
                                 s_suffix(rndmonnam((char *) 0)));
                     } while (*hallu_buf != lowc(*hallu_buf) && ++tryct < 20);
                     str = hallu_buf;
@@ -505,7 +505,7 @@ explode(
                 } else if (cansee(xx, yy)) {
                     if (mtmp->m_ap_type)
                         seemimic(mtmp);
-                    pline("%s is caught in the %s!", Monnam(mtmp), str);
+                    pline("%s 卷入了%s!", Monnam(mtmp), str);
                 }
 
                 itemdmg = destroy_items(mtmp, (int) adtyp, dam);
@@ -534,7 +534,7 @@ explode(
                     if (resist(mtmp, olet, 0, FALSE)) {
                         /* inside_engulfer: <xx,yy> == <u.ux,u.uy> */
                         if (cansee(xx, yy) || inside_engulfer)
-                            pline("%s resists the %s!", Monnam(mtmp), str);
+                            pline("%s 抵抗%s!", Monnam(mtmp), str);
                         mdam = (dam + 1) / 2;
                     }
                     /* if grabber is reaching into hero's spot and
@@ -570,9 +570,9 @@ explode(
                          */
                         if (cansee(mtmp->mx, mtmp->my) || canspotmon(mtmp))
                             pline("%s is %s!", Monnam(mtmp),
-                                  xkflg ? "burned completely"
-                                        : nonliving(mtmp->data) ? "destroyed"
-                                                                : "killed");
+                                  xkflg ? "烧成灰烬"
+                                        : nonliving(mtmp->data) ? "被摧毁"
+                                                                : "被杀死");
                         xkilled(mtmp, XKILL_NOMSG | XKILL_NOCONDUCT | xkflg);
                     } else {
                         if (xkflg)
@@ -594,12 +594,12 @@ explode(
         if (flags.verbose && (type < 0 || olet != SCROLL_CLASS)) {
             if (do_hallu) { /* (see explanation above) */
                 do {
-                    Sprintf(hallu_buf, "%s explosion",
+                    Sprintf(hallu_buf, "%s的爆炸",
                             s_suffix(rndmonnam((char *) 0)));
                 } while (*hallu_buf != lowc(*hallu_buf));
                 str = hallu_buf;
             }
-            You("are caught in the %s!", str);
+            You("被卷入%s中！", str);
             iflags.last_msg = PLNMSG_CAUGHT_IN_EXPLOSION;
         }
         /* do property damage first, in case we end up leaving bones */
@@ -607,7 +607,7 @@ explode(
             burn_away_slime();
         if (Invulnerable) {
             damu = 0;
-            You("are unharmed!");
+            You("毫发无伤！");
         } else if (adtyp == AD_PHYS || adtyp == AD_ACID)
             damu = Maybe_Half_Phys(damu);
         if (adtyp == AD_FIRE) {
@@ -667,9 +667,9 @@ explode(
                 }
                 if (iflags.last_msg == PLNMSG_CAUGHT_IN_EXPLOSION
                     || iflags.last_msg == PLNMSG_TOWER_OF_FLAME) /*seffects()*/
-                    pline("It is fatal.");
+                    pline("这是致命的。");
                 else
-                    pline_The("%s is fatal.", str);
+                    pline_The("%s 是致命的。", str);
                 /* Known BUG: BURNING suppresses corpse in bones data,
                    but done does not handle killer reason correctly */
                 done((adtyp == AD_FIRE) ? BURNING : DIED);
@@ -752,7 +752,7 @@ scatter(
             boolean waschain = (otmp == uchain);
 
             Soundeffect(se_chain_shatters, 25);
-            pline_The("chain shatters!");
+            pline_The("铁链破碎了!");
             unpunish();
             if (waschain)
                 continue;
@@ -775,10 +775,10 @@ scatter(
             && rn2(10)) {
             if (otmp->otyp == BOULDER) {
                 if (cansee(sx, sy)) {
-                    pline("%s apart.", Tobjnam(otmp, "break"));
+                    pline("%s开了.", Tobjnam(otmp, "裂"));
                 } else {
                     Soundeffect(se_stone_breaking, 100);
-                    You_hear("stone breaking.");
+                    You_hear("石头破裂了.");
                 }
                 fracture_rock(otmp);
                 place_object(otmp, sx, sy);
@@ -793,10 +793,10 @@ scatter(
                 if ((trap = t_at(sx, sy)) && trap->ttyp == STATUE_TRAP)
                     deltrap(trap);
                 if (cansee(sx, sy)) {
-                    pline("%s.", Tobjnam(otmp, "crumble"));
+                    pline("%s.", Tobjnam(otmp, "碎裂"));
                 } else {
                     Soundeffect(se_stone_crumbling, 100);
-                    You_hear("stone crumbling.");
+                    You_hear("石头粉碎了.");
                 }
                 (void) break_statue(otmp);
                 place_object(otmp, sx, sy); /* put fragments on floor */
@@ -1055,7 +1055,7 @@ mon_explodes(
 
     /* This might end up killing you, too; you never know...
      * also, it is used in explode() messages */
-    Sprintf(svk.killer.name, "%s explosion",
+    Sprintf(svk.killer.name, "%s的爆炸",
             s_suffix(pmname(mon->data, Mgender(mon))));
     svk.killer.format = KILLED_BY_AN;
 

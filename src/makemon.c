@@ -2124,9 +2124,9 @@ grow_up(struct monst *mtmp, struct monst *victim)
 
         if (svm.mvitals[newtype].mvflags & G_GENOD) { /* allow G_EXTINCT */
             if (canspotmon(mtmp))
-                pline("As %s grows up into %s, %s %s!", mon_nam(mtmp),
+                pline("当%s成长为%s，%s%s！", mon_nam(mtmp),
                       an(pmname(ptr, Mgender(mtmp))), mhe(mtmp),
-                      nonliving(ptr) ? "expires" : "dies");
+                      nonliving(ptr) ? "消失了" : "死了");
             set_mon_data(mtmp, ptr); /* keep svm.mvitals[] accurate */
             mondied(mtmp);
             return (struct permonst *) 0;
@@ -2138,11 +2138,11 @@ grow_up(struct monst *mtmp, struct monst *victim)
              */
             Sprintf(buf, "%s%s",
                     /* deal with female gnome becoming a gnome lord */
-                    (mtmp->female && !fem) ? "male "
+                    (mtmp->female && !fem) ? "雄性 "
                         /* or a male gnome becoming a gnome lady
                            (can't happen with 3.6.0 mons[], but perhaps
                            slightly less sexist if prepared for it...) */
-                      : (fem && !mtmp->female) ? "female " : "",
+                      : (fem && !mtmp->female) ? "雌性 " : "",
                     pmname(ptr, fem));
             pline_mon(mtmp, "%s %s %s.", YMonnam(mtmp),
                       (fem != mtmp->female) ? "changes into"

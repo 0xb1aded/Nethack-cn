@@ -60,9 +60,9 @@ item_naming_classification(
     if (name_ok(obj) == GETOBJ_SUGGEST) {
         Sprintf(onamebuf, "%s %s %s",
                 (!has_oname(obj) || !*ONAME(obj)) ? Name : Rename,
-                the_unique_obj(obj) ? "the"
-                : !is_plural(obj) ? "this specific"
-                  : "this stack of", /*"these",*/
+                the_unique_obj(obj) ? "这个"
+                : !is_plural(obj) ? "这个特定的"
+                  : "这一堆", /*"these",*/
                 simpleonames(obj));
     }
     if (call_ok(obj) == GETOBJ_SUGGEST) {
@@ -73,7 +73,7 @@ item_naming_classification(
             callname = the(callname);
         else if (!is_plural(obj))
             callname = makeplural(callname);
-        Sprintf(ocallbuf, "%s the type for %s",
+        Sprintf(ocallbuf, "%s 的类型 %s",
                 (!objects[obj->otyp].oc_uname
                  || !*objects[obj->otyp].oc_uname) ? Call : Recall,
                 callname);
@@ -89,13 +89,13 @@ item_reading_classification(struct obj *obj, char *outbuf)
 
     *outbuf = '\0';
     if (otyp == FORTUNE_COOKIE) {
-        Strcpy(outbuf, "Read the message inside this cookie");
+        Strcpy(outbuf, "阅读这块饼干内的消息");
     } else if (otyp == T_SHIRT) {
-        Strcpy(outbuf, "Read the slogan on the shirt");
+        Strcpy(outbuf, "阅读衬衫上的标语");
     } else if (otyp == ALCHEMY_SMOCK) {
-        Strcpy(outbuf, "Read the slogan on the apron");
+        Strcpy(outbuf, "阅读围裙上的标语");
     } else if (otyp == HAWAIIAN_SHIRT) {
-        Strcpy(outbuf, "Look at the pattern on the shirt");
+        Strcpy(outbuf, "看看衬衫上的图案");
     } else if (obj->oclass == SCROLL_CLASS) {
         const char *magic = ((obj->dknown
 #ifdef MAIL_STRUCTURES
@@ -105,7 +105,7 @@ item_reading_classification(struct obj *obj, char *outbuf)
                                   || !objects[otyp].oc_name_known))
                              ? " to activate its magic" : "");
 
-        Sprintf(outbuf, "Read this scroll%s", magic);
+        Sprintf(outbuf, "阅读此卷轴%s", magic);
     } else if (obj->oclass == SPBOOK_CLASS) {
         boolean novel = (otyp == SPE_NOVEL),
                 blank = (otyp == SPE_BLANK_PAPER
@@ -113,10 +113,10 @@ item_reading_classification(struct obj *obj, char *outbuf)
                 tome = (otyp == SPE_BOOK_OF_THE_DEAD
                         && objects[otyp].oc_name_known);
 
-        Sprintf(outbuf, "%s this %s",
-                (novel || blank) ? "Read" : tome ? "Examine" : "Study",
+        Sprintf(outbuf, "%s这本%s",
+                (novel || blank) ? "阅读" : tome ? "审视" : "研读",
                 novel ? simpleonames(obj) /* "novel" or "paperback book" */
-                      : tome ? "tome" : "spellbook");
+                      : tome ? "典籍" : "法术书");
     } else {
         res = IA_NONE;
     }
@@ -300,7 +300,7 @@ itemactions(struct obj *otmp)
          * TODO: if uwep is ammo, tell player that to shoot instead of toss,
          *       the corresponding launcher must be wielded;
          */
-        Sprintf(buf,  "%s '%c' to %s %s %s",
+        Sprintf(buf,  "%s '%c' 以 %s %s %s",
                 verb, HANDS_SYM, action, which,
                 is_plural(otmp) ? makeplural(what) : what);
         ia_addmenu(win, IA_UNWIELD, '-', buf);
@@ -347,7 +347,7 @@ itemactions(struct obj *otmp)
     else if (otmp->otyp == BELL || otmp->otyp == BELL_OF_OPENING)
         ia_addmenu(win, IA_APPLY_OBJ, 'a', "Ring the bell");
     else if (otmp->otyp == CANDELABRUM_OF_INVOCATION) {
-        Sprintf(buf, "%s the candelabrum", light);
+        Sprintf(buf, "%s 蜡烛台", light);
         ia_addmenu(win, IA_APPLY_OBJ, 'a', buf);
     } else if (otmp->otyp == WAX_CANDLE || otmp->otyp == TALLOW_CANDLE) {
         boolean multiple = (otmp->quan == 1L) ? FALSE : TRUE;
@@ -355,23 +355,23 @@ itemactions(struct obj *otmp)
         struct obj *o = carrying(CANDELABRUM_OF_INVOCATION);
 
         if (o && o->spe < 7)
-            Sprintf(buf, "Attach %s to your candelabrum, or %s %s", s,
-                    !otmp->lamplit ? "light" : "extinguish", /* [lowercase] */
-                    multiple ? "them" : "it");
+            Sprintf(buf, "将%s连接到你的烛台上，或%s %s", s,
+                    !otmp->lamplit ? "点亮" : "熄灭", /* [lowercase] */
+                    multiple ? "它们" : "它");
         else
             Sprintf(buf, "%s %s %s", light, s, simpleonames(otmp));
         ia_addmenu(win, IA_APPLY_OBJ, 'a', buf);
     } else if (otmp->otyp == OIL_LAMP || otmp->otyp == MAGIC_LAMP
                || otmp->otyp == BRASS_LANTERN) {
-        Sprintf(buf, "%s this light source", light);
+        Sprintf(buf, "%s 这个光源", light);
         ia_addmenu(win, IA_APPLY_OBJ, 'a', buf);
     } else if (otmp->otyp == POT_OIL && objects[otmp->otyp].oc_name_known) {
-        Sprintf(buf, "%s this oil", light);
+        Sprintf(buf, "%s这瓶油", light);
         ia_addmenu(win, IA_APPLY_OBJ, 'a', buf);
     } else if (otmp->oclass == POTION_CLASS) {
         /* FIXME? this should probably be moved to 'D' rather than be 'a' */
-        Sprintf(buf, "Dip something into %s potion%s",
-                is_plural(otmp) ? "one of these" : "this", plur(otmp->quan));
+        Sprintf(buf, "将某物浸入 %s 药水%s",
+                is_plural(otmp) ? "这些之一" : "这瓶", plur(otmp->quan));
         ia_addmenu(win, IA_DIP_OBJ, 'a', buf);
     } else if (otmp->otyp == EXPENSIVE_CAMERA)
         ia_addmenu(win, IA_APPLY_OBJ, 'a', "Take a photograph");
@@ -411,19 +411,19 @@ itemactions(struct obj *otmp)
        always have a takeoff/remove choice so we don't have to worry
        about the menu maybe being empty when 'd' is suppressed */
     if (!already_worn) {
-        Sprintf(buf, "Drop this %s", (otmp->quan > 1L) ? "stack" : "item");
+        Sprintf(buf, "丢弃这个 %s", (otmp->quan > 1L) ? "堆叠" : "物品");
         ia_addmenu(win, IA_DROP_OBJ, 'd', buf);
     }
 
     /* e: eat item */
     if (otmp->otyp == TIN) {
-        Sprintf(buf, "Open %s%s and eat the contents",
-                (otmp->quan > 1L) ? "one of these tins" : "this tin",
+        Sprintf(buf, "打开%s%s并吃掉内容",
+                (otmp->quan > 1L) ? "这些罐头之一" : "这个罐头",
                 (otmp->otyp == TIN && uwep && uwep->otyp == TIN_OPENER)
-                ? " with your tin opener" : "");
+                ? "用你的开罐器" : "");
         ia_addmenu(win, IA_EAT_OBJ, 'e', buf);
     } else if (is_edible(otmp)) {
-        Sprintf(buf, "Eat %s", (otmp->quan > 1L) ? "one of these" : "this");
+        Sprintf(buf, "吃 %s", (otmp->quan > 1L) ? "其中一个" : "这个");
         ia_addmenu(win, IA_EAT_OBJ, 'e', buf);
     }
 
@@ -436,12 +436,12 @@ itemactions(struct obj *otmp)
                    "Scribble graffiti on the floor");
     } else if (otmp->oclass == WEAPON_CLASS || otmp->oclass == WAND_CLASS
              || otmp->oclass == GEM_CLASS || otmp->oclass == RING_CLASS) {
-        Sprintf(buf, "%s on the %s with %s",
+        Sprintf(buf, "%s在%s上用%s",
                 (is_blade(otmp) || otmp->oclass == WAND_CLASS
                  || ((otmp->oclass == GEM_CLASS || otmp->oclass == RING_CLASS)
-                     && objects[otmp->otyp].oc_tough)) ? "Engrave" : "Write",
+                     && objects[otmp->otyp].oc_tough)) ? "雕刻" : "书写",
                 surface(u.ux, u.uy),
-                (otmp->quan > 1L) ? "one of these items" : "this item");
+                (otmp->quan > 1L) ? "这些物品之一" : "此物品");
         ia_addmenu(win, IA_ENGRAVE_OBJ, 'E', buf);
     }
 
@@ -450,11 +450,11 @@ itemactions(struct obj *otmp)
         boolean shoot = ammo_and_launcher(otmp, uwep);
 
         /* FIXME: see the multi-shot FIXME about "one of" for 't: throw' */
-        Sprintf(buf, "%s %s", shoot ? "Shoot" : "Throw",
-                (otmp->quan > 1L) ? "one of these" : "this");
+        Sprintf(buf, "%s %s", shoot ? "射击" : "投掷",
+                (otmp->quan > 1L) ? "其中之一" : "这个");
         if (shoot) {
             assert(uwep != NULL);
-            Sprintf(eos(buf), " with your wielded %s", simpleonames(uwep));
+            Sprintf(eos(buf), " 用你装备的%s", simpleonames(uwep));
         }
         ia_addmenu(win, IA_FIRE_OBJ, 'f', buf);
     }
@@ -488,8 +488,8 @@ itemactions(struct obj *otmp)
            flagged 'unpaid') holding shop owned items */
         && (mtmp = shop_keeper(*in_rooms(u.ux, u.uy, SHOPBASE))) != 0
         && inhishop(mtmp)) {
-        Sprintf(buf, "Buy this unpaid %s",
-                (otmp->quan > 1L) ? "stack" : "item");
+        Sprintf(buf, "购买这个未付钱的%s",
+                (otmp->quan > 1L) ? "堆叠" : "物品");
         ia_addmenu(win, IA_BUY_OBJ, 'p', buf);
     }
 
@@ -502,23 +502,23 @@ itemactions(struct obj *otmp)
            item actions can be used to learn commands */
         *buf = '\0';
         if (otmp->oclass == AMULET_CLASS) {
-            Strcpy(buf, !uamul ? "Put this amulet on"
-                               : "[already wearing an amulet]");
+            Strcpy(buf, !uamul ? "戴上这个护身符"
+                               : "[已佩戴护身符]");
         } else if (otmp->oclass == RING_CLASS || otmp->otyp == MEAT_RING) {
             if (!uleft || !uright)
-                Strcpy(buf, "Put this ring on");
+                Strcpy(buf, "戴上这枚戒指");
             else
-                Sprintf(buf, "[both ring %s in use]",
+                Sprintf(buf, "[两个戒指指 %s 均在用]",
                         makeplural(body_part(FINGER)));
         } else if (otmp->otyp == BLINDFOLD || otmp->otyp == TOWEL
                    || otmp->otyp == LENSES) {
             if (ublindf)
-                Strcpy(buf, "[already wearing eyewear]");
+                Strcpy(buf, "[已经戴着眼部装备]");
             else if (otmp->otyp == LENSES)
-                Strcpy(buf, "Put these lenses on");
+                Strcpy(buf, "戴上这副透镜");
             else
-                Sprintf(buf, "Put this on%s",
-                        (otmp->otyp == TOWEL) ? " to blindfold yourself" : "");
+                Sprintf(buf, "戴上这个%s",
+                        (otmp->otyp == TOWEL) ? "蒙上眼睛" : "");
         }
         if (*buf)
             ia_addmenu(win, IA_WEAR_OBJ, 'P', buf);
@@ -526,17 +526,17 @@ itemactions(struct obj *otmp)
 
     /* q: drink item */
     if (otmp->oclass == POTION_CLASS) {
-        Sprintf(buf, "Quaff (drink) %s",
-                (otmp->quan > 1L) ? "one of these potions" : "this potion");
+        Sprintf(buf, "畅饮（喝掉）%s",
+                (otmp->quan > 1L) ? "这些药水中的一瓶" : "这瓶药水");
         ia_addmenu(win, IA_QUAFF_OBJ, 'q', buf);
     }
 
     /* Q: quiver throwable item */
     if ((otmp->oclass == GEM_CLASS || otmp->oclass == WEAPON_CLASS)
         && otmp != uquiver) {
-        Sprintf(buf, "Quiver this %s for easy %s with \'f\'ire",
-                (otmp->quan > 1L) ? "stack" : "item",
-                ammo_and_launcher(otmp, uwep) ? "shooting" : "throwing");
+        Sprintf(buf, "将此 %s 放入箭袋以便用 'f'ire 轻松 %s",
+                (otmp->quan > 1L) ? "堆叠" : "物品",
+                ammo_and_launcher(otmp, uwep) ? "射击" : "投掷");
         ia_addmenu(win, IA_QUIVER_OBJ, 'Q', buf);
     }
 
@@ -546,16 +546,16 @@ itemactions(struct obj *otmp)
 
     /* R: remove accessory or rub item */
     if (otmp->owornmask & W_ACCESSORY) {
-        Sprintf(buf, "Remove this %s",
-                (otmp->owornmask & W_AMUL) ? "amulet"
-                : (otmp->owornmask & W_RING) ? "ring"
-                  : (otmp->owornmask & W_TOOL) ? "eyewear"
-                    : "accessory"); /* catchall -- can't happen */
+        Sprintf(buf, "移除这个%s",
+                (otmp->owornmask & W_AMUL) ? "护符"
+                : (otmp->owornmask & W_RING) ? "戒指"
+                  : (otmp->owornmask & W_TOOL) ? "眼镜"
+                    : "饰品"); /* catchall -- can't happen */
         ia_addmenu(win, IA_TAKEOFF_OBJ, 'R', buf);
     }
     if (otmp->otyp == OIL_LAMP || otmp->otyp == MAGIC_LAMP
         || otmp->otyp == BRASS_LANTERN) {
-        Sprintf(buf, "Rub this %s", simpleonames(otmp));
+        Sprintf(buf, "摩擦这个 %s", simpleonames(otmp));
         ia_addmenu(win, IA_RUB_OBJ, 'R', buf);
     } else if (otmp->oclass == GEM_CLASS && is_graystone(otmp))
         ia_addmenu(win, IA_RUB_OBJ, 'R', "Rub something on this stone");
@@ -572,17 +572,17 @@ itemactions(struct obj *otmp)
          *  volley count and that could randomly yield 1 here and 2..N
          *  while throwing or vice versa.
          */
-        Sprintf(buf, "%s %s%s", shoot ? "Shoot" : "Throw",
-                (otmp->quan == 1L) ? "this item"
-                : (otmp->otyp == GOLD_PIECE) ? "them"
-                  : "one of these",
+        Sprintf(buf, "%s %s%s", shoot ? "射" : "投",
+                (otmp->quan == 1L) ? "此物品"
+                : (otmp->otyp == GOLD_PIECE) ? "它们"
+                  : "其中之一",
                 /* if otmp is quivered, we've already listed
                    'f - shoot|throw this item' as a choice;
                    if 't' is duplicating that, say so ('t' and 'f'
                    behavior differs for throwing a stack of gold) */
                 (otmp == uquiver && (otmp->otyp != GOLD_PIECE
                                      || otmp->quan == 1L))
-                ? " (same as 'f')" : "");
+                ? " (与 'f' 相同)" : "");
         ia_addmenu(win, IA_THROW_OBJ, 't', buf);
     }
 
@@ -609,8 +609,8 @@ itemactions(struct obj *otmp)
         ; /* either already wielded or can't wield anything; skip 'w' */
     } else if (otmp->oclass == WEAPON_CLASS || is_weptool(otmp)
                || is_wet_towel(otmp) || otmp->otyp == HEAVY_IRON_BALL) {
-        Sprintf(buf, "Wield this %s as your weapon",
-                (otmp->quan > 1L) ? "stack" : "item");
+        Sprintf(buf, "将此 %s 装备为武器",
+                (otmp->quan > 1L) ? "堆叠" : "物品");
         ia_addmenu(win, IA_WIELD_OBJ, 'w', buf);
     } else if (otmp->otyp == TIN_OPENER) {
         ia_addmenu(win, IA_WIELD_OBJ, 'w',
@@ -619,8 +619,8 @@ itemactions(struct obj *otmp)
         /* originally this was using "hold this item in your hands" but
            there's no concept of "holding an item", plus it unwields
            whatever item you already have wielded so use "wield this item" */
-        Sprintf(buf, "Wield this %s in your %s",
-                (otmp->quan > 1L) ? "stack" : "item",
+        Sprintf(buf, "装备这个%s在你的%s上",
+                (otmp->quan > 1L) ? "这叠" : "这个",
                 /* only two-handed weapons and unicorn horns care about
                    pluralizing "hand" and they won't reach here, but plural
                    sounds better when poly'd into something with "claw" */
@@ -640,9 +640,9 @@ itemactions(struct obj *otmp)
             struct obj *o = wearmask_to_obj(Wmask);
 
             if (!o)
-                Strcpy(buf, "Wear this armor");
+                Strcpy(buf, "穿戴这件盔甲");
             else
-                Sprintf(buf, "[already wearing %s]", an(armor_simple_name(o)));
+                Sprintf(buf, "[已穿戴 %s]", an(armor_simple_name(o)));
 
             ia_addmenu(win, IA_WEAR_OBJ, 'W', buf);
         }
@@ -677,7 +677,7 @@ itemactions(struct obj *otmp)
             || (could_twoweap(gy.youmonst.data) && !uarms
                 && uwep && MAYBETWOWEAPON(uwep)
                 && uswapwep && MAYBETWOWEAPON(uswapwep)))) {
-        Sprintf(buf, "Toggle two-weapon combat %s", u.twoweap ? "off" : "on");
+        Sprintf(buf, "切换双持战斗 %s", u.twoweap ? "关闭" : "开启");
         ia_addmenu(win, IA_TWOWEAPON, 'X', buf);
     }
 
@@ -690,12 +690,12 @@ itemactions(struct obj *otmp)
 
     /* ?: Look up an item in the game's database */
     if (ia_checkfile(otmp)) {
-        Sprintf(buf, "Look up information about %s",
-                (otmp->quan > 1L) ? "these" : "this");
+        Sprintf(buf, "查阅关于%s的信息",
+                (otmp->quan > 1L) ? "这些" : "这个");
         ia_addmenu(win, IA_WHATIS_OBJ, '/', buf);
     }
 
-    Sprintf(buf, "Do what with %s?", the(cxname(otmp)));
+    Sprintf(buf, "对 %s 做什么？", the(cxname(otmp)));
     end_menu(win, buf);
 
     n = select_menu(win, PICK_ONE, &selected);

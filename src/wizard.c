@@ -75,11 +75,11 @@ amulet(void)
             if (ttmp->ttyp == MAGIC_PORTAL) {
                 int du = distu(ttmp->tx, ttmp->ty);
                 if (du <= 9)
-                    pline("%s hot!", Tobjnam(amu, "feel"));
+                    pline("%s 烫!", Tobjnam(amu, "感觉"));
                 else if (du <= 64)
-                    pline("%s very warm.", Tobjnam(amu, "feel"));
+                    pline("%s 非常温暖.", Tobjnam(amu, "感觉"));
                 else if (du <= 144)
-                    pline("%s warm.", Tobjnam(amu, "feel"));
+                    pline("%s 温暖.", Tobjnam(amu, "感觉"));
                 /* else, the amulet feels normal */
                 break;
             }
@@ -96,7 +96,7 @@ amulet(void)
             mtmp->msleeping = 0;
             if (!m_next2u(mtmp))
                 You(
-      "get the creepy feeling that somebody noticed your taking the Amulet.");
+      "因有人注意到你拿着的护身符而感到毛骨悚然.");
             return;
         }
     }
@@ -441,7 +441,7 @@ tactics(struct monst *mtmp)
 
                 if ((otmp = on_ground(which_arti(targ))) != 0) {
                     if (cansee(mtmp->mx, mtmp->my))
-                        pline("%s picks up %s.", Monnam(mtmp),
+                        pline("%s捡起了%s。", Monnam(mtmp),
                               distant_name(otmp, doname));
                     obj_extract_self(otmp);
                     (void) mpickobj(mtmp, otmp);
@@ -772,7 +772,7 @@ resurrect(void)
         mtmp->mtame = 0, mtmp->mpeaceful = 0; /* paranoia */
         set_malign(mtmp);
         if (!Deaf) {
-            pline("A voice booms out...");
+            pline("一个声音传出...");
             SetVoice(mtmp, 0, 80, 0);
             verbalize("So thou thought thou couldst %s me, fool.", verb);
         }
@@ -790,11 +790,11 @@ intervene(void)
     switch (which) {
     case 0:
     case 1:
-        You_feel("vaguely nervous.");
+        You_feel("到不明的紧张.");
         break;
     case 2:
         if (!Blind)
-            You("notice a %s glow surrounding you.", hcolor(NH_BLACK));
+            You("注意到一个%s光环围绕着你.", hcolor(NH_BLACK));
         rndcurse();
         break;
     case 3:
@@ -849,7 +849,7 @@ cuss(struct monst *mtmp)
         return;
     if (mtmp->iswiz) {
         if (!rn2(5)) { /* typical bad guy action */
-            pline("%s laughs fiendishly.", Monnam(mtmp));
+            pline("%s极坏地笑着.", Monnam(mtmp));
         } else if (u.uhave.amulet && !rn2(SIZE(random_insult))) {
             SetVoice(mtmp, 0, 80, 0);
             verbalize("Relinquish the amulet, %s!",
@@ -875,7 +875,7 @@ cuss(struct monst *mtmp)
           + QT_ANGELIC);*/
     } else {
         if (!rn2(is_minion(mtmp->data) ? 100 : 5))
-            pline("%s casts aspersions on your ancestry.", Monnam(mtmp));
+            pline("%s诽谤你的祖先.", Monnam(mtmp));
         else
             com_pager("demon_cuss");
     }

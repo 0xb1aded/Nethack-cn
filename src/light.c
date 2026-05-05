@@ -942,7 +942,7 @@ wiz_light_sources(void)
     if (win == WIN_ERR)
         return ECMD_OK;
 
-    Sprintf(buf, "Mobile light sources: hero @ (%2d,%2d)", u.ux, u.uy);
+    Sprintf(buf, "移动光源：英雄 @ (%2d,%2d)", u.ux, u.uy);
     putstr(win, 0, buf);
     putstr(win, 0, "");
 
@@ -953,12 +953,12 @@ wiz_light_sources(void)
             Sprintf(buf, "  %2d,%2d   %2d   0x%04x  %s  %s", ls->x, ls->y,
                     ls->range, ls->flags,
                     (ls->type == LS_OBJECT
-                       ? "obj"
+                       ? "物体"
                        : ls->type == LS_MONSTER
                           ? (mon_is_local(ls->id.a_monst)
-                             ? "mon"
+                             ? "怪物"
                              : (ls->id.a_monst == &gy.youmonst)
-                                ? "you"
+                                ? "玩家"
                                 /* migrating monster */
                                 : "<m>")
                           : "???"),

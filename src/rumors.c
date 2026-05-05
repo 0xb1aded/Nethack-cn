@@ -139,7 +139,7 @@ getrumor(
             if (gt.true_rumor_size == 0L) { /* if this is 1st outrumor() */
                 init_rumors(rumors);
                 if (gt.true_rumor_size < 0L) { /* init failed */
-                    Sprintf(rumor_buf, "Error reading \"%.80s\".", RUMORFILE);
+                    Sprintf(rumor_buf, "读取\"%.80s\"时出错。", RUMORFILE);
                     return rumor_buf;
                 }
             }
@@ -161,7 +161,7 @@ getrumor(
                 break;
             default:
                 impossible("strange truth value for rumor");
-                return strcpy(rumor_buf, "Oops...");
+                return strcpy(rumor_buf, "哎呀...");
             }
             Strcpy(rumor_buf,
                    get_rnd_line(rumors, line, (unsigned) sizeof line, rn2,
@@ -217,13 +217,13 @@ rumor_check(void)
          * reveal the values.
          */
         Sprintf(rumor_buf,
-               "T start=%06ld (%06lx), end=%06ld (%06lx), size=%06ld (%06lx)",
+               "T 起始=%06ld (%06lx), 结束=%06ld (%06lx), 大小=%06ld (%06lx)",
             (long) gt.true_rumor_start, gt.true_rumor_start,
             gt.true_rumor_end, (unsigned long) gt.true_rumor_end,
             gt.true_rumor_size,(unsigned long) gt.true_rumor_size);
         putstr(tmpwin, 0, rumor_buf);
         Sprintf(rumor_buf,
-               "F start=%06ld (%06lx), end=%06ld (%06lx), size=%06ld (%06lx)",
+               "假起始=%06ld (%06lx), 结束=%06ld (%06lx), 大小=%06ld (%06lx)",
             (long) gf.false_rumor_start, gf.false_rumor_start,
             gf.false_rumor_end, (unsigned long) gf.false_rumor_end,
             gf.false_rumor_size, (unsigned long) gf.false_rumor_size);
@@ -278,7 +278,7 @@ rumor_check(void)
        we didn't bother trying again this time */
     } else if (gt.true_rumor_size < 0L) {
  no_rumors: /* file could be opened but init_rumors() didn't like it */
-        pline("rumors not accessible.");
+        pline("谣言不可访问.");
         /* engravings, epitaphs, and bogus monsters will still be shown,
            and in tmpwin rather than via additional pline() calls */
         display_nhwindow(WIN_MESSAGE, TRUE); /* --more-- */
@@ -543,7 +543,7 @@ outrumor(
         } else if (Blind) {
             if (mechanism == BY_COOKIE)
                 pline(fortune_msg);
-            pline("What a pity that you cannot read it!");
+            pline("真遗憾你无法阅读它!");
             return;
         }
     }
@@ -554,10 +554,10 @@ outrumor(
     switch (mechanism) {
     case BY_ORACLE:
         /* Oracle delivers the rumor */
-        pline("True to her word, the Oracle %ssays: ",
-              (!rn2(4) ? "offhandedly "
-                       : (!rn2(3) ? "casually "
-                                  : (rn2(2) ? "nonchalantly " : ""))));
+        pline("不背其言, 神谕 %s说: ",
+              (!rn2(4) ? "随口 "
+                       : (!rn2(3) ? "随意 "
+                                  : (rn2(2) ? "若无其事地 " : ""))));
         SetVoice((struct monst *) 0, 0, 80, voice_oracle);
         verbalize1(line);
         /* [WIS exercised by getrumor()] */
@@ -567,7 +567,7 @@ outrumor(
         FALLTHROUGH;
     /* FALLTHRU */
     case BY_PAPER:
-        pline("It reads:");
+        pline("上面写着：");
         break;
     }
     pline1(line);
@@ -704,17 +704,17 @@ doconsult(struct monst *oracl)
     umoney = money_cnt(gi.invent);
 
     if (!oracl) {
-        There("is no one here to consult.");
+        There("没有人来咨询.");
         return ECMD_OK;
     } else if (!oracl->mpeaceful) {
-        pline("%s is in no mood for consultations.", Monnam(oracl));
+        pline("%s 没有心情让你咨询.", Monnam(oracl));
         return ECMD_OK;
     } else if (!umoney) {
-        You("have no gold.");
+        You("没有金币。");
         return ECMD_OK;
     }
 
-    Sprintf(qbuf, "\"Wilt thou settle for a minor consultation?\" (%d %s)",
+    Sprintf(qbuf, "\" 汝欲小咨询否?\" (%d %s)",
             minor_cost, currency((long) minor_cost));
     switch (ynq(qbuf)) {
     default:
@@ -722,7 +722,7 @@ doconsult(struct monst *oracl)
         return ECMD_OK;
     case 'y':
         if (umoney < (long) minor_cost) {
-            You("don't even have enough gold for that!");
+            You("你甚至都没有足够的金币来支付这个！");
             return ECMD_OK;
         }
         u_pay = minor_cost;
@@ -731,7 +731,7 @@ doconsult(struct monst *oracl)
         if (umoney <= (long) minor_cost /* don't even ask */
             || (svo.oracle_cnt == 1 || go.oracle_flg < 0))
             return ECMD_OK;
-        Sprintf(qbuf, "\"Then dost thou desire a major one?\" (%d %s)",
+        Sprintf(qbuf, "\" 则汝欲大咨询耶?\" (%d %s)",
                 major_cost, currency((long) major_cost));
         if (y_n(qbuf) != 'y')
             return ECMD_OK;

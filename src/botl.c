@@ -58,7 +58,7 @@ do_statusline1(void)
     if ('a' <= newbot1[0] && newbot1[0] <= 'z')
         newbot1[0] += 'A' - 'a';
     newbot1[BOTL_NSIZ] = 0;
-    Sprintf(nb = eos(newbot1), " the ");
+    Sprintf(nb = eos(newbot1), " ");
 
     if (Upolyd) {
         char mbot[BUFSZ];
@@ -82,14 +82,14 @@ do_statusline1(void)
     if ((i - j) > 0)
         Sprintf(nb = eos(nb), "%*s", i - j, " "); /* pad with spaces */
 
-    Sprintf(nb = eos(nb), "St:%s Dx:%-1d Co:%-1d In:%-1d Wi:%-1d Ch:%-1d",
+    Sprintf(nb = eos(nb), "力:%s  敏:%-1d  体:%-1d  智:%-1d  感:%-1d  魅:%-1d",
             get_strength_str(),
             ACURR(A_DEX), ACURR(A_CON), ACURR(A_INT), ACURR(A_WIS),
             ACURR(A_CHA));
     Sprintf(nb = eos(nb), "%s",
-            (u.ualign.type == A_CHAOTIC) ? "  Chaotic"
-              : (u.ualign.type == A_NEUTRAL) ? "  Neutral"
-                : "  Lawful");
+            (u.ualign.type == A_CHAOTIC) ? "  混乱"
+              : (u.ualign.type == A_NEUTRAL) ? "  中立"
+                : "  守序");
 #ifdef SCORE_ON_BOTL
     if (flags.showscore)
         Sprintf(nb = eos(nb), " S:%ld", botl_score());
@@ -140,7 +140,7 @@ do_statusline2(void)
     hpmax = Upolyd ? u.mhmax : u.uhpmax;
     if (hp < 0)
         hp = 0;
-    Sprintf(hlth, "HP:%d(%d) Pw:%d(%d) AC:%-2d",
+    Sprintf(hlth, "生命:%d(%d) 能量:%d(%d) 护甲:%-2d",
             min(hp, 9999), min(hpmax, 9999),
             min(u.uen, 9999), min(u.uenmax, 9999), u.uac);
     hln = strlen(hlth);
@@ -149,14 +149,14 @@ do_statusline2(void)
     if (Upolyd)
         Sprintf(expr, "HD:%d", mons[u.umonnum].mlevel);
     else if (flags.showexp)
-        Sprintf(expr, "Xp:%d/%-1ld", u.ulevel, u.uexp);
+        Sprintf(expr, "经验:%d/%-1ld", u.ulevel, u.uexp);
     else
-        Sprintf(expr, "Xp:%d", u.ulevel);
+        Sprintf(expr, "等级:%d", u.ulevel);
     xln = strlen(expr);
 
     /* time/move counter */
     if (flags.time)
-        Sprintf(tmmv, "T:%ld", svm.moves);
+        Sprintf(tmmv, " 回:%ld", svm.moves);
     else
         tmmv[0] = '\0';
     tln = strlen(tmmv);
@@ -171,38 +171,38 @@ do_statusline2(void)
      * unusual for more than one of them to apply at a time.]
      */
     if (Stoned)
-        Strcpy(nb = eos(nb), " Stone");
+        Strcpy(nb = eos(nb), "  石化");
     if (Slimed)
-        Strcpy(nb = eos(nb), " Slime");
+        Strcpy(nb = eos(nb), "  污秽");
     if (Strangled)
-        Strcpy(nb = eos(nb), " Strngl");
+        Strcpy(nb = eos(nb), "  束缚");
     if (Sick) {
         if (u.usick_type & SICK_VOMITABLE)
-            Strcpy(nb = eos(nb), " FoodPois");
+            Strcpy(nb = eos(nb), "  食物中毒");
         if (u.usick_type & SICK_NONVOMITABLE)
-            Strcpy(nb = eos(nb), " TermIll");
+            Strcpy(nb = eos(nb), "  生病");
     }
     if (u.uhs != NOT_HUNGRY)
         Sprintf(nb = eos(nb), " %s", hu_stat[u.uhs]);
     if ((cap = near_capacity()) > UNENCUMBERED)
         Sprintf(nb = eos(nb), " %s", enc_stat[cap]);
     if (Blind)
-        Strcpy(nb = eos(nb), " Blind");
+        Strcpy(nb = eos(nb), "  失明");
     if (Deaf)
-        Strcpy(nb = eos(nb), " Deaf");
+        Strcpy(nb = eos(nb), "  耳聋");
     if (Stunned)
-        Strcpy(nb = eos(nb), " Stun");
+        Strcpy(nb = eos(nb), "  眩晕");
     if (Confusion)
-        Strcpy(nb = eos(nb), " Conf");
+        Strcpy(nb = eos(nb), "  混乱");
     if (Hallucination)
-        Strcpy(nb = eos(nb), " Hallu");
+        Strcpy(nb = eos(nb), "  幻觉");
     /* levitation and flying are mutually exclusive; riding is not */
     if (Levitation)
-        Strcpy(nb = eos(nb), " Lev");
+        Strcpy(nb = eos(nb), "  飘浮");
     if (Flying)
-        Strcpy(nb = eos(nb), " Fly");
+        Strcpy(nb = eos(nb), "  飞行");
     if (u.usteed)
-        Strcpy(nb = eos(nb), " Ride");
+        Strcpy(nb = eos(nb), "  乘骑");
     cln = strlen(cond);
 
     /* version on status line, with leading space */
@@ -450,7 +450,7 @@ describe_level(
         Sprintf(buf, "%s", svd.dungeons[u.uz.dnum].dname);
         addbranch = FALSE;
     } else if (In_quest(&u.uz)) {
-        Sprintf(buf, "Home %d", dunlev(&u.uz));
+        Sprintf(buf, "家 %d", dunlev(&u.uz));
     } else if (In_endgame(&u.uz)) {
         /* [3.6.2: this used to be "Astral Plane" or generic "End Game"] */
         (void) endgamelevelname(buf, depth(&u.uz));
@@ -461,9 +461,9 @@ describe_level(
         /* ports with more room may expand this one */
         if (!addbranch)
             Sprintf(buf, "%s:%-2d", /* "Dlvl:n" (grep fodder) */
-                    In_tutorial(&u.uz) ? "Tutorial" : "Dlvl", depth(&u.uz));
+                    In_tutorial(&u.uz) ? "教程" : "地牢层", depth(&u.uz));
         else
-            Sprintf(buf, "level %d", depth(&u.uz));
+            Sprintf(buf, "%d层", depth(&u.uz));
         ret = 0;
     }
     if (addbranch) {
@@ -543,7 +543,7 @@ weapon_status(char *outbuf)
 
         if ((uwep->oclass == WEAPON_CLASS || is_weptool(uwep))
             && bimanual(uwep) && *res != '2' && strncmpi(res, "two", 3))
-            Strcat(outbuf, "2H-");
+            Strcat(outbuf, "双手-");
         Strcpy(p = eos(outbuf), res), res = outbuf;
         *p = highc(*p);
         /* avoid embedded spaces since its designed to appear as part
@@ -565,15 +565,15 @@ armor_status(char *armbuf)
      * At present it just reports the "no armor" case.
      */
     if (n == 0) { /* no armor */
-        Strcpy(armbuf, "naked");
+        Strcpy(armbuf, "裸体");
     } else if (n == 1) { /* just one piece; spell it out */
-        Strcpy(armbuf, uarmg ? "gloves"
-                       : uarmc ? "cloak"
-                         : uarm  ? "suit"
-                           : uarmu ? "shirt"
+        Strcpy(armbuf, uarmg ? "手套"
+                       : uarmc ? "斗篷"
+                         : uarm  ? "铠甲"
+                           : uarmu ? "衬衫"
                              : uarmh ? helm_simple_name(uarmh) /* hat|helm */
-                               : uarmf ? "boots"
-                                 : uarms ? "shield"
+                               : uarmf ? "靴子"
+                                 : uarms ? "盾牌"
                                    : ""); /* not possible */
     } else { /* more than one piece */
         char *p = armbuf;
@@ -997,7 +997,7 @@ bot_via_windowport(void)
         i = 30 - (int) (sizeof " the " + strlen(titl) - sizeof "");
         nb[max(i, BOTL_NSIZ)] = '\0';
     }
-    Strcpy(nb = eos(nb), " the ");
+    Strcpy(nb = eos(nb), " ");
     Strcpy(nb = eos(nb), titl);
     if (Upolyd) { /* when poly'd, capitalize monster name */
         for (i = 0; nb[i]; i++)
@@ -1021,10 +1021,10 @@ bot_via_windowport(void)
 
     /* Alignment */
     Strcpy(gb.blstats[idx][BL_ALIGN].val, (u.ualign.type == A_CHAOTIC)
-                                          ? "Chaotic"
+                                          ? "混沌"
                                           : (u.ualign.type == A_NEUTRAL)
-                                               ? "Neutral"
-                                               : "Lawful");
+                                               ? "中立"
+                                               : "秩序");
 
     /* Score */
     gb.blstats[idx][BL_SCORE].a.a_long =
@@ -1401,17 +1401,17 @@ cond_menu(void)
 
         any = cg.zeroany;
         any.a_int = 1;
-        Sprintf(mbuf, "change sort order from \"%s\" to \"%s\"",
+        Sprintf(mbuf, "将排序顺序从\"%s\"改为\"%s\"",
                 menutitle[gc.condmenu_sortorder],
                 menutitle[1 - gc.condmenu_sortorder]);
         add_menu(tmpwin, &nul_glyphinfo, &any, 'S', 0, ATR_NONE,
                  clr, mbuf, MENU_ITEMFLAGS_SKIPINVERT);
         any = cg.zeroany;
-        Sprintf(mbuf, "sorted %s", menutitle[gc.condmenu_sortorder]);
+        Sprintf(mbuf, "排序 %s", menutitle[gc.condmenu_sortorder]);
         add_menu_heading(tmpwin, mbuf);
         for (i = 0; i < SIZE(condtests); i++) {
             idx = sequence[i];
-            Sprintf(mbuf, "cond_%-14s", condtests[idx].useroption);
+            Sprintf(mbuf, "条件_%-14s", condtests[idx].useroption);
             any = cg.zeroany;
             any.a_int = idx + 2; /* avoid zero and the sort change pick */
             condtests[idx].choice = FALSE;
@@ -1420,7 +1420,7 @@ cond_menu(void)
                         ? MENU_ITEMFLAGS_SELECTED : MENU_ITEMFLAGS_NONE);
         }
 
-        end_menu(tmpwin, "Choose status conditions to toggle");
+        end_menu(tmpwin, "选择要切换的状态条件");
 
         res = select_menu(tmpwin, PICK_ANY, &picks);
         destroy_nhwindow(tmpwin);
@@ -3125,7 +3125,7 @@ query_conditions(void)
                  clr, conditions[i].text[0], MENU_ITEMFLAGS_NONE);
     }
 
-    end_menu(tmpwin, "Choose status conditions");
+    end_menu(tmpwin, "选择状态条件");
 
     res = select_menu(tmpwin, PICK_ANY, &picks);
     destroy_nhwindow(tmpwin);
@@ -3618,11 +3618,11 @@ status_hilite2str(struct hilite_s *hl)
         break;
     case BL_TH_UPDOWN:
         if (hl->rel == LT_VALUE)
-            Sprintf(behavebuf, "down");
+            Sprintf(behavebuf, "下降");
         else if (hl->rel == GT_VALUE)
-            Sprintf(behavebuf, "up");
+            Sprintf(behavebuf, "上升");
         else if (hl->rel == EQ_VALUE)
-            Sprintf(behavebuf, "changed");
+            Sprintf(behavebuf, "变化");
         else
             impossible("hl->behavior=updown, rel error");
         break;
@@ -3645,10 +3645,10 @@ status_hilite2str(struct hilite_s *hl)
             impossible("hl->behavior=condition, rel error");
         break;
     case BL_TH_ALWAYS_HILITE:
-        Sprintf(behavebuf, "always");
+        Sprintf(behavebuf, "总是");
         break;
     case BL_TH_CRITICALHP:
-        Sprintf(behavebuf, "criticalhp");
+        Sprintf(behavebuf, "临界HP");
         break;
     case BL_TH_NONE:
         break;
@@ -3692,7 +3692,7 @@ status_hilite_menu_choose_field(void)
                  clr, initblstats[i].fldname, MENU_ITEMFLAGS_NONE);
     }
 
-    end_menu(tmpwin, "Select a hilite field:");
+    end_menu(tmpwin, "选择一个高亮字段：");
 
     res = select_menu(tmpwin, PICK_ONE, &picks);
     destroy_nhwindow(tmpwin);
@@ -3726,7 +3726,7 @@ status_hilite_menu_choose_behavior(int fld)
     if (fld != BL_CONDITION) {
         any = cg.zeroany;
         any.a_int = onlybeh = BL_TH_ALWAYS_HILITE;
-        Sprintf(buf, "Always highlight %s", initblstats[fld].fldname);
+        Sprintf(buf, "总是高亮 %s", initblstats[fld].fldname);
         add_menu(tmpwin, &nul_glyphinfo, &any, 'a', 0, ATR_NONE,
                  clr, buf, MENU_ITEMFLAGS_NONE);
         nopts++;
@@ -3736,14 +3736,14 @@ status_hilite_menu_choose_behavior(int fld)
         any = cg.zeroany;
         any.a_int = onlybeh = BL_TH_CONDITION;
         add_menu(tmpwin, &nul_glyphinfo, &any, 'b', 0, ATR_NONE,
-                 clr, "Bitmask of conditions", MENU_ITEMFLAGS_NONE);
+                 clr, "条件位掩码", MENU_ITEMFLAGS_NONE);
         nopts++;
     }
 
     if (fld != BL_CONDITION && fld != BL_VERS) {
         any = cg.zeroany;
         any.a_int = onlybeh = BL_TH_UPDOWN;
-        Sprintf(buf, "%s value changes", initblstats[fld].fldname);
+        Sprintf(buf, "%s 值变化", initblstats[fld].fldname);
         add_menu(tmpwin, &nul_glyphinfo, &any, 'c', 0, ATR_NONE,
                  clr, buf, MENU_ITEMFLAGS_NONE);
         nopts++;
@@ -3754,7 +3754,7 @@ status_hilite_menu_choose_behavior(int fld)
         any = cg.zeroany;
         any.a_int = onlybeh = BL_TH_VAL_ABSOLUTE;
         add_menu(tmpwin, &nul_glyphinfo, &any, 'n', 0, ATR_NONE,
-                 clr, "Number threshold", MENU_ITEMFLAGS_NONE);
+                 clr, "数字阈值", MENU_ITEMFLAGS_NONE);
         nopts++;
     }
 
@@ -3762,14 +3762,14 @@ status_hilite_menu_choose_behavior(int fld)
         any = cg.zeroany;
         any.a_int = onlybeh = BL_TH_VAL_PERCENTAGE;
         add_menu(tmpwin, &nul_glyphinfo, &any, 'p', 0, ATR_NONE,
-                 clr, "Percentage threshold", MENU_ITEMFLAGS_NONE);
+                 clr, "百分比阈值", MENU_ITEMFLAGS_NONE);
         nopts++;
     }
 
     if (fld == BL_HP) {
         any = cg.zeroany;
         any.a_int = onlybeh = BL_TH_CRITICALHP;
-        Sprintf(buf,  "Highlight critically low %s",
+        Sprintf(buf,  "高亮显示临界低的 %s",
                 initblstats[fld].fldname);
         add_menu(tmpwin, &nul_glyphinfo, &any, 'C', 0, ATR_NONE,
                  clr, buf, MENU_ITEMFLAGS_NONE);
@@ -3780,13 +3780,13 @@ status_hilite_menu_choose_behavior(int fld)
         || fld == BL_CAP || fld == BL_HUNGER) {
         any = cg.zeroany;
         any.a_int = onlybeh = BL_TH_TEXTMATCH;
-        Sprintf(buf, "%s text match", initblstats[fld].fldname);
+        Sprintf(buf, "%s 文本匹配", initblstats[fld].fldname);
         add_menu(tmpwin, &nul_glyphinfo, &any, 't', 0, ATR_NONE,
                  clr, buf, MENU_ITEMFLAGS_NONE);
         nopts++;
     }
 
-    Sprintf(buf, "Select %s field hilite behavior:",
+    Sprintf(buf, "选择 %s 字段高亮行为：",
             initblstats[fld].fldname);
     end_menu(tmpwin, buf);
 
@@ -3825,18 +3825,18 @@ status_hilite_menu_choose_updownboth(
 
     if (ltok) {
         if (str)
-            Sprintf(buf, "%s than %s",
-                    (fld == BL_AC) ? "Better (lower)" : "Less", str);
+            Sprintf(buf, "%s 于 %s",
+                    (fld == BL_AC) ? "更好(更低)" : "更少", str);
         else
-            Sprintf(buf, "Value goes down");
+            Sprintf(buf, "数值下降");
         any = cg.zeroany;
         any.a_int = 10 + LT_VALUE;
         add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE,
                  clr, buf, MENU_ITEMFLAGS_NONE);
 
         if (str) {
-            Sprintf(buf, "%s or %s",
-                    str, (fld == BL_AC) ? "better (lower)" : "less");
+            Sprintf(buf, "%s或%s",
+                    str, (fld == BL_AC) ? "更好（更低）" : "更少");
             any = cg.zeroany;
             any.a_int = 10 + LE_VALUE;
             add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE,
@@ -3845,9 +3845,9 @@ status_hilite_menu_choose_updownboth(
     }
 
     if (str)
-        Sprintf(buf, "Exactly %s", str);
+        Sprintf(buf, "精确匹配 %s", str);
     else
-        Sprintf(buf, "Value changes");
+        Sprintf(buf, "数值变化");
     any = cg.zeroany;
     any.a_int = 10 + EQ_VALUE;
     add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE,
@@ -3855,8 +3855,8 @@ status_hilite_menu_choose_updownboth(
 
     if (gtok) {
         if (str) {
-            Sprintf(buf, "%s or %s",
-                    str, (fld == BL_AC) ? "worse (higher)" : "more");
+            Sprintf(buf, "%s 或 %s",
+                    str, (fld == BL_AC) ? "更差（更高）" : "更多");
             any = cg.zeroany;
             any.a_int = 10 + GE_VALUE;
             add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE,
@@ -3864,16 +3864,16 @@ status_hilite_menu_choose_updownboth(
         }
 
         if (str)
-            Sprintf(buf, "%s than %s",
-                    (fld == BL_AC) ? "Worse (higher)" : "More", str);
+            Sprintf(buf, "%s 比 %s",
+                    (fld == BL_AC) ? "更差（更高）" : "更多", str);
         else
-            Sprintf(buf, "Value goes up");
+            Sprintf(buf, "值上升");
         any = cg.zeroany;
         any.a_int = 10 + GT_VALUE;
         add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE, clr,
                  buf, MENU_ITEMFLAGS_NONE);
     }
-    Sprintf(buf, "Select field %s value:", initblstats[fld].fldname);
+    Sprintf(buf, "选择字段 %s 的值:", initblstats[fld].fldname);
     end_menu(tmpwin, buf);
 
     res = select_menu(tmpwin, PICK_ONE, &picks);
@@ -3934,7 +3934,7 @@ status_hilite_menu_add(int origfld)
 
  choose_value:
     if (retry++ > 5) {
-        pline("That's enough tries.");
+        pline("尝试次数已经够多了。");
         return FALSE;
     }
     if (behavior == BL_TH_VAL_PERCENTAGE
@@ -3948,8 +3948,8 @@ status_hilite_menu_add(int origfld)
 
         lt_gt_eq = NO_LTEQGT; /* not set up yet */
         inbuf[0] = '\0';
-        Sprintf(buf, "Enter %svalue for %s threshold:",
-                percent ? "percentage " : "",
+        Sprintf(buf, "输入 %s值（%s 阈值）：",
+                percent ? "百分比 " : "",
                 initblstats[fld].fldname);
         getlin(buf, inbuf);
         if (inbuf[0] == '\0' || inbuf[0] == '\033')
@@ -3984,17 +3984,17 @@ status_hilite_menu_add(int origfld)
         }
         if (*inp == '%') {
             if (!percent) {
-                pline("Not expecting a percentage.");
+                pline("不应出现百分比。");
                 goto choose_behavior;
             }
             *inp = '\0'; /* strip '%' [this accepts trailing junk!] */
         } else if (*inp) {
             /* some random characters */
-            pline("\"%s\" is not a recognized number.", inp);
+            pline("\"%s\" 不是一个可识别的数字。", inp);
             goto choose_value;
         }
         if (!gotnum) {
-            pline("Is that an invisible number?");
+            pline("那是个隐形数字吗？");
             goto choose_value;
         }
         op = (lt_gt_eq == LT_VALUE) ? "<"
@@ -4011,7 +4011,7 @@ status_hilite_menu_add(int origfld)
         if (percent) {
             val = aval.a_int;
             if (initblstats[fld].idxmax == -1) {
-                pline("Field '%s' does not support percentage values.",
+                pline("字段 '%s' 不支持百分比数值。",
                       initblstats[fld].fldname);
                 behavior = BL_TH_VAL_ABSOLUTE;
                 goto choose_value;
@@ -4025,7 +4025,7 @@ status_hilite_menu_add(int origfld)
                 || (val == 0 && lt_gt_eq == LT_VALUE)
                 || (val == 100 && lt_gt_eq == GT_VALUE)
                 || (val > 100 && (val != 101 || lt_gt_eq != LT_VALUE))) {
-                pline("'%s%d%%' is not a valid percent value.", op, val);
+                pline("'%s%d%%' 不是一个有效的百分比值。", op, val);
                 goto choose_value;
             }
             /* restore suffix for use in color and attribute prompts */
@@ -4060,23 +4060,23 @@ status_hilite_menu_add(int origfld)
                 goto choose_value;
         }
 
-        Sprintf(colorqry, "Choose a color for when %s is %s%s%s:",
+        Sprintf(colorqry, "选择当%s是%s%s%s时的颜色:",
                 initblstats[fld].fldname,
-                (lt_gt_eq == LT_VALUE) ? "less than "
-                  : (lt_gt_eq == GT_VALUE) ? "more than "
+                (lt_gt_eq == LT_VALUE) ? "小于 "
+                  : (lt_gt_eq == GT_VALUE) ? "大于 "
                     : "",
                 numstart,
-                (lt_gt_eq == LE_VALUE) ? " or less"
-                  : (lt_gt_eq == GE_VALUE) ? " or more"
+                (lt_gt_eq == LE_VALUE) ? " 或更少"
+                  : (lt_gt_eq == GE_VALUE) ? " 或更多"
                     : "");
-        Sprintf(attrqry, "Choose attribute for when %s is %s%s%s:",
+        Sprintf(attrqry, "选择当%s是%s%s%s时的属性：",
                 initblstats[fld].fldname,
-                (lt_gt_eq == LT_VALUE) ? "less than "
-                  : (lt_gt_eq == GT_VALUE) ? "more than "
+                (lt_gt_eq == LT_VALUE) ? "小于 "
+                  : (lt_gt_eq == GT_VALUE) ? "大于 "
                     : "",
                 numstart,
-                (lt_gt_eq == LE_VALUE) ? " or less"
-                  : (lt_gt_eq == GE_VALUE) ? " or more"
+                (lt_gt_eq == LE_VALUE) ? " 或更少"
+                  : (lt_gt_eq == GE_VALUE) ? " 或更多"
                     : "");
 
         hilite.rel = lt_gt_eq;
@@ -4098,16 +4098,16 @@ status_hilite_menu_add(int origfld)
                single choice, skip it altogether and just use 'changed' */
             lt_gt_eq = EQ_VALUE;
         }
-        Sprintf(colorqry, "Choose a color for when %s %s:",
+        Sprintf(colorqry, "为当 %s %s 时选择一种颜色：",
                 initblstats[fld].fldname,
-                (lt_gt_eq == EQ_VALUE) ? "changes"
-                  : (lt_gt_eq == LT_VALUE) ? "decreases"
-                    : "increases");
-        Sprintf(attrqry, "Choose attribute for when %s %s:",
+                (lt_gt_eq == EQ_VALUE) ? "改变"
+                  : (lt_gt_eq == LT_VALUE) ? "减少"
+                    : "增加");
+        Sprintf(attrqry, "选择属性，当%s %s时：",
                 initblstats[fld].fldname,
-                (lt_gt_eq == EQ_VALUE) ? "changes"
-                  : (lt_gt_eq == LT_VALUE) ? "decreases"
-                    : "increases");
+                (lt_gt_eq == EQ_VALUE) ? "变化"
+                  : (lt_gt_eq == LT_VALUE) ? "减少"
+                    : "增加");
         hilite.rel = lt_gt_eq;
     } else if (behavior == BL_TH_CONDITION) {
         cond = query_conditions();
@@ -4125,11 +4125,11 @@ status_hilite_menu_add(int origfld)
     } else if (behavior == BL_TH_TEXTMATCH) {
         char qry_buf[BUFSZ];
 
-        Sprintf(qry_buf, "%s %s text value to match:",
+        Sprintf(qry_buf, "%s %s 要匹配的文本值:",
                 (fld == BL_CAP
                  || fld == BL_ALIGN
                  || fld == BL_HUNGER
-                 || fld == BL_TITLE) ? "Choose" : "Enter",
+                 || fld == BL_TITLE) ? "选择" : "输入",
                 initblstats[fld].fldname);
         if (fld == BL_CAP) {
             int rv = query_arrayvalue(qry_buf,
@@ -4219,14 +4219,14 @@ status_hilite_menu_add(int origfld)
             else
                 return FALSE;
         }
-        Sprintf(colorqry, "Choose a color for when %s is '%s':",
+        Sprintf(colorqry, "当 %s 为 '%s' 时选择一种颜色：",
                 initblstats[fld].fldname, hilite.textmatch);
-        Sprintf(attrqry, "Choose attribute for when %s is '%s':",
+        Sprintf(attrqry, "当 %s 为 '%s' 时选择属性：",
                 initblstats[fld].fldname, hilite.textmatch);
     } else if (behavior == BL_TH_ALWAYS_HILITE) {
-        Sprintf(colorqry, "Choose a color to always hilite %s:",
+        Sprintf(colorqry, "选择一个颜色以始终高亮 %s:",
                 initblstats[fld].fldname);
-        Sprintf(attrqry, "Choose attribute to always hilite %s:",
+        Sprintf(attrqry, "选择总是高亮%s的属性：",
                 initblstats[fld].fldname);
     }
 
@@ -4272,7 +4272,7 @@ status_hilite_menu_add(int origfld)
         tmpattr = hlattr2attrname(atr, attrbuf, BUFSZ);
         if (tmpattr)
             Sprintf(eos(clrbuf), "&%s", tmpattr);
-        pline("Added hilite condition/%s/%s",
+        pline("已添加高亮条件/%s/%s",
               conditionbitmask2str(cond), clrbuf);
     } else {
         char *p, *q;
@@ -4286,7 +4286,7 @@ status_hilite_menu_add(int origfld)
             *p = '\0'; /* chop off " or female-rank" */
             /* new rule for male-rank */
             status_hilite_add_threshold(fld, &hilite);
-            pline("Added hilite %s", status_hilite2str(&hilite));
+            pline("已添加高亮 %s", status_hilite2str(&hilite));
             /* transfer female-rank to start of hilite.textmatch buffer */
             p += sizeof " or " - sizeof "";
             q = hilite.textmatch;
@@ -4295,7 +4295,7 @@ status_hilite_menu_add(int origfld)
             /* proceed with normal addition of new rule */
         }
         status_hilite_add_threshold(fld, &hilite);
-        pline("Added hilite %s", status_hilite2str(&hilite));
+        pline("已添加高亮 %s", status_hilite2str(&hilite));
     }
     reset_status_hilites();
     return TRUE;
@@ -4390,7 +4390,7 @@ status_hilite_menu_fld(int fld)
             hlstr = hlstr->next;
         }
     } else {
-        Sprintf(buf, "No current hilites for %s", initblstats[fld].fldname);
+        Sprintf(buf, "当前没有为 %s 设置高亮显示", initblstats[fld].fldname);
         add_menu_str(tmpwin, buf);
     }
 
@@ -4401,7 +4401,7 @@ status_hilite_menu_fld(int fld)
         any = cg.zeroany;
         any.a_int = -1;
         add_menu(tmpwin, &nul_glyphinfo, &any, 'X', 0, ATR_NONE, clr,
-                 "Remove selected hilites", MENU_ITEMFLAGS_NONE);
+                 "移除选中的高亮项", MENU_ITEMFLAGS_NONE);
     }
 
 #ifndef SCORE_ON_BOTL
@@ -4417,10 +4417,10 @@ status_hilite_menu_fld(int fld)
         any = cg.zeroany;
         any.a_int = -2;
         add_menu(tmpwin, &nul_glyphinfo, &any, 'Z', 0, ATR_NONE,
-                 clr, "Add new hilites", MENU_ITEMFLAGS_NONE);
+                 clr, "添加新的高亮", MENU_ITEMFLAGS_NONE);
     }
 
-    Sprintf(buf, "Current %s hilites:", initblstats[fld].fldname);
+    Sprintf(buf, "当前 %s 高亮：", initblstats[fld].fldname);
     end_menu(tmpwin, buf);
 
     acted = FALSE;
@@ -4462,8 +4462,8 @@ status_hilites_viewall(void)
     datawin = create_nhwindow(NHW_TEXT);
 
     while (hlstr) {
-        Sprintf(buf, "OPTIONS=hilite_status: %.*s",
-                (int) (BUFSZ - sizeof "OPTIONS=hilite_status: " - 1),
+        Sprintf(buf, "选项=高亮状态： %.*s",
+                (int) (BUFSZ - sizeof "选项=高亮状态： " - 1),
                 hlstr->str);
         putstr(datawin, 0, buf);
         hlstr = hlstr->next;
@@ -4485,8 +4485,8 @@ all_options_statushilites(strbuf_t *sbuf)
     hlstr = status_hilite_str;
 
     while (hlstr) {
-        Sprintf(buf, "OPTIONS=hilite_status: %.*s\n",
-                (int) (BUFSZ - sizeof "OPTIONS=hilite_status:  " - 1),
+        Sprintf(buf, "选项=高亮状态: %.*s\n",
+                (int) (BUFSZ - sizeof "选项=高亮状态:  " - 1),
                 hlstr->str);
         strbuf_append(sbuf, buf);
         hlstr = hlstr->next;
@@ -4517,7 +4517,7 @@ status_hilite_menu(void)
         any = cg.zeroany;
         any.a_int = -1;
         add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE,
-                 clr, "View all hilites in config format",
+                 clr, "以配置格式查看所有高亮",
                  MENU_ITEMFLAGS_NONE);
 
         add_menu_str(tmpwin, "");
@@ -4541,12 +4541,12 @@ status_hilite_menu(void)
         any.a_int = fld + 1;
         Sprintf(buf, "%-18s", initblstats[i].fldname);
         if (count)
-            Sprintf(eos(buf), " (%d defined)", count);
+            Sprintf(eos(buf), " (已定义 %d)", count);
         add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE,
                  clr, buf, MENU_ITEMFLAGS_NONE);
     }
 
-    end_menu(tmpwin, "Status hilites:");
+    end_menu(tmpwin, "状态高亮：");
     if ((res = select_menu(tmpwin, PICK_ONE, &picks)) > 0) {
         fld = picks->item.a_int - 1;
         if (fld < 0) {

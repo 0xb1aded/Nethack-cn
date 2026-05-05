@@ -267,17 +267,17 @@ wiz_kill(void)
         mtmp = 0;
         if (u_at(cc.x, cc.y)) {
             if (u.usteed) {
-                Sprintf(qbuf, "Kill %.110s?", mon_nam(u.usteed));
+                Sprintf(qbuf, "杀死%.110s？", mon_nam(u.usteed));
                 if ((c = ynq(qbuf)) == 'q')
                     break;
                 if (c == 'y')
                     mtmp = u.usteed;
             }
             if (!mtmp) {
-                Sprintf(qbuf, "%s?", Role_if(PM_SAMURAI) ? "Perform seppuku"
-                                                         : "Commit suicide");
+                Sprintf(qbuf, "%s?", Role_if(PM_SAMURAI) ? "切腹自尽"
+                                                         : "自杀");
                 if (paranoid_query(TRUE, qbuf)) {
-                    Sprintf(svk.killer.name, "%s own player", uhis());
+                    Sprintf(svk.killer.name, "%s自己的玩家", uhis());
                     svk.killer.format = KILLED_BY;
                     done(DIED);
                 }
@@ -311,7 +311,7 @@ wiz_kill(void)
 
             if (!iflags.menu_requested) {
                 /* normal case: hero is credited/blamed */
-                You("%s %s!", nonliving(mtmp->data) ? "destroy" : "kill", Mn);
+                You("%s %s!", nonliving(mtmp->data) ? "消灭" : "杀死", Mn);
                 xkilled(mtmp, XKILL_NOMSG);
             } else { /* 'm'-prefix */
                 /* we know that monsters aren't moving because player has
@@ -320,8 +320,8 @@ wiz_kill(void)
                    need to have the mon_moving flag be True in order to
                    avoid blaming or crediting hero for their deaths */
                 svc.context.mon_moving = TRUE;
-                pline("%s is %s.", upstart(Mn),
-                      nonliving(mtmp->data) ? "destroyed" : "killed");
+                pline("%s被%s。", upstart(Mn),
+                      nonliving(mtmp->data) ? "摧毁" : "杀死");
                 /* Null second arg suppresses the usual message */
                 monkilled(mtmp, (char *) 0, AD_PHYS);
                 svc.context.mon_moving = FALSE;
@@ -331,7 +331,7 @@ wiz_kill(void)
             if (u.utotype || !on_level(&u.uz, &uarehere))
                 break;
         } else {
-            There("is no monster there.");
+            There("那里没有怪物。");
             break;
         }
     }
@@ -462,10 +462,10 @@ wiz_level_change(void)
         return ECMD_OK;
     }
     if (newlevel == u.ulevel) {
-        You("are already that experienced.");
+        You("已经是那个等级了.");
     } else if (newlevel < u.ulevel) {
         if (u.ulevel == 1) {
-            You("are already as inexperienced as you can get.");
+            You("已经达到最低等级.");
             return ECMD_OK;
         }
         if (newlevel < 1)
@@ -474,7 +474,7 @@ wiz_level_change(void)
             losexp("#levelchange");
     } else {
         if (u.ulevel >= MAXULEV) {
-            You("are already as experienced as you can get.");
+            You("你已经达到最高等级.");
             return ECMD_OK;
         }
         if (newlevel > MAXULEV)
@@ -500,7 +500,7 @@ wiz_telekinesis(void)
     cc.x = u.ux;
     cc.y = u.uy;
 
-    pline("Pick a monster to hurtle.");
+    pline("选择一个怪物来投掷。");
     do {
         ans = getpos(&cc, TRUE, "a monster");
         if (ans < 0 || cc.x < 1)
@@ -549,8 +549,8 @@ int
 wiz_fuzzer(void)
 {
     if (flags.suppress_alert < FEATURE_NOTICE_VER(3,7,0)) {
-        pline("The fuzz tester will make NetHack execute random keypresses.");
-        There("is no conventional way out of this mode.");
+        pline("模糊测试器将使 NetHack 执行随机按键。");
+        There("没有常规方式退出此模式。");
     }
     if (paranoid_query(TRUE, "Do you want to start fuzz testing?")) {
         /* Thoth, take the reins */
@@ -626,7 +626,7 @@ wiz_show_vision(void)
     char row[COLNO + 1];
 
     win = create_nhwindow(NHW_TEXT);
-    Sprintf(row, "Flags: 0x%x could see, 0x%x in sight, 0x%x temp lit",
+    Sprintf(row, "标志: 0x%x 可见, 0x%x 在视线内, 0x%x 临时照亮",
             COULD_SEE, IN_SIGHT, TEMP_LIT);
     putstr(win, 0, row);
     putstr(win, 0, "");
@@ -727,21 +727,21 @@ wiz_map_levltyp(void)
         char dsc[COLBUFSZ];
         s_level *slev = Is_special(&u.uz);
 
-        Sprintf(dsc, "D:%d,L:%d", u.uz.dnum, u.uz.dlevel);
+        Sprintf(dsc, "地牢:%d,层:%d", u.uz.dnum, u.uz.dlevel);
         /* [dungeon branch features currently omitted] */
         /* special level features */
         if (slev) {
-            Sprintf(eos(dsc), " \"%s\"", slev->proto);
+            Sprintf(eos(dsc), " \" %s\"", slev->proto);
             /* special level flags (note: dungeon.def doesn't set `maze'
                or `hell' for any specific levels so those never show up) */
             if (slev->flags.maze_like)
-                Strcat(dsc, " mazelike");
+                Strcat(dsc, " 迷宫风格");
             if (slev->flags.hellish)
-                Strcat(dsc, " hellish");
+                Strcat(dsc, " 地狱");
             if (slev->flags.town)
-                Strcat(dsc, " town");
+                Strcat(dsc, " 城镇");
             if (slev->flags.rogue_like)
-                Strcat(dsc, " roguelike");
+                Strcat(dsc, " 类roguelike");
             /* alignment currently omitted to save space */
         }
         /* level features */
@@ -752,67 +752,67 @@ wiz_map_levltyp(void)
             Sprintf(eos(dsc), " %c:%d", defsyms[S_sink].sym,
                     (int) svl.level.flags.nsinks);
         if (svl.level.flags.has_vault)
-            Strcat(dsc, " vault");
+            Strcat(dsc, " 金库");
         if (svl.level.flags.has_shop)
-            Strcat(dsc, " shop");
+            Strcat(dsc, " 商店");
         if (svl.level.flags.has_temple)
-            Strcat(dsc, " temple");
+            Strcat(dsc, " 神庙");
         if (svl.level.flags.has_court)
-            Strcat(dsc, " throne");
+            Strcat(dsc, " 王座");
         if (svl.level.flags.has_zoo)
-            Strcat(dsc, " zoo");
+            Strcat(dsc, " 动物园");
         if (svl.level.flags.has_morgue)
-            Strcat(dsc, " morgue");
+            Strcat(dsc, " 停尸房");
         if (svl.level.flags.has_barracks)
-            Strcat(dsc, " barracks");
+            Strcat(dsc, " 军营");
         if (svl.level.flags.has_beehive)
-            Strcat(dsc, " hive");
+            Strcat(dsc, " 蜂巢");
         if (svl.level.flags.has_swamp)
-            Strcat(dsc, " swamp");
+            Strcat(dsc, " 沼泽");
         /* level flags */
         if (svl.level.flags.noteleport)
-            Strcat(dsc, " noTport");
+            Strcat(dsc, " 禁止传送");
         if (svl.level.flags.hardfloor)
-            Strcat(dsc, " noDig");
+            Strcat(dsc, " 禁挖");
         if (svl.level.flags.nommap)
-            Strcat(dsc, " noMMap");
+            Strcat(dsc, " 无地图");
         if (!svl.level.flags.hero_memory)
-            Strcat(dsc, " noMem");
+            Strcat(dsc, " 无记忆");
         if (svl.level.flags.shortsighted)
-            Strcat(dsc, " shortsight");
+            Strcat(dsc, " 短视");
         if (svl.level.flags.graveyard)
-            Strcat(dsc, " graveyard");
+            Strcat(dsc, " 墓地");
         if (svl.level.flags.is_maze_lev)
-            Strcat(dsc, " maze");
+            Strcat(dsc, " 迷宫");
         if (svl.level.flags.is_cavernous_lev)
-            Strcat(dsc, " cave");
+            Strcat(dsc, " 洞穴");
         if (svl.level.flags.arboreal)
-            Strcat(dsc, " tree");
+            Strcat(dsc, " 树木");
         if (Sokoban)
-            Strcat(dsc, " sokoban-rules");
+            Strcat(dsc, " 推箱子规则");
         /* non-flag info; probably should include dungeon branching
            checks (extra stairs and magic portals) here */
         if (Invocation_lev(&u.uz))
-            Strcat(dsc, " invoke");
+            Strcat(dsc, " 召唤");
         if (On_W_tower_level(&u.uz))
-            Strcat(dsc, " tower");
+            Strcat(dsc, " 巫师塔");
         /* append a branch identifier for completeness' sake */
         if (u.uz.dnum == 0)
-            Strcat(dsc, " dungeon");
+            Strcat(dsc, " 地牢");
         else if (u.uz.dnum == mines_dnum)
-            Strcat(dsc, " mines");
+            Strcat(dsc, " 矿井");
         else if (In_sokoban(&u.uz))
-            Strcat(dsc, " sokoban");
+            Strcat(dsc, " 索科班");
         else if (u.uz.dnum == quest_dnum)
-            Strcat(dsc, " quest");
+            Strcat(dsc, " 任务");
         else if (Is_knox(&u.uz))
-            Strcat(dsc, " ludios");
+            Strcat(dsc, " 路迪奥斯");
         else if (u.uz.dnum == 1)
-            Strcat(dsc, " gehennom");
+            Strcat(dsc, " 吉汉诺姆");
         else if (u.uz.dnum == tower_dnum)
-            Strcat(dsc, " vlad");
+            Strcat(dsc, " 弗拉德");
         else if (In_endgame(&u.uz))
-            Strcat(dsc, " endgame");
+            Strcat(dsc, " 终局");
         else {
             /* somebody's added a dungeon branch we're not expecting */
             const char *brname = svd.dungeons[u.uz.dnum].dname;
@@ -893,13 +893,13 @@ wiz_smell(void)
     cc.x = u.ux;
     cc.y = u.uy;
     if (!olfaction(gy.youmonst.data)) {
-        You("are incapable of detecting odors in your present form.");
+        You("以你现在的形态无法探测气味。");
         return ECMD_OK;
     }
 
-    You("can move the cursor to a monster that you want to smell.");
+    You("可以将光标移动到你想闻的怪物上。");
     do {
-        pline("Pick a monster to smell.");
+        pline("选择一个怪物来闻。");
         ans = getpos(&cc, TRUE, "a monster");
         if (ans < 0 || cc.x < 0) {
             return ECMD_CANCEL; /* done */
@@ -923,14 +923,14 @@ wiz_smell(void)
         /* Is it a monster? */
         if (mptr) {
             if (is_you)
-                You("surreptitiously sniff under your %s.", body_part(ARM));
+                You("偷偷地嗅了嗅你的%s下面。", body_part(ARM));
             if (!usmellmon(mptr))
-                pline("%s to not give off any smell.",
-                      is_you ? "You seem" : "That monster seems");
+                pline("%s似乎没有发出任何气味。",
+                      is_you ? "你似乎" : "那个怪物似乎");
             if (!glyph_is_monster(glyph))
                 map_invisible(cc.x, cc.y);
         } else {
-            You("don't smell any monster there.");
+            You("那里没有闻到任何怪物。");
             if (glyph_is_invisible(glyph))
                 unmap_invisible(cc.x, cc.y);
         }
@@ -966,7 +966,7 @@ wiz_intrinsic(void)
         if (iflags.cmdassist) {
             /* start menu with a subtitle */
             Sprintf(buf,
-        "[Precede any selection with a count to increment by other than %d.]",
+        "[在任何选择前加上一个计数，以使用不同于%d的增量。]",
                     DEFAULT_TIMEOUT_INCR);
             add_menu_str(win, buf);
         }
@@ -993,7 +993,7 @@ wiz_intrinsic(void)
             add_menu(win, &nul_glyphinfo, &any, 0, 0, ATR_NONE, clr, buf,
                      MENU_ITEMFLAGS_NONE);
         }
-        end_menu(win, "Which intrinsics?");
+        end_menu(win, "选择哪些内在能力？");
         n = select_menu(win, PICK_ANY, &pick_list);
         destroy_nhwindow(win);
 
@@ -1073,8 +1073,8 @@ wiz_intrinsic(void)
                 if (p != GLIB)
                     incr_itimeout(&u.uprops[p].intrinsic, amt);
                 disp.botl = TRUE; /* have pline() do a status update */
-                pline("Timeout for %s %s %d.", propname,
-                      oldtimeout ? "increased by" : "set to", amt);
+                pline("超时时间 %s %s %d。", propname,
+                      oldtimeout ? "增加" : "设为", amt);
                 break;
             }
             /* this has to be after incr_itimeout() */
@@ -1303,7 +1303,7 @@ misc_stats(
     }
     *total_count += count;
     *total_size += size;
-    Sprintf(hdrbuf, "traps, size %ld", (long) sizeof (struct trap));
+    Sprintf(hdrbuf, "陷阱，大小 %ld", (long) sizeof (struct trap));
     Sprintf(buf, template, hdrbuf, count, size);
     putstr(win, 0, buf);
 
@@ -1340,7 +1340,7 @@ misc_stats(
     if (count || size) {
         *total_count += count;
         *total_size += size;
-        Sprintf(hdrbuf, "shop damage, size %ld",
+        Sprintf(hdrbuf, "商店损坏记录，大小 %ld",
                 (long) sizeof (struct damage));
         Sprintf(buf, template, hdrbuf, count, size);
         putstr(win, 0, buf);
@@ -1363,7 +1363,7 @@ misc_stats(
     if (count || size) {
         *total_count += count;
         *total_size += size;
-        Sprintf(hdrbuf, "delayed killer%s, size %ld",
+        Sprintf(hdrbuf, "延迟击杀者%s，大小 %ld",
                 plur(count), (long) sizeof (struct kinfo));
         Sprintf(buf, template, hdrbuf, count, size);
         putstr(win, 0, buf);
@@ -1377,7 +1377,7 @@ misc_stats(
     if (count || size) {
         *total_count += count;
         *total_size += size;
-        Sprintf(hdrbuf, "bones history, size %ld",
+        Sprintf(hdrbuf, "骨头历史记录，大小 %ld",
                 (long) sizeof (struct cemetery));
         Sprintf(buf, template, hdrbuf, count, size);
         putstr(win, 0, buf);
@@ -1392,7 +1392,7 @@ misc_stats(
     if (count || size) {
         *total_count += count;
         *total_size += size;
-        Strcpy(hdrbuf, "object type names, text");
+        Strcpy(hdrbuf, "对象类型名称，文本");
         Sprintf(buf, template, hdrbuf, count, size);
         putstr(win, 0, buf);
     }
@@ -1524,10 +1524,10 @@ list_migrating_mons(
             ++other;
     }
     if (here + nxtlv + other == 0) {
-        pline("No monsters currently migrating.");
+        pline("当前没有怪物正在迁移。");
     } else {
         pline(
-      "%d mon%s pending for current level, %d for next level, %d for others.",
+      "%d 个怪物%s等待进入当前层，%d个等待进入下一层，%d个等待进入其他层。",
               here, plur(here), nxtlv, other);
         prmpt[0] = xtra[0] = '\0';
         (void) strkitten(here ? prmpt : xtra, 'c');
@@ -1548,13 +1548,13 @@ list_migrating_mons(
             case 'c':
             case 'n':
             case 'o':
-                Sprintf(buf, "Monster%s migrating to %s:", plur(n),
-                        (c == 'c') ? "current level"
-                        : (c == 'n') ? "next level"
-                          : "'other' levels");
+                Sprintf(buf, "怪物%s正在迁移到%s：", plur(n),
+                        (c == 'c') ? "当前层"
+                        : (c == 'n') ? "下一层"
+                          : "'其他'层");
                 break;
             default:
-                Strcpy(buf, "All migrating monsters:");
+                Strcpy(buf, "所有迁移中的怪物：");
                 break;
             }
             putstr(win, 0, buf);
@@ -1588,14 +1588,14 @@ list_migrating_mons(
                 /* minimal_monnam() appends map coordinates; strip that */
                 (void) strsubst(buf, " <0,0>", "");
                 if (has_mgivenname(mtmp)) /* if mtmp is named, include that */
-                    Sprintf(eos(buf), " named %s", MGIVENNAME(mtmp));
+                    Sprintf(eos(buf), " 名为 %s", MGIVENNAME(mtmp));
                 if (c == 'o' || c == 'a')
-                    Sprintf(eos(buf), " to %d:%d", mtmp->mux, mtmp->muy);
+                    Sprintf(eos(buf), "到 %d:%d", mtmp->mux, mtmp->muy);
                 xyloc = mtmp->mtrack[0].x; /* (for legibility) */
                 if (xyloc == MIGR_EXACT_XY) {
                     x = mtmp->mtrack[1].x;
                     y = mtmp->mtrack[1].y;
-                    Sprintf(eos(buf), " at <%d,%d>", (int) x, (int) y);
+                    Sprintf(eos(buf), " 在<%d,%d>", (int) x, (int) y);
                 }
                 putstr(win, 0, buf);
             }
@@ -1603,7 +1603,7 @@ list_migrating_mons(
             display_nhwindow(win, FALSE);
             destroy_nhwindow(win);
         } else if (c != 'q') {
-            pline("None.");
+            pline("无。");
         }
 
     }
@@ -1627,7 +1627,7 @@ wiz_show_stats(void)
 
     total_obj_count = total_obj_size = 0L;
     putstr(win, 0, stats_hdr);
-    Sprintf(buf, "  Objects, base size %ld", (long) sizeof (struct obj));
+    Sprintf(buf, "  对象，基础大小 %ld", (long) sizeof (struct obj));
     putstr(win, 0, buf);
     obj_chain(win, "invent", gi.invent, TRUE,
               &total_obj_count, &total_obj_size);
@@ -1648,7 +1648,7 @@ wiz_show_stats(void)
 
     total_mon_count = total_mon_size = 0L;
     putstr(win, 0, "");
-    Sprintf(buf, "  Monsters, base size %ld", (long) sizeof (struct monst));
+    Sprintf(buf, "  怪物，基础大小 %ld", (long) sizeof (struct monst));
     putstr(win, 0, buf);
     mon_chain(win, "fmon", fmon, TRUE, &total_mon_count, &total_mon_size);
     mon_chain(win, "migrating", gm.migrating_mons, FALSE,
@@ -1729,7 +1729,7 @@ wiz_display_macros(void)
                 if (!trouble++)
                     putstr(win, 0, display_issues);
                 Sprintf(buf,
-                        "glyph_is_cmap_zap(glyph=%d) returned non-zap cmap %d",
+                        "glyph_is_cmap_zap(glyph=%d) 返回了非 zap 的 cmap %d",
                         glyph, test);
                  putstr(win, 0, buf);
             }
@@ -1781,7 +1781,7 @@ wiz_display_macros(void)
 int
 wiz_show_nhuuid(void)
 {
-    pline("The NHUUID for this game is { %s }.", svn.nhuuid);
+    pline("本游戏的 NHUUID 为 { %s }。", svn.nhuuid);
     return ECMD_OK;
 }
 
@@ -1897,7 +1897,7 @@ wiz_migrate_mons(void)
         getlin("How many random monsters to migrate to next level? [0]",
                inbuf);
     else
-        pline("Can't get there from here.");
+        pline("无法从这里到达那里。");
     if (*inbuf == '\033' || *inbuf == '\0')
         return ECMD_OK;
 
@@ -1953,14 +1953,14 @@ wiz_custom(void)
         add_menu_heading(win,
                          "    glyph  glyph identifier                        "
                          "     sym   clr customcolor unicode utf8");
-        Sprintf(bufa, "%s: colorcount=%ld %s", wizcustom,
+        Sprintf(bufa, "%s: 颜色计数=%ld %s", wizcustom,
                 (long) iflags.colorcount,
                 gs.symset[PRIMARYSET].name ? gs.symset[PRIMARYSET].name
-                                          : "default");
+                                          : "默认");
         if (gc.currentgraphics == PRIMARYSET && gs.symset[PRIMARYSET].name)
-            Strcat(bufa, ", active");
+            Strcat(bufa, ", 活跃");
         if (gs.symset[PRIMARYSET].handling) {
-            Sprintf(eos(bufa), ", handler=%s",
+            Sprintf(eos(bufa), ", 处理程序=%s",
                     known_handling[gs.symset[PRIMARYSET].handling]);
         }
         Sprintf(buf, "%s", bufa);
@@ -2002,7 +2002,7 @@ wizcustom_callback(winid win, int glyphnum, char *id)
 #endif
             cgm->customcolor != 0) {
             Sprintf(bufa, "[%04d] %-44s", glyphnum, id);
-            Sprintf(bufb, "'\\%03d' %02d",
+            Sprintf(bufb, "'\\\\%03d' %02d",
                     gs.showsyms[cgm->sym.symidx], cgm->sym.color);
             Sprintf(bufc, "%011lx", (unsigned long) cgm->customcolor);
             bufu[0] = '\0';

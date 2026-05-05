@@ -198,7 +198,7 @@ pri_move(struct monst *priest)
         || (Conflict && !resist_conflict(priest))) {
         if (monnear(priest, u.ux, u.uy)) {
             if (Displaced)
-                Your("displaced image doesn't fool %s!", mon_nam(priest));
+                Your("扭曲的影像骗不了%s！", mon_nam(priest));
             (void) mattacku(priest);
             return 0;
         } else if (strchr(u.urooms, temple)) {
@@ -324,11 +324,11 @@ priestname(
         if (article == ARTICLE_YOUR || (article == ARTICLE_A && high_priest))
             article = ARTICLE_THE;
         if (article == ARTICLE_THE) {
-            Strcpy(pname, "the ");
+            Strcpy(pname, "这位 ");
         } else if (!strcmp(what, "Angel")) {
             /* bypass just_an(); it would yield "" due to treating capital A
                as indicating a personal name */
-            Strcpy(pname, "an ");
+            Strcpy(pname, "一个 ");
         } else {
             (void) just_an(pname, what);
         }
@@ -338,21 +338,21 @@ priestname(
         /* avoid "a invisible priest" */
         if (!strcmp(pname, "a "))
             Strcpy(pname, "an ");
-        Strcat(pname, "invisible ");
+        Strcat(pname, "隐形的 ");
     }
     if (mon->isminion && EMIN(mon)->renegade) {
         /* avoid "an renegade Angel" */
         if (!strcmp(pname, "an ") && !mon->minvis)
-            Strcpy(pname, "a ");
-        Strcat(pname, "renegade ");
+            Strcpy(pname, "一个 ");
+        Strcat(pname, "背叛的 ");
     }
 
     if (mon->ispriest || aligned_priest) {
         if (high_priest)
-            Strcat(pname, do_hallu ? "grand " : "high ");
+            Strcat(pname, do_hallu ? "大" : "高");
     } else {
         if (mon->mtame && !strcmpi(what, "Angel"))
-            Strcat(pname, "guardian ");
+            Strcat(pname, "高级");
     }
 
     Strcat(pname, what);
@@ -360,7 +360,7 @@ priestname(
     if (do_hallu || !high_priest || reveal_high_priest
         || !Is_astralevel(&u.uz)
         || m_next2u(mon) || program_state.gameover) {
-        Strcat(pname, " of ");
+        Strcat(pname, " 的 ");
         Strcat(pname, halu_gname(mon_aligntyp(mon)));
     }
     return pname;
@@ -437,8 +437,8 @@ intemple(int roomno)
                Moloch so suppress the "of Moloch" for him here too */
             if (sanctum && !Hallucination)
                 priest->ispriest = 0;
-            pline("%s intones:",
-                  canseemon(priest) ? Monnam(priest) : "A nearby voice");
+            pline("%s吟诵道：",
+                  canseemon(priest) ? Monnam(priest) : "附近的一个声音");
             priest->ispriest = save_priest;
             epri_p->intone_time = svm.moves + (long) d(10, 500); /* ~2505 */
             /* make sure that we don't suppress entry message when
@@ -459,8 +459,8 @@ intemple(int roomno)
                 msg1 = "You desecrate this place by your presence!";
             }
         } else if (svm.moves >= epri_p->enter_time) {
-            Sprintf(buf, "Pilgrim, you enter a %s place!",
-                    !shrined ? "desecrated" : "sacred");
+            Sprintf(buf, "朝圣者，你进入了一个%s的地方！",
+                    !shrined ? "被亵渎的" : "神圣的");
             msg1 = buf;
         }
         if (msg1 && can_speak && !Deaf) {
@@ -503,13 +503,13 @@ intemple(int roomno)
 
         switch (rn2(4)) {
         case 0:
-            You("have an eerie feeling...");
+            You("你感到一阵诡异的感觉...");
             break;
         case 1:
-            You_feel("like you are being watched.");
+            You_feel("好像你正被注视着。");
             break;
         case 2:
-            pline("A shiver runs down your %s.", body_part(SPINE));
+            pline("一阵战栗顺着你的%s流下。", body_part(SPINE));
             break;
         default:
             break; /* no message; unfortunately there's no
@@ -521,15 +521,15 @@ intemple(int roomno)
                    != 0) {
             int ngen = svm.mvitals[PM_GHOST].born;
             if (canspotmon(mtmp))
-                pline("A%s ghost appears next to you%c",
-                      ngen < 5 ? "n enormous" : "",
+                pline("一个%s幽灵出现在你旁边%c",
+                      ngen < 5 ? "巨大的" : "",
                       ngen < 10 ? '!' : '.');
             else
-                You("sense a presence close by!");
+                You("吓得要死, 不能移动.");
             mtmp->mpeaceful = 0;
             set_malign(mtmp);
             if (flags.verbose)
-                You("are frightened to death, and unable to move.");
+                You("害怕得要死, 无法移动了.");
             nomul(-3);
             gm.multi_reason = "being terrified of a ghost";
             gn.nomovemsg = "You regain your composure.";
@@ -575,7 +575,7 @@ priest_talk(struct monst *priest)
                        mon_nam(priest));
 
     if (priest->mflee || (!priest->ispriest && coaligned && strayed)) {
-        pline("%s doesn't want anything to do with you!", Monnam(priest));
+        pline("%s 不能与你做任何事!", Monnam(priest));
         priest->mpeaceful = 0;
         return;
     }
@@ -589,7 +589,7 @@ priest_talk(struct monst *priest)
         };
 
         if (helpless(priest)) {
-            pline("%s breaks out of %s reverie!", Monnam(priest),
+            pline("%s 打断了%s幻想!", Monnam(priest),
                   mhis(priest));
             priest->mfrozen = priest->msleeping = 0;
             priest->mcanmove = 1;
@@ -617,14 +617,14 @@ priest_talk(struct monst *priest)
                 bits = (Hallucination) ? currency(pmoney)
                                        : (pmoney == 1L) ? "bit" : "bits";
                 /* Note: two bits is actually 25 cents.  Hmm. */
-                pline("%s gives you %s%s for an ale.", Monnam(priest),
-                      (pmoney == 1L) ? "one " : "two ", bits);
+                pline("%s 给了你 %s%s 来换一杯麦芽酒。", Monnam(priest),
+                      (pmoney == 1L) ? "一" : "两", bits);
                 money2u(priest, pmoney > 1L ? 2 : 1);
             } else
-                pline("%s preaches the virtues of poverty.", Monnam(priest));
+                pline("%s 宣扬扶贫的美德.", Monnam(priest));
             exercise(A_WIS, TRUE);
         } else
-            pline("%s is not interested.", Monnam(priest));
+            pline("%s 不感兴趣.", Monnam(priest));
         return;
     } else {
         /* there's now some randomization in how much you need to donate, but
@@ -642,14 +642,14 @@ priest_talk(struct monst *priest)
         if (quan < 1)
             quan = 1;
 
-        Sprintf(buf, "How much will you offer (suggested: %ld or %ld)?",
+        Sprintf(buf, "你打算捐多少（建议：%ld或%ld）？",
                 suggested * quan, suggested * quan * 2);
 
         if (flags.debug)
-            pline("%s asks you for a contribution for the temple (base %ld).",
+            pline("%s 请求你为神殿捐款（基础 %ld）。",
                   Monnam(priest), suggested);
         else
-            pline("%s asks you for a contribution for the temple.",
+            pline("%s 请你为教堂捐献.",
                   Monnam(priest));
         if ((offer = bribe(priest, buf)) == 0) {
             SetVoice(priest, 0, 80, 0);
@@ -849,15 +849,15 @@ ghod_hitsu(struct monst *priest)
 
     switch (rn2(3)) {
     case 0:
-        pline("%s roars in anger:  \"Thou shalt suffer!\"",
+        pline("%s 愤怒的咆哮:  \" 你将遭受苦难!\"",
               a_gname_at(ax, ay));
         break;
     case 1:
-        pline("%s voice booms:  \"How darest thou harm my servant!\"",
+        pline("%s 声音洪亮:  \" 你竟敢伤害我的仆人!\"",
               s_suffix(a_gname_at(ax, ay)));
         break;
     default:
-        pline("%s roars:  \"Thou dost profane my shrine!\"",
+        pline("%s 怒吼:  \" 你在亵渎我的圣地!\"",
               a_gname_at(ax, ay));
         break;
     }

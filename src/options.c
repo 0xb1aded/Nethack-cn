@@ -452,18 +452,18 @@ ask_do_tutorial(void)
             any.a_char = 'y';
             add_menu(win, &nul_glyphinfo, &any, any.a_char, 0,
                      ATR_NONE, NO_COLOR,
-                     "Yes, do a tutorial", MENU_ITEMFLAGS_NONE);
+                     "是的，进行教程", MENU_ITEMFLAGS_NONE);
             any.a_char = 'n';
             add_menu(win, &nul_glyphinfo, &any, any.a_char, 0,
                      ATR_NONE, NO_COLOR,
-                     "No, just start play", MENU_ITEMFLAGS_NONE);
+                     "不，直接开始游戏。", MENU_ITEMFLAGS_NONE);
 
             add_menu_str(win, "");
             add_menu_str(win, buf);
             if (pass++) /* we'll get here after <space> or <return> */
                 add_menu_str(win, "(Please choose 'y' or 'n'.)");
 
-            end_menu(win, "Do you want a tutorial?");
+            end_menu(win, "你想要教程吗？");
 
             n = select_menu(win, PICK_ONE, &sel);
             destroy_nhwindow(win);
@@ -868,7 +868,7 @@ petname_optfn(
     } else if (req == get_val || req == get_cnf_val) {
         failsafe[0] = '\0';
         Sprintf(opts, "%s", *petname ? petname
-                            : (req == get_cnf_val) ? "none" : none);
+                            : (req == get_cnf_val) ? "无" : none);
     }
     return optn_ok;
 }
@@ -912,7 +912,7 @@ optfn_alignment(
     }
     if (req == get_cnf_val) {
         op = get_cnf_role_opt(optidx);
-        Strcpy(opts, op ? op : "none");
+        Strcpy(opts, op ? op : "无");
         return optn_ok;
     }
     return optn_ok;
@@ -956,10 +956,10 @@ optfn_align_message(
 
         which = iflags.wc_align_message;
         Sprintf(opts, "%s",
-                (which == ALIGN_TOP) ? "top"
-                : (which == ALIGN_LEFT) ? "left"
-                  : (which == ALIGN_BOTTOM) ? "bottom"
-                    : (which == ALIGN_RIGHT) ? "right"
+                (which == ALIGN_TOP) ? "顶部"
+                : (which == ALIGN_LEFT) ? "左侧"
+                  : (which == ALIGN_BOTTOM) ? "底部"
+                    : (which == ALIGN_RIGHT) ? "右侧"
                       : defopt);
         return optn_ok;
     }
@@ -1005,10 +1005,10 @@ optfn_align_status(
 
         which = iflags.wc_align_status;
         Sprintf(opts, "%s",
-                (which == ALIGN_TOP) ? "top"
-                : (which == ALIGN_LEFT) ? "left"
-                  : (which == ALIGN_BOTTOM) ? "bottom"
-                    : (which == ALIGN_RIGHT) ? "right"
+                (which == ALIGN_TOP) ? "上"
+                : (which == ALIGN_LEFT) ? "左"
+                  : (which == ALIGN_BOTTOM) ? "下"
+                    : (which == ALIGN_RIGHT) ? "右"
                       : defopt);
         return optn_ok;
     }
@@ -1050,7 +1050,7 @@ optfn_altkeyhandling(
                     ? "340"
                     : (iflags.key_handling == ray_keyhandling)
                         ? "ray"
-                        : "default");
+                        : "默认");
 #endif
         return optn_ok;
     }
@@ -1144,7 +1144,7 @@ optfn_autounlock(
     }
     if (req == get_val || req == get_cnf_val) {
         if (!flags.autounlock) {
-            Strcpy(opts, "none");
+            Strcpy(opts, "无");
         } else {
             static const char plus[] = " + ";
             const char *p = "";
@@ -1235,7 +1235,7 @@ optfn_boulder(
     if (req == get_val || req == get_cnf_val) {
         opts[0] = '\0';
 #ifdef BACKWARD_COMPAT
-        Sprintf(opts, "%c",
+        Sprintf(opts, "%s",
                 go.ov_primary_syms[SYM_BOULDER + SYM_OFF_X]
                   ? go.ov_primary_syms[SYM_BOULDER + SYM_OFF_X]
                   : gs.showsyms[(int) objects[BOULDER].oc_class + SYM_OFF_O]);
@@ -1757,7 +1757,7 @@ optfn_fruit(
                been created since the previous name was put in place */
             (void) fruitadd(svp.pl_fruit, forig);
             if (give_opt_msg)
-                pline("Fruit is now \"%s\".", svp.pl_fruit);
+                pline("现在水果是 \"%s\".", svp.pl_fruit);
         }
         /* If initial, then initoptions is allowed to do it instead
          * of here (initoptions always has to do it even if there's
@@ -1805,7 +1805,7 @@ optfn_gender(
     }
     if (req == get_cnf_val) {
         op = get_cnf_role_opt(optidx);
-        Strcpy(opts, op ? op : "none");
+        Strcpy(opts, op ? op : "无");
         return optn_ok;
     }
     return optn_ok;
@@ -1885,8 +1885,8 @@ optfn_hilite_status(
 #ifdef STATUS_HILITES
         if (req == get_val)
             Strcpy(opts, count_status_hilites()
-                     ? "(see \"status highlight rules\" below)"
-                     : "(none)");
+                     ? "(参见下面的\"状态高亮规则\")"
+                     : "(无)");
 #endif
         return optn_ok;
     }
@@ -2028,7 +2028,7 @@ optfn_map_mode(
     if (req == get_val || req == get_cnf_val) {
         i = iflags.wc_map_mode;
         Sprintf(opts, "%s",
-                (i == MAP_MODE_TILES) ? "tiles"
+                (i == MAP_MODE_TILES) ? "贴图"
                 : (i == MAP_MODE_ASCII4x6) ? "ascii4x6"
                   : (i == MAP_MODE_ASCII6x8) ? "ascii6x8"
                     : (i == MAP_MODE_ASCII8x8) ? "ascii8x8"
@@ -2506,10 +2506,10 @@ optfn_msg_window(
             if (tmp == 's' || tmp == 'c')
                 tmp = iflags.prevmsg_window = 'r';
         }
-        Sprintf(opts, "%s", (tmp == 's') ? "single"
-                            : (tmp == 'c') ? "combination"
-                              : (tmp == 'f') ? "full"
-                                : "reversed");
+        Sprintf(opts, "%s", (tmp == 's') ? "单个"
+                            : (tmp == 'c') ? "组合"
+                              : (tmp == 'f') ? "完整"
+                                : "反向");
 #endif
         return optn_ok;
     }
@@ -2539,7 +2539,7 @@ optfn_msghistory(
         return optn_ok;
     }
     if (req == get_val || req == get_cnf_val) {
-        Sprintf(opts, "%u", iflags.msg_history);
+        Sprintf(opts, "%s", iflags.msg_history);
         return optn_ok;
     }
     return optn_ok;
@@ -2883,7 +2883,7 @@ optfn_paranoid_confirmation(
 #endif
             /* convert prayconfirm to paranoid_confirm:+pray and
                !prayconfirm to paranoid_confirm:-pray */
-            Sprintf(prayconfirm, "%cpray", opt_negated ? '-' : '+');
+            Sprintf(prayconfirm, "%c祈祷", opt_negated ? '-' : '+');
             op = prayconfirm;
             /* possibly changing !prayconfirm to paranoid_confirm:-pray
                which clears a paranoia bit but isn't a negated option */
@@ -3125,8 +3125,8 @@ optfn_perminv_mode(
                 (void) strsubst(opts, " currently", "");
             else
                 (void) strsubst(opts, " inventory", " invent");
-            Strcat(opts, (((iflags.perminv_mode & InvSparse) != 0) ? " (Off)"
-                          : " ('perm_invent' is Off)"));
+            Strcat(opts, (((iflags.perminv_mode & InvSparse) != 0) ? " (关闭)"
+                          : " ('perm_invent' 已关闭)"));
         }
     } else if (req == get_cnf_val) {
         Sprintf(opts, "%s", perminv_modes[iflags.perminv_mode][0]);
@@ -3181,7 +3181,7 @@ optfn_petattr(
         } else
 #endif
         if (iflags.wc2_petattr != 0)
-            Sprintf(opts, "0x%08x", iflags.wc2_petattr);
+            Sprintf(opts, "%s", iflags.wc2_petattr);
         else if (req == get_cnf_val)
             opts[0] = '\0';
         else
@@ -3235,16 +3235,16 @@ optfn_pettype(
         return optn_ok;
     }
     if (req == get_val) {
-        Sprintf(opts, "%s", (gp.preferred_pet == 'c') ? "cat"
-                           : (gp.preferred_pet == 'd') ? "dog"
-                             : (gp.preferred_pet == 'h') ? "horse"
-                               : (gp.preferred_pet == 'n') ? "none"
-                                 : "random");
+        Sprintf(opts, "%s", (gp.preferred_pet == 'c') ? "猫"
+                           : (gp.preferred_pet == 'd') ? "狗"
+                             : (gp.preferred_pet == 'h') ? "马"
+                               : (gp.preferred_pet == 'n') ? "无"
+                                 : "随机");
         return optn_ok;
     }
     if (req == get_cnf_val) {
         if (gp.preferred_pet)
-            Sprintf(opts, "%c", gp.preferred_pet);
+            Sprintf(opts, "%s", gp.preferred_pet);
         else
             opts[0] = '\0';
         return optn_ok;
@@ -3339,8 +3339,8 @@ optfn_pickup_types(
                 boolean wasspace;
 
                 use_menu = FALSE;
-                Sprintf(qbuf, "New %s: [%s am] (%s)", allopt[optidx].name,
-                        ocl, *tbuf ? tbuf : "all");
+                Sprintf(qbuf, "新%s: [%s am] (%s)", allopt[optidx].name,
+                        ocl, *tbuf ? tbuf : "全部");
                 abuf[0] = '\0';
                 getlin(qbuf, abuf);
                 wasspace = (abuf[0] == ' '); /* before mungspaces */
@@ -3391,7 +3391,7 @@ optfn_pickup_types(
     }
     if (req == get_val || req == get_cnf_val) {
         oc_to_str(flags.pickup_types, ocl);
-        Sprintf(opts, "%s", ocl[0] ? ocl : "all");
+        Sprintf(opts, "%s", ocl[0] ? ocl : "全部");
         return optn_ok;
     }
     if (req == do_handler) {
@@ -3461,7 +3461,7 @@ optfn_player_selection(
     }
     if (req == get_val || req == get_cnf_val) {
         Sprintf(opts, "%s",
-                iflags.wc_player_selection ? "prompts" : "dialog");
+                iflags.wc_player_selection ? "提示" : "对话框");
         return optn_ok;
     }
     return optn_ok;
@@ -3497,7 +3497,7 @@ optfn_playmode(
         return optn_ok;
     }
     if (req == get_val || req == get_cnf_val) {
-        Strcpy(opts, wizard ? "debug" : discover ? "explore" : "normal");
+        Strcpy(opts, wizard ? "调试" : discover ? "探索" : "正常");
         return optn_ok;
     }
     return optn_ok;
@@ -3535,7 +3535,7 @@ optfn_race(
     }
     if (req == get_cnf_val) {
         op = get_cnf_role_opt(optidx);
-        Strcpy(opts, op ? op : "none");
+        Strcpy(opts, op ? op : "无");
         return optn_ok;
     }
     return optn_ok;
@@ -3574,9 +3574,9 @@ optfn_roguesymset(
     if (req == get_val || req == get_cnf_val) {
         Sprintf(opts, "%s",
                 gs.symset[ROGUESET].name ? gs.symset[ROGUESET].name
-                                         : "default");
+                                         : "默认");
         if (gc.currentgraphics == ROGUESET && gs.symset[ROGUESET].name)
-            Strcat(opts, ", active");
+            Strcat(opts, ", 已激活");
         return optn_ok;
     }
     if (req == do_handler) {
@@ -3617,7 +3617,7 @@ optfn_role(
     }
     if (req == get_cnf_val) {
         op = get_cnf_role_opt(optidx);
-        Strcpy(opts, op ? op : "none");
+        Strcpy(opts, op ? op : "无");
         return optn_ok;
     }
     return optn_ok;
@@ -3745,15 +3745,15 @@ optfn_scores(
     if (req == get_val || req == get_cnf_val) {
         *opts = '\0';
         if (flags.end_top > 0)
-            Sprintf(opts, "%d top", flags.end_top);
+            Sprintf(opts, "%d 名", flags.end_top);
         if (flags.end_around > 0)
-            Sprintf(eos(opts), "%s%d around",
+            Sprintf(eos(opts), "%s%d 周围",
                     (flags.end_top > 0) ? "/" : "", flags.end_around);
         if (flags.end_own)
-            Sprintf(eos(opts), "%sown",
+            Sprintf(eos(opts), "%s自己的",
                     (flags.end_top > 0 || flags.end_around > 0) ? "/" : "");
         if (!*opts)
-            Strcpy(opts, "none");
+            Strcpy(opts, "无");
         return optn_ok;
     }
     return optn_ok;
@@ -4001,8 +4001,8 @@ optfn_sortvanquished(
         (void) set_vanq_order(TRUE); /* insight.c */
         pline("'%s' %s \"%s: %s\".", optname,
               (flags.vanq_sortmode == prev_sortmode)
-                 ? "not changed, still"
-                 : "changed to",
+                 ? "未改变，仍为"
+                 : "改为",
               vanqorders[flags.vanq_sortmode][0],
               vanqorders[flags.vanq_sortmode][1]);
     }
@@ -4044,9 +4044,9 @@ optfn_statushilites(
     if (req == get_val) {
 #ifdef STATUS_HILITES
         if (!iflags.hilite_delta)
-            Strcpy(opts, "0 (off: don't highlight status fields)");
+            Strcpy(opts, "0（关闭：不突出显示状态字段）");
         else
-            Sprintf(opts, "%ld (on: highlight status for %ld turns)",
+            Sprintf(opts, "%ld (开启：高亮状态持续%ld回合)",
                     iflags.hilite_delta, iflags.hilite_delta);
 #else
         Strcpy(opts, "unsupported");
@@ -4100,7 +4100,7 @@ optfn_statuslines(
         if (wc2_supported(allopt[optidx].name))
             Strcpy(opts, (iflags.wc2_statuslines < 3) ? "2" : "3");
         else
-            Strcpy(opts, "unknown");
+            Strcpy(opts, "未知");
         return optn_ok;
     }
     return optn_ok;
@@ -4205,11 +4205,11 @@ optfn_symset(
     if (req == get_val) {
         Sprintf(opts, "%s",
                 gs.symset[PRIMARYSET].name ? gs.symset[PRIMARYSET].name
-                                          : "default");
+                                          : "默认");
         if (gc.currentgraphics == PRIMARYSET && gs.symset[PRIMARYSET].name)
-            Strcat(opts, ", active");
+            Strcat(opts, ", 已激活");
         if (gs.symset[PRIMARYSET].handling) {
-            Sprintf(eos(opts), ", handler=%s",
+            Sprintf(eos(opts), ", 处理程序=%s",
                     known_handling[gs.symset[PRIMARYSET].handling]);
         }
         return optn_ok;
@@ -4217,7 +4217,7 @@ optfn_symset(
     if (req == get_cnf_val) {
         Sprintf(opts, "%s",
                 gs.symset[PRIMARYSET].name ? gs.symset[PRIMARYSET].name
-                                          : "default");
+                                          : "默认");
         return optn_ok;
     }
     if (req == do_handler) {
@@ -4512,7 +4512,7 @@ optfn_versinfo(
         /* return handler_versinfo(); */
         (void) handler_versinfo();
         pline("'%s' %s %u.", optname,
-              (flags.versinfo == vi) ? "not changed, still" : "changed to",
+              (flags.versinfo == vi) ? "没有改变，仍然是" : "改变为",
               flags.versinfo);
     } else if (req == get_val) {
         char vbuf[QBUFSZ];
@@ -4521,11 +4521,11 @@ optfn_versinfo(
                 n = (vi & VI_NUMBER) != 0;
 
         Sprintf(opts, "%u: %s%s%s%s%s (%.99s)", flags.versinfo,
-                g ? "name" : "", (b && g) ? "+" : "", b ? "branch" : "",
-                (n && (b || g)) ? "+" : "", n ? "number" : "",
+                g ? "名称" : "", (b && g) ? "+" : "", b ? "分支" : "",
+                (n && (b || g)) ? "+" : "", n ? "编号" : "",
                 status_version(vbuf, sizeof vbuf, FALSE));
     } else if (req == get_cnf_val) {
-        Sprintf(opts, "%u", flags.versinfo);
+        Sprintf(opts, "%s", flags.versinfo);
     }
     if (flags.versinfo != vi && !go.opt_initial)
         go.opt_need_redraw = TRUE; /* context.botlx = TRUE ought to suffice
@@ -4731,11 +4731,11 @@ optfn_whatis_coord(
     }
     if (req == get_val || req == get_cnf_val) {
         Sprintf(opts, "%s",
-                (iflags.getpos_coords == GPCOORDS_MAP) ? "map"
-                : (iflags.getpos_coords == GPCOORDS_COMPASS) ? "compass"
-                : (iflags.getpos_coords == GPCOORDS_COMFULL) ? "full compass"
-                : (iflags.getpos_coords == GPCOORDS_SCREEN) ? "screen"
-                : "none");
+                (iflags.getpos_coords == GPCOORDS_MAP) ? "地图"
+                : (iflags.getpos_coords == GPCOORDS_COMPASS) ? "指南针"
+                : (iflags.getpos_coords == GPCOORDS_COMFULL) ? "完整指南针"
+                : (iflags.getpos_coords == GPCOORDS_SCREEN) ? "屏幕"
+                : "无");
         return optn_ok;
     }
     if (req == do_handler) {
@@ -4782,9 +4782,9 @@ optfn_whatis_filter(
     }
     if (req == get_val || req == get_cnf_val) {
         Sprintf(opts, "%s",
-                (iflags.getloc_filter == GFILTER_VIEW) ? "view"
-                : (iflags.getloc_filter == GFILTER_AREA) ? "area"
-                : "none");
+                (iflags.getloc_filter == GFILTER_VIEW) ? "视野"
+                : (iflags.getloc_filter == GFILTER_AREA) ? "区域"
+                : "无");
         return optn_ok;
     }
     if (req == do_handler) {
@@ -4832,13 +4832,13 @@ optfn_windowborders(
     }
     if (req == get_val) {
         Sprintf(opts, "%s",
-                (iflags.wc2_windowborders == 0) ? "0=off"
-                : (iflags.wc2_windowborders == 1) ? "1=on"
-                  : (iflags.wc2_windowborders == 2) ? "2=auto"
+                (iflags.wc2_windowborders == 0) ? "0=关闭"
+                : (iflags.wc2_windowborders == 1) ? "1=开启"
+                  : (iflags.wc2_windowborders == 2) ? "2=自动"
                     : (iflags.wc2_windowborders == 3)
-                      ? "3=on, except off for perm_invent"
+                      ? "3=开启，永久清单除外关闭"
                       : (iflags.wc2_windowborders == 4)
-                        ? "4=auto, except off for perm_invent"
+                        ? "4=自动，永久清单除外关闭"
                         : defopt);
         return optn_ok;
     }
@@ -5436,8 +5436,8 @@ optfn_boolean(
            still be pending at this point (mainly for opt_need_redraw);
            give the toggled message now regardless */
         if (give_opt_msg)
-            pline("'%s' option toggled %s.", allopt[optidx].name,
-                  !negated ? "on" : "off");
+            pline("\"%s\" 选项已切换为 %s。", allopt[optidx].name,
+                  !negated ? "开启" : "关闭");
 
         return optn_ok;
     }
@@ -5564,7 +5564,7 @@ handler_menustyle(void)
         Sprintf(buf, "%4s%-12.12s%c%.60s", "", "", sep, menutype[i][2]);
         add_menu_str(tmpwin, buf);
     }
-    end_menu(tmpwin, "Select menustyle:");
+    end_menu(tmpwin, "选择菜单样式：");
     n = select_menu(tmpwin, PICK_ONE, &style_pick);
     if (n > 0) {
         i = style_pick[0].item.a_int - 1;
@@ -5577,7 +5577,7 @@ handler_menustyle(void)
     destroy_nhwindow(tmpwin);
     chngd = (flags.menu_style != old_menu_style);
     if (chngd || flags.verbose)
-        pline("'menustyle' %s \"%s\".", chngd ? "changed to" : "is still",
+        pline("'menustyle' %s \"%s\".", chngd ? "改为" : "仍为",
               menutype[(int) flags.menu_style][0]);
     return optn_ok;
 }
@@ -5595,19 +5595,19 @@ handler_align_misc(int optidx)
     start_menu(tmpwin, MENU_BEHAVE_STANDARD);
     any = cg.zeroany;
     any.a_int = ALIGN_TOP;
-    add_menu(tmpwin, &nul_glyphinfo, &any, 't', 0, ATR_NONE, clr, "top",
+    add_menu(tmpwin, &nul_glyphinfo, &any, 't', 0, ATR_NONE, clr, "顶部",
              MENU_ITEMFLAGS_NONE);
     any.a_int = ALIGN_BOTTOM;
-    add_menu(tmpwin, &nul_glyphinfo, &any, 'b', 0, ATR_NONE, clr, "bottom",
+    add_menu(tmpwin, &nul_glyphinfo, &any, 'b', 0, ATR_NONE, clr, "底部",
              MENU_ITEMFLAGS_NONE);
     any.a_int = ALIGN_LEFT;
-    add_menu(tmpwin, &nul_glyphinfo, &any, 'l', 0, ATR_NONE, clr, "left",
+    add_menu(tmpwin, &nul_glyphinfo, &any, 'l', 0, ATR_NONE, clr, "左",
              MENU_ITEMFLAGS_NONE);
     any.a_int = ALIGN_RIGHT;
-    add_menu(tmpwin, &nul_glyphinfo, &any, 'r', 0, ATR_NONE, clr, "right",
+    add_menu(tmpwin, &nul_glyphinfo, &any, 'r', 0, ATR_NONE, clr, "右侧",
              MENU_ITEMFLAGS_NONE);
-    Sprintf(abuf, "Select %s window placement relative to the map:",
-            (optidx == opt_align_message) ? "message" : "status");
+    Sprintf(abuf, "选择 %s 窗口相对于地图的放置位置:",
+            (optidx == opt_align_message) ? "消息" : "状态");
     end_menu(tmpwin, abuf);
     if (select_menu(tmpwin, PICK_ONE, &window_pick) > 0) {
         if (optidx == opt_align_message)
@@ -5645,7 +5645,7 @@ handler_autounlock(int optidx)
                  ATR_NONE, clr, buf,
                  (presel ? MENU_ITEMFLAGS_SELECTED : MENU_ITEMFLAGS_NONE));
     }
-    Sprintf(buf, "Select '%.20s' actions:", optname);
+    Sprintf(buf, "选择'%.20s'操作：", optname);
     end_menu(tmpwin, buf);
     n = select_menu(tmpwin, PICK_ANY, &window_pick);
     if (n > 0) {
@@ -5666,7 +5666,7 @@ handler_autounlock(int optidx)
     if ((chngd || flags.verbose) && give_opt_msg) {
         optfn_autounlock(optidx, get_val, FALSE, buf, (char *) NULL);
         pline("'%s' %s '%s'.", optname,
-              chngd ? "changed to" : "is still", buf);
+              chngd ? "已改为" : "仍是", buf);
     }
     return res;
 }
@@ -5701,7 +5701,7 @@ handler_disclose(void)
                  0, ATR_NONE, clr, buf, MENU_ITEMFLAGS_NONE);
         disc_cat[i] = 0;
     }
-    end_menu(tmpwin, "Change which disclosure options categories:");
+    end_menu(tmpwin, "更改哪些披露选项类别：");
     pick_cnt = select_menu(tmpwin, PICK_ANY, &disclosure_pick);
     if (pick_cnt > 0) {
         for (pick_idx = 0; pick_idx < pick_cnt; ++pick_idx) {
@@ -5716,7 +5716,7 @@ handler_disclose(void)
     for (i = 0; i < NUM_DISCLOSURE_OPTIONS; i++) {
         if (disc_cat[i]) {
             c = flags.end_disclose[i];
-            Sprintf(buf, "Disclosure options for %s:",
+            Sprintf(buf, "针对 %s 的揭示选项：",
                     disclosure_names[i]);
             tmpwin = create_nhwindow(NHW_MENU);
             start_menu(tmpwin, MENU_BEHAVE_STANDARD);
@@ -5725,40 +5725,40 @@ handler_disclose(void)
             any.a_char = DISCLOSE_NO_WITHOUT_PROMPT;
             add_menu(tmpwin, &nul_glyphinfo, &any, 0,
                      any.a_char, ATR_NONE, clr,
-                     "Never disclose, without prompting",
+                     "绝不透露，无需提示",
                      (c == any.a_char) ? MENU_ITEMFLAGS_SELECTED
                                        : MENU_ITEMFLAGS_NONE);
             any.a_char = DISCLOSE_YES_WITHOUT_PROMPT;
             add_menu(tmpwin, &nul_glyphinfo, &any, 0,
                      any.a_char, ATR_NONE, clr,
-                     "Always disclose, without prompting",
+                     "总是披露，无需提示",
                      (c == any.a_char) ? MENU_ITEMFLAGS_SELECTED
                                        : MENU_ITEMFLAGS_NONE);
             if (*disclosure_names[i] == 'v' || *disclosure_names[i] == 'g') {
                 any.a_char = DISCLOSE_SPECIAL_WITHOUT_PROMPT; /* '#' */
                 add_menu(tmpwin, &nul_glyphinfo, &any, 0,
                          any.a_char, ATR_NONE, clr,
-                         "Always disclose, pick sort order from menu",
+                         "总是披露，从菜单中选择排序顺序",
                          (c == any.a_char) ? MENU_ITEMFLAGS_SELECTED
                                            : MENU_ITEMFLAGS_NONE);
             }
             any.a_char = DISCLOSE_PROMPT_DEFAULT_NO;
             add_menu(tmpwin, &nul_glyphinfo, &any, 0,
                      any.a_char, ATR_NONE, clr,
-                     "Prompt, with default answer of \"No\"",
+                     "提示，默认答案为\"否\"",
                      (c == any.a_char) ? MENU_ITEMFLAGS_SELECTED
                                        : MENU_ITEMFLAGS_NONE);
             any.a_char = DISCLOSE_PROMPT_DEFAULT_YES;
             add_menu(tmpwin, &nul_glyphinfo, &any, 0,
                      any.a_char, ATR_NONE, clr,
-                     "Prompt, with default answer of \"Yes\"",
+                     "提示，默认答案为“是”",
                      (c == any.a_char) ? MENU_ITEMFLAGS_SELECTED
                                        : MENU_ITEMFLAGS_NONE);
             if (*disclosure_names[i] == 'v' || *disclosure_names[i] == 'g') {
                 any.a_char = DISCLOSE_PROMPT_DEFAULT_SPECIAL; /* '?' */
                 add_menu(tmpwin, &nul_glyphinfo, &any, 0,
                          any.a_char, ATR_NONE, clr,
-                "Prompt, with default answer of \"Ask\" to request sort menu",
+                "提示，默认答案为“询问”以请求排序菜单",
                          (c == any.a_char) ? MENU_ITEMFLAGS_SELECTED
                                            : MENU_ITEMFLAGS_NONE);
             }
@@ -5814,7 +5814,7 @@ handler_menu_objsyms(void)
                  (j == iflags.menuobjsyms) ? MENU_ITEMFLAGS_SELECTED
                                            : MENU_ITEMFLAGS_NONE);
     }
-    end_menu(tmpwin, "Set object symbols in menus to what?");
+    end_menu(tmpwin, "菜单中的物品符号要设置成什么？");
     n = select_menu(tmpwin, PICK_ONE, &picklist);
     if (n > 0) {
         i = picklist[0].item.a_int - 1;
@@ -5864,7 +5864,7 @@ handler_msg_window(void)
             Sprintf(buf, "%4s%-12.12s%c%.60s", "", "", sep, msgwind[i][2]);
             add_menu_str(tmpwin, buf);
         }
-        end_menu(tmpwin, "Select message history display type:");
+        end_menu(tmpwin, "选择消息历史显示类型：");
         n = select_menu(tmpwin, PICK_ONE, &window_pick);
         if (n > 0) {
             c = window_pick[0].item.a_char;
@@ -5880,11 +5880,11 @@ handler_msg_window(void)
             (void) optfn_msg_window(opt_msg_window, get_val,
                                     FALSE, buf, empty_optstr);
             pline("'msg_window' %.20s \"%.20s\".",
-                  chngd ? "changed to" : "is still", buf);
+                  chngd ? "已更改为" : "仍为", buf);
         }
     } else
 #endif /* PREV_MSGS (for tty or curses) */
-        pline("'%s' option is not supported for '%s'.",
+        pline("'%s' 选项不支持 '%s'。",
               allopt[opt_msg_window].name, windowprocs.name);
     return optn_ok;
 }
@@ -5912,7 +5912,7 @@ handler_number_pad(void)
         add_menu(tmpwin, &nul_glyphinfo, &any, 'a' + i, '0' + i,
                  ATR_NONE, clr, npchoices[i], MENU_ITEMFLAGS_NONE);
     }
-    end_menu(tmpwin, "Select number_pad mode:");
+    end_menu(tmpwin, "选择数字键盘模式：");
     if (select_menu(tmpwin, PICK_ONE, &mode_pick) > 0) {
         switch (mode_pick->item.a_int - 1) {
         case 0:
@@ -5989,7 +5989,7 @@ handler_paranoid_confirmation(void)
                      ? MENU_ITEMFLAGS_SELECTED
                      : MENU_ITEMFLAGS_NONE);
     }
-    end_menu(tmpwin, "Actions requiring extra confirmation:");
+    end_menu(tmpwin, "需要额外确认的操作：");
     i = select_menu(tmpwin, PICK_ANY, &paranoia_picks);
     if (i >= 0) {
         /* player didn't cancel; we reset all the paranoia options
@@ -6045,7 +6045,7 @@ handler_perminv_mode(void)
                  buf, (i == old_pi) ? MENU_ITEMFLAGS_SELECTED
                                     : MENU_ITEMFLAGS_NONE);
     }
-    end_menu(tmpwin, "Choose permanent inventory mode:");
+    end_menu(tmpwin, "选择永久背包模式：");
     n = select_menu(tmpwin, PICK_ONE, &pi_pick);
     destroy_nhwindow(tmpwin);
     if (n > 0) {
@@ -6059,7 +6059,7 @@ handler_perminv_mode(void)
         buf[0] = '\0';
         (void) optfn_perminv_mode(opt_perm_invent, get_val, FALSE, buf, NULL);
         pline("'perminv_mode' %s '%s' (%s).",
-              (new_pi != old_pi) ? "changed to" : "is still",
+              (new_pi != old_pi) ? "已更改为" : "仍是",
               perminv_modes[new_pi][0], buf);
         if (new_pi != InvOptNone && !old_perm_invent)
             iflags.perm_invent = can_set_perm_invent();
@@ -6101,7 +6101,7 @@ handler_pickup_burden(void)
         add_menu(tmpwin, &nul_glyphinfo, &any, burden_letters[i],
                  0, ATR_NONE, clr, burden_name, MENU_ITEMFLAGS_NONE);
     }
-    end_menu(tmpwin, "Select encumbrance level:");
+    end_menu(tmpwin, "选择负重等级:");
     if (select_menu(tmpwin, PICK_ONE, &burden_pick) > 0) {
         flags.pickup_burden = burden_pick->item.a_int - 1;
         free((genericptr_t) burden_pick);
@@ -6116,7 +6116,7 @@ handler_pickup_types(void)
     char buf[BUFSZ];
 
     /* parseoptions will prompt for the list of types */
-    (void) parseoptions(strcpy(buf, "pickup_types"), FALSE, FALSE);
+    (void) parseoptions(strcpy(buf, "拾取类型"), FALSE, FALSE);
     return optn_ok;
 }
 
@@ -6139,7 +6139,7 @@ handler_runmode(void)
         add_menu(tmpwin, &nul_glyphinfo, &any, *mode_name,
                  0, ATR_NONE, clr, mode_name, MENU_ITEMFLAGS_NONE);
     }
-    end_menu(tmpwin, "Select run/travel display mode:");
+    end_menu(tmpwin, "选择奔跑/旅行显示模式:");
     if (select_menu(tmpwin, PICK_ONE, &mode_pick) > 0) {
         flags.runmode = mode_pick->item.a_int - 1;
         free((genericptr_t) mode_pick);
@@ -6185,7 +6185,7 @@ handler_sortloot(void)
                                 ? MENU_ITEMFLAGS_SELECTED
                                 : MENU_ITEMFLAGS_NONE);
     }
-    end_menu(tmpwin, "Select loot sorting type:");
+    end_menu(tmpwin, "选择战利品排序类型：");
     n = select_menu(tmpwin, PICK_ONE, &sortl_pick);
     if (n > 0) {
         char c = sortl_pick[0].item.a_char;
@@ -6219,34 +6219,34 @@ handler_whatis_coord(void)
     any.a_char = GPCOORDS_COMPASS;
     add_menu(tmpwin, &nul_glyphinfo, &any, GPCOORDS_COMPASS,
              0, ATR_NONE, clr,
-             "compass ('east' or '3s' or '2n,4w')",
+             "罗盘（'east' 或 '3s' 或 '2n,4w'）",
              (gpc == GPCOORDS_COMPASS)
                 ? MENU_ITEMFLAGS_SELECTED : MENU_ITEMFLAGS_NONE);
     any.a_char = GPCOORDS_COMFULL;
     add_menu(tmpwin, &nul_glyphinfo, &any, GPCOORDS_COMFULL,
              0, ATR_NONE, clr,
-             "full compass ('east' or '3south' or '2north,4west')",
+             "全方向罗盘（'东' 或 '3南' 或 '2北,4西'）",
              (gpc == GPCOORDS_COMFULL)
                 ? MENU_ITEMFLAGS_SELECTED : MENU_ITEMFLAGS_NONE);
     any.a_char = GPCOORDS_MAP;
     add_menu(tmpwin, &nul_glyphinfo, &any, GPCOORDS_MAP,
-             0, ATR_NONE, clr, "map <x,y>",
+             0, ATR_NONE, clr, "地图 <x,y>",
              (gpc == GPCOORDS_MAP)
                 ? MENU_ITEMFLAGS_SELECTED : MENU_ITEMFLAGS_NONE);
     any.a_char = GPCOORDS_SCREEN;
     add_menu(tmpwin, &nul_glyphinfo, &any, GPCOORDS_SCREEN,
-             0, ATR_NONE, clr, "screen [row,column]",
+             0, ATR_NONE, clr, "屏幕 [行,列]",
              (gpc == GPCOORDS_SCREEN)
                 ? MENU_ITEMFLAGS_SELECTED : MENU_ITEMFLAGS_NONE);
     any.a_char = GPCOORDS_NONE;
     add_menu(tmpwin, &nul_glyphinfo, &any, GPCOORDS_NONE,
-             0, ATR_NONE, clr, "none (no coordinates displayed)",
+             0, ATR_NONE, clr, "无（不显示坐标）",
              (gpc == GPCOORDS_NONE)
                 ? MENU_ITEMFLAGS_SELECTED : MENU_ITEMFLAGS_NONE);
     add_menu_str(tmpwin, "");
-    Sprintf(buf, "map: upper-left: <%d,%d>, lower-right: <%d,%d>%s",
+    Sprintf(buf, "地图：左上角：<%d,%d>，右下角：<%d,%d>%s",
             1, 0, COLNO - 1, ROWNO - 1,
-            flags.verbose ? "; column 0 unused, off left edge" : "");
+            flags.verbose ? "；第0列未使用，超出左边缘" : "");
     add_menu_str(tmpwin, buf);
     if (strcmp(windowprocs.name, "tty")) /* only show for non-tty */
         add_menu_str(tmpwin,
@@ -6256,13 +6256,13 @@ handler_whatis_coord(void)
 #else
 #define COL80ARG ""
 #endif
-    Sprintf(buf, "screen: upper-left: [%02d,%02d], lower-right: [%d,%d]%s",
+    Sprintf(buf, "屏幕：左上角：[%02d,%02d]，右下角：[%d,%d]%s",
             0 + 2, 1, ROWNO - 1 + 2, COLNO - 1, COL80ARG);
 #undef COL80ARG
     add_menu_str(tmpwin, buf);
     add_menu_str(tmpwin, "");
     end_menu(tmpwin,
-        "Select coordinate display when auto-describing a map position:");
+        "当自动描述地图位置时选择坐标显示方式：");
     if ((pick_cnt = select_menu(tmpwin, PICK_ONE, &window_pick)) > 0) {
         iflags.getpos_coords = window_pick[0].item.a_char;
         /* PICK_ONE doesn't unselect preselected entry when
@@ -6290,21 +6290,21 @@ handler_whatis_filter(void)
     any = cg.zeroany;
     any.a_char = (GFILTER_NONE + 1);
     add_menu(tmpwin, &nul_glyphinfo, &any, 'n',
-             0, ATR_NONE, clr, "no filtering",
+             0, ATR_NONE, clr, "无过滤",
              (gfilt == GFILTER_NONE)
                 ? MENU_ITEMFLAGS_SELECTED : MENU_ITEMFLAGS_NONE);
     any.a_char = (GFILTER_VIEW + 1);
     add_menu(tmpwin, &nul_glyphinfo, &any, 'v',
-             0, ATR_NONE, clr, "in view only",
+             0, ATR_NONE, clr, "仅视野内",
              (gfilt == GFILTER_VIEW)
                 ? MENU_ITEMFLAGS_SELECTED : MENU_ITEMFLAGS_NONE);
     any.a_char = (GFILTER_AREA + 1);
     add_menu(tmpwin, &nul_glyphinfo, &any, 'a',
-             0, ATR_NONE, clr, "in same area",
+             0, ATR_NONE, clr, "在同一区域",
              (gfilt == GFILTER_AREA)
                 ? MENU_ITEMFLAGS_SELECTED : MENU_ITEMFLAGS_NONE);
     end_menu(tmpwin,
-      "Select location filtering when going for next/previous map position:");
+      "选择跳转到下一/上一个地图位置时的地点过滤方式：");
     if ((pick_cnt = select_menu(tmpwin, PICK_ONE, &window_pick)) > 0) {
         iflags.getloc_filter = (window_pick[0].item.a_char - 1);
         /* PICK_ONE doesn't unselect preselected entry when
@@ -6383,8 +6383,8 @@ handler_autopickup_exception(void)
                 ape = ape->next;
             }
         }
-        Sprintf(apebuf, "%s autopickup exceptions",
-                (opt_idx == 1) ? "List of" : "Remove which");
+        Sprintf(apebuf, "%s自动拾取例外",
+                (opt_idx == 1) ? "列表" : "移除哪个");
         end_menu(tmpwin, apebuf);
         pick_cnt = select_menu(tmpwin,
                                (opt_idx == 1) ? PICK_NONE : PICK_ANY,
@@ -6439,7 +6439,7 @@ handler_menu_colors(void)
             && (mcclr = query_color((char *) 0, NO_COLOR)) != -1
                 && (mcattr = query_attr((char *) 0, ATR_NONE)) != -1
             && !add_menu_coloring_parsed(mcbuf, mcclr, mcattr)) {
-            pline("Error adding the menu color.");
+            pline("添加菜单颜色时出错。");
             wait_synch();
         }
         goto menucolors_again;
@@ -6479,8 +6479,8 @@ handler_menu_colors(void)
                      ATR_NONE, clr, mcbuf, MENU_ITEMFLAGS_NONE);
             tmp = tmp->next;
         }
-        Sprintf(mcbuf, "%s menu colors",
-                (opt_idx == 1) ? "List of" : "Remove which");
+        Sprintf(mcbuf, "%s 菜单颜色",
+                (opt_idx == 1) ? "列表" : "移除哪个");
         end_menu(tmpwin, mcbuf);
         pick_cnt = select_menu(tmpwin,
                                (opt_idx == 1) ? PICK_NONE : PICK_ANY,
@@ -6520,7 +6520,7 @@ handler_msgtype(void)
             && test_regex_pattern(mtbuf, "MSGTYPE regex")
             && (mttyp = query_msgtype()) != -1
             && !msgtype_add(mttyp, mtbuf)) {
-            pline("Error adding the message type.");
+            pline("添加消息类型时出错。");
             wait_synch();
         }
         goto msgtypes_again;
@@ -6550,8 +6550,8 @@ handler_msgtype(void)
                      ATR_NONE, clr, mtbuf, MENU_ITEMFLAGS_NONE);
             tmp = tmp->next;
         }
-        Sprintf(mtbuf, "%s message types",
-                (opt_idx == 1) ? "List of" : "Remove which");
+        Sprintf(mtbuf, "%s消息类型",
+                (opt_idx == 1) ? "列出" : "移除哪个");
         end_menu(tmpwin, mtbuf);
         pick_cnt = select_menu(tmpwin,
                                (opt_idx == 1) ? PICK_NONE : PICK_ANY,
@@ -6584,23 +6584,23 @@ handler_versinfo(void)
 
     any.a_int = n = VI_NUMBER; /* 1 */
     add_menu(tmpwin, &nul_glyphinfo, &any, 'n', n + '0', ATR_NONE, NO_COLOR,
-             "version number",
+             "版本号",
              (vi & n) ? MENU_ITEMFLAGS_SELECTED : MENU_ITEMFLAGS_NONE);
     any.a_int = n = VI_NAME; /* 2 */
     add_menu(tmpwin, &nul_glyphinfo, &any, 'g', n + '0', ATR_NONE, NO_COLOR,
-             "game name",
+             "游戏名称",
              (vi & n) ? MENU_ITEMFLAGS_SELECTED : MENU_ITEMFLAGS_NONE);
     any.a_int = n = VI_BRANCH; /* 4 */
     add_menu(tmpwin, &nul_glyphinfo, &any, 'b', n + '0', ATR_NONE, NO_COLOR,
-             (have_branch ? "development branch"
+             (have_branch ? "开发分支"
 #if (NH_DEVEL_STATUS == NH_STATUS_RELEASED)
-                          : "(not applicable)"
+                          : "(不适用)"
 #else
                           : "(not available)"
 #endif
               ), (vi & n) ? MENU_ITEMFLAGS_SELECTED : MENU_ITEMFLAGS_NONE);
 
-    end_menu(tmpwin, "Select version information flags:");
+    end_menu(tmpwin, "选择版本信息标志：");
     n = select_menu(tmpwin, PICK_ANY, &vi_pick);
     if (n > 0) {
         int i, newval = 0;
@@ -6644,7 +6644,7 @@ handler_windowborders(void)
         add_menu(tmpwin, &nul_glyphinfo, &any, 'a' + i, '0' + i,
                  ATR_NONE, clr, mode_name, MENU_ITEMFLAGS_NONE);
     }
-    end_menu(tmpwin, "Select window borders mode:");
+    end_menu(tmpwin, "选择窗口边框模式：");
     if (select_menu(tmpwin, PICK_ONE, &mode_pick) > 0) {
         iflags.wc2_windowborders = mode_pick->item.a_int - 1;
         free((genericptr_t) mode_pick);
@@ -6799,7 +6799,7 @@ complain_about_duplicate(int optidx)
 #else /* !MACOS9 */
     buf[0] = '\0';
     if (using_alias)
-        Sprintf(buf, " (via alias: %s)", allopt[optidx].alias);
+        Sprintf(buf, " (通过别名: %s)", allopt[optidx].alias);
     config_error_add("%s option specified multiple times: %s%s",
                      (allopt[optidx].opttyp == CompOpt) ? "compound"
                                                         : "boolean",
@@ -6814,7 +6814,7 @@ rejectoption(const char *optname)
 #ifdef MICRO
     pline("\"%s\" settable only from %s.", optname, get_configfile());
 #else
-    pline("%s can be set only from NETHACKOPTIONS or %s.", optname,
+    pline("%s 只能通过 NETHACKOPTIONS 或 %s 设置。", optname,
           get_configfile());
 #endif
 }
@@ -7564,7 +7564,7 @@ feature_alert_opts(char *op, const char *optn)
         return 0;
     if (fnv > get_current_feature_ver()) {
         if (!go.opt_initial) {
-            You_cant("disable new feature alerts for future versions.");
+            You_cant("无法禁用未来版本的新功能提醒。");
         } else {
             config_error_add(
                         "%s=%s Invalid reference to a future version ignored",
@@ -7578,7 +7578,7 @@ feature_alert_opts(char *op, const char *optn)
         Sprintf(buf, "%lu.%lu.%lu", FEATURE_NOTICE_VER_MAJ,
                 FEATURE_NOTICE_VER_MIN, FEATURE_NOTICE_VER_PATCH);
         pline(
-          "Feature change alerts disabled for NetHack %s features and prior.",
+          "已禁用 NetHack %s 及之前版本的功能变更提醒。",
               buf);
     }
     return 1;
@@ -7716,7 +7716,7 @@ query_msgtype(void)
                      ATR_NONE, clr,
                      msgtype_names[i].descr, MENU_ITEMFLAGS_NONE);
         }
-    end_menu(tmpwin, "How to show the message");
+    end_menu(tmpwin, "如何显示消息");
     pick_cnt = select_menu(tmpwin, PICK_ONE, &picks);
     destroy_nhwindow(tmpwin);
     if (pick_cnt > 0) {
@@ -8080,7 +8080,7 @@ void
 add_menu_cmd_alias(char from_ch, char to_ch)
 {
     if (gn.n_menu_mapped >= MAX_MENU_MAPPED_CMDS) {
-        pline("out of menu map space.");
+        pline("菜单映射空间不足。");
     } else {
         gm.mapped_menu_cmds[gn.n_menu_mapped] = from_ch;
         gm.mapped_menu_op[gn.n_menu_mapped] = to_ch;
@@ -8235,7 +8235,7 @@ fruitadd(char *str, struct fruit *replace_fruit)
                  || str_end_is(svp.pl_fruit, " egg"))
                 && ismnum(name_to_mon(svp.pl_fruit, (int *) 0)))) {
             Strcpy(buf, svp.pl_fruit);
-            Strcpy(svp.pl_fruit, "candied ");
+            Strcpy(svp.pl_fruit, "糖制的");
             nmcpy(svp.pl_fruit + 8, buf, PL_FSIZ - 8);
         }
         *altname = '\0';
@@ -8488,7 +8488,7 @@ get_option_value(const char *optname, boolean cnfvalid)
         if (!strcmp(optname, allopt[i].name)) {
             if (allopt[i].opttyp == BoolOpt
                 && (bool_p = allopt[i].addr) != 0) {
-                Sprintf(retbuf, "%s", *bool_p ? "true" : "false");
+                Sprintf(retbuf, "%s", *bool_p ? "真" : "假");
                 return retbuf;
             } else if (allopt[i].opttyp == CompOpt && allopt[i].optfn) {
                 int reslt = optn_err;
@@ -8575,7 +8575,7 @@ doset_simple_menu(void)
     any = cg.zeroany;
     any.a_int = -2 + 1;
     add_menu(tmpwin, &nul_glyphinfo, &any, '?', 0, ATR_NONE, NO_COLOR,
-             gs.simple_options_help ? "hide help" : "show help",
+             gs.simple_options_help ? "隐藏帮助" : "显示帮助",
              MENU_ITEMFLAGS_NONE);
 
     for (section = OptS_General; section < OptS_Advanced; section++) {
@@ -8620,7 +8620,7 @@ doset_simple_menu(void)
                              ? (const char *) buf2 : "unknown"));
                 break;
             default:
-                Sprintf(buf, "ERROR");
+                Sprintf(buf, "错误");
                 break;
             }
             /* pickup_types is separated from autopickup due to the
@@ -8629,7 +8629,7 @@ doset_simple_menu(void)
                 || allopt[i].idx == opt_pickup_thrown
                 || allopt[i].idx == opt_pickup_stolen
                 || allopt[i].idx == opt_dropped_nopick)
-                Strcat(buf, "  (for autopickup)");
+                Strcat(buf, "  （用于自动拾取）");
             add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0,
                      ATR_NONE, NO_COLOR, buf, MENU_ITEMFLAGS_NONE);
             if (gs.simple_options_help && allopt[i].descr) {
@@ -8639,7 +8639,7 @@ doset_simple_menu(void)
             }
         }
     }
-    end_menu(tmpwin, "Options");
+    end_menu(tmpwin, "选项");
 
     go.opt_need_redraw = FALSE;
     go.opt_need_glyph_reset = FALSE;
@@ -8669,7 +8669,7 @@ doset_simple_menu(void)
                 if (reslt == optn_ok && allopt[k].idx != pfx_cond_)
                     opt_set_in_config[k] = TRUE;
             } else {
-                Sprintf(buf, "Set %s to what?", allopt[k].name);
+                Sprintf(buf, "%s设置为什么?", allopt[k].name);
                 getlin(buf, abuf);
                 if (abuf[0] != '\033') { /* ESC */
                     Sprintf(buf, "%s:", allopt[k].name);
@@ -8803,7 +8803,7 @@ doset(void) /* changing options via menu by Per Liboriussen */
             } else {
                 any.a_int = HELP_IDX + 1; /* handling pick_list subtracts 1 */
                 add_menu(tmpwin, &nul_glyphinfo, &any, '?', '?', ATR_NONE,
-                         clr, "view help for options menu",
+                         clr, "查看选项菜单的帮助",
                          MENU_ITEMFLAGS_SKIPINVERT);
             }
         }
@@ -8900,7 +8900,7 @@ doset(void) /* changing options via menu by Per Liboriussen */
     for (i = 0; i < PREFIX_COUNT; i++)
         doset_add_menu(tmpwin, fqn_prefix_names[i], fmtstr_doset, -1, 0);
 #endif
-    end_menu(tmpwin, "Set what options?");
+    end_menu(tmpwin, "设置哪个选项?");
     go.opt_need_redraw = FALSE;
     go.opt_need_glyph_reset = FALSE;
 
@@ -8941,7 +8941,7 @@ doset(void) /* changing options via menu by Per Liboriussen */
                 } else {
                     char abuf[BUFSZ];
 
-                    Sprintf(buf, "Set %s to what?", allopt[opt_indx].name);
+                    Sprintf(buf, "%s设置为什么?", allopt[opt_indx].name);
                     abuf[0] = '\0';
                     getlin(buf, abuf);
                     if (abuf[0] == '\033')
@@ -9053,7 +9053,7 @@ doset_add_menu(
                 Sprintf(buf2, "%s", gf.fqn_prefix[j]);
 #endif
         if (!buf2[0])
-            Strcpy(buf2, "unknown");
+            Strcpy(buf2, "未知");
         value = (const char *) buf2;
     }
 
@@ -9238,7 +9238,7 @@ handle_add_list_remove(const char *optname, int numtotal)
                  0, ATR_NONE, clr, tmpbuf,
                  (i == 3) ? MENU_ITEMFLAGS_SELECTED : MENU_ITEMFLAGS_NONE);
     }
-    end_menu(tmpwin, "Do what?");
+    end_menu(tmpwin, "做什么？");
     if ((pick_cnt = select_menu(tmpwin, PICK_ONE, &pick_list)) > 0) {
         opt_idx = pick_list[0].item.a_int - 1;
         if (pick_cnt > 1 && opt_idx == 3)
@@ -9260,16 +9260,16 @@ dotogglepickup(void)
     flags.pickup = !flags.pickup;
     if (flags.pickup) {
         oc_to_str(flags.pickup_types, ocl);
-        Sprintf(buf, "ON, for %s objects%s", ocl[0] ? ocl : "all",
+        Sprintf(buf, "开, 拾取%s物品%s", ocl[0] ? ocl : "所有",
                 (ga.apelist)
                     ? ((count_apes() == 1)
-                           ? ", with one exception"
-                           : ", with some exceptions")
+                           ? ", 有一个例外"
+                           : ", 有一些例外")
                     : "");
     } else {
-        Strcpy(buf, "OFF");
+        Strcpy(buf, "关");
     }
-    pline("Autopickup: %s.", buf);
+    pline("自动拾取: %s.", buf);
     return ECMD_OK;
 }
 
@@ -9613,7 +9613,7 @@ all_options_menucolors(strbuf_t *sbuf)
         tmp = arr[i-1];
         const char *sattr = attr2attrname(tmp->attr);
         const char *sclr = clr2colorname(tmp->color);
-        Sprintf(buf, "MENUCOLOR=\"%s\"=%s%s%s\n",
+        Sprintf(buf, "MENUCOLOR=\"%s\"=%s%s%s\\n",
                 tmp->origstr,
                 sclr,
                 (tmp->attr != ATR_NONE) ? "&" : "",
@@ -9684,7 +9684,7 @@ all_options_strbuf(strbuf_t *sbuf)
     int i;
 
     strbuf_init(sbuf);
-    Sprintf(tmp, "# NetHack config, saved %s\n#\n",
+    Sprintf(tmp, "# NetHack 配置，保存于 %s\n#\n",
             yyyymmddhhmmss((time_t) 0));
     strbuf_append(sbuf, tmp);
 
@@ -9697,7 +9697,7 @@ all_options_strbuf(strbuf_t *sbuf)
             if (!bool_p || bool_p == &flags.female)
                 break; /* obsolete */
             if (*bool_p != allopt[i].initval) {
-                Sprintf(tmp, "OPTIONS=%s%s\n", *bool_p ? "" : "!", name);
+                Sprintf(tmp, "选项=%s%s\n", *bool_p ? "" : "!", name);
                 strbuf_append(sbuf, tmp);
             }
             break;
@@ -10135,7 +10135,7 @@ set_playmode(void)
 {
     if (wizard) {
         if (authorize_wizard_mode())
-            gp.plnamelen = (int) strlen(strcpy(svp.plname, "wizard"));
+            gp.plnamelen = (int) strlen(strcpy(svp.plname, "巫师"));
         else
             wizard = FALSE; /* not allowed or not available */
         /* try explore mode if we didn't make it into wizard mode */

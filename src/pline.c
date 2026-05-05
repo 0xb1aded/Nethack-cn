@@ -609,13 +609,13 @@ impossible(const char *s, ...)
         return;
     }
 
-    Strcpy(pbuf2, "Program in disorder!");
+    Strcpy(pbuf2, "程序混乱！");
     if (program_state.something_worth_saving)
-        Strcat(pbuf2, "  (Saving and reloading may fix this problem.)");
+        Strcat(pbuf2, "  (保存并重新加载可能能修复此问题。)");
     pline("%s", pbuf2);
-    pline("Please report these messages to %s.", DEVTEAM_EMAIL);
+    pline("请将这些信息报告给%s。", DEVTEAM_EMAIL);
     if (sysopt.support) {
-        pline("Alternatively, contact local support: %s", sysopt.support);
+        pline("或者，联系本地支持：%s", sysopt.support);
     }
 
 #ifdef CRASHREPORT

@@ -422,7 +422,7 @@ savebones(int how, time_t when, struct obj *corpse)
                 if (delete_bonesfile(&u.uz))
                     goto make_bones;
                 else
-                    pline("Cannot unlink old bones.");
+                    pline("无法删除旧骸骨文件。");
             }
         }
         /* compression can change the file's name, so must
@@ -662,7 +662,7 @@ getbones(void)
     program_state.reading_bonesfile = 1;
     if (validate(nhfp, gb.bones, FALSE) != SF_UPTODATE) {
         if (!wizard)
-            pline("Discarding unusable bones; no need to panic...");
+            pline("丢弃不可用的骨头文件，无需惊慌……");
         ok = FALSE;
         program_state.reading_bonesfile = 0;
     } else {
@@ -693,7 +693,7 @@ getbones(void)
         if (strcmp(bonesid, oldbonesid) != 0) {
             char errbuf[BUFSZ];
 
-            Sprintf(errbuf, "This is bones level '%s', not '%s'!",
+            Sprintf(errbuf, "这是骨头层'%s'，不是'%s'！",
                     oldbonesid, bonesid);
             if (wizard) {
                 pline1(errbuf);
@@ -804,9 +804,9 @@ fix_ghostly_obj(struct obj *obj)
         case ORCISH_BOW:
         case YUMI:
         case BOOMERANG:
-            You("make adjustments to %s to suit your %s hand.",
+            You("调整%s以适应你的%s手。",
                 the(xname(obj)),
-                URIGHTY ? "right" : "left");
+                URIGHTY ? "右" : "左");
             break;
         default:
             break;

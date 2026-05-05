@@ -206,7 +206,7 @@ stairs_description(
                                     || single_level_branch(&tolev)); /* knox */
             int to_dlev = specialdepth ? dunlev(&tolev) : depth(&tolev);
 
-            Sprintf(eos(outbuf), " to level %d", to_dlev);
+            Sprintf(eos(outbuf), " 到第 %d 层", to_dlev);
         }
     } else if (u.uz.dnum == 0 && u.uz.dlevel == 1 && sway->up) {
         /* stairs up from level one are a special case; they are marked
@@ -214,19 +214,19 @@ stairs_description(
            the game by coming down them, but the remote side varies
            depending on whether the Amulet is being carried */
         Sprintf(outbuf, "%s%s %s %s",
-                !u.uhave.amulet ? "" : "branch ",
+                !u.uhave.amulet ? "" : "分支 ",
                 stairs, updown,
-                !u.uhave.amulet ? "out of the dungeon"
+                !u.uhave.amulet ? "离开地牢"
                 /* minimize our expectations about what comes next */
                 : (on_level(&tolev, &earth_level)
                    || on_level(&tolev, &air_level)
                    || on_level(&tolev, &fire_level)
                    || on_level(&tolev, &water_level))
-                  ? "to the Elemental Planes"
-                  : "to the end game");
+                  ? "通往元素位面"
+                  : "前往终局");
     } else {
         /* known branch stairs; tacking on destination level is too verbose */
-        Sprintf(outbuf, "branch %s %s to %s",
+        Sprintf(outbuf, "分支 %s %s 到 %s",
                 stairs, updown, svd.dungeons[tolev.dnum].dname);
         /* dungeons[].dname is capitalized; undo that for "The <Branch>" */
         (void) strsubst(outbuf, "The ", "the ");

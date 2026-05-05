@@ -125,7 +125,7 @@ neminame(void)
 {
     int i = gu.urole.neminum;
 
-    Sprintf(gn.nambuf, "%s%s", type_is_pname(&mons[i]) ? "" : "the ",
+    Sprintf(gn.nambuf, "%s%s", type_is_pname(&mons[i]) ? "" : "那个",
             mons[i].pmnames[NEUTRAL]);
     return gn.nambuf;
 }

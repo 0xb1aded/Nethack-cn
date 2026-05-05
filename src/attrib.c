@@ -128,7 +128,7 @@ adjattrib(
 
     if ((ndx == A_INT || ndx == A_WIS) && uarmh && uarmh->otyp == DUNCE_CAP) {
         if (msgflg == 0)
-            Your("cap constricts briefly, then relaxes again.");
+            Your("帽子短暂的收缩，然后放松了。");
         return FALSE;
     }
 
@@ -175,13 +175,13 @@ adjattrib(
     if (ACURR(ndx) == old_acurr) {
         if (msgflg == 0 && flags.verbose) {
             if (ABASE(ndx) == old_abase && AMAX(ndx) == old_amax) {
-                pline("You're %s as %s as you can get.",
-                      abonflg ? "currently" : "already", attrstr);
+                pline("你%s不能再%s.",
+                      abonflg ? "现在" : "已经", attrstr);
             } else {
                 /* current stayed the same but base value changed, or
                    base is at minimum and reduction caused max to drop */
-                Your("innate %s has %s.", attrname[ndx],
-                     (incr > 0) ? "improved" : "declined");
+                Your("先天的%s%s了.", attrname[ndx],
+                     (incr > 0) ? "提高" : "下降");
             }
         }
         return FALSE;
@@ -192,7 +192,7 @@ adjattrib(
 
     disp.botl = TRUE;
     if (msgflg <= 0)
-        You_feel("%s%s!", (incr > 1 || incr < -1) ? "very " : "", attrstr);
+        You_feel("%s%s!", (incr > 1 || incr < -1) ? "非常" : "", attrstr);
     if (program_state.in_moveloop && (ndx == A_STR || ndx == A_CON))
         encumber_msg();
     return TRUE;
@@ -331,14 +331,14 @@ poisoned(
         boolean plural = (reason[strlen(reason) - 1] == 's') ? 1 : 0;
 
         /* avoid "The" Orcus's sting was poisoned... */
-        pline("%s%s %s poisoned!",
-              isupper((uchar) *reason) ? "" : "The ", reason,
-              plural ? "were" : "was");
+        pline("%s%s %s有毒的!",
+              isupper((uchar) *reason) ? "" : "这个", reason,
+              plural ? "是" : "是");
     }
     if (Poison_resistance) {
         if (blast)
             shieldeff(u.ux, u.uy);
-        pline_The("poison doesn't seem to affect you.");
+        pline_The("毒似乎没有影响你.");
         return;
     }
 
@@ -366,7 +366,7 @@ poisoned(
         if (u.uhp <= loss) {
             u.uhp = -1;
             disp.botl = TRUE;
-            pline_The("poison was deadly...");
+            pline_The("毒是致命的...");
         } else {
             /* survived, but with severe reaction */
             int olduhp = u.uhp,
@@ -661,8 +661,8 @@ exerchk(void)
                 /* if you actually changed an attrib - zero accumulation */
                 AEXE(i) = ax = 0;
                 /* then print an explanation */
-                You("%s %s.",
-                    (mod_val > 0) ? "must have been" : "haven't been",
+                You("%s %s。",
+                    (mod_val > 0) ? "一定是" : "还没有",
                     exertext[i][(mod_val > 0) ? 0 : 1]);
             }
  nextattrib:
@@ -935,17 +935,17 @@ from_what(
              */
             if ((propidx == BLINDED && u.uroleplay.blind)
                 || (propidx == DEAF && u.uroleplay.deaf))
-                Sprintf(buf, " from birth");
+                Sprintf(buf, " 从出生就有");
             else if (innateness == FROM_ROLE || innateness == FROM_RACE)
-                Strcpy(buf, " innately");
+                Strcpy(buf, " 天赋");
             else if (innateness == FROM_INTR) /* [].intrinsic & FROMOUTSIDE */
-                Strcpy(buf, " intrinsically");
+                Strcpy(buf, " 内在");
             else if (innateness == FROM_EXP)
-                Strcpy(buf, " because of your experience");
+                Strcpy(buf, " 是因为你的经验");
             else if (innateness == FROM_LYCN)
-                Strcpy(buf, " due to your lycanthropy");
+                Strcpy(buf, " 是由于兽化病");
             else if (innateness == FROM_FORM)
-                Strcpy(buf, " from your creature form");
+                Strcpy(buf, " 来自你的生物形态");
             else if (propidx == FAST && Very_fast)
                 Sprintf(buf, because_of,
                         ((HFast & TIMEOUT) != 0L) ? "a potion or spell"
@@ -964,7 +964,7 @@ from_what(
             else if (propidx == BLINDED && u.ucreamed
                      && BlindedTimeout == (long) u.ucreamed
                      && !EBlinded && !(HBlinded & ~TIMEOUT))
-                Sprintf(buf, "due to goop covering your %s",
+                Sprintf(buf, "由于粘液覆盖了你的 %s",
                         body_part(FACE));
 
             /* remove some verbosity and/or redundancy */
@@ -1057,7 +1057,7 @@ adjabil(int oldlevel, int newlevel)
                 if (*(abil->losestr))
                     You_feel("%s!", abil->losestr);
                 else if (*(abil->gainstr))
-                    You_feel("less %s!", abil->gainstr);
+                    You_feel("不那么 %s!", abil->gainstr);
             }
         }
         if (prevabil != *(abil->ability)) /* it changed */
@@ -1335,14 +1335,14 @@ uchangealign(
         /* worn helm of opposite alignment might block change */
         if (!uarmh || uarmh->otyp != HELM_OF_OPPOSITE_ALIGNMENT)
             u.ualign.type = u.ualignbase[A_CURRENT];
-        You("have a %ssense of a new direction.",
-            (u.ualign.type != oldalign) ? "sudden " : "");
+        You("%s有一个新的方向感.",
+            (u.ualign.type != oldalign) ? "突然" : "");
     } else {
         /* putting on or taking off a helm of opposite alignment */
         u.ualign.type = (aligntyp) newalign;
         if (reason == A_CG_HELM_ON) {
             adjalign(-7); /* for abuse -- record will be cleared shortly */
-            Your("mind oscillates %s.", Hallucination ? "wildly" : "briefly");
+            Your("精神%s动摇.", Hallucination ? "疯狂地" : "暂时地");
             make_confused(rn1(2, 3), FALSE);
             if (Is_astralevel(&u.uz) || ((unsigned) rn2(50) < u.ualign.abuse))
                 summon_furies(Is_astralevel(&u.uz) ? 0 : 1);
@@ -1350,9 +1350,9 @@ uchangealign(
             livelog_printf(LL_ALIGNMENT, "used a helm to turn %s",
                            aligns[1 - newalign].adj);
         } else if (reason == A_CG_HELM_OFF) {
-            Your("mind is %s.", Hallucination
-                                    ? "much of a muchness"
-                                    : "back in sync with your body");
+            Your("精神%s.", Hallucination
+                                    ? "大同小异"
+                                    : "同时回到了你的身体里");
         }
     }
     if (u.ualign.type != oldalign) {

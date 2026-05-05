@@ -1057,7 +1057,7 @@ parse_id(
                         j = glyph - GLYPH_SWALLOW_OFF;
                         cmap = glyph_to_swallow(glyph);
                         mnum = j / ((S_sw_br - S_sw_tl) + 1);
-                        Strcpy(buf[3], "swallow ");
+                        Strcpy(buf[3], "吞噬 ");
                         Strcat(buf[3], monsdump[mnum].nm);
                         Strcat(buf[3], " ");
                         Strcat(buf[3], swallow_texts[cmap]);
@@ -1096,11 +1096,11 @@ parse_id(
                     Strcat(buf[0], buf3);
                     Strcat(buf[0], buf4);
                 } else if (glyph_is_invisible(glyph)) {
-                    Strcpy(buf[0], "G_invisible");
+                    Strcpy(buf[0], "G_不可见");
                 } else if (glyph_is_nothing(glyph)) {
-                    Strcpy(buf[0], "G_nothing");
+                    Strcpy(buf[0], "G_无");
                 } else if (glyph_is_unexplored(glyph)) {
-                    Strcpy(buf[0], "G_unexplored");
+                    Strcpy(buf[0], "G_未探索");
                 } else if (glyph_is_warning(glyph)) {
                     j = glyph - GLYPH_WARNING_OFF;
                     Snprintf(buf[0], sizeof buf[0], "G_%s%d", "warning", j);

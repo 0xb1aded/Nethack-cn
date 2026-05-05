@@ -20,6 +20,10 @@
 /* leave this undefined; it produces bad screen output with rxvt-unicode */
 /*#define DECgraphicsOptimization*/
 
+#ifdef WIN32CON
+#include <Windows.h>
+#endif
+
 #ifdef MACOS9
 #define MICRO /* The Mac is a MICRO only for this file, not in general! */
 #ifdef THINK_C
@@ -1325,6 +1329,67 @@ toggle_menu_attr(boolean on, int color, int attr)
     }
 }
 
+/* detect if a string contains UTF-8 encoded characters */
+static int
+is_utf8(const char *str)
+{
+    unsigned char *ustr = (unsigned char *) str;
+
+    if (!str || !*str)
+        return 0;
+
+    /* check for high-bit bytes (UTF-8 multi-byte sequences) */
+    while (*ustr) {
+        if (*ustr & 0x80) /* high bit set indicates UTF-8 multi-byte */
+            return 1;
+        ustr++;
+    }
+    return 0;
+}
+
+#ifdef WIN32CON
+static int
+utf8_char_len(unsigned char ch)
+{
+    if ((ch & 0x80) == 0x00)
+        return 1;
+    if ((ch & 0xE0) == 0xC0)
+        return 2;
+    if ((ch & 0xF0) == 0xE0)
+        return 3;
+    if ((ch & 0xF8) == 0xF0)
+        return 4;
+    return 1;
+}
+
+static boolean
+decode_utf8_char(const char *src, wchar_t *wch, int *srclen, int *charwidth)
+{
+    int i, len, wlen;
+
+    if (!src || !*src)
+        return FALSE;
+
+    len = utf8_char_len((unsigned char) src[0]);
+    if (len == 1)
+        return FALSE;
+
+    for (i = 1; i < len; ++i)
+        if (!src[i])
+            return FALSE;
+
+    wlen = MultiByteToWideChar(CP_UTF8, 0, src, len, wch, 1);
+    if (wlen != 1)
+        return FALSE;
+
+    if (srclen)
+        *srclen = len;
+    if (charwidth)
+        *charwidth = (*wch > 0xff) ? 2 : 1;
+    return TRUE;
+}
+#endif
+
 static void
 process_menu_window(winid window, struct WinDesc *cw)
 {
@@ -1482,7 +1547,23 @@ process_menu_window(winid window, struct WinDesc *cw)
                             (void) putchar(curr->glyphinfo.ttychar);
                             toggle_menu_attr(FALSE, gcolor, ATR_NONE);
                         } else {
+#ifdef WIN32CON
+                            wchar_t wch;
+                            int srcbytes = 1, charwidth = 1;
+
+                            if (decode_utf8_char(cp, &wch, &srcbytes, &charwidth)) {
+                                if ((int) ttyDisplay->curx + charwidth
+                                    > (int) ttyDisplay->cols)
+                                    break;
+                                (void) putchar((int) wch);
+                                cp += srcbytes - 1;
+                                ttyDisplay->curx += charwidth - 1;
+                            } else {
+                                (void) putchar((unsigned char) *cp);
+                            }
+#else
                             (void) putchar(*cp);
+#endif
                         }
                     } /* for *cp */
                     if (n > attr_n && (color != NO_COLOR || attr != ATR_NONE))
@@ -1820,15 +1901,47 @@ process_text_window(winid window, struct WinDesc *cw)
                     if (SYMHANDLING(H_UTF8)) {
                         /* FIXME: what is actually in that line? is it the \GNNNNNNNN or UTF-8? */
                         g_putch(*cp);
-                    } else if ((*cp & 0x80) != 0) {
-                        g_putch(*cp);
-                        end_glyphout();
+                    //} else if ((*cp & 0x80) != 0) {
+                    //    g_putch(*cp);
+                    //    end_glyphout();
                     } else {
+#ifdef WIN32CON
+                        wchar_t wch;
+                        int srcbytes = 1, charwidth = 1;
+
+                        if (decode_utf8_char(cp, &wch, &srcbytes, &charwidth)) {
+                            if ((int) ttyDisplay->curx + charwidth
+                                > (int) ttyDisplay->cols)
+                                break;
+                            (void) putchar((int) wch);
+                            cp += srcbytes - 1;
+                            ttyDisplay->curx += charwidth - 1;
+                        } else {
+                            (void) putchar((unsigned char) *cp);
+                        }
+#else
                         (void) putchar(*cp);
+#endif
                     }
                     linestart = FALSE;
                 } else {
+#ifdef WIN32CON
+                    wchar_t wch;
+                    int srcbytes = 1, charwidth = 1;
+
+                    if (decode_utf8_char(cp, &wch, &srcbytes, &charwidth)) {
+                        if ((int) ttyDisplay->curx + charwidth
+                            > (int) ttyDisplay->cols)
+                            break;
+                        (void) putchar((int) wch);
+                        cp += srcbytes - 1;
+                        ttyDisplay->curx += charwidth - 1;
+                    } else {
+                        (void) putchar((unsigned char) *cp);
+                    }
+#else
                     (void) putchar(*cp);
+#endif
                 }
             }
             term_end_attr(attr);
@@ -4818,6 +4931,36 @@ tty_putstatusfield(const char *text, int x, int y)
     if (x < ncols && y < nrows) {
         if (x != cw->curx || y != cw->cury)
             tty_curs(NHW_STATUS, x, y);
+#ifdef WIN32CON
+        if (is_utf8(text)) {
+            int wlen = MultiByteToWideChar(CP_UTF8, 0, text, -1, NULL, 0);
+
+            if (wlen > 0) {
+                wchar_t *wstr = (wchar_t *) alloc(wlen * sizeof(wchar_t));
+
+                wlen = MultiByteToWideChar(CP_UTF8, 0, text, -1, wstr, wlen);
+                if (wlen > 0) {
+                    for (i = 0, n = x; i < wlen - 1 && n < ncols; ++i) {
+                        int charWidth = (wstr[i] > 0xff) ? 2 : 1;
+
+                        if (n + charWidth - 1 >= ncols)
+                            break;
+                        (void) putchar((unsigned short) wstr[i]);
+                        ttyDisplay->curx += charWidth;
+                        cw->curx += charWidth;
+                        cw->data[y][n - 1] = (wstr[i] <= 0x7f)
+                                               ? (char) wstr[i]
+                                               : ' ';
+                        if (charWidth > 1 && n < ncols)
+                            cw->data[y][n] = ' ';
+                        n += charWidth;
+                    }
+                }
+                free((genericptr_t) wstr);
+                return;
+            }
+        }
+#endif
         for (i = 0; i < lth; ++i) {
             n = i + x;
             if (n < ncols && *text) {

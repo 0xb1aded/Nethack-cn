@@ -1083,13 +1083,13 @@ minliquid_core(struct monst *mtmp)
                     pline_mon(mtmp, "%s drowns.", Monnam(mtmp));
                 else
                     /* hero used fire to melt ice that monster was on */
-                    You("drown %s.", mon_nam(mtmp));
+                    You("淹死了%s.", mon_nam(mtmp));
             }
             if (engulfing_u(mtmp)) {
                 /* This can happen after a purple worm plucks you off a
                    flying steed while you are over water. */
-                pline("%s sinks as %s rushes in and flushes you out.",
-                      Monnam(mtmp), hliquid("water"));
+                pline("%s下沉时%s冲了进去然后把你冲了出来.",
+                      Monnam(mtmp), hliquid("水"));
             }
             if (svc.context.mon_moving)
                 mondied(mtmp); /* ok to leave corpse despite water */
@@ -1364,7 +1364,7 @@ meatbox(struct monst *mon, struct obj *otmp)
       the floor; this is arbitrary, but otherwise g-cubes are too
       powerful */
     if (!engulf_contents && cansee(x, y)) {
-        pline("%s contents spill out onto the %s.",
+        pline("%s的内容物洒落到了%s上。",
               s_suffix(The(distant_name(otmp, xname))),
               surface(x, y));
     }
@@ -1510,7 +1510,7 @@ meatmetal(struct monst *mtmp)
                 } else {
                     if (flags.verbose) {
                         Soundeffect(se_crunching_sound, 50);
-                        You_hear("a crunching sound.");
+                        You_hear("嘎吱嘎吱的声音.");
                     }
                 }
                 mtmp->meating = otmp->owt / 2 + 1;
@@ -1601,9 +1601,9 @@ meatobj(struct monst *mtmp) /* for gelatinous cubes */
                the result won't be printed */
             otmpname = distant_name(otmp, doname);
             if (ecount == 1)
-                Sprintf(buf, "%s engulfs %s.", Monnam(mtmp), otmpname);
+                Sprintf(buf, "%s 吞食 %s.", Monnam(mtmp), otmpname);
             else if (ecount == 2)
-                Sprintf(buf, "%s engulfs several objects.", Monnam(mtmp));
+                Sprintf(buf, "%s 吞食了几个物品.", Monnam(mtmp));
             obj_extract_self(otmp);
             (void) mpickobj(mtmp, otmp); /* slurp */
 
@@ -1620,11 +1620,11 @@ meatobj(struct monst *mtmp) /* for gelatinous cubes */
                 /* give this one even if !verbose */
                 if (otmp->oclass == SCROLL_CLASS
                     && objdescr_is(otmp, "YUM YUM"))
-                    pline("Yum%c", otmp->blessed ? '!' : '.');
+                    pline("好吃%c", otmp->blessed ? '!' : '.');
             } else {
                 Soundeffect(se_slurping_sound, 30);
                 if (flags.verbose)
-                    You_hear("a slurping sound.");
+                    You_hear("啜食的声音.");
             }
             m_consume_obj(mtmp, otmp);
             /* in case it polymorphed or died */
@@ -1642,8 +1642,8 @@ meatobj(struct monst *mtmp) /* for gelatinous cubes */
         if (cansee(mtmp->mx, mtmp->my) && flags.verbose && buf[0])
             pline1(buf);
         else if (flags.verbose)
-            You_hear("%s slurping sound%s.",
-                     (ecount == 1) ? "a" : "several", plur(ecount));
+            You_hear("%s 啜食声%s。",
+                     (ecount == 1) ? "一个" : "几个", plur(ecount));
     }
     return (count > 0 || ecount > 0) ? 1 : 0;
 }
@@ -1703,7 +1703,7 @@ meatcorpse(
         } else {
             Soundeffect(se_masticating_sound, 50);
             if (flags.verbose)
-                You_hear("a masticating sound.");
+                You_hear("一个咀嚼声。");
         }
 
         m_consume_obj(mtmp, otmp);
@@ -2847,18 +2847,18 @@ lifesaved_monster(struct monst *mtmp)
          * Nor do you check invisibility, because glowing and
          * disintegrating amulets are always visible. */
         if (cansee(mtmp->mx, mtmp->my)) {
-            pline("But wait...");
-            pline("%s medallion begins to glow!", s_suffix(Monnam(mtmp)));
+            pline("且慢……");
+            pline("%s 挂饰开始发光!", s_suffix(Monnam(mtmp)));
             makeknown(AMULET_OF_LIFE_SAVING);
             /* amulet is visible, but monster might not be */
             if (canseemon(mtmp)) {
                 if (attacktype(mtmp->data, AT_EXPL)
                     || attacktype(mtmp->data, AT_BOOM))
-                    pline("%s reconstitutes!", Monnam(mtmp));
+                    pline("%s 重新组成!", Monnam(mtmp));
                 else
-                    pline("%s looks much better!", Monnam(mtmp));
+                    pline("%s 看起来好多了!", Monnam(mtmp));
             }
-            pline_The("medallion crumbles to dust!");
+            pline_The("挂饰化为了尘埃!");
         }
         m_useup(mtmp, lifesave);
         /* equip replacement amulet, if any, on next move */
@@ -2876,7 +2876,7 @@ lifesaved_monster(struct monst *mtmp)
         if (!surviver) {
             /* genocided monster can't be life-saved */
             if (cansee(mtmp->mx, mtmp->my))
-                pline("Unfortunately, %s is still genocided...",
+                pline("不幸的是, %s仍然被灭绝了...",
                       mon_nam(mtmp));
             mtmp->mhp = 0;
         }
@@ -2956,12 +2956,12 @@ vamprises(struct monst *mtmp)
 
             set_msg_xy(x, y); /* You()/pline() will reset this */
             if (!seeit)
-                You_hear("%s.", trapped ? "an explosion" : door_smashed);
+                You_hear("%s。", trapped ? "一声爆炸" : door_smashed);
             else if (!canspotmon(mtmp))
                 You_see("%s.", trapped ? door_go_boom : door_smashed);
             else if (!Unaware)
-                pline_The("door is smashed%s",
-                          trapped ? " and it explodes!" : ".");
+                pline_The("门被砸碎了%s",
+                          trapped ? "并且爆炸了！" : "。");
             set_msg_xy(0, 0); /* in case none of the messages was delivered */
 
             door->doormask = D_NODOOR;
@@ -3051,7 +3051,7 @@ logdeadmon(struct monst *mtmp, int mndx)
                 llevent_type |= LL_ACHIEVE;
             xtra[0] = '\0';
             if (howmany > 1) /* "(2nd time)" or "(50th time)" */
-                Sprintf(xtra, " (%d%s time)", howmany, ordin(howmany));
+                Sprintf(xtra, " (第%d%s次)", howmany, ordin(howmany));
 
             mkilled = nonliving(mtmp->data) ? "destroyed" : "killed";
             /* hero is responsible: "killed <monst>" */
@@ -3098,7 +3098,7 @@ mondead(struct monst *mtmp)
         return;
 
     if (be_sad)
-        You("have a sad feeling for a moment, then it passes.");
+        You("你感到一阵难过，但很快就过去了。");
 
     if (mtmp->data == &mons[PM_STEAM_VORTEX])
         create_gas_cloud(mtmp->mx, mtmp->my, rn2(10) + 5, 0); /* harmless */
@@ -3210,13 +3210,13 @@ corpse_chance(
                 /* mdef is a gas spore (AT_BOOM) that is exploding inside an
                    engulfer; suppress usual explosion since it's contained */
                 if (magr == &gy.youmonst) {
-                    There("is an explosion in your %s!", body_part(STOMACH));
-                    Sprintf(svk.killer.name, "%s explosion",
+                    There("有一个爆炸在你的%s里!", body_part(STOMACH));
+                    Sprintf(svk.killer.name, "%s爆炸",
                             s_suffix(pmname(mdat, Mgender(mon))));
                     losehp(Maybe_Half_Phys(tmp), svk.killer.name,
                            KILLED_BY_AN);
                 } else {
-                    You_hear("an explosion.");
+                    You_hear("一个爆炸声.");
                     magr->mhp -= tmp;
                     if (DEADMONSTER(magr))
                         mondied(magr);
@@ -3366,8 +3366,8 @@ monstone(struct monst *mdef)
     mondead(mdef);
     if (wasinside) {
         if (digests(mdef->data))
-            You("%s through an opening in the new %s.",
-                u_locomotion("jump"), xname(otmp));
+            You("%s 穿过一个在新的%s里的出口.",
+                u_locomotion("跳跃"), xname(otmp));
     }
     return;
 }
@@ -3412,7 +3412,7 @@ monkilled(
                             : (how == AD_DCAY && completelyrots(mptr)) ? "rot"
                               :  0;
         if (rxt)
-            pline("May %s %s in peace.", noit_mon_nam(mdef), rxt);
+            pline("愿 %s 在 %s 中安息。", noit_mon_nam(mdef), rxt);
     }
     return;
 }
@@ -3504,11 +3504,11 @@ xkilled(
         boolean namedpet = has_mgivenname(mtmp) && !Hallucination;
 
         You("%s %s!",
-            nonliving(mtmp->data) ? "destroy" : "kill",
-            !(wasinside || canspotmon(mtmp)) ? "it"
+            nonliving(mtmp->data) ? "摧毁" : "杀死",
+            !(wasinside || canspotmon(mtmp)) ? "它"
               : !mtmp->mtame ? mon_nam(mtmp)
                 : x_monnam(mtmp, namedpet ? ARTICLE_NONE : ARTICLE_THE,
-                           "poor", namedpet ? SUPPRESS_SADDLE : 0, FALSE));
+                           "可怜的", namedpet ? SUPPRESS_SADDLE : 0, FALSE));
     }
 
     if (mtmp->mtrapped && (t = t_at(x, y)) != 0 && is_pit(t->ttyp)) {
@@ -3556,12 +3556,12 @@ xkilled(
          */
         gs.stoned = FALSE;
         if (!cansee(x, y) && !gv.vamp_rise_msg)
-            pline("Maybe not...");
+            pline("也许没死...");
         return;
     }
 
     if (be_sad)
-        You("have a sad feeling for a moment, then it passes.");
+        You("你感到一阵悲伤，但随即消散。");
 
     mdat = mtmp->data; /* note: mondead can change mtmp->data */
     mndx = monsndx(mdat);
@@ -3624,7 +3624,7 @@ xkilled(
             gz.zombify = FALSE; /* reset */
             if (burycorpse && cadaver && cansee(x, y) && !mtmp->minvis
                 && cadaver->where == OBJ_BURIED && !nomsg) {
-                pline("%s corpse ends up buried.", s_suffix(Monnam(mtmp)));
+                pline("%s的尸体最终被埋了起来。", s_suffix(Monnam(mtmp)));
             }
         }
     }
@@ -3657,7 +3657,7 @@ xkilled(
         && u.ualign.type != A_CHAOTIC) {
         HTelepat &= ~INTRINSIC;
         change_luck(-2);
-        You("murderer!");
+        You("凶手！");
         if (Blind && !Blind_telepat)
             see_monsters(); /* Can't sense monsters any more. */
     }
@@ -3665,7 +3665,7 @@ xkilled(
         change_luck(-1);
     if (is_unicorn(mdat) && sgn(u.ualign.type) == sgn(mdat->maligntyp)) {
         change_luck(-5);
-        You_feel("guilty...");
+        You_feel("内疚...");
     }
 
     /* give experience points */
@@ -3678,8 +3678,8 @@ xkilled(
         adjalign(-(u.ualign.record + (int) ALIGNLIM / 2));
         u.ugangr += 7; /* instantly become "extremely" angry */
         change_luck(-20);
-        pline("That was %sa bad idea...",
-              u.uevent.qcompleted ? "probably " : "");
+        pline("那%s是个坏主意...",
+              u.uevent.qcompleted ? "可能" : "");
         if (!svc.context.mon_moving)
             iter_mons(anger_quest_guardians);
     } else if (mdat->msound == MS_NEMESIS) { /* Real good! */
@@ -3690,9 +3690,9 @@ xkilled(
         u.ugangr++;
         change_luck(-4);
         if (!Hallucination)
-            pline("That was probably a bad idea...");
-        else
             pline("Whoopsie-daisy!");
+        else
+            pline("哎呀呀！");
     } else if (mtmp->ispriest) {
         adjalign((p_coaligned(mtmp)) ? -2 : 2);
         /* cancel divine protection for killing your priest */
@@ -3705,10 +3705,10 @@ xkilled(
         /* your god is mighty displeased... */
         if (!Hallucination) {
             Soundeffect(se_distant_thunder, 40);
-            You_hear("the rumble of distant thunder...");
+            You_hear("演播室观众在鼓掌!");
         } else {
             Soundeffect(se_applause, 40);
-            You_hear("the studio audience applaud!");
+            You_hear("演播室观众鼓掌！");
         }
         if (!unique_corpstat(mdat)) {
             boolean mname = has_mgivenname(mtmp);
@@ -3753,10 +3753,10 @@ mon_to_stone(struct monst *mtmp)
             pline_mon(mtmp, "%s solidifies...", Monnam(mtmp));
         if (newcham(mtmp, &mons[PM_STONE_GOLEM], NO_NC_FLAGS)) {
             if (canseemon(mtmp))
-                pline("Now it's %s.", an(pmname(mtmp->data, Mgender(mtmp))));
+                pline("现在它是一个%s.", an(pmname(mtmp->data, Mgender(mtmp))));
         } else {
             if (canseemon(mtmp))
-                pline("... and returns to normal.");
+                pline("... 并恢复正常.");
         }
     } else
         impossible("Can't polystone %s!", a_monnam(mtmp));
@@ -3775,13 +3775,13 @@ vamp_stone(struct monst *mtmp)
             char buf[BUFSZ];
 
             /* construct a format string before transformation */
-            Sprintf(buf, "The lapidifying %s %s %s",
+            Sprintf(buf, "轻快的%s%s%s上",
                     x_monnam(mtmp, ARTICLE_NONE, (char *) 0,
                              (SUPPRESS_SADDLE | SUPPRESS_HALLUCINATION
                               | SUPPRESS_INVISIBLE | SUPPRESS_IT), FALSE),
-                    amorphous(mtmp->data) ? "coalesces on the"
-                       : is_flyer(mtmp->data) ? "drops to the"
-                          : "writhes on the",
+                    amorphous(mtmp->data) ? "联结到"
+                       : is_flyer(mtmp->data) ? "落到"
+                          : "滚到",
                     surface(x, y));
             mtmp->mcanmove = 1;
             mtmp->mfrozen = 0;
@@ -3885,7 +3885,7 @@ elemental_clog(struct monst *mon)
         m1 = m2 = m3 = m4 = m5 = zm = (struct monst *) 0;
         if (!msgmv || (svm.moves - msgmv) > 200L) {
             if (!msgmv || rn2(2))
-                You_feel("besieged.");
+                You_feel("被包围了.");
             msgmv = svm.moves;
         }
         /*
@@ -4089,7 +4089,7 @@ staticfn void
 m_respond_shrieker(struct monst *mtmp)
 {
     if (!Deaf) {
-        pline("%s shrieks.", Monnam(mtmp));
+        pline("%s 尖叫.", Monnam(mtmp));
         stop_occupation();
     }
     if (!rn2(10)) { /* 1/10 chance per shriek to create a monster */
@@ -4153,8 +4153,8 @@ qst_guardians_respond(void)
 
         if (got_mad > 1)
             who = makeplural(who);
-        pline_The("%s %s to be angry too...",
-                  who, vtense(who, "appear"));
+        pline_The("%s 也生气地%s...",
+                  who, vtense(who, "出现了"));
     }
 }
 
@@ -4189,10 +4189,10 @@ peacefuls_respond(struct monst *mtmp)
 
                         if (gasp) {
                             if (!strncmpi(gasp, "gasp", 4)) {
-                                Sprintf(buf, "%s gasps", Monnam(mon));
+                                Sprintf(buf, "%s倒吸一口气", Monnam(mon));
                                 needpunct = TRUE;
                             } else {
-                                Sprintf(buf, "%s exclaims \"%s\"",
+                                Sprintf(buf, "%s 喊道：\"%s\"",
                                         Monnam(mon), gasp);
                             }
                             exclaimed = TRUE;
@@ -4217,7 +4217,7 @@ peacefuls_respond(struct monst *mtmp)
                         monflee(mon, rn2(50) + 25, TRUE, !exclaimed);
                         if (exclaimed) {
                             if (flags.verbose && !alreadyfleeing) {
-                                Strcat(buf, " and then turns to flee.");
+                                Strcat(buf, " 然后转身逃跑。");
                                 needpunct = FALSE;
                             }
                         } else
@@ -4249,7 +4249,7 @@ peacefuls_respond(struct monst *mtmp)
                     if (exclaimed && !alreadyfleeing)
                         /* word like a separate sentence so that we
                            don't have to poke around inside growl() */
-                        pline("And then starts to flee.");
+                        pline("然后开始逃跑。");
                 }
             }
         }
@@ -4268,7 +4268,7 @@ setmangry(struct monst *mtmp, boolean via_attack)
         /* only hypocritical if monster is vulnerable to Elbereth (or
            peaceful--not vulnerable but attacking it is hypocritical) */
         && (onscary(u.ux, u.uy, mtmp) || mtmp->mpeaceful)) {
-        You_feel("like a hypocrite.");
+        You_feel("像是一个伪君子.");
         /* AIS: Yes, I know alignment penalties and bonuses aren't balanced
            at the moment. This is about correct relative to other "small"
            penalties; it should be fairly large, as attacking while standing
@@ -4280,7 +4280,7 @@ setmangry(struct monst *mtmp, boolean via_attack)
         adjalign((u.ualign.record > 5) ? -5 : -rnd(5));
 
         if (!Blind)
-            pline("The engraving beneath you fades.");
+            pline("下面刻写的文字渐渐消失.");
         del_engr_at(u.ux, u.uy);
     }
 
@@ -4791,7 +4791,7 @@ hideunder(struct monst *mtmp)
             if (!locomo)
                 locomo = locomotion(mtmp->data, "hide");
             set_msg_xy(mtmp->mx, mtmp->my); /* pline() will reset this */
-            You_see("%s %s under %s.", seenmon, locomo, seenobj);
+            You_see("你看到 %s %s 在 %s 之下。", seenmon, locomo, seenobj);
             iflags.last_msg = PLNMSG_HIDE_UNDER;
             gl.last_hider = mtmp->m_id;
         }
@@ -5081,8 +5081,8 @@ wiz_force_cham_form(struct monst *mon)
     int monclass, len, tryct, mndx = NON_PM;
 
     /* construct prompt in pieces */
-    Sprintf(pprompt, "Change %s", noit_mon_nam(mon));
-    Sprintf(parttwo, " @ %s into what?",
+    Sprintf(pprompt, "改变 %s", noit_mon_nam(mon));
+    Sprintf(parttwo, " 将 %s 变成什么？",
             coord_desc((int) mon->mx, (int) mon->my, buf,
                        (iflags.getpos_coords != GPCOORDS_NONE)
                        ? iflags.getpos_coords : GPCOORDS_MAP));
@@ -5103,7 +5103,7 @@ wiz_force_cham_form(struct monst *mon)
         if (tryct == TRYLIMIT - 1) { /* first retry */
             /* change "into what?" to "into what kind of monster?" */
             if (strlen(pprompt) + sizeof " kind of monster" - 1 < QBUFSZ)
-                Strcpy(eos(pprompt) - 1, " kind of monster?");
+                Strcpy(eos(pprompt) - 1, " 种怪物？");
         }
 #undef TRYLIMIT
         monclass = 0;
@@ -5133,7 +5133,7 @@ wiz_force_cham_form(struct monst *mon)
             mndx = NON_PM;
         }
 
-        pline("It can't become that.");
+        pline("它不能变成那个。");
 #ifdef EDIT_GETLIN
         /* EDIT_GETLIN preloads the input buffer with the previous
            response but we shouldn't just keep repeating that if player
@@ -5417,17 +5417,17 @@ newcham(
                     char msgtrail[BUFSZ];
 
                     if (is_vampshifter(mtmp)) {
-                        Sprintf(msgtrail, " which was a shapeshifted %s",
+                        Sprintf(msgtrail, "是变形的%s",
                                 noname_monnam(mtmp, ARTICLE_NONE));
                     } else if (digests(mdat)) {
-                        Strcpy(msgtrail, "'s stomach");
+                        Strcpy(msgtrail, "的胃");
                     } else {
                         msgtrail[0] = '\0';
                     }
                     /* Do this even if msg is FALSE */
                     You("%s %s%s!",
                         (amorphous(olddata) || is_whirly(olddata))
-                            ? "emerge from" : "break out of",
+                            ? "出现于" : "突破",
                         l_oldname, msgtrail);
                     msg = FALSE; /* message has been given */
                     mtmp->mhp = 1; /* almost dead */
@@ -5736,22 +5736,22 @@ angry_guards(boolean silent)
             char buf[BUFSZ];
 
             if (slct) { /* sleeping guard(s) */
-                Sprintf(buf, "guard%s", plur(slct));
-                pline_The("%s %s up.", buf, vtense(buf, "wake"));
+                Sprintf(buf, "守卫%s", plur(slct));
+                pline_The("%s %s来了。", buf, vtense(buf, "醒"));
             }
 
             if (nct) { /* seen/sensed adjacent guard(s) */
-                Sprintf(buf, "guard%s", plur(nct));
-                pline_The("%s %s angry!", buf, vtense(buf, "get"));
+                Sprintf(buf, "守卫%s", plur(nct));
+                pline_The("%s %s 愤怒！", buf, vtense(buf, "变得"));
             } else if (sct) { /* seen/sensed non-adjacent guard(s) */
-                Sprintf(buf, "guard%s", plur(sct));
-                pline("%s %s %s approaching!",
-                      (sct == 1) ? "An angry" : "Angry",
-                      buf, vtense(buf, "are"));
+                Sprintf(buf, "守卫%s", plur(sct));
+                pline("%s %s %s 正在接近！",
+                      (sct == 1) ? "一个愤怒的" : "愤怒的",
+                      buf, vtense(buf, "正在"));
             } else {
-                Strcpy(buf, (ct == 1) ? "a guard's" : "guards'");
+                Strcpy(buf, (ct == 1) ? "一名守卫的" : "守卫们的");
                 Soundeffect(se_shrill_whistle, 100);
-                You_hear("the shrill sound of %s whistle%s.", buf, plur(ct));
+                You_hear("%s哨子%s的刺耳声音。", buf, plur(ct));
             }
         }
         return TRUE;
@@ -5806,13 +5806,13 @@ usmellmon(struct permonst *mdat)
         switch (mndx) {
         case PM_ROTHE:
         case PM_MINOTAUR:
-            You("notice a bovine smell.");
+            You("注意到一种牛的气味.");
             msg_given = TRUE;
             break;
         case PM_CAVE_DWELLER:
         case PM_BARBARIAN:
         case PM_NEANDERTHAL:
-            You("smell body odor.");
+            You("闻到体臭.");
             msg_given = TRUE;
             break;
         /*
@@ -5835,7 +5835,7 @@ usmellmon(struct permonst *mdat)
         case PM_WERERAT:
         case PM_WEREWOLF:
         case PM_OWLBEAR:
-            You("detect an odor reminiscent of an animal's den.");
+            You("发现了怀旧的一种动物窝巢的气味.");
             msg_given = TRUE;
             break;
         /*
@@ -5843,16 +5843,16 @@ usmellmon(struct permonst *mdat)
             break;
         */
         case PM_STEAM_VORTEX:
-            You("smell steam.");
+            You("闻到蒸汽的气味.");
             msg_given = TRUE;
             break;
         case PM_GREEN_SLIME:
-            pline("%s stinks.", Something);
+            pline("%s 发出恶臭.", Something);
             msg_given = TRUE;
             break;
         case PM_VIOLET_FUNGUS:
         case PM_SHRIEKER:
-            You("smell mushrooms.");
+            You("闻到蘑菇的气味.");
             msg_given = TRUE;
             break;
         /* These are here to avoid triggering the
@@ -5870,35 +5870,35 @@ usmellmon(struct permonst *mdat)
         if (nonspecific)
             switch (mdat->mlet) {
             case S_DOG:
-                You("notice a dog smell.");
+                You("注意到狗的气味.");
                 msg_given = TRUE;
                 break;
             case S_DRAGON:
-                You("smell a dragon!");
+                You("闻到了龙的气味!");
                 msg_given = TRUE;
                 break;
             case S_FUNGUS:
-                pline("%s smells moldy.", Something);
+                pline("%s 闻起来发霉的.", Something);
                 msg_given = TRUE;
                 break;
             case S_UNICORN:
-                You("detect a%s odor reminiscent of a stable.",
-                    (mndx == PM_PONY) ? "n" : " strong");
+                You("你嗅到一%s气味，令人联想到马厩。",
+                    (mndx == PM_PONY) ? "股" : "股强烈的");
                 msg_given = TRUE;
                 break;
             case S_ZOMBIE:
-                You("smell rotting flesh.");
+                You("闻到鱼的气味.");
                 msg_given = TRUE;
                 break;
             case S_EEL:
-                You("smell fish.");
+                You("注意到一种诱人的气味.");
                 msg_given = TRUE;
                 break;
             case S_ORC:
                 if (maybe_polyd(is_orc(gy.youmonst.data), Race_if(PM_ORC)))
-                    You("notice an attractive smell.");
+                    You("注意到一股诱人的气味。");
                 else
-                    pline("A foul stench makes you feel a little nauseated.");
+                    pline("一阵恶臭让你感到有点恶心。");
                 msg_given = TRUE;
                 break;
             default:

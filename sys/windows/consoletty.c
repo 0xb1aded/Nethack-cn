@@ -115,6 +115,18 @@ cell_t undefined_cell = {
                 (const char *) 0,                /* bkcolorseq */
                 (const char *) 0                 /* colorseq */
 };
+
+/* Special marker cell for the second column of double-width (CJK) characters */
+cell_t wide_char_follower_cell = {
+                { 0, 0, 0, 0, 0, 0, 0 },        /* empty utf8str */
+                0,                               /* wcharacter = 0 (no display) */
+                0,                               /* attr */
+                0L,                              /* color24 */
+                0,                               /* color256idx */
+                "\x1b[0m",                       /* bkcolorseq */
+                0                                /* colorseq */
+};
+
 #if 0
 static const uint8 empty_utf8str[MAX_UTF8_SEQUENCE] = { 0 };
 #endif
@@ -151,6 +163,7 @@ int process_keystroke(INPUT_RECORD *, boolean *, uchar numberpad,
 static void init_ttycolor(void);
 static void really_move_cursor(void);
 static void check_and_set_font(void);
+static boolean is_wide_character(WCHAR wch);
 #ifndef VIRTUAL_TERMINAL_SEQUENCES
 static boolean check_font_widths(void);
 #endif
@@ -879,6 +892,32 @@ static void buffer_clear_to_end_of_line(cell_t * buffer, int x, int y)
         back_buffer_flip();
 }
 
+static boolean
+is_wide_character(WCHAR wch)
+{
+    /* Treat only East Asian wide/fullwidth code blocks as double-width.
+       Box drawing (U+2500), block elements (U+2580), geometric shapes,
+       and many other symbols are > 0xFF but occupy one console cell. */
+    return (boolean) (
+        (wch >= 0x1100 && wch <= 0x115F)   /* Hangul Jamo */
+        || (wch >= 0x2329 && wch <= 0x232A)
+        || (wch >= 0x2E80 && wch <= 0x303E) /* CJK Radicals..CJK Symbols */
+        || (wch >= 0x3040 && wch <= 0x30FF) /* Hiragana + Katakana */
+        || (wch >= 0x3130 && wch <= 0x318F) /* Hangul Compatibility Jamo */
+        || (wch >= 0x31A0 && wch <= 0x31EF) /* Bopomofo/Kana extensions */
+        || (wch >= 0x3400 && wch <= 0x4DBF) /* CJK Ext A */
+        || (wch >= 0x4E00 && wch <= 0xA4CF) /* CJK + Yi */
+        || (wch >= 0xAC00 && wch <= 0xD7A3) /* Hangul Syllables */
+        || (wch >= 0xF900 && wch <= 0xFAFF) /* CJK Compatibility Ideographs */
+        || (wch >= 0xFE10 && wch <= 0xFE19) /* Vertical forms */
+        || (wch >= 0xFE30 && wch <= 0xFE6F) /* CJK Compatibility Forms */
+        || (wch >= 0xFF01 && wch <= 0xFF60) /* Fullwidth ASCII variants */
+        || (wch >= 0xFFE0 && wch <= 0xFFE6) /* Fullwidth symbol variants */
+        || (wch >= 0xA960 && wch <= 0xA97C) /* Hangul Jamo Extended-A */
+        || (wch >= 0xD7B0 && wch <= 0xD7FF) /* Hangul Jamo Extended-B */
+    );
+}
+
 void buffer_write(cell_t * buffer, cell_t * cell, COORD pos)
 {
     nhassert(pos.X >= 0 && pos.X < console.width);
@@ -886,6 +925,18 @@ void buffer_write(cell_t * buffer, cell_t * cell, COORD pos)
 
     cell_t * dst = buffer + (console.width * pos.Y) + pos.X;
     *dst = *cell;
+
+    /* For CJK (Chinese, Japanese, Korean) double-width characters,
+       mark the following column as a wide-character follower cell.
+       This prevents display corruption when the window is closed or redrawn.
+    */
+    if (is_wide_character(cell->wcharacter)) {
+        if (pos.X + 1 < console.width) {
+            /* Mark the next column as a follower of the wide character */
+            cell_t * next_cell = dst + 1;
+            *next_cell = wide_char_follower_cell;
+        }
+    }
 
     if ((iflags.debug.immediateflips || !program_state.in_moveloop)
         && buffer == console.back_buffer)
@@ -1318,13 +1369,23 @@ xputc_core(int ch)
 #endif
         if (ccount) {
             buffer_write(console.back_buffer, &cell, console.cursor);
-            if (console.cursor.X == console.width - 1) {
+
+            /* For wide characters (CJK), cursor should advance by 2 columns */
+            int cursor_advance = 1;
+            if (console.has_unicode) {
+                /* Check wch[0] which contains the wide character value */
+                if (is_wide_character(wch[0])) {
+                    cursor_advance = 2;
+                }
+            }
+
+            if (console.cursor.X + cursor_advance >= console.width) {
                 if (console.cursor.Y < console.height - 1) {
                     console.cursor.X = 1;
                     console.cursor.Y++;
                 }
             } else {
-                console.cursor.X++;
+                console.cursor.X += cursor_advance;
             }
         }
     }

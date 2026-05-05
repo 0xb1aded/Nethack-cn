@@ -33,7 +33,7 @@ were_change(struct monst *mon)
                 }
                 if (howler) {
                     Soundeffect(se_canine_howl, 50);
-                    You_hear("a %s howling at the moon.", howler);
+                    You_hear("一只%s对着月夜嚎叫.", howler);
                     wake_nearto(mon->mx, mon->my, 4 * 4);
                 }
             }
@@ -111,8 +111,8 @@ new_were(struct monst *mon)
     }
 
     if (canseemon(mon) && !Hallucination)
-        pline("%s changes into a %s.", Monnam(mon),
-              is_human(&mons[pm]) ? "human"
+        pline("%s 变成了%s.", Monnam(mon),
+              is_human(&mons[pm]) ? "人"
                                   /* pmname()+4: skip past "were" prefix */
                                   : pmname(&mons[pm], Mgender(mon)) + 4);
 
@@ -159,19 +159,19 @@ were_summon(
             typ = rn2(3) ? PM_SEWER_RAT
                          : rn2(3) ? PM_GIANT_RAT : PM_RABID_RAT;
             if (genbuf)
-                Strcpy(genbuf, "rat");
+                Strcpy(genbuf, "鼠");
             break;
         case PM_WEREJACKAL:
         case PM_HUMAN_WEREJACKAL:
             typ = rn2(7) ? PM_JACKAL : rn2(3) ? PM_COYOTE : PM_FOX;
             if (genbuf)
-                Strcpy(genbuf, "jackal");
+                Strcpy(genbuf, "豺狼");
             break;
         case PM_WEREWOLF:
         case PM_HUMAN_WEREWOLF:
             typ = rn2(5) ? PM_WOLF : rn2(2) ? PM_WARG : PM_WINTER_WOLF;
             if (genbuf)
-                Strcpy(genbuf, "wolf");
+                Strcpy(genbuf, "狼");
             break;
         default:
             continue;
@@ -198,7 +198,7 @@ you_were(void)
         return;
     if (controllable_poly) {
         /* `+4' => skip "were" prefix to get name of beast */
-        Sprintf(qbuf, "Do you want to change into %s?",
+        Sprintf(qbuf, "你想变成%s吗?",
                 an(mons[u.ulycn].pmnames[NEUTRAL] + 4));
         if (!paranoid_query(ParanoidWerechange, qbuf))
             return;
@@ -215,7 +215,7 @@ you_unwere(boolean purify)
     boolean controllable_poly = Polymorph_control && !(Stunned || Unaware);
 
     if (purify) {
-        You_feel("purified.");
+        You_feel("被净化.");
         set_ulycn(NON_PM); /* cure lycanthropy */
     }
     if (!Unchanging && is_were(gy.youmonst.data)

@@ -49,7 +49,7 @@ dosave(void)
             nomul(0);
     } else {
         clear_nhwindow(WIN_MESSAGE);
-        pline("Saving...");
+        pline("保存中...");
 #if defined(HANGUPHANDLING)
         program_state.done_hup = 0;
 #endif
@@ -114,7 +114,7 @@ dosave0(void)
         if (nhfp) {
             close_nhfile(nhfp);
             clear_nhwindow(WIN_MESSAGE);
-            There("seems to be an old save file.");
+            There("似乎是一个旧的存档文件。");
             if (y_n("Overwrite the old file?") == 'n') {
                 nh_sfconvert(fq_save);
                 nh_compress(fq_save);
@@ -127,7 +127,7 @@ dosave0(void)
 
     nhfp = create_savefile();
     if (!nhfp) {
-        HUP pline("Cannot open save file.");
+        HUP pline("无法打开存档文件。");
         (void) delete_savefile(); /* ab@unido */
         goto done;
     }
@@ -338,7 +338,7 @@ tricked_fileremoved(NHFILE *nhfp, char *whynot)
 {
     if (!nhfp) {
         pline1(whynot);
-        pline("Probably someone removed it.");
+        pline("可能是有人把它移走了。");
         Strcpy(svk.killer.name, whynot);
         done(TRICKED);
         return TRUE;
@@ -381,7 +381,7 @@ savestateinlock(void)
 
         Sfi_int(nhfp, &hpid, "gamestate-hackpid");
         if (svh.hackpid != hpid) {
-            Sprintf(whynot, "Level #0 pid (%d) doesn't match ours (%d)!",
+            Sprintf(whynot, "关卡 #0 的进程ID (%d) 与我们的 (%d) 不匹配！",
                     hpid, svh.hackpid);
             goto giveup;
         }

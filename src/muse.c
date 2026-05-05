@@ -83,10 +83,10 @@ precheck(struct monst *mon, struct obj *obj)
                 } else {
                     if (vis) {
                         pline(
-                            "As %s opens the bottle, an enormous %s emerges!",
+                            "当%s打开瓶子, 一个巨大的%s浮现了!",
                               mon_nam(mon),
                               Hallucination ? rndmonnam(NULL)
-                                            : (const char *) "ghost");
+                                            : (const char *) "鬼魂");
                         pline("%s is frightened to death,"
                               " and unable to move.",
                               Monnam(mon));
@@ -110,7 +110,7 @@ precheck(struct monst *mon, struct obj *obj)
             } else {
                 if (vis)
                     pline_mon(mtmp, "In a cloud of smoke, %s emerges!", a_monnam(mtmp));
-                pline("%s speaks.", vis ? Monnam(mtmp) : Something);
+                pline("%s说话了。", vis ? Monnam(mtmp) : Something);
                 /* I suspect few players will be upset that monsters */
                 /* can't wish for wands of death here.... */
                 SetVoice(mtmp, 0, 80, 0);
@@ -121,7 +121,7 @@ precheck(struct monst *mon, struct obj *obj)
                 } else {
                     verbalize("It is about time.");
                     if (vis)
-                        pline("%s vanishes.", Monnam(mtmp));
+                        pline("%s消失了。", Monnam(mtmp));
                     mongone(mtmp);
                 }
             }
@@ -143,9 +143,9 @@ precheck(struct monst *mon, struct obj *obj)
                            ? (BOLT_LIM + 1) : (BOLT_LIM - 3);
 
             Soundeffect(se_zap_then_explosion, 100);
-            You_hear("a zap and an explosion %s.",
+            You_hear("%s挥杖和爆炸声.",
                      (mdistu(mon) <= range * range)
-                        ? "nearby" : "in the distance");
+                        ? "近处的" : "远处的");
         }
         m_useup(mon, obj);
         mon->mhp -= dam;
@@ -176,12 +176,12 @@ mzapwand(
                        ? (BOLT_LIM + 1) : (BOLT_LIM - 3);
 
         Soundeffect(se_zap, 100);
-        You_hear("a %s zap.", (mdistu(mtmp) <= range * range)
-                                 ? "nearby" : "distant");
+        You_hear("%s挥杖声.", (mdistu(mtmp) <= range * range)
+                                 ? "附近的" : "远处的");
         unknow_object(otmp); /* hero loses info when unseen obj is used */
     } else if (self) {
-        pline("%s with %s!",
-              monverbself(mtmp, Monnam(mtmp), "zap", (char *) 0),
+        pline("%s 用 %s!",
+              monverbself(mtmp, Monnam(mtmp), "发射", (char *) 0),
               doname(otmp));
     } else {
         pline_mon(mtmp, "%s zaps %s!", Monnam(mtmp), an(xname(otmp)));
@@ -204,28 +204,28 @@ mplayhorn(
                        ? (BOLT_LIM + 1) : (BOLT_LIM - 3);
 
         Soundeffect(se_horn_being_played, 50);
-        You_hear("a horn being played %s.",
+        You_hear("%s一个号角正被吹奏.",
                  (mdistu(mtmp) <= range * range)
-                    ? "nearby" : "in the distance");
+                    ? "附近的" : "远处的");
         unknow_object(otmp); /* hero loses info when unseen obj is used */
     } else if (self) {
         observe_object(otmp);
         objnamp = xname(otmp);
         if (strlen(objnamp) >= QBUFSZ)
             objnamp = simpleonames(otmp);
-        Sprintf(objbuf, "a %s directed at", objnamp);
+        Sprintf(objbuf, "一个 %s 朝向", objnamp);
         /* "<mon> plays a <horn> directed at himself!" */
-        pline("%s!", monverbself(mtmp, Monnam(mtmp), "play", objbuf));
+        pline("%s!", monverbself(mtmp, Monnam(mtmp), "吹奏", objbuf));
         makeknown(otmp->otyp); /* (wands handle this slightly differently) */
     } else {
         observe_object(otmp);
         objnamp = xname(otmp);
         if (strlen(objnamp) >= QBUFSZ)
             objnamp = simpleonames(otmp);
-        pline("%s %s %s directed at you!",
+        pline("%s %s %s 对准了你！",
               /* monverbself() would adjust the verb if hallucination made
                  subject plural; stick with singular here, at least for now */
-              Monnam(mtmp), "plays", an(objnamp));
+              Monnam(mtmp), "演奏", an(objnamp));
         makeknown(otmp->otyp);
         stop_occupation();
     }
@@ -278,14 +278,14 @@ mreadmsg(struct monst *mtmp, struct obj *otmp)
         Snprintf(blindbuf, sizeof blindbuf, "reading %s", onambuf);
         strsubst(blindbuf, "reading a scroll labeled",
                  mtmp->mconf ? "attempting to incant" : "incant");
-        You_hear("%s %s.",
+        You_hear("%s %s。",
                  x_monnam(mtmp, ARTICLE_A, (char *) 0, mflags, FALSE),
                  blindbuf);
         if (tpindicator)
             flash_mon(mtmp);
     }
     if (mtmp->mconf) /* (note: won't get if not seen and hero can't hear) */
-        pline("Being confused, %s mispronounces the magic words...",
+        pline("处于混乱之中, %s 读错了咒语...",
               vismon ? mon_nam(mtmp) : mhe(mtmp));
 }
 
@@ -297,7 +297,7 @@ mquaffmsg(struct monst *mtmp, struct obj *otmp)
         pline_mon(mtmp, "%s drinks %s!", Monnam(mtmp), singular(otmp, doname));
     } else if (!Deaf) {
         Soundeffect(se_mon_chugging_potion, 25);
-        You_hear("a chugging sound.");
+        You_hear("咕咚咕咚的声音.");
     }
 }
 
@@ -823,7 +823,7 @@ use_defensive(struct monst *mtmp)
             if (otmp)
                 pline_mon(mtmp, "%s uses a unicorn horn!", Monnam(mtmp));
             else
-                pline_The("tip of %s's horn glows!", mon_nam(mtmp));
+                pline_The("%s的角的尖端在发光!", mon_nam(mtmp));
         }
         if (!mtmp->mcansee) {
             mcureblindness(mtmp, vismon);
@@ -842,7 +842,7 @@ use_defensive(struct monst *mtmp)
             pline_mon(mtmp, "%s plays %s!", Monnam(mtmp), doname(otmp));
         } else if (!Deaf) {
             Soundeffect(se_bugle_playing_reveille, 100);
-            You_hear("a bugle playing reveille!");
+            You_hear("一个军号在演奏起床号!");
         }
         awaken_soldiers(mtmp);
         return 2;
@@ -925,7 +925,7 @@ use_defensive(struct monst *mtmp)
             || IS_DRAWBRIDGE(levl[mtmp->mx][mtmp->my].typ)
             || (is_drawbridge_wall(mtmp->mx, mtmp->my) >= 0)
             || stairway_at(mtmp->mx, mtmp->my)) {
-            pline_The("digging ray is ineffective.");
+            pline_The("挖掘射线失效了.");
             return 2;
         }
         if (!Can_dig_down(&u.uz) && !levl[mtmp->mx][mtmp->my].candig) {
@@ -934,7 +934,7 @@ use_defensive(struct monst *mtmp)
             if (t_at(mtmp->mx, mtmp->my)
                 || !(t = maketrap(mtmp->mx, mtmp->my, PIT))) {
                 if (vismon) {
-                    pline_The("%s here is too hard to dig in.",
+                    pline_The("%s 这里很难挖进去.",
                               surface(mtmp->mx, mtmp->my));
                 }
                 return 2;
@@ -961,7 +961,7 @@ use_defensive(struct monst *mtmp)
                   is_flyer(mtmp->data) ? "dives" : "falls");
         } else if (!Deaf) {
             Soundeffect(se_crash_through_floor, 100);
-            You_hear("%s crash through the %s.", something,
+            You_hear("%s 冲过了%s.", something,
                      surface(mtmp->mx, mtmp->my));
         }
         fill_pit(mtmp->mx, mtmp->my);
@@ -1613,26 +1613,26 @@ mbhitm(struct monst *mtmp, struct obj *otmp)
                 monstseesu(M_SEEN_MAGR); /* monsters notice hero resisting */
                 shieldeff(u.ux, u.uy);
                 Soundeffect(se_boing, 40);
-                pline("Boing!");
+                pline("嘣！");
                 learnit = TRUE;
             } else if (rnd(20) < 10 + u.uac &&
                        !(gb.buzzer && !gb.buzzer->mwandexp)) {
                 monstunseesu(M_SEEN_MAGR); /* mons see hero not resisting */
-                pline_The("wand hits you!");
+                pline_The("魔杖打中了你!");
                 tmp = d(2, 12);
                 if (Half_spell_damage)
                     tmp = (tmp + 1) / 2;
                 losehp(tmp, "wand", KILLED_BY_AN);
                 learnit = TRUE;
             } else {
-                pline_The("wand misses you.");
+                pline_The("魔杖没打中你.");
             }
             stop_occupation();
             nomul(0);
         } else if (resists_magm(mtmp)) {
             shieldeff(mtmp->mx, mtmp->my);
             Soundeffect(se_boing, 40);
-            pline("Boing!");
+            pline("嘣！");
             learnit = TRUE;
         } else if (rnd(20) < 10 + find_mac(mtmp)) {
             tmp = d(2, 12);
@@ -1899,12 +1899,12 @@ use_offensive(struct monst *mtmp)
         mreadmsg(mtmp, otmp);
         /* Identify the scroll */
         if (canspotmon(mtmp)) {
-            pline_The("%s rumbles %s %s!", ceiling(mtmp->mx, mtmp->my),
-                      otmp->blessed ? "around" : "above", mon_nam(mtmp));
+            pline_The("%s在%s%s隆隆作响！", ceiling(mtmp->mx, mtmp->my),
+                      otmp->blessed ? "周围" : "上方", mon_nam(mtmp));
             if (oseen)
                 makeknown(otmp->otyp);
         } else if (cansee(mtmp->mx, mtmp->my)) {
-            pline_The("%s rumbles in the middle of nowhere!",
+            pline_The("%s在偏远地方隆隆作响!",
                       ceiling(mtmp->mx, mtmp->my));
             if (mtmp->minvis)
                 map_invisible(mtmp->mx, mtmp->my);
@@ -1940,12 +1940,12 @@ use_offensive(struct monst *mtmp)
             SetVoice(mtmp, 0, 80, 0);
             verbalize("Say cheese!");
         } else if (!Blind) {
-            pline("%s takes a picture of you with %s!",
+            pline("%s 用 %s 给你拍了张照片！",
                   Monnam(mtmp), an(xname(otmp)));
         }
         gm.m_using = TRUE;
         if (!Blind && !resists_blnd(&gy.youmonst)) {
-            You("are blinded by the flash of light!");
+            You("被闪光弄瞎了！");
             make_blinded(BlindedTimeout + (long) rnd(1 + 50), FALSE);
         }
         lightdamage(otmp, TRUE, 5);
@@ -2348,7 +2348,7 @@ mloot_container(
                     pline_mon(mon, "%s removes %s from %s.", Monnam(mon),
                           doname(xobj), contnr_nam);
                 else /* adjacent, additional items */
-                    pline("%s removes %s.", upstart(mpronounbuf),
+                    pline("%s 移走了 %s。", upstart(mpronounbuf),
                           doname(xobj));
             }
             if (container->otyp == ICE_BOX)
@@ -2451,11 +2451,11 @@ use_misc(struct monst *mtmp)
         mon_set_minvis(mtmp, !otmp->cursed ? FALSE : TRUE);
         if (vismon && mtmp->minvis) { /* was seen, now invisible */
             if (canspotmon(mtmp)) {
-                pline("%s body takes on a %s transparency.",
+                pline("%s身体呈现出%s透明.",
                       upstart(s_suffix(nambuf)),
-                      Hallucination ? "normal" : "strange");
+                      Hallucination ? "正常的" : "奇怪的");
             } else {
-                pline("Suddenly you cannot see %s.", nambuf);
+                pline("突然你无法看见%s.", nambuf);
                 if (vis)
                     map_invisible(mtmp->mx, mtmp->my);
             }
@@ -2463,7 +2463,7 @@ use_misc(struct monst *mtmp)
                 makeknown(otmp->otyp);
         } else if (vismon && !mtmp->minvis) {
             /* cursed potion; mon tried to make itself invisible but failed */
-            pline("%s briefly seems to be transparent.", Monnam(mtmp));
+            pline("%s 短暂地似乎变得透明。", Monnam(mtmp));
             /* we could call map_invisible() before the pline(), then
                newsym() after; unseen monster glyph would be visible during
                the pline, but hero would forget any remembered object under
@@ -2471,7 +2471,7 @@ use_misc(struct monst *mtmp)
         } else if (!vismon && canseemon(mtmp)) {
             /* cursed potion; this won't happen because a monster will only
                drink a potion of invisibility when not already invisible */
-            pline("%s suddenly appears!", Monnam(mtmp));
+            pline("%s突然出现了！", Monnam(mtmp));
         }
         if (otmp->otyp == POT_INVISIBILITY) {
             if (otmp->cursed)
@@ -2572,20 +2572,20 @@ use_misc(struct monst *mtmp)
                 pline_mon(mtmp, "%s flicks a bullwhip towards your %s!",
                           Monnam(mtmp), hand_buf);
             if (obj->otyp == HEAVY_IRON_BALL) {
-                pline("%s fails to wrap around %s.", The_whip, the_weapon);
+                pline("%s没能缠绕住%s.", The_whip, the_weapon);
                 return 1;
             }
             urgent_pline("%s wraps around %s you're wielding!", The_whip,
                          the_weapon);
             if (welded(obj)) {
-                pline("%s welded to your %s%c",
-                      !is_plural(obj) ? "It is" : "They are", hand_buf,
+                pline("%s焊在你的%s%c",
+                      !is_plural(obj) ? "它是" : "它们是", hand_buf,
                       !obj->bknown ? '!' : '.');
                 /* obj->bknown = 1; */ /* welded() takes care of this */
                 where_to = 0;
             }
             if (!where_to) {
-                pline_The("whip slips free."); /* not `The_whip' */
+                pline_The("鞭子滑脱了。"); /* not `The_whip' */
                 return 1;
             } else if (where_to == 3 && mon_hates_silver(mtmp)
                        && objects[obj->otyp].oc_material == SILVER) {
@@ -2630,7 +2630,7 @@ RESTORE_WARNINGS
 staticfn void
 you_aggravate(struct monst *mtmp)
 {
-    pline("For some reason, %s presence is known to you.",
+    pline("不知什么原因, %s 存在被你知道了.",
           s_suffix(noit_mon_nam(mtmp)));
     cls();
 #ifdef CLIPPING
@@ -2638,7 +2638,7 @@ you_aggravate(struct monst *mtmp)
 #endif
     show_glyph(mtmp->mx, mtmp->my, mon_to_glyph(mtmp, rn2_on_display_rng));
     display_self();
-    You_feel("aggravated at %s.", noit_mon_nam(mtmp));
+    You_feel("对%s恼火.", noit_mon_nam(mtmp));
     display_nhwindow(WIN_MAP, TRUE);
     docrt();
     if (unconscious()) {
@@ -2932,8 +2932,8 @@ mon_consume_unstone(
               distant_name(obj, doname));
         obj->quan = save_quan;
     } else if (!Deaf)
-        You_hear("%s.",
-                 (obj->oclass == POTION_CLASS) ? "drinking" : "chewing");
+        You_hear("%s。",
+                 (obj->oclass == POTION_CLASS) ? "喝水声" : "咀嚼声");
 
     m_useup(mon, obj);
     /* obj is now gone */
@@ -2956,7 +2956,7 @@ mon_consume_unstone(
     }
     if (stoning && vis) {
         if (Hallucination)
-            pline("What a pity - %s just ruined a future piece of art!",
+            pline("%s 似乎柔软的!",
                   mon_nam(mon));
         else
             pline_mon(mon, "%s seems limber!", Monnam(mon));
@@ -3122,8 +3122,8 @@ muse_unslime(
 
         if (mon->mx == trap->tx && mon->my == trap->ty) {
             if (vis)
-                pline("%s triggers %s fire trap!", Mnam,
-                      trap->tseen ? "the" : "a");
+                pline("%s 触发了%s火焰陷阱!", Mnam,
+                      trap->tseen ? "这个" : "一个");
         } else {
             remove_monster(mon->mx, mon->my);
             newsym(mon->mx, mon->my);
@@ -3132,10 +3132,10 @@ muse_unslime(
                 worm_move(mon);
             newsym(mon->mx, mon->my);
             if (vis)
-                pline("%s %s %s %s fire trap!", Mnam,
-                      vtense(fakename[0], locomotion(mon->data, "move")),
-                      is_floater(mon->data) ? "over" : "onto",
-                      trap->tseen ? "the" : "a");
+                pline("%s%s%s%s火焰陷阱!", Mnam,
+                      vtense(fakename[0], locomotion(mon->data, "走")),
+                      is_floater(mon->data) ? "过" : "上",
+                      trap->tseen ? "那个" : "一个");
         }
         (void) mintrap(mon, FORCETRAP);
     } else if (otyp == STRANGE_OBJECT) {
@@ -3151,7 +3151,7 @@ muse_unslime(
         mreadmsg(mon, obj);
         if (mon->mconf) {
             if (cansee(mon->mx, mon->my))
-                pline("Oh, what a pretty fire!");
+                pline("哦, 多么漂亮的火!");
             if (vis)
                 trycall(obj);
             m_useup(mon, obj); /* after trycall() */
@@ -3191,7 +3191,7 @@ muse_unslime(
         if (vis) {
             if (!Unaware)
                 observe_object(obj); /* hero is watching mon drink obj */
-            pline("%s quaffs a burning %s",
+            pline("%s 喝下了一瓶燃烧的 %s",
                   saw_lit ? upstart(strcpy(Pronoun, mhe(mon))) : Monnam(mon),
                   simpleonames(obj));
             makeknown(POT_OIL);

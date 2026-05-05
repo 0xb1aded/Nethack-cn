@@ -118,7 +118,7 @@ inven_inuse(boolean quietly)
         otmp2 = otmp->nobj;
         if (otmp->in_use) {
             if (!quietly)
-                pline("Finishing off %s...", xname(otmp));
+                pline("正在用掉 %s...", xname(otmp));
             useup(otmp);
         }
     }
@@ -544,7 +544,7 @@ restgamestate(NHFILE *nhfp)
         if (!gc.converted_savefile_loaded)
             /* for wizard mode, issue a reminder; for others, treat it
              * as an attempt to cheat and refuse to restore this file */
-            pline("Saved game was not yours.");
+            pline("存档并非你的游戏。");
         if (wizard || gc.converted_savefile_loaded) {
             if (gc.converted_savefile_loaded)
                 gc.converted_savefile_loaded = FALSE;
@@ -630,7 +630,7 @@ restgamestate(NHFILE *nhfp)
 #endif
     if (u.uhp <= 0 && (!Upolyd || u.mh <= 0)) {
         u.ux = u.uy = 0; /* affects pline() [hence You()] */
-        You("were not healthy enough to survive restoration.");
+        You("你不够健康，无法在恢复中存活。");
         /* wiz1_level.dlevel is used by mklev.c to see if lots of stuff is
          * uninitialized, so we only have to set it and not the other stuff.
          */
@@ -1034,9 +1034,9 @@ rest_levl(NHFILE *nhfp)
 void
 trickery(char *reason)
 {
-    pline("Strange, this map is not as I remember it.");
-    pline("Somebody is trying some trickery here...");
-    pline("This game is void.");
+    pline("奇怪，这张地图和我记忆中的不一样。");
+    pline("有人在搞什么鬼把戏...");
+    pline("此局游戏无效。");
     Strcpy(svk.killer.name, reason ? reason : "");
     done(TRICKED);
 }
@@ -1090,10 +1090,10 @@ getlev(NHFILE *nhfp, int pid, xint8 lev)
         char trickbuf[BUFSZ];
 
         if (pid && pid != hpid)
-            Sprintf(trickbuf, "PID (%d) doesn't match saved PID (%d)!", hpid,
+            Sprintf(trickbuf, "PID (%d) 与保存的 PID (%d) 不匹配！", hpid,
                     pid);
         else
-            Sprintf(trickbuf, "This is level %d, not %d!", dlvl, lev);
+            Sprintf(trickbuf, "这是第 %d 层，不是第 %d 层！", dlvl, lev);
         if (wizard)
             pline1(trickbuf);
         trickery(trickbuf);
@@ -1585,12 +1585,12 @@ restore_menu(
                : (k <= 26 + 'N' - 'A') ? 'N' : 0;
         any.a_int = -1;                    /* not >= 0 */
         add_menu(tmpwin, &nul_glyphinfo, &any, clet, 'N', ATR_NONE, clr,
-                 "Start a new character", MENU_ITEMFLAGS_NONE);
+                 "开始新角色", MENU_ITEMFLAGS_NONE);
         clet = (k + 1 <= 'q' - 'a' && clet == 'n') ? 'q'  /* quit */
                : (k + 1 <= 26 + 'Q' - 'A' && clet == 'N') ? 'Q' : 0;
         any.a_int = -2;
         add_menu(tmpwin, &nul_glyphinfo, &any, clet, 'Q', ATR_NONE, clr,
-                 "Never mind (quit)", MENU_ITEMFLAGS_SELECTED);
+                 "算了 (退出)", MENU_ITEMFLAGS_SELECTED);
         /* no prompt on end_menu, as we've done our own at the top */
         end_menu(tmpwin, (char *) 0);
         if (select_menu(tmpwin, PICK_ONE, &chosen_game) > 0) {

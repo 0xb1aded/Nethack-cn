@@ -578,7 +578,7 @@ mread(int fd, genericptr_t buf, unsigned len)
             return;
         } else {
 #ifndef SFCTOOL
-            pline("Read %d instead of %u bytes.", (int) rlen, len);
+            pline("读取了 %d 字节而非 %u 字节。", (int) rlen, len);
             display_nhwindow(WIN_MESSAGE, TRUE); /* flush before error() */
             if (program_state.restoring) {
                 (void) nhclose(fd);

@@ -207,7 +207,7 @@ doextversion(void)
         f = dlb_fopen(OPTIONS_USED, "r");
         if (!f) {
             putstr(win, 0, "");
-            Sprintf(buf, "[Configuration '%s' not available?]", OPTIONS_USED);
+            Sprintf(buf, "[配置'%s'不可用？]", OPTIONS_USED);
             putstr(win, 0, buf);
             done_dlb = TRUE;
         }
@@ -399,7 +399,7 @@ check_version(
         ) {
 #ifndef SFCTOOL
         if (complain) {
-            pline("Version mismatch for file \"%s\".", filename);
+            pline("文件\"%s\"版本不匹配。", filename);
             if (WIN_MESSAGE != WIN_ERR)
                  display_nhwindow(WIN_MESSAGE, TRUE);
         }
@@ -413,7 +413,7 @@ check_version(
         ) {
 #ifndef SFCTOOL
         if (complain) {
-            pline("Configuration incompatibility for file \"%s\".", filename);
+            pline("文件\"%s\"配置不兼容。", filename);
             display_nhwindow(WIN_MESSAGE, TRUE);
         }
 #endif

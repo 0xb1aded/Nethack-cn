@@ -153,9 +153,9 @@ getpos_help_keyxhelp(
             filtertxt = strsubst(strcpy(fbuf, filtertxt),
                                  "this area", "area");
     }
-    Sprintf(sbuf, "Use '%s'/'%s' to %s%s%s.",
+    Sprintf(sbuf, "使用 '%s'/'%s' 来 %s%s%s.",
             k1, k2,
-            iflags.getloc_usemenu ? "get a menu of " : move_cursor_to,
+            iflags.getloc_usemenu ? "获取一个菜单的 " : move_cursor_to,
             gloc_descr[gloc][2 + iflags.getloc_usemenu], filtertxt);
     putstr(tmpwin, 0, sbuf);
 }
@@ -173,26 +173,26 @@ getpos_help(boolean force, const char *goal)
     winid tmpwin = create_nhwindow(NHW_MENU);
 
     Sprintf(sbuf,
-            "Use '%s', '%s', '%s', '%s' to move the cursor to %s.", /* hjkl */
+            "使用'%s'、'%s'、'%s'、'%s'将光标移动到%s。", /* hjkl */
             visctrl(cmd_from_func(do_move_west)),
             visctrl(cmd_from_func(do_move_south)),
             visctrl(cmd_from_func(do_move_north)),
             visctrl(cmd_from_func(do_move_east)), goal);
     putstr(tmpwin, 0, sbuf);
     Sprintf(sbuf,
-            "Use '%s', '%s', '%s', '%s' to fast-move the cursor, %s.",
+            "使用'%s', '%s', '%s', '%s' 快速移动光标, %s.",
             visctrl(cmd_from_func(do_run_west)),
             visctrl(cmd_from_func(do_run_south)),
             visctrl(cmd_from_func(do_run_north)),
             visctrl(cmd_from_func(do_run_east)),
             fastmovemode[iflags.getloc_moveskip]);
     putstr(tmpwin, 0, sbuf);
-    Sprintf(sbuf, "(or prefix normal move with '%s' or '%s' to fast-move)",
+    Sprintf(sbuf, "(或将普通移动前缀设为'%s'或'%s'以快速移动)",
             visctrl(cmd_from_func(do_run)),
             visctrl(cmd_from_func(do_rush)));
     putstr(tmpwin, 0, sbuf);
     putstr(tmpwin, 0, "Or enter a background symbol (ex. '<').");
-    Sprintf(sbuf, "Use '%s' to move the cursor on yourself.",
+    Sprintf(sbuf, "使用'%s'使光标回到自己位置.",
             visctrl(gc.Cmd.spkeys[NHKF_GETPOS_SELF]));
     putstr(tmpwin, 0, sbuf);
     if (!iflags.terrainmode || (iflags.terrainmode & TER_MON) != 0) {
@@ -225,16 +225,16 @@ getpos_help(boolean force, const char *goal)
                           visctrl(gc.Cmd.spkeys[NHKF_GETPOS_INTERESTING_PREV]),
                              GLOC_INTERESTING);
     }
-    Sprintf(sbuf, "Use '%s' to change fast-move mode to %s.",
+    Sprintf(sbuf, "使用'%s'换到快速移动模式来%s.",
             visctrl(gc.Cmd.spkeys[NHKF_GETPOS_MOVESKIP]),
             fastmovemode[!iflags.getloc_moveskip]);
     putstr(tmpwin, 0, sbuf);
     if (!iflags.terrainmode || (iflags.terrainmode & TER_DETECT) == 0) {
-        Sprintf(sbuf, "Use '%s' to toggle menu listing for possible targets.",
+        Sprintf(sbuf, "使用'%s'为可能的目标切换菜单列表.",
                 visctrl(gc.Cmd.spkeys[NHKF_GETPOS_MENU]));
         putstr(tmpwin, 0, sbuf);
         Sprintf(sbuf,
-                "Use '%s' to change the mode of limiting possible targets.",
+                "使用'%s'来改变有限的可能目标的模式.",
                 visctrl(gc.Cmd.spkeys[NHKF_GETPOS_LIMITVIEW]));
         putstr(tmpwin, 0, sbuf);
     }
@@ -242,24 +242,24 @@ getpos_help(boolean force, const char *goal)
         char kbuf[BUFSZ];
 
         if (getpos_getvalid) {
-            Sprintf(sbuf, "Use '%s' or '%s' to move to valid locations.",
+            Sprintf(sbuf, "使用'%s'或'%s'移动到有效的位置.",
                     visctrl(gc.Cmd.spkeys[NHKF_GETPOS_VALID_NEXT]),
                     visctrl(gc.Cmd.spkeys[NHKF_GETPOS_VALID_PREV]));
             putstr(tmpwin, 0, sbuf);
         }
         if (getpos_hilitefunc) {
-            Sprintf(sbuf, "Use '%s' to toggle marking of valid locations.",
+            Sprintf(sbuf, "使用'%s'切换有效位置标记。",
                     visctrl(gc.Cmd.spkeys[NHKF_GETPOS_SHOWVALID]));
             putstr(tmpwin, 0, sbuf);
         }
-        Sprintf(sbuf, "Use '%s' to toggle automatic description.",
+        Sprintf(sbuf, "使用'%s'来切换自动描述开关.",
                 visctrl(gc.Cmd.spkeys[NHKF_GETPOS_AUTODESC]));
         putstr(tmpwin, 0, sbuf);
         if (iflags.cmdassist) { /* assisting the '/' command, I suppose... */
             Sprintf(sbuf,
                     (iflags.getpos_coords == GPCOORDS_NONE)
-        ? "(Set 'whatis_coord' option to include coordinates with '%s' text.)"
-        : "(Reset 'whatis_coord' option to omit coordinates from '%s' text.)",
+        ? "(设置'whatis_coord'选项来包含'%s'文本中的坐标.)"
+        : "(重置'whatis_coord'选项以忽略'%s'文本中的坐标.)",
                     visctrl(gc.Cmd.spkeys[NHKF_GETPOS_AUTODESC]));
         }
  skip_non_mons:
@@ -268,7 +268,7 @@ getpos_help(boolean force, const char *goal)
            also for dotherecmdmenu's simulated mouse) */
         doing_what_is = (goal == what_is_a_location);
         if (doing_what_is) {
-            Sprintf(kbuf, "'%s' or '%s' or '%s' or '%s'",
+            Sprintf(kbuf, "'%s'或'%s'或'%s'或'%s'",
                     visctrl(gc.Cmd.spkeys[NHKF_GETPOS_PICK]),
                     visctrl(gc.Cmd.spkeys[NHKF_GETPOS_PICK_Q]),
                     visctrl(gc.Cmd.spkeys[NHKF_GETPOS_PICK_O]),
@@ -281,20 +281,20 @@ getpos_help(boolean force, const char *goal)
         putstr(tmpwin, 0, sbuf);
         if (doing_what_is) {
             Sprintf(sbuf,
-      "  '%s' describe current spot, show 'more info', move to another spot.",
+      "  '%s'描述当前位置, 显示'更多信息', 移动到其他位置.",
                     visctrl(gc.Cmd.spkeys[NHKF_GETPOS_PICK_V]));
             putstr(tmpwin, 0, sbuf);
             Sprintf(sbuf,
-                    "  '%s' describe current spot,%s move to another spot;",
+                    "  '%s'描述当前位置, %s移动到其他位置;",
                     visctrl(gc.Cmd.spkeys[NHKF_GETPOS_PICK]),
-                    flags.help && !force ? " prompt if 'more info'," : "");
+                    flags.help && !force ? " 如果提示'更多信息'," : "");
             putstr(tmpwin, 0, sbuf);
             Sprintf(sbuf,
-                    "  '%s' describe current spot, move to another spot;",
+                    "  '%s'描述当前位置, 移动到其他位置;",
                     visctrl(gc.Cmd.spkeys[NHKF_GETPOS_PICK_Q]));
             putstr(tmpwin, 0, sbuf);
             Sprintf(sbuf,
-                    "  '%s' describe current spot, stop looking at things;",
+                    "  '%s'描述当前位置, 停止看向物品;",
                     visctrl(gc.Cmd.spkeys[NHKF_GETPOS_PICK_O]));
             putstr(tmpwin, 0, sbuf);
         }
@@ -560,7 +560,7 @@ dxdy_to_dist_descr(coordxy dx, coordxy dy, boolean fulldir)
     int dst;
 
     if (!dx && !dy) {
-        Sprintf(buf, "here");
+        Sprintf(buf, "在这儿");
     } else if ((dst = xytodir(dx, dy)) != -1) {
         /* explicit direction; 'one step' is implicit */
         Sprintf(buf, "%s", directionname(dst));
@@ -576,7 +576,7 @@ dxdy_to_dist_descr(coordxy dx, coordxy dy, boolean fulldir)
             if (abs(dy) > 9999)
                 dy = sgn(dy) * 9999;
             Sprintf(eos(buf), "%d%s%s", abs(dy), dirnames[(dy > 0)][fulldir],
-                    dx ? "," : "");
+                    dx ? "，" : "");
         }
         if (dx) {
             if (abs(dx) > 9999)
@@ -677,8 +677,8 @@ getpos_menu(coord *ccp, int gloc)
 
     if (gcount < 2) { /* gcount always includes the hero */
         free((genericptr_t) garr);
-        You("cannot %s %s.",
-            (iflags.getloc_filter == GFILTER_VIEW) ? "see" : "detect",
+        You("不能%s%s.",
+            (iflags.getloc_filter == GFILTER_VIEW) ? "看见" : "探测",
             gloc_descr[gloc][0]);
         return FALSE;
     }
@@ -708,10 +708,10 @@ getpos_menu(coord *ccp, int gloc)
         }
     }
 
-    Sprintf(tmpbuf, "Pick %s%s%s",
+    Sprintf(tmpbuf, "选择%s一个目标%s%s",
             an(gloc_descr[gloc][1]),
             gloc_filtertxt[iflags.getloc_filter],
-            iflags.getloc_travelmode ? " for travel destination" : "");
+            iflags.getloc_travelmode ? "以旅行" : "");
     end_menu(tmpwin, tmpbuf);
     pick_cnt = select_menu(tmpwin, PICK_ONE, &picks);
     destroy_nhwindow(tmpwin);
@@ -841,7 +841,7 @@ getpos(coord *ccp, boolean force, const char *goal)
     if (!goal)
         goal = "desired location";
     if (flags.verbose) {
-        pline("(For instructions type a '%s')",
+        pline("( 需说明请输入'%s')",
               visctrl(gc.Cmd.spkeys[NHKF_GETPOS_HELP]));
         msg_given = TRUE;
     }
@@ -858,7 +858,7 @@ getpos(coord *ccp, boolean force, const char *goal)
     lock_mouse_buttons(TRUE);
     for (;;) {
         if (show_goal_msg) {
-            pline("Move cursor to %s:", goal);
+            pline("移动光标到%s:", goal);
             curs(WIN_MAP, cx, cy);
             flush_screen(0);
             show_goal_msg = FALSE;
@@ -961,9 +961,9 @@ getpos(coord *ccp, boolean force, const char *goal)
             goto nxtc;
         } else if (c == gc.Cmd.spkeys[NHKF_GETPOS_AUTODESC]) {
             iflags.autodescribe = !iflags.autodescribe;
-            pline("Automatic description %sis %s.",
-                  flags.verbose ? "of features under cursor " : "",
-                  iflags.autodescribe ? "on" : "off");
+            pline("自动描述%s%s.",
+                  flags.verbose ? "光标下的事物" : "",
+                  iflags.autodescribe ? "开" : "关");
             if (!iflags.autodescribe)
                 show_goal_msg = TRUE;
             msg_given = TRUE;
@@ -983,15 +983,15 @@ getpos(coord *ccp, boolean force, const char *goal)
                 }
                 gidx[i] = gcount[i] = 0;
             }
-            pline("%s.", view_filters[iflags.getloc_filter]);
+            pline("%s。", view_filters[iflags.getloc_filter]);
             msg_given = TRUE;
             goto nxtc;
         } else if (c == gc.Cmd.spkeys[NHKF_GETPOS_MENU]) {
             iflags.getloc_usemenu = !iflags.getloc_usemenu;
-            pline("%s a menu to show possible targets%s.",
-                  iflags.getloc_usemenu ? "Using" : "Not using",
+            pline("%s菜单去显示可能存在的%s目标.",
+                  iflags.getloc_usemenu ? "使用" : "不使用",
                   iflags.getloc_usemenu
-                      ? " for 'm|M', 'o|O', 'd|D', and 'x|X'" : "");
+                      ? "用于 'm|M', 'o|O', 'd|D' 和 'x|X'" : "");
             msg_given = TRUE;
             goto nxtc;
         } else if (c == gc.Cmd.spkeys[NHKF_GETPOS_SELF]) {
@@ -1004,8 +1004,8 @@ getpos(coord *ccp, boolean force, const char *goal)
             goto nxtc;
         } else if (c == gc.Cmd.spkeys[NHKF_GETPOS_MOVESKIP]) {
             iflags.getloc_moveskip = !iflags.getloc_moveskip;
-            pline("%skipping over similar terrain when fastmoving the cursor.",
-                  iflags.getloc_moveskip ? "S" : "Not s");
+            pline("快速移动光标时%s跳过类似地形.",
+                  iflags.getloc_moveskip ? "跳过" : "不跳过");
             msg_given = TRUE;
             goto nxtc;
         } else if ((cp = strchr(mMoOdDxX, c)) != 0) { /* 'm|M', 'o|O', &c */
@@ -1111,29 +1111,29 @@ getpos(coord *ccp, boolean force, const char *goal)
                             } /* column */
                         }     /* row */
                     }         /* pass */
-                    pline("Can't find dungeon feature '%c'.", c);
+                    pline("不能找到该对象'%c'.", c);
                     msg_given = TRUE;
                     goto nxtc;
                 } else {
                     char note[QBUFSZ];
 
                     if (!force)
-                        Strcpy(note, "aborted");
+                        Strcpy(note, "已中止");
                     else /* hjkl */
-                        Sprintf(note, "use '%s', '%s', '%s', '%s' or '%s'",
+                        Sprintf(note, "使用'%s', '%s', '%s', '%s'或'%s'",
                                 visctrl(cmd_from_func(do_move_west)),
                                 visctrl(cmd_from_func(do_move_south)),
                                 visctrl(cmd_from_func(do_move_north)),
                                 visctrl(cmd_from_func(do_move_east)),
                                 visctrl(gc.Cmd.spkeys[NHKF_GETPOS_PICK]));
-                    pline("Unknown direction: '%s' (%s).", visctrl((char) c),
+                    pline("未知方向: '%s' (%s).", visctrl((char) c),
                           note);
                     msg_given = TRUE;
                 } /* k => matching */
             }     /* !quitchars */
             if (force)
                 goto nxtc;
-            pline("Done.");
+            pline("完成.");
             msg_given = FALSE; /* suppress clear */
             cx = -1;
             cy = 0;

@@ -68,16 +68,16 @@ beehive_mon_sound(struct monst *mtmp)
         switch (rn2(2) + hallu) {
         case 0:
             Soundeffect(se_low_buzzing, 30);
-            You_hear("a low buzzing.");
+            You_hear("低沉的嗡嗡声.");
             break;
         case 1:
             Soundeffect(se_angry_drone, 100);
-            You_hear("an angry drone.");
+            You_hear("愤怒的嗡嗡声.");
             break;
         case 2:
             Soundeffect(se_bees, 100);
-            You_hear("bees in your %sbonnet!",
-                     uarmh ? "" : "(nonexistent) ");
+            You_hear("蜜蜂在你的%s软帽里!",
+                     uarmh ? "" : "(不存在的) ");
             break;
         }
         return TRUE;
@@ -95,15 +95,15 @@ morgue_mon_sound(struct monst *mtmp)
 
         switch (rn2(2) + hallu) {
         case 0:
-            You("suddenly realize it is unnaturally quiet.");
+            You("突然意识到这不自然的宁静.");
             break;
         case 1:
-            pline_The("%s on the back of your %s %s up.", hair,
-                      body_part(NECK), vtense(hair, "stand"));
+            pline_The("你的%s后面的%s%s起来了.", hair,
+                      body_part(NECK), vtense(hair, "竖"));
             break;
         case 2:
-            pline_The("%s on your %s %s to stand up.", hair,
-                      body_part(HEAD), vtense(hair, "seem"));
+            pline_The("你%s上的%s%s要竖起来了.", hair,
+                      body_part(HEAD), vtense(hair, "似乎"));
             break;
         }
         return TRUE;
@@ -254,11 +254,11 @@ dosounds(void)
                     != (ROOM_INDEX(sroom) + ROOMOFFSET)) {
                     if (gold_in_vault) {
                         You_hear(!hallu
-                                     ? "someone counting gold coins."
-                                     : "the quarterback calling the play.");
+                                     ? "某人在数钱."
+                                     : "四分卫在提场喊话.");
                     } else {
                         Soundeffect(se_someone_searching, 30);
-                        You_hear("someone searching.");
+                        You_hear("某人在搜索.");
                     }
                     break;
                 }
@@ -267,10 +267,10 @@ dosounds(void)
                 /*FALLTHRU*/
             case 0:
                 Soundeffect(se_guards_footsteps, 30);
-                You_hear("the footsteps of a guard on patrol.");
+                You_hear("巡逻警卫的脚步声.");
                 break;
             case 2:
-                You_hear("Ebenezer Scrooge!");
+                You_hear("埃比尼泽斯克鲁奇!");
                 break;
             }
         return;
@@ -464,7 +464,7 @@ yelp(struct monst *mtmp)
         }
     if (yelp_verb) {
         Soundeffect(se, 70);  /* Soundeffect() handles Deaf or not Deaf */
-        pline("%s %s!", Monnam(mtmp), vtense((char *) 0, yelp_verb));
+        pline("%s %s！", Monnam(mtmp), vtense((char *) 0, yelp_verb));
         if (svc.context.run)
             nomul(0);
         wake_nearto(mtmp->mx, mtmp->my, mtmp->data->mlevel * 12);
@@ -536,7 +536,7 @@ beg(struct monst *mtmp)
            MS_SILENT too (if caller lets that get this far) since it's
            excluded by the first two cases */
         if (canspotmon(mtmp))
-            pline("%s seems famished.", Monnam(mtmp));
+            pline("%s似乎饿坏了。", Monnam(mtmp));
         /* looking famished will be a good trick for a tame skeleton... */
     }
 }
@@ -736,7 +736,7 @@ domonnoise(struct monst *mtmp)
         } else {
             /* approximation of GEICO's advertising slogan (it actually
                concludes with "save you 15% or more on car insurance.") */
-            Sprintf(verbuf, "15 minutes could save you 15 %s.",
+            Sprintf(verbuf, "15 分钟能给你节省15 %s.",
                     currency(15L)); /* "zorkmids" */
             verbl_msg = verbuf;
         }
@@ -758,27 +758,27 @@ domonnoise(struct monst *mtmp)
 
         if (mtmp->mtame) {
             if (kindred) {
-                Sprintf(verbuf, "Good %s to you Master%s",
-                        isnight ? "evening" : "day",
-                        isnight ? "!" : ".  Why do we not rest?");
+                Sprintf(verbuf, "%s好主人%s",
+                        isnight ? "晚上" : "白天",
+                        isnight ? "!" : ".  为什么我们不休息?");
                 verbl_msg = verbuf;
             } else {
                 Sprintf(verbuf, "%s%s",
-                        nightchild ? "Child of the night, " : "",
+                        nightchild ? "夜晚之子， " : "",
                         midnight()
-                         ? "I can stand this craving no longer!"
+                         ? "我再也无法忍受这种渴望了！"
                          : isnight
-                          ? "I beg you, help me satisfy this growing craving!"
-                          : "I find myself growing a little weary.");
+                          ? "求你了，帮我满足这日益增长的渴望吧！"
+                          : "我发现自己有点疲倦了。");
                 verbl_msg = verbuf;
             }
         } else if (mtmp->mpeaceful) {
             if (kindred && isnight) {
-                Sprintf(verbuf, "Good feeding %s!",
-                        flags.female ? "sister" : "brother");
+                Sprintf(verbuf, "好的饲养人%s!",
+                        flags.female ? "姐姐" : "哥哥");
                 verbl_msg = verbuf;
             } else if (nightchild && isnight) {
-                Sprintf(verbuf, "How nice to hear you, child of the night!");
+                Sprintf(verbuf, "很高兴听到你的声音, 夜之子!");
                 verbl_msg = verbuf;
             } else
                 verbl_msg = "I only drink... potions.";
@@ -822,9 +822,9 @@ domonnoise(struct monst *mtmp)
     }
     case MS_WERE:
         if (flags.moonphase == FULL_MOON && (night() ^ !rn2(13))) {
-            pline("%s throws back %s head and lets out a blood curdling %s!",
+            pline("%s向后仰起%s头，发出一声令人毛骨悚然的%s！",
                   Monnam(mtmp), mhis(mtmp),
-                  (ptr == &mons[PM_HUMAN_WERERAT]) ? "shriek" : "howl");
+                  (ptr == &mons[PM_HUMAN_WERERAT]) ? "尖叫" : "嚎叫");
             Soundeffect((ptr == &mons[PM_HUMAN_WERERAT]) ? se_scream
                                                          : se_canine_howl,
                         80);
@@ -967,8 +967,8 @@ domonnoise(struct monst *mtmp)
         break;
     case MS_BONES:
         Soundeffect(se_bone_rattle, 60);
-        pline("%s rattles noisily.", Monnam(mtmp));
-        You("freeze for a moment.");
+        pline("%s发出响亮的嘎嘎声。", Monnam(mtmp));
+        You("僵住了一会儿。");
         nomul(-2);
         gm.multi_reason = "scared by rattling";
         gn.nomovemsg = 0;
@@ -1007,7 +1007,7 @@ domonnoise(struct monst *mtmp)
         if (!mtmp->mpeaceful) {
             switch (rn2(4)) {
             case 0:
-                pline("%s boasts about %s gem collection.", Monnam(mtmp),
+                pline("%s吹嘘%s的宝石收藏。", Monnam(mtmp),
                       mhis(mtmp));
                 break;
             case 1:
@@ -1199,11 +1199,11 @@ domonnoise(struct monst *mtmp)
         if (ms_Death && !svc.context.tribute.Deathnotice
             && (book = u_have_novel()) != 0) {
             if ((tribtitle = noveltitle(&book->novelidx)) != 0) {
-                Sprintf(verbuf, "Ah, so you have a copy of /%s/.", tribtitle);
+                Sprintf(verbuf, "啊，原来你有一本/%s/。", tribtitle);
                 /* no Death featured in these two, so exclude them */
                 if (strcmpi(tribtitle, "Snuff")
                     && strcmpi(tribtitle, "The Wee Free Men"))
-                    Strcat(verbuf, "  I may have been misquoted there.");
+                    Strcat(verbuf, "  我在那里可能被误引了。");
                 verbl_msg = verbuf;
             }
             svc.context.tribute.Deathnotice = 1;
@@ -1261,20 +1261,20 @@ dochat(void)
     struct obj *otmp;
 
     if (is_silent(gy.youmonst.data)) {
-        pline("As %s, you cannot speak.",
+        pline("作为一只%s, 你无法说话.",
               an(pmname(gy.youmonst.data, flags.female ? FEMALE : MALE)));
         return ECMD_OK;
     }
     if (Strangled) {
-        You_cant("speak.  You're choking!");
+        You_cant("说话.  你被窒息!");
         return ECMD_OK;
     }
     if (u.uswallow) {
-        pline("They won't hear you out there.");
+        pline("它们在外面听不见你.");
         return ECMD_OK;
     }
     if (Underwater) {
-        Your("speech is unintelligible underwater.");
+        Your("话语在水下难以理解.");
         return ECMD_OK;
     }
     if (!Deaf && !Blind && (otmp = shop_object(u.ux, u.uy)) != 0) {
@@ -1296,14 +1296,14 @@ dochat(void)
 
     if (u.usteed && u.dz > 0) {
         if (helpless(u.usteed)) {
-            pline("%s seems not to notice you.", Monnam(u.usteed));
+            pline("%s似乎没有注意到你。", Monnam(u.usteed));
             return ECMD_TIME;
         } else
             return domonnoise(u.usteed);
     }
 
     if (u.dz) {
-        pline("They won't hear you %s there.", u.dz < 0 ? "up" : "down");
+        pline("它们在%s听不见你.", u.dz < 0 ? "上面" : "下面");
         return ECMD_OK;
     }
 
@@ -1318,7 +1318,7 @@ dochat(void)
             return 1;
         }
          */
-        pline("Talking to yourself is a bad habit for a dungeoneer.");
+        pline("自我交谈是冒险家的一个坏习惯.");
         return ECMD_OK;
     }
 
@@ -1334,9 +1334,9 @@ dochat(void)
         if ((otmp = vobj_at(tx, ty)) != 0 && otmp->otyp == STATUE) {
             /* Talking to a statue */
             if (!Blind)
-                pline_The("%s seems not to notice you.",
+                pline_The("%s 似乎没注意到你。",
                           /* if hallucinating, you can't tell it's a statue */
-                          Hallucination ? rndmonnam((char *) 0) : "statue");
+                          Hallucination ? rndmonnam((char *) 0) : "雕像");
             return ECMD_OK;
         }
         if (!Deaf && (IS_WALL(levl[tx][ty].typ)
@@ -1349,7 +1349,7 @@ dochat(void)
                    already been mapped as a wall */
                 ;
             } else if (!Hallucination) {
-                pline("It's like talking to a wall.");
+                pline("就像跟墙说话一样。");
             } else {
                 static const char *const walltalk[] = {
                     "gripes about its job.",
@@ -1365,7 +1365,7 @@ dochat(void)
 
                 if (idx >= SIZE(walltalk))
                     idx = SIZE(walltalk) - 1;
-                pline_The("wall %s", walltalk[idx]);
+                pline_The("墙壁 %s", walltalk[idx]);
             }
             return ECMD_OK;
         }
@@ -1381,7 +1381,7 @@ dochat(void)
         /* If it is unseen, the player can't tell the difference between
            not noticing him and just not existing, so skip the message. */
         if (canspotmon(mtmp))
-            pline("%s seems not to notice you.", Monnam(mtmp));
+            pline("%s似乎没有注意到你。", Monnam(mtmp));
         return ECMD_OK;
     }
 
@@ -1391,7 +1391,7 @@ dochat(void)
     if (!Deaf && mtmp->mtame && mtmp->meating) {
         if (!canspotmon(mtmp))
             map_invisible(mtmp->mx, mtmp->my);
-        pline("%s is eating noisily.", Monnam(mtmp));
+        pline("%s 在大声地吃.", Monnam(mtmp));
         return ECMD_OK;
     }
     if (Deaf) {
@@ -1399,8 +1399,8 @@ dochat(void)
                     ? "falls on deaf ears"
                     : "is inaudible";
 
-        pline("Any response%s%s %s.",
-              canspotmon(mtmp) ? " from " : "",
+        pline("任何回应%s%s %s。",
+              canspotmon(mtmp) ? "来自" : "",
               canspotmon(mtmp) ? mon_nam(mtmp) : "",
               xresponse);
         return ECMD_OK;
@@ -1446,18 +1446,18 @@ tiphat(void)
     /* most helmets have a short wear/take-off delay and we could set
        'multi' to account for that, but we'll pretend that no extra time
        beyond the current move is necessary */
-    You("briefly doff your %s.", helm_simple_name(uarmh));
+    You("你短暂地脱下%s。", helm_simple_name(uarmh));
 
     if (!u.dx && !u.dy) {
         if (u.usteed && u.dz > 0) {
             if (helpless(u.usteed))
-                pline("%s doesn't notice.", Monnam(u.usteed));
+                pline("%s没有注意到。", Monnam(u.usteed));
             else
                 (void) domonnoise(u.usteed);
         } else if (u.dz) {
-            pline("There's no one %s there.", (u.dz < 0) ? "up" : "down");
+            pline("那里没有人在%s。", (u.dz < 0) ? "上面" : "下面");
         } else {
-            pline_The("lout here doesn't acknowledge you...");
+            pline_The("这里的粗鲁家伙不理会你...");
         }
         return res;
     }
@@ -1493,10 +1493,10 @@ tiphat(void)
     }
 
     if (unseen || (statue && Hallucination)) {
-        pline("That %screature is ignoring you!", unseen ? "unseen " : "");
+        pline("那个%s生物无视了你！", unseen ? "未被看见的" : "");
     } else if (!mtmp || !responsive_mon_at(x, y)) {
         if (vismon) /* 'vismon' is only True when 'mtmp' is non-Null */
-            pline("%s seems not to notice you.", Monnam(mtmp));
+            pline("%s似乎没有注意到你。", Monnam(mtmp));
         else
             goto nada;
     } else { /* 'mtmp' is guaranteed to be non-Null if we get here */
@@ -1505,13 +1505,13 @@ tiphat(void)
 
         if (vismon && humanoid(mtmp->data) && mtmp->mpeaceful && !Conflict) {
             if ((otmp = which_armor(mtmp, W_ARMH)) == 0) {
-                pline("%s waves.", Monnam(mtmp));
+                pline("%s挥了挥手。", Monnam(mtmp));
             } else if (otmp->cursed) {
-                pline("%s grasps %s %s but can't remove it.", Monnam(mtmp),
+                pline("%s抓住%s%s却无法摘下。", Monnam(mtmp),
                       mhis(mtmp), helm_simple_name(otmp));
                 otmp->bknown = 1;
             } else {
-                pline("%s tips %s %s in response.", Monnam(mtmp),
+                pline("%s轻触%s%s作为回应。", Monnam(mtmp),
                       mhis(mtmp), helm_simple_name(otmp));
             }
         } else if (vismon && humanoid(mtmp->data)) {
@@ -1521,13 +1521,13 @@ tiphat(void)
             int which = !Deaf ? rn2(3) : rn1(2, 1),
                 twice = (Deaf || which > 0 || rn2(3)) ? 0 : rn1(2, 1);
 
-            pline("%s %s%s%s at you...", Monnam(mtmp), reaction[which],
-                  twice ? " and " : "", twice ? reaction[twice] : "");
+            pline("%s %s%s%s 对你...", Monnam(mtmp), reaction[which],
+                  twice ? "和" : "", twice ? reaction[twice] : "");
         } else if (next2u(x, y) && !Deaf && domonnoise(mtmp)) {
             if (!vismon)
                 map_invisible(x, y);
         } else if (vismon) {
-            pline("%s doesn't respond.", Monnam(mtmp));
+            pline("%s 没有回应。", Monnam(mtmp));
         } else {
  nada:
             pline("%s", nothing_happens);

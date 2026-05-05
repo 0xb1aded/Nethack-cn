@@ -10,8 +10,14 @@
 #include "tcap.h"
 #include "wintty.h"
 
+#ifdef WIN32CON
+#include <Windows.h>
+#endif
+
 static void redotoplin(const char *);
 static void topl_putsym(char);
+static void topl_putsymw(unsigned short c);
+static int is_utf8(const char *str);
 static void removetopl(int);
 static void msghistory_snapshot(boolean);
 static void free_msghistory_snapshot(boolean);
@@ -343,11 +349,113 @@ topl_putsym(char c)
 #endif
 }
 
+/* output a wide character (UTF-16-LE) to the topline message window */
+static void
+topl_putsymw(unsigned short c)
+{
+    struct WinDesc *cw = wins[WIN_MESSAGE];
+
+    if (cw == (struct WinDesc *) 0)
+        panic("Putsymw window MESSAGE nonexistent");
+
+    /* handle backspace for wide character */
+    if (c == '\b') {
+        if (ttyDisplay->curx == 0 && ttyDisplay->cury > 0)
+            tty_curs(BASE_WINDOW, CO, (int) ttyDisplay->cury - 1);
+        backsp();
+        nhassert(ttyDisplay->curx > 0);
+        ttyDisplay->curx--;
+        cw->curx = ttyDisplay->curx;
+        return;
+    }
+
+    /* handle newline for wide character */
+    if (c == '\n') {
+        cl_end();
+        ttyDisplay->curx = 0;
+        ttyDisplay->cury++;
+        cw->cury = ttyDisplay->cury;
+#ifdef WIN32CON
+        (void) putchar('\n');
+#endif
+        cw->curx = ttyDisplay->curx;
+        if (cw->curx == 0)
+            cl_end();
+#ifndef WIN32CON
+        (void) putchar('\n');
+#endif
+        return;
+    }
+
+    /* normal wide character output */
+    if (ttyDisplay->curx == CO - 1)
+        topl_putsymw('\n'); /* wrap to next line if at end */
+
+#ifdef WIN32CON
+    /* putchar supports wide characters, just pass the wchar_t */
+    (void) putchar(c);
+#endif
+    ttyDisplay->curx += c > 0xff ? 2 : 1;
+    cw->curx = ttyDisplay->curx;
+    if (cw->curx == 0)
+        cl_end();
+#ifndef WIN32CON
+    (void) putchar((char) c);
+#endif
+}
+
+
+/* detect if a string contains UTF-8 encoded characters */
+static int
+is_utf8(const char *str)
+{
+    unsigned char *ustr = (unsigned char *) str;
+
+    if (!str || !*str)
+        return 0;
+
+    /* check for high-bit bytes (UTF-8 multi-byte sequences) */
+    while (*ustr) {
+        if (*ustr & 0x80)  /* high bit set indicates UTF-8 multi-byte */
+            return 1;
+        ustr++;
+    }
+    return 0;
+}
+
 void
 putsyms(const char *str)
 {
+#ifdef WIN32CON
+    /* check if string contains UTF-8 encoded characters */
+    if (is_utf8(str)) {
+        /* convert UTF-8 to wide characters and output */
+
+        /* First, get the required size in wide characters */
+        int wlen = MultiByteToWideChar(CP_UTF8, 0, str, -1, NULL, 0);
+
+        if (wlen > 0) {
+            wchar_t *wstr = (wchar_t *) alloc(wlen * sizeof(wchar_t));
+            /* Now convert the UTF-8 string to wide characters */
+            wlen = MultiByteToWideChar(CP_UTF8, 0, str, -1, wstr, wlen);
+
+            if (wlen > 0) {
+                int i;
+                for (i = 0; i < wlen - 1; ++i) /* -1 to skip null terminator */
+                    topl_putsymw((short) wstr[i]);
+            }
+            free((genericptr_t) wstr);
+        }
+
+    } else {
+        /* process regular ANSI string */
+        while (*str)
+            topl_putsym(*str++);
+    }
+#else
     while (*str)
         topl_putsym(*str++);
+#endif
 }
 
 static void
