@@ -2108,36 +2108,8 @@ singular(struct obj *otmp, char *(*func)(OBJ_P))
 char *
 just_an(char *outbuf, const char *str)
 {
-    char c0;
-
     *outbuf = '\0';
-    c0 = lowc(*str);
-    if (!str[1] || str[1] == ' ') {
-        /* single letter; might be used for named fruit or a musical note */
-        Strcpy(outbuf, strchr("aefhilmnosx", c0) ? "一个 " : "一个 ");
-    } else if (!strncmpi(str, "the ", 4)
-               /* these probably shouldn't be handled here because doing so
-                  impacts inventory when using them for named fruit */
-               || !strcmpi(str, "molten lava")
-               || !strcmpi(str, "iron bars")
-               || !strcmpi(str, "ice")
-               ) {
-        ; /* no article */
-    } else {
-        /* normal case is "an <vowel>" or "a <consonant>" */
-        if ((strchr(vowels, c0) /* some exceptions warranting "a <vowel>" */
-             /* 'wun' initial sound */
-             && (strncmpi(str, "one", 3) || (str[3] && !strchr("-_ ", str[3])))
-             /* long 'u' initial sound */
-             && strncmpi(str, "eu", 2) /* "eucalyptus leaf" */
-             && strncmpi(str, "uke", 3) && strncmpi(str, "ukulele", 7)
-             && strncmpi(str, "unicorn", 7) && strncmpi(str, "uranium", 7)
-             && strncmpi(str, "useful", 6)) /* "useful tool" */
-            || (c0 == 'x' && !strchr(vowels, lowc(str[1]))))
-            Strcpy(outbuf, "一个 ");
-        else
-            Strcpy(outbuf, "一个 ");
-    }
+    Strcpy(outbuf, "一个");
     return outbuf;
 }
 
