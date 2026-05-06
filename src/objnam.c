@@ -5503,7 +5503,7 @@ helm_simple_name(struct obj *helmet)
 const char *
 gloves_simple_name(struct obj *gloves)
 {
-    static const char gauntlets[] = "gauntlets";
+    static const char gauntlets[] = "护手";
 
     if (gloves && gloves->dknown) {
         int otyp = gloves->otyp;
@@ -5515,7 +5515,7 @@ gloves_simple_name(struct obj *gloves)
                     gauntlets))
             return gauntlets;
     }
-    return "gloves";
+    return "手套";
 }
 
 /* boots vs shoes; depends upon discovery state */
