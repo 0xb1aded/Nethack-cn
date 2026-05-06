@@ -965,7 +965,7 @@ touch_artifact(struct obj *obj, struct monst *mon)
             if (!carried(obj))
                 pline("%s你的控制!", Tobjnam(obj, "挣脱了"));
             else
-                pline("%s超出你的控制!", Tobjnam(obj, "是"));
+                pline("%s超出你的控制!", Tobjnam(obj, ""));
         }
         return 0;
     }
@@ -1158,12 +1158,12 @@ disp_artifact_discoveries(
             continue; /* for WIN_ERR, we just count */
 
         if (i == 0)
-            putstr(tmpwin, iflags.menu_headings.attr, "Artifacts");
+            putstr(tmpwin, iflags.menu_headings.attr, "神器");
         m = artidisco[i];
         otyp = artilist[m].otyp;
         algnstr = align_str(artilist[m].alignment);
-        if (!strcmp(algnstr, "unaligned"))
-            algnstr = "non-aligned";
+        if (!strcmp(algnstr, "无阵营"))
+            algnstr = "无阵营";
 
         Sprintf(buf, "  %s [%s %s]", artiname(m),
                 algnstr, simple_typename(otyp));
@@ -1180,21 +1180,21 @@ dump_artifact_info(winid tmpwin)
     char buf[BUFSZ], buf2[BUFSZ];
 
     /* not a menu, but header uses same bold or whatever attribute as such */
-    putstr(tmpwin, iflags.menu_headings.attr, "Artifacts");
+    putstr(tmpwin, iflags.menu_headings.attr, "神器");
     for (m = 1; m <= NROFARTIFACTS; ++m) {
         Snprintf(buf2, sizeof buf2,
                 "[%s%s%s%s%s%s%s%s%s]", /* 9 bits overall */
-                artiexist[m].exists ? "exists;" : "",
-                artiexist[m].found  ? " hero knows;" : "",
+                artiexist[m].exists ? "已生成;" : "",
+                artiexist[m].found  ? " 玩家已发现;" : "",
                 /* .exists and .found have different punctuation because
                    they're expected to be combined with one of these */
-                artiexist[m].gift   ? " gift"   : "",
-                artiexist[m].wish   ? " wish"   : "",
-                artiexist[m].named  ? " named"  : "",
-                artiexist[m].viadip ? " viadip" : "",
-                artiexist[m].lvldef ? " lvldef" : "",
-                artiexist[m].bones  ? " bones"  : "",
-                artiexist[m].rndm   ? " random" : "");
+                artiexist[m].gift   ? " 由礼物获得"   : "",
+                artiexist[m].wish   ? " 由许愿获得"   : "",
+                artiexist[m].named  ? " 由命名获得"  : "",
+                artiexist[m].viadip ? " 由浸泡获得" : "",
+                artiexist[m].lvldef ? " 生成于特殊关卡" : "",
+                artiexist[m].bones  ? " 骨档生成"  : "",
+                artiexist[m].rndm   ? " 随机生成" : "");
 #if 0   /* 'tmpwin' here is a text window, not a menu */
         if (iflags.menu_tab_sep)
             Sprintf(buf, "  %s\t%s", artiname(m), buf2);
@@ -1240,8 +1240,8 @@ enum mb_effect_indices {
 
 #define MB_MAX_DIEROLL 8 /* rolls above this aren't magical */
 static const char *const mb_verb[2][NUM_MB_INDICES] = {
-    { "probe", "stun", "scare", "cancel" },
-    { "prod", "amaze", "tickle", "purge" },
+    { "探查", "打昏", "惊吓", "取消" },
+    { "刺", "吃惊", "挠痒", "净化" },
 };
 
 /* called when someone is being hit by Magicbane */
@@ -1357,7 +1357,7 @@ Mb_hit(struct monst *magr, /* attacker */
                 resisted = TRUE;
             } else {
                 nomul(-3);
-                gm.multi_reason = "being scared stiff";
+                gm.multi_reason = "被吓坏了";
                 gn.nomovemsg = "";
                 if (magr && magr == u.ustuck && sticks(gy.youmonst.data)) {
                     set_ustuck((struct monst *) 0);
@@ -1422,10 +1422,10 @@ Mb_hit(struct monst *magr, /* attacker */
             if (do_stun)
                 Strcat(buf, "眩晕");
             if (do_stun && do_confuse)
-                Strcat(buf, " 和 ");
+                Strcat(buf, "和");
             if (do_confuse)
                 Strcat(buf, "混乱");
-            pline("%s %s %s%c", hittee, vtense(fakename[fakeidx], "是"), buf,
+            pline("%s%s%s%c", hittee, vtense(fakename[fakeidx], "被"), buf,
                   (do_stun && do_confuse) ? '!' : '.');
         }
     }
@@ -1458,7 +1458,7 @@ artifact_hit(
                   || (youattack && engulfing_u(mdef) && !Blind);
     boolean realizes_damage;
     const char *wepdesc;
-    static const char you[] = "you";
+    static const char you[] = "你";
     char hittee[BUFSZ];
 
     Strcpy(hittee, youdefend ? you : mon_nam(mdef));
@@ -1481,12 +1481,12 @@ artifact_hit(
     /* the four basic attacks: fire, cold, shock and missiles */
     if (attacks(AD_FIRE, otmp)) {
         if (realizes_damage)
-            pline_The("烈焰之刃 %s %s%c",
+            pline_The("燃烧的剑%s%s%c",
                       !gs.spec_dbon_applies
                           ? "击中"
                           : (mdef->data == &mons[PM_WATER_ELEMENTAL])
-                                ? "蒸发部分"
-                                : "灼烧",
+                                ? "汽化了部分"
+                                : "烧了一下",
                       hittee, !gs.spec_dbon_applies ? '.' : '!');
         if (!rn2(4)) {
             int itemdmg = destroy_items(mdef, AD_FIRE, *dmgptr);
@@ -1500,7 +1500,7 @@ artifact_hit(
     }
     if (attacks(AD_COLD, otmp)) {
         if (realizes_damage)
-            pline_The("厚重的铁锤打了一下%s%s%c",
+            pline_The("冰冷的剑%s%s%c",
                       !gs.spec_dbon_applies ? "击中" : "冻结", hittee,
                       !gs.spec_dbon_applies ? '.' : '!');
         if (!rn2(4)) {
@@ -1512,8 +1512,8 @@ artifact_hit(
     }
     if (attacks(AD_ELEC, otmp)) {
         if (realizes_damage)
-            pline_The("虚幻的小部件打了一下%s%s%c",
-                      !gs.spec_dbon_applies ? "" : "！闪电击中",
+            pline_The("厚重的铁锤打了一下%s%s%c",
+                      !gs.spec_dbon_applies ? "" : "！雷击了一下",
                       hittee, !gs.spec_dbon_applies ? '.' : '!');
         if (gs.spec_dbon_applies)
             wake_nearto(mdef->mx, mdef->my, 4 * 4);
@@ -1529,7 +1529,7 @@ artifact_hit(
             pline_The("虚幻的器具击中%s %s%c",
                       !gs.spec_dbon_applies
                           ? ""
-                          : "！ 一阵魔法导弹如冰雹般袭来",
+                          : "! 一阵魔法飞弹攻击",
                       hittee, !gs.spec_dbon_applies ? '.' : '!');
         return realizes_damage;
     }
@@ -1549,10 +1549,10 @@ artifact_hit(
     /* reverse from AD&D. */
     if (spec_ability(otmp, SPFX_BEHEAD)) {
         if (is_art(otmp, ART_TSURUGI_OF_MURAMASA) && dieroll == 1) {
-            wepdesc = "The razor-sharp blade";
+            wepdesc = "锋利的刀";
             /* not really beheading, but so close, why add another SPFX */
             if (youattack && engulfing_u(mdef)) {
-                You("深深切入%s!", mon_nam(mdef));
+                You("把%s切开了!", mon_nam(mdef));
                 *dmgptr = 2 * mdef->mhp + FATAL_DAMAGE_MODIFIER;
                 return TRUE;
             }
@@ -1563,20 +1563,20 @@ artifact_hit(
 
                 if (bigmonst(mdef->data)) {
                     if (youattack)
-                        You("深深切入%s！", mon_nam(mdef));
+                        You("深深切入%s!", mon_nam(mdef));
                     else if (vis)
-                        pline("%s把%s切成两半!", Monnam(magr),
+                        pline("%s深深切入%s!", Monnam(magr),
                               hittee);
                     *dmgptr *= 2;
                     return TRUE;
                 }
                 *dmgptr = 2 * mdef->mhp + FATAL_DAMAGE_MODIFIER;
-                pline("%s 将 %s 劈成两半！", wepdesc, mon_nam(mdef));
+                pline("%s将%s劈成两半!", wepdesc, mon_nam(mdef));
                 observe_object(otmp);
                 return TRUE;
             } else {
                 if (bigmonst(gy.youmonst.data)) {
-                    pline("%s 把你切成了两半!",
+                    pline("%s深深切入了你!",
                           magr ? Monnam(magr) : wepdesc);
                     *dmgptr *= 2;
                     return TRUE;
@@ -1588,7 +1588,7 @@ artifact_hit(
                  * damage does not prevent death.
                  */
                 *dmgptr = 2 * (Upolyd ? u.mh : u.uhp) + FATAL_DAMAGE_MODIFIER;
-                pline("不知怎的, 你不合理地没打中%s.", wepdesc);
+                pline("%s把你切成了两半!", wepdesc);
                 observe_object(otmp);
                 return TRUE;
             }
@@ -1603,9 +1603,9 @@ artifact_hit(
             if (!youdefend) {
                 if (!has_head(mdef->data) || gn.notonhead || u.uswallow) {
                     if (youattack)
-                        pline("不知怎的, %s 不合理地没打中.", mon_nam(mdef));
+                        pline("不知怎的, 你不合理地没打中%s.", mon_nam(mdef));
                     else if (vis)
-                        pline("不知怎的，%s 疯狂地失手了。", mon_nam(magr));
+                        pline("不知怎的，%s不合理地没打中.", mon_nam(magr));
                     *dmgptr = 0;
                     return (boolean) (youattack || vis);
                 }
@@ -1618,12 +1618,12 @@ artifact_hit(
                 pline(ROLL_FROM(behead_msg), wepdesc,
                       mon_nam(mdef));
                 if (Hallucination && !flags.female)
-                    pline("干得好，亨利，但那不是安妮。");
+                    pline("干得好,亨利,但那不是安妮. (译者注:亨利八世和安妮·博林)");
                 observe_object(otmp);
                 return TRUE;
             } else {
                 if (!has_head(gy.youmonst.data)) {
-                    pline("不知怎的，%s 疯狂地没打中你。",
+                    pline("不知怎的，%s 不合理地没打中你.",
                           magr ? mon_nam(magr) : wepdesc);
                     *dmgptr = 0;
                     return TRUE;
@@ -1645,7 +1645,7 @@ artifact_hit(
     if (spec_ability(otmp, SPFX_DRLI)) {
         /* some non-living creatures (golems, vortices) are vulnerable to
            life drain effects so can get "<Arti> draws the <life>" feedback */
-        const char *life = nonliving(mdef->data) ? "animating force" : "life";
+        const char *life = nonliving(mdef->data) ? "生命力" : "生命";
 
         if (!youdefend) {
             int m_lev = (int) mdef->m_lev, /* will be 0 for 1d4 mon */
@@ -1664,8 +1664,8 @@ artifact_hit(
                 char *otmpname = distant_name(otmp, xname);
 
                 if (is_art(otmp, ART_STORMBRINGER))
-                    pline_The("%s的刀刃从%s中抽取了%s！",
-                              hcolor(NH_BLACK), life, mon_nam(mdef));
+                    pline_The("%s的刀刃从%s中抽取了%s!",
+                              hcolor(NH_BLACK), mon_nam(mdef), life);
                 else
                     pline("%s从%s身上吸取了%s！",
                           The(otmpname), life, mon_nam(mdef));
