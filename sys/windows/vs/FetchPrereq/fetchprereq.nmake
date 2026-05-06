@@ -52,6 +52,7 @@ fetch-pdcurses:
 	curl --insecure -L -R $(PDCURL)$(PDCURSES_VERSION).zip -o $(PDCDIST).zip
 	if not exist $(PDCDIST)\*.* mkdir $(PDCDIST)
 	tar -zxC $(PDCDIST) --strip-components=1 -f $(CURLPDCDST).zip
+	powershell -NoProfile -ExecutionPolicy Bypass -File "$(ROOTDIR)\sys\windows\vs\FetchPrereq\apply_pdcurses_refresh_patch.ps1" "$(LIBDIR)\$(PDCDIST)"
 	if exist $(CURLPDCDST).zip del $(CURLPDCDST).zip
 	cd ..\sys\windows\vs\fetchprereq
 	@echo $(PDCDIST) has been fetched into $(LIBDIR)\$(PDCDIST)
