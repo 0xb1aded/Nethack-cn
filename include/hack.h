@@ -1517,7 +1517,7 @@ typedef uint32_t mmflags_nht;     /* makemon MM_ flags */
 #ifndef min
 #define min(x, y) ((x) < (y) ? (x) : (y))
 #endif
-#define plur(x) (((x) == 1) ? "" : "s")
+#define plur(x) (((x) == 1) ? "" : "")
 
 /* Cast to int, but limit value to range. */
 #define LIMIT_TO_RANGE_INT(lo, hi, var) \
