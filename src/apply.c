@@ -519,9 +519,9 @@ magic_whistled(struct obj *obj)
 {
     struct monst *mtmp, *nextmon;
     char buf[BUFSZ], *mnam = 0,
-         shiftbuf[BUFSZ + sizeof "shifts location"],
-         appearbuf[BUFSZ + sizeof "出现了"],
-         disappearbuf[BUFSZ + sizeof "消失了"];
+         shiftbuf[BUFSZ + sizeof "瞬间移动了"],
+         appearbuf[BUFSZ + sizeof "凭空出现了"],
+         disappearbuf[BUFSZ + sizeof "凭空消失了"];
     boolean oseen, nseen,
             already_discovered = objects[obj->otyp].oc_name_known != 0;
     int omx, omy, shift = 0, appear = 0, disappear = 0, trapped = 0;
@@ -1344,7 +1344,7 @@ use_candelabrum(struct obj *obj)
     }
     if (u.uswallow || obj->cursed) {
         if (!Blind)
-            pline_The("%s %s了片刻, 然后%s了.", s, vtense(s, "闪烁"),
+            pline_The("%s%s了片刻, 然后%s了.", s, vtense(s, "闪烁"),
                       vtense(s, "熄灭"));
         return;
     }
@@ -1356,10 +1356,10 @@ use_candelabrum(struct obj *obj)
                   Tobjnam(obj, "照射"));
     } else {
         pline("%s的%s燃烧%s", The(xname(obj)), s,
-              (Blind ? "。" : " 明亮地！"));
+              (Blind ? "." : " 明亮地!"));
     }
     if (!invocation_pos(u.ux, u.uy) || On_stairs(u.ux, u.uy)) {
-        pline_The("%s %s 被快速消耗！", s, vtense(s, "正在"));
+        pline_The("%s %s迅速消耗!", s, vtense(s, "被"));
         /* this used to be obj->age /= 2, rounding down; an age of
            1 would yield 0, confusing begin_burn() and producing an
            unlightable, unrefillable candelabrum; round up instead */
@@ -1374,9 +1374,9 @@ use_candelabrum(struct obj *obj)
     } else {
         if (obj->spe == 7) {
             if (Blind)
-                pline("%s奇怪的光芒!", Tobjnam(obj, "发出"));
+                pline("%s出奇怪的温暖!", Tobjnam(obj, "辐射"));
             else
-                pline("%s着奇异的光芒!", Tobjnam(obj, "闪耀"));
+                pline("%s奇异的光芒!", Tobjnam(obj, "发出"));
         }
         obj->known = 1;
     }
@@ -1641,7 +1641,7 @@ use_lamp(struct obj *obj)
 
     if (obj->lamplit) {
         if (lamp) /* lamp or lantern */
-            pline("%s%s 现在熄灭了.", Shk_Your(buf, obj), lamp);
+            pline("%s%s现在熄灭了.", Shk_Your(buf, obj), lamp);
         else
             You("掐灭了%s.", yname(obj));
         end_burn(obj, TRUE);
@@ -1658,7 +1658,7 @@ use_lamp(struct obj *obj)
         || (obj->otyp == MAGIC_LAMP && obj->spe == 0)) {
         if (obj->otyp == BRASS_LANTERN) {
             if (!Blind)
-                Your("灯笼没油了。");
+                Your("灯笼没油了.");
             else
                 pline("%s", nothing_seems_to_happen);
         } else {
@@ -1668,7 +1668,7 @@ use_lamp(struct obj *obj)
     }
     if (obj->cursed && !rn2(2)) {
         if ((obj->otyp == OIL_LAMP || obj->otyp == MAGIC_LAMP) && !rn2(3)) {
-            pline_The("灯被你打翻了, 油洒在了你的%s上。",
+            pline_The("你打翻了灯, 油洒在了你的%s上。",
                       fingers_or_gloves(TRUE));
             make_glib((int) (Glib & TIMEOUT) + d(2, 10));
         } else if (!Blind) {
@@ -1835,8 +1835,8 @@ dorub(void)
             pline1(nothing_happens);
     } else if (obj->otyp == BRASS_LANTERN) {
         /* message from Adventure */
-        pline("总之, 没有什么令人兴奋的事情发生.");
-        pline("总之，什么刺激的事情都没发生。");
+        pline("擦电灯并没有什么特别的收获.");
+        pline("总之，什么刺激的事情都没发生.");
     } else
         pline1(nothing_happens);
     return ECMD_TIME;
@@ -2029,10 +2029,10 @@ jump(int magic) /* 0=Physical, otherwise skill level */
             return ECMD_TIME;
         }
         if (magic) {
-            You("在%s 的控制中扭动!", mon_nam(u.ustuck));
+            You("在%s的控制中扭动!", mon_nam(u.ustuck));
             return ECMD_TIME;
         }
-        You("无法从%s逃脱！", mon_nam(u.ustuck));
+        You("无法挣脱%s的控制!", mon_nam(u.ustuck));
         return ECMD_OK;
     } else if (Levitation || Is_airlevel(&u.uz) || Is_waterlevel(&u.uz)) {
         if (magic) {
@@ -2048,10 +2048,10 @@ jump(int magic) /* 0=Physical, otherwise skill level */
         You("缺乏力量来跳跃!");
         return ECMD_OK;
     } else if (!magic && Wounded_legs) {
-        legs_in_no_shape("jumping", u.usteed != 0);
+        legs_in_no_shape("跳跃", u.usteed != 0);
         return ECMD_OK;
     } else if (u.usteed && u.utrap) {
-        pline("%s 陷在陷阱里.", Monnam(u.usteed));
+        pline("%s陷在陷阱里.", Monnam(u.usteed));
         return ECMD_OK;
     }
 
@@ -2060,12 +2060,12 @@ jump(int magic) /* 0=Physical, otherwise skill level */
     cc.y = u.uy;
     gj.jumping_is_magic = magic;
     getpos_sethilite(display_jump_positions, get_valid_jump_position);
-    if (getpos(&cc, TRUE, "the desired position") < 0)
+    if (getpos(&cc, TRUE, "期望位置") < 0)
         return ECMD_CANCEL; /* user pressed ESC */
     if (!is_valid_jump_pos(cc.x, cc.y, magic, TRUE)) {
         return ECMD_FAIL;
     } else if (u.usteed && u_at(cc.x, cc.y)) {
-        pline("%s 无法原地跳跃。", YMonnam(u.usteed));
+        pline("%s无法原地跳跃.", YMonnam(u.usteed));
         return ECMD_FAIL;
     } else {
         coord uc;
@@ -2078,8 +2078,8 @@ jump(int magic) /* 0=Physical, otherwise skill level */
             switch (u.utraptype) {
             case TT_BEARTRAP:
                 side = rn2(3) ? LEFT_SIDE : RIGHT_SIDE;
-                You("把自己扯出了捕兽夹!  哎哟!");
-                losehp(Maybe_Half_Phys(rnd(10)), "jumping out of a bear trap",
+                You("把自己扯出了捕兽夹! 哎哟!");
+                losehp(Maybe_Half_Phys(rnd(10)), "跳出捕兽夹",
                        KILLED_BY);
                 set_wounded_legs(side, rn1(1000, 500));
                 break;
@@ -2156,7 +2156,7 @@ jump(int magic) /* 0=Physical, otherwise skill level */
          */
         teleds(cc.x, cc.y, TELEDS_NO_FLAGS);
         nomul(-1);
-        gm.multi_reason = "jumping around";
+        gm.multi_reason = "四处跳跃";
         gn.nomovemsg = "";
         morehungry(rnd(25));
         return ECMD_TIME;
@@ -2189,7 +2189,7 @@ use_tinning_kit(struct obj *obj)
     if (!(corpse = floorfood("tin", 2)))
         return;
     if (corpse->oeaten) {
-        You("不能装罐%s被部分食用了.", something);
+        You("不能罐装被部分食用的%s.", something);
         return;
     }
     mptr = &mons[corpse->corpsenm];
@@ -2198,18 +2198,18 @@ use_tinning_kit(struct obj *obj)
         const char *corpse_name = an(cxname(corpse));
 
         if (poly_when_stoned(gy.youmonst.data)) {
-            You("装罐%s没有戴手套.", corpse_name);
+            You("罐装%s没有戴手套.", corpse_name);
             kbuf[0] = '\0';
         } else {
-            pline("装罐%s不戴手套是个致命的错误...",
+            pline("罐装%s不戴手套是个致命的错误...",
                   corpse_name);
-            Sprintf(kbuf, "试图不戴手套装罐%s", corpse_name);
+            Sprintf(kbuf, "试图不戴手套罐装%s", corpse_name);
         }
         instapetrify(kbuf);
     }
     if (is_rider(mptr)) {
         if (revive_corpse(corpse))
-            verbalize("Yes...  But War does not preserve its enemies...");
+            verbalize("是的...  但战争不会保存它的敌人...");
         else
             pline_The("尸体逃脱了你的控制.");
         return;
@@ -2221,7 +2221,7 @@ use_tinning_kit(struct obj *obj)
     consume_obj_charge(obj, TRUE);
 
     if ((can = mksobj(TIN, FALSE, FALSE)) != 0) {
-        static const char you_buy_it[] = "You tin it, you bought it!";
+        static const char you_buy_it[] = "你罐装了它, 你就要买它!";
 
         can->corpsenm = corpse->corpsenm;
         can->cursed = obj->cursed;
@@ -2249,7 +2249,7 @@ use_tinning_kit(struct obj *obj)
             }
             useupf(corpse, 1L);
         }
-        (void) hold_another_object(can, "You make, but cannot pick up, %s.",
+        (void) hold_another_object(can, "你能制作, 但不能拿着, %s.",
                                    doname(can), (const char *) 0);
     } else
         impossible("Tinning failed.");
