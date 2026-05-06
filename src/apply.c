@@ -1787,10 +1787,10 @@ dorub(void)
     struct obj *obj;
 
     if (nohands(gy.youmonst.data)) {
-        You("没有手，你无法搓任何东西。");
+        You("没有手，你无法擦拭任何东西。");
         return ECMD_OK;
     }
-    obj = getobj("rub", rub_ok, GETOBJ_NOFLAGS);
+    obj = getobj("擦拭", rub_ok, GETOBJ_NOFLAGS);
     if (!obj)
         return ECMD_CANCEL;
     if (obj->oclass == GEM_CLASS || obj->oclass == FOOD_CLASS) {
@@ -1804,7 +1804,7 @@ dorub(void)
         }
     }
     if (obj != uwep) {
-        if (wield_tool(obj, "rub")) {
+        if (wield_tool(obj, "擦拭")) {
             cmdq_add_ec(CQ_CANNED, dorub);
             cmdq_add_key(CQ_CANNED, obj->invlet);
             return ECMD_TIME;
@@ -1830,7 +1830,7 @@ dorub(void)
             makeknown(MAGIC_LAMP);
             update_inventory();
         } else if (rn2(2)) {
-            You("%s烟雾。", !Blind ? "看到一团" : "闻到");
+            You("%s烟雾。", !Blind ? "看到一团" : "闻到了一缕");
         } else
             pline1(nothing_happens);
     } else if (obj->otyp == BRASS_LANTERN) {
