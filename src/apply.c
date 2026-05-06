@@ -682,7 +682,7 @@ magic_whistled(struct obj *obj)
         }
     }
     if (*buf)
-        pline("%s。", buf);
+        pline("%s.", buf);
     return;
 }
 
@@ -1130,7 +1130,7 @@ use_mirror(struct obj *obj)
         if (vis)
             pline("%s没有映像.", Monnam(mtmp));
     } else if (monable && mtmp->data == &mons[PM_MEDUSA]) {
-        if (mon_reflects(mtmp, "The gaze is reflected away by %s %s!"))
+        if (mon_reflects(mtmp, "凝视被%s的%s反射回去!"))
             return ECMD_TIME;
         if (vis)
             pline("%s变成了石头!", Monnam(mtmp));
@@ -1154,7 +1154,7 @@ use_mirror(struct obj *obj)
         if (vis) {
             char buf[BUFSZ]; /* "She" or "He" */
 
-            pline("%s 在你的 %s 中。", /* "<mon> admires self in your mirror " */
+            pline("%s在你的%s中.", /* "<mon> admires self in your mirror " */
                   monverbself(mtmp, Monnam(mtmp), "欣赏", (char *) 0),
                   mirror);
             pline("%s拿走了它!", upstart(strcpy(buf, mhe(mtmp))));
@@ -1189,10 +1189,10 @@ use_mirror(struct obj *obj)
         else if ((mtmp->minvis && !perceives(mtmp->data))
                  /* redundant: can't get here if these are true */
                  || !haseyes(mtmp->data) || gn.notonhead || !mtmp->mcansee)
-            pline("%s 似乎没有注意到%s映像.", Monnam(mtmp),
+            pline("%s似乎没有注意到%s映像.", Monnam(mtmp),
                   mhis(mtmp));
         else
-            pline("%s 无视了%s映像.", Monnam(mtmp), mhis(mtmp));
+            pline("%s无视了%s映像.", Monnam(mtmp), mhis(mtmp));
     }
     return ECMD_TIME;
 #undef SEENMON
@@ -1293,7 +1293,7 @@ use_bell(struct obj **optr)
                 learno = TRUE;
                 break;
             default:
-                pline("你周围事物打开了...");
+                pline("你周围有东西打开了...");
                 learno = TRUE;
                 break;
             }
@@ -2128,7 +2128,7 @@ jump(int magic) /* 0=Physical, otherwise skill level */
                 return ECMD_TIME;
             }
             /* jumping in place takes no time and doesn't exercise anything */
-            You("%s。", Hallucination ? "稍微上下跳动一下"
+            You("%s.", Hallucination ? "稍微上下跳动一下"
                                      : "决定还是不跳了");
             return ECMD_OK;
         }
