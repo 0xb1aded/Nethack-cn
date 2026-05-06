@@ -1439,22 +1439,22 @@ roguename(void)
 }
 
 static NEARDATA const char *const hcolors[] = {
-    "ultraviolet", "infrared", "bluish-orange", "reddish-green", "dark white",
-    "light black", "sky blue-pink", "pinkish-cyan", "indigo-chartreuse",
-    "salty", "sweet", "sour", "bitter", "umami", /* basic tastes */
-    "striped", "spiral", "swirly", "plaid", "checkered", "argyle", "paisley",
-    "blotchy", "guernsey-spotted", "polka-dotted", "square", "round",
-    "triangular", "cabernet", "sangria", "fuchsia", "wisteria", "lemon-lime",
-    "strawberry-banana", "peppermint", "romantic", "incandescent",
-    "octarine", /* Discworld: the Colour of Magic */
-    "excitingly dull", "mauve", "electric",
-    "neon", "fluorescent", "phosphorescent", "translucent", "opaque",
-    "psychedelic", "iridescent", "rainbow-colored", "polychromatic",
-    "colorless", "colorless green",
-    "dancing", "singing", "loving", "loudy", "noisy", "clattery", "silent",
-    "apocyan", "infra-pink", "opalescent", "violant", "tuneless",
-    "viridian", "aureolin", "cinnabar", "purpurin", "gamboge", "madder",
-    "bistre", "ecru", "fulvous", "tekhelet", "selective yellow",
+    "紫外线", "红外线", "蓝橙色", "红绿色", "暗白色",
+    "浅黑色", "天蓝粉红", "粉青色", "靛绿黄绿",
+    "咸味", "甜味", "酸味", "苦味", "鲜味", /* basic tastes */
+    "条纹", "螺旋", "旋涡", "格子", "棋盘格", "花格", "佩斯利花纹",
+    "斑点", "根西斑点", "波点", "方形", "圆形",
+    "三角形", "赤霞珠", "桑格利亚", "紫红色", "紫藤色", "柠檬青",
+    "草莓香蕉", "薄荷", "浪漫色", "白炽色",
+    "八色彩", /* Discworld: the Colour of Magic */
+    "极度暗淡", "淡紫色", "电光色",
+    "霓虹色", "荧光色", "磷光色", "半透明", "不透明",
+    "迷幻色", "彩虹色", "彩色", "多色",
+    "无色", "无色绿色",
+    "舞动色", "歌唱色", "爱心色", "吵闹色", "嘈杂色", "叮当色", "寂静色",
+    "蓝青色", "红粉色", "蛋白石色", "紫罗兰色", "无调色",
+    "翠绿色", "黄绿", "朱砂", "紫红", "藤黄", "茜草色",
+    "褐色", "米色", "黄褐色", "特克列特蓝", "选择性黄色",
 };
 
 const char *
