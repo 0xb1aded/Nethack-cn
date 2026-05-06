@@ -23,7 +23,7 @@ English README：[README_en.md](README_en.md)
 - [x] allmain.c
 - [x] alloc.c
 - [x] apply.c
-- [ ] artifact.c
+- [x] artifact.c
 - [ ] attrib.c
 - [ ] ball.c
 - [ ] bones.c

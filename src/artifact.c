@@ -1664,11 +1664,11 @@ artifact_hit(
                 char *otmpname = distant_name(otmp, xname);
 
                 if (is_art(otmp, ART_STORMBRINGER))
-                    pline_The("%s的刀刃从%s中抽取了%s!",
+                    pline_The("%s的剑刃从%s身上抽取了%s!",
                               hcolor(NH_BLACK), mon_nam(mdef), life);
                 else
-                    pline("%s从%s身上吸取了%s！",
-                          The(otmpname), life, mon_nam(mdef));
+                    pline("%s从%s身上吸取了%s!",
+                          The(otmpname), mon_nam(mdef), life);
             }
             if (mdef->m_lev == 0) {
                 /* losing a level when at 0 is fatal */
@@ -1696,7 +1696,7 @@ artifact_hit(
             if (Blind) {
                 You_feel("一个%s吸取了你的%s！",
                          is_art(otmp, ART_STORMBRINGER)
-                            ? "不洁之刃"
+                            ? "邪恶的剑"
                             : "物体",
                          life);
             } else {
@@ -1705,10 +1705,10 @@ artifact_hit(
                 char *otmpname = distant_name(otmp, xname);
 
                 if (is_art(otmp, ART_STORMBRINGER))
-                    pline_The("%s刀锋吸取了你的%s！",
+                    pline_The("%s的剑刃吸取了你的%s!",
                               hcolor(NH_BLACK), life);
                 else
-                    pline("%s吸取了你的%s！", The(otmpname), life);
+                    pline("%s吸取了你的%s!", The(otmpname), life);
             }
             losexp("life drainage");
             if (magr && magr->mhp < magr->mhpmax) {
@@ -1785,9 +1785,9 @@ invoke_healing(struct obj *obj)
     if (Upolyd)
         healamt = (u.mhmax + 1 - u.mh) / 2;
     if (healamt || Sick || Slimed || Blinded > creamed)
-        You_feel("好一些了。");
+        You_feel("好些了.");
     if (healamt || Sick || Slimed || BlindedTimeout > creamed)
-        You_feel("%s好多了。",
+        You_feel("%s好些了.",
                  (!healamt && !Sick && !Slimed
                   /* when healing temporary blindness (aside from
                      goop covering face), might still be blind
@@ -1848,7 +1848,7 @@ staticfn int
 invoke_charge_obj(struct obj *obj)
 {
     const struct artifact *oart = get_artifact(obj);
-    struct obj *otmp = getobj("charge", charge_ok,
+    struct obj *otmp = getobj("充能", charge_ok,
                               GETOBJ_PROMPT | GETOBJ_ALLOWCNT);
     boolean b_effect;
 
@@ -1919,7 +1919,7 @@ invoke_create_portal(struct obj *obj)
 
     if (u.uhave.amulet || In_endgame(&u.uz) || In_endgame(&newlev)
         || newlev.dnum == u.uz.dnum || !next_to_u()) {
-        You_feel("一时感到非常晕头转向。");
+        You_feel("一时非常晕头转向.");
     } else {
         if (!Blind)
             You("被一个闪闪发光的领域包围着!");
@@ -1953,8 +1953,8 @@ invoke_create_ammo(struct obj *obj)
     } else
         otmp->quan += rnd(5);
     otmp->owt = weight(otmp);
-    otmp = hold_another_object(otmp, "Suddenly %s out.",
-                               aobjnam(otmp, "fall"), (char *) 0);
+    otmp = hold_another_object(otmp, "突然%s出来.",
+                               aobjnam(otmp, "掉落"), (char *) 0);
     nhUse(otmp);
     return ECMD_TIME;
 }
@@ -2004,15 +2004,15 @@ invoke_banish(struct obj *obj UNUSED)
     }
 
     if (nvanished) {
-        char subject[] = "demons";
+        char subject[] = "恶魔";
 
         if (nvanished == 1)
             *(eos(subject) - 1) = '\0'; /* remove 's' */
-        pline("%s %s %s 在一团硫磺烟雾中！",
+        pline("%s%s%s在一团硫磺烟雾中！",
               nstayed ? ((nvanished > nstayed)
                          ? "大部分"
                          : "一部分")
-              : "所有",
+              : "所有的",
               subject, vtense(subject, "消失"));
     }
     return ECMD_TIME;
@@ -2110,14 +2110,14 @@ arti_invoke_cost(struct obj *obj)
 
         if (pw_cost < 0 || u.uen < pw_cost) {
             /* the artifact is tired :-) */
-            You_feel("%s%s忽视你。", the(xname(obj)),
-                     otense(obj, "正在"));
+            You_feel("%s%s忽视你.", the(xname(obj)),
+                     otense(obj, "在"));
             /* and just got more so; patience is essential... */
             obj->age += (long) d(3, 10);
             return FALSE;
         } else {
             /* you pay invoke cost with your own magic */
-            You_feel("被抽干了...");
+            You_feel("被抽干了能量...");
             u.uen -= pw_cost;
             disp.botl = TRUE;
         }
@@ -2183,7 +2183,7 @@ arti_invoke(struct obj *obj)
         if (on && obj->age > svm.moves) {
             /* the artifact is tired :-) */
             u.uprops[oart->inv_prop].extrinsic ^= W_ARTI;
-            You_feel("该%s %s在忽略你。", the(xname(obj)),
+            You_feel("%s%s忽视你.", the(xname(obj)),
                      otense(obj, "在"));
             /* can't just keep repeatedly trying */
             obj->age += (long) d(3, 10);
@@ -2220,10 +2220,10 @@ arti_invoke(struct obj *obj)
             }
             newsym(u.ux, u.uy);
             if (on)
-                Your("身体呈现出一种 %s 的透明感...",
+                Your("身体呈现出一种%s的透明感...",
                      Hallucination ? "正常" : "奇怪");
             else
-                Your("身体似乎显现出来...");
+                Your("身体似乎显现了出来...");
             break;
         }
     }
@@ -2288,7 +2288,7 @@ arti_speak(struct obj *obj)
 
     line = getrumor(bcsign(obj), buf, TRUE);
     if (!*line)
-        line = "NetHack rumors file closed for renovation.";
+        line = "NetHack的谣言文件正关闭维护中";
     pline("%s:", Tobjnam(obj, "低声说"));
     SetVoice((struct monst *) 0, 0, 80, voice_talking_artifact);
     verbalize1(line);
@@ -2434,7 +2434,7 @@ glow_color(int arti_indx)
 
 /* glow verb; [0] holds the value used when blind */
 static const char *const glow_verbs[] = {
-    "quiver", "flicker", "glimmer", "gleam"
+    "颤抖", "闪现", "闪烁", "闪耀"
 };
 
 /* relative strength that Sting is glowing (0..3), to select verb */
@@ -2457,7 +2457,7 @@ glow_verb(int count, /* 0 means blind rather than no applicable creatures */
     /* ing_suffix() will double the last consonant for all the words
        we're using and none of them should have that, so bypass it */
     if (ingsfx)
-        Strcat(resbuf, "ing");
+        Strcat(resbuf, "");
     return resbuf;
 }
 
@@ -2486,7 +2486,7 @@ Sting_effects(
 
             /* 'start' message */
             if (!Blind)
-                pline("%s %s %s%c", bare_artifactname(uwep),
+                pline("%s%s%s光芒%c", bare_artifactname(uwep),
                       otense(uwep, glow_verb(orc_count, FALSE)),
                       glow_color(uwep->oartifact),
                       (newstr > oldstr) ? '!' : '.');
@@ -2529,8 +2529,8 @@ retouch_object(
 
         /* hero can't handle this object, but didn't get touch_artifact()'s
            "<obj> evades your grasp|control" message; give an alternate one */
-        You_cant("接触%s%s!", yname(obj),
-                 obj->owornmask ? "了" : "");
+        You_cant("%s接触%s!", obj->owornmask ? "再" : "",
+                 yname(obj));
         /* also inflict damage unless touch_artifact() already did so */
         if (!touch_blasted) {
             const char *what = killer_xname(obj);
@@ -2541,9 +2541,9 @@ retouch_object(
                    game's silver item without stating that it is silver
                    potentially leads to confusion about cause of death */
                 if (obj->oclass == RING_CLASS)
-                    what = "a silver ring";
+                    what = "一个银戒指";
                 else if (obj->oclass == WAND_CLASS)
-                    what = "a silver wand";
+                    what = "一个银魔杖";
                 /* for anything else, stick with killer_xname() */
             }
             /* damage is somewhat arbitrary; half the usual 1d20 physical
@@ -2698,7 +2698,7 @@ retouch_equipment(
     if (had_rings != (!!uleft + !!uright) && uarmg && uarmg->cursed)
         uncurse(uarmg); /* temporary? hack for ring removal plausibility */
     if (had_gloves && !uarmg)
-        selftouch("After losing your gloves, you");
+        selftouch("在失去了你的手套后, 你");
 
     if (!--nesting)
         clear_bypasses(); /* reset upon final exit */
@@ -2753,8 +2753,8 @@ void
 mkot_trap_warn(void)
 {
     static const char *const heat[7] = {
-        "cool", "slightly warm", "warm", "very warm",
-        "hot", "very hot", "like fire"
+        "凉爽", "轻微温暖", "温暖", "非常温暖",
+        "热", "非常热", "像火一样"
     };
 
     if (!uarmg && u_wield_art(ART_MASTER_KEY_OF_THIEVERY)) {

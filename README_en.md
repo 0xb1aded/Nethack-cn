@@ -23,7 +23,7 @@ No local build is required. You can download the auto-built Chinese preview rele
 - [x] allmain.c
 - [x] alloc.c
 - [x] apply.c
-- [ ] artifact.c
+- [x] artifact.c
 - [ ] attrib.c
 - [ ] ball.c
 - [ ] bones.c
