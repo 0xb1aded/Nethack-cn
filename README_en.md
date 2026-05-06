@@ -22,7 +22,7 @@ No local build is required. You can download the auto-built Chinese preview rele
 #### Human Review
 - [x] allmain.c
 - [x] alloc.c
-- [ ] apply.c
+- [x] apply.c
 - [ ] artifact.c
 - [ ] attrib.c
 - [ ] ball.c
