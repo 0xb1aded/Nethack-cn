@@ -3188,15 +3188,15 @@ align_str(aligntyp alignment)
 {
     switch ((int) alignment) {
     case A_CHAOTIC:
-        return "chaotic";
+        return "混沌";
     case A_NEUTRAL:
-        return "neutral";
+        return "中立";
     case A_LAWFUL:
-        return "lawful";
+        return "守序";
     case A_NONE:
-        return "unaligned";
+        return "无阵营";
     }
-    return "unknown";
+    return "不明";
 }
 
 staticfn char *
