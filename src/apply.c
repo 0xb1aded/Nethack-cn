@@ -1289,7 +1289,7 @@ use_bell(struct obj **optr)
                 pline1(nothing_happens);
                 break;
             case 1:
-                pline("%s 打开了...", Something);
+                pline("%s打开了...", Something);
                 learno = TRUE;
                 break;
             default:
@@ -1318,7 +1318,7 @@ use_bell(struct obj **optr)
 staticfn void
 use_candelabrum(struct obj *obj)
 {
-    const char *s = (obj->spe != 1) ? "candles" : "candle";
+    const char *s = (obj->spe != 1) ? "蜡烛" : "蜡烛";
 
     if (obj->lamplit) {
         You("掐灭%s.", s);
@@ -1376,7 +1376,7 @@ use_candelabrum(struct obj *obj)
             if (Blind)
                 pline("%s奇怪的光芒!", Tobjnam(obj, "发出"));
             else
-                pline("%s着奇异的光芒！", Tobjnam(obj, "闪耀"));
+                pline("%s着奇异的光芒!", Tobjnam(obj, "闪耀"));
         }
         obj->known = 1;
     }
@@ -1388,7 +1388,7 @@ use_candle(struct obj **optr)
 {
     struct obj *obj = *optr;
     struct obj *otmp;
-    const char *s = (obj->quan != 1) ? "candles" : "candle";
+    const char *s = (obj->quan != 1) ? "蜡烛" : "蜡烛";
     char qbuf[QBUFSZ], qsfx[QBUFSZ], *q;
     boolean was_lamplit;
 
@@ -1405,11 +1405,11 @@ use_candle(struct obj **optr)
     }
 
     /* first, minimal candelabrum suffix for formatting candles */
-    Sprintf(qsfx, " 到%s?", thesimpleoname(otmp));
+    Sprintf(qsfx, " 到\033%s?", thesimpleoname(otmp));
     /* next, format the candles as a prefix for the candelabrum */
-    (void) safe_qbuf(qbuf, "Attach ", qsfx, obj, yname, thesimpleoname, s);
+    (void) safe_qbuf(qbuf, "附加 ", qsfx, obj, yname, thesimpleoname, s);
     /* strip temporary candelabrum suffix */
-    if ((q = strstri(qbuf, " to\033")) != 0)
+    if ((q = strstri(qbuf, " 到\033")) != 0)
         Strcpy(q, " 到 ");
     /* last, format final "attach candles to candelabrum?" query */
     if (y_n(safe_qbuf(qbuf, qbuf, "?", otmp, yname, thesimpleoname, "it"))
@@ -1421,7 +1421,7 @@ use_candle(struct obj **optr)
             obj = splitobj(obj, 7L - (long) otmp->spe);
             /* avoid a grammatical error if obj->quan gets
                reduced to 1 candle from more than one */
-            s = (obj->quan != 1) ? "candles" : "candle";
+            s = (obj->quan != 1) ? "蜡烛" : "蜡烛";
         } else
             *optr = 0;
 
@@ -1433,7 +1433,7 @@ use_candle(struct obj **optr)
         if (was_lamplit)
             end_burn(obj, TRUE);
 
-        You("附加%ld %s%s到%s.", obj->quan, !otmp->spe ? "" : "更多", s,
+        You("附加%ld %s%s到%s.", obj->quan, !otmp->spe ? "" : "个多的", s,
             the(xname(otmp)));
         if (!otmp->spe || otmp->age > obj->age)
             otmp->age = obj->age;
@@ -1441,16 +1441,16 @@ use_candle(struct obj **optr)
         if (otmp->lamplit && !was_lamplit)
             pline_The("新的%s魔法般地%s了!", s, vtense(s, "点燃"));
         else if (!otmp->lamplit && was_lamplit)
-            pline("%s 了。", (obj->quan > 1L) ? "它们熄灭" : "它熄灭");
+            pline("%s 了.", (obj->quan > 1L) ? "它们熄灭" : "它熄灭");
         if (obj->unpaid) {
             struct monst *shkp VOICEONLY
                                = shop_keeper(*in_rooms(u.ux, u.uy, SHOPBASE));
 
             SetVoice(shkp, 0, 80, 0);
-            verbalize("You %s %s, you bought %s!",
-                      otmp->lamplit ? "burn" : "use",
-                      (obj->quan > 1L) ? "them" : "it",
-                      (obj->quan > 1L) ? "them" : "it");
+            verbalize("你%s%s, 你就要买%s!",
+                      otmp->lamplit ? "烧了" : "用了",
+                      (obj->quan > 1L) ? "它们" : "它",
+                      (obj->quan > 1L) ? "它们" : "它");
         }
         if (obj->quan < 7L && otmp->spe == 7)
             pline("%s现在有7 个%s蜡烛附加在上面.", The(xname(otmp)),
@@ -1612,9 +1612,9 @@ catch_lit(struct obj *obj)
             /* if it catches while you have it, then it's your tough luck */
             check_unpaid(obj);
             SetVoice(shkp, 0, 80, 0);
-            verbalize("That's in addition to the cost of %s %s, of course.",
+            verbalize("那是%s%s另外的费用, 当然.",
                       yname(obj),
-                      (obj->quan == 1L) ? "itself" : "themselves");
+                      (obj->quan == 1L) ? "它自己" : "它们自己");
             bill_dummy_object(obj);
         }
         begin_burn(obj, FALSE);
@@ -1629,8 +1629,8 @@ use_lamp(struct obj *obj)
 {
     char buf[BUFSZ];
     const char *lamp = (obj->otyp == OIL_LAMP
-                        || obj->otyp == MAGIC_LAMP) ? "lamp"
-                       : (obj->otyp == BRASS_LANTERN) ? "lantern"
+                        || obj->otyp == MAGIC_LAMP) ? "灯"
+                       : (obj->otyp == BRASS_LANTERN) ? "灯笼"
                          : NULL;
 
     /*
@@ -1641,7 +1641,7 @@ use_lamp(struct obj *obj)
 
     if (obj->lamplit) {
         if (lamp) /* lamp or lantern */
-            pline("%s%s 现在关闭了。", Shk_Your(buf, obj), lamp);
+            pline("%s%s 现在熄灭了.", Shk_Your(buf, obj), lamp);
         else
             You("掐灭了%s.", yname(obj));
         end_burn(obj, TRUE);
@@ -1650,7 +1650,7 @@ use_lamp(struct obj *obj)
     if (Underwater) {
         pline("%s.",
               !Is_candle(obj) ? "这不是潜水灯"
-                              : "抱歉，水火不相容");
+                              : "抱歉,水火不相容");
         return;
     }
     /* magic lamps with an spe == 0 (wished for) cannot be lit */
@@ -1658,21 +1658,21 @@ use_lamp(struct obj *obj)
         || (obj->otyp == MAGIC_LAMP && obj->spe == 0)) {
         if (obj->otyp == BRASS_LANTERN) {
             if (!Blind)
-                Your("灯笼没电了。");
+                Your("灯笼没油了。");
             else
                 pline("%s", nothing_seems_to_happen);
         } else {
-            pline("这个%s没有油了。", xname(obj));
+            pline("这个%s没有油了.", xname(obj));
         }
         return;
     }
     if (obj->cursed && !rn2(2)) {
         if ((obj->otyp == OIL_LAMP || obj->otyp == MAGIC_LAMP) && !rn2(3)) {
-            pline_The("灯翻倒并让油洒在你的%s上。",
+            pline_The("灯被你打翻了, 油洒在了你的%s上。",
                       fingers_or_gloves(TRUE));
             make_glib((int) (Glib & TIMEOUT) + d(2, 10));
         } else if (!Blind) {
-            pline("%s片刻，然后%s。", Tobjnam(obj, "闪烁"),
+            pline("%s片刻, 然后%s.", Tobjnam(obj, "闪烁"),
                   otense(obj, "熄灭"));
         } else {
             pline("%s", nothing_seems_to_happen);
@@ -1680,18 +1680,18 @@ use_lamp(struct obj *obj)
     } else {
         if (lamp) { /* lamp or lantern */
             check_unpaid(obj);
-            pline("%s%s现在已经点亮。", Shk_Your(buf, obj), lamp);
+            pline("%s%s现在已经点亮.", Shk_Your(buf, obj), lamp);
         } else { /* candle(s) */
             pline("%s火焰%s %s%s", s_suffix(Yname2(obj)), plur(obj->quan),
-                  otense(obj, "燃烧"), Blind ? "。" : "明亮地！");
+                  otense(obj, "燃烧"), Blind ? "." : "得很明亮!");
             if (obj->unpaid && costly_spot(u.ux, u.uy)
                 && obj->age == 20L * (long) objects[obj->otyp].oc_cost) {
-                const char *ithem = (obj->quan > 1L) ? "them" : "it";
+                const char *ithem = (obj->quan > 1L) ? "它们" : "它";
                 struct monst *shkp VOICEONLY
                                = shop_keeper(*in_rooms(u.ux, u.uy, SHOPBASE));
 
                 SetVoice(shkp, 0, 80, 0);
-                verbalize("You burn %s, you bought %s!", ithem, ithem);
+                verbalize("你烧了%s, 你就要买%s!", ithem, ithem);
                 bill_dummy_object(obj);
             }
         }
@@ -1735,8 +1735,8 @@ light_cocktail(struct obj **optr)
     if (split1off)
         obj = splitobj(obj, 1L);
 
-    You("点亮了%s药水.%s", shk_your(buf, obj),
-        Blind ? "" : "  它发出微弱的光芒。");
+    You("点燃了%s药水.%s", shk_your(buf, obj),
+        Blind ? "" : "  它发出微弱的光芒.");
 
     if (obj->unpaid && costly_spot(u.ux, u.uy)) {
         struct monst *shkp VOICEONLY = shop_keeper(*in_rooms(u.ux, u.uy,
@@ -1747,7 +1747,7 @@ light_cocktail(struct obj **optr)
          */
         check_unpaid(obj);
         SetVoice(shkp, 0, 80, 0);
-        verbalize("That's in addition to the cost of the potion, of course.");
+        verbalize("那是药水另外的费用, 当然.");
         bill_dummy_object(obj);
     }
     makeknown(obj->otyp);
@@ -1756,7 +1756,7 @@ light_cocktail(struct obj **optr)
     if (split1off) {
         obj_extract_self(obj); /* free from inv */
         obj->nomerge = 1;
-        obj = hold_another_object(obj, "You drop %s!", doname(obj),
+        obj = hold_another_object(obj, "你扔掉%s!", doname(obj),
                                   (const char *) 0);
         if (obj)
             obj->nomerge = 0;
