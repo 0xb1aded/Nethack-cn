@@ -55,7 +55,7 @@ staticfn boolean get_valid_polearm_position(coordxy, coordxy);
 staticfn boolean find_poleable_mon(coord *);
 
 static const char
-    no_elbow_room[] = "don't have enough elbow-room to maneuver.";
+    no_elbow_room[] = "没有足够的空间来操作.";
 
 void
 do_blinding_ray(struct obj *obj)
@@ -136,15 +136,15 @@ use_towel(struct obj *obj)
                 old = u.ucreamed;
                 u.ucreamed += rn1(10, 3);
                 pline("咦!  你的%s因它变得%s黏糊糊了!", body_part(FACE),
-                      (old ? "有更多" : "现在有"));
+                      (old ? "更加" : ""));
                 make_blinded(BlindedTimeout + (long) u.ucreamed - old, TRUE);
             } else {
                 const char *what;
 
                 what = (ublindf->otyp == LENSES)
-                           ? "lenses"
-                           : (obj->otyp == ublindf->otyp) ? "other towel"
-                                                          : "blindfold";
+                           ? "眼镜"
+                           : (obj->otyp == ublindf->otyp) ? "另外的毛巾"
+                                                          : "眼罩";
                 if (ublindf->cursed) {
                     You("把你的%s弄%s了.", what,
                         rn2(2) ? "扭曲" : "弯曲");
@@ -275,7 +275,7 @@ its_dead(coordxy rx, coordxy ry, int *resp)
         }
         You("断定%s 不幸的人%s %s%s死了.",
             one ? (here ? "这个" : "那个") : (here ? "这些" : "那些"),
-            one ? "" : "", one ? "是" : "是", reviver ? "大部分都" : "");
+            one ? "" : "", one ? "" : "", reviver ? "大部分都" : "");
         return TRUE;
 
     } else { /* statue */
@@ -292,14 +292,14 @@ its_dead(coordxy rx, coordxy ry, int *resp)
             if (!type_is_pname(mptr))
                 what = The(what);
         }
-        how = "fine";
+        how = "良好";
         if (Role_if(PM_HEALER)) {
             struct trap *ttmp = t_at(rx, ry);
 
             if (ttmp && ttmp->ttyp == STATUE_TRAP)
-                how = "extraordinary";
+                how = "特别";
             else if (Has_contents(statue))
-                how = "remarkable";
+                how = "非凡";
         }
 
         pline("对于雕像来说%s健康状况%s.", what, how);
@@ -308,7 +308,7 @@ its_dead(coordxy rx, coordxy ry, int *resp)
     return FALSE; /* no corpse or statue */
 }
 
-static const char hollow_str[] = "a hollow sound.  This must be a secret %s!";
+static const char hollow_str[] = "空洞的声音.  这一定是一个暗%s!";
 
 /* Strictly speaking it makes no sense for usage of a stethoscope to
    not take any time; however, unless it did, the stethoscope would be
@@ -325,7 +325,7 @@ use_stethoscope(struct obj *obj)
                             && !rn2(Role_if(PM_HEALER) ? 10 : 3));
 
     if (nohands(gy.youmonst.data)) {
-        You("你没有手！"); /* not `body_part(HAND)' */
+        You("没有手！"); /* not `body_part(HAND)' */
         return ECMD_OK;
     } else if (Deaf) {
         You_cant("听见任何声音!");
@@ -344,7 +344,7 @@ use_stethoscope(struct obj *obj)
     gn.notonhead = u.uswallow;
     if (u.usteed && u.dz > 0) {
         if (interference) {
-            pline("%s干扰。", Monnam(u.ustuck));
+            pline("%s妨碍.", Monnam(u.ustuck));
             mstatusline(u.ustuck);
         } else
             mstatusline(u.usteed);
@@ -353,7 +353,7 @@ use_stethoscope(struct obj *obj)
         mstatusline(u.ustuck);
         return res;
     } else if (u.uswallow && interference) {
-        pline("%s干扰了。", Monnam(u.ustuck));
+        pline("%s妨碍.", Monnam(u.ustuck));
         mstatusline(u.ustuck);
         return res;
     } else if (u.dz) {
@@ -402,7 +402,7 @@ use_stethoscope(struct obj *obj)
             mtmp->mundetected = 0;
             newsym(mtmp->mx, mtmp->my);
         } else if (mtmp->mappearance) {
-            const char *what = "thing";
+            const char *what = "东西";
             boolean use_plural = FALSE;
             struct obj dummyobj, *odummy;
 
@@ -451,13 +451,13 @@ use_stethoscope(struct obj *obj)
     switch (lev->typ) {
     case SDOOR:
         Soundeffect(se_hollow_sound, 100);
-        You_hear(hollow_str, "door");
+        You_hear(hollow_str, "门");
         cvt_sdoor_to_door(lev); /* ->typ = DOOR */
         recalc_block_point(rx, ry);
         feel_newsym(rx, ry);
         return res;
     case SCORR:
-        You_hear(hollow_str, "passage");
+        You_hear(hollow_str, "道");
         lev->typ = CORR, lev->flags = 0;
         unblock_point(rx, ry);
         feel_newsym(rx, ry);
@@ -469,8 +469,8 @@ use_stethoscope(struct obj *obj)
     return res;
 }
 
-static const char whistle_str[] = "produce a %s whistling sound.",
-                  alt_whistle_str[] = "produce a %s, sharp vibration.";
+static const char whistle_str[] = "发出%s哨声.",
+                  alt_whistle_str[] = "产生出%s剧烈振动.";
 
 staticfn void
 use_whistle(struct obj *obj)
@@ -505,9 +505,9 @@ use_magic_whistle(struct obj *obj)
     } else {
         /* it's magic!  it works underwater too (at a higher pitch) */
         You(Deaf ? alt_whistle_str : whistle_str,
-            Hallucination ? "normal"
-            : (Underwater && !Deaf) ? "strange, high-pitched"
-              : "strange");
+            Hallucination ? "一般的"
+            : (Underwater && !Deaf) ? "奇怪的, 尖锐的"
+              : "奇怪的");
         Soundeffect(se_shrill_whistle, 80);
         magic_whistled(obj);
     }
@@ -520,8 +520,8 @@ magic_whistled(struct obj *obj)
     struct monst *mtmp, *nextmon;
     char buf[BUFSZ], *mnam = 0,
          shiftbuf[BUFSZ + sizeof "shifts location"],
-         appearbuf[BUFSZ + sizeof "appears"],
-         disappearbuf[BUFSZ + sizeof "disappears"];
+         appearbuf[BUFSZ + sizeof "出现了"],
+         disappearbuf[BUFSZ + sizeof "消失了"];
     boolean oseen, nseen,
             already_discovered = objects[obj->otyp].oc_name_known != 0;
     int omx, omy, shift = 0, appear = 0, disappear = 0, trapped = 0;
@@ -595,14 +595,14 @@ magic_whistled(struct obj *obj)
                 mnam = y_monnam(mtmp);
                 if (oseen) {
                     if (++shift == 1)
-                        Sprintf(shiftbuf, "%s 移动了位置", mnam);
+                        Sprintf(shiftbuf, "%s瞬间移动了", mnam);
                 } else {
                     if (++appear == 1)
-                        Sprintf(appearbuf, "%s出现了", mnam);
+                        Sprintf(appearbuf, "%s凭空出现了", mnam);
                 }
             } else if (oseen) {
                 if (++disappear == 1)
-                    Sprintf(disappearbuf, "%s消失了", mnam);
+                    Sprintf(disappearbuf, "%s凭空消失了", mnam);
             }
         }
     }
@@ -634,18 +634,18 @@ magic_whistled(struct obj *obj)
     } else {
         /* could use array of cardinal number names like wishcmdassist() but
            extra precision above 3 or 4 seems pedantic; not used for 0 or 1 */
-#define HowMany(n) (((n) < 2) ? "sqrt(-1)"          \
-                    : ((n) == 2) ? "two"            \
-                      : ((n) == 3) ? "three"        \
-                        : ((n) == 4) ? "four"       \
-                          : ((n) <= 7) ? "several"  \
-                            : "many")
+#define HowMany(n) (((n) < 2) ? "一只"          \
+                    : ((n) == 2) ? "两只"            \
+                      : ((n) == 3) ? "三只"        \
+                        : ((n) == 4) ? "四只"       \
+                          : ((n) <= 7) ? "几只"  \
+                            : "许多")
         /* magic whistle is already discovered so rloc() message(s)
            were suppressed above; if any discernible relocation occurred,
            construct a message now and issue it below */
         if (shift > 0) {
             if (shift > 1)
-                Sprintf(shiftbuf, "%s只怪物交换了位置",
+                Sprintf(shiftbuf, "%s怪物交换了位置",
                         HowMany(shift));
             copynchars(buf, upstart(shiftbuf), (int) sizeof buf - 1);
         }
@@ -654,31 +654,31 @@ magic_whistled(struct obj *obj)
                 /* shift==0: N creatures appear;
                    shift==1: Foo shifts location and N other creatures appear;
                    shift >1: M creatures shift locations and N others appear */
-                Sprintf(appearbuf, "%s %s出现", HowMany(appear),
+                Sprintf(appearbuf, "%s%s出现了", HowMany(appear),
                         (shift == 0) ? "生物"
-                        : (shift == 1) ? "其他生物"
-                          : "其他");
+                        : (shift == 1) ? "生物"
+                          : "生物");
             if (shift == 0)
                 copynchars(buf, upstart(appearbuf), (int) sizeof buf - 1);
             else
-                Snprintf(eos(buf), sizeof buf - strlen(buf), "%s %s",
+                Snprintf(eos(buf), sizeof buf - strlen(buf), "%s%s",
                          /* to get here:  appear > 0 and shift != 0,
                             so "shifters, appearers" if disappear != 0
                             with ", and disappearers" yet to be appended,
                             or "shifters and appearers" otherwise */
-                         disappear ? "," : " and", appearbuf);
+                         disappear ? ", " : "以及", appearbuf);
         }
         if (disappear > 0) {
             if (disappear > 1)
-                Sprintf(disappearbuf, "%s %s 消失", HowMany(disappear),
+                Sprintf(disappearbuf, "%s%s消失了", HowMany(disappear),
                         (shift == 0 && appear == 0) ? "生物"
-                        : (shift < 2 && appear < 2) ? "其他生物"
-                          : "其他");
+                        : (shift < 2 && appear < 2) ? "生物"
+                          : "生物");
             if (shift + appear == 0)
                 copynchars(buf, upstart(disappearbuf), (int) sizeof buf - 1);
             else
-                Snprintf(eos(buf), sizeof buf - strlen(buf), "%s and %s",
-                         (shift && appear) ? "," : "", disappearbuf);
+                Snprintf(eos(buf), sizeof buf - strlen(buf), "%s%s",
+                         (shift && appear) ? ", " : "以及", disappearbuf);
         }
     }
     if (*buf)
@@ -729,10 +729,10 @@ m_unleash(struct monst *mtmp, boolean feedback)
 
     if (feedback) {
         if (canseemon(mtmp))
-            pline_mon(mtmp, "%s pulls free of %s leash!",
+            pline_mon(mtmp, "%s扯开了%s狗链!",
                       Monnam(mtmp), mhis(mtmp));
         else
-            Your("皮带松了下来。");
+            Your("狗链落松了.");
     }
     if ((otmp = get_mleash(mtmp)) != 0) {
         otmp->leashmon = 0;
@@ -951,7 +951,7 @@ check_leash(coordxy x, coordxy y)
                     || (mtmp->mhp -= rnd(2)) <= 0) {
                     long save_pacifism = u.uconduct.killer;
 
-                    Your("狗链使%s 窒息而死!", mon_nam(mtmp));
+                    Your("狗链使%s窒息而死!", mon_nam(mtmp));
                     /* hero might not have intended to kill pet, but
                        that's the result of his actions; gain experience,
                        lose pacifism, take alignment and luck hit, make
@@ -961,7 +961,7 @@ check_leash(coordxy x, coordxy y)
                     if (!DEADMONSTER(mtmp))
                         u.uconduct.killer = save_pacifism;
                 } else {
-                    pline_mon(mtmp, "%s is choked by the leash!",
+                    pline_mon(mtmp, "%s被狗链所窒息!",
                               Monnam(mtmp));
                     /* tameness eventually drops to 1 here (never 0) */
                     if (mtmp->mtame && rn2(mtmp->mtame))
@@ -1000,19 +1000,19 @@ beautiful(void)
     int cha = ACURR(A_CHA);
 
     /* don't bother complaining about the sexism; NetHack is not real life */
-    res = ((cha >= 25) ? "sublime" /* 25 is the maximum possible */
-           : (cha >= 19) ? "splendorous" /* note: not "splendiferous" */
-             : (cha >= 16) ? ((poly_gender() == 1) ? "beautiful" : "handsome")
-               : (cha >= 14) ? ((poly_gender() == 1) ? "winsome" : "amiable")
-                 : (cha >= 11) ? "cute"
-                   : (cha >= 9) ? "plain"
-                     : (cha >= 6) ? "homely"
-                       : (cha >= 4) ? "ugly"
-                         : "hideous"); /* 3 is the minimum possible */
+        res = ((cha >= 25) ? "绝世" /* 25 is the maximum possible */
+                     : (cha >= 19) ? "光彩照人" /* note: not "splendiferous" */
+                         : (cha >= 16) ? ((poly_gender() == 1) ? "美丽" : "英俊")
+                             : (cha >= 14) ? ((poly_gender() == 1) ? "秀美" : "和善")
+                                 : (cha >= 11) ? "可爱"
+                                     : (cha >= 9) ? "普通"
+                                         : (cha >= 6) ? "不太好看"
+                                             : (cha >= 4) ? "丑陋"
+                                                 : "骇人"); /* 3 is the minimum possible */
     return res;
 }
 
-static const char look_str[] = "look %s.";
+static const char look_str[] = "看起来%s.";
 
 staticfn int
 use_mirror(struct obj *obj)
@@ -1050,7 +1050,7 @@ use_mirror(struct obj *obj)
                         pline("呀!  你被自己僵住了!");
                     if (!Hallucination || !rn2(4)) {
                         nomul(-rnd(MAXULEV + 6 - u.ulevel));
-                        gm.multi_reason = "gazing into a mirror";
+                        gm.multi_reason = "凝视镜子";
                     }
                     gn.nomovemsg = 0; /* default, "you can move again" */
                 }
@@ -1063,9 +1063,9 @@ use_mirror(struct obj *obj)
             } else if (Hallucination) {
                 You(look_str, hcolor((char *) 0));
             } else if (Sick) {
-                You(look_str, "peaked");
+                You(look_str, "病怏怏的");
             } else if (u.uhs >= WEAK) {
-                You(look_str, "undernourished");
+                You(look_str, "营养不良");
             } else if (Upolyd) {
                 You("看起来像 %s。", an(pmname(&mons[u.umonnum], Ugender)));
             } else {
