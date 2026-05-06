@@ -8,83 +8,83 @@
 
 /* part of the output on gain or loss of attribute */
 static const char
-    *const plusattr[] = { "strong", "smart", "wise",
-                          "agile",  "tough", "charismatic" },
-    *const minusattr[] = { "weak",    "stupid",
-                           "foolish", "clumsy",
-                           "fragile", "repulsive" };
+    *const plusattr[] = { "强壮", "聪明", "博学",
+                          "灵活",  "结实", "迷人" },
+    *const minusattr[] = { "无力",    "愚蠢",
+                           "无知", "笨拙",
+                           "体弱", "丑恶" };
 /* also used by enlightenment in insight.c for non-abbreviated status info */
 extern const char *const attrname[6];
 
 const char
-    *const attrname[] = { "strength", "intelligence", "wisdom",
-                          "dexterity", "constitution", "charisma" };
+    *const attrname[] = { "力量", "智力", "感知",
+                          "敏捷", "体质", "魅力" };
 
 static const struct innate {
     schar ulevel;
     long *ability;
     const char *gainstr, *losestr;
 } arc_abil[] = { { 1, &(HSearching), "", "" },
-                 { 5, &(HStealth), "stealthy", "" },
-                 { 10, &(HFast), "quick", "slow" },
+                 { 5, &(HStealth), "轻捷的", "" },
+                 { 10, &(HFast), "敏捷", "笨拙" },
                  { 0, 0, 0, 0 } },
 
   bar_abil[] = { { 1, &(HPoison_resistance), "", "" },
-                 { 7, &(HFast), "quick", "slow" },
-                 { 15, &(HStealth), "stealthy", "" },
+                 { 7, &(HFast), "敏捷", "笨拙" },
+                 { 15, &(HStealth), "轻捷的", "" },
                  { 0, 0, 0, 0 } },
 
-  cav_abil[] = { { 7, &(HFast), "quick", "slow" },
-                 { 15, &(HWarning), "sensitive", "" },
+  cav_abil[] = { { 7, &(HFast), "敏捷", "笨拙" },
+                 { 15, &(HWarning), "敏感的", "" },
                  { 0, 0, 0, 0 } },
 
   hea_abil[] = { { 1, &(HPoison_resistance), "", "" },
-                 { 15, &(HWarning), "sensitive", "" },
+                 { 15, &(HWarning), "敏感的", "" },
                  { 0, 0, 0, 0 } },
 
-  kni_abil[] = { { 7, &(HFast), "quick", "slow" }, { 0, 0, 0, 0 } },
+  kni_abil[] = { { 7, &(HFast), "敏捷", "笨拙" }, { 0, 0, 0, 0 } },
 
   mon_abil[] = { { 1, &(HFast), "", "" },
                  { 1, &(HSleep_resistance), "", "" },
                  { 1, &(HSee_invisible), "", "" },
-                 { 3, &(HPoison_resistance), "healthy", "" },
-                 { 5, &(HStealth), "stealthy", "" },
-                 { 7, &(HWarning), "sensitive", "" },
-                 { 9, &(HSearching), "perceptive", "unaware" },
-                 { 11, &(HFire_resistance), "cool", "warmer" },
-                 { 13, &(HCold_resistance), "warm", "cooler" },
-                 { 15, &(HShock_resistance), "insulated", "conductive" },
-                 { 17, &(HTeleport_control), "controlled", "uncontrolled" },
+                 { 3, &(HPoison_resistance), "健康的", "" },
+                 { 5, &(HStealth), "轻捷的", "" },
+                 { 7, &(HWarning), "敏感的", "" },
+                 { 9, &(HSearching), "有感知的", "无知的" },
+                 { 11, &(HFire_resistance), "冷的", "热的" },
+                 { 13, &(HCold_resistance), "暖和的", "寒冷的" },
+                 { 15, &(HShock_resistance), "绝缘的", "导电的" },
+                 { 17, &(HTeleport_control), "可控的", "失控的" },
                  { 0, 0, 0, 0 } },
 
-  pri_abil[] = { { 15, &(HWarning), "sensitive", "" },
-                 { 20, &(HFire_resistance), "cool", "warmer" },
+  pri_abil[] = { { 15, &(HWarning), "敏感的", "" },
+                 { 20, &(HFire_resistance), "寒冷的", "温暖的" },
                  { 0, 0, 0, 0 } },
 
   ran_abil[] = { { 1, &(HSearching), "", "" },
-                 { 7, &(HStealth), "stealthy", "" },
+                 { 7, &(HStealth), "轻捷的", "" },
                  { 15, &(HSee_invisible), "", "" },
                  { 0, 0, 0, 0 } },
 
   rog_abil[] = { { 1, &(HStealth), "", "" },
-                 { 10, &(HSearching), "perceptive", "" },
+                 { 10, &(HSearching), "有感知的", "" },
                  { 0, 0, 0, 0 } },
 
   sam_abil[] = { { 1, &(HFast), "", "" },
-                 { 15, &(HStealth), "stealthy", "" },
+                 { 15, &(HStealth), "轻捷的", "" },
                  { 0, 0, 0, 0 } },
 
-  tou_abil[] = { { 10, &(HSearching), "perceptive", "" },
-                 { 20, &(HPoison_resistance), "hardy", "" },
+  tou_abil[] = { { 10, &(HSearching), "有感知的", "" },
+                 { 20, &(HPoison_resistance), "强壮的", "" },
                  { 0, 0, 0, 0 } },
 
   val_abil[] = { { 1, &(HCold_resistance), "", "" },
-                 { 3, &(HStealth), "stealthy", "" },
-                 { 7, &(HFast), "quick", "slow" },
+                 { 3, &(HStealth), "轻捷的", "" },
+                 { 7, &(HFast), "快的", "慢的" },
                  { 0, 0, 0, 0 } },
 
-  wiz_abil[] = { { 15, &(HWarning), "sensitive", "" },
-                 { 17, &(HTeleport_control), "controlled", "uncontrolled" },
+  wiz_abil[] = { { 15, &(HWarning), "敏感的", "" },
+                 { 17, &(HTeleport_control), "可控的", "失控的" },
                  { 0, 0, 0, 0 } },
 
   /* Intrinsics conferred by race */
@@ -92,7 +92,7 @@ static const struct innate {
                  { 0, 0, 0, 0 } },
 
   elf_abil[] = { { 1, &HInfravision, "", "" },
-                 { 4, &HSleep_resistance, "awake", "tired" },
+                 { 4, &HSleep_resistance, "警惕的", "困倦的" },
                  { 0, 0, 0, 0 } },
 
   gno_abil[] = { { 1, &HInfravision, "", "" },
