@@ -1024,7 +1024,7 @@ status_enlightenment(int mode, int final)
             } else {
                 Strcpy(buf, "被窒息");
                 if (wizard)
-                    Sprintf(eos(buf), "被拴着%s", (Strangled & TIMEOUT));
+                    Sprintf(eos(buf), " (%ld)", (Strangled & TIMEOUT));
                 you_are(buf, from_what(STRANGLED));
             }
         }
@@ -1066,7 +1066,7 @@ status_enlightenment(int mode, int final)
                     /* timed, possibly combined with blindfold */
                     : "暂时");
         if (wizard && (HBlinded == BlindedTimeout && !Blindfolded))
-            Sprintf(eos(buf), "被拴着%s", BlindedTimeout);
+            Sprintf(eos(buf), " (%ld)", BlindedTimeout);
         /* !haseyes: avoid "you are innately blind innately" */
         you_are(buf, !haseyes(gy.youmonst.data) ? "" : from_what(BLINDED));
     }
@@ -1169,9 +1169,9 @@ status_enlightenment(int mode, int final)
         }
     }
     if (Glib) {
-        Sprintf(buf, " (%ld)", fingers_or_gloves(TRUE));
+        Sprintf(buf, "slippery %s", fingers_or_gloves(TRUE));
         if (wizard)
-            Sprintf(eos(buf), "被拴着%s", (Glib & TIMEOUT));
+            Sprintf(eos(buf), " (%ld)", (Glib & TIMEOUT));
         you_have(buf, "");
     }
     if (Fumbling) {
@@ -1182,7 +1182,7 @@ status_enlightenment(int mode, int final)
         if (magic || cause_known(SLEEPY)) {
             Strcpy(buf, from_what(SLEEPY));
             if (wizard)
-                Sprintf(eos(buf), "被拴着%s", (HSleepy & TIMEOUT));
+                Sprintf(eos(buf), " (%ld)", (HSleepy & TIMEOUT));
             enl_msg("You ", "fall", "fell", " asleep uncontrollably", buf);
         }
     }
@@ -1626,7 +1626,7 @@ attributes_enlightenment(
             long detectmon_timeout = (HDetect_monsters & TIMEOUT);
 
             if (detectmon_timeout)
-                Sprintf(eos(buf), "被拴着%s", detectmon_timeout);
+                Sprintf(eos(buf), " (%ld)", detectmon_timeout);
         }
         you_are(buf, "");
     }
@@ -3302,7 +3302,7 @@ mstatusline(struct monst *mtmp)
             ++nsegs; /* include head in the segment count */
             segndx = wseg_at(mtmp, gb.bhitpos.x, gb.bhitpos.y);
             Sprintf(eos(info), ", %d 节的%d%s",
-                    segndx, ordin(segndx), nsegs);
+                    nsegs, segndx, ordin(segndx));
         }
     }
     if (ismnum(mtmp->cham) && mtmp->data != &mons[mtmp->cham])

@@ -1235,7 +1235,7 @@ optfn_boulder(
     if (req == get_val || req == get_cnf_val) {
         opts[0] = '\0';
 #ifdef BACKWARD_COMPAT
-        Sprintf(opts, "%s",
+        Sprintf(opts, "%c",
                 go.ov_primary_syms[SYM_BOULDER + SYM_OFF_X]
                   ? go.ov_primary_syms[SYM_BOULDER + SYM_OFF_X]
                   : gs.showsyms[(int) objects[BOULDER].oc_class + SYM_OFF_O]);
@@ -2539,7 +2539,7 @@ optfn_msghistory(
         return optn_ok;
     }
     if (req == get_val || req == get_cnf_val) {
-        Sprintf(opts, "%s", iflags.msg_history);
+        Sprintf(opts, "%u", iflags.msg_history);
         return optn_ok;
     }
     return optn_ok;
@@ -3181,7 +3181,7 @@ optfn_petattr(
         } else
 #endif
         if (iflags.wc2_petattr != 0)
-            Sprintf(opts, "%s", iflags.wc2_petattr);
+            Sprintf(opts, "0x%08x", iflags.wc2_petattr);
         else if (req == get_cnf_val)
             opts[0] = '\0';
         else
@@ -3244,7 +3244,7 @@ optfn_pettype(
     }
     if (req == get_cnf_val) {
         if (gp.preferred_pet)
-            Sprintf(opts, "%s", gp.preferred_pet);
+            Sprintf(opts, "%c", gp.preferred_pet);
         else
             opts[0] = '\0';
         return optn_ok;
@@ -4525,7 +4525,7 @@ optfn_versinfo(
                 (n && (b || g)) ? "+" : "", n ? "编号" : "",
                 status_version(vbuf, sizeof vbuf, FALSE));
     } else if (req == get_cnf_val) {
-        Sprintf(opts, "%s", flags.versinfo);
+        Sprintf(opts, "%u", flags.versinfo);
     }
     if (flags.versinfo != vi && !go.opt_initial)
         go.opt_need_redraw = TRUE; /* context.botlx = TRUE ought to suffice

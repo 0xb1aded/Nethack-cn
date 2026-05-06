@@ -1214,7 +1214,7 @@ get_sortdisco(char *opts, boolean cnf)
     if (!p)
         flags.discosort = 'o', p = disco_order_let;
     if (cnf)
-        Sprintf(opts, "%s", flags.discosort);
+        Sprintf(opts, "%c", flags.discosort);
     else
         Strcpy(opts, disco_orders_descr[p - disco_order_let]);
 }
