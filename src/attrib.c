@@ -281,12 +281,12 @@ static const struct poison_effect_message {
     void (*delivery_func)(const char *, ...);
     const char *effect_msg;
 } poiseff[] = {
-    { You_feel, "weaker" },             /* A_STR */
-    { Your, "brain is on fire" },       /* A_INT */
-    { Your, "judgement is impaired" },  /* A_WIS */
-    { Your, "muscles won't obey you" }, /* A_DEX */
-    { You_feel, "very sick" },          /* A_CON */
-    { You, "break out in hives" }       /* A_CHA */
+    { You_feel, "虚弱" },             /* A_STR */
+    { Your, "大脑着火" },       /* A_INT */
+    { Your, "判断力减弱" },  /* A_WIS */
+    { Your, "无法控制肌肉" }, /* A_DEX */
+    { You_feel, "非常不健康" },          /* A_CON */
+    { You, "发麻疹" }       /* A_CHA */
 };
 
 /* feedback for attribute loss due to poisoning */
@@ -305,9 +305,9 @@ poisontell(int typ,         /* which attribute */
      * (dunce cap) is such that we don't need message fixups for them.
      */
     if (typ == A_STR && ACURR(A_STR) == STR19(25))
-        msg_txt = "innately weaker";
+        msg_txt = "天生虚弱";
     else if (typ == A_CON && ACURR(A_CON) == 25)
-        msg_txt = "sick inside";
+        msg_txt = "内在生病";
 
     (*func)("%s%c", msg_txt, exclaim ? '!' : '.');
 }
@@ -331,8 +331,8 @@ poisoned(
         boolean plural = (reason[strlen(reason) - 1] == 's') ? 1 : 0;
 
         /* avoid "The" Orcus's sting was poisoned... */
-        pline("%s%s %s有毒的!",
-              isupper((uchar) *reason) ? "" : "这个", reason,
+        pline("%s%s%s有毒的!",
+              isupper((uchar) *reason) ? "" : "", reason,
               plural ? "是" : "是");
     }
     if (Poison_resistance) {
@@ -402,7 +402,7 @@ poisoned(
         svk.killer.format = kprefix;
         Strcpy(svk.killer.name, pkiller);
         /* "Poisoned by a poisoned ___" is redundant */
-        done(strstri(pkiller, "poison") ? DIED : POISONING);
+        done(strstri(pkiller, "毒") ? DIED : POISONING);
     }
     encumber_msg();
 }
@@ -586,11 +586,11 @@ exerper(void)
 /* exercise/abuse text (must be in attribute order, not botl order);
    phrased as "You must have been [][0]." or "You haven't been [][1]." */
 static NEARDATA const char *const exertext[A_MAX][2] = {
-    { "exercising diligently", "exercising properly" },           /* Str */
+    { "在努力地锻炼", "适当的锻炼" },           /* Str */
     { 0, 0 },                                                     /* Int */
-    { "very observant", "paying attention" },                     /* Wis */
-    { "working on your reflexes", "working on reflexes lately" }, /* Dex */
-    { "leading a healthy life-style", "watching your health" },   /* Con */
+    { "非常细心", "用心" },                     /* Wis */
+    { "在练习你的反应能力", "在最近练习反应能力" }, /* Dex */
+    { "在以一个健康的生活方式过着", "注意你的健康" },   /* Con */
     { 0, 0 },                                                     /* Cha */
 };
 
@@ -661,8 +661,8 @@ exerchk(void)
                 /* if you actually changed an attrib - zero accumulation */
                 AEXE(i) = ax = 0;
                 /* then print an explanation */
-                You("%s %s。",
-                    (mod_val > 0) ? "一定是" : "还没有",
+                You("%s %s.",
+                    (mod_val > 0) ? "一定" : "没有",
                     exertext[i][(mod_val > 0) ? 0 : 1]);
             }
  nextattrib:
@@ -912,7 +912,7 @@ from_what(
      * Restrict the source of the attributes just to debug mode for now
      */
     if (wizard) {
-        static NEARDATA const char because_of[] = " because of %s";
+        static NEARDATA const char because_of[] = "是因为%s";
 
         if (propidx >= 0) {
             char *p;
@@ -948,11 +948,11 @@ from_what(
                 Strcpy(buf, " 来自你的生物形态");
             else if (propidx == FAST && Very_fast)
                 Sprintf(buf, because_of,
-                        ((HFast & TIMEOUT) != 0L) ? "a potion or spell"
+                        ((HFast & TIMEOUT) != 0L) ? "药水或魔法"
                           : ((EFast & W_ARMF) != 0L && uarmf->dknown
                              && objects[uarmf->otyp].oc_name_known)
                               ? ysimple_name(uarmf) /* speed boots */
-                                : EFast ? "worn equipment"
+                                : EFast ? "穿戴的装备"
                                   : something);
             else if (wizard
                      && (obj = what_gives(&u.uprops[propidx].extrinsic)) != 0)
@@ -964,7 +964,7 @@ from_what(
             else if (propidx == BLINDED && u.ucreamed
                      && BlindedTimeout == (long) u.ucreamed
                      && !EBlinded && !(HBlinded & ~TIMEOUT))
-                Sprintf(buf, "由于粘液覆盖了你的 %s",
+                Sprintf(buf, "由于粘液覆盖了你的%s",
                         body_part(FACE));
 
             /* remove some verbosity and/or redundancy */
@@ -1057,7 +1057,7 @@ adjabil(int oldlevel, int newlevel)
                 if (*(abil->losestr))
                     You_feel("%s!", abil->losestr);
                 else if (*(abil->gainstr))
-                    You_feel("不那么 %s!", abil->gainstr);
+                    You_feel("不那么%s!", abil->gainstr);
             }
         }
         if (prevabil != *(abil->ability)) /* it changed */

@@ -24,7 +24,7 @@ English README：[README_en.md](README_en.md)
 - [x] alloc.c
 - [x] apply.c
 - [x] artifact.c
-- [ ] attrib.c
+- [x] attrib.c
 - [ ] ball.c
 - [ ] bones.c
 - [ ] botl.c

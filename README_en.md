@@ -24,7 +24,7 @@ No local build is required. You can download the auto-built Chinese preview rele
 - [x] alloc.c
 - [x] apply.c
 - [x] artifact.c
-- [ ] attrib.c
+- [x] attrib.c
 - [ ] ball.c
 - [ ] bones.c
 - [ ] botl.c
