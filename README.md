@@ -151,3 +151,57 @@ English README：[README_en.md](README_en.md)
 - [ ] worn.c
 - [ ] write.c
 - [ ] zap.c
+
+### 技术细节
+
+#### tty utf-8 支持
+
+发现最后输出使用函数 `getchar` 逐个字符输出，而 `getchar` 支持宽字节。
+
+于是调整输出逻辑：在当前指针指向的是 utf-8 内容时将整个字符串转为 `wchar_t *` 然后输出。
+
+同时要调整 `console.cursor` 屏幕指针移动逻辑，当是宽字节时一次移动两个字符。
+
+新增一种 cell 类型 `wide_char_follower_cell`, 用于标记宽字符的下一个cell为占用状态，使得清屏等操作能正确渲染。
+
+#### curses utf-8 支持
+
+编译 Nethack 时定义宏 `CURSES_UNICODE`, `PDC_WIDE`, `PDC_FORCE_UTF8`, `PDC_RGB`
+
+#### win32 utf-8 支持
+
+使用宏劫持 windows API 函数 `drawTextA`, `drawText`, `ListView_InsertColumn`。将它们替换成自定义的支持 utf8 的版本。
+
+#### 英语语法函数
+
+##### plur(x)
+
+位置: [hack.h](include/hack.h)
+
+功能: 根据数量参数 x 获取复数后缀的宏。
+
+**处理方案**: 统一返回空字符串，不区分单复数形式。
+
+##### makeplural(const char *oldstr)
+
+位置: [objnam.c](src/objnam.c)
+
+功能: 将 oldstr 转成复数形式返回
+
+**处理方案**: 将加后缀 s 的位置全部改成加空字符串
+
+##### an(const char *str) / An / just_an
+
+位置: [objnam.c](src/objnam.c)
+
+功能: 调用了 `just_an()`，处理后，一般会给字符串前面加上 `"a "` 或者 `"an "`
+
+**处理方案**: `just_an()` 返回 `"一个"`
+
+##### s_suffix(const char *s)
+
+位置: [hacklib.c](src/hacklib.c)
+
+功能: 给字符串加 `"s"` 后缀
+
+**处理方案**: 直接返回 `s`

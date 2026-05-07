@@ -1,5 +1,6 @@
 ## Nethack-cn
 
+
 [![Build Status](https://github.com/StackC00ki3/nethack-cn/actions/workflows//nethack-vs-package.yml/badge.svg)](http://github.com/stackC00ki3/nethack-cn/releases)
 
 Chinese README: [README.md](README.md)
@@ -151,3 +152,57 @@ No local build is required. You can download the auto-built Chinese preview rele
 - [ ] worn.c
 - [ ] write.c
 - [ ] zap.c
+
+### Technical Details
+
+#### tty utf-8 support
+
+The final output uses the `getchar` function to output characters one by one, and `getchar` supports wide characters.
+
+So the output logic is adjusted: when the current pointer points to utf-8 content, the entire string is converted to `wchar_t *` and then output.
+
+At the same time, the `console.cursor` screen pointer movement logic needs to be adjusted. When it is a wide character, move two characters at a time.
+
+A new cell type `wide_char_follower_cell` is added to mark the next cell of a wide character as occupied, so that operations such as clearing the screen can render correctly.
+
+#### curses utf-8 support
+
+When compiling Nethack, define macros `CURSES_UNICODE`, `PDC_WIDE`, `PDC_FORCE_UTF8`, `PDC_RGB`.
+
+#### win32 utf-8 support
+
+Use macro hooks to intercept Windows API functions `drawTextA`, `drawText`, `ListView_InsertColumn`, replacing them with custom utf8-supporting versions.
+
+#### English Grammar Functions
+
+##### plur(x)
+
+Location: [hack.h](include/hack.h)
+
+Function: Macro to get plural suffix based on quantity parameter x.
+
+**Solution**: Always return an empty string, no distinction between singular and plural.
+
+##### makeplural(const char *oldstr)
+
+Location: [objnam.c](src/objnam.c)
+
+Function: Convert oldstr to plural form and return.
+
+**Solution**: All places that add the suffix s are changed to add an empty string.
+
+##### an(const char *str) / An / just_an
+
+Location: [objnam.c](src/objnam.c)
+
+Function: Calls `just_an()`, which usually adds "a " or "an " to the front of the string.
+
+**Solution**: `just_an()` returns "一个" (Chinese for "a").
+
+##### s_suffix(const char *s)
+
+Location: [hacklib.c](src/hacklib.c)
+
+Function: Add "s" suffix to the string.
+
+**Solution**: Directly return `s`.
