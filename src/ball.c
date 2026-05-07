@@ -56,12 +56,12 @@ ballfall(void)
         pline_The("铁球掉在你的%s上.", body_part(HEAD));
         if (uarmh) {
             if (hard_helmet(uarmh)) {
-                pline("幸运的是，你戴着一顶硬头盔。");
+                pline("幸运的是, 你戴着一顶硬头盔.");
                 dmg = 3;
             } else if (flags.verbose)
-                pline("%s 不能保护你。", Yname2(uarmh));
+                pline("%s没有保护到你.", Yname2(uarmh));
         }
-        losehp(Maybe_Half_Phys(dmg), "crunched in the head by an iron ball",
+        losehp(Maybe_Half_Phys(dmg), "被一个铁球砸到头",
                NO_KILLER_PREFIX);
     }
 }
@@ -774,8 +774,8 @@ drag_ball(coordxy x, coordxy y, int *bc_control,
  drag:
 
     if (near_capacity() > SLT_ENCUMBER && dist2(x, y, u.ux, u.uy) <= 2) {
-        You("不能 %s 拖着沉重的铁球.",
-            gi.invent ? "携带所有这些还要 " : "");
+        You("不能%s拖着沉重的铁球.",
+            gi.invent ? "带着所有这些还要" : "");
         nomul(0);
         return FALSE;
     }
@@ -788,7 +788,7 @@ drag_ball(coordxy x, coordxy y, int *bc_control,
         || ((t = t_at(uchain->ox, uchain->oy))
             && (is_pit(t->ttyp) || is_hole(t->ttyp)))) {
         if (Levitation) {
-            You_feel("来自铁球的拉力。");
+            You_feel("到铁球的拉力.");
             if (t)
                 t->tseen = 1;
         } else {
@@ -889,7 +889,7 @@ drop_ball(coordxy x, coordxy y)
     }
 
     if (x != u.ux || y != u.uy) {
-        static const char pullmsg[] = "The ball pulls you out of the ";
+        static const char pullmsg[] = "球把你拉出了";
         struct trap *t;
         long side;
 
@@ -897,12 +897,12 @@ drop_ball(coordxy x, coordxy y)
             && u.utraptype != TT_INFLOOR && u.utraptype != TT_BURIEDBALL) {
             switch (u.utraptype) {
             case TT_PIT:
-                pline("%s%s！", pullmsg, "坑");
+                pline("%s%s!", pullmsg, "坑");
                 break;
             case TT_WEB:
                 pline("%s%s!", pullmsg, "蜘蛛网");
                 Soundeffect(se_destroy_web, 30);
-                pline_The("网被破坏了!");
+                pline_The("蜘蛛网被破坏了!");
                 deltrap(t_at(u.ux, u.uy));
                 break;
             case TT_LAVA:
@@ -910,14 +910,14 @@ drop_ball(coordxy x, coordxy y)
                 break;
             case TT_BEARTRAP:
                 side = rn2(3) ? LEFT_SIDE : RIGHT_SIDE;
-                pline("%s%s！", pullmsg, "捕熊陷阱");
+                pline("%s%s!", pullmsg, "捕兽夹");
                 set_wounded_legs(side, rn1(1000, 500));
                 if (!u.usteed) {
-                    Your("%s %s 受到严重的损害.",
+                    Your("%s%s受到严重的损害.",
                          (side == LEFT_SIDE) ? "左" : "右",
                          body_part(LEG));
                     losehp(Maybe_Half_Phys(2),
-                           "leg damage from being pulled out of a bear trap",
+                           "被拉出捕兽夹时腿损伤",
                            KILLED_BY);
                 }
                 break;
@@ -1008,14 +1008,14 @@ drag_down(void)
         if (rn2(6)) {
             pline_The("铁球把你拖下了楼梯！");
             losehp(Maybe_Half_Phys(rnd(6)),
-                   "dragged downstairs by an iron ball", NO_KILLER_PREFIX);
+                   "被一个铁球拖下楼", NO_KILLER_PREFIX);
             litter();
         }
     } else {
         if (rn2(2)) {
             Soundeffect(se_iron_ball_hits_you, 25);
             pline_The("铁球撞到你!");
-            losehp(Maybe_Half_Phys(rnd(20)), "iron ball collision",
+            losehp(Maybe_Half_Phys(rnd(20)), "铁球碰撞",
                    KILLED_BY_AN);
             exercise(A_STR, FALSE);
             dragchance -= 2;
@@ -1023,7 +1023,7 @@ drag_down(void)
         if ((int) dragchance >= rnd(6)) {
             pline_The("铁球把你拖下楼梯！");
             losehp(Maybe_Half_Phys(rnd(3)),
-                   "dragged downstairs by an iron ball", NO_KILLER_PREFIX);
+                   "被一个铁球拖下楼", NO_KILLER_PREFIX);
             exercise(A_STR, FALSE);
             litter();
         }
