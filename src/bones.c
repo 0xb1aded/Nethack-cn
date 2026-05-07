@@ -418,11 +418,11 @@ savebones(int how, time_t when, struct obj *corpse)
     if (nhfp) {
         close_nhfile(nhfp);
         if (wizard) {
-            if (y_n("Bones file already exists.  Replace it?") == 'y') {
+            if (y_n("骨档文件已经存在. 替换它?") == 'y') {
                 if (delete_bonesfile(&u.uz))
                     goto make_bones;
                 else
-                    pline("无法删除旧骸骨文件。");
+                    pline("无法删除旧骨档文件。");
             }
         }
         /* compression can change the file's name, so must
@@ -662,13 +662,13 @@ getbones(void)
     program_state.reading_bonesfile = 1;
     if (validate(nhfp, gb.bones, FALSE) != SF_UPTODATE) {
         if (!wizard)
-            pline("丢弃不可用的骨头文件，无需惊慌……");
+            pline("已丢弃不可用的骨档文件, 无需惊慌……");
         ok = FALSE;
         program_state.reading_bonesfile = 0;
     } else {
         ok = TRUE;
         if (wizard) {
-            if (y_n("Get bones?") == 'n') {
+            if (y_n("获取骨档?") == 'n') {
                 close_nhfile(nhfp);
                 compress_bonesfile();
                 program_state.reading_bonesfile = 0;
@@ -693,7 +693,7 @@ getbones(void)
         if (strcmp(bonesid, oldbonesid) != 0) {
             char errbuf[BUFSZ];
 
-            Sprintf(errbuf, "这是骨头层'%s'，不是'%s'！",
+            Sprintf(errbuf, "这是骨档层'%s', 不是'%s'!",
                     oldbonesid, bonesid);
             if (wizard) {
                 pline1(errbuf);

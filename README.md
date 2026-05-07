@@ -26,13 +26,13 @@ English README：[README_en.md](README_en.md)
 - [x] artifact.c
 - [x] attrib.c
 - [ ] ball.c
-- [ ] bones.c
+- [x] bones.c
 - [ ] botl.c
-- [ ] calendar.c
+- [x] calendar.c
 - [ ] cfgfiles.c
 - [ ] cmd.c
-- [ ] coloratt.c
-- [ ] date.c
+- [x] coloratt.c
+- [x] date.c
 - [ ] dbridge.c
 - [ ] decl.c
 - [ ] detect.c
@@ -89,7 +89,7 @@ English README：[README_en.md](README_en.md)
 - [ ] music.c
 - [ ] nhlobj.c
 - [ ] nhlsel.c
-- [ ] nhlua.c
+- [x] nhlua.c
 - [ ] nhmd4.c
 - [ ] objects.c
 - [ ] objnam.c
