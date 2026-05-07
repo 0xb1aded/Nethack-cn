@@ -165,9 +165,12 @@ At the same time, the `console.cursor` screen pointer movement logic needs to be
 
 A new cell type `wide_char_follower_cell` is added to mark the next cell of a wide character as occupied, so that operations such as clearing the screen can render correctly.
 
+
 #### curses utf-8 support
 
 When compiling Nethack, define macros `CURSES_UNICODE`, `PDC_WIDE`, `PDC_FORCE_UTF8`, `PDC_RGB`.
+
+Patched `pdcursesmod/pdcurses/refresh.c` to fix a crash bug caused by an assert.
 
 #### win32 utf-8 support
 
