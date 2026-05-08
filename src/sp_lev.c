@@ -3688,11 +3688,11 @@ lspo_object(lua_State *L)
                              G_NOGEN | G_IGNORE);
             } else {
                 for (i = LOW_PM; i < NUMMONS; i++)
-                    if (!strcmpi(mons[i].pmnames[NEUTRAL], montype)
-                        || (mons[i].pmnames[MALE] != 0
-                            && !strcmpi(mons[i].pmnames[MALE], montype))
-                        || (mons[i].pmnames[FEMALE] != 0
-                            && !strcmpi(mons[i].pmnames[FEMALE], montype))) {
+                    if (!strcmpi(mons[i].epmnames[NEUTRAL], montype)
+                        || (mons[i].epmnames[MALE] != 0
+                            && !strcmpi(mons[i].epmnames[MALE], montype))
+                        || (mons[i].epmnames[FEMALE] != 0
+                            && !strcmpi(mons[i].epmnames[FEMALE], montype))) {
                         pm = &mons[i];
                         break;
                     }

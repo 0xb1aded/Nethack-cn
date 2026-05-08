@@ -206,21 +206,21 @@ tilename(int set, const int file_entry, int gend UNUSED)
     if (set == MON_GLYPH) {
         for (i = 0; i < NUMMONS; i++) {
             if (tilenum == file_entry) {
-                if (mons[i].pmnames[MALE])
+                if (mons[i].epmnames[MALE])
                     Snprintf(buf, sizeof buf, "%s {%s}",
-                             mons[i].pmnames[NEUTRAL], mons[i].pmnames[MALE]);
+                             mons[i].epmnames[NEUTRAL], mons[i].epmnames[MALE]);
                 else
-                    Snprintf(buf, sizeof buf, "%s", mons[i].pmnames[NEUTRAL]);
+                    Snprintf(buf, sizeof buf, "%s", mons[i].epmnames[NEUTRAL]);
                 return buf;
             }
             tilenum++;
             if (tilenum == file_entry) {
-                if (mons[i].pmnames[FEMALE])
+                if (mons[i].epmnames[FEMALE])
                     Snprintf(buf, sizeof buf, "%s {%s}",
-                             mons[i].pmnames[NEUTRAL],
-                             mons[i].pmnames[FEMALE]);
+                             mons[i].epmnames[NEUTRAL],
+                             mons[i].epmnames[FEMALE]);
                 else
-                    Snprintf(buf, sizeof buf, "%s", mons[i].pmnames[NEUTRAL]);
+                    Snprintf(buf, sizeof buf, "%s", mons[i].epmnames[NEUTRAL]);
                 return buf;
             }
             for (condnum = 0; conditionals[condnum].sequence != -1;
@@ -1084,7 +1084,7 @@ init_tilemap(void)
                      sizeof tilemap[0].name,
                      "%s %s (cmap=%d)",
                      swallow_text[i],
-                     mons[k].pmnames[NEUTRAL], cmap);
+                     mons[k].epmnames[NEUTRAL], cmap);
             add_tileref(swallowbase + i, offset + i,
                         other_file, file_entry + i,
                         tilemap[offset + i].name, "");

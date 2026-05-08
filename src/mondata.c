@@ -1039,12 +1039,12 @@ name_to_monplus(
       for (mgend = MALE; mgend < NUM_MGENDERS; mgend++) {
         size_t m_i_len;
 
-        if (!mons[i].pmnames[mgend])
+        if (!mons[i].epmnames[mgend])
             continue;
 
-        m_i_len = strlen(mons[i].pmnames[mgend]);
+        m_i_len = strlen(mons[i].epmnames[mgend]);
         if (m_i_len > (size_t) len
-            && !strncmpi(mons[i].pmnames[mgend], str, (int) m_i_len)) {
+            && !strncmpi(mons[i].epmnames[mgend], str, (int) m_i_len)) {
             if (m_i_len == slen) {
                 mntmp = i;
                 len = (int) m_i_len;
