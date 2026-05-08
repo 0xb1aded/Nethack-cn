@@ -2618,7 +2618,7 @@ vtense(const char *subj, const char *verb)
         /* like "y" case in makeplural */
         Strcasecpy(bspot, "ies");
     } else {
-        Strcasecpy(bspot + 1, "s");
+        Strcasecpy(bspot + 1, "");
     }
 
     return buf;

@@ -14,7 +14,7 @@ English README：[README_en.md](README_en.md)
 - [x] win32 界面 UTF-8 支持
 - [x] 合并来自 [SunnyYuer/NetHack-cn](https://github.com/SunnyYuer/NetHack-cn) 的翻译
 - [x] 使用 deepseek-v4-flash 完成初步 AI 翻译
-- [ ] 怪物翻译
+- [x] 怪物翻译
 - [ ] 物品翻译
 - [ ] 许愿机制
 - [ ] 灭绝机制
@@ -207,3 +207,11 @@ English README：[README_en.md](README_en.md)
 功能: 给字符串加 `"s"` 后缀
 
 **处理方案**: 直接返回 `s`
+
+##### vtense(const char *subj, const char *verb)
+
+位置: [objnam.c](src/objnam.c)
+
+功能: 返回在现在时第三人称下动词 `verb` 的正确形式
+
+**处理方案**: 将加后缀 s 的位置改成加空字符串
