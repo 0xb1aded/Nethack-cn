@@ -54,7 +54,8 @@ struct attack {
 #include "monflag.h"
 
 struct permonst {
-    const char *pmnames[NUM_MGENDERS];
+    const char *epmnames[NUM_MGENDERS]; /* english monster names */
+    const char *pmnames[NUM_MGENDERS]; /* chinese monster names */
     const enum monnums pmidx;   /* mons array index aka PM_ identifier */
     char mlet;                  /* symbol */
     schar mlevel,               /* base monster level */

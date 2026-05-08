@@ -17,10 +17,10 @@ extern const struct attack c_sa_no[NATTK];
 #define NO_ATTK { 0, 0, 0, 0 }
 
 /* monster type with single name */
-#define MON(nam, sym, lvl, gen, atk, siz, mr1, mr2, \
+#define MON(enam, nam, sym, lvl, gen, atk, siz, mr1, mr2, \
             flg1, flg2, flg3, d, col, bn)           \
     {                                                                   \
-        nam, PM_##bn,                                                   \
+        enam, nam, PM_##bn,                                                   \
         sym, lvl, gen, atk, siz, mr1, mr2, flg1, flg2, flg3, d, col     \
     }
 
@@ -46,13 +46,13 @@ static struct permonst mons_init[NUMMONS + 1] = {
      * uses NON_PM for that.  Now, a few monster flags also get set.
      */
 #undef MON
-#define MON(nam, sym, lvl, gen, atk, siz, mr1, mr2, \
+#define MON(enam, nam, sym, lvl, gen, atk, siz, mr1, mr2, \
             flg1, flg2, flg3, d, col, bn)           \
     {                                                                   \
-        nam, NON_PM,                                                    \
+        enam, nam, NON_PM,                                                    \
         sym, lvl, gen, atk, siz, mr1, mr2, flg1, flg2, flg3, d, col     \
     }
-    MON(NAM(""), 0,
+    MON(NAM(""), NAM(""), 0,
         LVL(0, 0, 0, 0, 0), G_NOGEN | G_NOCORPSE,
         A(NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
         SIZ(0, 0, 0, 0), 0, 0,
