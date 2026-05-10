@@ -1,4 +1,4 @@
-/* NetHack 5.0	objects.h	$NHDT-Date: 1749097644 2025/06/04 20:27:24 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.30 $ */
+﻿/* NetHack 5.0	objects.h	$NHDT-Date: 1749097644 2025/06/04 20:27:24 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.30 $ */
 /* Copyright (c) Mike Threepoint, 1989.                           */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -29,7 +29,7 @@
  */
 
 #if defined(OBJECTS_DESCR_INIT)
-#define OBJ(name,desc)  name, desc
+#define OBJ(ename,edesc,name,desc)  ename, edesc, name, desc
 #define OBJECT(obj,bits,prp,sym,prob,dly,wt, \
                cost,sdam,ldam,oc1,oc2,nut,color,sn)  { obj }
 #define MARKER(tag,sn) /*empty*/
@@ -52,14 +52,14 @@
 #define MARKER(tag,sn) /*empty*/
 
 #elif defined(OBJECTS_ENUM)
-#define OBJ(name,desc)
+#define OBJ(ename,edesc,name,desc)
 #define OBJECT(obj,bits,prp,sym,prob,dly,wt,        \
                cost,sdam,ldam,oc1,oc2,nut,color,sn) \
     sn
 #define MARKER(tag,sn) tag = sn,
 
 #elif defined(DUMP_ENUMS)
-#define OBJ(name,desc)
+#define OBJ(ename,edesc,name,desc)
 #define OBJECT(obj,bits,prp,sym,prob,dly,wt,        \
                cost,sdam,ldam,oc1,oc2,nut,color,sn) \
   { sn, #sn }
@@ -69,13 +69,13 @@
 #error Unproductive inclusion of objects.h
 #endif  /* OBJECTS_DESCR_INIT || OBJECTS_INIT || OBJECTS_ENUM */
 
-#define GENERIC(desc, class, gen_enum) \
-    OBJECT(OBJ("generic " desc, desc),                                  \
+#define GENERIC(edesc, desc, class, gen_enum) \
+    OBJECT(OBJ("generic " edesc, edesc, "通用" desc, desc),                                  \
            BITS(0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, P_NONE, 0),            \
            0, class, 0, 0, 0, 0, 0, 0, 0, 0, 0, CLR_GRAY, gen_enum)
 
 /* dummy object[0] -- description [2nd arg] *must* be NULL */
-OBJECT(OBJ("strange object", NoDes),
+OBJECT(OBJ("strange object", NoDes, "奇怪的物体", NoDes),
        BITS(1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, P_NONE, 0),
        0, ILLOBJ_CLASS, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, STRANGE_OBJECT),
 /* slots [1] through [MAXOCLASSES-1] are indexed by class; some are
@@ -83,23 +83,22 @@ OBJECT(OBJ("strange object", NoDes),
    note that 'real' strange object is in slot [0] but ILLOBJ_CLASS is 1
    so we add a dummy for it in slot [1] to simplify accessing the rest;
    there isn't any entry for RANDOM_CLASS (0) */
-GENERIC("strange",    ILLOBJ_CLASS,  GENERIC_ILLOBJ),  /* [1] */
-GENERIC("weapon",     WEAPON_CLASS,  GENERIC_WEAPON),  /* [2] */
-GENERIC("armor",      ARMOR_CLASS,   GENERIC_ARMOR),   /* [3] */
-GENERIC("ring",       RING_CLASS,    GENERIC_RING),    /* [4] */
-GENERIC("amulet",     AMULET_CLASS,  GENERIC_AMULET),  /* [5] */
-GENERIC("tool",       TOOL_CLASS,    GENERIC_TOOL),    /* [6] */
-GENERIC("food",       FOOD_CLASS,    GENERIC_FOOD),    /* [7] */
-GENERIC("potion",     POTION_CLASS,  GENERIC_POTION),  /* [8] */
-GENERIC("scroll",     SCROLL_CLASS,  GENERIC_SCROLL),  /* [9] */
-GENERIC("spellbook",  SPBOOK_CLASS,  GENERIC_SPBOOK),  /* [10] */
-GENERIC("wand",       WAND_CLASS,    GENERIC_WAND),    /* [11] */
-GENERIC("coin",       COIN_CLASS,    GENERIC_COIN),    /* [12] */
-GENERIC("gem",        GEM_CLASS,     GENERIC_GEM),     /* [13] */
-GENERIC("large rock", ROCK_CLASS,    GENERIC_ROCK),    /* [14] bldr+statue */
-GENERIC("iron ball",  BALL_CLASS,    GENERIC_BALL),    /* [15] */
-GENERIC("iron chain", CHAIN_CLASS,   GENERIC_CHAIN),   /* [16] */
-GENERIC("venom",      VENOM_CLASS,   GENERIC_VENOM),   /* [17] */
+GENERIC("strange",    "奇怪"  , ILLOBJ_CLASS,  GENERIC_ILLOBJ),  /* [1] */
+GENERIC("weapon",     "武器"  , WEAPON_CLASS,  GENERIC_WEAPON),  /* [2] */
+GENERIC("armor",      "盔甲"  , ARMOR_CLASS,   GENERIC_ARMOR),   /* [3] */
+GENERIC("ring",       "戒指"  , RING_CLASS,    GENERIC_RING),    /* [4] */
+GENERIC("amulet",     "护符"  , AMULET_CLASS,  GENERIC_AMULET),  /* [5] */
+GENERIC("tool",       "工具"  , TOOL_CLASS,    GENERIC_TOOL),    /* [6] */
+GENERIC("food",       "食物"  , FOOD_CLASS,    GENERIC_FOOD),    /* [7] */
+GENERIC("potion",     "药水"  , POTION_CLASS,  GENERIC_POTION),  /* [8] */
+GENERIC("scroll",     "卷轴"  , SCROLL_CLASS,  GENERIC_SCROLL),  /* [9] */
+GENERIC("spellbook",  "魔法书", SPBOOK_CLASS,  GENERIC_SPBOOK),  /* [10] */
+GENERIC("wand",       "魔杖"  , WAND_CLASS,    GENERIC_WAND),    /* [11] */
+GENERIC("coin",       "金币"  , COIN_CLASS,    GENERIC_COIN),    /* [12] */
+GENERIC("gem",        "宝石"  , GEM_CLASS,     GENERIC_GEM),     /* [13] */
+GENERIC("large rock", "大石头", ROCK_CLASS,    GENERIC_ROCK),    /* [14] bldr+statue */
+GENERIC("iron ball",  "铁球"  , BALL_CLASS,    GENERIC_BALL),    /* [15] */
+GENERIC("iron chain", "铁链"  , CHAIN_CLASS,   GENERIC_CHAIN),   /* [16] */
 #undef GENERIC
 /* FIRST_OBJECT: it would be simpler just to use MARKER(FIRST_OBJECT,ARROW)
    below but that is vulnerable to neglecting to update the marker enum
@@ -111,20 +110,20 @@ MARKER(FIRST_OBJECT, LAST_GENERIC + 1)
 MARKER(OBJCLASS_HACK, FIRST_OBJECT - 1)
 
 /* weapons ... */
-#define WEAPON(name,desc,kn,mg,bi,prob,wt,                          \
+#define WEAPON(ename,edesc,name,desc,kn,mg,bi,prob,wt,                          \
                cost,sdam,ldam,hitbon,typ,sub,metal,color,sn)        \
-    OBJECT(OBJ(name,desc),                                          \
+    OBJECT(OBJ(ename,edesc,name,desc),                                          \
            BITS(kn, mg, 1, 0, 0, 1, 0, 0, bi, 0, typ, sub, metal),  \
            0, WEAPON_CLASS, prob, 0, wt,                            \
            cost, sdam, ldam, hitbon, 0, wt, color,sn)
-#define PROJECTILE(name,desc,kn,prob,wt,                            \
+#define PROJECTILE(ename,edesc,name,desc,kn,prob,wt,                            \
                    cost,sdam,ldam,hitbon,metal,sub,color,sn)        \
-    OBJECT(OBJ(name,desc),                                          \
+    OBJECT(OBJ(ename,edesc,name,desc),                                          \
            BITS(kn, 1, 1, 0, 0, 1, 0, 0, 0, 0, PIERCE, sub, metal), \
            0, WEAPON_CLASS, prob, 0, wt,                            \
            cost, sdam, ldam, hitbon, 0, wt, color, sn)
-#define BOW(name,desc,kn,prob,wt,cost,hitbon,metal,sub,color,sn)    \
-    OBJECT(OBJ(name,desc),                                          \
+#define BOW(ename,edesc,name,desc,kn,prob,wt,cost,hitbon,metal,sub,color,sn)    \
+    OBJECT(OBJ(ename,edesc,name,desc),                                          \
            BITS(kn, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, sub, metal),      \
            0, WEAPON_CLASS, prob, 0, wt,                            \
            cost, 2, 2, hitbon, 0, wt, color, sn)
@@ -138,32 +137,32 @@ MARKER(OBJCLASS_HACK, FIRST_OBJECT - 1)
 #define B WHACK
 
 /* missiles; materiel reflects the arrowhead, not the shaft */
-PROJECTILE("arrow", NoDes,
+PROJECTILE("arrow", NoDes, "箭", NoDes,
            1, 55, 1, 2, 6, 6, 0,        IRON, -P_BOW, HI_METAL,
                                                         ARROW),
-PROJECTILE("elven arrow", "runed arrow",
+PROJECTILE("elven arrow", "runed arrow", "精灵箭", "符文箭",
            0, 20, 1, 2, 7, 6, 0,        WOOD, -P_BOW, HI_WOOD,
                                                         ELVEN_ARROW),
-PROJECTILE("orcish arrow", "crude arrow",
+PROJECTILE("orcish arrow", "crude arrow", "兽人箭", "粗糙箭",
            0, 20, 1, 2, 5, 6, 0,        IRON, -P_BOW, CLR_BLACK,
                                                         ORCISH_ARROW),
-PROJECTILE("silver arrow", NoDes,
+PROJECTILE("silver arrow", NoDes, "银箭", NoDes,
            1, 12, 1, 5, 6, 6, 0,        SILVER, -P_BOW, HI_SILVER,
                                                         SILVER_ARROW),
-PROJECTILE("ya", "bamboo arrow",
+PROJECTILE("ya", "bamboo arrow", "矢", "竹箭",
            0, 15, 1, 4, 7, 7, 1,        METAL, -P_BOW, HI_METAL, YA),
-PROJECTILE("crossbow bolt", NoDes,
+PROJECTILE("crossbow bolt", NoDes, "弩箭", NoDes,
            1, 55, 1, 2, 4, 6, 0,        IRON, -P_CROSSBOW, HI_METAL,
                                                         CROSSBOW_BOLT),
 
 /* missiles that don't use a launcher */
-WEAPON("dart", NoDes,
+WEAPON("dart", NoDes, "飞镖", NoDes,
        1, 1, 0, 60,   1,   2,  3,  2, 0, P,   -P_DART, IRON, HI_METAL,
                                                         DART),
-WEAPON("shuriken", "throwing star",
+WEAPON("shuriken", "throwing star", "手里剑", "投掷镖",
        0, 1, 0, 35,   1,   5,  8,  6, 2, P,   -P_SHURIKEN, IRON, HI_METAL,
                                                         SHURIKEN),
-WEAPON("boomerang", NoDes,
+WEAPON("boomerang", NoDes, "回旋镖", NoDes,
        1, 1, 0, 15,   5,  20,  9,  9, 0, 0,   -P_BOOMERANG, WOOD, HI_WOOD,
                                                         BOOMERANG),
 
@@ -171,238 +170,238 @@ WEAPON("boomerang", NoDes,
    because the latter are primarily stabbing weapons rather than
    throwing ones; but for playability, they've been merged together
    under spear skill and spears can now be thrown like javelins] */
-WEAPON("spear", NoDes,
+WEAPON("spear", NoDes, "矛", NoDes,
        1, 1, 0, 50,  30,   3,  6,  8, 0, P,   P_SPEAR, IRON, HI_METAL,
                                                         SPEAR),
-WEAPON("elven spear", "runed spear",
+WEAPON("elven spear", "runed spear", "精灵矛", "符文矛",
        0, 1, 0, 10,  30,   3,  7,  8, 0, P,   P_SPEAR, WOOD, HI_WOOD,
                                                         ELVEN_SPEAR),
-WEAPON("orcish spear", "crude spear",
+WEAPON("orcish spear", "crude spear", "兽人矛", "粗糙矛",
        0, 1, 0, 13,  30,   3,  5,  8, 0, P,   P_SPEAR, IRON, CLR_BLACK,
                                                         ORCISH_SPEAR),
-WEAPON("dwarvish spear", "stout spear",
+WEAPON("dwarvish spear", "stout spear", "矮人矛", "结实矛",
        0, 1, 0, 12,  35,   3,  8,  8, 0, P,   P_SPEAR, IRON, HI_METAL,
                                                         DWARVISH_SPEAR),
-WEAPON("silver spear", NoDes,
+WEAPON("silver spear", NoDes, "银矛", NoDes,
        1, 1, 0,  2,  36,  40,  6,  8, 0, P,   P_SPEAR, SILVER, HI_SILVER,
                                                         SILVER_SPEAR),
-WEAPON("javelin", "throwing spear",
+WEAPON("javelin", "throwing spear", "标枪", "投掷矛",
        0, 1, 0, 10,  20,   3,  6,  6, 0, P,   P_SPEAR, IRON, HI_METAL,
                                                         JAVELIN),
 
 /* spearish; doesn't stack, not intended to be thrown */
-WEAPON("trident", NoDes,
+WEAPON("trident", NoDes, "三叉矛", NoDes,
        1, 0, 0,  8,  25,   5,  6,  4, 0, P,   P_TRIDENT, IRON, HI_METAL,
                                                         TRIDENT),
         /* +1 small, +2d4 large */
 
 /* blades; all stack */
-WEAPON("dagger", NoDes,
+WEAPON("dagger", NoDes, "匕首", NoDes,
        1, 1, 0, 30,  10,   4,  4,  3, 2, P,   P_DAGGER, IRON, HI_METAL,
                                                         DAGGER),
-WEAPON("elven dagger", "runed dagger",
+WEAPON("elven dagger", "runed dagger", "精灵匕首", "符文匕首",
        0, 1, 0, 10,  10,   4,  5,  3, 2, P,   P_DAGGER, WOOD, HI_WOOD,
                                                         ELVEN_DAGGER),
-WEAPON("orcish dagger", "crude dagger",
+WEAPON("orcish dagger", "crude dagger", "兽人匕首", "粗糙匕首",
        0, 1, 0, 12,  10,   4,  3,  3, 2, P,   P_DAGGER, IRON, CLR_BLACK,
                                                         ORCISH_DAGGER),
-WEAPON("silver dagger", NoDes,
+WEAPON("silver dagger", NoDes, "银匕首", NoDes,
        1, 1, 0,  3,  12,  40,  4,  3, 2, P,   P_DAGGER, SILVER, HI_SILVER,
                                                         SILVER_DAGGER),
-WEAPON("athame", NoDes,
+WEAPON("athame", NoDes, "仪式刀", NoDes,
        1, 1, 0,  0,  10,   4,  4,  3, 2, S,   P_DAGGER, IRON, HI_METAL,
                                                         ATHAME),
-WEAPON("scalpel", NoDes,
+WEAPON("scalpel", NoDes, "手术刀", NoDes,
        1, 1, 0,  0,   5,   6,  3,  3, 2, S,   P_KNIFE, METAL, HI_METAL,
                                                         SCALPEL),
-WEAPON("knife", NoDes,
+WEAPON("knife", NoDes, "小刀", NoDes,
        1, 1, 0, 20,   5,   4,  3,  2, 0, P|S, P_KNIFE, IRON, HI_METAL,
                                                         KNIFE),
-WEAPON("stiletto", NoDes,
+WEAPON("stiletto", NoDes, "小剑", NoDes,
        1, 1, 0,  5,   5,   4,  3,  2, 0, P|S, P_KNIFE, IRON, HI_METAL,
                                                         STILETTO),
 /* 3.6: worm teeth and crysknives now stack;
    when a stack of teeth is enchanted at once, they fuse into one crysknife;
    when a stack of crysknives drops, the whole stack reverts to teeth */
 /* 5.0: change crysknife from MINERAL to BONE and worm tooth from 0 to BONE */
-WEAPON("worm tooth", NoDes,
+WEAPON("worm tooth", NoDes, "蠕虫齿", NoDes,
        1, 1, 0,  0,  20,   2,  2,  2, 0, 0,   P_KNIFE, BONE, CLR_WHITE,
                                                         WORM_TOOTH),
-WEAPON("crysknife", NoDes,
+WEAPON("crysknife", NoDes, "迅捷小刀", NoDes,
        1, 1, 0,  0,  20, 100, 10, 10, 3, P,   P_KNIFE, BONE, CLR_WHITE,
                                                         CRYSKNIFE),
 
 /* axes */
-WEAPON("axe", NoDes,
+WEAPON("axe", NoDes, "斧头", NoDes,
        1, 0, 0, 40,  60,   8,  6,  4, 0, S,   P_AXE, IRON, HI_METAL,
                                                         AXE),
-WEAPON("battle-axe", "double-headed axe",       /* "double-bitted"? */
+WEAPON("battle-axe", "double-headed axe", "战斧", "双头斧",      /* "double-bitted"? */
        0, 0, 1, 10, 120,  40,  8,  6, 0, S,   P_AXE, IRON, HI_METAL,
                                                         BATTLE_AXE),
 
 /* swords */
-WEAPON("short sword", NoDes,
+WEAPON("short sword", NoDes, "短剑", NoDes,
        1, 0, 0,  8,  30,  10,  6,  8, 0, P,   P_SHORT_SWORD, IRON, HI_METAL,
                                                         SHORT_SWORD),
-WEAPON("elven short sword", "runed short sword",
+WEAPON("elven short sword", "runed short sword", "精灵短剑", "符文短剑",
        0, 0, 0,  2,  30,  10,  8,  8, 0, P,   P_SHORT_SWORD, WOOD, HI_WOOD,
                                                         ELVEN_SHORT_SWORD),
-WEAPON("orcish short sword", "crude short sword",
+WEAPON("orcish short sword", "crude short sword", "兽人短剑", "粗糙短剑", 
        0, 0, 0,  3,  30,  10,  5,  8, 0, P,   P_SHORT_SWORD, IRON, CLR_BLACK,
                                                         ORCISH_SHORT_SWORD),
-WEAPON("dwarvish short sword", "broad short sword",
+WEAPON("dwarvish short sword", "broad short sword", "矮人短剑", "宽阔短剑",
        0, 0, 0,  2,  30,  10,  7,  8, 0, P,   P_SHORT_SWORD, IRON, HI_METAL,
                                                         DWARVISH_SHORT_SWORD),
-WEAPON("scimitar", "curved sword",
+WEAPON("scimitar", "curved sword", "短弯刀", "弯刀",
        0, 0, 0, 15,  40,  15,  8,  8, 0, S,   P_SABER, IRON, HI_METAL,
                                                         SCIMITAR),
-WEAPON("silver saber", NoDes,
+WEAPON("silver saber", NoDes, "银剑", NoDes,
        1, 0, 0,  6,  40,  75,  8,  8, 0, S,   P_SABER, SILVER, HI_SILVER,
                                                         SILVER_SABER),
-WEAPON("broadsword", NoDes,
+WEAPON("broadsword", NoDes, "阔剑", NoDes,
        1, 0, 0,  8,  70,  10,  4,  6, 0, S,   P_BROAD_SWORD, IRON, HI_METAL,
                                                         BROADSWORD),
         /* +d4 small, +1 large */
-WEAPON("elven broadsword", "runed broadsword",
+WEAPON("elven broadsword", "runed broadsword", "精灵阔剑", "符文阔剑",
        0, 0, 0,  4,  70,  10,  6,  6, 0, S,   P_BROAD_SWORD, WOOD, HI_WOOD,
                                                         ELVEN_BROADSWORD),
         /* +d4 small, +1 large */
-WEAPON("long sword", NoDes,
+WEAPON("long sword", NoDes, "长剑", NoDes,
        1, 0, 0, 50,  40,  15,  8, 12, 0, S,   P_LONG_SWORD, IRON, HI_METAL,
                                                         LONG_SWORD),
-WEAPON("two-handed sword", NoDes,
+WEAPON("two-handed sword", NoDes, "双手剑", None,
        1, 0, 1, 22, 150,  50, 12,  6, 0, S,   P_TWO_HANDED_SWORD,
                                                             IRON, HI_METAL,
                                                         TWO_HANDED_SWORD),
         /* +2d6 large */
-WEAPON("katana", "samurai sword",
+WEAPON("katana", "samurai sword", "武士刀", "日本刀",
        0, 0, 0,  4,  40,  80, 10, 12, 1, S,   P_LONG_SWORD, IRON, HI_METAL,
                                                         KATANA),
 /* special swords set up for artifacts */
-WEAPON("tsurugi", "long samurai sword",
+WEAPON("tsurugi", "long samurai sword", "武士剑", "武士长剑",
        0, 0, 1,  0,  60, 500, 16,  8, 2, S,   P_TWO_HANDED_SWORD,
                                                             METAL, HI_METAL,
                                                         TSURUGI),
         /* +2d6 large */
-WEAPON("runesword", "runed broadsword",
+WEAPON("runesword", "runed broadsword", "符文剑", "符文阔剑",
        0, 0, 0,  0,  40, 300,  4,  6, 0, S,   P_BROAD_SWORD, IRON, CLR_BLACK,
                                                         RUNESWORD),
         /* +d4 small, +1 large; Stormbringer: +5d2 +d8 from level drain */
 
 /* polearms */
 /* spear-type */
-WEAPON("partisan", "vulgar polearm",
+WEAPON("partisan", "vulgar polearm", "戟", "粗俗长柄武器",
        0, 0, 1,  5,  80,  10,  6,  6, 0, P,   P_POLEARMS, IRON, HI_METAL,
                                                         PARTISAN),
         /* +1 large */
-WEAPON("ranseur", "hilted polearm",
+WEAPON("ranseur", "hilted polearm", "三叉戟", "大长柄武器",
        0, 0, 1,  5,  50,   6,  4,  4, 0, P,   P_POLEARMS, IRON, HI_METAL,
                                                         RANSEUR),
         /* +d4 both */
-WEAPON("spetum", "forked polearm",
+WEAPON("spetum", "forked polearm", "大战戟", "长柄叉",
        0, 0, 1,  5,  50,   5,  6,  6, 0, P,   P_POLEARMS, IRON, HI_METAL,
                                                         SPETUM),
         /* +1 small, +d6 large */
-WEAPON("glaive", "single-edged polearm",
+WEAPON("glaive", "single-edged polearm", "剑刃戟", "单刃长柄武器",
        0, 0, 1,  8,  75,   6,  6, 10, 0, S,   P_POLEARMS, IRON, HI_METAL,
                                                         GLAIVE),
 /* axe-type */
-WEAPON("halberd", "angled poleaxe",
+WEAPON("halberd", "angled poleaxe", "斧枪", "成角的战斧",
        0, 0, 1,  8, 150,  10, 10,  6, 0, P|S, P_POLEARMS, IRON, HI_METAL,
                                                         HALBERD),
         /* +1d6 large */
-WEAPON("bardiche", "long poleaxe",
+WEAPON("bardiche", "long poleaxe", "大战斧", "长战斧",
        0, 0, 1,  4, 120,   7,  4,  4, 0, S,   P_POLEARMS, IRON, HI_METAL,
                                                         BARDICHE),
         /* +1d4 small, +2d4 large */
-WEAPON("voulge", "pole cleaver",
+WEAPON("voulge", "pole cleaver", "长斧", "极切肉刀",
        0, 0, 1,  4, 125,   5,  4,  4, 0, S,   P_POLEARMS, IRON, HI_METAL,
                                                         VOULGE),
         /* +d4 both */
 /* curved/hooked */
-WEAPON("fauchard", "pole sickle",
+WEAPON("fauchard", "pole sickle", "斩矛", "极镰刀", 
        0, 0, 1,  6,  60,   5,  6,  8, 0, P|S, P_POLEARMS, IRON, HI_METAL,
                                                         FAUCHARD),
-WEAPON("guisarme", "pruning hook",
+WEAPON("guisarme", "pruning hook", "长勾刀", "修枝刀",
        0, 0, 1,  6,  80,   5,  4,  8, 0, S,   P_POLEARMS, IRON, HI_METAL,
                                                         GUISARME),
         /* +1d4 small */
-WEAPON("bill-guisarme", "hooked polearm",
+WEAPON("bill-guisarme", "hooked polearm", "倒勾刀", "弯曲长柄武器",
        0, 0, 1,  4, 120,   7,  4, 10, 0, P|S, P_POLEARMS, IRON, HI_METAL,
                                                         BILL_GUISARME),
         /* +1d4 small */
 /* other */
-WEAPON("lucern hammer", "pronged polearm",
+WEAPON("lucern hammer", "pronged polearm", "苜蓿锤", "分叉长柄武器",
        0, 0, 1,  5, 150,   7,  4,  6, 0, B|P, P_POLEARMS, IRON, HI_METAL,
                                                         LUCERN_HAMMER),
         /* +1d4 small */
-WEAPON("bec de corbin", "beaked polearm",
+WEAPON("bec de corbin", "beaked polearm", "鸦啄战锤", "喙长柄武器",
        0, 0, 1,  4, 100,   8,  8,  6, 0, B|P, P_POLEARMS, IRON, HI_METAL,
                                                         BEC_DE_CORBIN),
 
 /* formerly grouped with the polearms but don't use polearms skill;
    lance isn't even two-handed */
-WEAPON("dwarvish mattock", "broad pick",
+WEAPON("dwarvish mattock", "broad pick", "矮人鹤嘴锄", "宽阔锄头",
        0, 0, 1, 13, 120,  50, 12,  8, -1, B,  P_PICK_AXE, IRON, HI_METAL,
                                                         DWARVISH_MATTOCK),
-WEAPON("lance", NoDes,
+WEAPON("lance", NoDes, "长戟", NoDes,
        1, 0, 0,  4, 180,  10,  6,  8, 0, P,   P_LANCE, IRON, HI_METAL,
                                                         LANCE),
         /* +2d10 when jousting with lance as primary weapon,
            +2d2 when jousting with it as secondary when dual wielding */
 
 /* bludgeons */
-WEAPON("mace", NoDes,
+WEAPON("mace", NoDes, "钉头锤", NoDes,
        1, 0, 0, 40,  30,   5,  6,  6, 0, B,   P_MACE, IRON, HI_METAL,
                                                         MACE),
         /* +1 small */
-WEAPON("silver mace", NoDes,
+WEAPON("silver mace", NoDes, "银钉头锤", NoDes,
        1, 0, 0,  2,  36,  60,  6,  6, 0, B,   P_MACE, SILVER, HI_SILVER,
                                                         SILVER_MACE),
         /* +1 small */
-WEAPON("morning star", NoDes,
+WEAPON("morning star", NoDes, "流星锤", NoDes,
        1, 0, 0, 12, 120,  10,  4,  6, 0, B,   P_MORNING_STAR, IRON, HI_METAL,
                                                         MORNING_STAR),
         /* +d4 small, +1 large */
-WEAPON("war hammer", NoDes,
+WEAPON("war hammer", NoDes, "战锤", NoDes,
        1, 0, 0, 15,  50,   5,  4,  4, 0, B,   P_HAMMER, IRON, HI_METAL,
                                                         WAR_HAMMER),
         /* +1 small */
-WEAPON("club", NoDes,
+WEAPON("club", NoDes, "棍棒", None,
        1, 0, 0, 12,  30,   3,  6,  3, 0, B,   P_CLUB, WOOD, HI_WOOD,
                                                         CLUB),
-WEAPON("rubber hose", NoDes,
+WEAPON("rubber hose", NoDes, "橡胶管", None,
        1, 0, 0,  0,  20,   3,  4,  3, 0, B,   P_WHIP, PLASTIC, CLR_BROWN,
                                                         RUBBER_HOSE),
-WEAPON("quarterstaff", "staff",
+WEAPON("quarterstaff", "staff", "铁头木棒", "棒子",
        0, 0, 1, 11,  40,   5,  6,  6, 0, B,   P_QUARTERSTAFF, WOOD, HI_WOOD,
                                                         QUARTERSTAFF),
 /* two-piece */
-WEAPON("aklys", "thonged club",
+WEAPON("aklys", "thonged club", "链棒", "皮带棍棒",
        0, 0, 0,  8,  15,   4,  6,  3, 0, B,   P_CLUB, IRON, HI_METAL,
                                                         AKLYS),
-WEAPON("flail", NoDes,
+WEAPON("flail", NoDes, "连枷", None,
        1, 0, 0, 40,  15,   4,  6,  4, 0, B,   P_FLAIL, IRON, HI_METAL,
                                                         FLAIL),
         /* +1 small, +1d4 large */
 
 /* misc */
-WEAPON("bullwhip", NoDes,
+WEAPON("bullwhip", NoDes, "牛鞭", None,
        1, 0, 0,  2,  20,   4,  2,  1, 0, 0,   P_WHIP, LEATHER, CLR_BROWN,
                                                         BULLWHIP),
 
 /* bows */
-BOW("bow", NoDes,               1, 24, 30, 60, 0, WOOD, P_BOW, HI_WOOD,
+BOW("bow", NoDes, "弓", NoDes,                     1, 24, 30, 60, 0, WOOD, P_BOW, HI_WOOD,
                                                         BOW),
-BOW("elven bow", "runed bow",  0, 12, 30, 60, 0, WOOD, P_BOW, HI_WOOD,
+BOW("elven bow", "runed bow", "精灵弓", "符文弓",   0, 12, 30, 60, 0, WOOD, P_BOW, HI_WOOD,
                                                         ELVEN_BOW),
-BOW("orcish bow", "crude bow", 0, 12, 30, 60, 0, WOOD, P_BOW, CLR_BLACK,
+BOW("orcish bow", "crude bow", "兽人弓", "粗糙弓",  0, 12, 30, 60, 0, WOOD, P_BOW, CLR_BLACK,
                                                         ORCISH_BOW),
-BOW("yumi", "long bow",        0,  0, 30, 60, 0, WOOD, P_BOW, HI_WOOD,
+BOW("yumi", "long bow", "弩", "长弓",               0,  0, 30, 60, 0, WOOD, P_BOW, HI_WOOD,
                                                         YUMI),
-BOW("sling", NoDes,             1, 40,  3, 20, 0, LEATHER, P_SLING, HI_LEATHER,
+BOW("sling", NoDes, "投石器", NoDes,                1, 40,  3, 20, 0, LEATHER, P_SLING, HI_LEATHER,
                                                         SLING),
-BOW("crossbow", NoDes,          1, 45, 50, 40, 0, WOOD, P_CROSSBOW, HI_WOOD,
+BOW("crossbow", NoDes, "十字弓", NoDes,             1, 45, 50, 40, 0, WOOD, P_CROSSBOW, HI_WOOD,
                                                         CROSSBOW),
 
 #undef P
@@ -419,70 +418,70 @@ BOW("crossbow", NoDes,          1, 45, 50, 40, 0, WOOD, P_CROSSBOW, HI_WOOD,
          * Only COPPER (including brass) corrodes.
          * Some creatures are vulnerable to SILVER.
          */
-#define ARMOR(name,desc,kn,mgc,blk,power,prob,delay,wt,  \
+#define ARMOR(ename,edesc,name,desc,kn,mgc,blk,power,prob,delay,wt,  \
               cost,ac,can,sub,metal,c,sn)                   \
-    OBJECT(OBJ(name, desc),                                         \
+    OBJECT(OBJ(ename, edesc, name, desc),                                         \
            BITS(kn, 0, 1, 0, mgc, 1, 0, 0, blk, 0, 0, sub, metal),  \
            power, ARMOR_CLASS, prob, delay, wt,                     \
            cost, 0, 0, 10 - ac, can, wt, c, sn)
-#define HELM(name,desc,kn,mgc,power,prob,delay,wt,cost,ac,can,metal,c,sn)  \
-    ARMOR(name, desc, kn, mgc, 0, power, prob, delay, wt,  \
+#define HELM(ename,edesc,name,desc,kn,mgc,power,prob,delay,wt,cost,ac,can,metal,c,sn)  \
+    ARMOR(ename, edesc, name, desc, kn, mgc, 0, power, prob, delay, wt,  \
           cost, ac, can, ARM_HELM, metal, c, sn)
-#define CLOAK(name,desc,kn,mgc,power,prob,delay,wt,cost,ac,can,metal,c,sn)  \
-    ARMOR(name, desc, kn, mgc, 0, power, prob, delay, wt,  \
+#define CLOAK(ename,edesc,name,desc,kn,mgc,power,prob,delay,wt,cost,ac,can,metal,c,sn)  \
+    ARMOR(ename, edesc, name, desc, kn, mgc, 0, power, prob, delay, wt,  \
           cost, ac, can, ARM_CLOAK, metal, c,sn)
-#define SHIELD(name,desc,kn,mgc,blk,pow,prob,delay,wt,cost,ac,can,metal,c,sn) \
-    ARMOR(name, desc, kn, mgc, blk, pow, prob, delay, wt, \
+#define SHIELD(ename,edesc,name,desc,kn,mgc,blk,pow,prob,delay,wt,cost,ac,can,metal,c,sn) \
+    ARMOR(ename, edesc, name, desc, kn, mgc, blk, pow, prob, delay, wt, \
           cost, ac, can, ARM_SHIELD, metal, c,sn)
-#define GLOVES(name,desc,kn,mgc,power,prob,delay,wt,cost,ac,can,metal,c,sn)  \
-    ARMOR(name, desc, kn, mgc, 0, power, prob, delay, wt,  \
+#define GLOVES(ename,edesc,name,desc,kn,mgc,power,prob,delay,wt,cost,ac,can,metal,c,sn)  \
+    ARMOR(ename, edesc, name, desc, kn, mgc, 0, power, prob, delay, wt,  \
           cost, ac, can, ARM_GLOVES, metal, c,sn)
-#define BOOTS(name,desc,kn,mgc,power,prob,delay,wt,cost,ac,can,metal,c,sn)  \
-    ARMOR(name, desc, kn, mgc, 0, power, prob, delay, wt,  \
+#define BOOTS(ename,edesc,name,desc,kn,mgc,power,prob,delay,wt,cost,ac,can,metal,c,sn)  \
+    ARMOR(ename, edesc, name, desc, kn, mgc, 0, power, prob, delay, wt,  \
           cost, ac, can, ARM_BOOTS, metal, c,sn)
 
 /* helmets */
-HELM("elven leather helm", "leather hat",
+HELM("elven leather helm", "leather hat", "精灵皮帽", "皮帽",
      0, 0,           0,  6, 1,  3,  8,  9, 0, LEATHER, HI_LEATHER,
                                                         ELVEN_LEATHER_HELM),
-HELM("orcish helm", "iron skull cap",
+HELM("orcish helm", "iron skull cap", "兽人头盔", "铁骷髅帽",
      0, 0,           0,  6, 1, 30, 10,  9, 0, IRON, CLR_BLACK,
                                                         ORCISH_HELM),
-HELM("dwarvish iron helm", "hard hat",
+HELM("dwarvish iron helm", "hard hat", "矮人铁头盔", "安全帽",
      0, 0,           0,  6, 1, 40, 20,  8, 0, IRON, HI_METAL,
                                                         DWARVISH_IRON_HELM),
-HELM("fedora", NoDes,
+HELM("fedora", NoDes, "软呢帽", NoDes,
      1, 0,           0,  0, 0,  3,  1, 10, 0, CLOTH, CLR_BROWN,
                                                         FEDORA),
-HELM("cornuthaum", "conical hat",
+HELM("cornuthaum", "conical hat", "巫师帽", "圆锥形帽",
      0, 1, CLAIRVOYANT,  5, 1,  4, 80, 10, 1, CLOTH, CLR_BLUE,
         /* name coined by devteam; confers clairvoyance for wizards,
            blocks clairvoyance if worn by role other than wizard */
                                                         CORNUTHAUM),
-HELM("dunce cap", "conical hat",
+HELM("dunce cap", "conical hat", "愚人帽", "圆锥形帽",
      0, 1,           0,  5, 1,  4,  1, 10, 0, CLOTH, CLR_BLUE,
         /* sets Int and Wis to fixed value of 6, so actually provides
            protection against death caused by Int being drained below 3 */
                                                         DUNCE_CAP),
-HELM("dented pot", NoDes,
+HELM("dented pot", NoDes, "瘪锅", NoDes,
      1, 0,           0,  2, 0, 10,  8,  9, 0, IRON, CLR_BLACK,
                                                         DENTED_POT),
-HELM("helm of brilliance", "crystal helmet",
+HELM("helm of brilliance", "crystal helmet", "卓越头盔", "水晶头盔",
      0, 1,           0,  6, 1, 40, 50,  9, 0, GLASS, CLR_WHITE,
         /* used to be iron and shuffled as "etched helmet" but required
            special case for the effect of iron armor on spell casting */
                                                         HELM_OF_BRILLIANCE),
 /* with shuffled appearances... */
-HELM("helmet", "plumed helmet",
+HELM("helmet", "plumed helmet", "钢盔", "羽饰头盔",
      0, 0,           0, 10, 1, 30, 10,  9, 0, IRON, HI_METAL,
                                                         HELMET),
-HELM("helm of caution", "etched helmet",
+HELM("helm of caution", "etched helmet", "警觉头盔", "蚀刻头盔",
      0, 1,     WARNING,  6, 1, 50, 50,  9, 0, IRON, CLR_GREEN,
                                                         HELM_OF_CAUTION),
-HELM("helm of opposite alignment", "crested helmet",
+HELM("helm of opposite alignment", "crested helmet", "敌对阵营头盔", "羽冠头盔",
      0, 1,           0, 10, 1, 50, 50,  9, 0, IRON, HI_METAL,
                                                  HELM_OF_OPPOSITE_ALIGNMENT),
-HELM("helm of telepathy", "visored helmet",
+HELM("helm of telepathy", "visored helmet", "感知头盔", "檐帽头盔",
      0, 1,     TELEPAT,  4, 1, 50, 50,  9, 0, IRON, HI_METAL,
                                                  HELM_OF_TELEPATHY),
 
@@ -494,116 +493,116 @@ HELM("helm of telepathy", "visored helmet",
  *      (2) That the order of the dragon scale mail and dragon scales
  *          is the same as order of dragons defined in monst.c.
  */
-#define DRGN_ARMR(name,mgc,power,cost,ac,color,snam)  \
-    ARMOR(name, NoDes, 1, mgc, 1, power, 0, 5, 40,  \
+#define DRGN_ARMR(ename,name,mgc,power,cost,ac,color,snam)  \
+    ARMOR(ename, NoDes, name, NoDes, 1, mgc, 1, power, 0, 5, 40,  \
           cost, ac, 0, ARM_SUIT, DRAGON_HIDE, color,snam)
 /* 3.4.1: dragon scale mail reclassified as "magic" since magic is
    needed to create them */
-DRGN_ARMR("gray dragon scale mail",    1, ANTIMAGIC,  1200, 1, CLR_GRAY,
+DRGN_ARMR("gray dragon scale mail", "灰龙鳞甲",    1, ANTIMAGIC,  1200, 1, CLR_GRAY,
                                                     GRAY_DRAGON_SCALE_MAIL),
     /* gold DSM is a light source; there's no property for that */
-DRGN_ARMR("gold dragon scale mail",    1, 0,           900, 1, HI_GOLD,
+DRGN_ARMR("gold dragon scale mail", "金龙鳞甲",    1, 0,           900, 1, HI_GOLD,
                                                     GOLD_DRAGON_SCALE_MAIL),
-DRGN_ARMR("silver dragon scale mail",  1, REFLECTING, 1200, 1, DRAGON_SILVER,
+DRGN_ARMR("silver dragon scale mail", "银龙鳞甲",  1, REFLECTING, 1200, 1, DRAGON_SILVER,
                                                     SILVER_DRAGON_SCALE_MAIL),
 #if 0 /* DEFERRED */
 DRGN_ARMR("shimmering dragon scale mail", 1, DISPLACED, 1200, 1, CLR_CYAN,
                                                 SHIMMERING_DRAGON_SCALE_MAIL),
 #endif
-DRGN_ARMR("red dragon scale mail",     1, FIRE_RES,    900, 1, CLR_RED,
+DRGN_ARMR("red dragon scale mail", "红龙鳞甲",     1, FIRE_RES,    900, 1, CLR_RED,
                                                     RED_DRAGON_SCALE_MAIL),
-DRGN_ARMR("white dragon scale mail",   1, COLD_RES,    900, 1, CLR_WHITE,
+DRGN_ARMR("white dragon scale mail", "白龙鳞甲",   1, COLD_RES,    900, 1, CLR_WHITE,
                                                     WHITE_DRAGON_SCALE_MAIL),
-DRGN_ARMR("orange dragon scale mail",  1, SLEEP_RES,   900, 1, CLR_ORANGE,
+DRGN_ARMR("orange dragon scale mail", "橙龙鳞甲",  1, SLEEP_RES,   900, 1, CLR_ORANGE,
                                                     ORANGE_DRAGON_SCALE_MAIL),
-DRGN_ARMR("black dragon scale mail",   1, DISINT_RES, 1200, 1, CLR_BLACK,
+DRGN_ARMR("black dragon scale mail", "黑龙鳞甲",   1, DISINT_RES, 1200, 1, CLR_BLACK,
                                                     BLACK_DRAGON_SCALE_MAIL),
-DRGN_ARMR("blue dragon scale mail",    1, SHOCK_RES,   900, 1, CLR_BLUE,
+DRGN_ARMR("blue dragon scale mail", "蓝龙鳞甲",    1, SHOCK_RES,   900, 1, CLR_BLUE,
                                                     BLUE_DRAGON_SCALE_MAIL),
-DRGN_ARMR("green dragon scale mail",   1, POISON_RES,  900, 1, CLR_GREEN,
+DRGN_ARMR("green dragon scale mail", "绿龙鳞甲",   1, POISON_RES,  900, 1, CLR_GREEN,
                                                     GREEN_DRAGON_SCALE_MAIL),
-DRGN_ARMR("yellow dragon scale mail",  1, ACID_RES,    900, 1, CLR_YELLOW,
+DRGN_ARMR("yellow dragon scale mail", "黄龙鳞甲",  1, ACID_RES,    900, 1, CLR_YELLOW,
                                                     YELLOW_DRAGON_SCALE_MAIL),
 /* For now, only dragons leave these. */
 /* 3.4.1: dragon scales left classified as "non-magic"; they confer magical
    properties but are produced "naturally"; affects use as polypile fodder */
-DRGN_ARMR("gray dragon scales",        0, ANTIMAGIC,   700, 7, CLR_GRAY,
+DRGN_ARMR("gray dragon scales", "灰龙鳞",        0, ANTIMAGIC,   700, 7, CLR_GRAY,
                                                         GRAY_DRAGON_SCALES),
-DRGN_ARMR("gold dragon scales",        0, 0,           500, 7, HI_GOLD,
+DRGN_ARMR("gold dragon scales", "金龙鳞",        0, 0,           500, 7, HI_GOLD,
                                                         GOLD_DRAGON_SCALES),
-DRGN_ARMR("silver dragon scales",      0, REFLECTING,  700, 7, DRAGON_SILVER,
+DRGN_ARMR("silver dragon scales", "银龙鳞",      0, REFLECTING,  700, 7, DRAGON_SILVER,
                                                         SILVER_DRAGON_SCALES),
 #if 0 /* DEFERRED */
 DRGN_ARMR("shimmering dragon scales",  0, DISPLACED,   700, 7, CLR_CYAN,
                                                     SHIMMERING_DRAGON_SCALES),
 #endif
-DRGN_ARMR("red dragon scales",         0, FIRE_RES,    500, 7, CLR_RED,
+DRGN_ARMR("red dragon scales", "红龙鳞",         0, FIRE_RES,    500, 7, CLR_RED,
                                                         RED_DRAGON_SCALES),
-DRGN_ARMR("white dragon scales",       0, COLD_RES,    500, 7, CLR_WHITE,
+DRGN_ARMR("white dragon scales", "白龙鳞",       0, COLD_RES,    500, 7, CLR_WHITE,
                                                         WHITE_DRAGON_SCALES),
-DRGN_ARMR("orange dragon scales",      0, SLEEP_RES,   500, 7, CLR_ORANGE,
+DRGN_ARMR("orange dragon scales", "橙龙鳞",      0, SLEEP_RES,   500, 7, CLR_ORANGE,
                                                         ORANGE_DRAGON_SCALES),
-DRGN_ARMR("black dragon scales",       0, DISINT_RES,  700, 7, CLR_BLACK,
+DRGN_ARMR("black dragon scales", "黑龙鳞",       0, DISINT_RES,  700, 7, CLR_BLACK,
                                                         BLACK_DRAGON_SCALES),
-DRGN_ARMR("blue dragon scales",        0, SHOCK_RES,   500, 7, CLR_BLUE,
+DRGN_ARMR("blue dragon scales", "蓝龙鳞",        0, SHOCK_RES,   500, 7, CLR_BLUE,
                                                         BLUE_DRAGON_SCALES),
-DRGN_ARMR("green dragon scales",       0, POISON_RES,  500, 7, CLR_GREEN,
+DRGN_ARMR("green dragon scales", "绿龙鳞",       0, POISON_RES,  500, 7, CLR_GREEN,
                                                         GREEN_DRAGON_SCALES),
-DRGN_ARMR("yellow dragon scales",      0, ACID_RES,    500, 7, CLR_YELLOW,
+DRGN_ARMR("yellow dragon scales", "黄龙鳞",      0, ACID_RES,    500, 7, CLR_YELLOW,
                                                         YELLOW_DRAGON_SCALES),
 #undef DRGN_ARMR
 /* other suits */
-ARMOR("plate mail", NoDes,
+ARMOR("plate mail", NoDes, "板甲", NoDes,
       1, 0, 1,  0, 40, 5, 450, 600,  3, 2,  ARM_SUIT, IRON, HI_METAL,
                                                         PLATE_MAIL),
-ARMOR("crystal plate mail", NoDes,
+ARMOR("crystal plate mail", NoDes, "水晶板甲", NoDes,
       1, 0, 1,  0, 10, 5, 415, 820,  3, 2,  ARM_SUIT, GLASS, CLR_WHITE,
                                                         CRYSTAL_PLATE_MAIL),
-ARMOR("bronze plate mail", NoDes,
+ARMOR("bronze plate mail", NoDes, "青铜板甲", NoDes
       1, 0, 1,  0, 23, 5, 450, 400,  4, 1,  ARM_SUIT, COPPER, HI_COPPER,
                                                         BRONZE_PLATE_MAIL),
-ARMOR("splint mail", NoDes,
+ARMOR("splint mail", NoDes, "板条甲", NoDes,
       1, 0, 1,  0, 57, 5, 400,  80,  4, 1,  ARM_SUIT, IRON, HI_METAL,
                                                         SPLINT_MAIL),
-ARMOR("banded mail", NoDes,
+ARMOR("banded mail", NoDes, "带链甲", NoDes,
       1, 0, 1,  0, 66, 5, 350,  90,  4, 1,  ARM_SUIT, IRON, HI_METAL,
                                                         BANDED_MAIL),
-ARMOR("dwarvish mithril-coat", NoDes,
+ARMOR("dwarvish mithril-coat", NoDes, "矮人秘银胶衣", NoDes,
       1, 0, 0,  0, 10, 1, 150, 240,  4, 2,  ARM_SUIT, MITHRIL, HI_SILVER,
                                                         DWARVISH_MITHRIL_COAT),
-ARMOR("elven mithril-coat", NoDes,
+ARMOR("elven mithril-coat", NoDes, "精灵秘银胶衣", NoDes,
       1, 0, 0,  0, 15, 1, 150, 240,  5, 2,  ARM_SUIT, MITHRIL, HI_SILVER,
                                                         ELVEN_MITHRIL_COAT),
-ARMOR("chain mail", NoDes,
+ARMOR("chain mail", NoDes, "锁子甲", NoDes,
       1, 0, 0,  0, 66, 5, 300,  75,  5, 1,  ARM_SUIT, IRON, HI_METAL,
                                                         CHAIN_MAIL),
-ARMOR("orcish chain mail", "crude chain mail",
+ARMOR("orcish chain mail", "crude chain mail", "兽人锁子甲", "粗糙锁子甲",
       0, 0, 0,  0, 19, 5, 300,  75,  6, 1,  ARM_SUIT, IRON, CLR_BLACK,
                                                         ORCISH_CHAIN_MAIL),
-ARMOR("scale mail", NoDes,
+ARMOR("scale mail", NoDes, "鳞甲", NoDes,
       1, 0, 0,  0, 66, 5, 250,  45,  6, 1,  ARM_SUIT, IRON, HI_METAL,
                                                         SCALE_MAIL),
-ARMOR("studded leather armor", NoDes,
+ARMOR("studded leather armor", NoDes, "嵌皮甲", None,
       1, 0, 0,  0, 66, 3, 200,  15,  7, 1,  ARM_SUIT, LEATHER, HI_LEATHER,
                                                         STUDDED_LEATHER_ARMOR),
-ARMOR("ring mail", NoDes,
+ARMOR("ring mail", NoDes, "锁环甲", NoDes,
       1, 0, 0,  0, 66, 5, 250, 100,  7, 1,  ARM_SUIT, IRON, HI_METAL,
                                                         RING_MAIL),
-ARMOR("orcish ring mail", "crude ring mail",
+ARMOR("orcish ring mail", "crude ring mail", "兽人锁环甲", "粗糙锁环甲",
       0, 0, 0,  0, 19, 5, 250,  80,  8, 1,  ARM_SUIT, IRON, CLR_BLACK,
                                                         ORCISH_RING_MAIL),
-ARMOR("leather armor", NoDes,
+ARMOR("leather armor", NoDes, "皮甲", NoDes,
       1, 0, 0,  0, 75, 3, 150,   5,  8, 1,  ARM_SUIT, LEATHER, HI_LEATHER,
                                                         LEATHER_ARMOR),
-ARMOR("leather jacket", NoDes,
+ARMOR("leather jacket", NoDes, "皮夹克", NoDes,
       1, 0, 0,  0, 11, 0,  30,  10,  9, 0,  ARM_SUIT, LEATHER, CLR_BLACK,
                                                         LEATHER_JACKET),
 
 /* shirts */
-ARMOR("Hawaiian shirt", NoDes,
+ARMOR("Hawaiian shirt", NoDes, "夏威夷衬衫", NoDes,
       1, 0, 0,  0,  8, 0,   5,   3, 10, 0,  ARM_SHIRT, CLOTH, CLR_MAGENTA,
                                                         HAWAIIAN_SHIRT),
-ARMOR("T-shirt", NoDes,
+ARMOR("T-shirt", NoDes, "T恤衫", NoDes,
       1, 0, 0,  0,  2, 0,   5,   2, 10, 0,  ARM_SHIRT, CLOTH, CLR_WHITE,
                                                         T_SHIRT),
 
