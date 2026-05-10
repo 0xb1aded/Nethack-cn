@@ -1557,7 +1557,7 @@ config_erradd(const char *buf)
     if (!program_state.config_error_ready) {
         /* either very early, where pline() will use raw_print(), or
            player gave bad value when prompted by interactive 'O' command */
-        pline("%s%s%s", !iflags.window_inited ? "配置错误添加: " : "",
+        pline("%s%s%s", !iflags.window_inited ? "config_error_add: " : "",
               buf, punct);
         wait_synch();
         return;
@@ -1576,15 +1576,15 @@ config_erradd(const char *buf)
 
     config_error_data->num_errors++;
     if (!config_error_data->origline_shown && !config_error_data->secure) {
-        pline("\\n%s", config_error_data->origline);
+        pline("\n%s", config_error_data->origline);
         config_error_data->origline_shown = TRUE;
     }
     if (config_error_data->line_num > 0 && !config_error_data->secure) {
-        Sprintf(lineno, "第 %d 行: ", config_error_data->line_num);
+        Sprintf(lineno, "Line %d: ", config_error_data->line_num);
     } else
         lineno[0] = '\0';
 
-    pline("%s %s%s%s", config_error_data->secure ? "错误：" : " *",
+    pline("%s %s%s%s", config_error_data->secure ? "Error:" : " *",
           lineno, buf, punct);
 }
 
@@ -1609,7 +1609,7 @@ config_error_done(void)
     if (n) {
         boolean cmdline = !strcmp(config_error_data->source, "command line");
 
-        pline("\n%d个错误%s %s %s.\n", n, plur(n), cmdline ? "在" : "在",
+        pline("\n%d error%s %s %s.\n", n, plur(n), cmdline ? "on" : "in",
               *config_error_data->source ? config_error_data->source
                                          : configfile);
         wait_synch();
@@ -1956,24 +1956,6 @@ rcfile(void)
     /*[end of nethackrc handling]*/
 }
 
-void
-rcfile_interface_options(void)
-{
-    allopt_array_init();
-    disregard_all_options();
-    disregard_all_config_statements();
-    heed_this_option(opt_windowtype);
-    heed_this_option(opt_soundlib);
-    set_ignore_errors_on_unmatched();
-    ignore_statement_errors = TRUE;
-    rcfile();
-    heed_all_config_statements();
-    heed_all_options();
-    disregard_this_option(opt_windowtype);
-    disregard_this_option(opt_soundlib);
-    clear_ignore_errors_on_unmatched();
-    ignore_statement_errors = FALSE;
-}
 
 void
 heed_all_config_statements(void)
@@ -2023,6 +2005,84 @@ config_unmatched_ignored(void)
         return TRUE;
     return FALSE;
 }
+void
+rcfile_interface_options(void)
+{
+    allopt_array_init();
+    disregard_all_options();
+    disregard_all_config_statements();
+    heed_this_option(opt_windowtype);
+    heed_this_option(opt_soundlib);
+    set_ignore_errors_on_unmatched();
+    ignore_statement_errors = TRUE;
+    rcfile();
+    heed_all_config_statements();
+    heed_all_options();
+    disregard_this_option(opt_windowtype);
+    disregard_this_option(opt_soundlib);
+    clear_ignore_errors_on_unmatched();
+    ignore_statement_errors = FALSE;
+}
+
+void
+rcfile_only_this_option(enum opt heeded_option)
+{
+    allopt_array_init();
+    disregard_all_options();
+    disregard_all_config_statements();
+    heed_this_option(heeded_option);
+    set_ignore_errors_on_unmatched();
+    ignore_statement_errors = TRUE;
+    rcfile();
+    heed_all_config_statements();
+    heed_all_options();
+    clear_ignore_errors_on_unmatched();
+    ignore_statement_errors = FALSE;
+}
+
+#ifdef MSWIN_GRAPHICS
+void
+disregard_some_mswin_options(void)
+{
+    /* later for these */
+    disregard_this_option(opt_map_mode);
+    disregard_this_option(opt_font_map);
+    disregard_this_option(opt_font_menu);
+    disregard_this_option(opt_font_message);
+    disregard_this_option(opt_font_status);
+
+    disregard_this_option(opt_font_size_map);
+    disregard_this_option(opt_font_size_menu);
+    disregard_this_option(opt_font_size_message);
+    disregard_this_option(opt_font_size_status);
+}
+
+void
+rcfile_only_some_mswin_options(void)
+{
+    allopt_array_init();
+    disregard_all_options();
+    disregard_all_config_statements();
+    heed_this_option(opt_map_mode);
+    heed_this_option(opt_font_map);
+    heed_this_option(opt_font_menu);
+    heed_this_option(opt_font_message);
+    heed_this_option(opt_font_status);
+
+    heed_this_option(opt_font_size_map);
+    heed_this_option(opt_font_size_menu);
+    heed_this_option(opt_font_size_message);
+    heed_this_option(opt_font_size_status);
+    set_ignore_errors_on_unmatched();
+    ignore_statement_errors = TRUE;
+    rcfile();
+    heed_all_config_statements();
+    heed_all_options();
+    clear_ignore_errors_on_unmatched();
+    ignore_statement_errors = FALSE;
+}
+#endif /* MSWIN_GRAPHICS */
+
 #endif /* SFCTOOL */
 
 #ifdef SYSCF
