@@ -59,6 +59,7 @@ void windows_nhbell(void);
 int windows_nh_poskey(int *, int *, int *);
 void windows_raw_print(const char *);
 char windows_yn_function(const char *, const char *, char);
+boolean portable = FALSE;
 /* static void windows_getlin(const char *, char *); */
 
 #ifdef WIN32CON
@@ -806,15 +807,19 @@ copy_symbols_content(void)
 void
 copy_sysconf_content(void)
 {
-    /* Using the SYSCONFPREFIX path, lock it so that it does not change */
-    fqn_prefix_locked[SYSCONFPREFIX] = TRUE;
+    if (sysopt.portable_device_paths) {
+        portable = TRUE;
+    } else {
+        /* Using the SYSCONFPREFIX path, lock it so that it does not change */
+        fqn_prefix_locked[SYSCONFPREFIX] = TRUE;
 
-    update_file(gf.fqn_prefix[SYSCONFPREFIX], SYSCF_TEMPLATE,
-                gf.fqn_prefix[DATAPREFIX], SYSCF_TEMPLATE, FALSE);
+        update_file(gf.fqn_prefix[SYSCONFPREFIX], SYSCF_TEMPLATE,
+                    gf.fqn_prefix[DATAPREFIX], SYSCF_TEMPLATE, FALSE);
 
-    /* If the required early game file does not exist, copy it */
-    copy_file(gf.fqn_prefix[SYSCONFPREFIX], SYSCF_FILE,
-              gf.fqn_prefix[DATAPREFIX], SYSCF_TEMPLATE, FALSE);
+        /* If the required early game file does not exist, copy it */
+        copy_file(gf.fqn_prefix[SYSCONFPREFIX], SYSCF_FILE,
+                  gf.fqn_prefix[DATAPREFIX], SYSCF_TEMPLATE, FALSE);
+    }
 }
 
 void
