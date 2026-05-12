@@ -206,8 +206,11 @@ _CrtSetReportFile(_CRT_ASSERT, _CRTDBG_FILE_STDERR);*/
     }
     gh.hname = "NetHack"; /* used for syntax messages */
     set_default_prefix_locations(
-        argv[0]); /* must be re-done after initoptions_init()
-                   * which clears out gp.fqn_prefix[] */
+        argv[0]); /* must be re-done again after initoptions_init()
+                   * because that function clears out gp.fqn_prefix[] */
+    allopt_array_init();  /* we do this here, so allopt doesn't get cleared
+                             after we disregard some */
+
     copy_sysconf_content();
     copy_symbols_content();
     /* Now that sysconf has had a chance to set the TROUBLEPREFIX, don't
@@ -218,6 +221,8 @@ _CrtSetReportFile(_CRT_ASSERT, _CRTDBG_FILE_STDERR);*/
     //   if (iflags.windowtype_deferred && gc.chosen_windowtype[0])
     //       windowtype = gc.chosen_windowtype;
     //   windowtype = gc.chosen_windowtype;
+
+    program_state.early_options = 1;
 
 #if !defined(MSWIN_GRAPHICS)
     nethack_enter_consoletty();
@@ -248,17 +253,19 @@ _CrtSetReportFile(_CRT_ASSERT, _CRTDBG_FILE_STDERR);*/
         error("NetHack: current directory path too long");
 #endif
     getreturn_enabled = TRUE;
+#ifdef MSWIN_GRAPHICS
+    disregard_some_mswin_options();
+#endif
     initoptions_init(); // This allows OPTIONS in syscf on Windows.
     set_default_prefix_locations(
         argv[0]); /* must be re-done after initoptions_init()
                    * which clears out gp.fqn_prefix[] */
     // iflags.windowtype_deferred = TRUE;
 
-    program_state.early_options = 1;
     /* if (GUILaunched || IsDebuggerPresent()) */
     early_options(&argc, &argv, &dir);
-    program_state.early_options = 0;
 
+    program_state.early_options = 0;
 
     initoptions();
 #if defined(CHDIR) && !defined(NOCWD_ASSUMPTIONS)
@@ -325,7 +332,9 @@ _CrtSetReportFile(_CRT_ASSERT, _CRTDBG_FILE_STDERR);*/
 #elif defined(SND_LIB_WINDSOUND)
     assign_soundlib(soundlib_windsound);
 #endif
-
+#ifdef MSWIN_GRAPHICS
+    rcfile_only_some_mswin_options();
+#endif
     u.uhp = 1; /* prevent RIP on early quits */
     u.ux = 0;  /* prevent flush_screen() */
 
