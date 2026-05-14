@@ -607,73 +607,73 @@ ARMOR("T-shirt", NoDes, "T恤衫", NoDes,
                                                         T_SHIRT),
 
 /* cloaks */
-CLOAK("mummy wrapping", NoDes,
+CLOAK("mummy wrapping", NoDes, "木乃伊绷带", NoDes,
       1, 0,          0,  0, 0,  3,  2, 10, 1,  CLOTH, CLR_GRAY,
                                                         MUMMY_WRAPPING),
         /* worn mummy wrapping blocks invisibility */
-CLOAK("elven cloak", "faded pall",
+CLOAK("elven cloak", "faded pall", "精灵斗篷", "褪色的斗篷",
       0, 1,    STEALTH,  8, 0, 10, 60,  9, 1,  CLOTH, CLR_BLACK, ELVEN_CLOAK),
-CLOAK("orcish cloak", "coarse mantelet",
+CLOAK("orcish cloak", "coarse mantelet", "兽人斗篷", "粗糙的小斗蓬",
       0, 0,          0,  8, 0, 10, 40, 10, 1,  CLOTH, CLR_BLACK,
                                                         ORCISH_CLOAK),
-CLOAK("dwarvish cloak", "hooded cloak",
+CLOAK("dwarvish cloak", "hooded cloak", "矮人斗篷", "带帽斗篷",
       0, 0,          0,  8, 0, 10, 50, 10, 1,  CLOTH, HI_CLOTH,
                                                         DWARVISH_CLOAK),
-CLOAK("oilskin cloak", "slippery cloak",
+CLOAK("oilskin cloak", "slippery cloak", "油布斗篷", "湿滑的斗篷",
       0, 0,          0,  8, 0, 10, 50,  9, 2,  CLOTH, HI_CLOTH,
                                                         OILSKIN_CLOAK),
-CLOAK("robe", NoDes,
+CLOAK("robe", NoDes, "长袍", NoDes,
       1, 1,          0,  6, 0, 15, 50,  8, 2,  CLOTH, CLR_RED, ROBE),
         /* robe was adopted from slash'em, where it's worn as a suit
            rather than as a cloak and there are several variations */
-CLOAK("alchemy smock", "apron",
+CLOAK("alchemy smock", "apron", "炼金术罩衫", "围裙",
       0, 1, POISON_RES, 11, 0, 10, 50,  9, 1,  CLOTH, CLR_WHITE,
                                                         ALCHEMY_SMOCK),
-CLOAK("leather cloak", NoDes,
+CLOAK("leather cloak", NoDes, "皮斗篷", NoDes,
       1, 0,          0,  8, 0, 15, 40,  9, 1,  LEATHER, CLR_BROWN,
                                                         LEATHER_CLOAK),
 /* with shuffled appearances... */
-CLOAK("cloak of protection", "tattered cape",
+CLOAK("cloak of protection", "tattered cape", "保护斗篷", "破烂的斗篷",
       0, 1, PROTECTION, 11, 0, 10, 50,  7, 3,  CLOTH, HI_CLOTH,
                                                         CLOAK_OF_PROTECTION),
         /* cloak of protection is now the only item conferring MC 3 */
-CLOAK("cloak of invisibility", "opera cloak",
+CLOAK("cloak of invisibility", "opera cloak", "隐身斗篷", "夜礼服斗篷",
       0, 1,      INVIS, 12, 0, 10, 60,  9, 1,  CLOTH, CLR_BRIGHT_MAGENTA,
                                                         CLOAK_OF_INVISIBILITY),
-CLOAK("cloak of magic resistance", "ornamental cope",
+CLOAK("cloak of magic resistance", "ornamental cope", "魔法抗性斗篷", "装饰性长袍",
       0, 1,  ANTIMAGIC,  6, 0, 10, 60,  9, 1,  CLOTH, CLR_WHITE,
                                                    CLOAK_OF_MAGIC_RESISTANCE),
         /*  'cope' is not a spelling mistake... leave it be */
-CLOAK("cloak of displacement", "piece of cloth",
+CLOAK("cloak of displacement", "piece of cloth", "幻影斗篷", "一块布",
       0, 1,  DISPLACED, 12, 0, 10, 50,  9, 1,  CLOTH, HI_CLOTH,
                                                         CLOAK_OF_DISPLACEMENT),
 
 /* shields */
-SHIELD("small shield", "wooden shield",
+SHIELD("small shield", "wooden shield", "小盾牌", "木制盾牌",
        0, 0, 0,          0,  6, 0,  30,  3, 9, 0,  WOOD, HI_WOOD,
                                                         SMALL_SHIELD),
-SHIELD("shield of drain resistance", "wooden shield",
+SHIELD("shield of drain resistance", "wooden shield", "抗等级吸收之盾", "木制盾牌",
        0, 1, 0,  DRAIN_RES, 12, 0,  30, 50, 9, 0,  WOOD, HI_WOOD,
                                                   SHIELD_OF_DRAIN_RESISTANCE),
-SHIELD("shield of shock resistance", "wooden shield",
+SHIELD("shield of shock resistance", "wooden shield", "抗电击之盾", "木制盾牌",
        0, 1, 0,  SHOCK_RES, 12, 0,  30, 50, 9, 0,  WOOD, HI_WOOD,
                                                   SHIELD_OF_SHOCK_RESISTANCE),
-SHIELD("elven shield", "blue and green shield",
+SHIELD("elven shield", "blue and green shield", "精灵盾", "蓝绿盾",
        0, 0, 0,          0,  2, 0,  40,  7, 8, 0,  WOOD, CLR_GREEN,
                                                         ELVEN_SHIELD),
-SHIELD("Uruk-hai shield", "white-handed shield",
+SHIELD("Uruk-hai shield", "white-handed shield", "强兽人盾", "白色手盾",
        0, 0, 0,          0,  2, 0,  50,  7, 9, 0,  IRON, HI_METAL,
                                                         URUK_HAI_SHIELD),
-SHIELD("orcish shield", "red-eyed shield",
+SHIELD("orcish shield", "red-eyed shield", "兽人盾", "红眼盾",
        0, 0, 0,          0,  2, 0,  50,  7, 9, 0,  IRON, CLR_RED,
                                                         ORCISH_SHIELD),
-SHIELD("large shield", NoDes,
+SHIELD("large shield", NoDes, "大盾牌", NoDes,
        1, 0, 1,          0,  4, 0, 100, 10, 8, 0,  IRON, HI_METAL,
                                                         LARGE_SHIELD),
-SHIELD("dwarvish roundshield", "large round shield",
+SHIELD("dwarvish roundshield", "large round shield", "矮人圆盾", "大圆盾",
        0, 0, 0,          0,  3, 0, 100, 10, 8, 0,  IRON, HI_METAL,
                                                         DWARVISH_ROUNDSHIELD),
-SHIELD("shield of reflection", "polished silver shield",
+SHIELD("shield of reflection", "polished silver shield", "反射之盾", "抛光银盾",
        0, 1, 0, REFLECTING,  7, 0,  50, 50, 8, 0,  SILVER, HI_SILVER,
                                                         SHIELD_OF_REFLECTION),
 
@@ -682,46 +682,46 @@ SHIELD("shield of reflection", "polished silver shield",
  * stay CLR_BROWN (== HI_LEATHER) even though it's normally either
  * HI_METAL or CLR_BLACK.  All have shuffled descriptions.
  */
-GLOVES("leather gloves", "old gloves",
+GLOVES("leather gloves", "old gloves", "皮手套", "残破的手套",
        0, 0,        0, 15, 1, 10,  8, 9, 0,  LEATHER, HI_LEATHER,
                                                         LEATHER_GLOVES),
-GLOVES("gauntlets of fumbling", "padded gloves",
+GLOVES("gauntlets of fumbling", "padded gloves", "笨拙手套", "加衬手套",
        0, 1, FUMBLING,  8, 1, 10, 50, 9, 0,  LEATHER, HI_LEATHER,
                                                     GAUNTLETS_OF_FUMBLING),
-GLOVES("gauntlets of power", "riding gloves",
+GLOVES("gauntlets of power", "riding gloves", "力量手套", "骑手手套",
        0, 1,        0,  8, 1, 30, 50, 9, 0,  IRON, CLR_BROWN,
                                                     GAUNTLETS_OF_POWER),
-GLOVES("gauntlets of dexterity", "fencing gloves",
+GLOVES("gauntlets of dexterity", "fencing gloves", "敏捷手套", "击剑手套",
        0, 1,        0,  8, 1, 10, 50, 9, 0,  LEATHER, HI_LEATHER,
                                                     GAUNTLETS_OF_DEXTERITY),
 
 /* boots */
-BOOTS("low boots", "walking shoes",
+BOOTS("low boots", "walking shoes", "低跟鞋", "步行鞋",
       0, 0,          0, 23, 2, 10,  8, 9, 0, LEATHER, HI_LEATHER, LOW_BOOTS),
-BOOTS("iron shoes", "hard shoes",
+BOOTS("iron shoes", "hard shoes", "铁鞋", "硬底鞋",
       0, 0,          0,  7, 2, 50, 16, 8, 0, IRON, HI_METAL, IRON_SHOES),
-BOOTS("high boots", "jackboots",
+BOOTS("high boots", "jackboots", "高筒靴", "长筒靴",
       0, 0,          0, 14, 2, 20, 12, 8, 0, LEATHER, HI_LEATHER, HIGH_BOOTS),
 /* with shuffled appearances... */
-BOOTS("speed boots", "combat boots",
+BOOTS("speed boots", "combat boots", "速度靴", "战斗靴",
       0, 1,       FAST, 12, 2, 20, 50, 9, 0, LEATHER, HI_LEATHER, SPEED_BOOTS),
-BOOTS("water walking boots", "jungle boots",
+BOOTS("water walking boots", "jungle boots", "水上步靴", "丛林靴",
       0, 1,   WWALKING, 12, 2, 15, 50, 9, 0, LEATHER, HI_LEATHER,
                                                         WATER_WALKING_BOOTS),
-BOOTS("jumping boots", "hiking boots",
+BOOTS("jumping boots", "hiking boots", "跳跃靴", "登山靴",
       0, 1,    JUMPING, 12, 2, 20, 50, 9, 0, LEATHER, HI_LEATHER,
                                                         JUMPING_BOOTS),
-BOOTS("elven boots", "mud boots",
+BOOTS("elven boots", "mud boots", "精灵靴", "泥靴",
       0, 1,    STEALTH, 12, 2, 15,  8, 9, 0, LEATHER, HI_LEATHER,
                                                         ELVEN_BOOTS),
-BOOTS("kicking boots", "buckled boots",
+BOOTS("kicking boots", "buckled boots", "踢靴", "带扣靴",
       0, 1,          0, 12, 2, 50,  8, 9, 0, IRON, CLR_BROWN,
                                                         KICKING_BOOTS),
         /* CLR_BROWN for same reason as gauntlets of power */
-BOOTS("fumble boots", "riding boots",
+BOOTS("fumble boots", "riding boots", "笨拙靴", "马靴",
       0, 1,   FUMBLING, 12, 2, 20, 30, 9, 0, LEATHER, HI_LEATHER,
                                                         FUMBLE_BOOTS),
-BOOTS("levitation boots", "snow boots",
+BOOTS("levitation boots", "snow boots", "飘浮靴", "雪地靴",
       0, 1, LEVITATION, 12, 2, 15, 30, 9, 0, LEATHER, HI_LEATHER,
                                                         LEVITATION_BOOTS),
 #undef HELM
@@ -732,142 +732,142 @@ BOOTS("levitation boots", "snow boots",
 #undef ARMOR
 
 /* rings ... */
-#define RING(name,stone,power,cost,mgc,spec,mohs,metal,color,sn) \
-    OBJECT(OBJ(name, stone),                                          \
+#define RING(ename,estone,name,stone,power,cost,mgc,spec,mohs,metal,color,sn) \
+    OBJECT(OBJ(ename, estone, name, stone),                                          \
            BITS(0, 0, spec, 0, mgc, spec, 0, 0, 0,                    \
                 HARDGEM(mohs), 0, P_NONE, metal),                     \
            power, RING_CLASS, 1, 0, 3, cost, 0, 0, 0, 0, 15, color,sn)
-RING("adornment", "wooden",
+RING("adornment", "wooden", "装饰品", "木制",
      ADORNED,                  100, 1, 1, 2, WOOD, HI_WOOD, RIN_ADORNMENT),
-RING("gain strength", "granite",
+RING("gain strength", "granite", "增加力量", "花岗石",
      0,                        150, 1, 1, 7, MINERAL, HI_MINERAL,
                                                             RIN_GAIN_STRENGTH),
-RING("gain constitution", "opal",
+RING("gain constitution", "opal", "增加体质", "蛋白石",
      0,                        150, 1, 1, 7, MINERAL, HI_MINERAL,
                                                         RIN_GAIN_CONSTITUTION),
-RING("increase accuracy", "clay",
+RING("increase accuracy", "clay", "增加精确", "黏土",
      0,                        150, 1, 1, 4, MINERAL, CLR_RED,
                                                         RIN_INCREASE_ACCURACY),
-RING("increase damage", "coral",
+RING("increase damage", "coral", "增加伤害", "珊瑚",
      0,                        150, 1, 1, 4, MINERAL, CLR_ORANGE,
                                                         RIN_INCREASE_DAMAGE),
-RING("protection", "black onyx",
+RING("protection", "black onyx", "保护", "黑玛瑙",
      PROTECTION,               100, 1, 1, 7, MINERAL, CLR_BLACK,
                                                         RIN_PROTECTION),
         /* 'PROTECTION' intrinsic enhances MC from worn armor by +1,
            regardless of ring's enchantment; wearing a second ring of
            protection (or even one ring of protection combined with
            cloak of protection) doesn't give a second MC boost */
-RING("regeneration", "moonstone",
+RING("regeneration", "moonstone", "再生", "月石",
      REGENERATION,             200, 1, 0,  6, MINERAL, HI_MINERAL,
                                                         RIN_REGENERATION),
-RING("searching", "tiger eye",
+RING("searching", "tiger eye", "搜索", "虎眼石",
      SEARCHING,                200, 1, 0,  6, GEMSTONE, CLR_BROWN,
                                                         RIN_SEARCHING  ),
-RING("stealth", "jade",
+RING("stealth", "jade", "潜行", "翡翠",
      STEALTH,                  100, 1, 0,  6, GEMSTONE, CLR_GREEN,
                                                         RIN_STEALTH),
-RING("sustain ability", "bronze",
+RING("sustain ability", "bronze", "维持能力", "青铜",
      FIXED_ABIL,               100, 1, 0,  4, COPPER, HI_COPPER,
                                                         RIN_SUSTAIN_ABILITY),
-RING("levitation", "agate",
+RING("levitation", "agate", "飘浮", "玛瑙",
      LEVITATION,               200, 1, 0,  7, GEMSTONE, CLR_RED,
                                                         RIN_LEVITATION),
-RING("hunger", "topaz",
+RING("hunger", "topaz", "饥饿", "黄宝石",
      HUNGER,                   100, 1, 0,  8, GEMSTONE, CLR_CYAN,
                                                         RIN_HUNGER),
-RING("aggravate monster", "sapphire",
+RING("aggravate monster", "sapphire", "激怒怪物", "蓝宝石",
      AGGRAVATE_MONSTER,        150, 1, 0,  9, GEMSTONE, CLR_BLUE,
                                                         RIN_AGGRAVATE_MONSTER),
-RING("conflict", "ruby",
+RING("conflict", "ruby", "冲突", "红宝石",
      CONFLICT,                 300, 1, 0,  9, GEMSTONE, CLR_RED,
                                                         RIN_CONFLICT),
-RING("warning", "diamond",
+RING("warning", "diamond", "警报", "钻石",
      WARNING,                  100, 1, 0, 10, GEMSTONE, CLR_WHITE,
                                                         RIN_WARNING),
-RING("poison resistance", "pearl",
+RING("poison resistance", "pearl", "毒抗", "珍珠",
      POISON_RES,               150, 1, 0,  4, BONE, CLR_WHITE,
                                                         RIN_POISON_RESISTANCE),
-RING("fire resistance", "iron",
+RING("fire resistance", "iron", "火抗", "铁",
      FIRE_RES,                 200, 1, 0,  5, IRON, HI_METAL,
                                                         RIN_FIRE_RESISTANCE),
-RING("cold resistance", "brass",
+RING("cold resistance", "brass", "寒抗", "黄铜",
      COLD_RES,                 150, 1, 0,  4, COPPER, HI_COPPER,
                                                         RIN_COLD_RESISTANCE),
-RING("shock resistance", "copper",
+RING("shock resistance", "copper", "电抗", "铜",
      SHOCK_RES,                150, 1, 0,  3, COPPER, HI_COPPER,
                                                         RIN_SHOCK_RESISTANCE),
-RING("free action", "twisted",
+RING("free action", "twisted", "自由行动", "扭曲的",
      FREE_ACTION,              200, 1, 0,  6, IRON, HI_METAL,
                                                         RIN_FREE_ACTION),
-RING("slow digestion", "steel",
+RING("slow digestion", "steel", "慢消化", "钢铁",
      SLOW_DIGESTION,           200, 1, 0,  8, IRON, HI_METAL,
                                                         RIN_SLOW_DIGESTION),
-RING("teleportation", "silver",
+RING("teleportation", "silver", "传送", "银",
      TELEPORT,                 200, 1, 0,  3, SILVER, HI_SILVER,
                                                         RIN_TELEPORTATION),
-RING("teleport control", "gold",
+RING("teleport control", "gold", "传送控制", "金",
      TELEPORT_CONTROL,         300, 1, 0,  3, GOLD, HI_GOLD,
                                                         RIN_TELEPORT_CONTROL),
-RING("polymorph", "ivory",
+RING("polymorph", "ivory", "变形", "象牙",
      POLYMORPH,                300, 1, 0,  4, BONE, CLR_WHITE,
                                                         RIN_POLYMORPH),
-RING("polymorph control", "emerald",
+RING("polymorph control", "emerald", "变形控制", "祖母绿",
      POLYMORPH_CONTROL,        300, 1, 0,  8, GEMSTONE, CLR_BRIGHT_GREEN,
                                                         RIN_POLYMORPH_CONTROL),
-RING("invisibility", "wire",
+RING("invisibility", "wire", "隐身", "金属",
      INVIS,                    150, 1, 0,  5, IRON, HI_METAL,
                                                         RIN_INVISIBILITY),
-RING("see invisible", "engagement",
+RING("see invisible", "engagement", "看见隐形", "订婚",
      SEE_INVIS,                150, 1, 0,  5, IRON, HI_METAL,
                                                         RIN_SEE_INVISIBLE),
-RING("protection from shape changers", "shiny",
+RING("protection from shape changers", "shiny", "怪物现形", "闪耀的",
      PROT_FROM_SHAPE_CHANGERS, 100, 1, 0,  5, IRON, CLR_BRIGHT_CYAN,
                                                RIN_PROTECTION_FROM_SHAPE_CHAN),
 #undef RING
 
 /* amulets ... - THE Amulet comes last because it is special */
-#define AMULET(name,desc,power,prob,sn) \
-    OBJECT(OBJ(name, desc),                                            \
+#define AMULET(ename,edesc,name,desc,power,prob,sn) \
+    OBJECT(OBJ(ename, edesc, name, desc),                                            \
            BITS(0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, P_NONE, IRON),        \
            power, AMULET_CLASS, prob, 0, 20, 150, 0, 0, 0, 0, 20, HI_METAL, sn)
-AMULET("amulet of ESP",                "circular", TELEPAT, 120,
+AMULET("amulet of ESP",                "circular", "感知护身符", "圆形", TELEPAT, 120,
                                                         AMULET_OF_ESP),
 MARKER(FIRST_AMULET, AMULET_OF_ESP)
-AMULET("amulet of life saving",       "spherical", LIFESAVED, 75,
+AMULET("amulet of life saving",       "spherical", "复活护身符", "球形",LIFESAVED, 75,
                                                         AMULET_OF_LIFE_SAVING),
-AMULET("amulet of strangulation",          "oval", STRANGLED, 115,
+AMULET("amulet of strangulation",          "oval", "窒息护身符", "椭圆形", STRANGLED, 115,
                                                       AMULET_OF_STRANGULATION),
-AMULET("amulet of restful sleep",    "triangular", SLEEPY, 115,
+AMULET("amulet of restful sleep",    "triangular", "深度睡眠护身符", "三角形", SLEEPY, 115,
                                                       AMULET_OF_RESTFUL_SLEEP),
-AMULET("amulet versus poison",        "pyramidal", POISON_RES, 115,
+AMULET("amulet versus poison",        "pyramidal", "毒抗护身符", "锥状", POISON_RES, 115,
                                                         AMULET_VERSUS_POISON),
-AMULET("amulet of change",               "square", 0, 115,
+AMULET("amulet of change",               "square", "变性护身符", "方形", 0, 115,
                                                         AMULET_OF_CHANGE),
-AMULET("amulet of unchanging",          "concave", UNCHANGING, 60,
+AMULET("amulet of unchanging",          "concave", "阻止变形护身符", "凹形", UNCHANGING, 60,
                                                         AMULET_OF_UNCHANGING),
-AMULET("amulet of reflection",        "hexagonal", REFLECTING, 75,
+AMULET("amulet of reflection",        "hexagonal", "反射护身符", "六角形", REFLECTING, 75,
                                                         AMULET_OF_REFLECTION),
-AMULET("amulet of magical breathing", "octagonal", MAGICAL_BREATHING, 75,
+AMULET("amulet of magical breathing", "octagonal", "魔法呼吸护身符", "八角形", MAGICAL_BREATHING, 75,
                                                   AMULET_OF_MAGICAL_BREATHING),
         /* +2 AC and +2 MC; +2 takes naked hero past 'warded' to 'guarded' */
-AMULET("amulet of guarding",         "perforated", PROTECTION, 75,
+AMULET("amulet of guarding",         "perforated", "保护护身符", "带孔", PROTECTION, 75,
                                                         AMULET_OF_GUARDING),
         /* cubical: some descriptions are already three dimensional and
            parallelogrammatical (real word!) would be way over the top */
-AMULET("amulet of flying",              "cubical", FLYING, 60,
+AMULET("amulet of flying",              "cubical", "飞行护身符", "立方体", FLYING, 60,
                                                         AMULET_OF_FLYING),
 /* fixed descriptions; description duplication is deliberate;
  * fake one must come before real one because selection for
  * description shuffling stops when a non-magic amulet is encountered
  */
 OBJECT(OBJ("cheap plastic imitation of the Amulet of Yendor",
-           "Amulet of Yendor"),
+           "Amulet of Yendor", "岩德护身符的廉价塑料仿制品", "岩德护身符"),
        BITS(0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, PLASTIC),
        0, AMULET_CLASS, 0, 0, 20, 0, 0, 0, 0, 0, 1, HI_METAL,
                                                 FAKE_AMULET_OF_YENDOR),
 OBJECT(OBJ("Amulet of Yendor", /* note: description == name */
-           "Amulet of Yendor"),
+           "Amulet of Yendor", "岩德护身符", "岩德护身符"),
        BITS(0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 0, 0, MITHRIL),
        0, AMULET_CLASS, 0, 0, 20, 30000, 0, 0, 0, 0, 20, HI_METAL,
                                                 AMULET_OF_YENDOR),
@@ -876,26 +876,26 @@ MARKER(LAST_AMULET, AMULET_OF_YENDOR)
 
 /* tools ... */
 /* tools with weapon characteristics come last */
-#define TOOL(name,desc,kn,mrg,mgc,chg,prob,wt,cost,mat,color,sn) \
-    OBJECT(OBJ(name, desc),                                             \
+#define TOOL(ename,edesc,name,desc,kn,mrg,mgc,chg,prob,wt,cost,mat,color,sn) \
+    OBJECT(OBJ(ename, edesc, name, desc),                                             \
            BITS(kn, mrg, chg, 0, mgc, chg, 0, 0, 0, 0, 0, P_NONE, mat), \
            0, TOOL_CLASS, prob, 0, wt, cost, 0, 0, 0, 0, wt, color, sn)
-#define CONTAINER(name,desc,kn,mgc,chg,prob,wt,cost,mat,color,sn) \
-    OBJECT(OBJ(name, desc),                                             \
+#define CONTAINER(ename,edesc,name,desc,kn,mgc,chg,prob,wt,cost,mat,color,sn) \
+    OBJECT(OBJ(ename, edesc, name, desc),                                             \
            BITS(kn, 0, chg, 1, mgc, chg, 0, 0, 0, 0, 0, P_NONE, mat),   \
            0, TOOL_CLASS, prob, 0, wt, cost, 0, 0, 0, 0, wt, color, sn)
-#define EYEWEAR(name,desc,kn,prop,prob,wt,cost,mat,color,sn) \
-    OBJECT(OBJ(name, desc),                                             \
+#define EYEWEAR(ename,edesc,name,desc,kn,prop,prob,wt,cost,mat,color,sn) \
+    OBJECT(OBJ(ename, edesc, name, desc),                                             \
            BITS(kn, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, P_NONE, mat),         \
            prop, TOOL_CLASS, prob, 0, wt, cost, 0, 0, 0, 0, wt, color, sn)
-#define WEPTOOL(name,desc,kn,mgc,bi,prob,wt,cost,sdam,ldam,hitbon,sub, \
+#define WEPTOOL(ename,edesc,name,desc,kn,mgc,bi,prob,wt,cost,sdam,ldam,hitbon,sub, \
                 mat,clr,sn)                                             \
-    OBJECT(OBJ(name, desc),                                             \
+    OBJECT(OBJ(ename, edesc, name, desc),                                             \
            BITS(kn, 0, 1, 0, mgc, 1, 0, 0, bi, 0, hitbon, sub, mat),    \
            0, TOOL_CLASS, prob, 0, wt, cost, sdam, ldam, hitbon, 0, wt, \
            clr, sn)
 /* containers */
-CONTAINER("large box",       NoDes, 1, 0, 0, 40, 350,   8, WOOD, HI_WOOD,
+CONTAINER("large box",       NoDes, "大箱子", NoDes, 1, 0, 0, 40, 350,   8, WOOD, HI_WOOD,
                                                                 LARGE_BOX),
 CONTAINER("chest",           NoDes, 1, 0, 0, 35, 600,  16, WOOD, HI_WOOD,
                                                                 CHEST),
