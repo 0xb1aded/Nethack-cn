@@ -5423,7 +5423,7 @@ zap_over_floor(
         case ZT_COLD:
             new_doormask = D_NODOOR;
             see_txt = "门被冻裂了!";
-            hear_txt = "沉重的断裂声.";
+            hear_txt = "沉重的破裂声.";
             break;
         case ZT_DEATH:
             /* death spells/wands don't disintegrate */
