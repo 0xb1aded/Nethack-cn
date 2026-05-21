@@ -224,6 +224,16 @@ English README：[README_en.md](README_en.md)
 
 **处理方案**: 返回相同形式（男："他"；女："她"）
 
+##### src/light.c
+
+位置: [light.c](src/light.c)
+
+功能: 返回“radiantly”/“brilliantly”/“brightly”/“dimly”/“strangely”
+
+**处理方案**: 只返回一个不带“的”的实词，使用时请在后面加上“的光芒”。
+
+##### arti_light_description(wep)
+
 ### 翻译标准化
 
 有些译名在[这个页面](https://nethackwiki.com/wiki/NetHackWiki:%E7%AE%80%E4%B8%AD%E8%AF%91%E5%90%8D%E6%A0%87%E5%87%86%E5%8C%96)没有出现，所以我把我翻译的写到这里（以防翻译不统一导致对字符串敏感的函数出问题）：
