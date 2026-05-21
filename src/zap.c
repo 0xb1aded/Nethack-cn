@@ -6410,7 +6410,7 @@ makewish(void)
                             : (Is_airlevel(&u.uz) || Is_waterlevel(&u.uz)
                                || levl[u.ux][u.uy].typ < IRONBARS
                                || levl[u.ux][u.uy].typ >= ICE)
-                               ? "哦不!%s出了你的手中!"
+                               ? "哦不!%s出你身边!"
                                : !(otmp->otyp == CORPSE && otmp->wishedfor)
                                  ? "哦不!%s到了地上!"
                                  : "小心!%s在了地上!");
