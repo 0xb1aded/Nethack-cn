@@ -215,3 +215,25 @@ English README：[README_en.md](README_en.md)
 功能: 返回在现在时第三人称下动词 `verb` 的正确形式
 
 **处理方案**: 将加后缀 s 的位置改成加空字符串
+
+
+##### uhe(), uhim(), uhis()
+
+位置: [you.h](include/you.h)
+
+功能: 返回人称代词的主格、宾格、形容词性物主代词（男："he"、"him"、"his"；女："she"、"her"、"her"；）
+
+**处理方案**: 返回相同形式（男："他"；女："她"）
+
+#### 翻译标准化
+
+有些译名在[这个页面](https://nethackwiki.com/wiki/NetHackWiki:%E7%AE%80%E4%B8%AD%E8%AF%91%E5%90%8D%E6%A0%87%E5%87%86%E5%8C%96)没有出现，所以我把我翻译的写到这里（以防翻译不统一导致对字符串敏感的函数出问题）：
+|原文|Francium-223||
+|----|----|----|
+|shattered potion（死因，下同）|药水冻裂||
+|boiling potion|药水沸腾||
+|exploding potion|药水爆炸||
+|burning scroll|卷轴燃烧||
+|boiling potion|魔杖爆炸||
+|burning book|书燃烧||
+|exploding wand|魔杖爆炸||
