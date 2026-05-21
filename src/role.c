@@ -686,19 +686,19 @@ const struct Race races[NUM_RACES + 1] = {
 
 /* Table of all genders */
 const struct Gender genders[] = {
-    { "male", "he", "him", "his", "Mal", ROLE_MALE },
-    { "female", "she", "her", "her", "Fem", ROLE_FEMALE },
-    { "neuter", "it", "it", "its", "Ntr", ROLE_NEUTER },
+    { "男性", "他", "他", "他", "男", ROLE_MALE },
+    { "女性", "她", "她", "她", "女", ROLE_FEMALE },
+    { "中性", "它", "它", "它", "中", ROLE_NEUTER },
     /* used by pronoun_gender() when hallucinating */
-    { "group", "they", "them", "their", "Grp", 0 },
+    { "一群", "它们", "它们", "它们", "群", 0 },
 };
 
 /* Table of all alignments */
 const struct Align aligns[] = {
-    { "law", "lawful", "Law", ROLE_LAWFUL, A_LAWFUL },
-    { "balance", "neutral", "Neu", ROLE_NEUTRAL, A_NEUTRAL },
-    { "chaos", "chaotic", "Cha", ROLE_CHAOTIC, A_CHAOTIC },
-    { "evil", "unaligned", "Una", 0, A_NONE }
+    { "law", "守序", "守", ROLE_LAWFUL, A_LAWFUL },
+    { "balance", "中立", "中", ROLE_NEUTRAL, A_NEUTRAL },
+    { "chaos", "混沌", "混", ROLE_CHAOTIC, A_CHAOTIC },
+    { "evil", "无阵营", "无", 0, A_NONE }
 };
 
 staticfn int randrole_filtered(void);
