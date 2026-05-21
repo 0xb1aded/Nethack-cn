@@ -216,7 +216,6 @@ English README：[README_en.md](README_en.md)
 
 **处理方案**: 将加后缀 s 的位置改成加空字符串
 
-
 ##### uhe(), uhim(), uhis()
 
 位置: [you.h](include/you.h)
@@ -237,11 +236,18 @@ English README：[README_en.md](README_en.md)
 |boiling potion|魔杖爆炸||
 |burning book|书燃烧||
 |exploding wand|魔杖爆炸||
-||徒手手持%s||
-||从%s身上掉落||
-|cracking sound|裂声||
+|wielding %s bare-handed|徒手手持%s||
+|falling off %s|从%s身上跌落||
+|better（恢复）|好些了||
+|much better|好多了||
+|cracking sound|破裂声||
 |tipping sound|撕裂声||
+|clank|当啷声||
+|crackling|劈啪声||
 
 ### 代码规范
 
- /**/
+如果要修改语序（变量在字符串中出现的顺序），请在行最后添加注释：/*修改语序:(修改前的代码)*/
+如果要用到不存在的（待补充的）函数，请把修改后的代码写到行最后的注释里：/*待写:(修改后的代码)*/
+如果有冗余的代码，请在注释掉的代码前标注上“冗余：”：/*冗余:(冗余的代码)*/
+如果对修改后的代码没有把我，请在行最后添加注释：/*危险:(修改前的代码)*/
