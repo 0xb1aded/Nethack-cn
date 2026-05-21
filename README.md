@@ -225,7 +225,7 @@ English README：[README_en.md](README_en.md)
 
 **处理方案**: 返回相同形式（男："他"；女："她"）
 
-#### 翻译标准化
+### 翻译标准化
 
 有些译名在[这个页面](https://nethackwiki.com/wiki/NetHackWiki:%E7%AE%80%E4%B8%AD%E8%AF%91%E5%90%8D%E6%A0%87%E5%87%86%E5%8C%96)没有出现，所以我把我翻译的写到这里（以防翻译不统一导致对字符串敏感的函数出问题）：
 |原文|Francium-223||
@@ -237,3 +237,11 @@ English README：[README_en.md](README_en.md)
 |boiling potion|魔杖爆炸||
 |burning book|书燃烧||
 |exploding wand|魔杖爆炸||
+||徒手手持%s||
+||从%s身上掉落||
+|cracking sound|裂声||
+|tipping sound|撕裂声||
+
+### 代码规范
+
+ /**/
