@@ -1042,7 +1042,7 @@ revive(struct obj *corpse, boolean by_hero)
             (void) shk_your(eos(buf), corpse);
             if (one_of)
                 corpse->quan++; /* force plural */
-            Strcat(corpse_xname(corpse, (const char *) 0, buf, CXN_NO_PFX));
+            Strcat(corpse_xname(corpse, (const char *) 0, buf, CXN_NO_PFX)); /*修改语序：Strcat(buf, corpse_xname(corpse, (const char *) 0, CXN_NO_PFX));*/
             if (one_of) /* could be simplified to ''corpse->quan = 1L;'' */
                 corpse->quan--;
             pline("%s发出虹彩的光芒.", upstart(buf));
@@ -4579,7 +4579,7 @@ zhitu(
             /* FIXME: "zapped by herself" is suitable for a rebound;
                "zapped at herself" would be better if player explicitly
                targeted hero */
-            Sprintf(kbuf, "%s自己%s的%s", uhim(), verb, fltxt);
+            Sprintf(kbuf, "%s自己%s的%s", uhim(), verb, fltxt); /*修改语序：Sprintf(kbuf, "%s %s 被 %s自身", fltxt, verb, uhim());*/
         }
         /* Half_spell_damage protection yields half-damage for wands & spells,
            including hero's own ricochets; breath attacks do full damage */
@@ -5906,8 +5906,8 @@ maybe_destroy_item(
                    : ((cnt < quan) ? "中有一些"     /* n of N */
                       : (quan == 2L) ? "全都"   /* 2 of 2 */
                         : "全都");               /* N of N */
-            pline("%s%s%s!", (cnt == 1L && quan == 1L) ? Yname2(obj) : yname(obj),
-                  mult,
+            pline("%s%s%s!", (cnt == 1L && quan == 1L) ? Yname2(obj) : yname(obj), /*修改语序:pline("%s%s %s!", mult,*/
+                  mult, /*修改语序:(cnt == 1L && quan == 1L) ? Yname2(obj) : yname(obj),*/
                   destroy_strings[dindx][(cnt > 1L)]);
         }
         if (u_carry) { /* effects that happen only to the player */
