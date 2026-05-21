@@ -2196,7 +2196,7 @@ bhito(struct obj *obj, struct obj *otmp)
             }
             /* KMH, conduct */
             if (!u.uconduct.polypiles++)
-                livelog_printf(LL_CONDUCT, "%s的第一次对物品变形",
+                livelog_printf(LL_CONDUCT, "变形了%s的第一个物品",
                                uhis());
 
             /* any saved lock context will be dangerously obsolete */
@@ -2659,7 +2659,7 @@ dozap(void)
             char buf[BUFSZ];
 
             Sprintf(buf, "用%s击中了%s自己",
-                    uhim(), killer_xname(obj));
+                    killer_xname(obj), uhim());
             losehp(Maybe_Half_Phys(damage), buf, NO_KILLER_PREFIX);
         }
     } else {
@@ -2891,7 +2891,7 @@ zapyourself(struct obj *obj, boolean ordinary)
             break;
         }
         learn_it = TRUE;
-        Sprintf(svk.killer.name, "用死亡射线射中了%s自己", uhim());
+        Sprintf(svk.killer.name, "用死亡射线击中了%s自己", uhim());
         svk.killer.format = NO_KILLER_PREFIX;
         /* probably don't need these to be urgent; player just gave input
            without subsequent opportunity to dismiss --More-- with ESC */
@@ -5777,7 +5777,7 @@ item_what(int dmgtyp)
  */
 const char *const destroy_strings[][3] = {
     /* also used in trap.c */
-    { "冻裂", "冻裂", "药水冻结" },
+    { "冻裂", "冻裂", "药水冻裂" },
     { "沸爆", "沸爆", "药水沸腾" },
     { "燃爆", "燃爆", "药水爆炸" },
     { "着火", "着火", "卷轴燃烧" },
