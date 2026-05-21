@@ -6404,13 +6404,13 @@ makewish(void)
     const char *verb = ((Is_airlevel(&u.uz) || u.uinwater)
                         ? "滑落"
                         : (otmp->otyp == CORPSE && otmp->wishedfor)
-                          ? "实体化" : "掉落"),
+                          ? "实体化" : "掉"),
                *oops_msg = (u.uswallow
                             ? "哦不!你够不到%s!"
                             : (Is_airlevel(&u.uz) || Is_waterlevel(&u.uz)
                                || levl[u.ux][u.uy].typ < IRONBARS
                                || levl[u.ux][u.uy].typ >= ICE)
-                               ? "哦不!%s出你身边!"
+                               ? "哦不!%s出了你的身边!"
                                : !(otmp->otyp == CORPSE && otmp->wishedfor)
                                  ? "哦不!%s到了地上!"
                                  : "小心!%s在了地上!");
