@@ -88,7 +88,7 @@ dowrite(struct obj *pen)
         You("需要有手才能写!");
         return ECMD_OK;
     } else if (Glib) {
-        pline("%s从你的%s上滑落。", Tobjnam(pen, ""),
+        pline("%s从你的%s上滑落.", Tobjnam(pen, ""),
               fingers_or_gloves(FALSE));
         dropx(pen);
         return ECMD_TIME;
@@ -220,14 +220,14 @@ dowrite(struct obj *pen)
                 !tearup ? "准备" : "尝试",
                 !Hallucination ? "缺乏灵感" : "灵感太多了写不下");
         } else {
-            You("%s创作出真正%s的同人小说。",
+            You("%s创作出真正%s的同人小说.",
                 !tearup ? "开始" : "",
                 !Hallucination ? "糟糕的" : "精彩的");
         }
         if (!tearup) {
-            You("放弃这个想法。");
+            You("放弃这个想法.");
         } else {
-            You("把它撕碎。");
+            You("把它撕碎.");
             useup(paper);
         }
         return ECMD_TIME;
