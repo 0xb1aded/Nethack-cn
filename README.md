@@ -257,6 +257,8 @@ English README：[README_en.md](README_en.md)
 |form（变形）|形态||
 |quantum mechanic（怪物）|量子技工<sup>[1](#note1)</sup>||
 |thou, thee, thy, thine|汝，汝，尔，尔<sup>[2](#note2)</sup>||
+|glow|发/散发||
+|violently glow|爆发||
 
 <a id="note1">1</a> 根据[Wiki](https://nethackwiki.com/wiki/Quantum_mechanic#Origin)，这是一个对quantum mechanics（单数，“量子力学”）错误逆构词导致的双关，且从[贴图](https://nethackwiki.com/wiki/File:Quantum_mechanic.png)和游戏内信息可以推断出quantum mechanic显然是人形生物，不应翻译为“量子力学”。
 
