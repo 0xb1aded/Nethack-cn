@@ -3044,7 +3044,7 @@ lightdamage(
            of death will always be "killed while stuck in creature form"] */
         if (obj->oclass == SCROLL_CLASS || obj->oclass == SPBOOK_CLASS)
             ordinary = FALSE; /* say blasted rather than zapped */
-        how = (obj->oclass == SPBOOK_CLASS) ? "光亮法术"
+        how = (obj->oclass == SPBOOK_CLASS) ? "光亮魔法"
               : (!obj->oartifact) ? ansimpleoname(obj)
                 : bare_artifactname(obj);
         Sprintf(buf, "用%s%s了%s自己", how, ordinary ? "击中" : "灼伤",

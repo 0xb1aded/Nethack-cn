@@ -50,14 +50,14 @@ static NEARDATA const short skill_names_indices[P_NUM_SKILLS] = {
 
 /* note: entry [0] isn't used */
 static NEARDATA const char *const odd_skill_names[] = {
-    "no skill", "bare hands", /* use barehands_or_martial[] instead */
-    "two weapon combat", "riding", "polearms", "saber", "hammer", "whip",
-    "attack spells", "healing spells", "divination spells",
-    "enchantment spells", "clerical spells", "escape spells", "matter spells",
+    "无技能", "徒手", /* use barehands_or_martial[] instead */
+    "双持", "骑乘", "长棍", "军刀", "锤子", "鞭子",
+    "攻击法术", "治疗法术", "预测法术",
+    "附魔法术", "神圣法术", "逃脱法术", "物质法术",
 };
 /* indexed via is_martial() */
 static NEARDATA const char *const barehands_or_martial[] = {
-    "bare handed combat", "martial arts"
+    "徒手格斗", "武术"
 };
 
 #define P_NAME(type)                                    \
@@ -105,35 +105,35 @@ weapon_descr(struct obj *obj)
                  || obj->otyp == STATUE || obj->otyp == BOULDER
                  || obj->otyp == TOWEL || obj->otyp == TIN_OPENER)
                 ? OBJ_NAME(objects[obj->otyp])
-                : obj->globby ? "glob"
+                : obj->globby ? "团"
                   : def_oc_syms[(int) obj->oclass].name;
         break;
     case P_SLING:
         if (is_ammo(obj))
             descr = (obj->otyp == ROCK || is_graystone(obj))
-                        ? "stone"
+                        ? "石"
                         /* avoid "rock"; what about known glass? */
                         : (obj->oclass == GEM_CLASS)
-                            ? "gem"
+                            ? "宝石"
                             /* in case somebody adds odd sling ammo */
                             : def_oc_syms[(int) obj->oclass].name;
         break;
     case P_BOW:
         if (is_ammo(obj))
-            descr = "arrow";
+            descr = "箭";
         break;
     case P_CROSSBOW:
         if (is_ammo(obj))
-            descr = "bolt";
+            descr = "箭";
         break;
     case P_FLAIL:
         if (obj->otyp == GRAPPLING_HOOK)
-            descr = "hook";
+            descr = "钩";
         break;
     case P_PICK_AXE:
         /* even if "dwarvish mattock" hasn't been discovered yet */
         if (obj->otyp == DWARVISH_MATTOCK)
-            descr = "mattock";
+            descr = "鹤嘴锄";
         break;
     default:
         break;
@@ -455,13 +455,13 @@ silver_sears(struct monst *magr UNUSED, struct monst *mdef,
            rtyp will always be STRANGE_OBJECT) even if both rings are known
            silver [see hmonas(uhitm.c) for explanation of 'multi_claw'] */
         both = ((ltyp == rtyp && l_dknown == r_dknown) || (l_ag && r_ag));
-        Sprintf(rings, "戒指%s", both ? "s" : "");
-        Your("%s%s%s了%s!",
-             (l_ag || r_ag) ? "银"
-             : both ? ""
-               : ((silverhit & W_RINGL) != 0L) ? "左"
-                 : "右",
-             rings, vtense(rings, "烧灼"), mon_nam(mdef));
+        Sprintf(rings, "戒指"); /*修改语序:Sprintf(rings, "戒指%s", both ? "s" : "");*/
+        Your("%s%s%s%s了%s!", both ? "两枚" : "",/*修改语序:Your("%s%s%s了%s!",*/
+             (l_ag || r_ag) ? "银" /*修改语序:(l_ag || r_ag) ? "银"*/
+             : both ? "" /*修改语序:: both ? ""*/
+               : ((silverhit & W_RINGL) != 0L) ? "左" /*修改语序:: ((silverhit & W_RINGL) != 0L) ? "左" */
+                 : "右", /*修改语序:: "右",*/
+             rings, both ? "同时" : "", vtense(rings, "烧灼"), mon_nam(mdef));
     }
 }
 
@@ -763,7 +763,7 @@ possibly_unwield(struct monst *mon, boolean polyspot)
         mon->weapon_check = NO_WEAPON_WANTED;
         /* if we're going to call distant_name(), do so before extract_self */
         if (cansee(mon->mx, mon->my)) {
-            pline_mon(mon, "%s drops %s.", Monnam(mon), distant_name(obj, doname));
+            pline_mon(mon, "%s丢下了%s.", Monnam(mon), distant_name(obj, doname));
             newsym(mon->mx, mon->my);
         }
         obj_extract_self(obj);
@@ -865,17 +865,17 @@ mon_wield_item(struct monst *mon)
 
                 if (bimanual(mw_tmp))
                     mon_hand = makeplural(mon_hand);
-                Sprintf(welded_buf, "%s粘到了%s%s上",
+                Sprintf(welded_buf, "%s粘到了%s的%s上",
                         otense(mw_tmp, "自动"), mhis(mon), mon_hand);
 
                 if (obj->otyp == PICK_AXE) {
-                    pline("由于 %s 武器%s %s，", s_suffix(mon_nam(mon)),
+                    pline("由于%s的武器%s%s,", s_suffix(mon_nam(mon)),
                           plur(mw_tmp->quan), welded_buf);
-                    pline("%s就不能拿那个%s.", mon_nam(mon),
+                    pline("所以%s不能装备那个%s.", mon_nam(mon),
                           xname(obj));
                 } else {
-                    pline_mon(mon, "%s tries to wield %s.", Monnam(mon), doname(obj));
-                    pline("%s %s!", Yname2(mw_tmp), welded_buf);
+                    pline_mon(mon, "%s试图装备%s.", Monnam(mon), doname(obj));
+                    pline("%s%s!", Yname2(mw_tmp), welded_buf);
                 }
                 mw_tmp->bknown = 1;
             }
@@ -889,11 +889,11 @@ mon_wield_item(struct monst *mon)
             boolean newly_welded;
             const struct throw_and_return_weapon *arw;
 
-            pline_mon(mon, "%s wields %s%c",
+            pline_mon(mon, "%s装备了%s%c",
                       Monnam(mon), doname(obj),
                       exclaim ? '!' : '.');
             if ((arw = autoreturn_weapon(obj)) != 0 && arw->tethered != 0)
-                pline_mon(mon, "%s secures the tether on %s.", Monnam(mon),
+                pline_mon(mon, "%s固定好%s的系绳.", Monnam(mon),
                           the(xname(obj)));
 
             /* 3.6.3: mwelded() predicate expects the object to have its
@@ -909,8 +909,8 @@ mon_wield_item(struct monst *mon)
 
                 if (bimanual(obj))
                     mon_hand = makeplural(mon_hand);
-                pline("%s %s 到 %s %s上！", Tobjnam(obj, "粘住"),
-                      is_plural(obj) ? "它们自己" : "它自己",
+                pline("%s到了%s的%s上！", Tobjnam(obj, "自动粘"), /*危险:pline("%s %s 到 %s %s上！", Tobjnam(obj, "粘住"),*/
+                      /*冗余: is_plural(obj) ? "它们自己" : "它自己",*/
                       s_suffix(mon_nam(mon)), mon_hand);
                 obj->bknown = 1;
             }
@@ -918,13 +918,13 @@ mon_wield_item(struct monst *mon)
         if (artifact_light(obj) && !obj->lamplit) {
             begin_burn(obj, FALSE);
             if (canseemon(mon))
-                pline("%s%s在%s的%s中闪耀！", Tobjnam(obj, "闪耀"),
-                      arti_light_description(obj), s_suffix(mon_nam(mon)),
-                      mbodypart(mon, HAND));
+                pline("%s在%s中闪耀出%s的光芒%s!", Tobjnam(obj, ""), mbodypart(mon, HAND),/*修改语序: pline("%s%s在%s的%s中闪耀！", Tobjnam(obj, "闪耀"),*/
+                      arti_light_description(obj), s_suffix(mon_nam(mon))
+                      ); /*修改语序: mbodypart(mon, HAND));*/
             /* 3.6.3: artifact might be getting wielded by invisible monst */
             else if (cansee(mon->mx, mon->my))
-                pline("光芒开始闪烁%s。",
-                      (mdistu(mon) <= 5 * 5) ? "附近" : "在远处");
+                pline("光芒开始在%s闪耀。",
+                      (mdistu(mon) <= 5 * 5) ? "附近" : "远处");
         }
         obj->owornmask = W_WEP;
         return 1;
@@ -1046,14 +1046,14 @@ wet_a_towel(
     if (newspe > obj->spe) {
         if (verbose) {
             const char *wetness = (newspe < 3)
-                                     ? (!obj->spe ? "damp" : "damper")
-                                     : (!obj->spe ? "wet" : "wetter");
+                                     ? (!obj->spe ? "damp" : "湿")
+                                     : (!obj->spe ? "wet" : "干");
 
             if (carried(obj))
-                pline("%s 变得%s.", Yobjnam2(obj, (const char *) 0),
+                pline("%s变得更%s了.", Yobjnam2(obj, (const char *) 0),
                       wetness);
             else if (mcarried(obj) && canseemon(obj->ocarry))
-                pline("%s %s 变得%s.", s_suffix(Monnam(obj->ocarry)),
+                pline("%s的%s变得更%s了.", s_suffix(Monnam(obj->ocarry)),
                       xname(obj), wetness);
         }
     }
@@ -1075,11 +1075,11 @@ dry_a_towel(
     if (newspe < obj->spe) {
         if (verbose) {
             if (carried(obj))
-                pline("%s%s变干.", Yobjnam2(obj, (const char *) 0),
-                      !newspe ? "完全" : "");
+                pline("%s%s了.", Yobjnam2(obj, (const char *) 0),
+                      !newspe ? "干透" : "变干");
             else if (mcarried(obj) && canseemon(obj->ocarry))
-                pline("%s的%s干了%s。", s_suffix(Monnam(obj->ocarry)),
-                      xname(obj), !newspe ? "透了" : "");
+                pline("%s的%s%s了.", s_suffix(Monnam(obj->ocarry)),
+                      xname(obj), !newspe ? "干透" : "变干");
         }
     }
 
@@ -1095,26 +1095,26 @@ skill_level_name(int skill, char *buf)
 
     switch (P_SKILL(skill)) {
     case P_UNSKILLED:
-        ptr = "Unskilled";
+        ptr = "未训练";
         break;
     case P_BASIC:
-        ptr = "Basic";
+        ptr = "基本";
         break;
     case P_SKILLED:
-        ptr = "Skilled";
+        ptr = "熟练";
         break;
     case P_EXPERT:
-        ptr = "Expert";
+        ptr = "专家";
         break;
     /* these are for unarmed combat/martial arts only */
     case P_MASTER:
-        ptr = "Master";
+        ptr = "大师";
         break;
     case P_GRAND_MASTER:
-        ptr = "Grand Master";
+        ptr = "宗师";
         break;
     default:
-        ptr = "Unknown";
+        ptr = "未知";
         break;
     }
     Strcpy(buf, ptr);
@@ -1201,9 +1201,9 @@ skill_advance(int skill)
     P_SKILL(skill)++;
     u.skill_record[u.skills_advanced++] = skill;
     /* subtly change the advance message to indicate no more advancement */
-    You("现在你已 %s 熟练于 %s。",
-        P_SKILL(skill) >= P_MAX_SKILL(skill) ? "最为" : "更加",
-        P_NAME(skill));
+    You("现在对%s%s.", /*修改语序:You("现在你已%s熟练于%s.",*/
+        P_NAME(skill), /*修改语序:P_SKILL(skill) >= P_MAX_SKILL(skill) ? "最为" : "更加",*/
+        P_SKILL(skill) >= P_MAX_SKILL(skill) ? "熟练至极" : "更加熟练"); /*修改语序:P_NAME(skill));*/
 
     /* wizards discover spellbook IDs depending on spell 'school' skill limits;
        this allows them to successfully write books for unknown spells without
@@ -1216,9 +1216,9 @@ static const struct skill_range {
     short first, last;
     const char *name;
 } skill_ranges[] = {
-    { P_FIRST_H_TO_H, P_LAST_H_TO_H, "Fighting Skills" },
-    { P_FIRST_WEAPON, P_LAST_WEAPON, "Weapon Skills" },
-    { P_FIRST_SPELL, P_LAST_SPELL, "Spellcasting Skills" },
+    { P_FIRST_H_TO_H, P_LAST_H_TO_H, "战斗技能" },
+    { P_FIRST_WEAPON, P_LAST_WEAPON, "武器技能" },
+    { P_FIRST_SPELL, P_LAST_SPELL, "魔法技能" },
 };
 
 /* write a list of skills onto the given menu
@@ -1308,7 +1308,7 @@ show_skills(void)
     winid win;
     menu_item *selected;
 
-    pline("技能：");
+    pline("技能:");
     win = create_nhwindow(NHW_MENU);
     start_menu(win, MENU_BEHAVE_STANDARD);
     add_skills_to_menu(win, FALSE, FALSE);
@@ -1337,7 +1337,7 @@ enhance_weapon_skill(void)
     /* player knows about #enhance, don't show tip anymore */
     svc.context.tips |= (1 << TIP_ENHANCE);
 
-    if (wizard && y_n("Advance skills without practice?") == 'y')
+    if (wizard && y_n("略过练习直接提升技能?") == 'y')
         speedy = TRUE;
 
     do {
@@ -1361,16 +1361,16 @@ enhance_weapon_skill(void)
            with "*" or "#" below */
         if (eventually_advance > 0 || maxxed_cnt > 0) {
             if (eventually_advance > 0) {
-                Sprintf(buf, "（标有\\\"*\\\"的技能%s可在%s时提升。）",
+                Sprintf(buf, "（标有\"*\"的技能%s可在%s时提升.）",
                         plur(eventually_advance),
                         (u.ulevel < MAXULEV)
-                            ? "当你更有经验时"
-                            : "如果技能槽可用");
+                            ? "经验值更高时"
+                            : "技能槽可用时");
                 add_menu_str(win, buf);
             }
             if (maxxed_cnt > 0) {
                 Sprintf(buf,
-                 "(被“#”标记的技能%s无法进一步提升。)",
+                 "(标有\"#\"的技能%s无法进一步提升.)",
                         plur(maxxed_cnt));
                 add_menu_str(win, buf);
             }
@@ -1380,10 +1380,10 @@ enhance_weapon_skill(void)
         add_skills_to_menu(
             win, to_advance + eventually_advance + maxxed_cnt > 0, speedy);
 
-        Strcpy(buf, (to_advance > 0) ? "选择一项技能提升："
-                                     : "当前技能：");
+        Strcpy(buf, (to_advance > 0) ? "选择一项技能提升:"
+                                     : "当前技能:");
         if (wizard && !speedy)
-            Sprintf(eos(buf), "  (%d 个技能槽%s 可用)", u.weapon_slots,
+            Sprintf(eos(buf), "  (%d个技能槽%s可用)", u.weapon_slots,
                     plur(u.weapon_slots));
         end_menu(win, buf);
         n = select_menu(win, to_advance ? PICK_ONE : PICK_NONE, &selected);
@@ -1396,7 +1396,7 @@ enhance_weapon_skill(void)
             for (n = i = 0; i < P_NUM_SKILLS; i++) {
                 if (can_advance(i, speedy)) {
                     if (!speedy)
-                        You_feel("你可以变得更危险！");
+                        You_feel("你还可以变得更危险!");
                     n++;
                     break;
                 }
@@ -1508,8 +1508,8 @@ drain_weapon_skill(int n) /* number of skills to drain */
 
     for (skill = 0; skill < P_NUM_SKILLS; skill++)
         if (tmpskills[skill]) {
-            You("忘记%s你在%s方面的训练。",
-                P_SKILL(skill) >= P_BASIC ? "部分" : "", P_NAME(skill));
+            You("忘掉了你的%s%s技能.",
+                P_SKILL(skill) >= P_BASIC ? "一部分" : "", P_NAME(skill));
         }
 }
 
@@ -1818,7 +1818,7 @@ setmnotwielded(struct monst *mon, struct obj *obj)
     if (artifact_light(obj) && obj->lamplit) {
         end_burn(obj, FALSE);
         if (canseemon(mon))
-            pline("%s在%s %s上%s了发光.", The(xname(obj)),
+            pline("%s在%s的%s上%s发光.", The(xname(obj)),
                   s_suffix(mon_nam(mon)), mbodypart(mon, HAND),
                   otense(obj, "停止"));
     }

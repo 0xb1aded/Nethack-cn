@@ -22,10 +22,10 @@ were_change(struct monst *mon)
 
                 switch (monsndx(mon->data)) {
                 case PM_WEREWOLF:
-                    howler = "wolf";
+                    howler = "狼";
                     break;
                 case PM_WEREJACKAL:
-                    howler = "jackal";
+                    howler = "豺狼";
                     break;
                 default:
                     howler = (char *) 0;
@@ -33,7 +33,7 @@ were_change(struct monst *mon)
                 }
                 if (howler) {
                     Soundeffect(se_canine_howl, 50);
-                    You_hear("一只%s对着月夜嚎叫.", howler);
+                    You_hear("一只%s对着月亮嚎叫.", howler);
                     wake_nearto(mon->mx, mon->my, 4 * 4);
                 }
             }
@@ -111,10 +111,10 @@ new_were(struct monst *mon)
     }
 
     if (canseemon(mon) && !Hallucination)
-        pline("%s 变成了%s.", Monnam(mon),
+        pline("%s变成了%s.", Monnam(mon),
               is_human(&mons[pm]) ? "人"
                                   /* pmname()+4: skip past "were" prefix */
-                                  : pmname(&mons[pm], Mgender(mon)) + 4);
+                                  : (pmname(&mons[pm], Mgender(mon)) == "狼人") ? "狼" : ((pmname(&mons[pm], Mgender(mon)) == "豺狼人") ? "豺狼" : ((pmname(&mons[pm], Mgender(mon)) == "鼠人") ? "鼠" : ""))); /*危险:: pmname(&mons[pm], Mgender(mon)) + 4);*/
 
     set_mon_data(mon, &mons[pm]);
     if (helpless(mon)) {
@@ -199,7 +199,7 @@ you_were(void)
     if (controllable_poly) {
         /* `+4' => skip "were" prefix to get name of beast */
         Sprintf(qbuf, "你想变成%s吗?",
-                an(mons[u.ulycn].pmnames[NEUTRAL] + 4));
+                (&mons[u.ulycn].pmnames[NEUTRAL] == "狼人") ? "狼" : ((&mons[u.ulycn].pmnames[NEUTRAL] == "豺狼人") ? "豺狼" : ((&mons[u.ulycn].pmnames[NEUTRAL] == "鼠人") ? "鼠" : ""))); /*危险:an(mons[u.ulycn].pmnames[NEUTRAL] + 4));*/
         if (!paranoid_query(ParanoidWerechange, qbuf))
             return;
     } else if (monster_nearby()) {
@@ -215,7 +215,7 @@ you_unwere(boolean purify)
     boolean controllable_poly = Polymorph_control && !(Stunned || Unaware);
 
     if (purify) {
-        You_feel("被净化.");
+        You_feel("被净化了.");
         set_ulycn(NON_PM); /* cure lycanthropy */
     }
     if (!Unchanging && is_were(gy.youmonst.data)

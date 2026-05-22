@@ -222,7 +222,7 @@ English README：[README_en.md](README_en.md)
 
 功能: 返回人称代词的主格、宾格、形容词性物主代词（男："he"、"him"、"his"；女："she"、"her"、"her"；）
 
-**处理方案**: 返回相同形式（男："他"；女："她"）
+**处理方案**: 返回相同形式（男："他"；女："她"）（mhe()、mhim()、mhis()等类似物同理）
 
 ##### src/light.c
 
@@ -239,6 +239,8 @@ English README：[README_en.md](README_en.md)
 有些译名在[这个页面](https://nethackwiki.com/wiki/NetHackWiki:%E7%AE%80%E4%B8%AD%E8%AF%91%E5%90%8D%E6%A0%87%E5%87%86%E5%8C%96)没有出现，所以我把我翻译的写到这里（以防翻译不统一导致对字符串敏感的函数出问题）：
 |原文|Francium-223||
 |----|----|----|
+|bounce|反弹||
+|reflect|反射||
 |shattered potion（死因，下同）|药水冻裂||
 |boiling potion|药水沸腾||
 |exploding potion|药水爆炸||
@@ -259,11 +261,39 @@ English README：[README_en.md](README_en.md)
 |thou, thee, thy, thine|汝，汝，尔，尔<sup>[2](#note2)</sup>||
 |glow|发/散发||
 |violently glow|爆发||
+|arrow, bolt|箭<sup>[3](#note3)</sup>||
+|no skill（技能，下同）|无技能||
+|bare hands|徒手||
+|two weapon combat|双持||
+|riding|骑乘||
+|polearms|长棍||
+|saber|军刀||
+|hammer|锤子||
+|whip|鞭子||
+|attack spells|攻击法术||
+|healing spells|治疗法术||
+|divination spells|预测法术||
+|enchantment spells|附魔法术||
+|clerical spells|神圣法术||
+|escape spells|逃脱法术||
+|matter spells|物质法术||
+|bare handed combat|徒手格斗||
+|martial arts|武术||
+|Unskilled（熟练度）|无技能||
+|Basic|基本||
+|Skilled|熟练||
+|Expert|专家||
+|Master|大师||
+|Grand Master|宗师||
+|Unknown|未知||
+
 
 <a id="note1">1</a> 根据[Wiki](https://nethackwiki.com/wiki/Quantum_mechanic#Origin)，这是一个对quantum mechanics（单数，“量子力学”）错误逆构词导致的双关，且从[贴图](https://nethackwiki.com/wiki/File:Quantum_mechanic.png)和游戏内信息可以推断出quantum mechanic显然是人形生物，不应翻译为“量子力学”。
 
 <a id="note2">2</a> 含有这种人称代词或shalt(shall 2nd sg)、art(be 2nd sg)、-est(2nd sg)、-eth(3rd sg)等的句子当译为文言。  
 不一定是文言吧，或者像[浅文理和合本](https://www.bible.com/bible/1577/)那样的？
+
+<a id="note3">3</a> bolt只有crossbow bolt（弩箭）一种，没有最小对立。
 
 ### 代码规范
 
