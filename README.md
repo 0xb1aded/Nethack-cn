@@ -255,6 +255,13 @@ English README：[README_en.md](README_en.md)
 |clank|当啷声||
 |crackling|劈啪声||
 |form（变形）|形态||
+|quantum mechanic（怪物）|量子技工[~1~](#note1)||
+|thou, thee, thy, thine|汝，汝，尔, 尔[~2~](#note2)||
+
+<a id="note1">1</a> 根据[Wiki](https://nethackwiki.com/wiki/Quantum_mechanic#Origin)，这是一个对quantum mechanics（单数，“量子力学”）错误逆构词导致的双关，且从[贴图](https://nethackwiki.com/wiki/File:Quantum_mechanic.png)和游戏内信息可以推断出quantum mechanic显然是人形生物，不应翻译为“量子力学”。
+
+<a id="note2">2</a> 含有这种人称代词或shalt(shall 2nd sg)、art(be 2nd sg)、-est(2nd sg)、-eth(3rd sg)等的句子当译为文言。  
+不一定是文言吧，或者像[浅文理和合本](https://www.bible.com/bible/1577/))那样的？
 
 ### 代码规范
 
