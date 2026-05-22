@@ -255,7 +255,7 @@ English README：[README_en.md](README_en.md)
 |arrow, bolt|箭<sup>[3](#note3)</sup>||
 
 |死因|Francium-223||
-|----|----|----|----|
+|----|----|----|
 |shattered potion（死因，下同）|药水冻裂||
 |boiling potion|药水沸腾||
 |exploding potion|药水爆炸||
@@ -267,7 +267,7 @@ English README：[README_en.md](README_en.md)
 |falling off %s|从%s身上跌落||
 
 |拟声词|Francium-223||
-|----|----|----|----|
+|----|----|----|
 |cracking sound|破裂声||
 |tipping sound|撕裂声||
 |crumbling sound|碎裂声||
@@ -275,7 +275,7 @@ English README：[README_en.md](README_en.md)
 |crackling|劈啪声||
 
 |技能|Francium-223||
-|----|----|----|----|
+|----|----|----|
 |no skill|无技能||
 |bare hands|徒手||
 |two weapon combat|双持||
