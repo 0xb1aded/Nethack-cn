@@ -978,15 +978,15 @@ m_dowear_type(
             const char *adesc = arti_light_description(best);
 
             if (sawmon) /* could already see monster */
-                pline("%s%s闪耀出%s的光芒.", Yname2(best),
+                pline("%s%s照耀出%s的光芒.", Yname2(best),
                       otense(best, "开始"), adesc);
             else if (canseemon(mon)) /* didn't see it until new light */
-                pline("%s%s闪耀着%s的光芒.", Yname2(best),
+                pline("%s%s照耀着%s的光芒.", Yname2(best),
                       otense(best, "正"), adesc);
             else if (sawloc) /* saw location but not invisible monster */
-                pline("%s开始闪耀出%s的光芒.", Something, adesc);
+                pline("%s开始照耀出%s的光芒.", Something, adesc);
             else /* didn't see location until new light */
-                pline("%s正闪耀着%s的光芒.", Something, adesc);
+                pline("%s正照耀着%s的光芒.", Something, adesc);
         }
     }
     update_mon_extrinsics(mon, best, TRUE, creation);

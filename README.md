@@ -139,8 +139,8 @@ English README：[README_en.md](README_en.md)
 - [ ] utf8map.c
 - [ ] u_init.c
 - [ ] vault.c
-- [ ] version.c
-- [ ] vision.c
+- [x] version.c (无需翻译)
+- [x] vision.c (无需翻译)
 - [ ] weapon.c
 - [ ] were.c
 - [ ] wield.c
@@ -224,7 +224,7 @@ English README：[README_en.md](README_en.md)
 
 **处理方案**: 返回相同形式（男："他"；女："她"）（mhe()、mhim()、mhis()等类似物同理）
 
-##### src/light.c
+##### arti_light_description(wep)
 
 位置: [light.c](src/light.c)
 
@@ -232,15 +232,30 @@ English README：[README_en.md](README_en.md)
 
 **处理方案**: 只返回一个不带“的”的实词，使用时请在后面加上“的光芒”。
 
-##### arti_light_description(wep)
-
 ### 翻译标准化
 
 有些译名在[这个页面](https://nethackwiki.com/wiki/NetHackWiki:%E7%AE%80%E4%B8%AD%E8%AF%91%E5%90%8D%E6%A0%87%E5%87%86%E5%8C%96)没有出现，所以我把我翻译的写到这里（以防翻译不统一导致对字符串敏感的函数出问题）：
-|原文|Francium-223||
+
+|谓词|Francium-223||
 |----|----|----|
 |bounce|反弹||
 |reflect|反射||
+|shine|照耀||
+|better（恢复）|好些了||
+|much better|好多了||
+|glow|发/散发||
+|violently glow|爆发||
+|shatter|粉碎||
+
+|体词|Francium-223||
+|----|----|----|
+|form（变形）|形态||
+|quantum mechanic（怪物）|量子技工<sup>[1](#note1)</sup>||
+|thou, thee, thy, thine|汝，汝，尔，尔<sup>[2](#note2)</sup>||
+|arrow, bolt|箭<sup>[3](#note3)</sup>||
+
+|死因|Francium-223||
+|----|----|----|----|
 |shattered potion（死因，下同）|药水冻裂||
 |boiling potion|药水沸腾||
 |exploding potion|药水爆炸||
@@ -250,19 +265,18 @@ English README：[README_en.md](README_en.md)
 |exploding wand|魔杖爆炸||
 |wielding %s bare-handed|徒手手持%s||
 |falling off %s|从%s身上跌落||
-|better（恢复）|好些了||
-|much better|好多了||
+
+|拟声词|Francium-223||
+|----|----|----|----|
 |cracking sound|破裂声||
 |tipping sound|撕裂声||
+|crumbling sound|碎裂声||
 |clank|当啷声||
 |crackling|劈啪声||
-|form（变形）|形态||
-|quantum mechanic（怪物）|量子技工<sup>[1](#note1)</sup>||
-|thou, thee, thy, thine|汝，汝，尔，尔<sup>[2](#note2)</sup>||
-|glow|发/散发||
-|violently glow|爆发||
-|arrow, bolt|箭<sup>[3](#note3)</sup>||
-|no skill（技能，下同）|无技能||
+
+|技能|Francium-223||
+|----|----|----|----|
+|no skill|无技能||
 |bare hands|徒手||
 |two weapon combat|双持||
 |riding|骑乘||
@@ -291,9 +305,9 @@ English README：[README_en.md](README_en.md)
 <a id="note1">1</a> 根据[Wiki](https://nethackwiki.com/wiki/Quantum_mechanic#Origin)，这是一个对quantum mechanics（单数，“量子力学”）错误逆构词导致的双关，且从[贴图](https://nethackwiki.com/wiki/File:Quantum_mechanic.png)和游戏内信息可以推断出quantum mechanic显然是人形生物，不应翻译为“量子力学”。
 
 <a id="note2">2</a> 含有这种人称代词或shalt(shall 2nd sg)、art(be 2nd sg)、-est(2nd sg)、-eth(3rd sg)等的句子当译为文言。  
-不一定是文言吧，或者像[浅文理和合本](https://www.bible.com/bible/1577/)那样的？
+也不一定是文言吧，或者像[浅文理和合本](https://www.bible.com/bible/1577/)那样的？
 
-<a id="note3">3</a> bolt只有crossbow bolt（弩箭）一种，没有最小对立。
+<a id="note3">3</a> bolt只有crossbow bolt（弩箭）一种，和arrow没有最小对立。
 
 ### 代码规范
 
@@ -303,4 +317,4 @@ English README：[README_en.md](README_en.md)
 
 如果有冗余的代码，请在注释掉的代码前标注上“冗余：”：/*冗余:(冗余的代码)*/
 
-如果对修改后的代码没有把我，请在行最后添加注释：/*危险:(修改前的代码)*/
+如果对修改后的代码没有把握，请在行最后添加注释：/*危险:(修改前的代码)*/

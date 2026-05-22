@@ -918,12 +918,12 @@ mon_wield_item(struct monst *mon)
         if (artifact_light(obj) && !obj->lamplit) {
             begin_burn(obj, FALSE);
             if (canseemon(mon))
-                pline("%s在%s中闪耀出%s的光芒%s!", Tobjnam(obj, ""), mbodypart(mon, HAND),/*修改语序: pline("%s%s在%s的%s中闪耀！", Tobjnam(obj, "闪耀"),*/
+                pline("%s在%s中照耀出%s的光芒%s!", Tobjnam(obj, ""), mbodypart(mon, HAND),/*修改语序: pline("%s%s在%s的%s中闪耀！", Tobjnam(obj, "闪耀"),*/
                       arti_light_description(obj), s_suffix(mon_nam(mon))
                       ); /*修改语序: mbodypart(mon, HAND));*/
             /* 3.6.3: artifact might be getting wielded by invisible monst */
             else if (cansee(mon->mx, mon->my))
-                pline("光芒开始在%s闪耀。",
+                pline("光芒开始在%s照耀。",
                       (mdistu(mon) <= 5 * 5) ? "附近" : "远处");
         }
         obj->owornmask = W_WEP;

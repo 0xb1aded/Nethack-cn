@@ -115,7 +115,7 @@ setuwep(struct obj *obj)
     if (uwep == obj && artifact_light(olduwep) && olduwep->lamplit) {
         end_burn(olduwep, FALSE);
         if (!Blind)
-            pline("%s闪耀.", Tobjnam(olduwep, "停止"));
+            pline("%s照耀.", Tobjnam(olduwep, "停止"));
     }
     if (uwep == obj
         && (u_wield_art(ART_OGRESMASHER)
@@ -245,7 +245,7 @@ ready_weapon(struct obj *wep)
         if (artifact_light(wep) && !wep->lamplit) {
             begin_burn(wep, FALSE);
             if (!Blind)
-                pline("%s闪耀出%s的光芒!", Tobjnam(wep, "开始"),
+                pline("%s照耀出%s的光芒!", Tobjnam(wep, "开始"),
                       arti_light_description(wep));
         }
 #if 0
