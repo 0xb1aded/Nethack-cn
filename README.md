@@ -254,6 +254,7 @@ English README：[README_en.md](README_en.md)
 |tipping sound|撕裂声||
 |clank|当啷声||
 |crackling|劈啪声||
+|form（变形）|形态||
 
 ### 代码规范
 
