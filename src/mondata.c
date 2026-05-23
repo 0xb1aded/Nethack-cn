@@ -1364,22 +1364,22 @@ raceptr(struct monst *mtmp)
 }
 
 typedef const char *const locoverbs[4];
-static locoverbs levitate = { "float", "Float", "wobble", "Wobble" },
-                 flys = { "fly", "Fly", "flutter", "Flutter" },
-                 flyl = { "fly", "Fly", "stagger", "Stagger" },
-                 slither = { "slither", "Slither", "falter", "Falter" },
+static locoverbs levitate = { "漂浮", "漂浮", "摇晃", "摇晃" },
+                 flys = { "飞行", "飞行", "扑腾", "扑腾" },
+                 flyl = { "飞行", "飞行", "踉跄", "踉跄" },
+                 slither = { "蠕动", "蠕动", "蹒跚", "蹒跚" },
                  /* it would be useful to incorporate "swim" but we lack
                   * sufficient information to know whether water is involved
                  swim = { "swim", "Swim", "flop", "Flop" },
                   */
-                 ooze = { "ooze", "Ooze", "tremble", "Tremble" },
-                 immobile = { "wiggle", "Wiggle", "pulsate", "Pulsate" },
-                 crawl = { "crawl", "Crawl", "falter", "Falter" };
+                 ooze = { "滑行", "滑行", "颤抖", "颤抖" },
+                 immobile = { "扭动", "扭动", "震动", "震动" },
+                 crawl = { "爬行", "爬行", "蹒跚", "蹒跚" };
 
 const char *
 locomotion(const struct permonst *ptr, const char *def)
 {
-    int locoindx = (*def != highc(*def)) ? 0 : 1;
+    int locoindx = 0; /*危险:int locoindx = (*def != highc(*def)) ? 0 : 1;*/
 
     return (is_floater(ptr) ? levitate[locoindx]
             : (is_flyer(ptr) && ptr->msize <= MZ_SMALL) ? flys[locoindx]
@@ -1394,7 +1394,7 @@ locomotion(const struct permonst *ptr, const char *def)
 const char *
 stagger(const struct permonst *ptr, const char *def)
 {
-    int locoindx = (*def != highc(*def)) ? 2 : 3;
+    int locoindx = 0; /*危险:int locoindx = (*def != highc(*def)) ? 2 : 3;*/
 
     return (is_floater(ptr) ? levitate[locoindx]
             : (is_flyer(ptr) && ptr->msize <= MZ_SMALL) ? flys[locoindx]
@@ -1417,16 +1417,16 @@ on_fire(struct permonst *mptr, struct attack *mattk)
     case PM_FIRE_VORTEX:
     case PM_FIRE_ELEMENTAL:
     case PM_SALAMANDER:
-        what = "already on fire";
+        what = "本来就是着火的";
         break;
     case PM_WATER_ELEMENTAL:
     case PM_FOG_CLOUD:
     case PM_STEAM_VORTEX:
-        what = "boiling";
+        what = "沸腾了";
         break;
     case PM_ICE_VORTEX:
     case PM_GLASS_GOLEM:
-        what = "melting";
+        what = "熔化了";
         break;
     case PM_STONE_GOLEM:
     case PM_CLAY_GOLEM:
@@ -1435,10 +1435,10 @@ on_fire(struct permonst *mptr, struct attack *mattk)
     case PM_EARTH_ELEMENTAL:
     case PM_DUST_VORTEX:
     case PM_ENERGY_VORTEX:
-        what = "heating up";
+        what = "升温了";
         break;
     default:
-        what = (mattk->aatyp == AT_HUGS) ? "being roasted" : "on fire";
+        what = (mattk->aatyp == AT_HUGS) ? "正在被烤" : "着火了";
         break;
     }
     return what;

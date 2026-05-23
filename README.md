@@ -232,7 +232,7 @@ English README：[README_en.md](README_en.md)
 
 **处理方案**: 只返回一个不带“的”的实词，使用时请在后面加上“的光芒”。
 
-### 翻译标准化
+#### 翻译标准化
 
 有些译名在[这个页面](https://nethackwiki.com/wiki/NetHackWiki:%E7%AE%80%E4%B8%AD%E8%AF%91%E5%90%8D%E6%A0%87%E5%87%86%E5%8C%96)没有出现，所以我把我翻译的写到这里（以防翻译不统一导致对字符串敏感的函数出问题）：
 
@@ -240,23 +240,46 @@ English README：[README_en.md](README_en.md)
 |----|----|----|
 |bounce|反弹||
 |reflect|反射||
+|hit(结果)|击中||
 |shine|照耀||
 |better（恢复）|好些了||
 |much better|好多了||
 |glow|发/散发||
 |violently glow|爆发||
 |shatter|粉碎||
+|wobble|摇晃||
+|flutter|扑腾||
+|stagger|踉跄||
+|slither|蠕动||
+|falter|蹒跚||
+|flop|扑腾||
+|ooze|滑动||
+|tremble|颤抖||
+|wiggle|扭动||
+|pulsate|震动（注意不同于“振动”）||
+|crawl|爬行||
+|bash|猛击||
+|lash|抽打||
+|smite|重击||
+|hit(攻击动作)|打||
+|sear(银质物品对恶魔)|烧灼||
+|crush(攻击)|挤压||
+|queasy|反胃||
+|sick(如果没有致病)|不适||
 
 |体词|Francium-223||
 |----|----|----|
-|form（变形）|形态||
-|quantum mechanic（怪物）|量子技工<sup>[1](#note1)</sup>||
+|form(变形)|形态||
+|quantum mechanic(怪物)|量子技工<sup>[1](#note1)</sup>||
 |thou, thee, thy, thine|汝，汝，尔，尔<sup>[2](#note2)</sup>||
 |arrow, bolt|箭<sup>[3](#note3)</sup>||
+|barb|倒刺||
+|debris(空气元素)|碎片||
+|flash|闪光||
 
 |死因|Francium-223||
 |----|----|----|
-|shattered potion（死因，下同）|药水冻裂||
+|shattered potion|药水冻裂||
 |boiling potion|药水沸腾||
 |exploding potion|药水爆炸||
 |burning scroll|卷轴燃烧||
@@ -265,14 +288,27 @@ English README：[README_en.md](README_en.md)
 |exploding wand|魔杖爆炸||
 |wielding %s bare-handed|徒手手持%s||
 |falling off %s|从%s身上跌落||
+|stolen|偷窃||
+|expire|消散||
+||||
 
-|拟声词|Francium-223||
+|声音|Francium-223||
 |----|----|----|
 |cracking sound|破裂声||
 |tipping sound|撕裂声||
 |crumbling sound|碎裂声||
 |clank|当啷声||
 |crackling|劈啪声||
+|hissing|嘶嘶声||
+|cough|咳嗽声||
+
+|感叹词|Francium-223||
+|----|----|----|
+|Wait!|等等!||
+|Ouch!|哎呦!||
+|Splat!|啪!||
+|Splash!|哗啦!||
+|Burrrrp!|嗝!||
 
 |技能|Francium-223||
 |----|----|----|
@@ -301,15 +337,14 @@ English README：[README_en.md](README_en.md)
 |Grand Master|宗师||
 |Unknown|未知||
 
-
 <a id="note1">1</a> 根据[Wiki](https://nethackwiki.com/wiki/Quantum_mechanic#Origin)，这是一个对quantum mechanics（单数，“量子力学”）错误逆构词导致的双关，且从[贴图](https://nethackwiki.com/wiki/File:Quantum_mechanic.png)和游戏内信息可以推断出quantum mechanic显然是人形生物，不应翻译为“量子力学”。
 
 <a id="note2">2</a> 含有这种人称代词或shalt(shall 2nd sg)、art(be 2nd sg)、-est(2nd sg)、-eth(3rd sg)等的句子当译为文言。  
-也不一定是文言吧，或者像[浅文理和合本](https://www.bible.com/bible/1577/)那样的？
+也不一定是文言吧，或者像[浅文理和合本](https://www.bible.com/bible/1577/)那样的浅近文言？
 
 <a id="note3">3</a> bolt只有crossbow bolt（弩箭）一种，和arrow没有最小对立。
 
-### 代码规范
+#### 代码规范
 
 如果要修改语序（变量在字符串中出现的顺序），请在行最后添加注释：/*修改语序:(修改前的代码)*/
 

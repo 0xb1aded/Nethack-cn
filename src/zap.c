@@ -2857,7 +2857,7 @@ zapyourself(struct obj *obj, boolean ordinary)
             monstseesu(M_SEEN_SLEEP);
         } else {
             if (ordinary)
-                pline_The("沉睡射线打中了你!");
+                pline_The("沉睡射线击中了你!");
             else
                 You("睡着了!");
             monstunseesu(M_SEEN_SLEEP);
@@ -4100,7 +4100,7 @@ bhit(
 
             if ((bobj = sobj_at(BOULDER, x, y)) != 0) {
                 if (cansee(x, y))
-                    pline("%s 打中了%s.", The(distant_name(obj, xname)),
+                    pline("%s击中了%s.", The(distant_name(obj, xname)),
                           an(xname(bobj)));
                 range = 0;
             } else if (obj == uball) {
