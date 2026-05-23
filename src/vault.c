@@ -526,7 +526,7 @@ invault(void)
                 setmangry(guard, FALSE);
                 if (Deaf) {
                    if (!Blind)
-                        pline("%s在说话而且似乎非常生气!",
+                        pline("%s在说话而且看起来非常生气!",
                               noit_Monnam(guard));
                 } else {
                    SetVoice(guard, 0, 80, 0);

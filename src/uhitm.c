@@ -6,7 +6,7 @@
 #include "hack.h"
 
 static const char brief_feeling[] =
-    "have a %s feeling for a moment, then it passes.";
+    "一时感到%s,但很快就过去了.";
 
 staticfn boolean mhitm_mgc_atk_negated(struct monst *, struct monst *,
                                      boolean) NONNULLPTRS;
@@ -230,7 +230,7 @@ attack_checks(
     if (!canspotmon(mtmp)
         && !glyph_is_warning(glyph) && !glyph_is_invisible(glyph)
         && !(!Blind && mtmp->mundetected && hides_under(mtmp->data))) {
-        pline("Wait!  There's %s there you can't see!", something);
+        pline("等等!那里有%s你看不见!", something);
         map_invisible(gb.bhitpos.x, gb.bhitpos.y);
         /* if it was an invisible mimic, treat it as if we stumbled
          * onto a visible mimic
@@ -502,7 +502,7 @@ do_attack(struct monst *mtmp)
                 return TRUE;
             } else if (mtmp->mfrozen || helpless(mtmp)
                        || (mtmp->data->mmove == 0 && rn2(6))) {
-                pline("%s似乎动不了!", Monnam(mtmp));
+                pline("%s看起来动不了!", Monnam(mtmp));
                 end_running(TRUE);
                 return TRUE;
             } else
@@ -1152,7 +1152,7 @@ hmon_hitmon_misc_obj(
         if (touch_petrifies(&mons[obj->corpsenm])) {
             hmd->dmg = 1;
             hmd->hittxt = TRUE;
-            You("用%s打%s.", corpse_xname(obj, (const char *) 0, /*修改语序:You("用%s 打 %s.", mon_nam(mon),*/
+            You("用%s击中了%s.", corpse_xname(obj, (const char *) 0, /*修改语序:You("用%s 打 %s.", mon_nam(mon),*/
                 obj->dknown ? CXN_PFX_THE /*修改语序:corpse_xname(obj, (const char *) 0,*/
                             : CXN_ARTICLE), /*修改语序: obj->dknown ? CXN_PFX_THE*/
                             mon_nam(mon)); /*修改语序: : CXN_ARTICLE));*/
@@ -1226,7 +1226,7 @@ hmon_hitmon_misc_obj(
                     ? the(mons[mnum].pmnames[NEUTRAL])
                     : (cnt > 1L) ? "一些" : "一个";
 
-            You("你用%2$s蛋%3$s击中了%1$s。", eggp, plur(cnt), /*修改语序:You("hit %s with %s egg%s.", mon_nam(mon), eggp,*/
+            You("你用%s蛋%s击中了%s。", eggp, plur(cnt), /*修改语序:You("hit %s with %s egg%s.", mon_nam(mon), eggp,*/
                 mon_nam(mon)); /*修改语序:plur(cnt));*/
             if (touch_petrifies(hmd->mdat) && !stale_egg(obj)) {
                 pline_The("蛋%s%s有生命了...", plur(cnt),
@@ -1285,7 +1285,7 @@ hmon_hitmon_misc_obj(
                 /* note: s_suffix returns a modifiable buffer */
                 if (haseyes(hmd->mdat)
                     && hmd->mdat != &mons[PM_FLOATING_EYE])
-                    whom = strcat(strcat(s_suffix(whom), " "),
+                    whom = strcat(strcat(s_suffix(whom), ""),
                                   mbodypart(mon, FACE));
                 pline("%s%s到了%s上!", what,
                       vtense(what, "溅"), whom);
@@ -1318,7 +1318,7 @@ hmon_hitmon_misc_obj(
         break;
     case ACID_VENOM: /* thrown (or spit) */
         if (resists_acid(mon)) {
-            Your("毒液无害地击中了%s。", mon_nam(mon));
+            Your("毒液无害地击中了%s.", mon_nam(mon));
             hmd->dmg = 0;
         } else {
             Your("毒液灼烧着%s!", mon_nam(mon));
@@ -1648,7 +1648,7 @@ hmon_hitmon_msg_hit(
         else if (!flags.verbose)
             You("击中了它。");
         else /* hand_to_hand */
-            You("%s %s%s",
+            You("%s%s%s",
                 (obj && (is_shield(obj)
                          || obj->otyp == HEAVY_IRON_BALL)) ? "猛击"
                 : (obj && (objects[obj->otyp].oc_skill == P_WHIP
@@ -1895,7 +1895,7 @@ hmon_hitmon(
     /* already_killed and poiskilled won't apply for Trollsbane */
 
     if (hmd.needpoismsg)
-        pline_The("毒药似乎对%s没有影响.", mon_nam(mon));
+        pline_The("毒药看起来对%s没有影响.", mon_nam(mon));
     if (hmd.poiskilled) {
         pline_The("毒是致命的...");
         if (!hmd.already_killed)
@@ -2136,7 +2136,7 @@ demonpet(void)
     struct permonst *pm;
     struct monst *dtmp;
 
-    pline("地狱惊x...ǐ!");
+    pline("地狱惊x...喜!");
     i = !rn2(6) ? ndemon(u.ualign.type) : NON_PM;
     pm = i != NON_PM ? &mons[i] : gy.youmonst.data;
     if ((dtmp = makemon(pm, u.ux, u.uy, NO_MM_FLAGS)) != 0)
@@ -2240,7 +2240,7 @@ steal_it(struct monst *mdef, struct attack *mattk)
         /* special message for final item; no need to check owornmask because
          * ustealo is only set on objects with (owornmask & W_ARM) */
         if (otmp == ustealo)
-            pline("%s脱下了%s套装.", Monnam(mdef),
+            pline("%s脱下了%s铠甲.", Monnam(mdef),
                   mhis(mdef));
         /* give the object to the character */
         otmp = hold_another_object(otmp, "你抓住了%s,但是掉下了.",
@@ -2289,8 +2289,8 @@ mhitm_ad_rust(
         if (completelyrusts(pd)) { /* iron golem */
             /* note: the life-saved case is hypothetical because
                life-saving doesn't work for golems */
-            pline("%s%s成碎片!", Monnam(mdef),
-                  !mlifesaver(mdef) ? "散落" : "开始散落");
+            pline("%s%s碎片!", Monnam(mdef),
+                  !mlifesaver(mdef) ? "散落成了" : "开始散落成");
             xkilled(mdef, XKILL_NOMSG);
             mhm->hitflags |= M_ATTK_DEF_DIED;
         }
@@ -2303,7 +2303,7 @@ mhitm_ad_rust(
             return;
         }
         if (completelyrusts(pd)) {
-            You("生锈了！");
+            You("生锈了!");
             /* KMH -- this is okay with unchanging */
             rehumanize();
             return;
@@ -2315,8 +2315,8 @@ mhitm_ad_rust(
             return;
         if (completelyrusts(pd)) { /* PM_IRON_GOLEM */
             if (gv.vis && canseemon(mdef))
-                pline_mon(mdef, "%s%s成碎片!", Monnam(mdef),
-                      !mlifesaver(mdef) ? "散落" : "开始散落");
+                pline_mon(mdef, "%s%s碎片!", Monnam(mdef),
+                      !mlifesaver(mdef) ? "散落成了" : "开始散落成");
             monkilled(mdef, (char *) 0, AD_RUST);
             if (!DEADMONSTER(mdef)) {
                 mhm->hitflags = M_ATTK_MISS;
@@ -2369,8 +2369,8 @@ mhitm_ad_dcay(
     if (magr == &gy.youmonst) {
         /* uhitm */
         if (completelyrots(pd)) { /* wood golem or leather golem */
-            pline("%s%s成碎片!", Monnam(mdef),
-                  !mlifesaver(mdef) ? "散落" : "开始散落");
+            pline("%s%s碎片!", Monnam(mdef),
+                  !mlifesaver(mdef) ? "散落成了" : "开始散落成");
             xkilled(mdef, XKILL_NOMSG);
         }
         erode_armor(mdef, ERODE_ROT);
@@ -2395,8 +2395,8 @@ mhitm_ad_dcay(
             /* note: the life-saved case is hypothetical because
                life-saving doesn't work for golems */
             if (gv.vis && canseemon(mdef))
-                pline_mon(mdef, "%s%s成碎片!", Monnam(mdef),
-                      !mlifesaver(mdef) ? "散落" : "开始散落");
+                pline_mon(mdef, "%s%s碎片!", Monnam(mdef),
+                      !mlifesaver(mdef) ? "散落成了" : "开始散落成");
             monkilled(mdef, (char *) 0, AD_DCAY);
             if (!DEADMONSTER(mdef)) {
                 mhm->done = TRUE;
@@ -2452,7 +2452,7 @@ mhitm_ad_drli(
             && !mhitm_mgc_atk_negated(magr, mdef, TRUE)) {
             mhm->damage = d(2, 6); /* Stormbringer uses monhp_per_lvl
                                     * (usually 1d8) */
-            pline("%s 变弱了！", Monnam(mdef));
+            pline("%s变弱了！", Monnam(mdef));
             if (mdef->mhpmax - mhm->damage > (int) mdef->m_lev) {
                 mdef->mhpmax -= mhm->damage;
             } else {
@@ -2612,7 +2612,7 @@ mhitm_ad_fire(
         }
         if (resists_fire(mdef) || defended(mdef, AD_FIRE)) {
             if (gv.vis && canseemon(mdef))
-                pline_The("火焰似乎无法烧伤%s!", mon_nam(mdef));
+                pline_The("火焰看起来无法烧伤%s!", mon_nam(mdef));
             shieldeff(mdef->mx, mdef->my);
             golemeffects(mdef, AD_FIRE, mhm->damage);
             mhm->damage = 0;
@@ -2671,7 +2671,7 @@ mhitm_ad_cold(
             pline_mon(mdef, "%s被冰霜覆盖了!", Monnam(mdef));
         if (resists_cold(mdef) || defended(mdef, AD_COLD)) {
             if (gv.vis && canseemon(mdef))
-                pline_The("冰霜似乎没有让%s变冷!", mon_nam(mdef));
+                pline_The("冰霜看起来没有让%s变冷!", mon_nam(mdef));
             shieldeff(mdef->mx, mdef->my);
             golemeffects(mdef, AD_COLD, mhm->damage);
             mhm->damage = 0;
@@ -2752,7 +2752,7 @@ mhitm_ad_acid(
         hitmsg(magr, mattk);
         if (!magr->mcan && !rn2(3))
             if (Acid_resistance) {
-                pline("你满身都是%s,但是似乎没有伤害.",
+                pline("你满身都是%s,但是看起来没有受到伤害.",
                       hliquid("酸"));
                 monstseesu(M_SEEN_ACID);
                 mhm->damage = 0;
@@ -3087,7 +3087,7 @@ mhitm_ad_curs(
             }
             if (!Deaf) {
                 if (!gv.vis)
-                    You_hear("笑声。");
+                    You_hear("笑声.");
                 else if (canseemon(magr))
                     pline_mon(magr, "%s在轻声笑.", Monnam(magr));
             }
@@ -3109,7 +3109,7 @@ mhitm_really_poison(struct monst *magr, struct attack *mattk,
               mpoisons_subj(magr, mattk));
     if (resists_poison(mdef)) {
         if (gv.vis && canspotmon(mdef) && canspotmon(magr))
-            pline_The("毒似乎对%s无效.",
+            pline_The("毒看起来对%s无效.",
                         mon_nam(mdef));
     } else {
         mhm->damage += rn1(10, 6);
@@ -3131,7 +3131,7 @@ mhitm_ad_drst(
         if (!negated && !rn2(8)) {
             Your("%s是有毒的!", mpoisons_subj(magr, mattk));
             if (resists_poison(mdef)) {
-                pline_The("毒似乎对%s无效.", mon_nam(mdef));
+                pline_The("毒看起来对%s无效.", mon_nam(mdef));
             } else {
                 if (!rn2(10)) {
                     Your("毒是致命的...");
@@ -3223,7 +3223,7 @@ mhitm_ad_drin(
         /* mhitu */
         hitmsg(magr, mattk);
         if (defends(AD_DRIN, uwep) || !has_head(pd)) {
-            You("似乎没有受伤.");
+            You("看起来没有受伤.");
             /* attacker should skip remaining AT_TENT+AD_DRIN attacks */
             gs.skipdrin = TRUE;
             /* Not clear what to do for green slimes */
@@ -3275,7 +3275,7 @@ mhitm_ad_drin(
 
         if (gn.notonhead || !has_head(pd)) {
             if (gv.vis && canspotmon(mdef))
-                pline_mon(mdef, "%s似乎没有受伤.", Monnam(mdef));
+                pline_mon(mdef, "%s看起来没有受伤.", Monnam(mdef));
             /* Not clear what to do for green slimes */
             mhm->damage = 0;
             /* don't bother with additional DRIN attacks since they wouldn't
@@ -3468,7 +3468,7 @@ mhitm_ad_plys(
                 char buf[BUFSZ];
 
                 Strcpy(buf, Monnam(mdef));
-                pline("%s被%s定住了。", buf, mon_nam(magr));
+                pline("%s被%s定住了.", buf, mon_nam(magr));
             }
             paralyze_monst(mdef, rnd(10));
         }
@@ -3639,7 +3639,7 @@ mhitm_ad_ench(
                 }
             }
             if (obj && drain_item(obj, FALSE)) {
-                pline("%s效果变弱了.", Yobjnam2(obj, "看上去"));
+                pline("%s效果变弱了.", Yobjnam2(obj, "看起来"));
             }
         }
     } else {
@@ -3695,7 +3695,7 @@ mhitm_ad_conf(
         /* uhitm */
         if (!mdef->mconf) {
             if (canseemon(mdef))
-                pline("%s看上去很迷惑.", Monnam(mdef));
+                pline("%s看起来很迷惑.", Monnam(mdef));
             mdef->mconf = 1;
         }
     } else if (mdef == &gy.youmonst) {
@@ -3706,7 +3706,7 @@ mhitm_ad_conf(
             if (Confusion)
                 You("变得更混乱了.");
             else
-                You("变得混乱了。");
+                You("变得混乱了.");
             make_confused(HConfusion + mhm->damage, FALSE);
         }
         mhm->damage = 0;
@@ -3718,7 +3718,7 @@ mhitm_ad_conf(
          */
         if (!magr->mcan && !mdef->mconf && !magr->mspec_used) {
             if (gv.vis && canseemon(mdef))
-                pline_mon(mdef, "%s看上去很迷惑.", Monnam(mdef));
+                pline_mon(mdef, "%s看起来很迷惑.", Monnam(mdef));
             mdef->mconf = 1;
             mdef->mstrategy &= ~STRAT_WAITFORU;
         }
@@ -3911,7 +3911,7 @@ mhitm_ad_halu(
         /* mhitm */
         if (!magr->mcan && haseyes(pd) && mdef->mcansee) {
             if (gv.vis && canseemon(mdef))
-                pline_mon(mdef, "%s看上去%s.", Monnam(mdef),
+                pline_mon(mdef, "%s看起来%s.", Monnam(mdef),
                       mdef->mconf ? "更迷惑了" : "很迷惑");
             mdef->mconf = 1;
             mdef->mstrategy &= ~STRAT_WAITFORU;
@@ -4394,8 +4394,8 @@ mhitm_ad_stun(
     if (magr == &gy.youmonst) {
         /* uhitm */
         if (!Blind)
-            pline("%s %s 了一会儿。", Monnam(mdef),
-                  makeplural(stagger(pd, "stagger")));
+            pline("%s%s了一会.", Monnam(mdef),
+                  makeplural(stagger(pd, "踉跄")));
         mdef->mstun = 1;
         mhitm_ad_phys(magr, mattk, mdef, mhm);
         if (mhm->done)
@@ -4656,7 +4656,7 @@ mhitm_ad_sedu(
             return;
         } else if (magr->mcan) {
             if (!Blind)
-                pline("%s试图%s你，但你似乎%s。",
+                pline("%s试图%s你，但你%s.",
                       Adjmonnam(magr, "平庸的"),
                       flags.female ? "诱惑" : "魅惑",
                       flags.female ? "一尘不染" : "不感兴趣");
@@ -5109,7 +5109,7 @@ gulpum(struct monst *mdef, struct attack *mattk)
                     pline("%s浸透了你的水汽.", Monnam(mdef));
                     if ((breathless(pd) || amphibious(pd)) && !flaming(pd)) {
                         dam = 0;
-                        pline("%s似乎没有受伤.", Monnam(mdef));
+                        pline("%s看起来没有受伤.", Monnam(mdef));
                     }
                 } else {
                     pline("%s被%s了!", Monnam(mdef),
@@ -5142,7 +5142,7 @@ gulpum(struct monst *mdef, struct attack *mattk)
                     pline_The("%s周围的空气充满了电.",
                               mon_nam(mdef));
                     if (resists_elec(mdef)) {
-                        pline("%s似乎没有受伤.", Monnam(mdef));
+                        pline("%s看起来没有受伤.", Monnam(mdef));
                         dam = 0;
                     }
                     golemeffects(mdef, (int) mattk->adtyp, dam);
@@ -5594,7 +5594,7 @@ hmonas(struct monst *mon)
                 case AT_CLAW:
                 case AT_TUCH:
                     /* verb=="claws" may be overridden below */
-                    verb = (mattk->aatyp == AT_TUCH) ? "touch" : "claws";
+                    verb = (mattk->aatyp == AT_TUCH) ? "触碰" : "抓";
                     /* decide if silver-hater will be hit by silver ring(s);
                        for 'multi_claw' where attacks alternate right/left,
                        assume 'even' claw or touch attacks use dominant hand
@@ -5739,7 +5739,7 @@ hmonas(struct monst *mon)
                 pline("%s正在被%s%s.", Monnam(mon),
                       byhand ? "窒息" : "挤压",
                       /* extra feedback for non-breather being choked */
-                      unconcerned ? ",但似乎未受影响" : "");
+                      unconcerned ? ",但看起来未受影响" : "");
                 if (silverhit && flags.verbose)
                     silver_sears(&gy.youmonst, mon, silverhit);
                 sum[i] = damageum(mon, mattk, specialdmg);
@@ -6180,7 +6180,7 @@ passive_obj(
         if (!mon->mcan) {
             if (drain_item(obj, TRUE) && carried(obj)
                 && (obj->known || obj->oclass == ARMOR_CLASS)) {
-                pline("%s效果变弱了.", Yobjnam2(obj, "看上去"));
+                pline("%s效果变弱了.", Yobjnam2(obj, "看起来"));
             }
             break;
         }
@@ -6202,13 +6202,13 @@ that_is_a_mimic(
     struct monst *mtmp, /* a hidden mimic (nonnull) */
     unsigned mimic_flags) /* 0, MIM_REVEAL, MIM_OMIT_WAIT, REVEAL+OMIT */
 {
-    static char generic[] = "a monster";
+    static char generic[] = "怪物";
     char fmtbuf[BUFSZ];
     const char *what = NULL;
     boolean reveal_it = (mimic_flags & MIM_REVEAL) != 0,
             omit_wait = (mimic_flags & MIM_OMIT_WAIT) != 0;
 
-    Strcpy(fmtbuf, "等等!那是%s!");
+    Strcpy(fmtbuf, "等等!那是个%s!");
     if (Blind) {
         if (!Blind_telepat)
             what = generic; /* with default fmt */

@@ -266,6 +266,7 @@ English README：[README_en.md](README_en.md)
 |crush(攻击)|挤压||
 |queasy|反胃||
 |sick(如果没有致病)|不适||
+|squeak|吱吱作响||
 
 |体词|Francium-223||
 |----|----|----|
@@ -301,6 +302,7 @@ English README：[README_en.md](README_en.md)
 |crackling|劈啪声||
 |hissing|嘶嘶声||
 |cough|咳嗽声||
+|click|咔哒声||
 
 |感叹词|Francium-223||
 |----|----|----|

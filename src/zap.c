@@ -2737,7 +2737,7 @@ zapyourself(struct obj *obj, boolean ordinary)
             monstunseesu(M_SEEN_ELEC);
         } else {
             shieldeff(u.ux, u.uy);
-            You("朝自己施法,但似乎没有受伤.");
+            You("朝自己施法,但看起来没有受伤.");
             monstseesu(M_SEEN_ELEC);
             ugolemeffects(AD_ELEC, orig_dmg);
         }
@@ -2857,7 +2857,7 @@ zapyourself(struct obj *obj, boolean ordinary)
             monstseesu(M_SEEN_SLEEP);
         } else {
             if (ordinary)
-                pline_The("沉睡射线击中了你!");
+                pline_The("睡眠射线击中了你!");
             else
                 You("睡着了!");
             monstunseesu(M_SEEN_SLEEP);
@@ -4492,7 +4492,7 @@ zhitu(
                 (void) disintegrate_arm(uarmu);
         } else if (nonliving(gy.youmonst.data) || is_demon(gy.youmonst.data)) {
             shieldeff(sx, sy);
-            You("似乎未受影响.");
+            You("看起来未受影响.");
             break;
         } else if (Antimagic) {
             shieldeff(sx, sy);
@@ -5596,7 +5596,7 @@ break_statue(struct obj *obj)
     }
     if (by_you && Role_if(PM_ARCHEOLOGIST)
         && (obj->spe & CORPSTAT_HISTORIC)) {
-        You_feel("破坏这样一个历史悠久的雕像是有罪的.");
+        You_feel("破坏这样一个历史悠久的雕像让你内疚.");
         adjalign(-1);
     }
     obj->spe = 0;
