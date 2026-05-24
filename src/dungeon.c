@@ -1754,37 +1754,37 @@ surface(coordxy x, coordxy y)
 
     if (u_at(x, y) && u.uswallow && is_animal(u.ustuck->data))
         /* 'husk' is iffy but maw is wrong for 't' class */
-        return digests(u.ustuck->data) ? "maw"
-               : enfolds(u.ustuck->data) ? "husk"
-                 : "nonesuch"; /* can't happen (fingers crossed...) */
+        return digests(u.ustuck->data) ? "胃"
+               : enfolds(u.ustuck->data) ? "外壳"
+                 : "没有这种东西"; /* can't happen (fingers crossed...) */
     else if (IS_AIR(levtyp))
-        return Is_waterlevel(&u.uz) ? "air bubble"
-                                    : (levtyp == CLOUD) ? "cloud" : "air";
+        return Is_waterlevel(&u.uz) ? "气泡"
+                                    : (levtyp == CLOUD) ? "云" : "空气";
     else if (is_pool(x, y))
         return (Underwater && !Is_waterlevel(&u.uz))
-            ? "bottom" : hliquid("water");
+            ? "底部" : hliquid("水");
     else if (is_ice(x, y))
-        return "ice";
+        return "冰";
     else if (is_lava(x, y))
-        return hliquid("lava");
+        return hliquid("熔岩");
     else if (lev->typ == DRAWBRIDGE_DOWN)
-        return "bridge";
+        return "桥";
     else if (IS_ALTAR(levtyp))
-        return "altar";
+        return "祭坛";
     else if (IS_GRAVE(levtyp))
-        return "headstone";
+        return "墓碑";
     else if (IS_FOUNTAIN(levtyp))
-        return "fountain";
+        return "喷泉";
     else if (On_stairs(x, y))
-        return "stairs";
+        return "楼梯";
     else if (IS_WALL(levtyp) || levtyp == SDOOR)
-        return "wall"; /* 'surface' during Passes_walls */
+        return "墙"; /* 'surface' during Passes_walls */
     else if (IS_DOOR(levtyp))
-        return "doorway"; /* even for closed door */
+        return "门口"; /* even for closed door */
     else if (IS_ROOM(levtyp) && !Is_earthlevel(&u.uz))
-        return "floor";
+        return "地面";
     else
-        return "ground";
+        return "地";
 }
 
 /*

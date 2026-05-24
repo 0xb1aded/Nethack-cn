@@ -565,45 +565,45 @@ waterbody_name(coordxy x, coordxy y)
     boolean hallucinate = Hallucination && !program_state.gameover;
 
     if (!isok(x, y))
-        return "drink"; /* should never happen */
+        return "饮料"; /* should never happen */
     ltyp = SURFACE_AT(x, y);
 
     if (ltyp == LAVAPOOL) {
-        Snprintf(pooltype, sizeof pooltype, "molten %s", hliquid("lava"));
+        Snprintf(pooltype, sizeof pooltype, "%s", hliquid("熔岩"));
         return pooltype;
     } else if (ltyp == ICE) {
         if (!hallucinate)
-            return "ice";
-        Snprintf(pooltype, sizeof pooltype, "frozen %s", hliquid("water"));
+            return "冰";
+        Snprintf(pooltype, sizeof pooltype, "冰%s", hliquid("水"));
         return pooltype;
     } else if (ltyp == POOL) {
-        Snprintf(pooltype, sizeof pooltype, "pool of %s", hliquid("water"));
+        Snprintf(pooltype, sizeof pooltype, "%s池", hliquid("水"));
         return pooltype;
     } else if (ltyp == MOAT) {
         /* a bit of extra flavor over general moat */
         if (hallucinate) {
-            Snprintf(pooltype, sizeof pooltype, "deep %s", hliquid("water"));
+            Snprintf(pooltype, sizeof pooltype, "深%s", hliquid("水"));
             return pooltype;
         } else if (Is_medusa_level(&u.uz)) {
             /* somewhat iffy since ordinary stairs can take you beneath,
                but previous generic "water" was rather anti-climactic */
-            return "shallow sea";
+            return "浅海";
         } else if (Is_juiblex_level(&u.uz)) {
-            return "swamp";
+            return "沼泽";
         } else if (Role_if(PM_SAMURAI) && Is_qstart(&u.uz)) {
             /* samurai quest home level has two isolated moat spots;
                they sound silly if farlook describes them as such */
-            return "pond";
+            return "池塘";
         } else {
-            return "moat";
+            return "护城河";
         }
     } else if (IS_WATERWALL(ltyp)) {
         if (Is_waterlevel(&u.uz))
-            return "limitless water"; /* even if hallucinating */
-        Snprintf(pooltype, sizeof pooltype, "wall of %s", hliquid("water"));
+            return "无穷的水"; /* even if hallucinating */
+        Snprintf(pooltype, sizeof pooltype, "%s墙", hliquid("水"));
         return pooltype;
     } else if (ltyp == LAVAWALL) {
-        Snprintf(pooltype, sizeof pooltype, "wall of %s", hliquid("lava"));
+        Snprintf(pooltype, sizeof pooltype, "%s墙", hliquid("熔岩"));
         return pooltype;
     }
     /* default; should be unreachable */

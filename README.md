@@ -266,7 +266,9 @@ English README：[README_en.md](README_en.md)
 |crush(攻击)|挤压||
 |queasy|反胃||
 |sick(如果没有致病)|不适||
-|squeak|吱吱作响||
+|squeak|嘎吱作响||
+|sluggish|呆滞||
+|lethargic|疲惫||
 
 |体词|Francium-223||
 |----|----|----|
@@ -277,6 +279,10 @@ English README：[README_en.md](README_en.md)
 |barb|倒刺||
 |debris(空气元素)|碎片||
 |flash|闪光||
+|aura|光晕||
+|light|光线||
+|anti-magic field|反魔法力场||
+|spike(陷阱里的)|尖刺||
 
 |死因|Francium-223||
 |----|----|----|
@@ -291,7 +297,6 @@ English README：[README_en.md](README_en.md)
 |falling off %s|从%s身上跌落||
 |stolen|偷窃||
 |expire|消散||
-||||
 
 |声音|Francium-223||
 |----|----|----|
@@ -303,14 +308,23 @@ English README：[README_en.md](README_en.md)
 |hissing|嘶嘶声||
 |cough|咳嗽声||
 |click|咔哒声||
+|rumbling|隆隆声||
 
-|感叹词|Francium-223||
+|感叹词/拟声词|Francium-223||
 |----|----|----|
 |Wait!|等等!||
 |Ouch!|哎呦!||
 |Splat!|啪!||
 |Splash!|哗啦!||
 |Burrrrp!|嗝!||
+|KAABLAMM!|轰隆!||
+|Kaablamm!|轰!||
+|Click!|咔哒!||
+|Thump!|砰!||
+|Bummer!|真倒霉!||
+|Phew|呼!||
+|Whoops...|哎呀...||
+|KABOOM|嘭!||
 
 |技能|Francium-223||
 |----|----|----|

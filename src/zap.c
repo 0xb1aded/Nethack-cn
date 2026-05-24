@@ -60,7 +60,7 @@ staticfn void wish_history_menu(char *);
 
 #define M_IN_WATER(ptr) ((ptr)->mlet == S_EEL || cant_drown(ptr))
 
-static const char are_blinded_by_the_flash[] = "被强光照射导致短暂失明!";
+static const char are_blinded_by_the_flash[] = "被闪光照射导致短暂失明!";
 
 /*
  * A positive index means zapped/cast/breathed by hero.
@@ -5829,7 +5829,7 @@ maybe_destroy_item(
         if (obj->otyp == SPE_BOOK_OF_THE_DEAD) {
             skip = 1;
             if (u_carry ? !Blind : vis) {
-                pline("%s发出奇怪的%s光,但仍保持完好.",
+                pline("%s发出奇怪的%s光,但依然完好无损.",
                       The(u_carry ? xname(obj) : distant_name(obj, xname)),
                       hcolor("暗红色"));
             }
