@@ -133,7 +133,7 @@ English README：[README_en.md](README_en.md)
 - [ ] tile.c
 - [ ] timeout.c
 - [ ] topten.c
-- [ ] track.c
+- [x] track.c (无需翻译)
 - [ ] trap.c
 - [ ] uhitm.c
 - [ ] utf8map.c
