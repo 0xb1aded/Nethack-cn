@@ -554,7 +554,7 @@ mon_adjust_speed(
             pline_mon(mon, "%s突然变得快%s了.",
                       Monnam(mon), howmuch);
         else
-            pline_mon(mon, "%s看上去变得慢%s了.",
+            pline_mon(mon, "%s看起来变得慢%s了.",
                       Monnam(mon), howmuch);
 
         /* might discover an object if we see the speed change happen */

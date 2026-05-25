@@ -833,7 +833,7 @@ animate_statue(
                    : "雕像");
         pline("%s%s了!", upstart(statuename), comes_to_life);
     } else if (Hallucination) { /* They don't know it's a statue */
-        pline_The("%s看上去突然更有活气了.", rndmonnam((char *) 0));
+        pline_The("%s似乎突然更有活气了.", rndmonnam((char *) 0));
     } else if (cause == ANIMATE_SHATTER) {
         if (cansee(x, y))
             Sprintf(statuename, "%s%s", shk_your(tmpbuf, statue),
@@ -4367,7 +4367,7 @@ domagictrap(void)
                     if (!See_invisible)
                         You("又能看见你自己了!");
                     else
-                        You_cant("再穿你自己了.");
+                        You_cant("再看穿你自己了.");
                 }
             } else {
                 /* If we're invisible from another source */

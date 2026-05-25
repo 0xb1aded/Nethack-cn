@@ -222,7 +222,13 @@ English README：[README_en.md](README_en.md)
 
 功能: 返回人称代词的主格、宾格、形容词性物主代词（男："he"、"him"、"his"；女："she"、"her"、"her"；）
 
-**处理方案**: 返回相同形式（男："他"；女："她"）（mhe()、mhim()、mhis()等类似物同理）
+##### ordin(int n)
+
+位置: [hacklib.c](src/hacklib.c)
+
+功能: 返回数字 n 对应的序数词后缀（1→st，2→nd，3→rd……）
+
+**处理方案**: 返回一个空字符串""
 
 ##### arti_light_description(wep)
 
@@ -283,6 +289,12 @@ English README：[README_en.md](README_en.md)
 |light|光线||
 |anti-magic field|反魔法力场||
 |spike(陷阱里的)|尖刺||
+|sleep resistance|睡眠抗性||
+|warning|警觉||
+|infravision|红外视觉||
+|slow digestion|减慢消化||
+|protection from shape changers|变形怪防护||
+|fixed abilities|属性维持||
 
 |死因|Francium-223||
 |----|----|----|
@@ -325,6 +337,7 @@ English README：[README_en.md](README_en.md)
 |Phew|呼!||
 |Whoops...|哎呀...||
 |KABOOM|嘭!||
+|Egads!|天哪!||
 
 |技能|Francium-223||
 |----|----|----|
