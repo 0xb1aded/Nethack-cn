@@ -663,7 +663,7 @@ nh_timeout(void)
 
     if (u.ugallop) {
         if (--u.ugallop == 0L && u.usteed)
-            pline("%s停止了奔跑.", Monnam(u.usteed));
+            pline("%s停止了疾驰.", Monnam(u.usteed));
     }
 
     was_flying = Flying;

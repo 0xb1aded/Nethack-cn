@@ -3990,7 +3990,7 @@ float_up(void)
     if (u.usteed && !is_floater(u.usteed->data)
         && !is_flyer(u.usteed->data)) {
         if (Lev_at_will) {
-            pline("%s魔法地向上飘浮!", Monnam(u.usteed));
+            pline("%s魔法般地浮了起来!", Monnam(u.usteed));
         } else {
             You("不能待在%s上.", mon_nam(u.usteed));
             dismount_steed(DISMOUNT_GENERIC);

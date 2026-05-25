@@ -127,8 +127,8 @@ English README：[README_en.md](README_en.md)
 - [ ] steal.c
 - [ ] steed.c
 - [ ] strutil.c
-- [ ] symbols.c
-- [ ] sys.c
+- [x] symbols.c (无需翻译)
+- [x] sys.c (无需翻译)
 - [ ] teleport.c
 - [ ] tile.c
 - [ ] timeout.c
@@ -275,6 +275,7 @@ English README：[README_en.md](README_en.md)
 |squeak|嘎吱作响||
 |sluggish|呆滞||
 |lethargic|疲惫||
+|gallop|疾驰||
 
 |体词|Francium-223||
 |----|----|----|
