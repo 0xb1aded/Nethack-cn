@@ -543,7 +543,7 @@ teleds(coordxy nux, coordxy nuy, int teleds_flags)
     /* this used to take place sooner, but if a --More-- prompt was issued
        then the old map display was shown instead of the new one */
     if (is_teleport && flags.verbose)
-        You("出现在%s位置！",
+        You("出现在%s位置!",
             (nux == u.ux0 && nuy == u.uy0) ? "同一个" : "另一个");
     /* if terrain type changes, levitation or flying might become blocked
        or unblocked; might issue message, so do this after map+vision has
@@ -852,7 +852,7 @@ scrolltele(struct obj *scroll)
 
     /* Disable teleportation in stronghold && Vlad's Tower */
     if (noteleport_level(&gy.youmonst) && !wizard) {
-        pline("一种神秘的力量阻止了你传送!");
+        pline("一股神秘的力量阻止了你传送!");
         if (scroll)
             learnscroll(scroll); /* this is obviously a teleport scroll */
         return;
@@ -863,7 +863,7 @@ scrolltele(struct obj *scroll)
         make_blinded(0L, FALSE);
 
     if ((u.uhave.amulet || On_W_tower_level(&u.uz)) && !rn2(3)) {
-        You_feel("迷失方向了片刻.");
+        You_feel("迷失了一刹那.");
         /* don't discover the scroll [at least not yet for wizard override];
            disorientation doesn't reveal that this is a teleport attempt */
         if (!wizard || y_n("Override?") != 'y')
@@ -872,14 +872,14 @@ scrolltele(struct obj *scroll)
     if (((Teleport_control || (scroll && scroll->blessed)) && !Stunned)
         || wizard) {
         if (unconscious()) {
-            pline("处于无意识中, 你不能控制你的传送.");
+            pline("由于你处于昏迷状态,你不能控制你的传送.");
         } else {
             char whobuf[BUFSZ];
 
             Strcpy(whobuf, "你");
             if (u.usteed)
                 Sprintf(eos(whobuf), "和%s", mon_nam(u.usteed));
-            pline("%s想被传送到什么位置?", whobuf);
+            pline("想%s传送到哪里?", whobuf);
             if (scroll)
                 learnscroll(scroll);
             cc.x = u.ux;
@@ -889,7 +889,7 @@ scrolltele(struct obj *scroll)
                  * pre-suggest this coordinate. */
                 cc = iflags.travelcc;
             }
-            if (getpos(&cc, TRUE, "the desired position") < 0)
+            if (getpos(&cc, TRUE, "想要传送到的位置") < 0)
                 return; /* abort */
             /* possible extensions: introduce a small error if
                magic power is low; allow transfer to solid rock */
@@ -957,10 +957,10 @@ dotelecmd(void)
              * This ignores the fact that there is an experience level
              * (or poly-form) requirement which might make normal ^T fail.
              */
-            { 'n', "normal ^T on demand; no spell, obey restrictions" },
-            { 's', "via spellcast; no intrinsic teleport" },
-            { 't', "try ^T without having it; no spell" },
-            { 'w', "debug mode; ignore restrictions" }, /* trad wizard mode */
+            { 'n', "常规^T选择;无魔法,遵循一般限制" },
+            { 's', "通过魔法;没有传送内在属性" },
+            { 't', "尝试不掌握而使用^T;无魔法" },
+            { 'w', "调试模式;忽略限制" }, /* trad wizard mode */
         };
         menu_item *picks = (menu_item *) 0;
         anything any;
@@ -977,7 +977,7 @@ dotelecmd(void)
                      (tports[i].menulet == 'w') ? MENU_ITEMFLAGS_SELECTED
                                                 : MENU_ITEMFLAGS_NONE);
         }
-        end_menu(win, "你想用哪种方式传送?");
+        end_menu(win, "你想以哪种方式传送?");
         i = select_menu(win, PICK_ONE, &picks);
         destroy_nhwindow(win);
         if (i > 0) {
@@ -1044,7 +1044,7 @@ dotele(
 
     if (trap) {
         if (trap->ttyp == LEVEL_TELEP && trap->tseen) {
-            if (y_n("There is a level teleporter here. Trigger it?") == 'y') {
+            if (y_n("这里有一个层间传送陷阱.触发它?") == 'y') {
                 level_tele_trap(trap, FORCETRAP);
                 /* deliberate jumping will always take time even if it doesn't
                  * work */
@@ -1054,8 +1054,8 @@ dotele(
         } else if (trap->ttyp == TELEP_TRAP) {
             trap_once = trap->once; /* trap may get deleted, save this */
             if (trap->once) {
-                pline("这是一个金库传送口, 只能使用一次.");
-                if (y_n("Jump in?") == 'n') {
+                pline("这是一个金库传送口,只能使用一次.");
+                if (y_n("跳进去?") == 'n') {
                     trap = 0;
                 } else {
                     deltrap(trap);
@@ -1063,7 +1063,7 @@ dotele(
                 }
             }
             if (trap)
-                You("%s 到传送陷阱上.", u_locomotion("跳"));
+                You("%s到传送陷阱上.", u_locomotion("跳"));
         } else
             trap = 0;
     }
@@ -1079,8 +1079,8 @@ dotele(
             /* casting isn't inhibited by being Stunned (...it ought to be) */
             castit = (knownsp >= spe_Fresh && !Confusion);
             if (!castit && !break_the_rules) {
-                You("你%s。", (!Teleportation ? ((knownsp != spe_Unknown)
-                                              ? "无法施展那个法术"
+                You("你%s.", (!Teleportation ? ((knownsp != spe_Unknown)
+                                              ? "无法施放那个法术"
                                               : "不知道那个法术")
                             : "无法随意传送"));
                 return 0;
@@ -1113,18 +1113,18 @@ dotele(
         } else
 #endif
         if (u.uhunger <= 10) {
-            cantdoit = "are too weak from hunger";
+            cantdoit = "太饿了";
         } else if (ACURR(A_STR) < 4) {
-            cantdoit = "lack the strength";
+            cantdoit = "力量太低";
         } else if (energy > u.uen) {
-            cantdoit = "lack the energy";
+            cantdoit = "缺乏能量";
         }
         if (cantdoit) {
-            You("%s %s.", cantdoit,
+            You("%s,无法%s.", cantdoit,
                 castit ? "施放传送法术" : "进行传送");
             return 0;
         } else if (check_capacity(
-                       "Your concentration falters from carrying so much.")) {
+                       "因为负担过重,你的注意力开始涣散.")) {
             return 1; /* this failure in spelleffects() also uses the move */
         }
 
@@ -1164,7 +1164,7 @@ dotele(
 void
 level_tele(void)
 {
-    static const char get_there_from[] = "get there from %s.";
+    static const char get_there_from[] = "从%s到达那里.";
     int newlev;
     d_level newlevel;
     const char *escape_by_flying = 0; /* when surviving dest of -N */
@@ -1184,7 +1184,7 @@ level_tele(void)
     }
     if ((u.uhave.amulet || In_endgame(&u.uz) || In_sokoban(&u.uz))
         && !wizard) {
-        You_feel("一时间非常迷失方向。");
+        You_feel("迷失了一刹那.");
         return;
     }
     if ((Teleport_control && !Stunned) || wizard) {
@@ -1202,7 +1202,7 @@ level_tele(void)
             }
             if (++trycnt == 2) {
                 if (wizard)
-                    Strcat(qbuf, " [输入数字, 名字, 或? 寻求帮助]");
+                    Strcat(qbuf, " [输入数字,名字,或?寻求帮助]");
                 else
                     Strcat(qbuf, " [输入数字或名字]");
             }
@@ -1254,9 +1254,9 @@ level_tele(void)
         if (newlev == 0) {
             if (trycnt >= 10)
                 goto random_levtport;
-            if (ynq("Go to Nowhere.  Are you sure?") != 'y')
+            if (ynq("你将前往虚无.你确定吗?") != 'y')
                 return;
-            You("在痛苦中%s你的身体开始扭曲...",
+            You("在痛苦中%s,你的身体开始扭曲...",
                 is_silent(gy.youmonst.data) ? "翻滚" : "尖叫");
             display_nhwindow(WIN_MESSAGE, FALSE);
             You("终止了存在.");
@@ -1264,11 +1264,11 @@ level_tele(void)
                 Your("物品砰的一声掉在%s上.",
                      surface(u.ux, u.uy));
             svk.killer.format = NO_KILLER_PREFIX;
-            Strcpy(svk.killer.name, "自杀了");
+            Strcpy(svk.killer.name, "自杀");
             done(DIED);
             pline("一股能量气体开始合并.");
-            Your("身体重生了%s.",
-                 gi.invent ? "，并拾起你所有的物品" : "");
+            Your("身体重新实体化%s.",
+                 gi.invent ? ",并拾起你所有的物品" : "");
             return;
         }
 
@@ -1309,7 +1309,7 @@ level_tele(void)
         int llimit = dunlevs_in_dungeon(&u.uz);
 
         if (newlev >= 0 || newlev <= -llimit) {
-            You_cant(get_there_from, "here");
+            You_cant(get_there_from, "这里");
             return;
         }
         newlevel.dnum = u.uz.dnum;
@@ -1332,11 +1332,11 @@ level_tele(void)
             gi.in_mklev = FALSE;
         }
         if (newlev <= -10) {
-            You("到达了天堂.");
+            You("升入了天堂.");
             SetVoice((struct monst *) 0, 0, 80, voice_deity);
-            verbalize("Thou art early, but we'll admit thee.");
+            verbalize("汝来甚早,然亦请入.");
             svk.killer.format = NO_KILLER_PREFIX;
-            Strcpy(svk.killer.name, "永久进入了天堂");
+            Strcpy(svk.killer.name, "永久升入了天堂");
         } else if (newlev == -9) {
             You_feel("非常高兴.");
             pline("(事实上, 你在9号云上了!)");
@@ -1347,15 +1347,15 @@ level_tele(void)
         if (svk.killer.name[0]) {
             ; /* arrival in heaven is pending */
         } else if (Levitation) {
-            escape_by_flying = "float gently down to earth";
+            escape_by_flying = "轻轻飘落到地上";
         } else if (Flying) {
-            escape_by_flying = "fly down to the ground";
+            escape_by_flying = "飞回了地上";
         } else {
-            pline("不幸的是,  你不会飞.");
+            pline("不幸的是,你不会飞.");
             You("跌下几千英尺摔死了.");
             Sprintf(svk.killer.name,
-                    "传送出地牢并摔至%s死亡",
-                    uhis());
+                    "传送出地牢致其死亡",
+                    uhis() ? "" : "");
             svk.killer.format = NO_KILLER_PREFIX;
         }
     }
@@ -1370,13 +1370,13 @@ level_tele(void)
         done(DIED);
         /* can only get here via life-saving (or declining to die in
            explore|debug mode); the hero has now left the dungeon... */
-        escape_by_flying = "find yourself back on the surface";
+        escape_by_flying = "发现你回到了地面上";
         u.uz = lsav; /* restore u.uz so escape code works */
     }
 
     /* calls done(ESCAPED) if newlevel==0 */
     if (escape_by_flying) {
-        You("%s。", escape_by_flying);
+        You("%s.", escape_by_flying);
         /* [dlevel used to be set to 1, but it doesn't make sense to
             teleport out of the dungeon and float or fly down to the
             surface but then actually arrive back inside the dungeon] */
@@ -1418,13 +1418,13 @@ level_tele(void)
 
         if (on_level(&newlevel, &u.uz) && newlev != depth(&u.uz)) {
             You_cant(get_there_from,
-                     (newlev > deepest) ? "anywhere" : "here");
+                     (newlev > deepest) ? "任何地方" : "这里");
             return;
         }
     }
 
     schedule_goto(&newlevel, UTOTYPE_NONE, (char *) 0,
-                  flags.verbose ? "You materialize on a different level!"
+                  flags.verbose ? "出现在另一层!"
                                 : (char *) 0);
 #if 0   /* always wait until end of turn to change level, otherwise code
          * that references monsters as this call stack unwinds won't be
@@ -1467,7 +1467,7 @@ domagicportal(struct trap *ttmp)
      * next level, and thus losing the game
      */
     if (In_endgame(&u.uz) && !u.uhave.amulet) {
-        You_feel("眩晕了片刻, 但无事发生...");
+        You_feel("眩晕了片刻,但什么都没有发生...");
         return;
     }
 
@@ -1477,11 +1477,11 @@ domagicportal(struct trap *ttmp)
     if (In_tutorial(&u.uz) && !In_tutorial(&target_level)) {
         /* returning to normal play => arrive on level 1 stairs */
         totype = UTOTYPE_ATSTAIRS;
-        stunmsg = "Resuming regular play.";
+        stunmsg = "继续游戏.";
     } else {
         totype = UTOTYPE_PORTAL;
-        stunmsg = !Stunned ? "You feel slightly dizzy."
-                            : "You feel dizzier.";
+        stunmsg = !Stunned ? "你感到头有点晕."
+                            : "你的头更晕了.";
         make_stunned((HStun & TIMEOUT) + 3L, FALSE);
     }
 
@@ -1502,7 +1502,7 @@ tele_trap(struct trap *trap)
     if (In_endgame(&u.uz) || Antimagic || noteleport_level(&gy.youmonst)) {
         if (Antimagic)
             shieldeff(u.ux, u.uy);
-        You_feel("一阵扭曲感。");
+        You_feel("一阵扭曲.");
     } else if (!next_to_u()) {
         You1(shudder_for_moment);
     } else if (trap->once) {
@@ -1544,14 +1544,14 @@ level_tele_trap(struct trap *trap, unsigned int trflags)
         Strcpy(verbbuf, "触发"); /* follows "You sit down." */
         intentional = TRUE;
     } else
-        Sprintf(verbbuf, "%s 上", u_locomotion("踏"));
-    You("%s地层传送陷阱!", verbbuf);
+        Sprintf(verbbuf, "%s上", u_locomotion("踏"));
+    You("%s了一个层间传送陷阱!", verbbuf);
 
     if (Antimagic && !intentional) {
         shieldeff(u.ux, u.uy);
     }
     if ((Antimagic && !intentional) || In_endgame(&u.uz)) {
-        You_feel("一阵扭曲感。");
+        You_feel("一阵扭曲.");
         return;
     }
     deltrap(trap);
@@ -1559,9 +1559,9 @@ level_tele_trap(struct trap *trap, unsigned int trflags)
     level_tele();
 
     if (Hallucination || Teleport_control)
-        You("短暂地感到%s。", Hallucination ? "定向" : "集中");
+        You("短暂地%s.", Hallucination ? "有了方向" : "心神安定");
     else
-        You_feel("%s晕头转向。", Confusion ? "更加" : "");
+        You_feel("%s迷失.", Confusion ? "更加" : "有点");
     /* magic portal traversal causes brief Stun; for level teleport, use
        confusion instead, and only when hero lacks control; do this after
        processing the level teleportation attempt because being confused
@@ -1702,26 +1702,26 @@ rloc_to_core(
     set_apparxy(mtmp); /* orient monster */
     if (domsg && (canspotmon(mtmp) || appearmsg || mtmp == u.ustuck)) {
         int du = distu(x, y), olddu;
-        const char *next = (du <= 2) ? " next to you" : 0, /* next2u() */
-                   *nearu = (du <= BOLT_LIM * BOLT_LIM) ? " close by" : 0;
+        const char *next = (du <= 2) ? "你身边" : 0, /* next2u() */
+                   *nearu = (du <= BOLT_LIM * BOLT_LIM) ? "你附近" : 0;
 
         set_msg_xy(x, y);
         mtmp->mstrategy &= ~STRAT_APPEARMSG; /* one chance only */
         if (mtmp == u.ustuck && !u_at(u.ux0, u.uy0)) {
             You("和%s一起传送。", mon_nam(mtmp));
         } else if (telemsg && (couldsee(x, y) || sensemon(mtmp))) {
-            pline("%s消失了又重现%s.",
+            pline("%s消失了又重现到%s.",
                   Monnam(mtmp),
                   next ? next
                   : nearu ? nearu
                     : ((olddu = distu(oldx, oldy)) == du) ? ""
-                      : (du < olddu) ? "离你更近"
-                        : "离你更远");
+                      : (du < olddu) ? "更近处"
+                        : "得更处");
         } else {
-            pline("%s %s%s%s!",
+            pline("%s%s%s%s!",
                   appearmsg ? Amonnam(mtmp) : Monnam(mtmp),
                   appearmsg ? "突然" : "",
-                  !Blind ? "出现" : "到达",
+                  !Blind ? "出现在" : "到达",
                   next ? next : nearu ? nearu : "");
         }
         /* wand discovery only happens if a messaage is delivered (bug?);
@@ -1913,23 +1913,23 @@ control_mon_tele(
     if (!wizard || !iflags.mon_telecontrol)
         return FALSE;
 
-    pline("传送 %s 到 <%d,%d> 哪里？",
+    pline("将%s传送到<%d,%d>哪里?",
           noit_mon_nam(mon), mon->mx, mon->my);
     /* getpos '?' will show "Move the cursor to <where to teleport Foo>:" */
-    Sprintf(tcbuf, "将 %s 传送到哪里", noit_mon_nam(mon));
+    Sprintf(tcbuf, "将%s传送到哪里", noit_mon_nam(mon));
     if (getpos(cc_p, FALSE, tcbuf) >= 0 && !u_at(cc_p->x, cc_p->y)) {
         if (via_rloc
               ? rloc_pos_ok(cc_p->x, cc_p->y, mon)
               : goodpos(cc_p->x, cc_p->y, mon, rlocflags))
             return TRUE;
         if (!iflags.debug_fuzzer) {
-            Sprintf(tcbuf, "<%d,%d> 不被认为是可行的；是否强制传送？",
+            Sprintf(tcbuf, "<%d,%d>不可行;强制传送?",
                     mon->mx, mon->my);
             if (y_n(tcbuf) == 'y')
                 return TRUE;
         }
     }
-    pline("%s 目的地。", via_rloc ? "随机选取" : "使用衍生的");
+    pline("%s目的地.", via_rloc ? "选取了随机" : "使用了衍生的");
     return FALSE;
 }
 
@@ -1951,7 +1951,7 @@ tele_restrict(struct monst *mon)
 {
     if (noteleport_level(mon)) {
         if (canseemon(mon))
-            pline("一种神秘的力量阻止了%s 传送!",
+            pline("一股神秘的力量阻止了%s传送!",
                   mon_nam(mon));
         return TRUE;
     }
@@ -2273,11 +2273,11 @@ u_teleport_mon(
         return FALSE;
     } else if (mtmp->ispriest && *in_rooms(mtmp->mx, mtmp->my, TEMPLE)) {
         if (give_feedback)
-            pline("%s 抵抗你的魔法!", Monnam(mtmp));
+            pline("%s抵抗了你的魔法!", Monnam(mtmp));
         return FALSE;
     } else if (engulfing_u(mtmp) && noteleport_level(mtmp)) {
         if (give_feedback)
-            You("不再在%s 的里面!", mon_nam(mtmp));
+            You("不再在%s里面了!", mon_nam(mtmp));
         unstuck(mtmp);
         if (!rloc(mtmp, RLOC_MSG))
             m_into_limbo(mtmp);

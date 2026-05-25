@@ -334,7 +334,7 @@ sickness_dialogue(void)
         if (Hallucination && strstri(buf, "你已濒临")) {
             /* youmonst: for Hallucination, mhe()'s mon argument isn't used */
             Strcpy(pronounbuf, mhe(&gy.youmonst));
-            Sprintf(eos(buf), "  %s%s邀请你进来。",
+            Sprintf(eos(buf), "  %s%s邀请你进来.",
                     /* upstart() modifies its argument but vtense() doesn't
                        care whether or not that has already happened */
                     upstart(pronounbuf), vtense(pronounbuf, "正在"));
