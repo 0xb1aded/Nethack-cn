@@ -19,7 +19,7 @@ English README：[README_en.md](README_en.md)
 - [x] 合并来自 [SunnyYuer/NetHack-cn](https://github.com/SunnyYuer/NetHack-cn) 的翻译
 - [x] 使用 deepseek-v4-flash 完成初步 AI 翻译
 - [x] 怪物翻译
-- [ ] 物品翻译
+- [x] 物品翻译
 - [ ] 许愿机制
 - [ ] 灭绝机制
 
