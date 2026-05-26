@@ -2893,7 +2893,7 @@ setup_rolemenu(
         }
         /* !filtering implies reset_role_filtering() where we want to
            mark this role as preselected if current filter excludes it */
-        add_menu(win, &nul_glyphinfo, &any, 'a', 0, /*危险:add_menu(win, &nul_glyphinfo, &any, thisch, 0,*/
+        add_menu(win, &nul_glyphinfo, &any, (i == 0) ? 'a' : ((i == 1) ? 'b' : ((i == 2) ? 'c' : ((i == 3) ? 'h' : ((i == 4) ? 'm' : ((i == 5) ? 'p' : ((i == 6) ? 'r' : ((i == 7) ? 'R' : ((i == 8) ? 's' : ((i == 9) ? 't' : ((i == 10) ? 'v' : ((i == 11) ? 'w' : ("")))))))))))), 0, /*危险:add_menu(win, &nul_glyphinfo, &any, thisch, 0,*/
                  ATR_NONE, clr, an(rolenamebuf),
                  (!filtering && !role_ok)
                     ? MENU_ITEMFLAGS_SELECTED : MENU_ITEMFLAGS_NONE);
@@ -2931,8 +2931,8 @@ setup_racemenu(
            !filtering: resetting filter rather than picking, choose by
            capital letter since lowercase role letters will be present */
         add_menu(win, &nul_glyphinfo, &any,
-                 cnstrcmp(any.a_string, "人类") ? 'h' : (cnstrcmp(any.a_string, "精灵") ? 'e' : (cnstrcmp(any.a_string, "矮人") ? 'd' : (cnstrcmp(any.a_string, "侏儒") ? 'g' : (cnstrcmp(any.a_string, "兽人") ? 'o' : ' ')))), /*filtering ? this_ch : highc(this_ch)*/
-                 filtering ? highc(this_ch) : 0,
+                 filtering ? ((i == 0) ? 'h' : ((i == 1) ? 'e' : ((i == 2) ? 'd' : ((i == 3) ? 'g' : ((i == 4) ? 'o' : ' '))))) : ((i == 0) ? 'H' : ((i == 1) ? 'E' : ((i == 2) ? 'D' : ((i == 3) ? 'G' : ((i == 4) ? 'O' : ' '))))), /*filtering ? this_ch : highc(this_ch)*/
+                 filtering ? ((i == 0) ? 'H' : ((i == 1) ? 'E' : ((i == 2) ? 'D' : ((i == 3) ? 'G' : ((i == 4) ? 'O' : ' '))))) : 0,
                  ATR_NONE, clr, races[i].noun,
                  (!filtering && !race_ok)
                     ? MENU_ITEMFLAGS_SELECTED : MENU_ITEMFLAGS_NONE);
@@ -2967,8 +2967,8 @@ setup_gendmenu(
         /* (see setup_racemenu for explanation of selector letters
            and setup_rolemenu for preselection) */
         add_menu(win, &nul_glyphinfo, &any,
-                 cnstrcmp(any.a_string, "男性") ? 'm' : (cnstrcmp(any.a_string, "女性") ? 'f' : (cnstrcmp(any.a_string, "中性") ? 'n' : (cnstrcmp(any.a_string, "一群") ? 'g' : ' '))), /*危险:filtering ? this_ch : highc(this_ch),*/
-                 filtering ? highc(this_ch) : 0,
+                 filtering ? ((i == 0) ? 'm' : ((i == 1) ? 'f' : ((i == 2) ? 'n' : ((i == 3) ? 'g' : ' ')))) : ((i == 0) ? 'M' : ((i == 1) ? 'F' : ((i == 2) ? 'N' : ((i == 3) ? 'G' : ' ')))), /*危险:filtering ? this_ch : highc(this_ch),*/
+                 filtering ? ((i == 0) ? 'M' : ((i == 1) ? 'F' : ((i == 2) ? 'N' : ((i == 3) ? 'G' : ' ')))) : 0,
                  ATR_NONE, clr, genders[i].adj,
                  (!filtering && !gend_ok)
                     ? MENU_ITEMFLAGS_SELECTED : MENU_ITEMFLAGS_NONE);
@@ -3003,8 +3003,8 @@ setup_algnmenu(
         /* (see setup_racemenu for explanation of selector letters
            and setup_rolemenu for preselection) */
         add_menu(win, &nul_glyphinfo, &any,
-                 cnstrcmp(any.a_string, "守序") ? 'l' : (cnstrcmp(any.a_string, "中立") ? 'n' : (cnstrcmp(any.a_string, "混沌") ? 'c' : (cnstrcmp(any.a_string, "无阵营") ? 'u' : ' '))), /*危险:filtering ? this_ch : highc(this_ch),*/
-                 filtering ? highc(this_ch) : 0,
+                 filtering ? ((i == 0) ? 'l' : ((i == 1) ? 'n' : ((i == 2) ? 'c' : ((i == 3) ? 'u' : ' ')))) : ((i == 0) ? 'L' : ((i == 1) ? 'N' : ((i == 2) ? 'C' : ((i == 3) ? 'U' : ' ')))), /*危险:filtering ? this_ch : highc(this_ch),*/
+                 filtering ? ((i == 0) ? 'L' : ((i == 1) ? 'N' : ((i == 2) ? 'C' : ((i == 3) ? 'U' : ' ')))) : 0,
                  ATR_NONE, clr, aligns[i].adj,
                  (!filtering && !algn_ok)
                     ? MENU_ITEMFLAGS_SELECTED : MENU_ITEMFLAGS_NONE);
