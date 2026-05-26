@@ -7,6 +7,7 @@ English README：[README_en.md](README_en.md)
 ### 简中译名标准
 
 [物品简中译名标准（objects.h）](doc/objects_translation_standard_zh_cn.md)
+
 [怪物简中译名标准（monsters.h）](doc/monsters_translation_standard_zh_cn.md)
 
 ### 快速开始
