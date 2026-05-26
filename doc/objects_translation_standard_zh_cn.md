@@ -784,7 +784,7 @@
 | enlightenment | 启蒙 |  |
 | create monster | 制造怪物 |  |
 | wishing | 许愿 |  |
-| stasis | stasis | 5.0.0 新增 |
+| stasis | 停滞 | 5.0.0 新增 |
 | nothing | 无 |  |
 | striking | 冲击 |  |
 | make invisible | 隐身 |  |
@@ -814,7 +814,7 @@
 | crystal | 水晶 |  |
 | maple | 枫木 |  |
 | pine | 松木 |  |
-| redwood | redwood | 5.0.0 新增 |
+| redwood | 红木 | 5.0.0 新增 |
 | oak | 橡木 |  |
 | ebony | 乌木 |  |
 | marble | 大理石 |  |

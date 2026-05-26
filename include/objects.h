@@ -1457,7 +1457,7 @@ WAND("create monster",  "maple", "制造怪物", "枫木", 50, 200, 1, NODIR, WO
                                                     WAN_CREATE_MONSTER),
 WAND("wishing",          "pine", "许愿", "松木",  5, 500, 1, NODIR, WOOD, HI_WOOD,
                                                     WAN_WISHING),
-WAND("stasis",        "redwood", "stasis", "redwood", 45, 150, 1, NODIR, WOOD, CLR_RED,
+WAND("stasis",        "redwood", "停滞", "红木", 45, 150, 1, NODIR, WOOD, CLR_RED,
                                                     WAN_STASIS),
 WAND("nothing",           "oak", "无", "橡木", 25, 100, 0, IMMEDIATE, WOOD, HI_WOOD,
                                                     WAN_NOTHING),
