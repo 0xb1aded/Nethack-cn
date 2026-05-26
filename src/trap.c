@@ -1746,7 +1746,7 @@ trapeffect_fire_trap(
         if (in_sight)
             pline_mon(mtmp,
                  "%s从%s脚下的%s中喷出!", tower_of_flame,
-                  surface(mon_nam(mtmp), mtmp->mx, mtmp->my)); /*修改语序:surface(mtmp->mx, mtmp->my), mon_nam(mtmp));*/
+                  mon_nam(mtmp), surface(mtmp->mx, mtmp->my)); /*修改语序:surface(mtmp->mx, mtmp->my), mon_nam(mtmp));*/
         else if (see_it) { /* evidently `mtmp' is invisible */
             set_msg_xy(mtmp->mx, mtmp->my);
             You_see("%s从%s周喷出!", tower_of_flame,
