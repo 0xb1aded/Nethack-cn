@@ -688,7 +688,7 @@ rejectcasting(void)
 {
     /* rejections which take place before selecting a particular spell */
     if (Stunned) {
-        You("身体不稳了,不能施放法术.");
+        You("身体不稳,不能施放法术.");
         return TRUE;
     } else if (!can_chant(&gy.youmonst)) {
         You("不能念咒.");

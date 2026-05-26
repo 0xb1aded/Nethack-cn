@@ -28,7 +28,7 @@
 /* NUM_ROLES is defined in hack.h */
 
 const struct Role roles[NUM_ROLES+1] = {
-    { { "Archeologist", 0 },
+    { { "考古学家", 0 },
       { { "Digger", 0 },
         { "Field Worker", 0 },
         { "Investigator", 0 },
@@ -69,7 +69,7 @@ const struct Role roles[NUM_ROLES+1] = {
       A_INT,
       SPE_MAGIC_MAPPING,
       -4 },
-    { { "Barbarian", 0 },
+    { { "野蛮人", 0 },
       { { "Plunderer", "Plunderess" },
         { "Pillager", 0 },
         { "Bandit", 0 },
@@ -110,7 +110,7 @@ const struct Role roles[NUM_ROLES+1] = {
       A_INT,
       SPE_HASTE_SELF,
       -4 },
-    { { "Caveman", "Cavewoman" },
+    { { "穴居人", 0 },
       { { "Troglodyte", 0 },
         { "Aborigine", 0 },
         { "Wanderer", 0 },
@@ -151,7 +151,7 @@ const struct Role roles[NUM_ROLES+1] = {
       A_INT,
       SPE_DIG,
       -4 },
-    { { "Healer", 0 },
+    { { "治疗师", 0 },
       { { "Rhizotomist", 0 },
         { "Empiric", 0 },
         { "Embalmer", 0 },
@@ -191,7 +191,7 @@ const struct Role roles[NUM_ROLES+1] = {
       A_WIS,
       SPE_CURE_SICKNESS,
       -4 },
-    { { "Knight", 0 },
+    { { "骑士", 0 },
       { { "Gallant", 0 },
         { "Esquire", 0 },
         { "Bachelor", 0 },
@@ -231,7 +231,7 @@ const struct Role roles[NUM_ROLES+1] = {
       A_WIS,
       SPE_TURN_UNDEAD,
       -4 },
-    { { "Monk", 0 },
+    { { "武僧", 0 },
       { { "Candidate", 0 },
         { "Novice", 0 },
         { "Initiate", 0 },
@@ -272,7 +272,7 @@ const struct Role roles[NUM_ROLES+1] = {
       A_WIS,
       SPE_RESTORE_ABILITY,
       -4 },
-    { { "Priest", "Priestess" },
+    { { "祭司", 0 },
       { { "Aspirant", 0 },
         { "Acolyte", 0 },
         { "Adept", 0 },
@@ -315,7 +315,7 @@ const struct Role roles[NUM_ROLES+1] = {
       -4 },
     /* Note:  Rogue precedes Ranger so that use of `-R' on the command line
        retains its traditional meaning. */
-    { { "Rogue", 0 },
+    { { "盗贼", 0 },
       { { "Footpad", 0 },
         { "Cutpurse", 0 },
         { "Rogue", 0 },
@@ -355,7 +355,7 @@ const struct Role roles[NUM_ROLES+1] = {
       A_INT,
       SPE_DETECT_TREASURE,
       -4 },
-    { { "Ranger", 0 },
+    { { "游侠", 0 },
       {
 #if 0 /* OBSOLETE */
         {"Edhel",   "Elleth"},
@@ -410,7 +410,7 @@ const struct Role roles[NUM_ROLES+1] = {
       A_INT,
       SPE_INVISIBILITY,
       -4 },
-    { { "Samurai", 0 },
+    { { "武士", 0 },
       { { "Hatamoto", 0 },       /* Banner Knight */
         { "Ronin", 0 },          /* no allegiance */
         { "Ninja", "Kunoichi" }, /* secret society */
@@ -450,7 +450,7 @@ const struct Role roles[NUM_ROLES+1] = {
       A_INT,
       SPE_CLAIRVOYANCE,
       -4 },
-    { { "Tourist", 0 },
+    { { "游客", 0 },
       { { "Rambler", 0 },
         { "Sightseer", 0 },
         { "Excursionist", 0 },
@@ -490,7 +490,7 @@ const struct Role roles[NUM_ROLES+1] = {
       A_INT,
       SPE_CHARM_MONSTER,
       -4 },
-    { { "Valkyrie", 0 },
+    { { "女武神", 0 },
       { { "Stripling", 0 },
         { "Skirmisher", 0 },
         { "Fighter", 0 },
@@ -530,7 +530,7 @@ const struct Role roles[NUM_ROLES+1] = {
       A_WIS,
       SPE_CONE_OF_COLD,
       -4 },
-    { { "Wizard", 0 },
+    { { "巫师", 0 },
       { { "Evoker", 0 },
         { "Conjurer", 0 },
         { "Thaumaturge", 0 },
@@ -580,11 +580,11 @@ const struct Role roles[NUM_ROLES+1] = {
 /* NUM_RACES is defined in hack.h */
 const struct Race races[NUM_RACES + 1] = {
     {
-        "human",
-        "human",
-        "humanity",
-        "Hum",
-        { "man", "woman" },
+        "人类",
+        "人类",
+        "人类",
+        "人",
+        { "男人", "女人" },
         PM_HUMAN,
         PM_HUMAN_MUMMY,
         PM_HUMAN_ZOMBIE,
@@ -601,10 +601,10 @@ const struct Race races[NUM_RACES + 1] = {
         { 1, 0, 2, 0, 2, 0 }  /* Energy */
     },
     {
-        "elf",
-        "elven",
-        "elvenkind",
-        "Elf",
+        "精灵",
+        "精灵",
+        "精灵",
+        "精",
         { 0, 0 },
         PM_ELF,
         PM_ELF_MUMMY,
@@ -621,10 +621,10 @@ const struct Race races[NUM_RACES + 1] = {
         { 2, 0, 3, 0, 3, 0 }  /* Energy */
     },
     {
-        "dwarf",
-        "dwarven",
-        "dwarvenkind",
-        "Dwa",
+        "矮人",
+        "矮人",
+        "矮人",
+        "矮",
         { 0, 0 },
         PM_DWARF,
         PM_DWARF_MUMMY,
@@ -641,10 +641,10 @@ const struct Race races[NUM_RACES + 1] = {
         { 0, 0, 0, 0, 0, 0 }  /* Energy */
     },
     {
-        "gnome",
-        "gnomish",
-        "gnomehood",
-        "Gno",
+        "侏儒",
+        "侏儒",
+        "侏儒",
+        "侏",
         { 0, 0 },
         PM_GNOME,
         PM_GNOME_MUMMY,
@@ -661,10 +661,10 @@ const struct Race races[NUM_RACES + 1] = {
         { 2, 0, 2, 0, 2, 0 }  /* Energy */
     },
     {
-        "orc",
-        "orcish",
-        "orcdom",
-        "Orc",
+        "兽人",
+        "兽人",
+        "兽人",
+        "兽",
         { 0, 0 },
         PM_ORC,
         PM_ORC_MUMMY,
@@ -2893,7 +2893,7 @@ setup_rolemenu(
         }
         /* !filtering implies reset_role_filtering() where we want to
            mark this role as preselected if current filter excludes it */
-        add_menu(win, &nul_glyphinfo, &any, thisch, 0,
+        add_menu(win, &nul_glyphinfo, &any, cnstrcmp(any.a_string, "考古学家") ? 'a' : (cnstrcmp(any.a_string, "野蛮人") ? 'b' : (cnstrcmp(any.a_string, "穴居人") ? 'c' : (cnstrcmp(any.a_string, "治疗师") ? 'h' : (cnstrcmp(any.a_string, "武僧") ? 'm' : (cnstrcmp(any.a_string, "祭司") ? 'p' : (cnstrcmp(any.a_string, "盗贼") ? 'r' : (cnstrcmp(any.a_string, "游侠") ? 'R' : (cnstrcmp(any.a_string, "武士") ? 's' : (cnstrcmp(any.a_string, "游客") ? 't' : (cnstrcmp(any.a_string, "女武神") ? 'v' : (cnstrcmp(any.a_string, "巫师") ? 'w' : ''))))))))))), 0, /*危险:add_menu(win, &nul_glyphinfo, &any, thisch, 0,*/
                  ATR_NONE, clr, an(rolenamebuf),
                  (!filtering && !role_ok)
                     ? MENU_ITEMFLAGS_SELECTED : MENU_ITEMFLAGS_NONE);
@@ -2931,7 +2931,7 @@ setup_racemenu(
            !filtering: resetting filter rather than picking, choose by
            capital letter since lowercase role letters will be present */
         add_menu(win, &nul_glyphinfo, &any,
-                 filtering ? this_ch : highc(this_ch),
+                 cnstrcmp(any.a_string, "人类") ? 'h' : (cnstrcmp(any.a_string, "精灵") ? 'e' : (cnstrcmp(any.a_string, "矮人") ? 'd' : (cnstrcmp(any.a_string, "侏儒") ? 'g' : (cnstrcmp(any.a_string, "兽人") ? 'o' : '')))), /*filtering ? this_ch : highc(this_ch)*/
                  filtering ? highc(this_ch) : 0,
                  ATR_NONE, clr, races[i].noun,
                  (!filtering && !race_ok)
@@ -2967,7 +2967,7 @@ setup_gendmenu(
         /* (see setup_racemenu for explanation of selector letters
            and setup_rolemenu for preselection) */
         add_menu(win, &nul_glyphinfo, &any,
-                 filtering ? this_ch : highc(this_ch),
+                 cnstrcmp(any.a_string, "男性") ? 'm' : (cnstrcmp(any.a_string, "女性") ? 'f' : (cnstrcmp(any.a_string, "中性") ? 'n' : (cnstrcmp(any.a_string, "一群") ? 'g' : ''))), /*危险:filtering ? this_ch : highc(this_ch),*/
                  filtering ? highc(this_ch) : 0,
                  ATR_NONE, clr, genders[i].adj,
                  (!filtering && !gend_ok)
@@ -3003,7 +3003,7 @@ setup_algnmenu(
         /* (see setup_racemenu for explanation of selector letters
            and setup_rolemenu for preselection) */
         add_menu(win, &nul_glyphinfo, &any,
-                 filtering ? this_ch : highc(this_ch),
+                 cnstrcmp(any.a_string, "守序") ? 'l' : (cnstrcmp(any.a_string, "中立") ? 'n' : (cnstrcmp(any.a_string, "混沌") ? 'c' : (cnstrcmp(any.a_string, "无阵营") ? 'u' : ''))), /*危险:filtering ? this_ch : highc(this_ch),*/
                  filtering ? highc(this_ch) : 0,
                  ATR_NONE, clr, aligns[i].adj,
                  (!filtering && !algn_ok)
