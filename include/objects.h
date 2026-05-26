@@ -897,119 +897,119 @@ MARKER(LAST_AMULET, AMULET_OF_YENDOR)
 /* containers */
 CONTAINER("large box",       NoDes, "大箱子", NoDes, 1, 0, 0, 40, 350,   8, WOOD, HI_WOOD,
                                                                 LARGE_BOX),
-CONTAINER("chest",           NoDes, 1, 0, 0, 35, 600,  16, WOOD, HI_WOOD,
+CONTAINER("chest",           NoDes, "箱子", NoDes, 1, 0, 0, 35, 600,  16, WOOD, HI_WOOD,
                                                                 CHEST),
-CONTAINER("ice box",         NoDes, 1, 0, 0,  5, 900,  42, PLASTIC, CLR_WHITE,
+CONTAINER("ice box",         NoDes, "冰盒子", NoDes, 1, 0, 0,  5, 900,  42, PLASTIC, CLR_WHITE,
                                                                 ICE_BOX),
-CONTAINER("sack",           "bag", 0, 0, 0, 35,  15,   2, CLOTH, HI_CLOTH,
+CONTAINER("sack",           "bag", "布袋", "袋子", 0, 0, 0, 35,  15,   2, CLOTH, HI_CLOTH,
                                                                 SACK),
-CONTAINER("oilskin sack",   "bag", 0, 0, 0,  5,  15, 100, CLOTH, HI_CLOTH,
+CONTAINER("oilskin sack",   "bag", "防水袋", "袋子", 0, 0, 0,  5,  15, 100, CLOTH, HI_CLOTH,
                                                                 OILSKIN_SACK),
-CONTAINER("bag of holding", "bag", 0, 1, 0, 20,  15, 100, CLOTH, HI_CLOTH,
+CONTAINER("bag of holding", "bag", "次元袋", "袋子", 0, 1, 0, 20,  15, 100, CLOTH, HI_CLOTH,
                                                                BAG_OF_HOLDING),
-CONTAINER("bag of tricks",  "bag", 0, 1, 1, 20,  15, 100, CLOTH, HI_CLOTH,
+CONTAINER("bag of tricks",  "bag", "魔术袋", "袋子", 0, 1, 1, 20,  15, 100, CLOTH, HI_CLOTH,
                                                                 BAG_OF_TRICKS),
 #undef CONTAINER
 
 /* lock opening tools */
-TOOL("skeleton key",       "key", 0, 0, 0, 0, 80,  3, 10, IRON, HI_METAL,
+TOOL("skeleton key",       "key", "万能钥匙", "钥匙", 0, 0, 0, 0, 80,  3, 10, IRON, HI_METAL,
                                                                 SKELETON_KEY),
-TOOL("lock pick",           NoDes, 1, 0, 0, 0, 60,  4, 20, IRON, HI_METAL,
+TOOL("lock pick",           NoDes, "开锁器", NoDes, 1, 0, 0, 0, 60,  4, 20, IRON, HI_METAL,
                                                                 LOCK_PICK),
-TOOL("credit card",         NoDes, 1, 0, 0, 0, 15,  1, 10, PLASTIC, CLR_WHITE,
+TOOL("credit card",         NoDes, "信用卡", NoDes, 1, 0, 0, 0, 15,  1, 10, PLASTIC, CLR_WHITE,
                                                                 CREDIT_CARD),
 /* light sources */
-TOOL("tallow candle",   "candle", 0, 1, 0, 0, 20,  2, 10, WAX, CLR_WHITE,
+TOOL("tallow candle",   "candle", "牛油烛", "蜡烛", 0, 1, 0, 0, 20,  2, 10, WAX, CLR_WHITE,
                                                                 TALLOW_CANDLE),
-TOOL("wax candle",      "candle", 0, 1, 0, 0,  5,  2, 20, WAX, CLR_WHITE,
+TOOL("wax candle",      "candle", "蜡状蜡烛", "蜡烛", 0, 1, 0, 0,  5,  2, 20, WAX, CLR_WHITE,
                                                                 WAX_CANDLE),
-TOOL("brass lantern",       NoDes, 1, 0, 0, 0, 30, 30, 12, COPPER, CLR_YELLOW,
+TOOL("brass lantern",       NoDes, "黄铜灯笼", NoDes, 1, 0, 0, 0, 30, 30, 12, COPPER, CLR_YELLOW,
                                                                 BRASS_LANTERN),
-TOOL("oil lamp",          "lamp", 0, 0, 0, 0, 45, 20, 10, COPPER, CLR_YELLOW,
+TOOL("oil lamp",          "lamp", "油灯", "灯", 0, 0, 0, 0, 45, 20, 10, COPPER, CLR_YELLOW,
                                                                 OIL_LAMP),
-TOOL("magic lamp",        "lamp", 0, 0, 1, 0, 15, 20, 50, COPPER, CLR_YELLOW,
+TOOL("magic lamp",        "lamp", "神灯", "灯", 0, 0, 1, 0, 15, 20, 50, COPPER, CLR_YELLOW,
                                                                 MAGIC_LAMP),
 /* other tools */
-TOOL("expensive camera",    NoDes, 1, 0, 0, 1, 15, 12,200, PLASTIC, CLR_BLACK,
+TOOL("expensive camera",    NoDes, "高档相机", NoDes, 1, 0, 0, 1, 15, 12,200, PLASTIC, CLR_BLACK,
                                                             EXPENSIVE_CAMERA),
-TOOL("mirror",   "looking glass", 0, 0, 0, 0, 45, 13, 10, GLASS, HI_SILVER,
+TOOL("mirror",   "looking glass", "反光镜", "镜子", 0, 0, 0, 0, 45, 13, 10, GLASS, HI_SILVER,
                                                                 MIRROR),
-TOOL("crystal ball", "glass orb", 0, 0, 1, 1, 15,150, 60, GLASS, HI_GLASS,
+TOOL("crystal ball", "glass orb", "水晶球", "玻璃球", 0, 0, 1, 1, 15,150, 60, GLASS, HI_GLASS,
                                                                 CRYSTAL_BALL),
 /* eyewear - tools which can be worn on the face; (!mrg, !chg, !mgc)
    worn lenses don't confer the Blinded property, blindfolds and towels do;
    wet towel can be used as a weapon but is not a weptool and uses obj->spe
    differently from weapons and weptools */
-EYEWEAR("lenses",           NoDes, 1,       0,  5,  3, 80, GLASS, HI_GLASS,
+EYEWEAR("lenses",           NoDes, "眼镜", NoDes, 1,       0,  5,  3, 80, GLASS, HI_GLASS,
                                                                 LENSES),
-EYEWEAR("blindfold",        NoDes, 1, BLINDED, 50,  2, 20, CLOTH, CLR_BLACK,
+EYEWEAR("blindfold",        NoDes, "眼罩", NoDes, 1, BLINDED, 50,  2, 20, CLOTH, CLR_BLACK,
                                                                 BLINDFOLD),
-EYEWEAR("towel",            NoDes, 1, BLINDED, 50,  5, 50, CLOTH, CLR_MAGENTA,
+EYEWEAR("towel",            NoDes, "毛巾", NoDes, 1, BLINDED, 50,  5, 50, CLOTH, CLR_MAGENTA,
                                                                 TOWEL),
 #undef EYEWEAR
 
 /* still other tools */
-TOOL("saddle",              NoDes, 1, 0, 0, 0,  5,200,150, LEATHER, HI_LEATHER,
+TOOL("saddle",              NoDes, "鞍", NoDes, 1, 0, 0, 0,  5,200,150, LEATHER, HI_LEATHER,
                                                                 SADDLE),
-TOOL("leash",               NoDes, 1, 0, 0, 0, 65, 12, 20, LEATHER, HI_LEATHER,
+TOOL("leash",               NoDes, "狗链", NoDes, 1, 0, 0, 0, 65, 12, 20, LEATHER, HI_LEATHER,
                                                                 LEASH),
-TOOL("stethoscope",         NoDes, 1, 0, 0, 0, 25,  4, 75, IRON, HI_METAL,
+TOOL("stethoscope",         NoDes, "听诊器", NoDes, 1, 0, 0, 0, 25,  4, 75, IRON, HI_METAL,
                                                                 STETHOSCOPE),
-TOOL("tinning kit",         NoDes, 1, 0, 0, 1, 15,100, 30, IRON, HI_METAL,
+TOOL("tinning kit",         NoDes, "装罐器", NoDes, 1, 0, 0, 1, 15,100, 30, IRON, HI_METAL,
                                                                 TINNING_KIT),
-TOOL("tin opener",          NoDes, 1, 0, 0, 0, 35,  4, 30, IRON, HI_METAL,
+TOOL("tin opener",          NoDes, "开罐器", NoDes, 1, 0, 0, 0, 35,  4, 30, IRON, HI_METAL,
                                                                 TIN_OPENER),
-TOOL("can of grease",       NoDes, 1, 0, 0, 1, 15, 15, 20, IRON, HI_METAL,
+TOOL("can of grease",       NoDes, "开罐器", NoDes, 1, 0, 0, 1, 15, 15, 20, IRON, HI_METAL,
                                                                 CAN_OF_GREASE),
-TOOL("figurine",            NoDes, 1, 0, 1, 0, 25, 50, 80, MINERAL, HI_MINERAL,
+TOOL("figurine",            NoDes, "小雕像", NoDes, 1, 0, 1, 0, 25, 50, 80, MINERAL, HI_MINERAL,
                                                                 FIGURINE),
         /* monster type specified by obj->corpsenm */
-TOOL("magic marker",        NoDes, 1, 0, 1, 1, 15,  2, 50, PLASTIC, CLR_RED,
+TOOL("magic marker",        NoDes, "魔笔", NoDes, 1, 0, 1, 1, 15,  2, 50, PLASTIC, CLR_RED,
                                                                 MAGIC_MARKER),
 /* traps */
-TOOL("land mine",           NoDes, 1, 0, 0, 0, 0, 200,180, IRON, CLR_RED,
+TOOL("land mine",           NoDes, "地雷", NoDes, 1, 0, 0, 0, 0, 200,180, IRON, CLR_RED,
                                                                 LAND_MINE),
-TOOL("beartrap",            NoDes, 1, 0, 0, 0, 0, 200, 60, IRON, HI_METAL,
+TOOL("beartrap",            NoDes, "捕兽夹", NoDes, 1, 0, 0, 0, 0, 200, 60, IRON, HI_METAL,
                                                                 BEARTRAP),
 /* instruments;
    "If tin whistles are made out of tin, what do they make foghorns out of?" */
-TOOL("tin whistle",    "whistle", 0, 0, 0, 0,100, 3, 10, METAL, HI_METAL,
+TOOL("tin whistle",    "whistle", "六孔哨", "口哨", 0, 0, 0, 0,100, 3, 10, METAL, HI_METAL,
                                                                 TIN_WHISTLE),
-TOOL("magic whistle",  "whistle", 0, 0, 1, 0, 30, 3, 10, METAL, HI_METAL,
+TOOL("magic whistle",  "whistle", "魔法口哨", "口哨", 0, 0, 1, 0, 30, 3, 10, METAL, HI_METAL,
                                                                 MAGIC_WHISTLE),
-TOOL("wooden flute",     "flute", 0, 0, 0, 0,  4, 5, 12, WOOD, HI_WOOD,
+TOOL("wooden flute",     "flute", "木笛", "长笛", 0, 0, 0, 0,  4, 5, 12, WOOD, HI_WOOD,
                                                                 WOODEN_FLUTE),
-TOOL("magic flute",      "flute", 0, 0, 1, 1,  2, 5, 36, WOOD, HI_WOOD,
+TOOL("magic flute",      "flute", "魔笛", "长笛", 0, 0, 1, 1,  2, 5, 36, WOOD, HI_WOOD,
                                                                 MAGIC_FLUTE),
-TOOL("tooled horn",       "horn", 0, 0, 0, 0,  5, 18, 15, BONE, CLR_WHITE,
+TOOL("tooled horn",       "horn", "加工号角", "号角", 0, 0, 0, 0,  5, 18, 15, BONE, CLR_WHITE,
                                                                 TOOLED_HORN),
-TOOL("frost horn",        "horn", 0, 0, 1, 1,  2, 18, 50, BONE, CLR_WHITE,
+TOOL("frost horn",        "horn", "冰霜号角", "号角", 0, 0, 1, 1,  2, 18, 50, BONE, CLR_WHITE,
                                                                 FROST_HORN),
-TOOL("fire horn",         "horn", 0, 0, 1, 1,  2, 18, 50, BONE, CLR_WHITE,
+TOOL("fire horn",         "horn", "火焰号角", "号角", 0, 0, 1, 1,  2, 18, 50, BONE, CLR_WHITE,
                                                                 FIRE_HORN),
-TOOL("horn of plenty",    "horn", 0, 0, 1, 1,  2, 18, 50, BONE, CLR_WHITE,
+TOOL("horn of plenty",    "horn", "丰饶之角", "号角", 0, 0, 1, 1,  2, 18, 50, BONE, CLR_WHITE,
                                                             HORN_OF_PLENTY),
         /* horn, but not an instrument */
-TOOL("wooden harp",       "harp", 0, 0, 0, 0,  4, 30, 50, WOOD, HI_WOOD,
+TOOL("wooden harp",       "harp", "木竖琴", "竖琴", 0, 0, 0, 0,  4, 30, 50, WOOD, HI_WOOD,
                                                                 WOODEN_HARP),
-TOOL("magic harp",        "harp", 0, 0, 1, 1,  2, 30, 50, WOOD, HI_WOOD,
+TOOL("magic harp",        "harp", "魔幻竖琴", "竖琴", 0, 0, 1, 1,  2, 30, 50, WOOD, HI_WOOD,
                                                                 MAGIC_HARP),
-TOOL("bell",                NoDes, 1, 0, 0, 0,  2, 30, 50, COPPER, HI_COPPER,
+TOOL("bell",                NoDes,  "铃", NoDes, 1, 0, 0, 0,  2, 30, 50, COPPER, HI_COPPER,
                                                                 BELL),
-TOOL("bugle",               NoDes, 1, 0, 0, 0,  4, 10, 15, COPPER, HI_COPPER,
+TOOL("bugle",               NoDes, "军号", NoDes, 1, 0, 0, 0,  4, 10, 15, COPPER, HI_COPPER,
                                                                 BUGLE),
-TOOL("leather drum",      "drum", 0, 0, 0, 0,  4, 25, 25, LEATHER, HI_LEATHER,
+TOOL("leather drum",      "drum", "皮革鼓", "鼓", 0, 0, 0, 0,  4, 25, 25, LEATHER, HI_LEATHER,
                                                                 LEATHER_DRUM),
-TOOL("drum of earthquake","drum", 0, 0, 1, 1,  2, 25, 25, LEATHER, HI_LEATHER,
+TOOL("drum of earthquake","drum", "地震鼓", "鼓", 0, 0, 1, 1,  2, 25, 25, LEATHER, HI_LEATHER,
                                                           DRUM_OF_EARTHQUAKE),
 /* tools useful as weapons */
-WEPTOOL("pick-axe", NoDes,
+WEPTOOL("pick-axe", NoDes, "鹤嘴锄", NoDes,
         1, 0, 0, 20, 100,  50,  6,  3, WHACK,  P_PICK_AXE, IRON, HI_METAL,
                                                                 PICK_AXE),
-WEPTOOL("grappling hook", NoDes,
+WEPTOOL("grappling hook", NoDes, "爪钩", "铁钩",
         1, 0, 0,  5,  30,  50,  2,  6, WHACK,  P_FLAIL,    IRON, HI_METAL,
                                                              GRAPPLING_HOOK),
-WEPTOOL("unicorn horn", NoDes,
+WEPTOOL("unicorn horn", NoDes, "独角兽的角", NoDes,
         1, 1, 1,  0,  20, 100, 12, 12, PIERCE, P_UNICORN_HORN,
                                                            BONE, CLR_WHITE,
                                                                 UNICORN_HORN),
@@ -1017,11 +1017,11 @@ WEPTOOL("unicorn horn", NoDes,
 /* two unique tools;
  * not artifacts, despite the comment which used to be here
  */
-OBJECT(OBJ("Candelabrum of Invocation", "candelabrum"),
+OBJECT(OBJ("Candelabrum of Invocation", "candelabrum", "祈祷烛台", "烛台"),
        BITS(0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 0, P_NONE, GOLD),
        0, TOOL_CLASS, 0, 0, 10, 5000, 0, 0, 0, 0, 200, HI_GOLD,
                                                    CANDELABRUM_OF_INVOCATION),
-OBJECT(OBJ("Bell of Opening", "silver bell"),
+OBJECT(OBJ("Bell of Opening", "silver bell", "开启之铃", "银铃"),
        BITS(0, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, P_NONE, SILVER),
        0, TOOL_CLASS, 0, 0, 10, 5000, 0, 0, 0, 0, 50, HI_SILVER,
                                                    BELL_OF_OPENING),
@@ -1029,8 +1029,8 @@ OBJECT(OBJ("Bell of Opening", "silver bell"),
 #undef WEPTOOL
 
 /* Comestibles ... */
-#define FOOD(name, prob, delay, wt, unk, tin, nutrition, color, sn) \
-    OBJECT(OBJ(name, NoDes),                                            \
+#define FOOD(ename, name, prob, delay, wt, unk, tin, nutrition, color, sn) \
+    OBJECT(OBJ(ename, NoDes, name, NoDes),                                            \
            BITS(1, 1, unk, 0, 0, 0, 0, 0, 0, 0, 0, P_NONE, tin), 0,     \
            FOOD_CLASS, prob, delay, wt, nutrition / 20 + 5, 0, 0, 0, 0, \
            nutrition, color, sn)
@@ -1044,92 +1044,92 @@ OBJECT(OBJ("Bell of Opening", "silver bell"),
  * Meatballs/sticks/rings are only created from objects via stone to flesh.
  */
 /* meat */
-FOOD("tripe ration",        140,  2, 10, 0, FLESH, 200, CLR_BROWN,
+FOOD("tripe ration", "牛肚",        140,  2, 10, 0, FLESH, 200, CLR_BROWN,
                                                         TRIPE_RATION),
-FOOD("corpse",                0,  1,  0, 0, FLESH,   0, CLR_BROWN,
+FOOD("corpse", "尸体",                0,  1,  0, 0, FLESH,   0, CLR_BROWN,
                                                         CORPSE),
-FOOD("egg",                  85,  1,  1, 1, FLESH,  80, CLR_WHITE,
+FOOD("egg", "蛋",                  85,  1,  1, 1, FLESH,  80, CLR_WHITE,
                                                         EGG),
-FOOD("meatball",              0,  1,  1, 0, FLESH,   5, CLR_BROWN,
+FOOD("meatball", "肉丸",              0,  1,  1, 0, FLESH,   5, CLR_BROWN,
                                                         MEATBALL),
-FOOD("meat stick",            0,  1,  1, 0, FLESH,   5, CLR_BROWN,
+FOOD("meat stick", "肉棍",            0,  1,  1, 0, FLESH,   5, CLR_BROWN,
                                                         MEAT_STICK),
 /* formerly "huge chunk of meat" */
-FOOD("enormous meatball",     0, 20,400, 0, FLESH,2000, CLR_BROWN,
+FOOD("enormous meatball", "大块肉",     0, 20,400, 0, FLESH,2000, CLR_BROWN,
                                                         ENORMOUS_MEATBALL),
 /* special case because it's not mergeable */
-OBJECT(OBJ("meat ring", NoDes),
+OBJECT(OBJ("meat ring", NoDes, "肉环", NoDes),
        BITS(1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, FLESH),
        0, FOOD_CLASS, 0, 1, 5, 1, 0, 0, 0, 0, 5, CLR_BROWN, MEAT_RING),
 /* pudding 'corpses' will turn into these and combine;
    must be in same order as the pudding monsters */
-FOOD("glob of gray ooze",     0,  2, 20, 0, FLESH,  20, CLR_GRAY,
+FOOD("glob of gray ooze", "灰色软泥团",     0,  2, 20, 0, FLESH,  20, CLR_GRAY,
                                                        GLOB_OF_GRAY_OOZE),
-FOOD("glob of brown pudding", 0,  2, 20, 0, FLESH,  20, CLR_BROWN,
+FOOD("glob of brown pudding", "棕色布丁团", 0,  2, 20, 0, FLESH,  20, CLR_BROWN,
                                                        GLOB_OF_BROWN_PUDDING),
-FOOD("glob of green slime",   0,  2, 20, 0, FLESH,  20, CLR_GREEN,
+FOOD("glob of green slime", "绿色黏液团",   0,  2, 20, 0, FLESH,  20, CLR_GREEN,
                                                        GLOB_OF_GREEN_SLIME),
-FOOD("glob of black pudding", 0,  2, 20, 0, FLESH,  20, CLR_BLACK,
+FOOD("glob of black pudding", "黑色布丁团", 0,  2, 20, 0, FLESH,  20, CLR_BLACK,
                                                        GLOB_OF_BLACK_PUDDING),
 
 /* fruits & veggies */
-FOOD("kelp frond",            0,  1,  1, 0, VEGGY,  30, CLR_GREEN, KELP_FROND),
-FOOD("eucalyptus leaf",       3,  1,  1, 0, VEGGY,   1, CLR_GREEN,
+FOOD("kelp frond",  "海藻叶子",           0,  1,  1, 0, VEGGY,  30, CLR_GREEN, KELP_FROND),
+FOOD("eucalyptus leaf",  "桉叶",      3,  1,  1, 0, VEGGY,   1, CLR_GREEN,
                                                           EUCALYPTUS_LEAF),
-FOOD("apple",                15,  1,  2, 0, VEGGY,  50, CLR_RED, APPLE),
-FOOD("orange",               10,  1,  2, 0, VEGGY,  80, CLR_ORANGE, ORANGE),
-FOOD("pear",                 10,  1,  2, 0, VEGGY,  50, CLR_BRIGHT_GREEN,
+FOOD("apple",  "苹果",               15,  1,  2, 0, VEGGY,  50, CLR_RED, APPLE),
+FOOD("orange",  "橙子",              10,  1,  2, 0, VEGGY,  80, CLR_ORANGE, ORANGE),
+FOOD("pear",  "梨",                10,  1,  2, 0, VEGGY,  50, CLR_BRIGHT_GREEN,
                                                           PEAR),
-FOOD("melon",                10,  1,  5, 0, VEGGY, 100, CLR_BRIGHT_GREEN,
+FOOD("melon", "甜瓜",                10,  1,  5, 0, VEGGY, 100, CLR_BRIGHT_GREEN,
                                                           MELON),
-FOOD("banana",               10,  1,  2, 0, VEGGY,  80, CLR_YELLOW, BANANA),
-FOOD("carrot",               15,  1,  2, 0, VEGGY,  50, CLR_ORANGE, CARROT),
-FOOD("sprig of wolfsbane",    7,  1,  1, 0, VEGGY,  40, CLR_GREEN,
+FOOD("banana", "香蕉",               10,  1,  2, 0, VEGGY,  80, CLR_YELLOW, BANANA),
+FOOD("carrot", "胡萝卜",               15,  1,  2, 0, VEGGY,  50, CLR_ORANGE, CARROT),
+FOOD("sprig of wolfsbane", "附子草枝",    7,  1,  1, 0, VEGGY,  40, CLR_GREEN,
                                                           SPRIG_OF_WOLFSBANE),
-FOOD("clove of garlic",       7,  1,  1, 0, VEGGY,  40, CLR_WHITE,
+FOOD("clove of garlic", "蒜瓣",       7,  1,  1, 0, VEGGY,  40, CLR_WHITE,
                                                           CLOVE_OF_GARLIC),
 /* name of slime mold is changed based on player's OPTION=fruit:something
    and bones data might have differently named ones from prior games */
-FOOD("slime mold",           75,  1,  5, 0, VEGGY, 250, HI_ORGANIC,
+FOOD("slime mold", "黏菌",           75,  1,  5, 0, VEGGY, 250, HI_ORGANIC,
                                                           SLIME_MOLD),
 
 /* people food */
-FOOD("lump of royal jelly",   0,  1,  2, 0, VEGGY, 200, CLR_YELLOW,
+FOOD("lump of royal jelly", "蜂王浆",   0,  1,  2, 0, VEGGY, 200, CLR_YELLOW,
                                                         LUMP_OF_ROYAL_JELLY),
-FOOD("cream pie",            25,  1, 10, 0, VEGGY, 100, CLR_WHITE, CREAM_PIE),
-FOOD("candy bar",            13,  1,  2, 0, VEGGY, 100, CLR_BRIGHT_BLUE,
+FOOD("cream pie", "奶油派",             25,  1, 10, 0, VEGGY, 100, CLR_WHITE, CREAM_PIE),
+FOOD("candy bar", "条形糖果",            13,  1,  2, 0, VEGGY, 100, CLR_BRIGHT_BLUE,
                                                                 CANDY_BAR),
-FOOD("fortune cookie",       55,  1,  1, 0, VEGGY,  40, CLR_YELLOW,
+FOOD("fortune cookie", "幸运饼干",       55,  1,  1, 0, VEGGY,  40, CLR_YELLOW,
                                                               FORTUNE_COOKIE),
-FOOD("pancake",              25,  2,  2, 0, VEGGY, 200, CLR_YELLOW, PANCAKE),
-FOOD("lembas wafer",         20,  2,  5, 0, VEGGY, 800, CLR_WHITE,
+FOOD("pancake", "煎饼",              25,  2,  2, 0, VEGGY, 200, CLR_YELLOW, PANCAKE),
+FOOD("lembas wafer", "兰巴斯片",         20,  2,  5, 0, VEGGY, 800, CLR_WHITE,
                                                                 LEMBAS_WAFER),
-FOOD("cram ration",          20,  3, 15, 0, VEGGY, 600, HI_ORGANIC,
+FOOD("cram ration", "压缩口粮",          20,  3, 15, 0, VEGGY, 600, HI_ORGANIC,
                                                                 CRAM_RATION),
-FOOD("food ration",         380,  5, 20, 0, VEGGY, 800, HI_ORGANIC,
+FOOD("food ration", "口粮",         380,  5, 20, 0, VEGGY, 800, HI_ORGANIC,
                                                                 FOOD_RATION),
-FOOD("K-ration",              0,  1, 10, 0, VEGGY, 400, HI_ORGANIC, K_RATION),
-FOOD("C-ration",              0,  1, 10, 0, VEGGY, 300, HI_ORGANIC, C_RATION),
+FOOD("K-ration", "K-口粮",              0,  1, 10, 0, VEGGY, 400, HI_ORGANIC, K_RATION),
+FOOD("C-ration", "C-口粮",             0,  1, 10, 0, VEGGY, 300, HI_ORGANIC, C_RATION),
 /* tins have type specified by obj->spe (+1 for spinach, other implies
    flesh; negative specifies preparation method {homemade,boiled,&c})
    and by obj->corpsenm (type of monster flesh) */
-FOOD("tin",                  75,  0, 10, 1, METAL,   0, HI_METAL, TIN),
+FOOD("tin", "罐头",                  75,  0, 10, 1, METAL,   0, HI_METAL, TIN),
 #undef FOOD
 
 /* potions ... */
-#define POTION(name,desc,mgc,power,prob,cost,color,sn) \
-    OBJECT(OBJ(name, desc),                                             \
+#define POTION(ename, edesc, name, desc,mgc,power,prob,cost,color,sn) \
+    OBJECT(OBJ(ename, edesc, name, desc),                                             \
            BITS(0, 1, 0, 0, mgc, 0, 0, 0, 0, 0, 0, P_NONE, GLASS),      \
            power, POTION_CLASS, prob, 0, 20, cost, 0, 0, 0, 0, 10, color, sn)
-POTION("gain ability",           "ruby",  1, 0, 40, 300, CLR_RED,
+POTION("gain ability",           "ruby", "增强能力", "深红色",  1, 0, 40, 300, CLR_RED,
                                                         POT_GAIN_ABILITY),
-POTION("restore ability",        "pink",  1, 0, 40, 100, CLR_BRIGHT_MAGENTA,
+POTION("restore ability",        "pink", "恢复能力", "粉红色",  1, 0, 40, 100, CLR_BRIGHT_MAGENTA,
                                                         POT_RESTORE_ABILITY),
-POTION("confusion",            "orange",  1, CONFUSION, 40, 100, CLR_ORANGE,
+POTION("confusion",            "orange", "混乱", "橙色",  1, CONFUSION, 40, 100, CLR_ORANGE,
                                                         POT_CONFUSION),
-POTION("blindness",            "yellow",  1, BLINDED, 30, 150, CLR_YELLOW,
+POTION("blindness",            "yellow", "失明", "黄色",  1, BLINDED, 30, 150, CLR_YELLOW,
                                                         POT_BLINDNESS),
-POTION("paralysis",           "emerald",  1, 0, 40, 300, CLR_BRIGHT_GREEN,
+POTION("paralysis",           "emerald", "麻痹", "翠绿色",  1, 0, 40, 300, CLR_BRIGHT_GREEN,
                                                         POT_PARALYSIS),
 POTION("speed",            "dark green",  1, FAST, 40, 200, CLR_GREEN,
                                                         POT_SPEED),
@@ -1178,8 +1178,8 @@ POTION("water",                 "clear",  0, 0, 80, 100, CLR_CYAN,
 #undef POTION
 
 /* scrolls ... */
-#define SCROLL(name,text,mgc,prob,cost,sn) \
-    OBJECT(OBJ(name, text),                                           \
+#define SCROLL(ename, etext, name,text,mgc,prob,cost,sn) \
+    OBJECT(OBJ(ename, etext, name, text),                                           \
            BITS(0, 1, 0, 0, mgc, 0, 0, 0, 0, 0, 0, P_NONE, PAPER),    \
            0, SCROLL_CLASS, prob, 0, 5, cost, 0, 0, 0, 0, 6, \
            HI_PAPER, sn)
@@ -1232,7 +1232,7 @@ SCROLL("stinking cloud",             "VELOX NEB",  1,  15, 300,
      * tilemap.c must be modified to match.  Mgc,Prob,Cost are superfluous.
      * SC values must be distinct but are only used by 'nethack --dumpenums'.
      */
-#define XTRA_SCROLL_LABEL(text, sn) SCROLL(NoDes, text, 1, 0, 100, sn)
+#define XTRA_SCROLL_LABEL(text, sn) SCROLL(NoDes, text, NoDes, text, 1, 0, 100, sn)
 XTRA_SCROLL_LABEL(     "FOOBIE BLETCH", SC01),
 XTRA_SCROLL_LABEL(             "TEMOV", SC02),
 XTRA_SCROLL_LABEL(        "GARVEN DEH", SC03),
@@ -1273,8 +1273,8 @@ SCROLL("blank paper", "unlabeled",  0,  28,  60, SCR_BLANK_PAPER),
      * out in the process, allowing more than 52 spells be known but keeping
      * only 52 be castable at any given time.]
      */
-#define SPELL(name,desc,sub,prob,delay,level,mgc,dir,color,sn)  \
-    OBJECT(OBJ(name, desc),                                             \
+#define SPELL(ename,edesc,name,desc,sub,prob,delay,level,mgc,dir,color,sn)  \
+    OBJECT(OBJ(ename, edesc, name, desc),                                             \
            BITS(0, 0, 0, 0, mgc, 0, 0, 0, 0, 0, dir, sub, PAPER),       \
            0, SPBOOK_CLASS, prob, delay, 50, level * 100,               \
            0, 0, 0, level, 20, color, sn)
@@ -1441,8 +1441,8 @@ OBJECT(OBJ("Book of the Dead", "papyrus"),
 #undef SPELL
 
 /* wands ... */
-#define WAND(name,typ,prob,cost,mgc,dir,metal,color,sn) \
-    OBJECT(OBJ(name, typ),                                              \
+#define WAND(ename,etyp,name,typ,prob,cost,mgc,dir,metal,color,sn) \
+    OBJECT(OBJ(ename, etyp, name, typ),                                              \
            BITS(0, 0, 1, 0, mgc, 1, 0, 0, 0, 0, dir, P_NONE, metal),    \
            0, WAND_CLASS, prob, 0, 7, cost, 0, 0, 0, 0, 30, color, sn)
 WAND("light",           "glass", 95, 100, 1, NODIR, GLASS, HI_GLASS,
@@ -1504,21 +1504,21 @@ WAND(NoDes,            "jeweled",  0, 150, 1, 0, IRON, HI_MINERAL, WAN3),
 #undef WAND
 
 /* coins ... - so far, gold is all there is */
-#define COIN(name,prob,metal,worth,sn) \
-    OBJECT(OBJ(name, NoDes),                                         \
+#define COIN(ename,name,prob,metal,worth,sn) \
+    OBJECT(OBJ(ename, NoDes, name, NoDes),                                         \
            BITS(1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, P_NONE, metal),    \
            0, COIN_CLASS, prob, 0, 1, worth, 0, 0, 0, 0, 0, HI_GOLD, sn)
 COIN("gold piece", 1000, GOLD, 1, GOLD_PIECE),
 #undef COIN
 
 /* gems ... - includes stones and rocks but not boulders */
-#define GEM(name,desc,prob,wt,gval,nutr,mohs,glass,color,sn) \
-    OBJECT(OBJ(name, desc),                                             \
+#define GEM(ename,edesc,name,desc,prob,wt,gval,nutr,mohs,glass,color,sn) \
+    OBJECT(OBJ(ename, edesc, name, desc),                                             \
            BITS(0, 1, 0, 0, 0, 0, 0, 0, 0,                              \
                 HARDGEM(mohs), 0, -P_SLING, glass),                     \
            0, GEM_CLASS, prob, 0, wt, gval, 3, 3, 0, 0, nutr, color, sn)
-#define ROCK(name,desc,kn,prob,wt,gval,sdam,ldam,mgc,nutr,mohs,glass,colr,sn) \
-    OBJECT(OBJ(name, desc),                                             \
+#define ROCK(ename,edesc,name,desc,kn,prob,wt,gval,sdam,ldam,mgc,nutr,mohs,glass,colr,sn) \
+    OBJECT(OBJ(ename, edesc, name, desc),                                             \
            BITS(kn, 1, 0, 0, mgc, 0, 0, 0, 0,                           \
                 HARDGEM(mohs), 0, -P_SLING, glass),                     \
            0, GEM_CLASS, prob, 0, wt, gval, sdam, ldam, 0, 0, nutr, colr, sn)
