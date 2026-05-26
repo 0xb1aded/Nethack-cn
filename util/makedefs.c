@@ -2221,7 +2221,7 @@ do_objs(void)
         SpinCursor(3);
 
         objects[i].oc_name_idx = objects[i].oc_descr_idx = (short) i;
-        if (!(objnam = tmpdup(OBJ_NAME(objects[i]))))
+        if (!(objnam = tmpdup(OBJ_ENAME(objects[i]))))
             continue;
 
         /* done with current class? */

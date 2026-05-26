@@ -99,6 +99,7 @@ GENERIC("gem",        "宝石"  , GEM_CLASS,     GENERIC_GEM),     /* [13] */
 GENERIC("large rock", "大石头", ROCK_CLASS,    GENERIC_ROCK),    /* [14] bldr+statue */
 GENERIC("iron ball",  "铁球"  , BALL_CLASS,    GENERIC_BALL),    /* [15] */
 GENERIC("iron chain", "铁链"  , CHAIN_CLASS,   GENERIC_CHAIN),   /* [16] */
+GENERIC("venom",      "毒液"  , VENOM_CLASS,   GENERIC_VENOM),   /* [17] */
 #undef GENERIC
 /* FIRST_OBJECT: it would be simpler just to use MARKER(FIRST_OBJECT,ARROW)
    below but that is vulnerable to neglecting to update the marker enum
@@ -269,7 +270,7 @@ WEAPON("elven broadsword", "runed broadsword", "精灵阔剑", "符文阔剑",
 WEAPON("long sword", NoDes, "长剑", NoDes,
        1, 0, 0, 50,  40,  15,  8, 12, 0, S,   P_LONG_SWORD, IRON, HI_METAL,
                                                         LONG_SWORD),
-WEAPON("two-handed sword", NoDes, "双手剑", None,
+WEAPON("two-handed sword", NoDes, "双手剑", NoDes,
        1, 0, 1, 22, 150,  50, 12,  6, 0, S,   P_TWO_HANDED_SWORD,
                                                             IRON, HI_METAL,
                                                         TWO_HANDED_SWORD),
@@ -367,10 +368,10 @@ WEAPON("war hammer", NoDes, "战锤", NoDes,
        1, 0, 0, 15,  50,   5,  4,  4, 0, B,   P_HAMMER, IRON, HI_METAL,
                                                         WAR_HAMMER),
         /* +1 small */
-WEAPON("club", NoDes, "棍棒", None,
+WEAPON("club", NoDes, "棍棒", NoDes,
        1, 0, 0, 12,  30,   3,  6,  3, 0, B,   P_CLUB, WOOD, HI_WOOD,
                                                         CLUB),
-WEAPON("rubber hose", NoDes, "橡胶管", None,
+WEAPON("rubber hose", NoDes, "橡胶管", NoDes,
        1, 0, 0,  0,  20,   3,  4,  3, 0, B,   P_WHIP, PLASTIC, CLR_BROWN,
                                                         RUBBER_HOSE),
 WEAPON("quarterstaff", "staff", "铁头木棒", "棒子",
@@ -380,13 +381,13 @@ WEAPON("quarterstaff", "staff", "铁头木棒", "棒子",
 WEAPON("aklys", "thonged club", "链棒", "皮带棍棒",
        0, 0, 0,  8,  15,   4,  6,  3, 0, B,   P_CLUB, IRON, HI_METAL,
                                                         AKLYS),
-WEAPON("flail", NoDes, "连枷", None,
+WEAPON("flail", NoDes, "连枷", NoDes,
        1, 0, 0, 40,  15,   4,  6,  4, 0, B,   P_FLAIL, IRON, HI_METAL,
                                                         FLAIL),
         /* +1 small, +1d4 large */
 
 /* misc */
-WEAPON("bullwhip", NoDes, "牛鞭", None,
+WEAPON("bullwhip", NoDes, "牛鞭", NoDes,
        1, 0, 0,  2,  20,   4,  2,  1, 0, 0,   P_WHIP, LEATHER, CLR_BROWN,
                                                         BULLWHIP),
 
@@ -558,7 +559,7 @@ ARMOR("plate mail", NoDes, "板甲", NoDes,
 ARMOR("crystal plate mail", NoDes, "水晶板甲", NoDes,
       1, 0, 1,  0, 10, 5, 415, 820,  3, 2,  ARM_SUIT, GLASS, CLR_WHITE,
                                                         CRYSTAL_PLATE_MAIL),
-ARMOR("bronze plate mail", NoDes, "青铜板甲", NoDes
+ARMOR("bronze plate mail", NoDes, "青铜板甲", NoDes,
       1, 0, 1,  0, 23, 5, 450, 400,  4, 1,  ARM_SUIT, COPPER, HI_COPPER,
                                                         BRONZE_PLATE_MAIL),
 ARMOR("splint mail", NoDes, "板条甲", NoDes,
@@ -582,7 +583,7 @@ ARMOR("orcish chain mail", "crude chain mail", "兽人锁子甲", "粗糙锁子�
 ARMOR("scale mail", NoDes, "鳞甲", NoDes,
       1, 0, 0,  0, 66, 5, 250,  45,  6, 1,  ARM_SUIT, IRON, HI_METAL,
                                                         SCALE_MAIL),
-ARMOR("studded leather armor", NoDes, "嵌皮甲", None,
+ARMOR("studded leather armor", NoDes, "嵌皮甲", NoDes,
       1, 0, 0,  0, 66, 3, 200,  15,  7, 1,  ARM_SUIT, LEATHER, HI_LEATHER,
                                                         STUDDED_LEATHER_ARMOR),
 ARMOR("ring mail", NoDes, "锁环甲", NoDes,

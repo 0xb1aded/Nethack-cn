@@ -199,11 +199,11 @@ l_obj_objects_to_table(lua_State *L)
 
     lua_newtable(L);
 
-    if (OBJ_NAME(objects[otyp]))
-        nhl_add_table_entry_str(L, "name", OBJ_NAME(objects[otyp]));
-    if (OBJ_DESCR(objects[otyp]))
+    if (OBJ_ENAME(objects[otyp]))
+        nhl_add_table_entry_str(L, "name", OBJ_ENAME(objects[otyp]));
+    if (OBJ_EDESCR(objects[otyp]))
         nhl_add_table_entry_str(L, "descr",
-                                OBJ_DESCR(objects[otyp]));
+                                OBJ_EDESCR(objects[otyp]));
     if (o->oc_uname)
         nhl_add_table_entry_str(L, "uname", o->oc_uname);
 
@@ -262,11 +262,11 @@ l_obj_to_table(lua_State *L)
     nhl_add_table_entry_int(L, "ox", obj->ox);
     nhl_add_table_entry_int(L, "oy", obj->oy);
     nhl_add_table_entry_int(L, "otyp", obj->otyp);
-    if (OBJ_NAME(objects[obj->otyp]))
-        nhl_add_table_entry_str(L, "otyp_name", OBJ_NAME(objects[obj->otyp]));
-    if (OBJ_DESCR(objects[obj->otyp]))
+    if (OBJ_ENAME(objects[obj->otyp]))
+        nhl_add_table_entry_str(L, "otyp_name", OBJ_ENAME(objects[obj->otyp]));
+    if (OBJ_EDESCR(objects[obj->otyp]))
         nhl_add_table_entry_str(L, "otyp_descr",
-                                OBJ_DESCR(objects[obj->otyp]));
+                                OBJ_EDESCR(objects[obj->otyp]));
     nhl_add_table_entry_int(L, "owt", obj->owt);
     nhl_add_table_entry_int(L, "quan", obj->quan);
     nhl_add_table_entry_int(L, "spe", obj->spe);
