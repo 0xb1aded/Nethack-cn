@@ -369,8 +369,8 @@ levitation_dialogue(void)
             boolean danger = (is_pool_or_lava(u.ux, u.uy)
                               && !Is_waterlevel(&u.uz));
 
-            urgent_pline(s, danger ? surface(u.ux, u.uy) : "空" /*修改语序:urgent_pline(s, danger ? "上" : "中",*/
-                         danger ? "上" : "中",); /*修改语序:danger ? surface(u.ux, u.uy) : "空");*/
+            urgent_pline(s, danger ? surface(u.ux, u.uy) : "空", /*修改语序:urgent_pline(s, danger ? "上" : "中",*/
+                         danger ? "上" : "中"); /*修改语序:danger ? surface(u.ux, u.uy) : "空");*/
         } else
             pline1(s);
         stop_occupation();
