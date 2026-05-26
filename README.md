@@ -4,6 +4,10 @@
 
 English README：[README_en.md](README_en.md)
 
+### 简中译名标准
+
+[物品简中译名标准（objects.h）](doc/objects_translation_standard_zh_cn.md)
+
 ### 快速开始
 无需本地编译，可直接在[本项目 Release 页面](http://github.com/stackC00ki3/nethack-cn/releases)下载自动构建的汉化预览版
 
