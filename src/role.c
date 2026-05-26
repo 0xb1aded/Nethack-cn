@@ -2893,7 +2893,7 @@ setup_rolemenu(
         }
         /* !filtering implies reset_role_filtering() where we want to
            mark this role as preselected if current filter excludes it */
-        add_menu(win, &nul_glyphinfo, &any, cnstrcmp(any.a_string, "考古学家") ? 'a' : (cnstrcmp(any.a_string, "野蛮人") ? 'b' : (cnstrcmp(any.a_string, "穴居人") ? 'c' : (cnstrcmp(any.a_string, "治疗师") ? 'h' : (cnstrcmp(any.a_string, "武僧") ? 'm' : (cnstrcmp(any.a_string, "祭司") ? 'p' : (cnstrcmp(any.a_string, "盗贼") ? 'r' : (cnstrcmp(any.a_string, "游侠") ? 'R' : (cnstrcmp(any.a_string, "武士") ? 's' : (cnstrcmp(any.a_string, "游客") ? 't' : (cnstrcmp(any.a_string, "女武神") ? 'v' : (cnstrcmp(any.a_string, "巫师") ? 'w' : ' '))))))))))), 0, /*危险:add_menu(win, &nul_glyphinfo, &any, thisch, 0,*/
+        add_menu(win, &nul_glyphinfo, &any, 'a', 0, /*危险:add_menu(win, &nul_glyphinfo, &any, thisch, 0,*/
                  ATR_NONE, clr, an(rolenamebuf),
                  (!filtering && !role_ok)
                     ? MENU_ITEMFLAGS_SELECTED : MENU_ITEMFLAGS_NONE);
