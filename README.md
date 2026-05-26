@@ -276,6 +276,10 @@ English README：[README_en.md](README_en.md)
 |sluggish|呆滞||
 |lethargic|疲惫||
 |gallop|疾驰||
+|(being worn)|(穿戴中)||
+|(alternate weapon; not wielded)|(副武器;未装备)||
+|(on left hand)|(在左手上)||
+|(on right hand)|(在右手上)||
 
 |体词|Francium-223||
 |----|----|----|

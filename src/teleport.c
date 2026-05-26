@@ -1334,7 +1334,7 @@ level_tele(void)
         if (newlev <= -10) {
             You("升入了天堂.");
             SetVoice((struct monst *) 0, 0, 80, voice_deity);
-            verbalize("汝来甚早,然亦请入.");
+            verbalize("汝来甚早,然请入.");
             svk.killer.format = NO_KILLER_PREFIX;
             Strcpy(svk.killer.name, "永久升入了天堂");
         } else if (newlev == -9) {
