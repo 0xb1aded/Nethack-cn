@@ -2893,7 +2893,7 @@ setup_rolemenu(
         }
         /* !filtering implies reset_role_filtering() where we want to
            mark this role as preselected if current filter excludes it */
-        add_menu(win, &nul_glyphinfo, &any, (i == 0) ? 'a' : ((i == 1) ? 'b' : ((i == 2) ? 'c' : ((i == 3) ? 'h' : ((i == 4) ? 'm' : ((i == 5) ? 'p' : ((i == 6) ? 'r' : ((i == 7) ? 'R' : ((i == 8) ? 's' : ((i == 9) ? 't' : ((i == 10) ? 'v' : ((i == 11) ? 'w' : ("")))))))))))), 0, /*危险:add_menu(win, &nul_glyphinfo, &any, thisch, 0,*/
+        add_menu(win, &nul_glyphinfo, &any, (i == 0) ? 'a' : ((i == 1) ? 'b' : ((i == 2) ? 'c' : ((i == 3) ? 'h' : ((i == 4) ? 'k' : ((i == 5) ? 'm' : ((i == 6) ? 'p' : ((i == 7) ? 'r' : ((i == 8) ? 'R' : ((i == 9) ? 's' : ((i == 10) ? 't' : ((i == 11) ? 'v' : ((i == 12) ? 'w' : ' ')))))))))))), 0, /*危险:add_menu(win, &nul_glyphinfo, &any, thisch, 0,*/
                  ATR_NONE, clr, an(rolenamebuf),
                  (!filtering && !role_ok)
                     ? MENU_ITEMFLAGS_SELECTED : MENU_ITEMFLAGS_NONE);
