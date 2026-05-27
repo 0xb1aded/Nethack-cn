@@ -2893,8 +2893,8 @@ setup_rolemenu(
         }
         /* !filtering implies reset_role_filtering() where we want to
            mark this role as preselected if current filter excludes it */
-        add_menu(win, &nul_glyphinfo, &any, (i == 0) ? 'a' : ((i == 1) ? 'b' : ((i == 2) ? 'c' : ((i == 3) ? 'h' : ((i == 4) ? 'k' : ((i == 5) ? 'm' : ((i == 6) ? 'p' : ((i == 7) ? 'r' : ((i == 8) ? 'R' : ((i == 9) ? 's' : ((i == 10) ? 't' : ((i == 11) ? 'v' : ((i == 12) ? 'w' : ' ')))))))))))), 0, /*危险:add_menu(win, &nul_glyphinfo, &any, thisch, 0,*/
-                 ATR_NONE, clr, an(rolenamebuf),
+        add_menu(win, &nul_glyphinfo, &any, "abchkmprRstvw"[i], 0, /*危险:add_menu(win, &nul_glyphinfo, &any, thisch, 0,*/
+                 ATR_NONE, clr, rolenamebuf,
                  (!filtering && !role_ok)
                     ? MENU_ITEMFLAGS_SELECTED : MENU_ITEMFLAGS_NONE);
         lastch = thisch;
@@ -2931,8 +2931,8 @@ setup_racemenu(
            !filtering: resetting filter rather than picking, choose by
            capital letter since lowercase role letters will be present */
         add_menu(win, &nul_glyphinfo, &any,
-                 filtering ? ((i == 0) ? 'h' : ((i == 1) ? 'e' : ((i == 2) ? 'd' : ((i == 3) ? 'g' : ((i == 4) ? 'o' : ' '))))) : ((i == 0) ? 'H' : ((i == 1) ? 'E' : ((i == 2) ? 'D' : ((i == 3) ? 'G' : ((i == 4) ? 'O' : ' '))))), /*filtering ? this_ch : highc(this_ch)*/
-                 filtering ? ((i == 0) ? 'H' : ((i == 1) ? 'E' : ((i == 2) ? 'D' : ((i == 3) ? 'G' : ((i == 4) ? 'O' : ' '))))) : 0,
+                 filtering ? "hedgo"[i] : "HEDGO"[i], /*filtering ? this_ch : highc(this_ch)*/
+                 filtering ? "HEDGO"[i] : 0,
                  ATR_NONE, clr, races[i].noun,
                  (!filtering && !race_ok)
                     ? MENU_ITEMFLAGS_SELECTED : MENU_ITEMFLAGS_NONE);
@@ -2967,8 +2967,8 @@ setup_gendmenu(
         /* (see setup_racemenu for explanation of selector letters
            and setup_rolemenu for preselection) */
         add_menu(win, &nul_glyphinfo, &any,
-                 filtering ? ((i == 0) ? 'm' : ((i == 1) ? 'f' : ((i == 2) ? 'n' : ((i == 3) ? 'g' : ' ')))) : ((i == 0) ? 'M' : ((i == 1) ? 'F' : ((i == 2) ? 'N' : ((i == 3) ? 'G' : ' ')))), /*危险:filtering ? this_ch : highc(this_ch),*/
-                 filtering ? ((i == 0) ? 'M' : ((i == 1) ? 'F' : ((i == 2) ? 'N' : ((i == 3) ? 'G' : ' ')))) : 0,
+                 filtering ? "mfng"[i] : "MFNG"[i], /*危险:filtering ? this_ch : highc(this_ch),*/
+                 filtering ? "MFNG"[i] : 0,
                  ATR_NONE, clr, genders[i].adj,
                  (!filtering && !gend_ok)
                     ? MENU_ITEMFLAGS_SELECTED : MENU_ITEMFLAGS_NONE);
@@ -3003,8 +3003,8 @@ setup_algnmenu(
         /* (see setup_racemenu for explanation of selector letters
            and setup_rolemenu for preselection) */
         add_menu(win, &nul_glyphinfo, &any,
-                 filtering ? ((i == 0) ? 'l' : ((i == 1) ? 'n' : ((i == 2) ? 'c' : ((i == 3) ? 'u' : ' ')))) : ((i == 0) ? 'L' : ((i == 1) ? 'N' : ((i == 2) ? 'C' : ((i == 3) ? 'U' : ' ')))), /*危险:filtering ? this_ch : highc(this_ch),*/
-                 filtering ? ((i == 0) ? 'L' : ((i == 1) ? 'N' : ((i == 2) ? 'C' : ((i == 3) ? 'U' : ' ')))) : 0,
+                 filtering ? "lncu"[i] : "LNCU"[i], /*危险:filtering ? this_ch : highc(this_ch),*/
+                 filtering ? "LNCU"[i] : 0,
                  ATR_NONE, clr, aligns[i].adj,
                  (!filtering && !algn_ok)
                     ? MENU_ITEMFLAGS_SELECTED : MENU_ITEMFLAGS_NONE);

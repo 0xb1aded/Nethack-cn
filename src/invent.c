@@ -2125,7 +2125,7 @@ silly_thing(const char *word,
     if (!strcmp(word, "call")
         && (otmp->otyp == AMULET_OF_YENDOR
             || (otmp->otyp == FAKE_AMULET_OF_YENDOR && !otmp->known)))
-        pline_The("护符不喜欢被叫名字。");
+        pline_The("护身符不喜欢命名.");
     else
         pline(silly_thing_to, word);
 }
@@ -4679,7 +4679,7 @@ int
 dopramulet(void)
 {
     if (!uamul) {
-        You("没有佩戴护身符。");
+        You("没有佩戴护身符.");
     } else {
         char lets[2];
 

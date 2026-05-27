@@ -2895,7 +2895,7 @@ zapyourself(struct obj *obj, boolean ordinary)
         svk.killer.format = NO_KILLER_PREFIX;
         /* probably don't need these to be urgent; player just gave input
            without subsequent opportunity to dismiss --More-- with ESC */
-        urgent_pline("你用纯粹的能量辐射自己!");
+        urgent_pline("你用纯粹的能量辐射了自己!");
         urgent_pline("你死了.");
         /* They might survive with an amulet of life saving */
         done(DIED);

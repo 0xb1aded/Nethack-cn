@@ -387,7 +387,7 @@ fix_worst_trouble(int trouble)
         break;
     case TROUBLE_STRANGLED:
         if (uamul && uamul->otyp == AMULET_OF_STRANGULATION) {
-            Your("护符消失了！");
+            Your("护身符消失了！");
             useup(uamul);
         }
         You("又能呼吸了.");
