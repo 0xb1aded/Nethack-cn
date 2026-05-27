@@ -473,7 +473,7 @@ study_book(struct obj *spellbook)
 
     /* attempting to read dull book may make hero fall asleep */
     if (!confused && !Sleep_resistance
-        && objdescr_is(spellbook, "dull")) { /*危险:这里怎么改？*/
+        && objdescr_is(spellbook, "dull")) {
         const char *eyes;
         int dullbook = rnd(25) - ACURR(A_WIS);
 
@@ -629,7 +629,7 @@ study_book(struct obj *spellbook)
         }
         spellbook->in_use = FALSE;
 
-        You("开始%s符文。",
+        You("开始%s符文.",
             spellbook->otyp == SPE_BOOK_OF_THE_DEAD ? "吟诵" : "记住");
     }
 
