@@ -348,6 +348,8 @@ English README：[README_en.md](README_en.md)
 |cough|咳嗽声||
 |click|咔哒声||
 |rumbling|隆隆声||
+|slow drip|滴答声||
+|gurgling|咕噜声||
 
 |感叹词/拟声词|Francium-223||
 |----|----|----|
