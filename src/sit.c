@@ -25,9 +25,9 @@ take_gold(void)
         }
     }
     if (!lost_money) {
-        You_feel("一种奇怪的感觉。");
+        You_feel("有点奇怪.");
     } else {
-        You("注意到自己身上没有金币了！");
+        You("注意到自己身上没有金币了!");
         disp.botl = TRUE;
     }
 }
@@ -50,7 +50,7 @@ throne_sit_effect(void)
             int which;
 
             buf[0] = '\0';
-            getlin("Throne sit effect (1..13) [0=random]", buf);
+            getlin("选择王座效果(1..13)[0=随机]", buf);
             if (buf[0] == '\033') {
                 pline("%s", Never_mind);
                 return; /* caller will still cause a move to elapse */
@@ -68,20 +68,20 @@ throne_sit_effect(void)
         switch (effect) {
         case 1:
             (void) adjattrib(rn2(A_MAX), -rn1(4, 3), FALSE);
-            losehp(rnd(10), "cursed throne", KILLED_BY_AN);
+            losehp(rnd(10), "王座被诅咒", KILLED_BY_AN);
             break;
         case 2:
             (void) adjattrib(rn2(A_MAX), 1, FALSE);
             break;
         case 3:
-            pline("%s电冲击穿透了你的身体!",
-                  (Shock_resistance) ? "一股" : "巨大的");
-            losehp(Shock_resistance ? rnd(6) : rnd(30), "electric chair",
+            pline("一股%s电流冲击穿透了你的身体!",
+                  (Shock_resistance) ? "" : "巨大的");
+            losehp(Shock_resistance ? rnd(6) : rnd(30), "椅子带电",
                    KILLED_BY_AN);
             exercise(A_CON, FALSE);
             break;
         case 4:
-            You_feel("非常, 好多了!");
+            You_feel("好,好多了!");
             if (Upolyd) {
                 if (u.mh >= (u.mhmax - 5))
                     u.mhmax += 4;
@@ -114,28 +114,28 @@ throne_sit_effect(void)
                 int cnt = rnd(10);
 
                 /* Magical voice not affected by deafness */
-                pline("一个声音回荡着：");
+                pline("一个声音回荡道:");
                 SetVoice((struct monst *) 0, 0, 80, voice_throne);
-                verbalize("Thine audience hath been summoned, %s!",
-                          flags.female ? "Dame" : "Sire");
+                verbalize("尔客至矣,%s!",
+                          flags.female ? "夫人" : "主公");
                 while (cnt--)
                     (void) makemon(courtmon(), tx, ty, NO_MM_FLAGS);
                 break;
             }
         case 8:
             /* Magical voice not affected by deafness */
-            pline("一个声音回荡道：");
+            pline("一个声音回荡道:");
             SetVoice((struct monst *) 0, 0, 80, voice_throne);
-            verbalize("By thine Imperious order, %s...",
-                      flags.female ? "Dame" : "Sire");
+            verbalize("钦承%s威命...",
+                      flags.female ? "夫人" : "主公");
             do_genocide(5); /* REALLY|ONTHRONE, see do_genocide() */
             break;
         case 9:
             /* Magical voice not affected by deafness */
-            pline("一个声音回响着：");
+            pline("一个声音回荡道:");
             SetVoice((struct monst *) 0, 0, 80, voice_throne);
             verbalize(
-                 "A curse upon thee for sitting upon this most holy throne!");
+                 "乱臣贼子,敢坐于此无上圣座,当遭天谴!");
             if (Luck > 0) {
                 make_blinded(BlindedTimeout + rn1(100, 250), TRUE);
                 change_luck((Luck > 1) ? -rnd(2) : -1);
@@ -149,7 +149,7 @@ throne_sit_effect(void)
                     make_confused((HConfusion & TIMEOUT) + (long) rnd(30),
                                   FALSE);
                 } else {
-                    pline("一个影像在你的心中形成.");
+                    pline("一个图像在你心中显现.");
                     do_mapping();
                 }
             } else {
@@ -170,10 +170,10 @@ throne_sit_effect(void)
                         FALLTHROUGH;
                         /*FALLTHRU*/
                     case 1: /* one eye (Cyclops, floating eye) */
-                        Your("%s %s...", eye, vtense(eye, "刺痛"));
+                        Your("%s在%s...", eye, vtense(eye, "刺痛"));
                         break;
                     case 0: /* no eyes */
-                        You("在你的 %s 中有一种非常奇怪的感觉。",
+                        You("你的%s中有一种非常奇怪的感觉.",
                             body_part(HEAD));
                         break;
                     }
@@ -184,22 +184,22 @@ throne_sit_effect(void)
             break;
         case 11:
             if (Luck < 0) {
-                You_feel("受到威胁。");
+                You_feel("被威胁了.");
                 aggravate();
             } else {
-                You_feel("一阵剧烈的拉扯感。");
+                You_feel("一阵扭曲.");
                 tele(); /* teleport him */
             }
             break;
         case 12:
-            You("被准许一次洞察!");
+            You("被赐予一次启示机会!");
             if (gi.invent) {
                 /* rn2(5) agrees w/seffects() */
                 identify_pack(rn2(5), FALSE);
             }
             break;
         case 13:
-            Your("内心变成了一块椒盐卷饼!");
+            Your("心变成了一块椒盐卷饼!");
             make_confused((HConfusion & TIMEOUT) + (long) rn1(7, 16),
                           FALSE);
             break;
@@ -211,7 +211,7 @@ throne_sit_effect(void)
         if (is_prince(gy.youmonst.data) || u.uevent.uhand_of_elbereth)
             You_feel("这里非常舒服.");
         else
-            You_feel("不知怎么不协调...");
+            You_feel("有点格格不入...");
     }
 
     /* 5.0: when the random chance for removal is hit, ask for confirmation
@@ -252,13 +252,13 @@ special_throne_effect(int effect) {
         levl[tx][ty].typ = ROOM, levl[tx][ty].flags = 0;
         map_background(tx, ty, FALSE);
         newsym_force(tx, ty);
-        pline_The("王座耗尽了力量，崩解了。");
+        pline_The("王座耗尽了力量,瓦解了.");
         break;
     case 5:
         /* permanent level drain */
-        pline("坐在王座上是一次可怕的经历。");
+        pline("坐在王座上真是糟糕透顶.");
         if (!Drain_resistance) {
-            losexp("a bad experience sitting on a throne");
+            losexp("坐在王座上的糟糕经历");
             if (u.ulevelmax > u.ulevel)
                 u.ulevelmax -= 1;
         }
@@ -270,7 +270,7 @@ special_throne_effect(int effect) {
            Same rules for which items can be affected as grease_ok in apply.c */
         struct obj *otmp;
 
-        pline("一股油腻的液体喷了你一身！");
+        pline("一股油腻的液体喷了你一身!");
         for (otmp = gi.invent; otmp; otmp = otmp->nobj)
             if (otmp->oclass != COIN_CLASS)
                 otmp->greased = 1;
@@ -281,7 +281,7 @@ special_throne_effect(int effect) {
     case 7:
         /* lose an intrinsic */
         attrcurse();
-        pline_The("王座似乎被逗乐了。");
+        pline_The("王座似乎被逗乐了.");
         break;
     case 8:
     {
@@ -290,11 +290,11 @@ special_throne_effect(int effect) {
         find_hell(&vs_level);
         vs_level.dlevel = svd.dungeons[vs_level.dnum].num_dunlevs - 1;
         if (u.uhave.amulet)
-            You_feel("一时之间极度迷失方向。");
+            You_feel("极其迷失了一刹那.");
         else
             schedule_goto(
                 &vs_level, UTOTYPE_NONE, (char *) 0,
-                "You feel extremely out of place.");
+                "你感觉十分格格不入.");
         break;
     }
     case 9:
@@ -326,16 +326,16 @@ special_throne_effect(int effect) {
         /* polymorph effect (not blocked by magic resistance, but other things
            that protect from polymorphs work) */
         if (is_vampire(gy.youmonst.data)) {
-            You_feel("无价值的.");
+            You_feel("这不值得.");
         } else {
-            pline("这座王座并非为你这等存在而设！");
-            You_feel("你身上正发生着变化。");
+            pline("这个王座不是为你量身定制的!");
+            You_feel("一种变化正在你身上发生.");
             polyself(POLY_NOFLAGS);
         }
         break;
     case 12:
         /* acid damage */
-        pline("王座上覆盖满了酸液！");
+        pline("酸液覆盖了王座!");
         losehp(Acid_resistance ? rnd(16) : rnd(80), "acidic chair",
                KILLED_BY_AN);
         exercise(A_CON, FALSE);

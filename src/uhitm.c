@@ -2697,7 +2697,7 @@ mhitm_ad_elec(
             pline("%s被电击了!", Monnam(mdef));
         if (resists_elec(mdef) || defended(mdef, AD_ELEC)) {
             if (!Blind)
-                pline_The("电流没有电击到%s!", mon_nam(mdef));
+                pline_The("电流没有冲击到%s!", mon_nam(mdef));
             golemeffects(mdef, AD_ELEC, mhm->damage);
             shieldeff(mdef->mx, mdef->my);
             mhm->damage = 0;
@@ -2729,7 +2729,7 @@ mhitm_ad_elec(
             pline_mon(mdef, "%s被电击了!", Monnam(mdef));
         if (resists_elec(mdef) || defended(mdef, AD_ELEC)) {
             if (gv.vis && canseemon(mdef))
-                pline_The("电流没有电击到%s！", mon_nam(mdef));
+                pline_The("电流没有冲击到%s！", mon_nam(mdef));
             shieldeff(mdef->mx, mdef->my);
             golemeffects(mdef, AD_ELEC, mhm->damage);
             mhm->damage = 0;
