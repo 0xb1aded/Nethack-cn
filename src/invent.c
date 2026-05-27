@@ -2125,7 +2125,7 @@ silly_thing(const char *word,
     if (!strcmp(word, "call")
         && (otmp->otyp == AMULET_OF_YENDOR
             || (otmp->otyp == FAKE_AMULET_OF_YENDOR && !otmp->known)))
-        pline_The("护身符不喜欢命名.");
+        pline_The("护身符不喜欢被命名.");
     else
         pline(silly_thing_to, word);
 }
