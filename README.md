@@ -4,6 +4,20 @@
 
 English README：[README_en.md](README_en.md)
 
+### 简中译名标准
+
+[物品简中译名标准（objects.h）](doc/objects_translation_standard_zh_cn.md)
+
+[怪物简中译名标准（monsters.h）](doc/monsters_translation_standard_zh_cn.md)
+
+**当前译名标准仍需要更多玩家参与讨论和校对，欢迎在以下讨论中提出意见：**
+
+[讨论物品简中译名](https://github.com/StackC00ki3/Nethack-cn/discussions/3)
+
+[讨论怪物简中译名](https://github.com/StackC00ki3/Nethack-cn/discussions/4)
+
+
+
 ### 快速开始
 无需本地编译，可直接在[本项目 Release 页面](http://github.com/stackC00ki3/nethack-cn/releases)下载自动构建的汉化预览版
 
@@ -15,7 +29,7 @@ English README：[README_en.md](README_en.md)
 - [x] 合并来自 [SunnyYuer/NetHack-cn](https://github.com/SunnyYuer/NetHack-cn) 的翻译
 - [x] 使用 deepseek-v4-flash 完成初步 AI 翻译
 - [x] 怪物翻译
-- [ ] 物品翻译
+- [x] 物品翻译
 - [ ] 许愿机制
 - [ ] 灭绝机制
 
@@ -40,9 +54,9 @@ English README：[README_en.md](README_en.md)
 - [ ] display.c
 - [ ] dlb.c
 - [ ] do.c
-- [ ] dog.c
+- [x] dog.c
 - [ ] dogmove.c
-- [ ] dokick.c
+- [x] dokick.c
 - [ ] dothrow.c
 - [ ] do_name.c
 - [ ] do_wear.c
