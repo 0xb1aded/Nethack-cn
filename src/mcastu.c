@@ -360,7 +360,7 @@ death_inflicted_by(
     const char *deathreason, /* cause of death */
     struct monst *mtmp)      /* monster who caused it */
 {
-    Strcpy(outbuf, deathreason);
+    Strcpy(outbuf, ""); /*危险:Strcpy(outbuf, deathreason);*/
     if (mtmp) {
         struct permonst *mptr = mtmp->data,
             *champtr = (ismnum(mtmp->cham)) ? &mons[mtmp->cham] : mptr;
@@ -376,7 +376,7 @@ death_inflicted_by(
         Sprintf(eos(outbuf), ",由"); /*修改语序:Sprintf(eos(outbuf), ",由%s%s导致",*/
         if (champtr != mptr){ /*修改语序:the_unique_pm(mptr) ? "" : "", realnm);*/
             Sprintf(eos(outbuf), "模仿成%s的", an(fakenm));}/*修改语序:if (champtr != mptr)*/
-        Sprintf(eos(outbuf), "%s%s导致", the_unique_pm(mptr) ? "" : "", realnm); /*修改语序:Sprintf(eos(outbuf), "(模仿成%s)", an(fakenm));*/
+        Sprintf(eos(outbuf), "%s%s导致", the_unique_pm(mptr) ? "" : "", realnm); /*修改语序:Sprintf(eos(outbuf), "(模仿成%s)", an(fakenm));*/ Sprintf(eos(outbuf), deathreason); /*危险:原来没有*/
     }
     return outbuf;
 }
