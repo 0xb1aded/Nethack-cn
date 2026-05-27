@@ -139,7 +139,7 @@ cursed_book(struct obj *bp)
         tele(); /* teleport him */
         break;
     case 1:
-        You_feel("被威胁了");
+        You_feel("被威胁了.");
         aggravate();
         break;
     case 2:

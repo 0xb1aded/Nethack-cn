@@ -218,7 +218,7 @@ const struct shclass shtypes[] = {
         { 0, 0 },
         { 0, 0 } },
       shkgeneral },
-    { "used armor dealership", "armor shop",
+    { "二手护甲经销处", "护甲店",
       ARMOR_CLASS,
       14,
       D_SHOP,
@@ -229,7 +229,7 @@ const struct shclass shtypes[] = {
         { 0, 0 },
         { 0, 0 } },
       shkarmors },
-    { "second-hand bookstore", "scroll shop",
+    { "二手书店", "卷轴店",
       SCROLL_CLASS,
       10,
       D_SHOP,
@@ -240,7 +240,7 @@ const struct shclass shtypes[] = {
         { 0, 0 },
         { 0, 0 } },
       shkbooks },
-    { "liquor emporium", "potion shop",
+    { "酒类专卖店", "药水店",
       POTION_CLASS,
       10,
       D_SHOP,
@@ -251,7 +251,7 @@ const struct shclass shtypes[] = {
         { 0, 0 },
         { 0, 0 } },
       shkliquors },
-    { "antique weapons outlet", "weapon shop",
+    { "古董武器专卖店", "武器店",
       WEAPON_CLASS,
       5,
       D_SHOP,
@@ -262,7 +262,7 @@ const struct shclass shtypes[] = {
         { 0, 0 },
         { 0, 0 } },
       shkweapons },
-    { "delicatessen", "food shop",
+    { "甜品店", "食品店",
       FOOD_CLASS,
       5,
       D_SHOP,
@@ -273,7 +273,7 @@ const struct shclass shtypes[] = {
         { 3, -ICE_BOX },
         { 0, 0 } },
       shkfoods },
-    { "jewelers", "ring shop",
+    { "珠宝店", "戒指店",
       RING_CLASS,
       3,
       D_SHOP,
@@ -284,7 +284,7 @@ const struct shclass shtypes[] = {
         { 0, 0 },
         { 0, 0 } },
       shkrings },
-    { "quality apparel and accessories", "wand shop",
+    { "高品质服装及配饰专卖店", "魔杖店",
       WAND_CLASS,
       3,
       D_SHOP,
@@ -293,7 +293,7 @@ const struct shclass shtypes[] = {
         { 5, -ELVEN_CLOAK },
         { 0, 0 } },
       shkwands },
-    { "hardware store", "tool shop",
+    { "五金店", "工具店",
       TOOL_CLASS,
       3,
       D_SHOP,
@@ -304,7 +304,7 @@ const struct shclass shtypes[] = {
         { 0, 0 },
         { 0, 0 } },
       shktools },
-    { "rare books", "bookstore",
+    { "古籍专卖店", "书店",
       SPBOOK_CLASS,
       3,
       D_SHOP,
@@ -315,7 +315,7 @@ const struct shclass shtypes[] = {
         { 0, 0 },
         { 0, 0 } },
       shkbooks },
-    { "health food store", "vegetarian food shop",
+    { "营养食品店", "素食店",
       FOOD_CLASS,
       2,
       D_SHOP,
@@ -330,7 +330,7 @@ const struct shclass shtypes[] = {
      * probability of zero.  They are only created via the special level
      * loader.
      */
-    { "lighting store", "lighting shop",
+    { "灯具店", "灯具店",
       TOOL_CLASS,
       0,
       D_SHOP,
@@ -458,8 +458,8 @@ mkshobj_at(const struct shclass *shp, int sx, int sy, boolean mkspecl)
     int atype;
 
     /* 3.6 tribute */
-    if (mkspecl && (!strcmp(shp->name, "rare books")
-                    || !strcmp(shp->name, "second-hand bookstore"))) {
+    if (mkspecl && (shp->shknms != shkbooks /*危险:if (mkspecl && (!strcmp(shp->name, "rare books")*/
+                    )) { /*危险:|| !strcmp(shp->name, "second-hand bookstore"))) {*/
         struct obj *novel = mksobj_at(SPE_NOVEL, sx, sy, FALSE, FALSE);
 
         if (novel)
@@ -642,7 +642,7 @@ shkinit(const struct shclass *shp, struct mkroom *sroom)
             int j = sroom->doorct;
 
             impossible("Where is shopdoor?");
-            pline("房间在 (%d,%d),(%d,%d)。", sroom->lx, sroom->ly, sroom->hx,
+            pline("Room at (%d,%d),(%d,%d).", sroom->lx, sroom->ly, sroom->hx,
                   sroom->hy);
             pline("doormax=%d doorct=%d fdoor=%d", gd.doorindex, sroom->doorct,
                   sh);
@@ -758,7 +758,7 @@ stock_room(int shp_indx, struct mkroom *sroom)
             n--;
         else if (inside_shop(sx, sy - 1))
             n++;
-        Sprintf(buf, "盘点中，暂停营业");
+        Sprintf(buf, "盘点中,暂停营业");
         make_engr_at(m, n, buf, NULL, 0L, DUST);
         if (levl[m][n].typ != CORR && levl[m][n].typ != ROOM)
             levl[m][n].typ = (Is_special(&u.uz)

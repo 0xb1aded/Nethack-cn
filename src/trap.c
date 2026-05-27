@@ -1899,7 +1899,7 @@ trapeffect_pit(
             pline("坑爹啊.这简直是个坑中坑!");
         }
         if (relevant_spikes && wearing_iron_shoes(mtmp)) {
-            pline("%s保护你免受锋利铁刺的伤害.", Yname2(uarmf));
+            pline("%s保护你免受锋利尖刺的伤害.", Yname2(uarmf));
             relevant_spikes = FALSE;
         } else if (relevant_spikes) {
             const char *predicament = "了一排锋利的尖刺上";
