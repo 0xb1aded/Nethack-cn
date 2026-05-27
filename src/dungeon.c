@@ -1768,7 +1768,7 @@ surface(coordxy x, coordxy y)
     else if (is_lava(x, y))
         return hliquid("熔岩");
     else if (lev->typ == DRAWBRIDGE_DOWN)
-        return "桥";
+        return "吊桥";
     else if (IS_ALTAR(levtyp))
         return "祭坛";
     else if (IS_GRAVE(levtyp))
