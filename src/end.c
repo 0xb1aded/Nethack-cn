@@ -1409,7 +1409,7 @@ really_done(int how)
         Strcat(svk.killer.name, "(带着护身符)");
     } else if (how == ESCAPED) {
         if (Is_astralevel(&u.uz)) /* offered Amulet to wrong deity */
-            Strcat(svk.killer.name, "(在神圣的耻辱中)");
+            Strcat(svk.killer.name, "(在天界的屈辱中)");
         else if (carrying(FAKE_AMULET_OF_YENDOR))
             Strcat(svk.killer.name, "(带着伪造的护身符)");
         /* don't bother counting to see whether it should be plural */
