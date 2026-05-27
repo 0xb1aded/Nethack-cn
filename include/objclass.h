@@ -118,8 +118,10 @@ struct class_sym {
 };
 
 struct objdescr {
-    const char *oc_name;  /* actual name */
-    const char *oc_descr; /* description when name unknown */
+    const char *oc_ename; /* english actual name */
+    const char *oc_edescr; /* english description when name unknown */
+    const char *oc_name;  /* chinese actual name */
+    const char *oc_descr; /* chinese description when name unknown */
 };
 
 /*
@@ -188,7 +190,9 @@ extern NEARDATA struct objclass objects[NUM_OBJECTS + 1];
 extern NEARDATA struct objdescr obj_descr[NUM_OBJECTS + 1];
 
 #define OBJ_NAME(obj) (obj_descr[(obj).oc_name_idx].oc_name)
+#define OBJ_ENAME(obj) (obj_descr[(obj).oc_name_idx].oc_ename)
 #define OBJ_DESCR(obj) (obj_descr[(obj).oc_descr_idx].oc_descr)
+#define OBJ_EDESCR(obj) (obj_descr[(obj).oc_descr_idx].oc_edescr)
 
 #define is_organic(otmp) (objects[otmp->otyp].oc_material <= WOOD)
 #define is_metallic(otmp) \

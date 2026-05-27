@@ -2028,8 +2028,8 @@ create_monster(monster *m, struct mkroom *croom)
 
             case M_AP_OBJECT:
                 for (i = 0; i < NUM_OBJECTS; i++)
-                    if (OBJ_NAME(objects[i])
-                        && !strcmp(OBJ_NAME(objects[i]), m->appear_as.str))
+                    if (OBJ_ENAME(objects[i])
+                        && !strcmp(OBJ_ENAME(objects[i]), m->appear_as.str))
                         break;
                 if (i == NUM_OBJECTS) {
                     impossible("create_monster: can't find object \"%s\"",
@@ -3505,7 +3505,7 @@ find_objtype(lua_State *L, const char *s, char oclass)
 
         /* find by object name */
         for (i = 0; i < NUM_OBJECTS; i++) {
-            objname = OBJ_NAME(objects[i]);
+            objname = OBJ_ENAME(objects[i]);
             if ((!class || class == objects[i].oc_class)
                 && objname && !strcmpi(s, objname))
                 return i;
@@ -3525,7 +3525,7 @@ find_objtype(lua_State *L, const char *s, char oclass)
 
         /* find by object description */
         for (i = 0; i < NUM_OBJECTS; i++) {
-            objname = OBJ_DESCR(objects[i]);
+            objname = OBJ_EDESCR(objects[i]);
             if (objname && !strcmpi(s, objname))
                 return i;
         }

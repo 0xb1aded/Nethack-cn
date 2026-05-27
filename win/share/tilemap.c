@@ -246,13 +246,13 @@ tilename(int set, const int file_entry, int gend UNUSED)
             /* prefer to give the description - that's all the tile's
              * appearance should reveal */
             if (tilenum == file_entry) {
-                if (!obj_descr[i].oc_descr)
-                    return obj_descr[i].oc_name;
-                if (!obj_descr[i].oc_name)
-                    return obj_descr[i].oc_descr;
+                if (!obj_descr[i].oc_edescr)
+                    return obj_descr[i].oc_ename;
+                if (!obj_descr[i].oc_ename)
+                    return obj_descr[i].oc_edescr;
 
-                Sprintf(buf, "%s / %s", obj_descr[i].oc_descr,
-                        obj_descr[i].oc_name);
+                Sprintf(buf, "%s / %s", obj_descr[i].oc_edescr,
+                        obj_descr[i].oc_ename);
                 return buf;
             }
             for (condnum = 0; conditionals[condnum].sequence != -1;
