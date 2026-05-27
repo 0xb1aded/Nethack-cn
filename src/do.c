@@ -248,7 +248,7 @@ flooreffects(
                             : "填上了坑");
             } else {
                 Soundeffect(se_boulder_drop, 100);
-                You_hear("一个巨石 %s。", verb);
+                You_hear("一个巨石%s.", verb);
             }
         }
         /*

@@ -54,9 +54,9 @@ English README：[README_en.md](README_en.md)
 - [ ] display.c
 - [ ] dlb.c
 - [ ] do.c
-- [ ] dog.c
+- [x] dog.c
 - [ ] dogmove.c
-- [ ] dokick.c
+- [x] dokick.c
 - [ ] dothrow.c
 - [ ] do_name.c
 - [ ] do_wear.c
@@ -229,7 +229,6 @@ English README：[README_en.md](README_en.md)
 功能: 返回在现在时第三人称下动词 `verb` 的正确形式
 
 **处理方案**: 将加后缀 s 的位置改成加空字符串
-<<<<<<< HEAD
 
 ##### uhe(), uhim(), uhis()
 
@@ -411,5 +410,3 @@ English README：[README_en.md](README_en.md)
 
 如果对修改后的代码没有把握，请在行最后添加注释：/*危险:(修改前的代码)*/
 
-=======
->>>>>>> upstream/Nethack-CN-5.0.0
