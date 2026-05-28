@@ -1,4 +1,4 @@
-/* NetHack 5.0	sfstruct.c	$NHDT-Date: 1606765215 2020/11/30 19:40:15 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.4 $ */
+/* NetHack 5.0  sfstruct.c  $NHDT-Date: 1606765215 2020/11/30 19:40:15 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.4 $ */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /*-Copyright (c) Michael Allison, 2025. */
 /* NetHack may be freely redistributed.  See license for details. */
@@ -578,7 +578,7 @@ mread(int fd, genericptr_t buf, unsigned len)
             return;
         } else {
 #ifndef SFCTOOL
-            pline("读取了 %d 字节而非 %u 字节。", (int) rlen, len);
+            pline("Read %d instead of %u bytes.", (int) rlen, len);
             display_nhwindow(WIN_MESSAGE, TRUE); /* flush before error() */
             if (program_state.restoring) {
                 (void) nhclose(fd);

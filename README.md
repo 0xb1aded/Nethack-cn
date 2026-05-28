@@ -34,6 +34,8 @@ English README：[README_en.md](README_en.md)
 - [ ] 灭绝机制
 
 #### 人工审校
+##### 源代码
+
 - [x] allmain.c
 - [x] alloc.c
 - [x] apply.c
@@ -128,9 +130,9 @@ English README：[README_en.md](README_en.md)
 - [ ] role.c
 - [ ] rumors.c
 - [ ] save.c
-- [ ] selvar.c
-- [ ] sfbase.c
-- [ ] sfstruct.c
+- [x] selvar.c (无需翻译)
+- [x] sfbase.c (无需翻译)
+- [x] sfstruct.c (无需翻译)
 - [ ] shk.c
 - [ ] shknam.c
 - [ ] sit.c
@@ -165,6 +167,17 @@ English README：[README_en.md](README_en.md)
 - [ ] worn.c
 - [ ] write.c
 - [ ] zap.c
+
+##### 文本文件(主要的几个，还有好多)
+
+- [ ] bogusmon.txt
+- [ ] dungeon.lua
+- [ ] engrave.txt
+- [ ] epitaph.txt
+- [ ] oracles.txt
+- [ ] rumors.fal
+- [ ] rumors.tru
+- [ ] tribute
 
 ### 技术细节
 
