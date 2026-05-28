@@ -845,7 +845,7 @@ u_entered_shop(char *enterstring)
                       eshkp->visitct++ ? "再次" : "",
                       s_suffix(shkname(shkp)), shtypes[rt - SHOPBASE].name);
         } else {
-            You("%s进入%s的%s！",
+            You("%s进入%s的%s!",
                 eshkp->visitct++ ? "再次" : "", /*修改语序:s_suffix(shkname(shkp)),*/
                 s_suffix(shkname(shkp)), /*修改语序:shtypes[rt - SHOPBASE].name,*/
                 shtypes[rt - SHOPBASE].name); /*修改语序:eshkp->visitct++ ? "再次" : "");*/
@@ -886,7 +886,7 @@ u_entered_shop(char *enterstring)
                               : "把你的%s%s留在外面.",
                           tool, plur(cnt));
             } else {
-                pline("%s%s让你带着你的%s%s进入。",
+                pline("%s%s让你带着你的%s%s进入.",
                       Shknam(shkp),
                       not_upset ? "不想" : "拒绝",
                       tool, plur(cnt));
@@ -1484,7 +1484,7 @@ make_angry_shk(
         setpaid(shkp);
     }
 
-    pline("%s%s！", Shknam(shkp), !ANGRY(shkp) ? "发怒了" : "暴怒了");
+    pline("%s%s!", Shknam(shkp), !ANGRY(shkp) ? "发怒了" : "暴怒了");
     hot_pursuit(shkp);
 }
 
@@ -2433,18 +2433,18 @@ reject_purchase(
         char which[BUFSZ];
 
         if (obj->where == OBJ_CONTAINED)
-            Snprintf(which, sizeof which, "the one%s in %s",
-                     plur(intact_quan), thesimpleoname(obj->ocontainer));
+            Snprintf(which, sizeof which, "%s里的%s东西", /*修改语序:Snprintf(which, sizeof which, "the one%s in %s",*/
+                     thesimpleoname(obj->ocontainer), plur(intact_quan)); /*修改语序:plur(intact_quan), thesimpleoname(obj->ocontainer));*/
         else
             Sprintf(which, "%s", (intact_quan > 1L) ? "这些" : "这个");
 
         SetVoice(shkp, 0, 80, 0);
-        verbalize("%s for the other %s before buying %s.",
-                  ANGRY(shkp) ? "Pay" : "Please pay",
+        verbalize("在买%s之前%s先把其他的%s付了.",which /*修改语序:which放到最后*/
+                  ANGRY(shkp) ? "" : "请",
                   simpleonames(obj), /* short name suffices */
                   which);
     } else {
-        pline("%s %s%s先付其他的%s.",
+        pline("%s%s%s你要先把其他的%s付了.",
               Shknam(shkp),
               ANGRY(shkp) ? "愤怒地" : "",
               nolimbs(shkp->data) ? "示意" : "指明",
@@ -3438,7 +3438,7 @@ shk_names_obj(
     obj_name = paydoname(obj);
     /* Use an alternate message when extra information is being provided */
     if (was_unknown) {
-        Sprintf(fmtbuf, "%%s; 你%s", fmt);
+        Sprintf(fmtbuf, "%%s;你%s", fmt);
         obj_name[0] = highc(obj_name[0]);
         pline(fmtbuf, obj_name, (obj->quan > 1L) ? "它们" : "它", amt,
               plur(amt), arg);
@@ -5029,7 +5029,7 @@ shopdig(int fall)
         return;
     if (!inhishop(shkp)) {
         if (Role_if(PM_KNIGHT)) {
-            You_feel("像个普通的窃贼。");
+            You_feel("像个庸俗的窃贼.");
             adjalign(-sgn(u.ualign.type));
         }
         return;
@@ -5152,7 +5152,7 @@ getcad(
         if (!Deaf) {
             SetVoice(shkp, 0, 80, 0);
             verbalize("你怎么敢%s我的%s?", (!strcmp(dmgstr, "dig into") ? "挖" : (!strcmp(dmgstr, "damage") ? "破坏" : "")),
-                        dugwall ? "shop" : "door");
+                        dugwall ? "店" : "门");
         } else {
             pline("%s对你%s%s的%s的行为%s!",
                     Shknam(shkp), /*修改语序:*/
@@ -5163,7 +5163,7 @@ getcad(
             pline("%s叫喊:", Shknam(shkp));
             SetVoice(shkp, 0, 80, 0);
             verbalize("哪个小兔崽子,竟敢%s我的%s?", dmgstr,
-                        dugwall ? "shop" : "door");
+                        dugwall ? "店" : "门");
         } else {
             pline("%s对有人%s%s的%s的行为%s!",
                     Shknam(shkp),
@@ -5442,7 +5442,7 @@ price_quote(struct obj *first_obj)
             Sprintf(price, "%s%ld%s", (otmp->quan) > 1L ? " 每个" : "", cost, /*修改语序:Sprintf(price, "%ld%s%s", cost, currency(cost),*/
                     currency(cost)); /*修改语序:(otmp->quan) > 1L ? " 每个" : "");*/
         }
-        Sprintf(buf, "%s%s， %s", contentsonly ? the_contents_of : "",
+        Sprintf(buf, "%s%s,%s", contentsonly ? the_contents_of : "",
                 doname(otmp), price);
         putstr(tmpwin, 0, buf), cnt++;
     }
@@ -5459,7 +5459,7 @@ price_quote(struct obj *first_obj)
             Sprintf(buf, "%s%s", contentsonly ? the_contents_of : "",
                     doname(first_obj));
             SetVoice(shkp, 0, 80, 0);
-            verbalize("%s,价格%s%ld%s%s", upstart(buf), (first_obj->quan > 1L) ? "each" : "", cost, /*修改语序:verbalize("%s,价格%s%ld%s%s", upstart(buf), cost,*/
+            verbalize("%s,价格%s%ld%s%s", upstart(buf), (first_obj->quan > 1L) ? "每个" : "", cost, /*修改语序:verbalize("%s,价格%s%ld%s%s", upstart(buf), cost,*/
                       currency(cost), /*修改语序:currency(cost), (first_obj->quan > 1L) ? "each" : "",*/
                       contentsonly ? "." : shk_embellish(first_obj, cost));
         }
@@ -5482,7 +5482,7 @@ shk_embellish(struct obj *itm, long cost)
             else
                 o = itm->oclass;
             if (o == FOOD_CLASS)
-                return ",美食家的最爱";
+                return ",美食家的最爱!";
             if (objects[itm->otyp].oc_name_known
                     ? objects[itm->otyp].oc_magic
                     : (o == AMULET_CLASS || o == RING_CLASS || o == WAND_CLASS
@@ -5513,7 +5513,7 @@ static const char *Izchak_speaks[] = {
     "%s说:'慢点.冷静思考.'",
     "%s说:'你需要一步一步来.'",
     "%s说:'我不喜欢软咖啡...来杯哥伦比亚特选.'",
-    "%s说让DevTeam在任何事情上达成一致都很困难。",
+    "%s说让DevTeam在任何事情上达成一致都很困难.",
     "%s说他注意到任何虔诚侍奉神明的人都过上了好日子.",
     "%s说:'不要试图偷我的东西--我上面有人!'",
     "%s说:'将来你很可能会需要这家店里的东西.'",
@@ -5583,7 +5583,7 @@ shk_chat(struct monst *shkp)
               Shknam(shkp),
               (!Deaf && !muteshk(shkp)) ? "抱怨着最近的抢劫" : "对最近的抢劫表示担忧");
     } else if (eshk->surcharge) {
-        pline("%s%s%s正在仔细地看着你。", Shknam(shkp),
+        pline("%s%s%s正在仔细地看着你.", Shknam(shkp),
               (!Deaf && !muteshk(shkp)) ? "警告你" : "提醒你",
               noit_mhe(shkp));
     } else if ((shkmoney = money_cnt(shkp->minvent)) < 50L) {
@@ -5724,7 +5724,7 @@ check_unpaid_usage(struct obj *otmp, boolean altusage)
         if (!rn2(3))
             arg1 = "嘿!";
         if (!rn2(3))
-            arg2 = "咳咳。";
+            arg2 = "咳咳.";
     }
 
     if (!Deaf && !muteshk(shkp)) {
@@ -6087,7 +6087,7 @@ globby_bill_fixup(struct obj *obj_absorber, struct obj *obj_absorbed)
         bill_dummy_object(obj_absorbed);
         SetVoice(shkp, 0, 80, 0);
         verbalize("你%s把我的%s和你的%s布丁团混合到了一起,需支付%ld%s%s", /*修改语序:verbalize("You owe me %ld %s for my %s that you %s with your%s",*/
-                  ANGRY(shkp) ? "居然胆敢" : "刚", obj_typename(obj_absorbed->otyp), /*修改语序:amount, currency(amount), obj_typename(obj_absorbed->otyp),*/
+                  ANGRY(shkp) ? "居然敢" : "刚", obj_typename(obj_absorbed->otyp), /*修改语序:amount, currency(amount), obj_typename(obj_absorbed->otyp),*/
                   ANGRY(shkp) ? "恶心的" : "", /*修改语序:ANGRY(shkp) ? "had the audacity to mix" : "just mixed",*/
                   amount, currency(amount), ANGRY(shkp) ? "!" : "."); /*修改语序:ANGRY(shkp) ? " stinking batch!" : "s.");*/
         return;
@@ -6109,7 +6109,7 @@ use_unpaid_trapobj(struct obj *otmp, coordxy x, coordxy y)
 
             if (shkp && !muteshk(shkp)) {
                 SetVoice(shkp, 0, 80, 0);
-                verbalize("你触发的,你交钱!");
+                verbalize("你触发的,你付钱!");
             }
         }
         bill_dummy_object(otmp);
