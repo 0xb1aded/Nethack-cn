@@ -1092,7 +1092,7 @@ domonnoise(struct monst *mtmp)
                 break;
             case PM_ARCHEOLOGIST:
                 pline_msg =
-                "介绍了最新一期\"今日洞穴探险者\"杂志里的一篇文章.";
+                "介绍了最新一期\"探险家日报\"杂志里的一篇文章.";
                 break;
             case PM_TOURIST:
                 verbl_msg = "阿罗哈.";

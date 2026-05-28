@@ -43,7 +43,7 @@ int
 dosave(void)
 {
     clear_nhwindow(WIN_MESSAGE);
-    if (y_n("Really save?") == 'n') {
+    if (y_n("真的要保存吗?") == 'n') {
         clear_nhwindow(WIN_MESSAGE);
         if (gm.multi > 0)
             nomul(0);
@@ -61,7 +61,7 @@ dosave(void)
 
             /* make sure they see the Saving message */
             display_nhwindow(WIN_MESSAGE, TRUE);
-            exit_nhwindows("Be seeing you...");
+            exit_nhwindows("下次再见...");
             nh_terminate(EXIT_SUCCESS);
         } else
             docrt();
@@ -114,8 +114,8 @@ dosave0(void)
         if (nhfp) {
             close_nhfile(nhfp);
             clear_nhwindow(WIN_MESSAGE);
-            There("似乎是一个旧的存档文件。");
-            if (y_n("Overwrite the old file?") == 'n') {
+            There("看上去已经有一个旧的存档文件.");
+            if (y_n("覆盖旧存档?") == 'n') {
                 nh_sfconvert(fq_save);
                 nh_compress(fq_save);
                 goto done;
@@ -127,7 +127,7 @@ dosave0(void)
 
     nhfp = create_savefile();
     if (!nhfp) {
-        HUP pline("无法打开存档文件。");
+        HUP pline("无法打开存档文件.");
         (void) delete_savefile(); /* ab@unido */
         goto done;
     }
@@ -151,7 +151,7 @@ dosave0(void)
     dotrow = 2;
     curs(WIN_MAP, 1, 1);
     if (!WINDOWPORT(X11))
-        putstr(WIN_MAP, 0, "Saving:");
+        putstr(WIN_MAP, 0, "保存中:");
 #endif
     nhfp->mode = WRITING | FREEING;
     store_version(nhfp);
@@ -338,7 +338,7 @@ tricked_fileremoved(NHFILE *nhfp, char *whynot)
 {
     if (!nhfp) {
         pline1(whynot);
-        pline("可能是有人把它移走了。");
+        pline("可能是被移走了 .");
         Strcpy(svk.killer.name, whynot);
         done(TRICKED);
         return TRUE;
@@ -381,7 +381,7 @@ savestateinlock(void)
 
         Sfi_int(nhfp, &hpid, "gamestate-hackpid");
         if (svh.hackpid != hpid) {
-            Sprintf(whynot, "关卡 #0 的进程ID (%d) 与我们的 (%d) 不匹配！",
+            Sprintf(whynot, "Level #0 pid (%d) doesn't match ours (%d)!",
                     hpid, svh.hackpid);
             goto giveup;
         }
