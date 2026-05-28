@@ -1533,7 +1533,7 @@ really_done(int how)
                 where = "The Astral Plane";
             Sprintf(pbuf, "你%s在%s", ends[how], where);
             if (!In_endgame(&u.uz) && !single_level_branch(&u.uz))
-                Sprintf(eos(pbuf), "有%ld点分数,",
+                Sprintf(eos(pbuf), ", 地牢第 %d 层, ",
                         In_quest(&u.uz) ? dunlev(&u.uz) : depth(&u.uz));
         }
 
