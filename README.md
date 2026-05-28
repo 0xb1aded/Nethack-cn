@@ -30,6 +30,8 @@ English README：[README_en.md](README_en.md)
 - [x] 使用 deepseek-v4-flash 完成初步 AI 翻译
 - [x] 怪物翻译
 - [x] 物品翻译
+- [x] 跨平台前端：**[直接启动浏览器版](https://stackc00ki3.github.io/nethack-3d/)** 仓库：[nethack-3d](https://github.com/StackC00ki3/nethack-3d)     
+- [x] 安卓版：**[点我下载apk](https://github.com/StackC00ki3/ANetHack-cn/releases)** 仓库：[Anethack-cn](https://github.com/StackC00ki3/ANetHack-cn)
 - [ ] 许愿机制
 - [ ] 灭绝机制
 
