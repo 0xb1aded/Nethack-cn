@@ -1967,7 +1967,7 @@ dopay(void)
         } else {
             Sprintf(sbuf, "因你使用过商品,");
         }
-        Strcat(sbuf, "你需支付%s%ld%s.", shkname(shkp), dtmp,
+        Snprintf(sbuf, sizeof sbuf, "你需支付%s%ld%s.", shkname(shkp), dtmp,
                 currency(dtmp)); /*修改语序:移到if(loan)前面*/
         pline1(sbuf);
         if (umoney + eshkp->credit < dtmp) {
@@ -2439,7 +2439,7 @@ reject_purchase(
             Sprintf(which, "%s", (intact_quan > 1L) ? "这些" : "这个");
 
         SetVoice(shkp, 0, 80, 0);
-        verbalize("在买%s之前%s先把其他的%s付了.",which /*修改语序:which放到最后*/
+        verbalize("在买%s之前%s先把其他的%s付了.", which, /*修改语序:which放到最后*/
                   ANGRY(shkp) ? "" : "请",
                   simpleonames(obj), /* short name suffices */
                   which);
@@ -2658,7 +2658,7 @@ inherits(
             disp.botl = TRUE;
             if (!silently)
                 pline("%s%s%s欠%s的%ld%s.", Shknam(shkp), /*修改语序:pline("%s%s%ld%s%s欠%s的.", Shknam(shkp),*/
-                      takes, strncmp(eshkp->customer, svp.plname, PL_NSIZ) ? "", /*修改语序:strncmp(eshkp->customer, svp.plname, PL_NSIZ) ? ""*/
+                      takes, strncmp(eshkp->customer, svp.plname, PL_NSIZ) ? "" /*修改语序:strncmp(eshkp->customer, svp.plname, PL_NSIZ) ? ""*/
                         : "你", noit_mhim(shkp), /*修改语序:takes, loss, currency(loss),*/
                       loss, /*修改语序:  : "你",*/
                       currency(loss)); /*修改语序:noit_mhim(shkp));*/
