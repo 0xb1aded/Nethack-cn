@@ -563,7 +563,7 @@ doquiver_core(const char *verb) /* "ready" or "fire" */
         pline("发射物已经准备好了!");
         return ECMD_OK;
     } else if (newquiver->owornmask & (W_ARMOR | W_ACCESSORY | W_SADDLE)) {
-        You("不能%s那个！", strcmp(verb, "ready") ? "准备" : (strcmp(verb, "fire") ? "发射" : (strcmp(verb, "wield") ? "装备" : (strcmp(verb, "rub") ? "擦" : "")))); /*危险:You("不能%s那个！", verb);*/
+        You("不能%s那个!", !strcmp(verb, "ready") ? "准备" : (!strcmp(verb, "fire") ? "发射" : (!strcmp(verb, "wield") ? "装备" : (!strcmp(verb, "rub") ? "擦" : "")))); /*危险:You("不能%s那个！", verb);*/
         return ECMD_OK;
     } else if (newquiver == uwep) {
         int weld_res = !uwep->bknown;
@@ -696,7 +696,7 @@ wield_tool(struct obj *obj,
                    || strstri(what, "s of ") != 0);
 
     if (obj->owornmask & (W_ARMOR | W_ACCESSORY)) {
-        You_cant("在戴着%s的时候%s%s.", more_than_1 ? "它们" : "它", strcmp(verb, "ready") ? "准备" : (strcmp(verb, "fire") ? "发射" : (strcmp(verb, "wield") ? "装备" : (strcmp(verb, "rub") ? "擦" : ""))), /*修改语序，危险:You_cant("%s %s while wearing %s.", verb, yname(obj),*/
+        You_cant("在戴着%s的时候%s%s.", more_than_1 ? "它们" : "它", !strcmp(verb, "ready") ? "准备" : (!strcmp(verb, "fire") ? "发射" : (!strcmp(verb, "wield") ? "装备" : (!strcmp(verb, "rub") ? "擦" : ""))), /*修改语序，危险:You_cant("%s %s while wearing %s.", verb, yname(obj),*/
                  yname(obj)); /*修改语序:more_than_1 ? "them" : "it");*/
         return FALSE;
     }
@@ -710,7 +710,7 @@ wield_tool(struct obj *obj,
                 more_than_1 = FALSE;
             pline(
                "因为你的武器粘在你的%s上, 所以你不能%s%s%s.",
-                  hand, strcmp(verb, "ready") ? "准备" : (strcmp(verb, "fire") ? "发射" : (strcmp(verb, "wield") ? "装备" : (strcmp(verb, "rub") ? "擦" : ""))), more_than_1 ? "那些" : "那个", xname(obj)); /*危险:hand, verb, more_than_1 ? "those" : "that", xname(obj));*/
+                  hand, !strcmp(verb, "ready") ? "准备" : (!strcmp(verb, "fire") ? "发射" : (!strcmp(verb, "wield") ? "装备" : (!strcmp(verb, "rub") ? "擦" : ""))), more_than_1 ? "那些" : "那个", xname(obj)); /*危险:hand, verb, more_than_1 ? "those" : "that", xname(obj));*/
         } else {
             You_cant("做那个.");
         }

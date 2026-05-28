@@ -216,7 +216,7 @@ dowrite(struct obj *pen)
         boolean fanfic = !rn2(3), tearup = !rn2(3);
 
         if (!fanfic) {
-            You("%s写伟大的岩德利亚小说，但%s.",
+            You("%s写伟大的岩德利亚人小说，但%s.",
                 !tearup ? "准备" : "尝试",
                 !Hallucination ? "缺乏灵感" : "灵感太多了写不下");
         } else {
