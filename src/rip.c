@@ -188,7 +188,7 @@ genl_outrip(winid tmpwin, int how, time_t when)
     char putbuf[BUFSZ];
     for (; *dp; dp++)
     {
-        strcat(putbuf, *dp);
+        Sprintf(putbuf, *dp);
         for(i = 0; i < 38 - 2 * howmanykanji(*dp) - howmanyromaji(*dp) - 1; i++)
         {
             strcat(putbuf, " ");
