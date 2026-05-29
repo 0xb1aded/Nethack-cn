@@ -115,7 +115,7 @@ center(int line, char *text)
 {
     char *ip, *op;
     ip = text;
-    op = &gr.rip[line][STONE_LINE_CENT - (((howmanyromaji(text) + 2 * howmanykanji(text)) + 1) >> 1)];
+    op = &gr.rip[line][STONE_LINE_CENT - (((howmanyromaji(text) + 3 * howmanykanji(text)) + 1) >> 1)];
     while (*ip)
         *op++ = *ip++;
 }
