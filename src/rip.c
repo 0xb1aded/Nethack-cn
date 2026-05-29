@@ -190,7 +190,7 @@ genl_outrip(winid tmpwin, int how, time_t when)
     {
         if((j == 9) ||(j == 10) ||(j == 11))
         {
-            Sprintf(putbuf, "%s%*s%s", *dp, 38 - 2 * howmanykanji(*dp) - howmanyromaji(*dp) - 2, " ", eos(*dp) == "|" ? "" : "|");
+            Sprintf(putbuf, "%s%*s%s", *dp, 38 - 2 * howmanykanji(*dp) - howmanyromaji(*dp) - 5, " ", eos(*dp) == "|" ? "" : "|");
         }
         else
         {
