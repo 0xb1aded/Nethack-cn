@@ -33,7 +33,7 @@ static const char *const rip_txt[] = {
     "                  /                  \\",
     "                  |                  |", /* Name of player */
     "                  |                  |", /* Amount of $ */
-    "                  |                  |", /* Type of death */
+    "                  |                  |", /* Type of death */ /*操你妈!*/
     "                  |                  |", /* . */
     "                  |                  |", /* . */
     "                  |                  |", /* . */
@@ -184,22 +184,16 @@ genl_outrip(winid tmpwin, int how, time_t when)
 #endif
         putstr(tmpwin, 0, "");
 
-    for (char** i = dp; *i; i++)
-    {
-        fputs(tmpwin, 0, *i);
-        if((i - dp == 9) || (i - dp == 10) || (i - dp == 11))
+    for (; *dp; dp++)
+        int j = sizeof(*dp), k = 2 * howmanykanji(*dp) + howmanyromaji(*dp);
+        for(int j = sizeof(*dp); k < 38; j++)
         {
-            char *putout[] = "";
-            int strindex = howmanyromaji(*i) + 3 * howmanykanji(*i);
-            int strnagasa = howmanyromaji(*i) + 2 * howmanykanji(*i)
-            for(int j = 0, j < 38 - strnagasa - 1, j++)
-            {
-                fputs(tmpwin, 0, " ");
-            }
-            fputs(tmpwin, 0, "|");
+            (*dp)[j] = ' ';
+            k++;
         }
-        putstr(tmpwin, 0, "");
-    }
+        (*dp)[j] = '|';
+        putstr(tmpwin, 0, *dp);
+
     putstr(tmpwin, 0, "");
 #ifdef DUMPLOG
     if (tmpwin != 0)
