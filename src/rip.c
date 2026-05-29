@@ -188,9 +188,9 @@ genl_outrip(winid tmpwin, int how, time_t when)
     char putbuf[BUFSZ];
     for (; *dp; dp++)
     {
-        if(((j == 9) || (j == 10) || (j == 11)) && eos(*dp) != '|')
+        if(((j == 9) || (j == 10) || (j == 11)))
         {
-            Sprintf(putbuf, "%s%*s|", *dp, 38 - 2 * howmanykanji(*dp) - howmanyromaji(*dp) - 2, "K");
+            Sprintf(putbuf, "%s%*s%s", *dp, 38 - 2 * howmanykanji(*dp) - howmanyromaji(*dp), " ", eos(*dp) == "|" ? "" : "|");
         }
         else
         {
