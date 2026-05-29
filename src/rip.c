@@ -72,12 +72,48 @@ static const char *const rip_txt[] = {
 #define DEATH_LINE 8 /* *char[] line # for death description */
 #define YEAR_LINE 12 /* *char[] line # for year */
 
+int howmanykanji(char *s)
+{
+    int i = 0, kanji = 0, romaji = 0;
+    do{
+        if (s[i] < 0)
+        {
+            kanji++;
+            i += 3;
+        }
+        else 
+        {
+            romaji++;
+            i++;
+        }
+    } while (s[i] != NULL)
+    return kanji;
+}
+
+int howmanyromaji(char *s)
+{
+    int i = 0, kanji = 0, romaji = 0;
+    do{
+        if (s[i] < 0)
+        {
+            kanji++;
+            i += 3;
+        }
+        else 
+        {
+            romaji++;
+            i++;
+        }
+    } while (s[i] != NULL)
+    return romaji;
+}
+
 staticfn void
 center(int line, char *text)
 {
     char *ip, *op;
     ip = text;
-    op = &gr.rip[line][STONE_LINE_CENT - ((strlen(text) + 1) >> 1)];
+    op = &gr.rip[line][STONE_LINE_CENT - (((howmanyromaji(text) + 2 * howmanykanji(text)) + 1) >> 1)];
     while (*ip)
         *op++ = *ip++;
 }
@@ -115,7 +151,7 @@ genl_outrip(winid tmpwin, int how, time_t when)
     /* Put death type on stone */
     for (line = DEATH_LINE, dpx = buf; line < YEAR_LINE; line++) {
         char tmpchar;
-        int i, i0 = (int) strlen(dpx);
+        int i, i0 = howmanyromaji(buf) + 2 * howmanykanji(buf);
 
         if (i0 > STONE_LINE_LEN) {
             for (i = STONE_LINE_LEN; (i > 0) && (i0 > STONE_LINE_LEN); --i)
