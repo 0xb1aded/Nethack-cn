@@ -195,9 +195,9 @@ genl_outrip(winid tmpwin, int how, time_t when)
             {
                 strcat(putbuf, " ");
             }
-            if(putbuf[strlen(putbuf)] != '|')
+            if(i)
             {
-                putbuf[strlen(putbuf)] = '|';
+                strcat(putbuf, "|");
             }
         }
         putstr(tmpwin, 0, putbuf);
