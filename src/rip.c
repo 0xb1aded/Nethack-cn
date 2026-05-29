@@ -188,14 +188,13 @@ genl_outrip(winid tmpwin, int how, time_t when)
     char putbuf[BUFSZ];
     for (; *dp; dp++)
     {
-        Sprintf(putbuf, "%s",*dp);
         if((j == 9) ||(j == 10) ||(j == 11))
         {
-        for(i = 0; i < 38 - 2 * howmanykanji(*dp) - howmanyromaji(*dp) - 2; i++)
-            {
-                strcat(putbuf, " ");
-            }
-            strcat(putbuf, "|");
+            Sprintf(putbuf, "%s%*s%s", *dp, 38 - 2 * howmanykanji(*dp) - howmanyromaji(*dp) - 2, " ", eos(*dp) == "|" ? "" : "|");
+        }
+        else
+        {
+            Sprintf(putbuf, "%s",*dp);
         }
         putstr(tmpwin, 0, putbuf);
         j++;
