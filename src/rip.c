@@ -91,7 +91,7 @@ int howmanykanji(char *s)
     return kanji;
 }
 
-int howmanykanji(char *s)
+int howmanyromaji(char *s)
 {
     int i = 0, kanji = 0, romaji = 0;
     while (s[i] != '\0')
