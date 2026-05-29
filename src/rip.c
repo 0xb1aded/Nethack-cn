@@ -199,7 +199,7 @@ genl_outrip(winid tmpwin, int how, time_t when)
         Sprintf(putbuf, "%s",*dp);
         if((j == 8) || (j == 9) || (j == 10) || (j == 11))
         {
-            for(i = 0; i < 38 - 2 * howmanykanji(*dp) - howmanyromaji(*dp); i++)
+            for(i = 0; i < 38 - 2 * howmanykanji(*dp) - howmanyromaji(*dp) - 1; i++)
             {
                 strcat(putbuf, " ");
             }
