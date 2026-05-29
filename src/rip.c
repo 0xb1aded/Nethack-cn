@@ -33,7 +33,7 @@ static const char *const rip_txt[] = {
     "                  /                  \\",
     "                  |                  |", /* Name of player */
     "                  |                  |", /* Amount of $ */
-    "                  |                  |               ", /* Type of death */
+    "                  |                  |               ", /* Type of death */ /*操你妈!*/
     "                  |                  |               ", /* . */
     "                  |                  |               ", /* . */
     "                  |                  |               ", /* . */
