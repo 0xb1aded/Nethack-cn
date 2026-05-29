@@ -115,7 +115,7 @@ center(int line, char *text)
 {
     char *ip, *op;
     ip = text;
-    op = &gr.rip[line][STONE_LINE_CENT - (((howmanyromaji(text) + 2 * howmanykanji(text)) + 1) >> 1)];
+    op = &gr.rip[line][STONE_LINE_CENT - (((howmanyromaji(text) + 3 * howmanykanji(text)) + 1) >> 1)];
     while (*ip)
         *op++ = *ip++;
 }
@@ -153,7 +153,7 @@ genl_outrip(winid tmpwin, int how, time_t when)
     /* Put death type on stone */
     for (line = DEATH_LINE, dpx = buf; line < YEAR_LINE; line++) {
         char tmpchar;
-        int i, i0 = howmanyromaji(dpx) + 3 * howmanykanji(dpx);
+        int i, i0 = (int) strlen(dpx);
 
         if (i0 > STONE_LINE_LEN + 2 * howmanykanji(dpx)) {
             for (i = STONE_LINE_LEN + 2 * howmanykanji(dpx); (i > 0) && (i0 > STONE_LINE_LEN) + 2 * howmanykanji(dpx); --i)
@@ -185,13 +185,11 @@ genl_outrip(winid tmpwin, int how, time_t when)
         putstr(tmpwin, 0, "");
 
     for (; *dp; dp++)
-        int j = sizeof(*dp), k = 2 * howmanykanji(*dp) + howmanyromaji(*dp);
-        for(int j = sizeof(*dp); k < 38; j++)
-        {
-            (*dp)[j] = ' ';
-            k++;
-        }
-        (*dp)[j] = '|';
+        int i;
+        for(i = 0, i < 38 - 2 * howmanykanji(*dp) - howmanyromaji(*dp) - 1; i++)
+            (*dp)[i] = ' ';
+        (*dp)[i] = '|';
+        (*dp)[i + 1] = '\0';
         putstr(tmpwin, 0, *dp);
 
     putstr(tmpwin, 0, "");
