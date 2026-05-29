@@ -33,10 +33,10 @@ static const char *const rip_txt[] = {
     "                  /                  \\",
     "                  |                  |", /* Name of player */
     "                  |                  |", /* Amount of $ */
-    "                  |                                                |", /* Type of death */ /*操你妈!*/
-    "                  |                                                |", /* . */
-    "                  |                                                |", /* . */
-    "                  |                                                |", /* . */
+    "                  |                  |", /* Type of death */
+    "                  |                  |", /* . */
+    "                  |                  |", /* . */
+    "                  |                  |", /* . */
     "                  |       1001       |", /* Real year of death */
     "                 *|     *  *  *      | *",
     "        _________)/\\\\_//(\\/(/\\)/\\//\\/|_)_______", 0
@@ -115,7 +115,7 @@ center(int line, char *text)
 {
     char *ip, *op;
     ip = text;
-    op = &gr.rip[line][STONE_LINE_CENT - (((howmanyromaji(text) + 3 * howmanykanji(text)) + 1) >> 1)];
+    op = &gr.rip[line][STONE_LINE_CENT - (((howmanyromaji(text) + 2 * howmanykanji(text)) + 1) >> 1)];
     while (*ip)
         *op++ = *ip++;
 }
@@ -153,7 +153,7 @@ genl_outrip(winid tmpwin, int how, time_t when)
     /* Put death type on stone */
     for (line = DEATH_LINE, dpx = buf; line < YEAR_LINE; line++) {
         char tmpchar;
-        int i, i0 = (int) strlen(dpx);
+        int i, i0 = howmanyromaji(dpx) + 3 * howmanykanji(dpx);
 
         if (i0 > STONE_LINE_LEN + 2 * howmanykanji(dpx)) {
             for (i = STONE_LINE_LEN + 2 * howmanykanji(dpx); (i > 0) && (i0 > STONE_LINE_LEN) + 2 * howmanykanji(dpx); --i)
@@ -184,9 +184,22 @@ genl_outrip(winid tmpwin, int how, time_t when)
 #endif
         putstr(tmpwin, 0, "");
 
-    for (; *dp; dp++)
-        putstr(tmpwin, 0, *dp);
-
+    for (char** i = dp; *i; i++)
+    {
+        fputs(tmpwin, 0, *i);
+        if((i - dp == 9) || (i - dp == 10) || (i - dp == 11))
+        {
+            char *putout[] = "";
+            int strindex = howmanyromaji(*i) + 3 * howmanykanji(*i);
+            int strnagasa = howmanyromaji(*i) + 2 * howmanykanji(*i)
+            for(int j = 0, j < 38 - strnagasa - 1, j++)
+            {
+                fputs(tmpwin, 0, " ");
+            }
+            fputs(tmpwin, 0, "|");
+        }
+        putstr(tmpwin, 0, "");
+    }
     putstr(tmpwin, 0, "");
 #ifdef DUMPLOG
     if (tmpwin != 0)
