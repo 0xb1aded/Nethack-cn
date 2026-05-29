@@ -153,14 +153,14 @@ genl_outrip(winid tmpwin, int how, time_t when)
     /* Put death type on stone */
     for (line = DEATH_LINE, dpx = buf; line < YEAR_LINE; line++) {
         char tmpchar;
-        int i, i0 = howmanyromaji(buf) + 2 * howmanykanji(buf);
+        int i, i0 = howmanyromaji(dpx) + 3 * howmanykanji(dpx);
 
-        if (i0 > STONE_LINE_LEN + howmanykanji(dpx)) {
-            for (i = STONE_LINE_LEN + howmanykanji(dpx); (i > 0) && (i0 > STONE_LINE_LEN) + howmanykanji(dpx); --i)
+        if (i0 > STONE_LINE_LEN + 2 * howmanykanji(dpx)) {
+            for (i = STONE_LINE_LEN + 2 * howmanykanji(dpx); (i > 0) && (i0 > STONE_LINE_LEN) + 2 * howmanykanji(dpx); --i)
                 if (dpx[i] == ' ')
                     i0 = i;
             if (!i)
-                i0 = STONE_LINE_LEN + howmanykanji(dpx);
+                i0 = STONE_LINE_LEN + 2 * howmanykanji(dpx);
         }
         tmpchar = dpx[i0];
         dpx[i0] = 0;
