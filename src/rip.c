@@ -74,9 +74,13 @@ static const char *const rip_txt[] = {
 
 int howmanykanji(char *s)
 {
-    int i = 0, kanji = 0, romaji = 0;
-    while (s[i] != '\0')
+    int i = 0, kanji = 0, romaji = 0, r = 0;
+    while(s[i] != '\0' && r < 2)
     {
+        if(s[i] == '|')
+        {
+            r++;
+        }
         if (s[i] < 0)
         {
             kanji++;
@@ -94,8 +98,12 @@ int howmanykanji(char *s)
 int howmanyromaji(char *s)
 {
     int i = 0, kanji = 0, romaji = 0;
-    while (s[i] != '\0')
+    while(s[i] != '\0' && r < 2)
     {
+        if(s[i] == '|')
+        {
+            r++;
+        }
         if (s[i] < 0)
         {
             kanji++;
