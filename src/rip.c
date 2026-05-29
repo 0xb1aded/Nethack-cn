@@ -184,9 +184,9 @@ genl_outrip(winid tmpwin, int how, time_t when)
 #endif
         putstr(tmpwin, 0, "");
 
+    int i = 0;
     for (; *dp; dp++)
-        int i;
-        for(i = 0; i < 38 - 2 * howmanykanji(*dp) - howmanyromaji(*dp) - 1; i++)
+        for(i = 0, i < 38 - 2 * howmanykanji(*dp) - howmanyromaji(*dp) - 1; i++)
         {
             (*dp)[i] = ' ';
         }
