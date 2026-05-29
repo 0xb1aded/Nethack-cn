@@ -33,10 +33,10 @@ static const char *const rip_txt[] = {
     "                  /                  \\",
     "                  |                  |", /* Name of player */
     "                  |                  |", /* Amount of $ */
-    "                  |                  |               ", /* Type of death */ /*操你妈!*/
-    "                  |                  |               ", /* . */
-    "                  |                  |               ", /* . */
-    "                  |                  |               ", /* . */
+    "                  |                  |", /* Type of death */ /*操你妈!*/
+    "                  |                  |", /* . */
+    "                  |                  |", /* . */
+    "                  |                  |", /* . */
     "                  |       1001       |", /* Real year of death */
     "                 *|     *  *  *      | *",
     "        _________)/\\\\_//(\\/(/\\)/\\//\\/|_)_______", 0
@@ -153,7 +153,7 @@ genl_outrip(winid tmpwin, int how, time_t when)
     /* Put death type on stone */
     for (line = DEATH_LINE, dpx = buf; line < YEAR_LINE; line++) {
         char tmpchar;
-        int i, i0 = howmanyromaji(dpx) + 3 * howmanykanji(dpx);
+        int i, i0 = (int) strlen(dpx);
 
         if (i0 > STONE_LINE_LEN + 2 * howmanykanji(dpx)) {
             for (i = STONE_LINE_LEN + 2 * howmanykanji(dpx); (i > 0) && (i0 > STONE_LINE_LEN) + 2 * howmanykanji(dpx); --i)
