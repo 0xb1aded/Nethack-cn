@@ -186,15 +186,16 @@ genl_outrip(winid tmpwin, int how, time_t when)
 
     int i = 0;
     char putbuf[BUFSZ];
-    strcat(putbuf, *dp);
     for (; *dp; dp++)
+    {
+        strcat(putbuf, *dp);
         for(i = 0; i < 38 - 2 * howmanykanji(*dp) - howmanyromaji(*dp) - 1; i++)
         {
             strcat(putbuf, " ");
         }
         strcat(putbuf, "|");
         putstr(tmpwin, 0, putbuf);
-
+    }
     putstr(tmpwin, 0, "");
 #ifdef DUMPLOG
     if (tmpwin != 0)
