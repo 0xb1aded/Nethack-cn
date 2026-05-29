@@ -1255,7 +1255,7 @@ seffect_enchant_armor(struct obj **sobjp)
           otense(otmp, Blind ? "振动" : "发出"),
           (!Blind && !same_color) ? "" : "",
           (Blind || same_color)
-          ? "" : hcolor(scursed ? NH_BLACK : NH_SILVER), (Blind || same_color) ? "" : "色光" /*修改语序:*/
+          ? "" : hcolor(scursed ? NH_BLACK : NH_SILVER), (Blind || same_color) ? "" : "色光", /*修改语序:? "" : hcolor(scursed ? NH_BLACK : NH_SILVER),*/
           (s * s > 1) ? "一会儿" : "一刹那");
     /* [this cost handling will need updating if shop pricing is
        ever changed to care about curse/bless status of armor] */

@@ -86,7 +86,7 @@ int howmanykanji(char *s)
             romaji++;
             i++;
         }
-    } while (s[i] != NULL)
+    } while (s[i] != NULL);
     return kanji;
 }
 
@@ -104,7 +104,7 @@ int howmanyromaji(char *s)
             romaji++;
             i++;
         }
-    } while (s[i] != NULL)
+    } while (s[i] != NULL);
     return romaji;
 }
 
