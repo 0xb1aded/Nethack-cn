@@ -937,7 +937,7 @@ chwepon(struct obj *otmp, int amount)
             uncurse(uwep);
             update_inventory();
         } else {
-            Sprintf(buf, "你的%s%s.", makeplural(body_part(HAND)),
+            Sprintf(buf, "你的%s在%s.", makeplural(body_part(HAND)),
                     (amount >= 0) ? "抽动" : "发痒");
         }
         strange_feeling(otmp, buf); /* pline()+docall()+useup() */

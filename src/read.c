@@ -101,81 +101,81 @@ tshirt_text(struct obj *tshirt, char *buf)
 {
     static const char *const shirt_msgs[] = {
         /* Scott Bigham */
-      "I explored the Dungeons of Doom and all I got was this lousy T-shirt!",
-        "Is that Mjollnir in your pocket or are you just happy to see me?",
-      "It's not the size of your sword, it's how #enhance'd you are with it.",
-        "Madame Elvira's House O' Succubi Lifetime Customer",
-        "Madame Elvira's House O' Succubi Employee of the Month",
-        "Ludios Vault Guards Do It In Small, Dark Rooms",
-        "Yendor Military Soldiers Do It In Large Groups",
-        "I survived Yendor Military Boot Camp",
-        "Ludios Accounting School Intra-Mural Lacrosse Team",
-        "Oracle(TM) Fountains 10th Annual Wet T-Shirt Contest",
-        "Hey, black dragon!  Disintegrate THIS!",
-        "I'm With Stupid -->",
-        "Don't blame me, I voted for Izchak!",
-        "Don't Panic", /* HHGTTG */
-        "Furinkan High School Athletic Dept.",                /* Ranma 1/2 */
-        "Hel-LOOO, Nurse!",                                   /* Animaniacs */
+      "我走穿了整个'命运地牢',结果就得到这件破T恤!",
+        "是你见到我很高兴,还是你口袋里的雷神之锤?",
+      "剑不在长,有#enhance则强.",
+        "埃尔维拉夫人的魅魔之屋终身客户",
+        "埃尔维拉夫人的魅魔之屋本月最佳员工",
+        "卢迪奥斯堡的守卫们在小小的暗黑房间里干的",
+        "岩德军队的士兵们成群结队地行动",
+        "我活过了岩德军队新兵训练营",
+        "卢迪奥斯会计学校校内长曲棍球队",
+        "Oracle(TM) Fountains第十届湿身T恤大赛",
+        "来啊,黑龙!有本事就分解这个!",
+        "我跟蠢货在一起-->",
+        "别怪我,我投给了Izchak!",
+        "别慌", /* HHGTTG */
+        "风林馆高校运动部",                /* Ranma 1/2 */
+        "你好--,护士!",                                   /* Animaniacs */
         "=^.^=",
-        "100% goblin hair - do not wash",
-        "Aberzombie and Fitch",
-        "cK -- Cockatrice touches the Kop",
-        "Don't ask me, I only adventure here",
-        "Down with pants!",
-        "d, your dog or a killer?",
-        "FREE PUG AND NEWT!",
-        "Go team ant!",
-        "Got newt?",
-        "Hello, my darlings!", /* Charlie Drake */
-        "Hey!  Nymphs!  Steal This T-Shirt!",
-        "I <3 Dungeon of Doom",
-        "I <3 Maud",
+        "100%地精毛 - 请勿洗涤",
+        "LI-MING",
+        "cK -- 鸡蛇碰到了警察",
+        "别问我,我只是个探险者",
+        "死时还穿着裤子!",
+        "d,你的狗还是杀手?",
+        "*免费的小狗和蝾螈*!",
+        "蚂蚁队加油!",
+        "有蝾螈了?",
+        "我想死你们啦!", /* Charlie Drake */
+        "嘿!仙女!来偷这件T恤呀!",
+        "我<3命运地牢",
+        "我<3莫德",
         /* note: there is a similarly worded apron (alchemy smock) slogan */
-        "I am a Valkyrie.  If you see me running, try to keep up.",
-        "I am not a pack rat - I am a collector",
-        "I bounced off a rubber tree",         /* Monkey Island */
-        "Plunder Island Brimstone Beach Club", /* Monkey Island */
-        "If you can read this, I can hit you with my polearm",
-        "I'm confused!",
-        "I scored with the princess",
-        "I want to live forever or die in the attempt.",
-        "Lichen Park",
-        "LOST IN THOUGHT - please send search party",
-        "Meat is Mordor",
-        "Minetown Better Business Bureau",
-        "Minetown Watch",
+        "我是一个女武神.如果你看见我在跑,那就赶快跟上.",
+        "我不是个囤积狂 -- 我只是个收藏家",
+        "我跳下了橡胶树",         /* Monkey Island */
+        "劫掠岛硫磺沙滩俱乐部", /* Monkey Island */
+        "如果你能读到这段话,你已经在我的长柄武器攻击范围之内了",
+        "我很混乱!",
+        "我追到公主了",
+        "要么永生,要么死在尝试中.",
+        "地衣公园",
+        "神游天外 -- 请派救援来",
+        "走火入魔多",
+        "矿洞镇商业促进局",
+        "矿洞镇看守",
         /* Discworld riff; unfortunately long */
-        ("Ms. Palm's House of Negotiable Affection--A Very Reputable"
-            " House Of Disrepute"),
-        "Protection Racketeer",
-        "Real men love Crom",
-        "Somebody stole my Mojo!",
-        "The Hellhound Gang",
-        "The Werewolves",
-        "They Might Be Storm Giants",
-        "Weapons don't kill people, I kill people",
-        "White Zombie",
-        "You're killing me!",
-        "Anhur State University - Home of the Fighting Fire Ants!",
-        "FREE HUGS",
-        "Serial Ascender",
-        "Real men are valkyries",
-        "Young Men's Cavedigging Association",
-        "Occupy Fort Ludios",
-        "I couldn't afford this T-shirt so I stole it!",
-        "Mind flayers suck",
-        "I'm not wearing any pants",
-        "Down with the living!",
-        "Pudding farmer",
-        "Vegetarian",
-        "Hello, I'm War!",
-        "It is better to light a candle than to curse the darkness",
-        "It is easier to curse the darkness than to light a candle",
+        ("帕尔姆女士的\"协商情缘\"之家 -- 名声卓越的"
+            "狼藉之所"),
+        "压级买保护者",
+        "真男人都喜欢克罗姆",
+        "有人偷走了我的魔力!",
+        "地狱犬帮",
+        "狼人队",
+        "他们或许是风暴巨人",
+        "非兵也,我也",
+        "白僵尸",
+        "你要杀了我!",
+        "安胡尔州立大学 -- 战斗火蚁的摇篮!",
+        "免费拥抱",
+        "连环升天者",
+        "真男人都是女武神",
+        "青年掘洞协会",
+        "占领卢迪奥斯堡",
+        "我买不起这件T恤,所以我偷了它!",
+        "夺心魔……吸……",
+        "我没穿内裤",
+        "打倒活人!",
+        "养布丁的人",
+        "素食主义者",
+        "你好,我是战争!",
+        "点亮明灯胜过诅咒黑暗",
+        "诅咒黑暗易于点亮明灯",
         /* expanded "rock--paper--scissors" featured in TV show "Big Bang
            Theory" although they didn't create it (and an actual T-shirt
            with pentagonal diagram showing which choices defeat which) */
-        "rock--paper--scissors--lizard--Spock!",
+        "石头--剪刀--布--蜥蜴--斯波克!",
         /* "All men must die -- all men must serve" challenge and response
            from book series _A_Song_of_Ice_and_Fire_ by George R.R. Martin,
            TV show "Game of Thrones" (probably an actual T-shirt too...) */
@@ -191,25 +191,25 @@ hawaiian_motif(struct obj *shirt, char *buf)
 {
     static const char *const hawaiian_motifs[] = {
         /* birds */
-        "flamingo",
-        "parrot",
-        "toucan",
-        "bird of paradise", /* could be a bird or a flower */
+        "火烈鸟",
+        "鹦鹉",
+        "巨嘴鸟",
+        "天堂鸟", /* could be a bird or a flower */
         /* sea creatures */
-        "sea turtle",
-        "tropical fish",
-        "jellyfish",
-        "giant eel",
-        "water nymph",
+        "海龟",
+        "热带鱼",
+        "水母",
+        "巨型鳗鱼",
+        "水仙女",
         /* plants */
-        "plumeria",
-        "orchid",
-        "hibiscus flower",
-        "palm tree",
+        "鸡蛋花",
+        "兰花",
+        "木槿花",
+        "棕榈树",
         /* other */
-        "hula dancer",
-        "sailboat",
-        "ukulele",
+        "草裙舞者",
+        "帆船",
+        "尤克里里",
     };
 
     /* a tourist's starting shirt always has the same o_id; we need some
@@ -225,18 +225,18 @@ hawaiian_design(struct obj *shirt, char *buf)
 {
     static const char *const hawaiian_bgs[] = {
         /* solid colors */
-        "purple",
-        "yellow",
-        "red",
-        "blue",
-        "orange",
-        "black",
-        "green",
+        "紫",
+        "黄",
+        "红",
+        "蓝",
+        "橙",
+        "黑",
+        "绿",
         /* adjectives */
-        "abstract",
-        "geometric",
-        "patterned",
-        "naturalistic",
+        "抽象",
+        "几何图形",
+        "花纹",
+        "写实",
     };
 
     /* This hash method is slightly different than the one in hawaiian_motif;
@@ -244,9 +244,9 @@ hawaiian_design(struct obj *shirt, char *buf)
        never appearing, if the sizes of the two lists have common factors. */
     unsigned bg = shirt->o_id ^ (unsigned) ~ubirthday;
 
-    Sprintf(buf, "%s在%s背景上",
-            makeplural(hawaiian_motif(shirt, buf)),
-            an(hawaiian_bgs[bg % SIZE(hawaiian_bgs)]));
+    Sprintf(buf, "的%s背景上印有%s", /*修改语序:Sprintf(buf, "%s的%s背景上",*/
+            an(hawaiian_bgs[bg % SIZE(hawaiian_bgs)]), /*修改语序:makeplural(hawaiian_motif(shirt, buf)),*/
+            makeplural(hawaiian_motif(shirt, buf))); /*修改语序:an(hawaiian_bgs[bg % SIZE(hawaiian_bgs)]));*/
     return buf;
 }
 
@@ -255,14 +255,14 @@ apron_text(struct obj *apron, char *buf)
 {
     static const char *const apron_msgs[] = {
         "Kiss the cook",
-        "I'm making SCIENCE!",
-        "Don't mess with the chef",
-        "Don't make me poison you",
-        "Gehennom's Kitchen",
-        "Rat: The other white meat",
-        "If you can't stand the heat, get out of Gehennom!",
-        "If we weren't meant to eat animals, why are they made out of meat?",
-        "If you don't like the food, I'll stab you",
+        "我在搞*科学*!",
+        "别惹大厨",
+        "别逼我毒死你",
+        "地狱厨房",
+        "鼠:另一种白肉",
+        "受不了热,那就滚出地狱!",
+        "如果动物不是生而被吃的,为什么它们身上要长肉呢?",
+        "如果你不喜欢这饭,我就捅死你",
         /* In the movie "The Sum of All Fears", a Russian worker in a weapons
            facility wears a T-shirt that a translator says reads, "I am a
            bomb technician, if you see me running ... try to catch up."
@@ -273,7 +273,7 @@ apron_text(struct obj *apron, char *buf)
             "I am a Valkyrie.  If you see me running, try to keep up."
            so this one has been revised a little:  added alchemist prefix,
            changed "keep up" to original source's "catch up"] */
-        "I am an alchemist; if you see me running, try to catch up...",
+        "我是一个化学家;如果你看见我在跑,那就赶快跟上...",
     };
 
     Strcpy(buf, apron_msgs[apron->o_id % SIZE(apron_msgs)]);
@@ -282,13 +282,13 @@ apron_text(struct obj *apron, char *buf)
 
 static const char *const candy_wrappers[] = {
     "",                         /* (none -- should never happen) */
-    "Apollo",                   /* Lost */
-    "Moon Crunchy",             /* South Park */
-    "Snacky Cake",    "Chocolate Nuggie", "The Small Bar",
-    "Crispy Yum Yum", "Nilla Crunchie",   "Berry Bar",
-    "Choco Nummer",   "Om-nom", /* Cat Macro */
-    "Fruity Oaty",              /* Serenity */
-    "Wonka Bar",                /* Charlie and the Chocolate Factory */
+    "阿波罗",                   /* Lost */
+    "月亮脆蛋糕",             /* South Park */
+    "零食蛋糕",    "巧克力条", "迷你棒",
+    "香脆美味", "香草脆脆",   "坚果棒",
+    "巧克力小块",   "咔嚓", /* Cat Macro */
+    "水果燕麦",              /* Serenity */
+    "旺卡棒",                /* Charlie and the Chocolate Factory */
 };
 
 /* return the text of a candy bar's wrapper */
@@ -329,7 +329,7 @@ DISABLE_WARNING_FORMAT_NONLITERAL
 int
 doread(void)
 {
-    static const char find_any_braille[] = "feel any Braille writing.";
+    static const char find_any_braille[] = "摸到任何盲文.";
     struct obj *scroll;
     boolean confused, nodisappear;
     int otyp;
@@ -364,12 +364,12 @@ doread(void)
     /* outrumor has its own blindness check */
     if (otyp == FORTUNE_COOKIE) {
         if (flags.verbose)
-            You("打碎了饼干并扔掉了碎屑.");
+            You("掰开了饼干,然后把碎屑扔掉.");
         outrumor(bcsign(scroll), BY_COOKIE);
         if (!Blind)
             if (!u.uconduct.literate++)
                 livelog_printf(LL_CONDUCT,
-                               "became literate by reading a fortune cookie");
+                               "因打开一块幸运饼干而脱离文盲");
         useup(scroll);
         return ECMD_TIME;
     } else if (otyp == T_SHIRT || otyp == ALCHEMY_SMOCK
@@ -384,20 +384,20 @@ doread(void)
         /* can't read shirt worn under suit (under cloak is ok though) */
         if ((otyp == T_SHIRT || otyp == HAWAIIAN_SHIRT) && uarm
             && scroll == uarmu) {
-            pline("%s 衬衫被%s%s遮掩了.",
+            pline("%s衬衫被%s的%s盖住了.",
                   scroll->unpaid ? "那个" : "你的", shk_your(buf, uarm),
                   suit_simple_name(uarm));
             return ECMD_OK;
         }
         if (otyp == HAWAIIAN_SHIRT) {
-            pline("%s带有%s。", flags.verbose ? "该设计图案" : "它",
+            pline("%s%s.", flags.verbose ? "它设计" : "它",
                   hawaiian_design(scroll, buf));
             return ECMD_TIME;
         }
         if (!u.uconduct.literate++)
-            livelog_printf(LL_CONDUCT, "became literate by reading %s",
-                           (scroll->otyp == T_SHIRT) ? "a T-shirt"
-                           : "an apron");
+            livelog_printf(LL_CONDUCT, "因读%s上的字而脱离文盲",
+                           (scroll->otyp == T_SHIRT) ? "一件T恤"
+                           : "一件围裙");
 
         /* populate 'buf[]' */
         mesg = (otyp == T_SHIRT) ? tshirt_text(scroll, buf)
@@ -409,7 +409,7 @@ doread(void)
             /* we will be displaying a sentence; need ending punctuation */
             if (ln > 0 && !strchr(".!?", mesg[ln - 1]))
                 endpunct = ".";
-            pline("上面写着：");
+            pline("上面写着:");
         }
         pline("\"%s\"%s", mesg, endpunct);
         return ECMD_TIME;
@@ -430,17 +430,17 @@ doread(void)
         if (scroll->o_id % 3) {
             /* no need to vary this when blind; "on this ___" is important
                because it suggests that there might be something on others */
-            You_cant("在这%s上找不到可读的东西。",
+            You("在这给%s上找不到可读的东西.", /*危险:You_cant*/
                      simpleonames(scroll));
             return ECMD_OK;
         }
-        pline("%s在%s上。上面写着：%s。",
-              !Blind ? "有文字" : "你摸到文字",
-              simpleonames(scroll), cap_text);
+        pline("%s%s上面%s:%s.", /*修改语序:pline("%s%s上面写着":"%s.",*/
+              !Blind ? "你看到" : "你摸到",
+              simpleonames(scroll), !Blind ? "写着" : "的字", cap_text); /*危险,修改语序:simpleonames(scroll), cap_text);*/
         if (!u.uconduct.literate++)
-            livelog_printf(LL_CONDUCT, "became literate by reading %s",
-                           (otyp == DUNCE_CAP) ? "a dunce cap"
-                                               : "a cornuthaum");
+            livelog_printf(LL_CONDUCT, "因读%s上的字而脱离文盲",
+                           (otyp == DUNCE_CAP) ? "一顶笨蛋帽"
+                                               : "巫师帽");
 
         /* yet another note: despite the fact that player will recognize
            the object type, don't make it become a discovery for hero */
@@ -448,27 +448,27 @@ doread(void)
         return ECMD_TIME;
     } else if (otyp == CREDIT_CARD) {
         static const char *const card_msgs[] = {
-            "Leprechaun Gold Tru$t - Shamrock Card",
-            "Magic Memory Vault Charge Card",
-            "Larn National Bank",                /* Larn */
-            "First Bank of Omega",               /* Omega */
-            "Bank of Zork - Frobozz Magic Card", /* Zork */
-            "Ankh-Morpork Merchant's Guild Barter Card",
-            "Ankh-Morpork Thieves' Guild Unlimited Transaction Card",
-            "Ransmannsby Moneylenders Association",
-            "Bank of Gehennom - 99% Interest Card",
-            "Yendorian Express - Copper Card",
-            "Yendorian Express - Silver Card",
-            "Yendorian Express - Gold Card",
-            "Yendorian Express - Mithril Card",
-            "Yendorian Express - Platinum Card", /* must be last */
+            "小矮妖黄金信托 - 三叶草卡",
+            "魔力记忆宝库充值卡",
+            "拉恩",                /* Larn */
+            "欧米伽第一银行",               /* Omega */
+            "佐科-弗罗博兹魔法卡", /* Zork */
+            "安科–莫波克商人公会易货卡",
+            "安科–莫波克盗贼公会无限交易卡",
+            "兰斯曼斯比放贷人协会",
+            "地狱银行 - 99%利息卡",
+            "岩德至尊 - 铜卡",
+            "岩德至尊 - 银卡",
+            "岩德至尊 - 金卡",
+            "岩德至尊 - 秘银卡",
+            "岩德至尊 - 白金卡", /* must be last */
         };
 
         if (Blind) {
             You("感受凸起的数字:");
         } else {
             if (flags.verbose)
-                pline("上面写着：");
+                pline("上面写着:");
             pline("\"%s\"",
                   scroll->oartifact
                       ? card_msgs[SIZE(card_msgs) - 1]
@@ -485,11 +485,11 @@ doread(void)
               (flags.verbose || Blind) ? "." : "");
         if (!u.uconduct.literate++)
             livelog_printf(LL_CONDUCT,
-                           "became literate by reading a credit card");
+                           "因读一张信用卡上的字而脱离文盲");
 
         return ECMD_TIME;
     } else if (otyp == CAN_OF_GREASE) {
-        pline("这个%s没有标签。", singular(scroll, xname));
+        pline("这个%s没有标签.", singular(scroll, xname));
         return ECMD_OK;
     } else if (otyp == MAGIC_MARKER) {
         static const int red_mons[] = {
@@ -506,35 +506,35 @@ doread(void)
             return ECMD_OK;
         }
         if (flags.verbose)
-            pline("上面写着：");
+            pline("上面写着:");
         Sprintf(buf, "%s", pmname(pm, NEUTRAL));
-        pline("\"魔法记号笔(TM) %s 红色墨水记号笔。 水溶性。\"",
+        pline("\"魔法记号笔(TM)%s红色墨水记号笔.水溶.\"",
               upwords(buf));
         if (!u.uconduct.literate++)
             livelog_printf(LL_CONDUCT,
-                           "became literate by reading a magic marker");
+                           "因读一支魔笔上的字而脱离文盲");
 
         return ECMD_TIME;
     } else if (scroll->oclass == COIN_CLASS) {
         if (Blind)
             You("读道:");
         else if (flags.verbose)
-            You("读：");
-        pline("\"1 佐克米德。857 GUE。我们信仰弗罗布斯。\"");
+            You("读:");
+        pline("\"1zorkmid.伟大的地底帝国857年.我们信仰众弗罗布.\"");
         if (!u.uconduct.literate++)
             livelog_printf(LL_CONDUCT,
-                           "became literate by reading a coin's engravings");
+                           "因读一块硬币上的字而脱离文盲");
 
         return ECMD_TIME;
     } else if (is_art(scroll, ART_ORB_OF_FATE)) {
         if (Blind)
-            You("感受到刻着的签名：");
+            You("摸到了上面刻着的名字:");
         else
-            pline("\" 欧丁.\"");
-        pline("\"奥丁。\"");
+            pline("\"上面写着:\"");
+        pline("\"奥丁.\"");
         if (!u.uconduct.literate++)
             livelog_printf(LL_CONDUCT,
-                   "became literate by reading the divine signature of Odin");
+                   "因读奥丁的神圣签名而脱离文盲");
 
         return ECMD_TIME;
     } else if (otyp == CANDY_BAR) {
@@ -545,18 +545,18 @@ doread(void)
             return ECMD_OK;
         }
         if (!*wrapper) {
-            pline("糖果棒的包装纸是空白的。");
+            pline("糖果棒的包装纸是空白的.");
             return ECMD_OK;
         }
-        pline("作为盲人, 你不能阅读%s.", wrapper);
+        pline("包装纸上写着:\"%s\".", wrapper);
         if (!u.uconduct.literate++)
             livelog_printf(LL_CONDUCT,
-                           "became literate by reading a candy bar wrapper");
+                           "因读一张糖果包装纸上的字而脱离文盲");
 
         return ECMD_TIME;
     } else if (scroll->oclass != SCROLL_CLASS
                && scroll->oclass != SPBOOK_CLASS) {
-        pline(silly_thing_to, "read");
+        pline(silly_thing_to, "读");
         return ECMD_OK;
     } else if (Blind && otyp != SPE_BOOK_OF_THE_DEAD) {
         const char *what = 0;
@@ -564,13 +564,13 @@ doread(void)
         if (otyp == SPE_NOVEL)
             /* unseen novels are already distinguishable from unseen
                spellbooks so this isn't revealing any extra information */
-            what = "words";
+            what = "上面的字";
         else if (scroll->oclass == SPBOOK_CLASS)
-            what = "mystic runes";
+            what = "神秘的符文";
         else if (!scroll->dknown)
-            what = "formula on the scroll";
+            what = "卷轴上的咒文";
         if (what) {
-            pline("由于失明，你无法阅读 %s。", what);
+            pline("由于失明,你无法阅读%s.", what);
             return ECMD_OK;
         }
     }
@@ -588,7 +588,7 @@ doread(void)
            scroll didn't come from bones, ask for confirmation */
         if (!u.uconduct.literate) {
             if (!scroll->spe && y_n(
-             "Reading mail will violate \"illiterate\" conduct.  Read anyway?"
+             "阅读邮件将违反\"文盲\"挑战.仍然阅读?"
                                    ) != 'y')
                 return ECMD_OK;
         }
@@ -600,9 +600,9 @@ doread(void)
     if (otyp != SPE_BOOK_OF_THE_DEAD && otyp != SPE_NOVEL
         && otyp != SPE_BLANK_PAPER && otyp != SCR_BLANK_PAPER)
         if (!u.uconduct.literate++)
-            livelog_printf(LL_CONDUCT, "became literate by reading %s",
-                           (scroll->oclass == SPBOOK_CLASS) ? "a book"
-                           : (scroll->oclass == SCROLL_CLASS) ? "a scroll"
+            livelog_printf(LL_CONDUCT, "因读%s而脱离文盲",
+                           (scroll->oclass == SPBOOK_CLASS) ? "一本书"
+                           : (scroll->oclass == SCROLL_CLASS) ? "一张卷轴"
                              : something);
 
     if (scroll->oclass == SPBOOK_CLASS) {
@@ -618,17 +618,17 @@ doread(void)
                        || (otyp == SCR_REMOVE_CURSE && scroll->cursed));
         if (Blind)
             pline(nodisappear
-                      ? "你 %s 了卷轴上的咒语。"
-                      : "当你 %s 了上面的咒语，卷轴就消失了。",
-                  silently ? "沉思" : "念诵");
+                      ? "你%s念出了卷轴上的咒语."
+                      : "你%s念出了上面的咒语,然后卷轴消失了.",
+                  silently ? "默" : "");
         else
-            pline(nodisappear ? "你阅读了卷轴。"
-                              : "当你阅读卷轴时，它消失了。");
+            pline(nodisappear ? "你读出了卷轴."
+                              : "你读出了卷轴,它消失了.");
         if (confused) {
             if (Hallucination)
-                pline("如此迷幻，你搞砸了...");
+                pline("如此迷幻,你搞砸了...");
             else
-                pline("困惑中，你%s了那些魔法咒语...",
+                pline("混乱中,你%s了那些魔法咒语...",
                       silently ? "误解" : "念错");
         }
     }
@@ -655,7 +655,7 @@ stripspe(struct obj *obj)
         pline1(nothing_happens);
     } else {
         /* order matters: message, shop handling, actual transformation */
-        pline("%s短暂地振动。", Yobjnam2(obj, "振动"));
+        pline("%s了一下.", Yobjnam2(obj, "短暂地振动"));
         costly_alteration(obj, COST_UNCHRG);
         obj->spe = 0;
         if (obj->otyp == OIL_LAMP || obj->otyp == BRASS_LANTERN)
@@ -666,22 +666,22 @@ stripspe(struct obj *obj)
 staticfn void
 p_glow1(struct obj *otmp)
 {
-    pline("%s了片刻。", Yobjnam2(otmp, Blind ? "振动" : "发光"));
+    pline("%s了片刻.", Yobjnam2(otmp, Blind ? "振动" : "发光"));
 }
 
 staticfn void
 p_glow2(struct obj *otmp, const char *color)
 {
-    pline("%s%s%s 片刻。", Yobjnam2(otmp, Blind ? "振动" : "发光"),
-          Blind ? "" : " ", Blind ? "" : hcolor(color));
+    pline("%s%s%s了一刹那.", Yobjnam2(otmp, Blind ? "振动" : "发光"),
+          Blind ? "" : hcolor(color), Blind ? "" : "色光");
 }
 
 staticfn void
 p_glow3(struct obj *otmp, const char *color)
 {
-    pline("%s微弱地%s%s持续了片刻。",
+    pline("%s微弱地%s%s了一刹那.",
           Yobjnam2(otmp, Blind ? "振动" : "发光"),
-          Blind ? "" : " ", Blind ? "" : hcolor(color));
+          Blind ? "" : hcolor(color), Blind ? "" : "色光");
 }
 
 /* getobj callback for object to charge */
@@ -805,13 +805,13 @@ recharge(struct obj *obj, int curse_bless)
 
         /* destruction depends on current state, not adjustment */
         if (obj->spe > rn2(7) || obj->spe <= -5) {
-            pline("%s, 然后%s了!", Yobjnam2(obj, "立即振动"),
+            pline("%s,然后%s了!", Yobjnam2(obj, "振动了一下"),
                   otense(obj, "爆炸"));
             if (is_on)
                 Ring_gone(obj);
             s = rnd(3 * abs(obj->spe)); /* amount of damage */
             useup(obj), obj = 0;
-            losehp(Maybe_Half_Phys(s), "exploding ring", KILLED_BY_AN);
+            losehp(Maybe_Half_Phys(s), "戒指爆炸", KILLED_BY_AN);
         } else {
             long mask = is_on ? (obj == uleft ? LEFT_RING : RIGHT_RING) : 0L;
 
@@ -860,7 +860,7 @@ recharge(struct obj *obj, int curse_bless)
                 /* previously recharged */
                 obj->recharged = 1; /* override increment done above */
                 if (obj->spe < 3)
-                    Your("笔似乎永久的干了.");
+                    Your("笔似乎永久地干了.");
                 else
                     pline1(nothing_happens);
             } else if (is_blessed) {
@@ -898,7 +898,7 @@ recharge(struct obj *obj, int curse_bless)
                 stripspe(obj);
                 if (obj->lamplit) {
                     if (!Blind)
-                        pline("%s灭了!", Tobjnam(obj, "熄"));
+                        pline("%s了!", Tobjnam(obj, "燃尽"));
                     end_burn(obj, TRUE);
                 }
             } else if (is_blessed) {
@@ -924,7 +924,7 @@ recharge(struct obj *obj, int curse_bless)
                     p_glow2(obj, NH_BLACK);
                     curse(obj);
                 } else {
-                    pline("%s片刻。", Yobjnam2(obj, "振动"));
+                    pline("%s了片刻.", Yobjnam2(obj, "振动"));
                 }
                 if (obj->spe > 0)
                     costly_alteration(obj, COST_UNCHRG);
@@ -1126,8 +1126,8 @@ seffect_enchant_armor(struct obj **sobjp)
 
     if (!otmp) {
         strange_feeling(sobj, !Blind
-                        ? "Your skin glows then fades."
-                        : "Your skin feels warm for a moment.");
+                        ? "你的皮肤亮了一下,然后变暗."
+                        : "你感到皮肤温暖了一刹那.");
         *sobjp = 0; /* useup() in strange_feeling() */
         exercise(A_CON, !scursed);
         exercise(A_STR, !scursed);
@@ -1139,19 +1139,19 @@ seffect_enchant_armor(struct obj **sobjp)
         otmp->oerodeproof = 0; /* for messages */
         if (Blind) {
             otmp->rknown = FALSE;
-            pline("%s温暖了片刻.", Yobjnam2(otmp, "感觉"));
+            pline("%s温暖了一刹那.", Yobjnam2(otmp, "感觉"));
         } else {
             otmp->rknown = TRUE;
-            pline("%s被一层%s %s %s覆盖！", Yobjnam2(otmp, "是"),
+            pline("%s被一层%s%s%s覆盖!", Yobjnam2(otmp, ""),
                   scursed ? "斑驳的" : "闪烁的",
                   hcolor(scursed ? NH_BLACK : NH_GOLDEN),
-                  scursed ? "光芒"
+                  scursed ? "色光芒"
                   : (is_shield(otmp) ? "层" : "护盾"));
         }
         if (new_erodeproof && (otmp->oeroded || otmp->oeroded2)) {
             otmp->oeroded = otmp->oeroded2 = 0;
-            pline("%s 和新的一样好！",
-                  Yobjnam2(otmp, Blind ? "感觉" : "看起来"));
+            pline("%s像新的一样!",
+                  Yobjnam2(otmp, Blind ? "感觉" : "看上去"));
         }
         if (old_erodeproof && !new_erodeproof) {
             /* restore old_erodeproof before shop charges */
@@ -1178,8 +1178,8 @@ seffect_enchant_armor(struct obj **sobjp)
     s = scursed ? -otmp->spe : otmp->spe;
     if (s > (special_armor ? 5 : 3) && rn2(s)) {
         otmp->in_use = TRUE;
-        pline("%s猛烈地%s%s%s了一会儿，然后%s。", Yname2(otmp),
-              otense(otmp, Blind ? "震动" : "发光"),
+        pline("%s猛烈地%s%s%s了一会儿,然后%s了.", Yname2(otmp),
+              otense(otmp, Blind ? "振动" : "发光"),
               (!Blind && !same_color) ? " " : "",
               (Blind || same_color) ? "" : hcolor(scursed ? NH_BLACK
                                                   : NH_SILVER),
@@ -1250,13 +1250,13 @@ seffect_enchant_armor(struct obj **sobjp)
             maybe_adjust_light(otmp, old_light);
         return;
     }
-    pline("%s %s%s%s%s持续了%s。", Yname2(otmp),
-          (s == 0) ? "猛烈地 " : "",
-          otense(otmp, Blind ? "震动" : "发光"),
-          (!Blind && !same_color) ? " " : "",
+    pline("%s%s%s%s%s%s了%s.", Yname2(otmp), /*修改语序:多了一个%s*/
+          (s == 0) ? "猛烈地" : "",
+          otense(otmp, Blind ? "振动" : "发出"),
+          (!Blind && !same_color) ? "" : "",
           (Blind || same_color)
-          ? "" : hcolor(scursed ? NH_BLACK : NH_SILVER),
-          (s * s > 1) ? "一会儿" : "片刻");
+          ? "" : hcolor(scursed ? NH_BLACK : NH_SILVER), (Blind || same_color) ? "" : "色光" /*修改语序:*/
+          (s * s > 1) ? "一会儿" : "一刹那");
     /* [this cost handling will need updating if shop pricing is
        ever changed to care about curse/bless status of armor] */
     if (s < 0)
@@ -1285,8 +1285,8 @@ seffect_enchant_armor(struct obj **sobjp)
 
     if ((otmp->spe > (special_armor ? 5 : 3))
         && (special_armor || !rn2(7)))
-        pline("%s %s.", Yobjnam2(otmp, "突然震动"),
-              Blind ? "再次" : "意外地");
+        pline("%s%s%s.", Yobjnam2(otmp, ""), /*修改语序:多了一个%s*/
+              Blind ? "再次" : "意外地", "突然振动"); /*修改语序:Blind ? "再次" : "意外地");*/
 }
 
 /* destroy a random cursed armor worn by hero */
@@ -1331,7 +1331,7 @@ seffect_destroy_armor(struct obj **sobjp)
 
     if (confused) {
         if (!otmp) {
-            strange_feeling(sobj, "Your bones itch.");
+            strange_feeling(sobj, "你的骨头在发痒");
             *sobjp = 0; /* useup() in strange_feeling() */
             exercise(A_STR, FALSE);
             exercise(A_CON, FALSE);
@@ -1353,7 +1353,7 @@ seffect_destroy_armor(struct obj **sobjp)
     if (scursed) {
         if (otmp && otmp->cursed) {
             /* armor and scroll both cursed */
-            pline("%s.", Yobjnam2(otmp, "振动"));
+            pline("%s了一下.", Yobjnam2(otmp, "振动"));
             if (otmp->spe >= -6) {
                 otmp->spe += -1;
                 adj_abon(otmp, -1);
@@ -1371,7 +1371,7 @@ seffect_destroy_armor(struct obj **sobjp)
             struct obj *atmp;
 
             if (!objects[sobj->otyp].oc_name_known)
-                pline("这是%s！", an(actualoname(sobj)));
+                pline("这是%s!", an(actualoname(sobj)));
             gk.known = TRUE;
             atmp = getobj("destroy", any_worn_armor_ok, GETOBJ_PROMPT);
             /* check the return value, if user picked non-valid obj */
@@ -1385,7 +1385,7 @@ seffect_destroy_armor(struct obj **sobjp)
             gk.known = TRUE;
             return;
         } else if (!destroy_arm()) {
-            strange_feeling(sobj, "Your skin itches.");
+            strange_feeling(sobj, "你的皮肤在发痒.");
             *sobjp = 0; /* useup() in strange_feeling() */
             exercise(A_STR, FALSE);
             exercise(A_CON, FALSE);
@@ -1407,18 +1407,18 @@ seffect_confuse_monster(struct obj **sobjp)
 
     if (gy.youmonst.data->mlet != S_HUMAN || scursed) {
         if (!HConfusion)
-            You_feel("混乱了。");
+            You_feel("混乱.");
         make_confused(HConfusion + rnd(100), FALSE);
     } else if (confused) {
         if (!sblessed) {
-            Your("%s开始%s%s.", hands,
-                 altfeedback ? "刺痛" : "发光",
-                 altfeedback ? "" : hcolor(NH_PURPLE));
+            Your("%s开始%s%s%s.", hands, /*修改语序:你猜我要干什么？搜索："色光"*/
+                 altfeedback ? "发麻" : "发出",
+                 altfeedback ? "" : hcolor(NH_PURPLE), altfeedback ? "" : "色光");
             make_confused(HConfusion + rnd(100), FALSE);
         } else {
-            pline("一团%s%s包围着你的%s。",
+            pline("一团%s%s萦绕着你的%s.",
                   altfeedback ? "" : hcolor(NH_RED),
-                  altfeedback ? "微弱的嗡嗡声" : "微光", body_part(HEAD));
+                  altfeedback ? "微弱的嗡嗡声" : "色微光", body_part(HEAD));
             make_confused(0L, TRUE);
         }
     } else {
@@ -1427,20 +1427,20 @@ seffect_confuse_monster(struct obj **sobjp)
 
         if (!sblessed) {
             if (altfeedback)
-                Your("%s 发麻%s.", hands, u.umconf ? "更厉害了" : "");
+                Your("%s%s发麻.", hands, u.umconf ? "更加" : "开始");
             else if (!u.umconf)
-                Your("你的%s开始发出%s光。", hands, hcolor(NH_RED));
+                Your("你的%s开始发出%s色光.", hands, hcolor(NH_RED));
             else
-                pline_The("你的%s的%s光芒增强了。", hcolor(NH_RED),
+                pline_The("%s的%s色光增强了.", hcolor(NH_RED),
                           hands);
             incr += rnd(2);
         } else {
             if (altfeedback)
-                Your("%s %s刺痛。", hands,
+                Your("%s%s刺痛.", hands,
                      u.umconf ? "更加" : "非常");
             else
-                Your("%s发出%s灿烂的%s光。", hands,
-                     u.umconf ? "甚至更" : "一", hcolor(NH_RED));
+                Your("%s发出%s灿烂的%s色光.", hands,
+                     u.umconf ? "甚至更" : "", hcolor(NH_RED));
             incr += rn1(8, 2);
         }
         /* after a while, repeated uses become less effective */
@@ -1479,9 +1479,9 @@ seffect_scare_monster(struct obj **sobjp)
         } else {
             Soundeffect(se_maniacal_laughter, 50);
         }
-        You_hear("%s %s.", (confused || scursed) ? "悲伤的哀号"
-                 : "疯狂的笑声",
-                 !ct ? "在远处" : "在近处");
+        You_hear("%s%s.", !ct ? "远处" : "近处",
+                 (confused || scursed) ? "悲伤的哀号"
+                 : "疯狂的笑声"); /*修改语序:反过来*/
     }
 }
 
@@ -1497,13 +1497,13 @@ seffect_remove_curse(struct obj **sobjp)
     long wornmask;
 
     You_feel(!Hallucination
-             ? (!confused ? "仿佛有人在帮你。"
-                : "仿佛你需要帮助。")
-             : (!confused ? "与宇宙一体相连。"
-                : "原力与你为敌！"));
+             ? (!confused ? "好像有人在帮你."
+                : "你好像需要帮助.")
+             : (!confused ? "你与宇宙一体相连."
+                : "原力与你为敌!"));
 
     if (scursed) {
-        pline_The("卷轴消散了。");
+        pline_The("卷轴消散了.");
     } else {
         /* 5.0: this used to use a straight
                for (obj = invent; obj; obj = obj->nobj) {}
@@ -1586,8 +1586,8 @@ seffect_remove_curse(struct obj **sobjp)
                 /* like rndcurse(sit.c), effect on regular inventory
                    doesn't show things glowing but saddle does */
                 if (!Blind) {
-                    pline("%s %s.", Yobjnam2(obj, "发着"),
-                              hcolor("琥珀色光"));
+                    pline("%s%s色光.", Yobjnam2(obj, "发出了"),
+                              hcolor("琥珀"));
                     obj->bknown = Hallucination ? 0 : 1;
                 } else {
                     obj->bknown = 0; /* skip set_bknown() */
@@ -1599,7 +1599,7 @@ seffect_remove_curse(struct obj **sobjp)
         unpunish();
     if (u.utrap && u.utraptype == TT_BURIEDBALL) {
         buried_ball_to_freedom();
-        pline_The("你%s上的夹子消失了。", body_part(LEG));
+        pline_The("你%s上的脚镣消失了.", body_part(LEG));
     }
     update_inventory();
 }
@@ -1643,18 +1643,18 @@ seffect_enchant_weapon(struct obj **sobjp)
         uwep->oerodeproof = 0; /* for messages */
         if (Blind) {
             uwep->rknown = FALSE;
-            Your("武器暖和了一会儿。");
+            Your("武器暖和了一会儿.");
         } else {
             uwep->rknown = TRUE;
-            pline("%s被一层%s%s%s覆盖！", Yobjnam2(uwep, "是"),
+            pline("%s被一层%s%s%s覆盖!", Yobjnam2(uwep, "是"),
                   scursed ? "斑驳的" : "闪烁的",
                   hcolor(scursed ? NH_PURPLE : NH_GOLDEN),
-                  scursed ? "光芒" : "护盾");
+                  scursed ? "色光芒" : "护盾");
         }
         if (new_erodeproof && (uwep->oeroded || uwep->oeroded2)) {
             uwep->oeroded = uwep->oeroded2 = 0;
-            pline("%s 像新的一样！",
-                  Yobjnam2(uwep, Blind ? "感觉" : "看起来"));
+            pline("%s像新的一样!",
+                  Yobjnam2(uwep, Blind ? "感觉" : "看上去"));
         }
         if (old_erodeproof && !new_erodeproof) {
             /* restore old_erodeproof before shop charges */
@@ -1707,11 +1707,11 @@ seffect_taming(struct obj **sobjp)
             }
     }
     if (!results) {
-        pline("没什么有趣的事 %s。",
-              !candidates ? "发生" : "似乎发生");
+        pline("%s没有任何有趣的事发生.",
+              !candidates ? "" : "看起来");
     } else {
-        pline_The("附近区域%s %s更友好了。",
-                  vis_results ? "是" : "似乎",
+        pline_The("附近%s更%s友好了.",
+                  vis_results ? "" : "似乎",
                   (results < 0) ? "不" : "");
         if (vis_results > 0)
             gk.known = TRUE;
@@ -1729,7 +1729,7 @@ seffect_genocide(struct obj **sobjp)
                              || objects[otyp].oc_name_known);
 
     if (!already_known)
-        You("发现了灭绝卷轴！");
+        You("发现了灭绝卷轴!");
     gk.known = TRUE;
     if (sblessed)
         do_class_genocide();
@@ -1757,7 +1757,7 @@ seffect_light(struct obj **sobjp)
         int pm = scursed ? PM_BLACK_LIGHT : PM_YELLOW_LIGHT;
 
         if ((svm.mvitals[pm].mvflags & G_GONE)) {
-            pline("微小的光芒在空中闪烁片刻。");
+            pline("微小的光芒在空中短暂闪烁.");
         } else {
             /* surround with cancelled tame lights which won't explode */
             struct monst *mon;
@@ -1777,7 +1777,7 @@ seffect_light(struct obj **sobjp)
                 }
             }
             if (sawlights) {
-                pline("你周围到处出现了光芒！");
+                pline("光照在你周围各处!");
                 gk.known = TRUE;
             }
         }
@@ -1798,10 +1798,10 @@ seffect_charging(struct obj **sobjp)
 
     if (confused) {
         if (scursed) {
-            You_feel("能量被耗尽了。");
+            You_feel("能量被耗尽了.");
             u.uen = 0;
         } else {
-            You_feel("充满能量了！");
+            You_feel("能量充满了!");
             u.uen += d(sblessed ? 6 : 4, 4);
             if (u.uen > u.uenmax) /* if current energy is already at   */
                 u.uenmax = u.uen; /* or near maximum, increase maximum */
@@ -1813,7 +1813,7 @@ seffect_charging(struct obj **sobjp)
     }
     /* known = TRUE; -- handled inline here */
     if (!already_known) {
-        pline("不幸的是, 你无法掌握细节.");
+        pline("这是一张充能卷轴.");
         learnscroll(sobj);
     }
     /* use it up now to prevent it from showing in the
@@ -1835,14 +1835,14 @@ seffect_amnesia(struct obj **sobjp)
     gk.known = TRUE;
     forget((!sblessed ? ALL_SPELLS : 0));
     if (Hallucination) /* Ommmmmm! */
-        Your("心智从世俗烦恼中解脱出来。");
+        Your("心智从世俗烦恼中解脱出来.");
     else if (!strncmpi(svp.plname, "Maud", 4))
-        pline("As your mind turns inward on itself,"
-              " you forget everything else.");
+        pline("当你将你的思绪转向自己内心,"
+              "你就忘却了一切.");
     else if (rn2(2))
-        pline("这是火卷轴!");
+        pline("那个莫德到底是谁啊?");
     else
-        pline("你想把爆炸集中在哪里?");
+        pline("一想到莫德,其他一切便都抛诸脑后.");
     exercise(A_WIS, FALSE);
 }
 
@@ -1868,36 +1868,36 @@ seffect_fire(struct obj **sobjp)
         (void) learnscrolltyp(SCR_FIRE);
     if (confused) {
         if (Underwater) {
-            pline("一点%s在你周围蒸发了。", hliquid("水"));
+            pline("你周围的一些%s蒸发了.", hliquid("水"));
         }
         else if (Fire_resistance) {
             shieldeff(u.ux, u.uy);
             monstseesu(M_SEEN_FIRE);
             if (!Blind)
-                pline("哦，看，你的%s里那团火好漂亮！",
+                pline("哦,看,你的%s里那团火多么漂亮!",
                       makeplural(body_part(HAND)));
             else
-                You_feel("你的%s中传来一阵宜人的暖意。",
+                You_feel("你的%s中传来一阵宜人的暖意.",
                          makeplural(body_part(HAND)));
         } else {
             monstunseesu(M_SEEN_FIRE);
-            pline_The("卷轴着火了，你烧伤了你的%s。",
+            pline_The("卷轴着火了,你烧伤了你的%s.",
                       makeplural(body_part(HAND)));
-            losehp(1, "scroll of fire", KILLED_BY_AN);
+            losehp(1, "火焰卷轴", KILLED_BY_AN);
         }
         return;
     }
     if (Underwater) {
-        pline_The("你周围的%s剧烈汽化！", hliquid("水"));
+        pline_The("你周围的%s剧烈蒸发了!", hliquid("水"));
     } else {
         if (sblessed) {
             if (!already_known)
-                pline("这是一张火焰卷轴！");
+                pline("这是一张火焰卷轴!");
             dam *= 5;
-            pline("你想把爆炸的中心放在哪里？");
+            pline("你想把爆炸的中心放在哪里?");
             getpos_sethilite(display_stinking_cloud_positions,
                              can_center_cloud);
-            (void) getpos(&cc, TRUE, "the desired position");
+            (void) getpos(&cc, TRUE, "想要的爆炸中心");
             if (!can_center_cloud(cc.x, cc.y)) {
                 /* try to reach too far, get burned */
                 cc.x = u.ux;
@@ -1905,7 +1905,7 @@ seffect_fire(struct obj **sobjp)
             }
         }
         if (u_at(cc.x, cc.y)) {
-            pline_The("卷轴喷发出一座火焰之塔！");
+            pline_The("卷轴喷出了一柱火焰!");
             iflags.last_msg = PLNMSG_TOWER_OF_FLAME; /* for explode() */
             burn_away_slime();
         }
@@ -1931,20 +1931,20 @@ seffect_earth(struct obj **sobjp)
 
         /* Identify the scroll */
         if (u.uswallow) {
-            You_hear("隆隆声。");
+            You_hear("隆隆声.");
         } else {
             if (!avoid_ceiling(&u.uz)) {
-                pline_The("%s 在你%s轰隆作响！", ceiling(u.ux, u.uy),
+                pline_The("%s在你%s轰隆作响!", ceiling(u.ux, u.uy),
                           sblessed ? "周围" : "上方");
             } else {
                 char matbuf[BUFSZ];
-                const char *const avalanche = "avalanche";
+                const char *const avalanche = "雪崩般";
 
                 Sprintf(matbuf, "%s",
-                        sblessed ? makeplural(avalanche) : an(avalanche));
-                pline("%s的巨石%s%s！",
-                      upstart(matbuf), vtense(matbuf, "出现"),
-                      sblessed ? "在你周围" : "在你上方");
+                        sblessed ? avalanche : avalanche);
+                pline("%s的巨石%s%s!",
+                      upstart(matbuf), sblessed ? "在你周围" : "从你上方", /*修改语序:upstart(matbuf), vtense(matbuf, "滚落"),*/
+                      vtense(matbuf, "滚落")); /*修改语序:sblessed ? "在你周围" : "从你上方");*/
             }
         }
         gk.known = 1;
@@ -1968,7 +1968,7 @@ seffect_earth(struct obj **sobjp)
         if (!sblessed) {
             drop_boulder_on_player(confused, !scursed, TRUE, FALSE);
         } else if (!nboulders)
-            pline("但什么也没有发生。");
+            pline("但是没有任何事发生.");
     }
 }
 
@@ -1981,7 +1981,7 @@ seffect_punishment(struct obj **sobjp)
 
     gk.known = TRUE;
     if (confused || sblessed) {
-        You_feel("有罪的.");
+        You_feel("有罪.");
         return;
     }
     punish(sobj);
@@ -1996,7 +1996,7 @@ seffect_stinking_cloud(struct obj **sobjp)
                              || objects[otyp].oc_name_known);
 
     if (!already_known)
-        You("发现了一张臭云卷轴！");
+        You("发现了一张臭云卷轴!");
     gk.known = TRUE;
     do_stinking_cloud(sobj, already_known);
 }
@@ -2005,9 +2005,9 @@ staticfn void
 seffect_blank_paper(struct obj **sobjp UNUSED)
 {
     if (Blind)
-        You("不记得这张卷轴上有什么魔法文字。");
+        You("不记得这张卷轴上有什么魔法文字.");
     else
-        pline("这卷轴似乎是空白的。");
+        pline("这张卷轴看起来是空白的.");
     gk.known = TRUE;
 }
 
@@ -2072,9 +2072,9 @@ seffect_identify(struct obj **sobjp)
         /* scroll just identifies itself for any scroll read while confused
            or for cursed scroll read without knowing identify yet */
         if (confused || (scursed && !already_known))
-            You("将其识别为一张鉴定卷轴。");
+            You("鉴定出来这是一张鉴定卷轴.");
         else if (!already_known)
-            pline("哇!  现代艺术.");
+            pline("哇!现代艺术.");
         if (!already_known)
             (void) learnscrolltyp(SCR_IDENTIFY);
         if (confused || (scursed && !already_known))
@@ -2093,8 +2093,8 @@ seffect_identify(struct obj **sobjp)
     } else {
         /* spell cast with inventory empty or scroll read when it's
            the only item leaving empty inventory after being used up */
-        pline("你身上没有任何%s需要鉴定的东西。",
-              (is_scroll) ? "别的" : "");
+        pline("你身上没有任何%s需要鉴定的东西.",
+              (is_scroll) ? "其他" : "");
     }
 }
 
@@ -2110,11 +2110,11 @@ seffect_magic_mapping(struct obj **sobjp)
 
     if (is_scroll) {
         if (svl.level.flags.nommap) {
-            Your("思想从世俗的关注中释放出来.");
+            Your("心智从世俗烦恼中解脱出来.");
             if (Hallucination)
-                pline("当你的内心转向内在, 你忘记了一切.");
+                pline("当你将你的思绪转向自己内心,你就忘记了一切.");
             else
-                Your("%s 困惑地旋转。", body_part(HEAD));
+                Your("%s混乱地转了起来.", body_part(HEAD));
             make_confused(HConfusion + rnd(30), FALSE);
             return;
         }
@@ -2134,12 +2134,12 @@ seffect_magic_mapping(struct obj **sobjp)
     }
 
     if (svl.level.flags.nommap) {
-        Your("%s 旋转着，因为 %s 阻挡了法术！", body_part(HEAD),
+        Your("%s转了起来,%s阻挡了法术!", body_part(HEAD),
              something);
         make_confused(HConfusion + rnd(30), FALSE);
         return;
     }
-    pline("一张地图在你的脑海中凝聚成形！");
+    pline("一张地图在你的脑海中显现!");
     cval = (scursed && !confused);
     if (cval)
         HConfusion = 1; /* to screw up map */
@@ -2148,7 +2148,7 @@ seffect_magic_mapping(struct obj **sobjp)
     notice_mon_on();
     if (cval) {
         HConfusion = 0; /* restore */
-        pline("可惜你无法掌握细节。");
+        pline("可惜你无法掌握细节.");
     }
 }
 
@@ -2163,14 +2163,14 @@ seffect_mail(struct obj **sobjp)
     switch (sobj->spe) {
     case 2:
         /* "stamped scroll" created via magic marker--without a stamp */
-        pline("这张卷轴上写着\"%s\"。",
+        pline("这张卷轴上标记着\"%s\".",
               odd ? "邮资未付" : "退回寄件人");
         break;
     case 1:
         /* scroll of mail obtained from bones file or from wishing;
            note to the puzzled: the game Larn actually sends you junk
            mail if you win! */
-        pline("这看起来是%s。",
+        pline("这看起来是%s.",
               odd ? "一封威胁你运气的连锁信"
               : "写给拉恩之眼发现者的垃圾邮件");
         break;
@@ -2181,7 +2181,7 @@ seffect_mail(struct obj **sobjp)
         /* unreachable since with MAIL undefined, sobj->spe won't be 0;
            as a precaution, be prepared to give arbitrary feedback;
            caller has already reported that it disappears upon reading */
-        pline("那是一封信函卷轴？");
+        pline("那是一封邮件卷轴?");
 #endif
         break;
     }
@@ -2313,28 +2313,28 @@ drop_boulder_on_player(
     otmp2->owt = weight(otmp2);
     if (!amorphous(gy.youmonst.data) && !Passes_walls
         && !noncorporeal(gy.youmonst.data) && !unsolid(gy.youmonst.data)) {
-        You("被%s砸中了！", doname(otmp2));
+        You("被%s砸中了!", doname(otmp2));
         dmg = (int) (dmgval(otmp2, &gy.youmonst) * otmp2->quan);
         if (uarmh && helmet_protects) {
             if (hard_helmet(uarmh)) {
-                pline("幸运的是，你戴着一顶硬头盔。");
+                pline("幸运的是,你戴着一顶硬头盔.");
                 if (dmg > 2)
                     dmg = 2;
             } else if (flags.verbose) {
-                pline("%s 保护不了你。", Yname2(uarmh));
+                pline("%s无法保护你.", Yname2(uarmh));
             }
         }
     } else
         dmg = 0;
     wake_nearto(u.ux, u.uy, 4 * 4);
     /* Must be before the losehp(), for bones files */
-    if (!flooreffects(otmp2, u.ux, u.uy, "fall")) {
+    if (!flooreffects(otmp2, u.ux, u.uy, "落")) {
         place_object(otmp2, u.ux, u.uy);
         stackobj(otmp2);
         newsym(u.ux, u.uy);
     }
     if (dmg)
-        losehp(Maybe_Half_Phys(dmg), "scroll of earth", KILLED_BY_AN);
+        losehp(Maybe_Half_Phys(dmg), "大地卷轴", KILLED_BY_AN);
 }
 
 boolean
@@ -2358,27 +2358,27 @@ drop_boulder_on_monster(coordxy x, coordxy y, boolean confused, boolean byu)
         long mdmg;
 
         if (cansee(mtmp->mx, mtmp->my)) {
-            pline("%s被%s砸中了！", Monnam(mtmp), doname(otmp2));
+            pline("%s被%s砸中了!", Monnam(mtmp), doname(otmp2));
             if (mtmp->minvis && !canspotmon(mtmp))
                 map_invisible(mtmp->mx, mtmp->my);
         } else if (engulfing_u(mtmp))
-            You_hear("什么东西打中了%s %s 在你的%s上!",
-                     s_suffix(mon_nam(mtmp)), mbodypart(mtmp, STOMACH),
-                     body_part(HEAD));
+            You_hear("有东西打中了%s的%s,在你的%s上!",
+                     s_suffix(mon_nam(mtmp)), body_part(HEAD), /*修改语序:s_suffix(mon_nam(mtmp)), mbodypart(mtmp, STOMACH),*/
+                     mbodypart(mtmp, STOMACH)); /*修改语序:body_part(HEAD));*/
 
         mdmg = dmgval(otmp2, mtmp) * otmp2->quan;
         if (helmet) {
             if (hard_helmet(helmet)) {
                 if (canspotmon(mtmp))
-                    pline("幸运的是, %s 穿戴着一顶坚硬的头盔.",
+                    pline("幸运的是,%s戴着一顶硬头盔.",
                           mon_nam(mtmp));
                 else if (!Deaf)
-                    You_hear("铿锵声.");
+                    You_hear("当啷声.");
                 if (mdmg > 2)
                     mdmg = 2;
             } else {
                 if (canspotmon(mtmp))
-                    pline("%s 的%s没有保护到%s.", Monnam(mtmp),
+                    pline("%s的%s无法保护%s.", Monnam(mtmp),
                           xname(helmet), mhim(mtmp));
             }
         }
@@ -2387,7 +2387,7 @@ drop_boulder_on_monster(coordxy x, coordxy y, boolean confused, boolean byu)
             if (byu) {
                 killed(mtmp);
             } else {
-                pline("%s 被杀死了.", Monnam(mtmp));
+                pline("%s被杀死了.", Monnam(mtmp));
                 mondied(mtmp);
             }
         } else {
@@ -2401,7 +2401,7 @@ drop_boulder_on_monster(coordxy x, coordxy y, boolean confused, boolean byu)
         return 1;
     }
     /* Drop the rock/boulder to the floor */
-    if (!flooreffects(otmp2, x, y, "fall")) {
+    if (!flooreffects(otmp2, x, y, "落")) {
         place_object(otmp2, x, y);
         stackobj(otmp2);
         newsym(x, y); /* map the rock */
@@ -2413,7 +2413,7 @@ drop_boulder_on_monster(coordxy x, coordxy y, boolean confused, boolean byu)
 void
 wand_explode(struct obj *obj, int chg /* recharging */)
 {
-    const char *expl = !chg ? "suddenly" : "vibrates violently and";
+    const char *expl = !chg ? "突然" : "猛烈地振动,然后";
     int dmg, n, k;
 
     /* number of damage dice */
@@ -2449,8 +2449,8 @@ wand_explode(struct obj *obj, int chg /* recharging */)
     /* inflict damage and destroy the wand */
     dmg = d(n, k);
     obj->in_use = TRUE; /* in case losehp() is fatal (or --More--^C) */
-    pline("%s %s 爆炸了!", Yname2(obj), expl);
-    losehp(Maybe_Half_Phys(dmg), "exploding wand", KILLED_BY_AN);
+    pline("%s%s爆炸了!", Yname2(obj), expl);
+    losehp(Maybe_Half_Phys(dmg), "魔杖爆炸", KILLED_BY_AN);
     useup(obj);
     /* obscure side-effect */
     exercise(A_STR, FALSE);
@@ -2533,7 +2533,7 @@ litroom(
                lit squares before and after to know; we do know that being
                swallowed won't be affected--the interior is still lit */
             if (still_lit)
-                pline_The("环境光似乎变暗了。");
+                pline_The("环境光似乎变暗了.");
             else if (u.uswallow)
                 pline("在这里似乎比以前更黑暗了.");
             else
@@ -2554,15 +2554,15 @@ litroom(
             if (Blind)
                 ; /* no feedback */
             else if (digests(u.ustuck->data))
-                pline("%s%s被照亮的.", s_suffix(Monnam(u.ustuck)),
+                pline("%s%s被点亮了.", s_suffix(Monnam(u.ustuck)),
                       mbodypart(u.ustuck, STOMACH));
             else if (is_whirly(u.ustuck->data))
-                pline("%s短暂地照耀.", Monnam(u.ustuck));
+                pline("%s短暂地照耀了一会.", Monnam(u.ustuck));
             else
-                pline("%s闪烁.", Monnam(u.ustuck));
+                pline("%s在闪闪发光.", Monnam(u.ustuck));
         } else if (!Blind && (!Is_rogue_level(&u.uz)
                               || levl[u.ux][u.uy].typ != CORR)) {
-            pline("一个发光的领域%s环绕着你！", no_op ? "短暂地" : "");
+            pline("一个发光的场%s环绕着你!", no_op ? "短暂地" : "");
         }
     }
 
@@ -2648,20 +2648,20 @@ do_class_genocide(void)
             pline1(thats_enough_tries);
             return;
         }
-        Strcpy(promptbuf, "你想要灭绝哪一类怪物？");
+        Strcpy(promptbuf, "你想要灭绝哪类怪物?");
         if (j > 0)
             Snprintf(eos(promptbuf), sizeof promptbuf - strlen(promptbuf),
-                     " [enter %s]",
+                     " [输入 %s]",
                      iflags.cmdassist
-                       ? "the symbol or name representing a class, or '?'"
-                       : "'?' to see previous genocides");
+                       ? "输入你想灭绝的怪物名称或其符号,或者'?'"
+                       : "输入'?'以查看已灭绝物种");
         getlin(promptbuf, buf);
         (void) mungspaces(buf);
         /* avoid 'that does not represent any monster' for empty input */
         if (!*buf) {
-            pline("%s。", (j + 1 < 5)
-                         ? "Type letter (or punctuation)"
-                           " or name used for a class of monsters or 'none'"
+            pline("%s.", (j + 1 < 5)
+                         ? "输入字母(或标点符号)"
+                           "或者一类怪物的名称,或者'none'"
                          /* next iteration gives "that's enough tries"
                             so don't suggest typing anything this time */
                          : "未指定怪物类别");
@@ -2671,7 +2671,7 @@ do_class_genocide(void)
         if (*buf == '\033' || !strcmpi(buf, "none")
             || !strcmpi(buf, "'none'") || !strcmpi(buf, "nothing")) {
             livelog_printf(LL_GENOCIDE,
-                           "declined to perform class genocide");
+                           "拒绝了种族灭绝");
             return;
         }
         /* "?" runs #genocided to show existing genocides, then re-prompts;
@@ -2701,7 +2701,7 @@ do_class_genocide(void)
             if (gonecnt)
                 pline("所有的这种怪物都已经不存在了.");
             else if (immunecnt || class == S_invisible)
-                You("不被允许灭绝这种怪物.");
+                You("灭绝这种怪物是不允许的.");
             else if (wizard && buf[0] == '*') {
                 struct monst *mtmp, *mtmp2;
 
@@ -2713,11 +2713,11 @@ do_class_genocide(void)
                     mongone(mtmp);
                     gonecnt++;
                 }
-                pline("消灭了 %d 个怪物%s。", gonecnt, plur(gonecnt));
+                pline("消灭了%d个怪物%s.", gonecnt, plur(gonecnt));
                 return;
             } else
                 pline("那个%s不代表任何怪物.",
-                      strlen(buf) == 1 ? "字符" : "回答");
+                      strlen(buf) == 1 ? "字" : "词");
             continue;
         }
 
@@ -2738,17 +2738,17 @@ do_class_genocide(void)
                     if (!ll_done++) {
                         if (!num_genocides())
                             livelog_printf(LL_CONDUCT | LL_GENOCIDE,
-                                     "performed %s first genocide (class %c)",
+                                     "实施了%s的第一次灭绝(%c)",
                                            uhis(), def_monsyms[class].sym);
                         else
-                            livelog_printf(LL_GENOCIDE, "genocided class %c",
+                            livelog_printf(LL_GENOCIDE, "灭绝了所有%c",
                                            def_monsyms[class].sym);
                     }
 
                     svm.mvitals[i].mvflags |= (G_GENOD | G_NOCORPSE);
                     kill_genocided_monsters();
                     update_inventory(); /* eggs & tins */
-                    pline("消灭了所有%s。", nam);
+                    pline("消灭了所有%s.", nam);
                     if (Upolyd && vampshifted(&gy.youmonst)
                         /* current shifted form or base vampire form */
                         && (i == u.umonnum || i == gy.youmonst.cham))
@@ -2757,7 +2757,7 @@ do_class_genocide(void)
                         u.mh = -1;
                         if (Unchanging) {
                             if (!feel_dead++)
-                                urgent_pline("You die.");
+                                urgent_pline("你死了.");
                             /* finish genociding this class of
                                monsters before ultimately dying */
                             gameover = TRUE;
@@ -2771,16 +2771,16 @@ do_class_genocide(void)
                         u.uhp = -1;
                         if (Upolyd) {
                             if (!feel_dead++)
-                                You_feel("内心%s.", udeadinside());
+                                You_feel("%s.", udeadinside());
                         } else {
                             if (!feel_dead++)
-                                urgent_pline("You die.");
+                                urgent_pline("你死了.");
                             gameover = TRUE;
                         }
                     }
                 } else if (svm.mvitals[i].mvflags & G_GENOD) {
                     if (!gameover)
-                        pline("%s 已经不存在了。", upstart(nam));
+                        pline("%s已经不存在了.", upstart(nam));
                 } else if (!gameover) {
                     /* suppress feedback about quest beings except
                        for those applicable to our own role */
@@ -2802,7 +2802,7 @@ do_class_genocide(void)
                         if (i == PM_HIGH_CLERIC)
                             uniq = FALSE;
 
-                        You("不被允许灭绝%s%s。",
+                        You("灭绝%s%s是不允许的.",
                             (uniq && !named) ? "该" : "",
                             (uniq || named) ? mons[i].pmnames[NEUTRAL] : nam);
                     }
@@ -2852,22 +2852,22 @@ do_genocide(
                 return;
             }
             Strcpy(promptbuf,
-                   "你想要灭绝哪种类型的怪物？");
+                   "你想要灭绝哪种的怪物?");
             if (i > 0)
                 Snprintf(eos(promptbuf), sizeof promptbuf - strlen(promptbuf),
-                         " [enter %s]",
+                         " [输入%s]",
                          iflags.cmdassist
-                           ? "the name of a type of monster, or '?'"
-                           : "'?' to see previous genocides");
+                           ? "输入你想灭绝的怪物的名称或其符号,或者'?'"
+                           : "输入'?'以查看已灭绝物种");
             getlin(promptbuf, buf);
             (void) mungspaces(buf);
             /* avoid 'such creatures do not exist' for empty input */
             if (!*buf) {
-                pline("%s。", (i + 1 < 5)
-                             ? "输入一种怪物的名称或 'none'"
+                pline("%s.", (i + 1 < 5)
+                             ? "输入一种的怪物的名称,或者'none'"
                              /* next iteration gives "that's enough tries"
                                 so don't suggest typing anything this time */
-                             : "未指定任何怪物类型");
+                             : "未指定怪物种类");
                 continue; /* try again */
             }
             /* choosing "none" preserves genocideless conduct */
@@ -2877,7 +2877,7 @@ do_genocide(
                 if (!(how & REALLY) && (ptr = rndmonst()) != 0)
                     break; /* remaining checks don't apply */
 
-                livelog_printf(LL_GENOCIDE, "declined to perform genocide");
+                livelog_printf(LL_GENOCIDE, "拒绝了种族灭绝");
                 return;
             }
             /* "?" or "'?'" runs #genocided to show existing genocides */
@@ -2889,8 +2889,8 @@ do_genocide(
 
             mndx = name_to_mon(buf, (int *) 0);
             if (mndx == NON_PM || (svm.mvitals[mndx].mvflags & G_GENOD)) {
-                pline("这种生物在这个世界%s存在.",
-                      (mndx == NON_PM) ? "不" : "不再");
+                pline("这种生物在这个世界%s.",
+                      (mndx == NON_PM) ? "不存在" : "不复存在了");
                 continue;
             }
             ptr = &mons[mndx];
@@ -2917,11 +2917,11 @@ do_genocide(
                      * aren't supposed to be hampered by deafness....
                      */
                     if (flags.verbose)
-                        pline("A thunderous voice booms"
-                              " through the caverns:");
+                        pline("一阵雷鸣般的声音"
+                              "响彻洞穴:");
                     SetVoice((struct monst *) 0, 0, 80, voice_deity);
                     /* FIXME? shouldn't this override deafness? */
-                    verbalize("No, mortal!  That will not be done.");
+                    verbalize("非也,凡人!此事断不可为.");
                 }
                 continue;
             }
@@ -2933,7 +2933,7 @@ do_genocide(
         mndx = monsndx(ptr); /* needed for the 'no free pass' cases */
     }
 
-    which = "all ";
+    which = "所有";
     Strcpy(realbuf, ptr->pmnames[NEUTRAL]); /* standard singular */
     if (Hallucination) {
         /* hallucinate hero's type */
@@ -2949,27 +2949,27 @@ do_genocide(
         /* use actual type */
         Strcpy(buf, realbuf);
         if ((ptr->geno & G_UNIQ) && ptr != &mons[PM_HIGH_CLERIC])
-            which = !type_is_pname(ptr) ? "the " : "";
+            which = !type_is_pname(ptr) ? "" : "";
     }
 
     if (how & REALLY) {
         if (!num_genocides())
             livelog_printf(LL_CONDUCT | LL_GENOCIDE,
-                           "performed %s first genocide (%s)",
+                           "实施了%s的第一次灭绝(%s)",
                            uhis(), makeplural(realbuf));
         else
             livelog_printf(LL_GENOCIDE, "genocided %s", makeplural(realbuf));
 
         /* setting no-corpse affects wishing and random tin generation */
         svm.mvitals[mndx].mvflags |= (G_GENOD | G_NOCORPSE);
-        pline("清除了%s%s.", which,
+        pline("消灭了%s%s.", which,
               (*which != 'a') ? buf : makeplural(buf));
 
         if (killplayer) {
             u.uhp = -1;
             if (how & PLAYER) {
                 svk.killer.format = KILLED_BY;
-                Strcpy(svk.killer.name, "灭绝混乱");
+                Strcpy(svk.killer.name, "混乱的灭绝卷轴");
             } else if (how & ONTHRONE) {
                 /* player selected while on a throne */
                 svk.killer.format = KILLED_BY_AN;
@@ -2983,7 +2983,7 @@ do_genocide(
                KMH -- Unchanging prevents rehumanization. */
             if (Upolyd && ptr != gy.youmonst.data) {
                 delayed_killer(POLYMORPH, svk.killer.format, svk.killer.name);
-                You_feel("内心%s.", udeadinside());
+                You_feel("%s.", udeadinside());
             } else {
                 done(GENOCIDED);
             }
@@ -3027,16 +3027,16 @@ punish(struct obj *sobj)
 
     /* KMH -- Punishment is still okay when you are riding */
     if (!reuse_ball)
-        You("因你的品行不端而被惩罚!");
+        You("因你的行为不端而被惩罚!");
     if (Punished) {
-        Your("铁球变得沉重些了.");
+        Your("铁球变得更沉了.");
         uball->owt += WT_IRON_BALL_INCR * (1 + cursed_levy);
         return;
     }
     if (amorphous(gy.youmonst.data) || is_whirly(gy.youmonst.data)
         || unsolid(gy.youmonst.data)) {
         if (!reuse_ball) {
-            pline("一个球和链出现了, 然后掉落了.");
+            pline("一个球和链出现了,然后松开了.");
             dropy(mkobj(BALL_CLASS, TRUE));
         } else {
             dropy(reuse_ball);
@@ -3083,20 +3083,20 @@ do_stinking_cloud(struct obj *sobj, boolean mention_stinking)
 {
     coord cc;
 
-    pline("你想把%s云的中心放在哪里？",
-          mention_stinking ? "恶臭的" : "");
+    pline("你想把%s云的中心放在哪里?",
+          mention_stinking ? "臭" : "");
     cc.x = u.ux;
     cc.y = u.uy;
     getpos_sethilite(display_stinking_cloud_positions, can_center_cloud);
-    if (getpos(&cc, TRUE, "the desired position") < 0) {
+    if (getpos(&cc, TRUE, "想要的臭云中心") < 0) {
         pline1(Never_mind);
         return;
     } else if (!can_center_cloud(cc.x, cc.y)) {
         if (Hallucination)
-            pline("呃……有人放了个屁。");
+            pline("呃...谁放了个屁.");
         else
-            pline("%s 一股臭鸡蛋味。",
-                  sobj->oclass == SCROLL_CLASS ? "卷轴粉碎时伴随着"
+            pline("%s一股臭鸡蛋味.",
+                  sobj->oclass == SCROLL_CLASS ? "卷轴消失时放出"
                                                : "你闻到");
         return;
     }
@@ -3159,7 +3159,7 @@ create_particular_parse(
         while (*bufp == ' ')
             bufp++;
     }
-#define QUAN_LIMIT (ROWNO * (COLNO - 1))
+#define QUAN_LIMIT (ROWNO * (COLNO - 1)) /*待写，危险，修改语序，冗余:我不知道怎么写。。。。。。*/
     /* maximum possible quantity is one per cell: (0..ROWNO-1) x (1..COLNO-1)
        [21*79==1659 for default map size; could subtract 1 for hero's spot] */
     if (d->quan < 1 || d->quan > QUAN_LIMIT)
@@ -3264,7 +3264,7 @@ create_particular_creation(
             /* wizard mode can override handling of special monsters */
             char buf[BUFSZ];
 
-            Sprintf(buf, "生成%s代替; 强行生成%s?",
+            Sprintf(buf, "改为生成%s;强行生成%s?",
                     mons[d->which].pmnames[NEUTRAL],
                     mons[firstchoice].pmnames[NEUTRAL]);
             if (y_n(buf) == 'y')
@@ -3377,7 +3377,7 @@ create_particular(void)
     int  tryct = CP_TRYLIM, altmsg = 0;
 
     buf[0] = '\0'; /* for EDIT_GETLIN */
-    Strcpy(prompt, "创造哪种怪物？");
+    Strcpy(prompt, "创造哪种怪物?");
     do {
         getlin(prompt, buf);
         bufp = mungspaces(buf);
@@ -3389,14 +3389,14 @@ create_particular(void)
 
         /* no good; try again... */
         if (*bufp || altmsg || tryct < 2) {
-            pline("我从未听说过这种怪物。");
+            pline("我从未听说过这种怪物.");
         } else {
-            pline("再试一次（输入*随机选择，按ESC取消）。");
+            pline("再试一次(输入*随机选择,按ESC取消).");
             ++altmsg;
         }
         /* when a second try is needed, expand the prompt */
         if (tryct == CP_TRYLIM)
-            Strcat(prompt, " [输入名称或符号]");
+            Strcat(prompt, "[输入名称或符号]");
     } while (--tryct > 0);
 
     if (!tryct)

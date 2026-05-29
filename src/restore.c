@@ -118,7 +118,7 @@ inven_inuse(boolean quietly)
         otmp2 = otmp->nobj;
         if (otmp->in_use) {
             if (!quietly)
-                pline("正在用掉 %s...", xname(otmp));
+                pline("正在处理掉%s...", xname(otmp));
             useup(otmp);
         }
     }
@@ -544,7 +544,7 @@ restgamestate(NHFILE *nhfp)
         if (!gc.converted_savefile_loaded)
             /* for wizard mode, issue a reminder; for others, treat it
              * as an attempt to cheat and refuse to restore this file */
-            pline("存档并非你的游戏。");
+            pline("这个存档不是你的.");
         if (wizard || gc.converted_savefile_loaded) {
             if (gc.converted_savefile_loaded)
                 gc.converted_savefile_loaded = FALSE;
@@ -630,7 +630,7 @@ restgamestate(NHFILE *nhfp)
 #endif
     if (u.uhp <= 0 && (!Upolyd || u.mh <= 0)) {
         u.ux = u.uy = 0; /* affects pline() [hence You()] */
-        You("你不够健康，无法在恢复中存活。");
+        You("你不够健康,无法在恢复中存活.");
         /* wiz1_level.dlevel is used by mklev.c to see if lots of stuff is
          * uninitialized, so we only have to set it and not the other stuff.
          */
@@ -855,15 +855,15 @@ dorecover(NHFILE *nhfp)
         clear_nhwindow(WIN_MAP);
 #endif
     clear_nhwindow(WIN_MESSAGE);
-    You("return to level %d in %s%s.", depth(&u.uz),
-        svd.dungeons[u.uz.dnum].dname,
-        flags.debug ? " while in debug mode"
-                    : flags.explore ? " while in explore mode" : "");
+    You("回到了%s的%d层%s.", svd.dungeons[u.uz.dnum].dname, /*修改语序:You("return to level %d in %s%s.", depth(&u.uz),*/
+        depth(&u.uz), /*修改语序:svd.dungeons[u.uz.dnum].dname,*/
+        flags.debug ? "(调试模式)"
+                    : flags.explore ? "(探索模式)" : "");
     curs(WIN_MAP, 1, 1);
     dotcnt = 0;
     dotrow = 2;
     if (!WINDOWPORT(X11))
-        putstr(WIN_MAP, 0, "Restoring:");
+        putstr(WIN_MAP, 0, "恢复中:");
 #endif
     restoreinfo.mread_flags = 1; /* return despite error */
     while (1) {
@@ -1034,9 +1034,9 @@ rest_levl(NHFILE *nhfp)
 void
 trickery(char *reason)
 {
-    pline("奇怪，这张地图和我记忆中的不一样。");
-    pline("有人在搞什么鬼把戏...");
-    pline("此局游戏无效。");
+    pline("奇怪，这张地图和我记忆中的不一样.");
+    pline("肯定有人在搞什么鬼把戏...");
+    pline("此局游戏作废.");
     Strcpy(svk.killer.name, reason ? reason : "");
     done(TRICKED);
 }
@@ -1090,10 +1090,10 @@ getlev(NHFILE *nhfp, int pid, xint8 lev)
         char trickbuf[BUFSZ];
 
         if (pid && pid != hpid)
-            Sprintf(trickbuf, "PID (%d) 与保存的 PID (%d) 不匹配！", hpid,
+            Sprintf(trickbuf, "PID(%d)与保存的PID(%d)不匹配!", hpid,
                     pid);
         else
-            Sprintf(trickbuf, "这是第 %d 层，不是第 %d 层！", dlvl, lev);
+            Sprintf(trickbuf, "这是第%d层,不是第%d层!", dlvl, lev);
         if (wizard)
             pline1(trickbuf);
         trickery(trickbuf);
@@ -1559,7 +1559,7 @@ restore_menu(
                 add_menu_str(tmpwin, copyright_banner_line(k));
             add_menu_str(tmpwin, "");
         }
-        add_menu_str(tmpwin, "Select one of your saved games");
+        add_menu_str(tmpwin, "选择存档");
         /* if all the save files have a playmode of '-' then we'll just list
            their character name-role-race-gend-algn values, but if any are
            'X' or 'D', we'll list playmode along with name-role-&c values
@@ -1590,7 +1590,7 @@ restore_menu(
                : (k + 1 <= 26 + 'Q' - 'A' && clet == 'N') ? 'Q' : 0;
         any.a_int = -2;
         add_menu(tmpwin, &nul_glyphinfo, &any, clet, 'Q', ATR_NONE, clr,
-                 "算了 (退出)", MENU_ITEMFLAGS_SELECTED);
+                 "算了(退出)", MENU_ITEMFLAGS_SELECTED);
         /* no prompt on end_menu, as we've done our own at the top */
         end_menu(tmpwin, (char *) 0);
         if (select_menu(tmpwin, PICK_ONE, &chosen_game) > 0) {

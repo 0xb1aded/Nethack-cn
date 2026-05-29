@@ -121,12 +121,12 @@ English README：[README_en.md](README_en.md)
 - [ ] quest.c
 - [ ] questpgr.c
 - [ ] read.c
-- [ ] rect.c
+- [x] rect.c (无需翻译)
 - [ ] region.c
 - [ ] report.c
 - [ ] restore.c
 - [ ] rip.c
-- [ ] rnd.c
+- [x] rnd.c (无需翻译)
 - [ ] role.c
 - [ ] rumors.c
 - [ ] save.c
@@ -152,8 +152,8 @@ English README：[README_en.md](README_en.md)
 - [x] track.c (无需翻译)
 - [ ] trap.c
 - [ ] uhitm.c
-- [ ] utf8map.c
-- [ ] u_init.c
+- [x] utf8map.c (无需翻译)
+- [x] u_init.c (无需翻译)
 - [ ] vault.c
 - [x] version.c (无需翻译)
 - [x] vision.c (无需翻译)
@@ -315,6 +315,7 @@ English README：[README_en.md](README_en.md)
 |(alternate weapon; not wielded)|(副武器;未装备)||
 |(on left hand)|(在左手上)||
 |(on right hand)|(在右手上)||
+|tingle|颤动||
 
 |体词|Francium-223||
 |----|----|----|

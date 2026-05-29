@@ -342,7 +342,7 @@ erode_obj(
     } else {
         if (flags.verbose && print) {
             if (uvictim)
-                Your("%s%s完全%s了。",
+                Your("%s%s完全%s了.",
                      ostr, vtense(ostr, Blind ? "感觉" : "看起来"), msg[type]);
             else if (vismon || visobj)
                 pline("%s%s%s完全%s了.",
@@ -844,7 +844,7 @@ animate_statue(
               comes_to_life);
     } else { /* cause == ANIMATE_NORMAL */
         set_msg_xy(x, y);
-        You("发现%s在伪装成一座雕像。",
+        You("发现%s在伪装成一座雕像.",
             canspotmon(mon) ? a_monnam(mon) : something);
         if (!canspotmon(mon) && Blind)
             map_invisible(x, y);
@@ -1349,14 +1349,14 @@ trapeffect_rocktrap(
                 /* normally passes_rocks() would protect against a falling
                    rock, but not when wearing a helmet */
                 if (passes_rocks(gy.youmonst.data)) {
-                    pline("不幸的是,你正戴着%s。",
+                    pline("不幸的是,你戴着%s.",
                           an(helm_simple_name(uarmh))); /* helm or hat */
                     dmg = 2;
                 } else if (hard_helmet(uarmh)) {
-                    pline("幸运的是,你正戴着一顶硬头盔。");
+                    pline("幸运的是,你戴着一顶硬头盔.");
                     dmg = 2;
                 } else if (flags.verbose) {
-                    pline("%s无法保护你。", Yname2(uarmh));
+                    pline("%s无法保护你.", Yname2(uarmh));
                 }
             } else if (passes_rocks(gy.youmonst.data)) {
                 pline("它无害地穿过了你.");
@@ -1875,7 +1875,7 @@ trapeffect_pit(
                             x_monnam(u.usteed, steed_article, "可怜的",
                                      SUPPRESS_SADDLE, FALSE));
             } else if (iflags.menu_requested && already_known) {
-                You("小心地%s进坑里。",
+                You("小心地%s进坑里.",
                     u_locomotion("走"));
                 deliberate = TRUE;
             } else if (conj_pit) {
@@ -3900,7 +3900,7 @@ selftouch(const char *arg)
     if (u.twoweap && uswapwep && uswapwep->otyp == CORPSE
         && touch_petrifies(&mons[uswapwep->corpsenm]) && !Stone_resistance) {
         corpse_pmname = obj_pmname(uswapwep);
-        pline("%s碰到了%s的尸体。", arg, corpse_pmname);
+        pline("%s碰到了%s的尸体.", arg, corpse_pmname);
         Sprintf(kbuf, "%s的尸体", an(corpse_pmname));
         instapetrify(kbuf);
         /* life-saved; unwield the corpse */
@@ -4737,7 +4737,7 @@ water_damage(
         if (!rn2(2)) {
             obj->greased = 0;
             if (in_invent) {
-                pline_The("%s上的油脂洗掉了。", yname(obj));
+                pline_The("%s上的油脂洗掉了.", yname(obj));
                 described = TRUE; /* used to modify potion feedback */
                 update_inventory();
             }
@@ -5020,7 +5020,7 @@ rescued_from_terrain(int how)
     switch (how) {
     case DROWNING:
         if (is_pool(u.ux, u.uy)) {
-            You("%s在%s%s。", find_yourself,
+            You("%s在%s%s.", find_yourself,
                 hliquid("水"), /*修改语序:(Is_waterlevel(&u.uz) || IS_WATERWALL(lev->typ))*/
                 (Is_waterlevel(&u.uz) || IS_WATERWALL(lev->typ)) /*修改语序:  ? "之中" : "之上",*/
                   ? "中" : "上"); /*修改语序:hliquid("水")*/
@@ -5565,7 +5565,7 @@ disarm_holdingtrap(struct trap *ttmp)
        There's no need for a cockatrice test, only the trap is touched */
     if ((mtmp = m_at(ttmp->tx, ttmp->ty)) != 0) {
         mtmp->mtrapped = 0;
-        You("将%s从%s%s中取出。", mon_nam(mtmp),
+        You("将%s从%s%s中取出.", mon_nam(mtmp),
             which, (ttmp->ttyp == BEAR_TRAP) ? "捕兽夹" : "蜘蛛网");
         reward_untrap(ttmp, mtmp);
     } else if (ttmp->ttyp == BEAR_TRAP) {
@@ -6192,7 +6192,7 @@ openholdingtrap(
         } else if (cansee(t->tx, t->ty) && t->tseen) {
             *noticed = TRUE;
             if (t->ttyp == WEB)
-                pline("%s被从%s%s中释放出来。", Something, which,
+                pline("%s被从%s%s中释放出来.", Something, which,
                       trapdescr);
             else /* BEAR_TRAP */
                 pline("%s%s打开了.", upstart(strcpy(buf, which)), trapdescr);
