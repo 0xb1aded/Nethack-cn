@@ -198,7 +198,7 @@ pri_move(struct monst *priest)
         || (Conflict && !resist_conflict(priest))) {
         if (monnear(priest, u.ux, u.uy)) {
             if (Displaced)
-                Your("扭曲的影像骗不了%s！", mon_nam(priest));
+                Your("幻影可骗不过%s!", mon_nam(priest));
             (void) mattacku(priest);
             return 0;
         } else if (strchr(u.urooms, temple)) {
@@ -317,18 +317,18 @@ priestname(
     /* for high priest(ess), "high" (or "grand" for poohbah) will be inserted
        [this was done near the end but we want 'what' to be updated sooner] */
     if (mon->ispriest || aligned_priest || high_priest)
-        what = do_hallu ? "poohbah" : mon->female ? "priestess" : "priest";
+        what = do_hallu ? "自命不凡d" : mon->female ? "祭司" : "祭司";
 
     *pname = '\0';
     if (article != ARTICLE_NONE && (!do_hallu || !bogon_is_pname(whatcode))) {
         if (article == ARTICLE_YOUR || (article == ARTICLE_A && high_priest))
             article = ARTICLE_THE;
         if (article == ARTICLE_THE) {
-            Strcpy(pname, "这位 ");
+            Strcpy(pname, "这个");
         } else if (!strcmp(what, "Angel")) {
             /* bypass just_an(); it would yield "" due to treating capital A
                as indicating a personal name */
-            Strcpy(pname, "一个 ");
+            Strcpy(pname, "一个");
         } else {
             (void) just_an(pname, what);
         }
@@ -337,14 +337,14 @@ priestname(
     if (mon->minvis) {
         /* avoid "a invisible priest" */
         if (!strcmp(pname, "a "))
-            Strcpy(pname, "an ");
-        Strcat(pname, "隐形的 ");
+            Strcpy(pname, "一个");
+        Strcat(pname, "隐形的");
     }
     if (mon->isminion && EMIN(mon)->renegade) {
         /* avoid "an renegade Angel" */
-        if (!strcmp(pname, "an ") && !mon->minvis)
-            Strcpy(pname, "一个 ");
-        Strcat(pname, "背叛的 ");
+        if (!strcmp(pname, "an") && !mon->minvis)
+            Strcpy(pname, "一个");
+        Strcat(pname, "反叛的");
     }
 
     if (mon->ispriest || aligned_priest) {
@@ -437,8 +437,8 @@ intemple(int roomno)
                Moloch so suppress the "of Moloch" for him here too */
             if (sanctum && !Hallucination)
                 priest->ispriest = 0;
-            pline("%s吟诵道：",
-                  canseemon(priest) ? Monnam(priest) : "附近的一个声音");
+            pline("%s沉声说道:",
+                  canseemon(priest) ? Monnam(priest) : "附近的声音");
             priest->ispriest = save_priest;
             epri_p->intone_time = svm.moves + (long) d(10, 500); /* ~2505 */
             /* make sure that we don't suppress entry message when
@@ -449,18 +449,18 @@ intemple(int roomno)
         if (sanctum && Is_sanctum(&u.uz)) {
             if (priest->mpeaceful) {
                 /* first time inside */
-                msg1 = "Infidel, you have entered Moloch's Sanctum!";
-                msg2 = "Be gone!";
+                msg1 = "异教徒,你已闯入摩洛的圣所!";
+                msg2 = "去死吧!";
                 priest->mpeaceful = 0;
                 /* became angry voluntarily; no penalty for attacking him */
                 set_malign(priest);
             } else {
                 /* repeat visit, or attacked priest before entering */
-                msg1 = "You desecrate this place by your presence!";
+                msg1 = "你的出现玷污了这个地方!";
             }
         } else if (svm.moves >= epri_p->enter_time) {
-            Sprintf(buf, "朝圣者，你进入了一个%s的地方！",
-                    !shrined ? "被亵渎的" : "神圣的");
+            Sprintf(buf, "朝圣者,你正踏入一个%s!",
+                    !shrined ? "被亵渎的地方" : "圣地");
             msg1 = buf;
         }
         if (msg1 && can_speak && !Deaf) {
@@ -473,13 +473,13 @@ intemple(int roomno)
         if (!sanctum) {
             if (!shrined || !p_coaligned(priest)
                 || u.ualign.record <= ALGN_SINNED) {
-                msg1 = "have a%s forbidding feeling...";
-                msg2 = (!shrined || !p_coaligned(priest)) ? "" : " strange";
+                msg1 = "有一种%s望而生畏感...";
+                msg2 = (!shrined || !p_coaligned(priest)) ? "" : "奇异的";
                 this_time = &epri_p->hostile_time;
                 other_time = &epri_p->peaceful_time;
             } else {
-                msg1 = "experience %s sense of peace.";
-                msg2 = (u.ualign.record >= ALGN_DEVOUT) ? "a" : "an unusual";
+                msg1 = "感到%s安静.";
+                msg2 = (u.ualign.record >= ALGN_DEVOUT) ? "" : "异常";
                 this_time = &epri_p->peaceful_time;
                 other_time = &epri_p->hostile_time;
             }
@@ -503,13 +503,13 @@ intemple(int roomno)
 
         switch (rn2(4)) {
         case 0:
-            You("你感到一阵诡异的感觉...");
+            You("有一阵诡异感...");
             break;
         case 1:
-            You_feel("好像你正被注视着。");
+            You_feel("好像你正被注视着.");
             break;
         case 2:
-            pline("一阵战栗顺着你的%s流下。", body_part(SPINE));
+            pline("一阵颤抖在你的%s里上下冲动!", body_part(SPINE));
             break;
         default:
             break; /* no message; unfortunately there's no
@@ -521,18 +521,18 @@ intemple(int roomno)
                    != 0) {
             int ngen = svm.mvitals[PM_GHOST].born;
             if (canspotmon(mtmp))
-                pline("一个%s幽灵出现在你旁边%c",
+                pline("一个%s幽灵在你旁边出现%c",
                       ngen < 5 ? "巨大的" : "",
                       ngen < 10 ? '!' : '.');
             else
-                You("吓得要死, 不能移动.");
+                You("感觉到附近有什么东西.");
             mtmp->mpeaceful = 0;
             set_malign(mtmp);
             if (flags.verbose)
-                You("害怕得要死, 无法移动了.");
+                You("害怕得要死,无法移动.");
             nomul(-3);
-            gm.multi_reason = "being terrified of a ghost";
-            gn.nomovemsg = "You regain your composure.";
+            gm.multi_reason = "被幽灵惊吓";
+            gn.nomovemsg = "你重新镇定下来.";
         }
     }
 }
@@ -571,11 +571,11 @@ priest_talk(struct monst *priest)
     /* KMH, conduct */
     if (!u.uconduct.gnostic++)
         livelog_printf(LL_CONDUCT,
-                       "rejected atheism by consulting with %s",
+                       "因与%s对话而放弃了无神论",
                        mon_nam(priest));
 
     if (priest->mflee || (!priest->ispriest && coaligned && strayed)) {
-        pline("%s 不能与你做任何事!", Monnam(priest));
+        pline("%s不能对你做任何事!", Monnam(priest));
         priest->mpeaceful = 0;
         return;
     }
@@ -583,13 +583,13 @@ priest_talk(struct monst *priest)
     /* priests don't chat unless peaceful and in their own temple */
     if (!inhistemple(priest) || !priest->mpeaceful || helpless(priest)) {
         static const char *const cranky_msg[3] = {
-            "Thou wouldst have words, eh?  I'll give thee a word or two!",
-            "Talk?  Here is what I have to say!",
-            "Pilgrim, I would speak no longer with thee."
+            "汝欲语?来吾与汝一二!",
+            "语乎?吾所欲语者止此耳.",
+            "求道者,予欲无言."
         };
 
         if (helpless(priest)) {
-            pline("%s 打断了%s幻想!", Monnam(priest),
+            pline("%s从s的沉思中惊醒!", Monnam(priest),
                   mhis(priest));
             priest->mfrozen = priest->msleeping = 0;
             priest->mcanmove = 1;
@@ -605,7 +605,7 @@ priest_talk(struct monst *priest)
         && !has_shrine(priest)) {
         SetVoice(priest, 0, 80, 0);
         verbalize(
-              "Begone!  Thou desecratest this holy place with thy presence.");
+              "速去!汝之在此,实污此圣地矣.");
         priest->mpeaceful = 0;
         return;
     }
@@ -615,16 +615,16 @@ priest_talk(struct monst *priest)
             if (pmoney > 0L) {
                 const char *bits;
                 bits = (Hallucination) ? currency(pmoney)
-                                       : (pmoney == 1L) ? "bit" : "bits";
+                                       : (pmoney == 1L) ? "毛钱" : "毛钱";
                 /* Note: two bits is actually 25 cents.  Hmm. */
-                pline("%s 给了你 %s%s 来换一杯麦芽酒。", Monnam(priest),
+                pline("%s给了你%s%s换了一杯啤酒.", Monnam(priest),
                       (pmoney == 1L) ? "一" : "两", bits);
                 money2u(priest, pmoney > 1L ? 2 : 1);
             } else
-                pline("%s 宣扬扶贫的美德.", Monnam(priest));
+                pline("%s在宣扬贫穷的美德.", Monnam(priest));
             exercise(A_WIS, TRUE);
         } else
-            pline("%s 不感兴趣.", Monnam(priest));
+            pline("%s不感兴趣.", Monnam(priest));
         return;
     } else {
         /* there's now some randomization in how much you need to donate, but
@@ -642,40 +642,40 @@ priest_talk(struct monst *priest)
         if (quan < 1)
             quan = 1;
 
-        Sprintf(buf, "你打算捐多少（建议：%ld或%ld）？",
+        Sprintf(buf, "你打算捐多少(建议：%ld或%ld)?",
                 suggested * quan, suggested * quan * 2);
 
         if (flags.debug)
-            pline("%s 请求你为神殿捐款（基础 %ld）。",
+            pline("%s请求你为神庙捐款(基础 %ld).",
                   Monnam(priest), suggested);
         else
-            pline("%s 请你为教堂捐献.",
+            pline("%s请你为神庙捐献.",
                   Monnam(priest));
         if ((offer = bribe(priest, buf)) == 0) {
             SetVoice(priest, 0, 80, 0);
-            verbalize("Thou shalt regret thine action!");
+            verbalize("汝当愧于次!");
             if (coaligned)
                 adjalign(-1);
             if (cheapskate) ++*cheapskate;
         } else if (offer < suggested * quan) {
             if (money_cnt(gi.invent) > (offer * 2L)) {
                 SetVoice(priest, 0, 80, 0);
-                verbalize("Cheapskate.");
+                verbalize("吝夫.");
                 if (cheapskate) ++*cheapskate;
             } else {
                 SetVoice(priest, 0, 80, 0);
-                verbalize("I thank thee for thy contribution.");
+                verbalize("汝有所助,吾实感之.");
                 /* give player some token */
                 exercise(A_WIS, TRUE);
             }
         } else if (offer < suggested * quan * 2) {
             SetVoice(priest, 0, 80, 0);
-            verbalize("Thou art indeed a pious individual.");
+            verbalize("汝诚敬士也.");
             if (money_cnt(gi.invent) < (offer * 2L)) {
                 if (coaligned && u.ualign.record <= ALGN_SINNED)
                     adjalign(1);
             }
-            verbalize("I bestow upon thee a blessing.");
+            verbalize("吾锡尔介福.");
             incr_itimeout(&HClairvoyant, rn1(500 * offer / suggested,
                                              500 * offer / suggested));
         } else if (offer < suggested * quan * 3) {
@@ -699,13 +699,13 @@ priest_talk(struct monst *priest)
             }
             SetVoice(priest, 0, 80, 0);
             if (u.ublessed > orig_ublessed) {
-                verbalize("Thou hast been rewarded for thy devotion.");
+                verbalize("汝之敬也,有酬报之.");
             } else {
-                verbalize("Thy selfless generosity is deeply appreciated.");
+                verbalize("汝施无私,中心藏之.");
             }
         } else {
             SetVoice(priest, 0, 80, 0);
-            verbalize("Thy selfless generosity is deeply appreciated.");
+            verbalize("汝施无私,中心藏之.");
             /* money_cnt check is preserved for futureproofing but probably
                can't fail in the current code */
             if (money_cnt(gi.invent) < (offer * 2L) && coaligned) {
@@ -849,15 +849,15 @@ ghod_hitsu(struct monst *priest)
 
     switch (rn2(3)) {
     case 0:
-        pline("%s 愤怒的咆哮:  \" 你将遭受苦难!\"",
+        pline("%s愤怒地咆哮:\"汝将受苦!\"",
               a_gname_at(ax, ay));
         break;
     case 1:
-        pline("%s 声音洪亮:  \" 你竟敢伤害我的仆人!\"",
+        pline("%s声音洪亮:\"汝焉敢伤吾仆!\"",
               s_suffix(a_gname_at(ax, ay)));
         break;
     default:
-        pline("%s 怒吼:  \" 你在亵渎我的圣地!\"",
+        pline("%s怒吼:\"汝污吾庙矣!\"",
               a_gname_at(ax, ay));
         break;
     }
