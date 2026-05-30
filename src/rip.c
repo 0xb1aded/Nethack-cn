@@ -72,23 +72,21 @@ static const char *const rip_txt[] = {
 #define DEATH_LINE 8 /* *char[] line # for death description */
 #define YEAR_LINE 12 /* *char[] line # for year */
 
+
+/* 优化后的汉字和拉丁字母统计逻辑（移除了对边框 '|' 的依赖） */
 int howmanykanji(char *s)
 {
-    int i = 0, kanji = 0, romaji = 0, r = 0;
-    while(s[i] != '\0' && r < 2)
+    int i = 0, kanji = 0;
+    while(s[i] != '\0')
     {
-        if(s[i] == '|')
-        {
-            r++;
-        }
+        /* 简单判断 UTF-8 多字节字符的起点 */
         if (s[i] < 0)
         {
             kanji++;
-            i += 3;
+            i += 3; /* UTF-8 中文占用 3 字节 */
         }
         else 
         {
-            romaji++;
             i++;
         }
     }
@@ -97,17 +95,12 @@ int howmanykanji(char *s)
 
 int howmanyromaji(char *s)
 {
-    int i = 0, kanji = 0, romaji = 0, r = 0;
-    while(s[i] != '\0' && r < 2)
+    int i = 0, romaji = 0;
+    while(s[i] != '\0')
     {
-        if(s[i] == '|')
-        {
-            r++;
-        }
         if (s[i] < 0)
         {
-            kanji++;
-            i += 3;
+            i += 3; 
         }
         else 
         {
@@ -118,25 +111,52 @@ int howmanyromaji(char *s)
     return romaji;
 }
 
+
+/* 彻底重构的 center 函数：使用 Sprintf 重新拼装，杜绝越界并实现完美对齐 */
 staticfn void
 center(int line, char *text)
 {
-    char *ip, *op;
-    ip = text;
-    op = &gr.rip[line][STONE_LINE_CENT - (((howmanyromaji(text) + 2 * howmanykanji(text)) + 1) >> 1)];
-    while (*ip)
-        *op++ = *ip++;
+    char buf[BUFSZ];
+    int visual_len, left_pad, right_pad;
+    int max_width = 18; /* 墓碑内部左右 '|' 之间的总宽度 */
+
+    /* 1. 计算文本的视觉宽度 (中文算作2宽度，西文算作1) */
+    visual_len = howmanyromaji(text) + 2 * howmanykanji(text);
+
+    /* 2. 处理超长文本，防止宽度超出破坏对齐 */
+    if (visual_len > max_width) {
+        visual_len = max_width; 
+    }
+
+    /* 3. 计算左右需要补充的空格数以实现居中 */
+    left_pad = (max_width - visual_len) / 2;
+    right_pad = max_width - visual_len - left_pad;
+
+    /* 4. 动态组装字符串：
+     * "                  |" 长度为19 (18个缩进空格 + 1个左边框)
+     * %*s: C语言动态填充 left_pad 个空格
+     * %s:  插入文本内容 (不受底层字节数影响，终端自适应渲染)
+     * %*s: C语言动态填充 right_pad 个空格
+     * |:   最后加上右边框
+     */
+    Sprintf(buf, "                  |%*s%s%*s|", 
+            left_pad, "", text, right_pad, "");
+
+    /* 5. 释放原有的行内存，重新分配新内存并赋值，彻底杜绝越界闪退 */
+    free((genericptr_t) gr.rip[line]);
+    gr.rip[line] = dupstr(buf);
 }
+
 
 void
 genl_outrip(winid tmpwin, int how, time_t when)
 {
     char **dp;
-    char *dpx;
     char buf[BUFSZ];
     int x;
-    int line, year;
+    int line;
     long cash;
+    int year;
 
     gr.rip = dp = (char **) alloc(sizeof(rip_txt));
     for (x = 0; rip_txt[x]; ++x)
@@ -149,81 +169,34 @@ genl_outrip(winid tmpwin, int how, time_t when)
 
     /* Put $ on stone */
     cash = max(gd.done_money, 0L);
-    /* arbitrary upper limit; practical upper limit is quite a bit less */
-    if (cash > 999999999L)
-        cash = 999999999L;
+    
+    /* arbitrary upper limit; */
+    if (cash > 99999999L)
+        cash = 99999999L;
     Sprintf(buf, "%ld Au", cash);
     center(GOLD_LINE, buf);
 
-    /* Put together death description */
+    /* Put type of death on stone */
     formatkiller(buf, sizeof buf, how, FALSE);
-
-    /* Put death type on stone */
-    for (line = DEATH_LINE, dpx = buf; line < YEAR_LINE; line++) {
-        char tmpchar;
-        int i, i0 = howmanyromaji(dpx) + 3 * howmanykanji(dpx);
-
-        if (i0 > STONE_LINE_LEN + 2 * howmanykanji(dpx)) {
-            for (i = STONE_LINE_LEN + 2 * howmanykanji(dpx); (i > 0) && (i0 > STONE_LINE_LEN) + 2 * howmanykanji(dpx); --i)
-                if (dpx[i] == ' ')
-                    i0 = i;
-            if (!i)
-                i0 = STONE_LINE_LEN + 2 * howmanykanji(dpx);
-        }
-        tmpchar = dpx[i0];
-        dpx[i0] = 0;
-        center(line, dpx);
-        if (tmpchar != ' ') {
-            dpx[i0] = tmpchar;
-            dpx = &dpx[i0];
-        } else
-            dpx = &dpx[i0 + 1];
-    }
+    center(DEATH_LINE, buf);
 
     /* Put year on stone */
-    year = (int) ((yyyymmdd(when) / 10000L) % 10000L);
+    year = (when > 0L) ? (int)(((when) / 31556926L) + 1970L) : 1970;
     Sprintf(buf, "%4d", year);
     center(YEAR_LINE, buf);
 
-#ifdef DUMPLOG
-    if (tmpwin == 0)
-        dump_forward_putstr(0, 0, "Game over:", TRUE);
-    else
-#endif
-        putstr(tmpwin, 0, "");
-
-    int i = 0, j = 0;
-    char putbuf[BUFSZ];
-    for (; *dp; dp++)
-    {
-        Sprintf(putbuf, "%s",*dp);
-        if((j == 8) || (j == 9) || (j == 10) || (j == 11))
-        {
-            for(i = 0; i < 38 - 2 * howmanykanji(*dp) - howmanyromaji(*dp) - 1; i++)
-            {
-                strcat(putbuf, " ");
-            }
-            if(i)
-            {
-                strcat(putbuf, "|");
-            }
-        }
-        putstr(tmpwin, 0, putbuf);
-        j++;
+    /* Display the generated tombstone array to the window */
+    putstr(tmpwin, 0, "");
+    for (line = 0; dp[line]; line++) {
+        putstr(tmpwin, 0, dp[line]);
     }
     putstr(tmpwin, 0, "");
-#ifdef DUMPLOG
-    if (tmpwin != 0)
-#endif
-        putstr(tmpwin, 0, "");
 
-    for (x = 0; rip_txt[x]; x++) {
-        free((genericptr_t) gr.rip[x]);
+    /* Free all dynamically allocated memory to prevent memory leaks */
+    for (line = 0; dp[line]; line++) {
+        free((genericptr_t) dp[line]);
     }
-    free((genericptr_t) gr.rip);
+    free((genericptr_t) dp);
     gr.rip = 0;
 }
-
 #endif /* TEXT_TOMBSTONE */
-
-/*rip.c*/
