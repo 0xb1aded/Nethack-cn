@@ -569,7 +569,7 @@ armor_status(char *armbuf)
     } else if (n == 1) { /* just one piece; spell it out */
         Strcpy(armbuf, uarmg ? "手套"
                        : uarmc ? "斗篷"
-                         : uarm  ? "铠甲"
+                         : uarm  ? "盔甲"
                            : uarmu ? "衬衫"
                              : uarmh ? helm_simple_name(uarmh) /* hat|helm */
                                : uarmf ? "靴子"

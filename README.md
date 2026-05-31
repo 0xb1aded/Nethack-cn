@@ -329,7 +329,8 @@ English README：[README_en.md](README_en.md)
 |tingle|颤动||
 |itch|发痒||
 |twitch|抽搐||
-||||
+|transform|转变||
+|polymorph|变形||
 
 |体词|Francium-223||
 |----|----|----|

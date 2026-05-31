@@ -3929,7 +3929,7 @@ bhit(
             && (weapon == THROWN_WEAPON || weapon == KICKED_WEAPON)
             && !rn2(3)) {
             if (cansee(x, y)) {
-                pline("%s卡在蛛网里了!", Yname2(obj));
+                pline("%s卡在蜘蛛网里了!", Yname2(obj));
                 ttmp->tseen = TRUE;
                 newsym(x, y);
             }

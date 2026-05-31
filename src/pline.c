@@ -392,7 +392,7 @@ You_feel(const char *line, ...)
 
     va_start(the_args, line);
     if (Unaware)
-        YouPrefix(tmp, "你梦见自己感觉", line);
+        YouPrefix(tmp, "你在梦里感觉", line);
     else
         YouPrefix(tmp, "你感觉", line);
     vpline(strcat(tmp, line), the_args);
@@ -428,7 +428,7 @@ There(const char *line, ...)
     char *tmp;
 
     va_start(the_args, line);
-    vpline(YouMessage(tmp, "这里", line), the_args);
+    vpline(YouMessage(tmp, "", line), the_args);
     va_end(the_args);
 }
 
@@ -444,7 +444,7 @@ You_hear(const char *line, ...)
     if (Underwater)
         YouPrefix(tmp, "你勉强听见", line);
     else if (Unaware)
-        YouPrefix(tmp, "你梦见自己听见", line);
+        YouPrefix(tmp, "你在梦里听见", line);
     else
         YouPrefix(tmp, "你听见", line);  /* Deaf-aware */
     vpline(strcat(tmp, line), the_args);
@@ -459,7 +459,7 @@ You_see(const char *line, ...)
 
     va_start(the_args, line);
     if (Unaware)
-        YouPrefix(tmp, "你梦见自己看见", line);
+        YouPrefix(tmp, "你在梦里看见", line);
     else if (Blind) /* caller should have caught this... */
         YouPrefix(tmp, "你感知到", line);
     else
@@ -609,13 +609,13 @@ impossible(const char *s, ...)
         return;
     }
 
-    Strcpy(pbuf2, "程序混乱！");
+    Strcpy(pbuf2, "Program in disorder!");
     if (program_state.something_worth_saving)
-        Strcat(pbuf2, "  (保存并重新加载可能能修复此问题。)");
+        Strcat(pbuf2, "  (Saving and reloading may fix this problem.)");
     pline("%s", pbuf2);
-    pline("请将这些信息报告给%s。", DEVTEAM_EMAIL);
+    pline("Please report these messages to %s.", DEVTEAM_EMAIL);
     if (sysopt.support) {
-        pline("或者，联系本地支持：%s", sysopt.support);
+        pline("Alternatively, contact local support: %s", sysopt.support);
     }
 
 #ifdef CRASHREPORT

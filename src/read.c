@@ -3396,7 +3396,7 @@ create_particular(void)
         }
         /* when a second try is needed, expand the prompt */
         if (tryct == CP_TRYLIM)
-            Strcat(prompt, "[输入名称或符号]");
+            Strcat(prompt, " [输入名称或符号]");
     } while (--tryct > 0);
 
     if (!tryct)

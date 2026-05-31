@@ -64,10 +64,10 @@ staticfn void tipcontainer(struct obj *);
 #define Icebox (gc.current_container->otyp == ICE_BOX)
 
 static const char
-    slightloadpfx[] = "You have a little trouble",
-    moderateloadpfx[] = "You have trouble",
-    nearloadpfx[] = "You have much trouble",
-    overloadpfx[] = "You have extreme difficulty";
+    slightloadpfx[] = "有点麻烦",
+    moderateloadpfx[] = "很麻烦",
+    nearloadpfx[] = "非常麻烦",
+    overloadpfx[] = "极其麻烦";
 
 /* BUG: this lets you look at cockatrice corpses while blind without
    touching them */
@@ -199,7 +199,7 @@ query_classes(
         oclasses[oclassct = 0] = '\0';
         *one_at_a_time = *everything = FALSE;
         not_everything = filtered = FALSE;
-        Sprintf(qbuf, "你想对什么东西进行 %s？[%s]", action,
+        Sprintf(qbuf, "你想对什么东西进行%s? [%s]", action,
                 ilets);
         getlin(qbuf, inbuf);
         if (*inbuf == '\033')
@@ -235,10 +235,10 @@ query_classes(
                     oclasses[oclassct] = '\0';
                 } else {
                     if (!where)
-                        where = !strcmp(action, "pick up") ? "here"
-                                : !strcmp(action, "take out") ? "inside" : "";
+                        where = !strcmp(action, "pick up") ? "这里"
+                                : !strcmp(action, "take out") ? "里面" : "";
                     if (*where)
-                        There("没有%c 在%s.", sym, where);
+                        There("%s没有%c.", sym, where); /*修改语序:There("没有%c 在%s.", sym, where);*/
                     else
                         You("没有%c.", sym);
                     not_everything = TRUE;
@@ -292,7 +292,7 @@ fatal_corpse_mistake(struct obj *obj, boolean remotely)
         return FALSE;
     }
 
-    pline("触摸%s是一个致命的错误.",
+    pline("触摸%s是个致命的错误.",
           corpse_xname(obj, (const char *) 0, CXN_SINGULAR | CXN_ARTICLE));
     instapetrify(killer_xname(obj));
     return TRUE;
@@ -305,8 +305,8 @@ rider_corpse_revival(struct obj *obj, boolean remotely)
     if (!obj || obj->otyp != CORPSE || !is_rider(&mons[obj->corpsenm]))
         return FALSE;
 
-    pline("在你%s的时候, 尸体突然移动了...",
-          remotely ? "试图获得" : "触碰");
+    pline("在你%s尸体的时候,它突然移动了...",
+          remotely ? "试图拿起" : "触碰");
     (void) revive_corpse(obj);
     exercise(A_WIS, FALSE);
     return TRUE;

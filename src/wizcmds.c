@@ -893,7 +893,7 @@ wiz_smell(void)
     cc.x = u.ux;
     cc.y = u.uy;
     if (!olfaction(gy.youmonst.data)) {
-        You("以你现在的形态无法探测气味。");
+        You("以你的当前形态无法探测气味。");
         return ECMD_OK;
     }
 

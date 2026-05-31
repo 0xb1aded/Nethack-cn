@@ -1193,7 +1193,7 @@ mon_break_armor(struct monst *mon, boolean polyspot)
             } else {
                 Soundeffect(se_cracking_sound, 100);
                 if (vis)
-                    pline_mon(mon, "%s把%s的铠甲挤破了!",
+                    pline_mon(mon, "%s把%s的盔甲挤破了!",
                               Monnam(mon), ppronoun);
                 else
                     You_hear("破裂声.");
@@ -1233,7 +1233,7 @@ mon_break_armor(struct monst *mon, boolean polyspot)
         if ((otmp = which_armor(mon, W_ARM)) != 0) {
             Soundeffect(se_thud, 50);
             if (vis)
-                pline_mon(mon, "%s的铠甲从%s身上掉下来了!",
+                pline_mon(mon, "%s的盔甲从%s身上掉下来了!",
                           s_suffix(Monnam(mon)), pronoun);
             else
                 You_hear("当啷声.");
@@ -1247,7 +1247,7 @@ mon_break_armor(struct monst *mon, boolean polyspot)
                     pline_mon(mon, "%s的%s失去肉体支撑,掉到了地上!",
                               s_suffix(Monnam(mon)), cloak_simple_name(otmp));
                 else
-                    pline_mon(mon, "%s的体型太小，从%s%s中缩出!",
+                    pline_mon(mon, "%s的体型太小,从%s%s中缩出!",
                               Monnam(mon), ppronoun,
                               cloak_simple_name(otmp));
             }
@@ -1289,7 +1289,7 @@ mon_break_armor(struct monst *mon, boolean polyspot)
             /* flimsy test for horns matches polyself handling */
             && (handless_or_tiny || !is_flimsy(otmp))) {
             if (vis)
-                pline_mon(mon, "%s的掉到了%s上!",
+                pline_mon(mon, "%s的头盔掉到了%s上!",
                           s_suffix(Monnam(mon)), surface(mon->mx, mon->my));
             else
                 You_hear("当啷声.");

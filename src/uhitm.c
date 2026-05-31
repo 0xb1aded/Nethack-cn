@@ -2240,7 +2240,7 @@ steal_it(struct monst *mdef, struct attack *mattk)
         /* special message for final item; no need to check owornmask because
          * ustealo is only set on objects with (owornmask & W_ARM) */
         if (otmp == ustealo)
-            pline("%s脱下了%s铠甲.", Monnam(mdef),
+            pline("%s脱下了%s的盔甲.", Monnam(mdef),
                   mhis(mdef));
         /* give the object to the character */
         otmp = hold_another_object(otmp, "你抓住了%s,但是掉下了.",
