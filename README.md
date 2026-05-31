@@ -212,7 +212,7 @@ English README：[README_en.md](README_en.md)
 
 **处理方案**: 统一返回空字符串，不区分单复数形式。
 
-##### makeplural(const char *oldstr)
+##### makeplural(const char \*oldstr)
 
 位置: [objnam.c](src/objnam.c)
 
@@ -220,7 +220,7 @@ English README：[README_en.md](README_en.md)
 
 **处理方案**: 将加后缀 s 的位置全部改成加空字符串
 
-##### an(const char *str) / An / just_an
+##### an(const char \*str) / An / just_an
 
 位置: [objnam.c](src/objnam.c)
 
@@ -228,7 +228,7 @@ English README：[README_en.md](README_en.md)
 
 **处理方案**: `just_an()` 返回 `"一个"`
 
-##### s_suffix(const char *s)
+##### s_suffix(const char \*s)
 
 位置: [hacklib.c](src/hacklib.c)
 
@@ -236,7 +236,7 @@ English README：[README_en.md](README_en.md)
 
 **处理方案**: 直接返回 `s`
 
-##### vtense(const char *subj, const char *verb)
+##### vtense(const char \*subj, const char \*verb)
 
 位置: [objnam.c](src/objnam.c)
 
@@ -266,7 +266,7 @@ English README：[README_en.md](README_en.md)
 
 **处理方案**: 只返回一个不带“的”的实词，使用时请在后面加上“的光芒”。
 
-##### objdescr_is(struct obj *obj, const char *descr)  
+##### objdescr_is(struct obj \*obj, const char \*descr) 
 
 位置: [o_init.c](src\o_init.c)
 
@@ -274,9 +274,18 @@ English README：[README_en.md](README_en.md)
 
 **处理方案**: 改为对比其edescr，调用时请保留英文。
 
+##### getobj(const char \*word, int (\*obj_ok)(OBJ_P), unsigned int ctrlflags)
+
+位置: [invent.c](src/invent.c)
+
+功能: 寻找适合obj_ok行为的所有物品供玩家选择（若没有则默认展示所有物品）。
+
+**处理方案**: 这个\*word对字符串不敏感。它会问你："你想要"+传入的\*word+"?"（汉语的这个地方填的词可能是离合的，如：“写在什么上”）。
+
 #### 翻译标准化
 
 有些译名在[这个页面](https://nethackwiki.com/wiki/NetHackWiki:%E7%AE%80%E4%B8%AD%E8%AF%91%E5%90%8D%E6%A0%87%E5%87%86%E5%8C%96)没有出现，所以我把我翻译的写到这里（以防翻译不统一导致对字符串敏感的函数出问题）：
+（看到错的麻烦帮我改过来。）
 
 |谓词|Francium-223||
 |----|----|----|
@@ -286,6 +295,7 @@ English README：[README_en.md](README_en.md)
 |shine|照耀||
 |better（恢复）|好些了||
 |much better|好多了||
+|shine|照耀<sup>[2](#note2)</sup>||
 |glow|发/散发||
 |violently glow|爆发||
 |shatter|粉碎||
@@ -317,13 +327,16 @@ English README：[README_en.md](README_en.md)
 |(on left hand)|(在左手上)||
 |(on right hand)|(在右手上)||
 |tingle|颤动||
+|itch|发痒||
+|twitch|抽搐||
+||||
 
 |体词|Francium-223||
 |----|----|----|
 |form(变形)|形态||
-|quantum mechanic(怪物)|量子技工<sup>[1](#note1)</sup>||
-|thou, thee, thy, thine|汝，汝，尔，尔<sup>[2](#note2)</sup>||
-|arrow, bolt|箭<sup>[3](#note3)</sup>||
+|quantum mechanic(怪物)|量子技工<sup>[2](#note2)</sup>||
+|thou, thee, thy, thine|汝，汝，尔，尔<sup>[3](#note3)</sup>||
+|arrow, bolt|箭<sup>[4](#note4)</sup>||
 |barb|倒刺||
 |debris(空气元素)|碎片||
 |flash|闪光||
@@ -337,6 +350,7 @@ English README：[README_en.md](README_en.md)
 |slow digestion|减慢消化||
 |protection from shape changers|变形怪防护||
 |fixed abilities|属性维持||
+|变形怪|||
 
 |死因|Francium-223||
 |----|----|----|
@@ -384,6 +398,9 @@ English README：[README_en.md](README_en.md)
 |Whoops...|哎呀...||
 |KABOOM|嘭!||
 |Egads!|天哪!||
+|Ulch!|呃!||
+|Ooph!|呼!||
+|Crash!|哗啦!||
 
 |技能|Francium-223||
 |----|----|----|
@@ -412,12 +429,15 @@ English README：[README_en.md](README_en.md)
 |Grand Master|宗师||
 |Unknown|未知||
 
-<a id="note1">1</a> 根据[Wiki](https://nethackwiki.com/wiki/Quantum_mechanic#Origin)，这是一个对quantum mechanics（单数，“量子力学”）错误逆构词导致的双关，且从[贴图](https://nethackwiki.com/wiki/File:Quantum_mechanic.png)和游戏内信息可以推断出quantum mechanic显然是人形生物，不应翻译为“量子力学”。
+<a id="note1">1</a> 见[鱼佬的解释](https://github.com/SunnyYuer/NetHack-cn/wiki#shine-shining)。
 
-<a id="note2">2</a> 含有这种人称代词或shalt(shall 2nd sg)、art(be 2nd sg)、-est(2nd sg)、-eth(3rd sg)等的句子当译为文言。  
-也不一定是文言吧，或者像[浅文理和合本](https://www.bible.com/bible/1577/)那样的浅近文言？
+<a id="note2">2</a> 根据[Wiki](https://nethackwiki.com/wiki/Quantum_mechanic#Origin)，这是一个对quantum mechanics（单数，“量子力学”）错误逆构词导致的双关，且从[贴图](https://nethackwiki.com/wiki/File:Quantum_mechanic.png)和游戏内信息可以推断出quantum mechanic显然是人形生物，不应翻译为“量子力学”。
 
-<a id="note3">3</a> bolt只有crossbow bolt（弩箭）一种，和arrow没有最小对立。
+<a id="note3">4</a> 含有这种人称代词或shalt(shall 2nd sg)、art(be 2nd sg)、-est(2nd sg)、-eth(3rd sg)等的句子当译为文言。  
+~~也不一定是文言吧，或者像[浅文理和合本](https://www.bible.com/bible/1577/)那样的浅近文言？~~不行，还是不够高语域。
+拉丁语我打算保留一个原句再加一个翻译。
+
+<a id="note4">4</a> bolt只有crossbow bolt（弩箭）一种，和arrow没有最小对立。
 
 #### 代码规范
 

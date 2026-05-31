@@ -693,7 +693,7 @@ god_zaps_you(aligntyp resp_god)
 staticfn void
 fry_by_god(aligntyp resp_god, boolean via_disintegration)
 {
-    You("%s！", !via_disintegration ? "烤得焦脆"
+    You("%s!", !via_disintegration ? "烤得焦脆"
                                    : "分解成一堆灰尘");
     svk.killer.format = KILLED_BY;
     Sprintf(svk.killer.name, "%s的愤怒", align_gname(resp_god));
@@ -1045,7 +1045,7 @@ give_spell(void)
                 pline("%s的神圣知识充满了你的脑海!法术'%c'.",
                       spe_name, spe_let);
             else
-                Your("关于法术'%c'的知识-%s已%s。",
+                Your("关于法术'%c'的知识-%s已%s.",
                      spe_let, spe_name,
                      (spe_knowledge == spe_Forgotten) ? "恢复"
                                                       : "刷新");
@@ -1428,7 +1428,7 @@ godvoice(aligntyp g_align, const char *words)
 staticfn void
 gods_angry(aligntyp g_align)
 {
-    godvoice(g_align, "Thou hast angered me.");
+    godvoice(g_align, "汝激我怒.");
 }
 
 /* The g_align god is upset with you. */
@@ -1461,7 +1461,7 @@ consume_offering(struct obj *otmp)
     else if (Blind && u.ualign.type == A_LAWFUL)
         Your("祭品消失了!");
     else
-        Your("祭品在一%s中被消耗殆尽！",
+        Your("祭品在一%s中被消耗殆尽!",
              (u.ualign.type == A_LAWFUL)
                 ? "道闪光"
                 : (u.ualign.type == A_NEUTRAL)
@@ -1515,7 +1515,7 @@ desecrate_altar(boolean highaltar, aligntyp altaralign)
     You_feel("你周围的气氛变得紧张...");
     pline("突然, 你意识到%s在注意你...",
           align_gname(altaralign));
-    Sprintf(gvbuf, "咄,凡人!汝焉敢污吾%s！",
+    Sprintf(gvbuf, "咄,凡人!汝焉敢污吾%s!",
             highaltar ? "庙" : "圣坛");
     godvoice(altaralign, gvbuf);
     /* Throw everything we have at the player */
@@ -1759,7 +1759,7 @@ sacrifice_your_race(
             gm.multi_reason = "被恶魔恐吓";
             gn.nomovemsg = 0;
         } else
-            pline_The("%s。", demonless_msg);
+            pline_The("%s.", demonless_msg);
     }
 
     if (u.ualign.type != A_CHAOTIC) {
@@ -2043,7 +2043,7 @@ offer_corpse(struct obj *otmp, boolean highaltar, aligntyp altaralign)
                     change_luck(1);
             } else {
                 pline("%s似乎%s.", u_gname(),
-                      Hallucination ? "很超现实(并非新发现)"
+                      Hallucination ? "很有宇宙感(并非新发现)"
                                     : "平息下来了");
 
                 if ((int) u.uluck < 0)
@@ -2560,7 +2560,7 @@ static const char *const hallu_gods[] = {
     "火星人",                 /* every science fiction ever */
     "佐姆",                          /* Crawl */
     "安多尔·德拉康",                 /* ADOM */
-    "the Central Bank of Yendor",   /* economics */
+    "岩德中央银行",   /* economics */
     "牙仙子",                  /* real world(?) */
     "欧姆",                           /* Discworld */
     "约格莫夫",                     /* Magic: the Gathering */
@@ -2660,9 +2660,9 @@ altar_wrath(coordxy x, coordxy y)
     } else {
         pline("%s%s%s:",
               align_gname(altaralign), /*修改语序:把神的名字从2挪到了1*/
-              !Deaf ? "一个声音(莫非是"
-                    : "虽然耳聋，但是你好像能听见",
-              !Deaf ? "?)低语" : "说");
+              !Deaf ? "的(莫非是"
+                    : "说",
+              !Deaf ? "?)低语" : "(虽然耳聋,但是你好像能听见)");
         SetVoice((struct monst *) 0, 0, 80, voice_deity);
         verbalize("汝当偿之,异道者!");
         /* higher luck is more likely to be reduced; as it approaches -5

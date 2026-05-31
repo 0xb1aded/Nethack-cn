@@ -355,7 +355,7 @@ doread(void)
     if (check_capacity((char *) 0))
         return ECMD_OK;
 
-    scroll = getobj("read", read_ok, GETOBJ_PROMPT);
+    scroll = getobj("阅读什么", read_ok, GETOBJ_PROMPT);
     if (!scroll)
         return ECMD_CANCEL;
     otyp = scroll->otyp;
@@ -1821,7 +1821,7 @@ seffect_charging(struct obj **sobjp)
        was already delivered */
     useup(sobj);
     *sobjp = 0; /* it's gone */
-    otmp = getobj("charge", charge_ok, GETOBJ_PROMPT | GETOBJ_ALLOWCNT);
+    otmp = getobj("给什么充能", charge_ok, GETOBJ_PROMPT | GETOBJ_ALLOWCNT);
     if (otmp)
         recharge(otmp, scursed ? -1 : sblessed ? 1 : 0);
 }

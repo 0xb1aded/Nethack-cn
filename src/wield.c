@@ -370,7 +370,7 @@ dowield(void)
 
     /* Prompt for a new weapon */
     clear_splitobjs();
-    if (!(wep = getobj("wield", wield_ok, GETOBJ_PROMPT | GETOBJ_ALLOWCNT))) {
+    if (!(wep = getobj("装备什么", wield_ok, GETOBJ_PROMPT | GETOBJ_ALLOWCNT))) {
         /* Cancelled */
         return ECMD_CANCEL;
     } else if (wep == uwep) {

@@ -752,7 +752,7 @@ getspell(int *spell_no)
         else
             Sprintf(lets, "a-zA-%c", 'A' + nspells - 27);
 
-        Snprintf(qbuf, sizeof qbuf, "施放哪个法术?[%s *?]", lets);
+        Snprintf(qbuf, sizeof qbuf, "施放哪个法术? [%s *?]", lets);
         for (retry_limit = 0; ; ++retry_limit) {
             if (retry_limit == 10) {
                 /* limit is mainly to prevent the fuzzer from getting stuck

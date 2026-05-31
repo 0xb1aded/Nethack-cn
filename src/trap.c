@@ -4367,7 +4367,7 @@ domagictrap(void)
                     if (!See_invisible)
                         You("又能看见你自己了!");
                     else
-                        You_cant("再看穿你自己了.");
+                        You_cant("再看透你自己了.");
                 }
             } else {
                 /* If we're invisible from another source */
@@ -5633,7 +5633,7 @@ disarm_squeaky_board(struct trap *ttmp)
     boolean bad_tool;
     int fails;
 
-    obj = getobj("untrap with", unsqueak_ok, GETOBJ_PROMPT);
+    obj = getobj("解除什么", unsqueak_ok, GETOBJ_PROMPT);
     if (!obj)
         return 0;
 
