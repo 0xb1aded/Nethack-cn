@@ -365,6 +365,8 @@ English README：[README_en.md](README_en.md)
 |rumbling|隆隆声||
 |slow drip|滴答声||
 |gurgling|咕噜声||
+|clatter|哐当声||
+|snicker-snack|咔嚓||
 
 |感叹词/拟声词|Francium-223||
 |----|----|----|

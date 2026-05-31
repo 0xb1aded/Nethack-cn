@@ -326,7 +326,7 @@ special_throne_effect(int effect) {
         /* polymorph effect (not blocked by magic resistance, but other things
            that protect from polymorphs work) */
         if (is_vampire(gy.youmonst.data)) {
-            You_feel("这不值得.");
+            You_feel("不值得.");
         } else {
             pline("这个王座不是为你量身定制的!");
             You_feel("一种变化正在你身上发生.");

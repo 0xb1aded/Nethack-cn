@@ -1,33 +1,33 @@
--- NetHackquest.lua	$NHDT-Date: 17268949042024/09/2105:01:44 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.10 $
--- Copyright (c) 2021byPasiKallinen
--- NetHackmaybefreelyredistributed.  Seelicensefordetails.
+-- NetHack quest.lua $NHDT-Date: 1726894904 2024/09/21 05:01:44 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.10 $
+-- Copyright (c) 2021 by Pasi Kallinen
+-- NetHack may be freely redistributed.  See license for details.
 -- TODO:
 --  - output = "verbalize"
---  - exportthequeststringreplacementstolua, insteadof %Hetc
---  - allowcheckingifheroiscarryingitem (seecommentsfor %CpArc00042)
---  - foldquest_portal, quest_portal_again, quest_portal_demandintoone
---  - writeteststocheckquesttextvalidity?
---  - qt_pagerhack(?): if (qt_msg->delivery == 'p' && strcmp(windowprocs.name, "X11"))
+--  - export the quest string replacements to lua, instead of %H etc
+--  - allow checking if hero is carrying item (see comments for %Cp Arc 00042)
+--  - fold quest_portal, quest_portal_again, quest_portal_demand into one
+--  - write tests to check questtext validity?
+--  - qt_pager hack(?): if (qt_msg->delivery == 'p' && strcmp(windowprocs.name, "X11"))
 
 
 
 
 -- text = "something"
--- Textisshowntotheuser.
+-- Text is shown to the user.
 
 -- synopsis = "something"
--- Synopsisisinsertedintothemessagehistory.
+-- Synopsis is inserted into the message history.
 --
 -- output = "pline" | "menu" | "text"
--- Theoutputcanbemanuallysetbyusingoutput = "menu"
--- Validvaluesforoutputare "pline", "text", and "menu, defaultingto
--- pline, unlessthetextcontainsnewlines, oristoolongtofitamessagebuffer,
--- thenwillbeshownasatextwindowinstead.
+-- The output can be manually set by using output = "menu"
+-- Valid values for output are "pline", "text", and "menu, defaulting to
+-- pline, unless the text contains newlines, or is too long to fit a message buffer,
+-- then will be shown as a text window instead.
 
 
 
 questtext = {
-   -- Ifaroledoesn'thaveaspecificmessage, tryafallback
+   -- If a role doesn't have a specific message, try a fallback
    msg_fallbacks = {
       goal_alt = "goal_next"
    },
@@ -151,7 +151,7 @@ questtext = {
 所有人:与%d一同勇敢前行吧!
 ]],
       },
--- startingwith 'pauper' optionset, lastparagraphdiffersfromnormallegacy
+-- starting with 'pauper' option set, last paragraph differs from normal legacy
       pauper_legacy = {
          synopsis = "[%dChaschosenyoutorecovertheAmuletofYendorfor %dI.]",
          output = "menu",

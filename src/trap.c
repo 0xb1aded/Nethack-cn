@@ -6931,7 +6931,7 @@ lava_effects(void)
             svk.killer.format = KILLED_BY;
             Strcpy(svk.killer.name, lava_killer);
             urgent_pline("你%s...", boil_away ? "被蒸干了"
-                                                : "被烧成焦炭了");
+                                                : "被烧成灰烬了");
             done(BURNING);
             if (safe_teleds(TELEDS_ALLOW_DRAG | TELEDS_TELEPORT))
                 break; /* successful life-save */

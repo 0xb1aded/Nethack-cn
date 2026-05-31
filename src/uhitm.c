@@ -5166,7 +5166,7 @@ gulpum(struct monst *mdef, struct attack *mattk)
                         pline("%s似乎有点热.", Monnam(mdef));
                         dam = 0;
                     } else
-                        pline("%s快被烧成焦炭了!", Monnam(mdef));
+                        pline("%s快被烧成灰烬了!", Monnam(mdef));
                     golemeffects(mdef, (int) mattk->adtyp, dam);
                 } else
                     dam = 0;

@@ -642,11 +642,11 @@ priest_talk(struct monst *priest)
         if (quan < 1)
             quan = 1;
 
-        Sprintf(buf, "你打算捐多少(建议：%ld或%ld)?",
+        Sprintf(buf, "你打算捐多少(建议:%ld或%ld)?",
                 suggested * quan, suggested * quan * 2);
 
         if (flags.debug)
-            pline("%s请求你为神庙捐款(基础 %ld).",
+            pline("%s请求你为神庙捐款(基础%ld).",
                   Monnam(priest), suggested);
         else
             pline("%s请你为神庙捐献.",

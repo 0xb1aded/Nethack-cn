@@ -673,7 +673,7 @@ staticfn void
 p_glow2(struct obj *otmp, const char *color)
 {
     pline("%s%s%s了一刹那.", Yobjnam2(otmp, Blind ? "振动" : "发光"),
-          Blind ? "" : hcolor(color), Blind ? "" : "色光");
+          Blind ? "" : hcolor(color), Blind ? "" : "光");
 }
 
 staticfn void
@@ -681,7 +681,7 @@ p_glow3(struct obj *otmp, const char *color)
 {
     pline("%s微弱地%s%s了一刹那.",
           Yobjnam2(otmp, Blind ? "振动" : "发光"),
-          Blind ? "" : hcolor(color), Blind ? "" : "色光");
+          Blind ? "" : hcolor(color), Blind ? "" : "光");
 }
 
 /* getobj callback for object to charge */
@@ -1145,7 +1145,7 @@ seffect_enchant_armor(struct obj **sobjp)
             pline("%s被一层%s%s%s覆盖!", Yobjnam2(otmp, ""),
                   scursed ? "斑驳的" : "闪烁的",
                   hcolor(scursed ? NH_BLACK : NH_GOLDEN),
-                  scursed ? "色光芒"
+                  scursed ? "光芒"
                   : (is_shield(otmp) ? "层" : "护盾"));
         }
         if (new_erodeproof && (otmp->oeroded || otmp->oeroded2)) {
@@ -1255,7 +1255,7 @@ seffect_enchant_armor(struct obj **sobjp)
           otense(otmp, Blind ? "振动" : "发出"),
           (!Blind && !same_color) ? "" : "",
           (Blind || same_color)
-          ? "" : hcolor(scursed ? NH_BLACK : NH_SILVER), (Blind || same_color) ? "" : "色光", /*修改语序:? "" : hcolor(scursed ? NH_BLACK : NH_SILVER),*/
+          ? "" : hcolor(scursed ? NH_BLACK : NH_SILVER), (Blind || same_color) ? "" : "光", /*修改语序:? "" : hcolor(scursed ? NH_BLACK : NH_SILVER),*/
           (s * s > 1) ? "一会儿" : "一刹那");
     /* [this cost handling will need updating if shop pricing is
        ever changed to care about curse/bless status of armor] */
@@ -1411,14 +1411,14 @@ seffect_confuse_monster(struct obj **sobjp)
         make_confused(HConfusion + rnd(100), FALSE);
     } else if (confused) {
         if (!sblessed) {
-            Your("%s开始%s%s%s.", hands, /*修改语序:你猜我要干什么？搜索："色光"*/
+            Your("%s开始%s%s%s.", hands, /*修改语序:你猜我要干什么？搜索："光"*/
                  altfeedback ? "发麻" : "发出",
-                 altfeedback ? "" : hcolor(NH_PURPLE), altfeedback ? "" : "色光");
+                 altfeedback ? "" : hcolor(NH_PURPLE), altfeedback ? "" : "光");
             make_confused(HConfusion + rnd(100), FALSE);
         } else {
             pline("一团%s%s萦绕着你的%s.",
                   altfeedback ? "" : hcolor(NH_RED),
-                  altfeedback ? "微弱的嗡嗡声" : "色微光", body_part(HEAD));
+                  altfeedback ? "微弱的嗡嗡声" : "微光", body_part(HEAD));
             make_confused(0L, TRUE);
         }
     } else {
@@ -1429,9 +1429,9 @@ seffect_confuse_monster(struct obj **sobjp)
             if (altfeedback)
                 Your("%s%s发麻.", hands, u.umconf ? "更加" : "开始");
             else if (!u.umconf)
-                Your("你的%s开始发出%s色光.", hands, hcolor(NH_RED));
+                Your("你的%s开始发出%s光.", hands, hcolor(NH_RED));
             else
-                pline_The("%s的%s色光增强了.", hcolor(NH_RED),
+                pline_The("%s的%s光增强了.", hcolor(NH_RED),
                           hands);
             incr += rnd(2);
         } else {
@@ -1439,7 +1439,7 @@ seffect_confuse_monster(struct obj **sobjp)
                 Your("%s%s刺痛.", hands,
                      u.umconf ? "更加" : "非常");
             else
-                Your("%s发出%s灿烂的%s色光.", hands,
+                Your("%s发出%s灿烂的%s光.", hands,
                      u.umconf ? "甚至更" : "", hcolor(NH_RED));
             incr += rn1(8, 2);
         }
@@ -1586,7 +1586,7 @@ seffect_remove_curse(struct obj **sobjp)
                 /* like rndcurse(sit.c), effect on regular inventory
                    doesn't show things glowing but saddle does */
                 if (!Blind) {
-                    pline("%s%s色光.", Yobjnam2(obj, "发出了"),
+                    pline("%s%s光.", Yobjnam2(obj, "发出了"),
                               hcolor("琥珀"));
                     obj->bknown = Hallucination ? 0 : 1;
                 } else {
@@ -1649,7 +1649,7 @@ seffect_enchant_weapon(struct obj **sobjp)
             pline("%s被一层%s%s%s覆盖!", Yobjnam2(uwep, "是"),
                   scursed ? "斑驳的" : "闪烁的",
                   hcolor(scursed ? NH_PURPLE : NH_GOLDEN),
-                  scursed ? "色光芒" : "护盾");
+                  scursed ? "光芒" : "护盾");
         }
         if (new_erodeproof && (uwep->oeroded || uwep->oeroded2)) {
             uwep->oeroded = uwep->oeroded2 = 0;
@@ -1968,7 +1968,7 @@ seffect_earth(struct obj **sobjp)
         if (!sblessed) {
             drop_boulder_on_player(confused, !scursed, TRUE, FALSE);
         } else if (!nboulders)
-            pline("但是没有任何事发生.");
+            pline("但是没有其他事发生.");
     }
 }
 
