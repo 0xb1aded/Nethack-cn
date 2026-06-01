@@ -147,6 +147,32 @@ static const struct Jitem eJapanese_items[] = {
     { 0, "" }
 };
 
+const char *
+Japanese_item_name(int i, const char *ordinaryname)
+{
+    const struct Jitem *j = Japanese_items;
+
+    while (j->item) {
+        if (i == j->item)
+            return j->name;
+        j++;
+    }
+    return ordinaryname;
+}
+
+const char *
+Japanese_item_ename(int i, const char *ordinaryname)
+{
+    const struct Jitem *j = eJapanese_items;
+
+    while (j->item) {
+        if (i == j->item)
+            return j->name;
+        j++;
+    }
+    return ordinaryname;
+}
+
 staticfn char *
 strprepend(char *s, const char *pref)
 {
@@ -8369,32 +8395,6 @@ rnd_class(int first, int last)
                 return i;
     }
     return (first == last) ? first : STRANGE_OBJECT;
-}
-
-const char *
-Japanese_item_name(int i, const char *ordinaryname)
-{
-    const struct Jitem *j = Japanese_items;
-
-    while (j->item) {
-        if (i == j->item)
-            return j->name;
-        j++;
-    }
-    return ordinaryname;
-}
-
-const char *
-Japanese_item_ename(int i, const char *ordinaryname)
-{
-    const struct Jitem *j = eJapanese_items;
-
-    while (j->item) {
-        if (i == j->item)
-            return j->name;
-        j++;
-    }
-    return ordinaryname;
 }
 
 const char *
