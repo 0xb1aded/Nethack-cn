@@ -5782,7 +5782,7 @@ readobjnam_preparse(struct _readobjnam_data *d)
             d->open = 1,
                 d->closed = d->locked = d->broken = d->doorless = 0;
         } else if (!strncmpi(d->bp, "closed ", l = 7) ||
-            !cnstrcmpi(d->bp, "关上的", l) || !cnstrcmpi(d->bp, "关着的", l) || !cnstrcmpi(d->bp, "关了的", l) !cnstrcmpi(d->bp, "关闭的", l)) {
+            !cnstrcmpi(d->bp, "关上的", l) || !cnstrcmpi(d->bp, "关着的", l) || !cnstrcmpi(d->bp, "关了的", l) || !cnstrcmpi(d->bp, "关闭的", l)) {
             d->closed = 1,
                 d->open = d->locked = d->broken = d->doorless = 0;
         } else if (!strncmpi(d->bp, "doorless ", l = 9) ||
