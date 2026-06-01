@@ -7388,7 +7388,7 @@ readobjnam_postparse2(struct _readobjnam_data *d)
 
 
 staticfn int
-readobjenam_postparse2(struct _readobjnam_data *d)
+readobjenam_postparse2(struct _readobjnam_data *d) /*AAAAAA*/
 {
     int i;
 
