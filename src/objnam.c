@@ -5662,7 +5662,7 @@ readobjnam_preparse(struct _readobjnam_data *d)
         res = 0;
 
         if (!strncmpi(d->bp, "an ", l = 3) || !strncmpi(d->bp, "a ", l = 2) ||
-            !cnstrcmpi(d->bp, "一个", 2)) {
+            !cnstrcmpi(d->bp, "一个", l)) {
             d->cnt = 1;
         } else if (!strncmpi(d->bp, "the ", l = 4)) {
             ; /* just increment `bp' by `l' below */
@@ -5727,7 +5727,7 @@ readobjnam_preparse(struct _readobjnam_data *d)
             !cnstrcmpi(d->bp, "点亮的", l) || !cnstrcmpi(d->bp, "点燃的", l) || !cnstrcmpi(d->bp, "点着的", l) || 
             !cnstrcmpi(d->bp, "烧着的", l) || !cnstrcmpi(d->bp, "燃烧的", l)) {
             d->islit = 1;
-        } else if (!strncmpi(d->bp, "unlit ", l = 6) || !strncmpi(d->bp, "extinguished ", l = 13)
+        } else if (!strncmpi(d->bp, "unlit ", l = 6) || !strncmpi(d->bp, "extinguished ", l = 13) ||
             !cnstrcmpi(d->bp, "未被点亮的", l) || !cnstrcmpi(d->bp, "未被点燃的", l) || !cnstrcmpi(d->bp, "未被点着的", l) ||
             !cnstrcmpi(d->bp, "未点亮的", l) || !cnstrcmpi(d->bp, "未点燃的", l) || !cnstrcmpi(d->bp, "未点着的", l) ||
             !cnstrcmpi(d->bp, "没点亮的", l) || !cnstrcmpi(d->bp, "没点燃的", l) || !cnstrcmpi(d->bp, "没点着的", l) ||
@@ -6325,10 +6325,6 @@ readobjnam_postparse1(struct _readobjnam_data *d)
                 d->oclass = o_ranges[i].oclass;
                 return 1; /*goto srch;*/
             }
-            if (!strcmpi(d->bp, o_ranges[i].ename)) {
-                d->oclass = o_ranges[i].oclass;
-                return 1; /*goto srch;*/
-            }
     }
     if ((d->p = strstri(d->bp, "被称为")) != 0) {
         *d->p = 0;
@@ -6342,11 +6338,6 @@ readobjnam_postparse1(struct _readobjnam_data *d)
                 d->oclass = o_ranges[i].oclass;
                 return 1; /*goto srch;*/
             }
-        for (i = 0; i < SIZE(o_ranges); i++)
-            if (!strcmpi(d->bp, o_ranges[i].ename)) {
-                d->oclass = o_ranges[i].oclass;
-                return 1; /*goto srch;*/
-            }
     }
     if ((d->p = strstri(d->bp, ",被称为")) != 0) {
         *d->p = 0;
@@ -6357,11 +6348,6 @@ readobjnam_postparse1(struct _readobjnam_data *d)
          */
         for (i = 0; i < SIZE(o_ranges); i++)
             if (!strcmpi(d->bp, o_ranges[i].name)) {
-                d->oclass = o_ranges[i].oclass;
-                return 1; /*goto srch;*/
-            }
-        for (i = 0; i < SIZE(o_ranges); i++)
-            if (!strcmpi(d->bp, o_ranges[i].ename)) {
                 d->oclass = o_ranges[i].oclass;
                 return 1; /*goto srch;*/
             }
@@ -6921,7 +6907,7 @@ readobjenam_postparse1(struct _readobjnam_data *d)
          * "shield called reflection" is not "shield" (a general type)
          */
         for (i = 0; i < SIZE(o_ranges); i++)
-            if (!strcmpi(d->bp, o_ranges[i].ename)) {
+            if (!strcmpi(d->bp, o_ranges[i].name)) {
                 d->oclass = o_ranges[i].oclass;
                 return 1; /*goto srch;*/
             }
@@ -7331,10 +7317,6 @@ readobjnam_postparse2(struct _readobjnam_data *d)
             d->typ = rnd_class(o_ranges[i].f_o_range, o_ranges[i].l_o_range);
             return 2; /*goto typfnd;*/
         }
-        if (!strcmpi(d->bp, o_ranges[i].ename)) {
-            d->typ = rnd_class(o_ranges[i].f_o_range, o_ranges[i].l_o_range);
-            return 2; /*goto typfnd;*/
-        }
 
     if (!BSTRCMPI(d->bp, d->p - 6, " stone")
         || !BSTRCMPI(d->bp, d->p - 4, " gem")) {
@@ -7412,7 +7394,7 @@ readobjenam_postparse2(struct _readobjnam_data *d)
 
     /* "grey stone" check must be before general "stone" */
     for (i = 0; i < SIZE(o_ranges); i++)
-        if (!strcmpi(d->bp, o_ranges[i].ename)) {
+        if (!strcmpi(d->bp, o_ranges[i].name)) {
             d->typ = rnd_class(o_ranges[i].f_o_range, o_ranges[i].l_o_range);
             return 2; /*goto typfnd;*/
         }
