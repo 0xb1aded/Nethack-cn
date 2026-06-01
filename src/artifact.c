@@ -155,13 +155,15 @@ artiname(int artinum)
     return artilist[artinum].name;
 }
 
+/*
 const char *
-artiname(int artinum)
+artiename(int artinum)
 {
     if (artinum <= 0 || artinum > NROFARTIFACTS)
         return "";
     return artilist[artinum].ename;
 }
+*/
 
 /*
    Make an artifact.  If a specific alignment is specified, then an object of

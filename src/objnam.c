@@ -2128,7 +2128,7 @@ doname_base(
            everything out if no merges occur */
         long itemcount = count_contents(obj, FALSE, FALSE, TRUE, FALSE);
 
-        ConcatF1(prefix, 0, "包含%ld个物品的", itemcount); /*危险:ConcatF2(bp, 0, " containing %ld item%s", itemcount, plur(itemcount));*/
+        ConcatF2(bp, 0, ",包含%ld个物品%s", itemcount, plur(itemcount)); /*危险:ConcatF2(bp, 0, " containing %ld item%s", itemcount, plur(itemcount)); ConcatF1(prefix, 0, "包含%ld个物品的", itemcount);*/
     }
 
     switch (is_weptool(obj) ? WEAPON_CLASS : obj->oclass) {
@@ -2500,6 +2500,206 @@ doname_base(
     }
 
     return bp;
+}
+
+/* format a corpse name (xname() omits monster type; doname() calls us);
+   eatcorpse() also uses us for death reason when eating tainted glob */
+char *
+corpse_xname(
+    struct obj *otmp,
+    const char *adjective,
+    unsigned cxn_flags) /* bitmask of CXN_xxx values */
+{
+    char *nambuf;
+    int omndx = otmp->corpsenm;
+    boolean ignore_quan = (cxn_flags & CXN_SINGULAR) != 0,
+            /* suppress "the" from "the unique monster corpse" */
+        no_prefix = (cxn_flags & CXN_NO_PFX) != 0,
+            /* include "the" for "the woodchuck corpse */
+        the_prefix = (cxn_flags & CXN_PFX_THE) != 0,
+            /* include "an" for "an ogre corpse */
+        any_prefix = (cxn_flags & CXN_ARTICLE) != 0,
+            /* leave off suffix (do_name() appends "corpse" itself) */
+        omit_corpse = (cxn_flags & CXN_NOCORPSE) != 0,
+        possessive = FALSE,
+        glob = (otmp->otyp != CORPSE && otmp->globby);
+    const char *mnam;
+
+    /* some callers [aobjnam()] rely on prefix area that xname() sets aside */
+    gx.xnamep = nextobuf();
+    nambuf = gx.xnamep + PREFIX;
+
+    if (glob) {
+        mnam = OBJ_NAME(objects[otmp->otyp]); /* "glob of <monster>" */
+    } else if (omndx == NON_PM) { /* paranoia */
+        mnam = "thing";
+    } else {
+        mnam = obj_pmname(otmp);
+        if (the_unique_pm(&mons[omndx]) || type_is_pname(&mons[omndx])) {
+            mnam = s_suffix(mnam);
+            possessive = TRUE;
+            /* don't precede personal name like "Medusa" with an article */
+            if (type_is_pname(&mons[omndx]))
+                no_prefix = TRUE;
+            /* always precede non-personal unique monster name like
+               "Oracle" with "the" unless explicitly overridden */
+            else if (the_unique_pm(&mons[omndx]) && !no_prefix)
+                the_prefix = TRUE;
+        }
+    }
+    if (no_prefix)
+        the_prefix = any_prefix = FALSE;
+    else if (the_prefix)
+        any_prefix = FALSE; /* mutually exclusive */
+
+    *nambuf = '\0';
+    /* can't use the() the way we use an() below because any capitalized
+       Name causes it to assume a personal name and return Name as-is;
+       that's usually the behavior wanted, but here we need to force "the"
+       to precede capitalized unique monsters (pnames are handled above) */
+    if (the_prefix)
+        Strcat(nambuf, "");
+    /* note: over time, various instances of the(mon_name()) have crept
+       into the code, so the() has been modified to deal with capitalized
+       monster names; we could switch to using it below like an() */
+
+    if (!adjective || !*adjective) {
+        /* normal case:  newt corpse */
+        Strcat(nambuf, mnam);
+    } else {
+        /* adjective positioning depends upon format of monster name */
+        if (possessive) /* Medusa's cursed partly eaten corpse */
+            Sprintf(eos(nambuf), "%s的%s", mnam, adjective);
+        else /* cursed partly eaten troll corpse */
+            Sprintf(eos(nambuf), "%s的%s", adjective, mnam);
+        /* in case adjective has a trailing space, squeeze it out */
+        mungspaces(nambuf);
+        /* doname() might include a count in the adjective argument;
+           if so, don't prepend an article */
+        if (digit(*adjective))
+            any_prefix = FALSE;
+    }
+
+    if (glob) {
+        ; /* omit_corpse doesn't apply; quantity is always 1 */
+    } else if (!omit_corpse) {
+        Strcat(nambuf, "尸体");
+        /* makeplural(nambuf) => append "s" to "corpse" */
+        if (otmp->quan > 1L && !ignore_quan) {
+            Strcat(nambuf, "");
+            any_prefix = FALSE; /* avoid "a newt corpses" */
+        }
+    }
+
+    /* it's safe to overwrite our nambuf[] after an() has copied its
+       old value into another buffer; and once _that_ has been copied,
+       the obuf[] returned by an() can be made available for re-use */
+    if (any_prefix) {
+        char *obufp;
+
+        Strcpy(nambuf, obufp = an(nambuf));
+        releaseobuf(obufp);
+    }
+    return nambuf;
+}
+
+char *
+corpse_xename(
+    struct obj *otmp,
+    const char *adjective,
+    unsigned cxn_flags) /* bitmask of CXN_xxx values */
+{
+    char *nambuf;
+    int omndx = otmp->corpsenm;
+    boolean ignore_quan = (cxn_flags & CXN_SINGULAR) != 0,
+            /* suppress "the" from "the unique monster corpse" */
+        no_prefix = (cxn_flags & CXN_NO_PFX) != 0,
+            /* include "the" for "the woodchuck corpse */
+        the_prefix = (cxn_flags & CXN_PFX_THE) != 0,
+            /* include "an" for "an ogre corpse */
+        any_prefix = (cxn_flags & CXN_ARTICLE) != 0,
+            /* leave off suffix (do_name() appends "corpse" itself) */
+        omit_corpse = (cxn_flags & CXN_NOCORPSE) != 0,
+        possessive = FALSE,
+        glob = (otmp->otyp != CORPSE && otmp->globby);
+    const char *mnam;
+
+    /* some callers [aobjnam()] rely on prefix area that xname() sets aside */
+    gx.xnamep = nextobuf();
+    nambuf = gx.xnamep + PREFIX;
+
+    if (glob) {
+        mnam = OBJ_ENAME(objects[otmp->otyp]); /* "glob of <monster>" */
+    } else if (omndx == NON_PM) { /* paranoia */
+        mnam = "thing";
+    } else {
+        mnam = obj_pmname(otmp);
+        if (the_unique_pm(&mons[omndx]) || type_is_pname(&mons[omndx])) {
+            mnam = s_suffix(mnam);
+            possessive = TRUE;
+            /* don't precede personal name like "Medusa" with an article */
+            if (type_is_pname(&mons[omndx]))
+                no_prefix = TRUE;
+            /* always precede non-personal unique monster name like
+               "Oracle" with "the" unless explicitly overridden */
+            else if (the_unique_pm(&mons[omndx]) && !no_prefix)
+                the_prefix = TRUE;
+        }
+    }
+    if (no_prefix)
+        the_prefix = any_prefix = FALSE;
+    else if (the_prefix)
+        any_prefix = FALSE; /* mutually exclusive */
+
+    *nambuf = '\0';
+    /* can't use the() the way we use an() below because any capitalized
+       Name causes it to assume a personal name and return Name as-is;
+       that's usually the behavior wanted, but here we need to force "the"
+       to precede capitalized unique monsters (pnames are handled above) */
+    if (the_prefix)
+        Strcat(nambuf, "the ");
+    /* note: over time, various instances of the(mon_name()) have crept
+       into the code, so the() has been modified to deal with capitalized
+       monster names; we could switch to using it below like an() */
+
+    if (!adjective || !*adjective) {
+        /* normal case:  newt corpse */
+        Strcat(nambuf, mnam);
+    } else {
+        /* adjective positioning depends upon format of monster name */
+        if (possessive) /* Medusa's cursed partly eaten corpse */
+            Sprintf(eos(nambuf), "%s %s", mnam, adjective);
+        else /* cursed partly eaten troll corpse */
+            Sprintf(eos(nambuf), "%s %s", adjective, mnam);
+        /* in case adjective has a trailing space, squeeze it out */
+        mungspaces(nambuf);
+        /* doname() might include a count in the adjective argument;
+           if so, don't prepend an article */
+        if (digit(*adjective))
+            any_prefix = FALSE;
+    }
+
+    if (glob) {
+        ; /* omit_corpse doesn't apply; quantity is always 1 */
+    } else if (!omit_corpse) {
+        Strcat(nambuf, " corpse");
+        /* makeplural(nambuf) => append "s" to "corpse" */
+        if (otmp->quan > 1L && !ignore_quan) {
+            Strcat(nambuf, "s");
+            any_prefix = FALSE; /* avoid "a newt corpses" */
+        }
+    }
+
+    /* it's safe to overwrite our nambuf[] after an() has copied its
+       old value into another buffer; and once _that_ has been copied,
+       the obuf[] returned by an() can be made available for re-use */
+    if (any_prefix) {
+        char *obufp;
+
+        Strcpy(nambuf, obufp = an(nambuf));
+        releaseobuf(obufp);
+    }
+    return nambuf;
 }
 
 staticfn char *
@@ -3129,207 +3329,6 @@ not_fully_identified(struct obj *otmp)
         return FALSE;
     else /* lack of `rknown' only matters for vulnerable objects */
         return (boolean) is_damageable(otmp);
-}
-
-/* format a corpse name (xname() omits monster type; doname() calls us);
-   eatcorpse() also uses us for death reason when eating tainted glob */
-char *
-corpse_xname(
-    struct obj *otmp,
-    const char *adjective,
-    unsigned cxn_flags) /* bitmask of CXN_xxx values */
-{
-    char *nambuf;
-    int omndx = otmp->corpsenm;
-    boolean ignore_quan = (cxn_flags & CXN_SINGULAR) != 0,
-            /* suppress "the" from "the unique monster corpse" */
-        no_prefix = (cxn_flags & CXN_NO_PFX) != 0,
-            /* include "the" for "the woodchuck corpse */
-        the_prefix = (cxn_flags & CXN_PFX_THE) != 0,
-            /* include "an" for "an ogre corpse */
-        any_prefix = (cxn_flags & CXN_ARTICLE) != 0,
-            /* leave off suffix (do_name() appends "corpse" itself) */
-        omit_corpse = (cxn_flags & CXN_NOCORPSE) != 0,
-        possessive = FALSE,
-        glob = (otmp->otyp != CORPSE && otmp->globby);
-    const char *mnam;
-
-    /* some callers [aobjnam()] rely on prefix area that xname() sets aside */
-    gx.xnamep = nextobuf();
-    nambuf = gx.xnamep + PREFIX;
-
-    if (glob) {
-        mnam = OBJ_NAME(objects[otmp->otyp]); /* "glob of <monster>" */
-    } else if (omndx == NON_PM) { /* paranoia */
-        mnam = "thing";
-    } else {
-        mnam = obj_pmname(otmp);
-        if (the_unique_pm(&mons[omndx]) || type_is_pname(&mons[omndx])) {
-            mnam = s_suffix(mnam);
-            possessive = TRUE;
-            /* don't precede personal name like "Medusa" with an article */
-            if (type_is_pname(&mons[omndx]))
-                no_prefix = TRUE;
-            /* always precede non-personal unique monster name like
-               "Oracle" with "the" unless explicitly overridden */
-            else if (the_unique_pm(&mons[omndx]) && !no_prefix)
-                the_prefix = TRUE;
-        }
-    }
-    if (no_prefix)
-        the_prefix = any_prefix = FALSE;
-    else if (the_prefix)
-        any_prefix = FALSE; /* mutually exclusive */
-
-    *nambuf = '\0';
-    /* can't use the() the way we use an() below because any capitalized
-       Name causes it to assume a personal name and return Name as-is;
-       that's usually the behavior wanted, but here we need to force "the"
-       to precede capitalized unique monsters (pnames are handled above) */
-    if (the_prefix)
-        Strcat(nambuf, "");
-    /* note: over time, various instances of the(mon_name()) have crept
-       into the code, so the() has been modified to deal with capitalized
-       monster names; we could switch to using it below like an() */
-
-    if (!adjective || !*adjective) {
-        /* normal case:  newt corpse */
-        Strcat(nambuf, mnam);
-    } else {
-        /* adjective positioning depends upon format of monster name */
-        if (possessive) /* Medusa's cursed partly eaten corpse */
-            Sprintf(eos(nambuf), "%s的%s", mnam, adjective);
-        else /* cursed partly eaten troll corpse */
-            Sprintf(eos(nambuf), "%s的%s", adjective, mnam);
-        /* in case adjective has a trailing space, squeeze it out */
-        mungspaces(nambuf);
-        /* doname() might include a count in the adjective argument;
-           if so, don't prepend an article */
-        if (digit(*adjective))
-            any_prefix = FALSE;
-    }
-
-    if (glob) {
-        ; /* omit_corpse doesn't apply; quantity is always 1 */
-    } else if (!omit_corpse) {
-        Strcat(nambuf, "尸体");
-        /* makeplural(nambuf) => append "s" to "corpse" */
-        if (otmp->quan > 1L && !ignore_quan) {
-            Strcat(nambuf, "");
-            any_prefix = FALSE; /* avoid "a newt corpses" */
-        }
-    }
-
-    /* it's safe to overwrite our nambuf[] after an() has copied its
-       old value into another buffer; and once _that_ has been copied,
-       the obuf[] returned by an() can be made available for re-use */
-    if (any_prefix) {
-        char *obufp;
-
-        Strcpy(nambuf, obufp = an(nambuf));
-        releaseobuf(obufp);
-    }
-    return nambuf;
-}
-
-
-char *
-corpse_xename(
-    struct obj *otmp,
-    const char *adjective,
-    unsigned cxn_flags) /* bitmask of CXN_xxx values */
-{
-    char *nambuf;
-    int omndx = otmp->corpsenm;
-    boolean ignore_quan = (cxn_flags & CXN_SINGULAR) != 0,
-            /* suppress "the" from "the unique monster corpse" */
-        no_prefix = (cxn_flags & CXN_NO_PFX) != 0,
-            /* include "the" for "the woodchuck corpse */
-        the_prefix = (cxn_flags & CXN_PFX_THE) != 0,
-            /* include "an" for "an ogre corpse */
-        any_prefix = (cxn_flags & CXN_ARTICLE) != 0,
-            /* leave off suffix (do_name() appends "corpse" itself) */
-        omit_corpse = (cxn_flags & CXN_NOCORPSE) != 0,
-        possessive = FALSE,
-        glob = (otmp->otyp != CORPSE && otmp->globby);
-    const char *mnam;
-
-    /* some callers [aobjnam()] rely on prefix area that xname() sets aside */
-    gx.xnamep = nextobuf();
-    nambuf = gx.xnamep + PREFIX;
-
-    if (glob) {
-        mnam = OBJ_ENAME(objects[otmp->otyp]); /* "glob of <monster>" */
-    } else if (omndx == NON_PM) { /* paranoia */
-        mnam = "thing";
-    } else {
-        mnam = obj_pmname(otmp);
-        if (the_unique_pm(&mons[omndx]) || type_is_pname(&mons[omndx])) {
-            mnam = s_suffix(mnam);
-            possessive = TRUE;
-            /* don't precede personal name like "Medusa" with an article */
-            if (type_is_pname(&mons[omndx]))
-                no_prefix = TRUE;
-            /* always precede non-personal unique monster name like
-               "Oracle" with "the" unless explicitly overridden */
-            else if (the_unique_pm(&mons[omndx]) && !no_prefix)
-                the_prefix = TRUE;
-        }
-    }
-    if (no_prefix)
-        the_prefix = any_prefix = FALSE;
-    else if (the_prefix)
-        any_prefix = FALSE; /* mutually exclusive */
-
-    *nambuf = '\0';
-    /* can't use the() the way we use an() below because any capitalized
-       Name causes it to assume a personal name and return Name as-is;
-       that's usually the behavior wanted, but here we need to force "the"
-       to precede capitalized unique monsters (pnames are handled above) */
-    if (the_prefix)
-        Strcat(nambuf, "the ");
-    /* note: over time, various instances of the(mon_name()) have crept
-       into the code, so the() has been modified to deal with capitalized
-       monster names; we could switch to using it below like an() */
-
-    if (!adjective || !*adjective) {
-        /* normal case:  newt corpse */
-        Strcat(nambuf, mnam);
-    } else {
-        /* adjective positioning depends upon format of monster name */
-        if (possessive) /* Medusa's cursed partly eaten corpse */
-            Sprintf(eos(nambuf), "%s %s", mnam, adjective);
-        else /* cursed partly eaten troll corpse */
-            Sprintf(eos(nambuf), "%s %s", adjective, mnam);
-        /* in case adjective has a trailing space, squeeze it out */
-        mungspaces(nambuf);
-        /* doname() might include a count in the adjective argument;
-           if so, don't prepend an article */
-        if (digit(*adjective))
-            any_prefix = FALSE;
-    }
-
-    if (glob) {
-        ; /* omit_corpse doesn't apply; quantity is always 1 */
-    } else if (!omit_corpse) {
-        Strcat(nambuf, " corpse");
-        /* makeplural(nambuf) => append "s" to "corpse" */
-        if (otmp->quan > 1L && !ignore_quan) {
-            Strcat(nambuf, "s");
-            any_prefix = FALSE; /* avoid "a newt corpses" */
-        }
-    }
-
-    /* it's safe to overwrite our nambuf[] after an() has copied its
-       old value into another buffer; and once _that_ has been copied,
-       the obuf[] returned by an() can be made available for re-use */
-    if (any_prefix) {
-        char *obufp;
-
-        Strcpy(nambuf, obufp = an(nambuf));
-        releaseobuf(obufp);
-    }
-    return nambuf;
 }
 
 /* xname doesn't include monster type for "corpse"; cxname does */
@@ -5710,7 +5709,7 @@ readobjnam_preparse(struct _readobjnam_data *d)
                 !strncmpi(d->bp, "corrodeproof ", l = 13) ||
                 !strncmpi(d->bp, "fixed ", l = 6) ||
                 !cnstrcmpi(d->bp, "定形的", l) || !cnstrcmpi(d->bp, "定型的", l) ||
-                !strncmpi(d->bp, "fireproof ", l = 10)
+                !strncmpi(d->bp, "fireproof ", l = 10) ||
                 !cnstrcmpi(d->bp, "防火的", l) || !cnstrcmpi(d->bp, "防火", l) ||
                 !cnstrcmpi(d->bp, "抗火的", l) || !cnstrcmpi(d->bp, "抗火", l) || !cnstrcmpi(d->bp, "火抗", l) ||
                 !cnstrcmpi(d->bp, "不怕火的", l) || !cnstrcmpi(d->bp, "不怕烧的", l) || !cnstrcmpi(d->bp, "不怕火烧的", l) ||
