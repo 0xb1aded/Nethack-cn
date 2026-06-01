@@ -6171,7 +6171,7 @@ readobjnam_parse_charges(struct _readobjnam_data *d)
         if (!strncmpi(d->p, "lit)", 4)) {
             d->islit = 1;
             d->p += 4 - 1; /* point at ')' */
-        } else if (!strcmpi(d->p, "已点燃)", strlen("已点燃)"))) {
+        } else if (!strncmpi(d->p, "已点燃)", strlen("已点燃)"))) {
             d->islit = 1;
             d->p += strlen("已点燃)") - 1;
         } else {
@@ -6853,7 +6853,7 @@ readobjnam_postparse1(struct _readobjnam_data *d)
      * name or the object name.
      */
     if (wizard && (!strncmpi(d->bp, "bear", 4)
-                   || !strncmpi(d->bp, "land", 4) || )) {
+                   || !strncmpi(d->bp, "land", 4))) {
         boolean beartrap = (lowc(*d->bp) == 'b');
         char *zp = d->bp + 4; /* skip "bear"/"land" */
 
@@ -7873,7 +7873,7 @@ readobjnam(char *bp, struct obj *no_wish)
     /* allow wishing for "nothing" to preserve wishless conduct...
        [now requires "wand of nothing" if that's what was really wanted] */
     if (!strcmpi(bp, "nothing") || !strcmpi(bp, "nil")
-        || !strcmpi(bp, "none") || || !strcmpi(bp, "无"))
+        || !strcmpi(bp, "none") || !strcmpi(bp, "无"))
         return no_wish;
     /* save the [nearly] unmodified choice string */
     Strcpy(d.fruitbuf, bp);
@@ -8391,7 +8391,7 @@ Japanese_item_ename(int i, const char *ordinaryname)
 
     while (j->item) {
         if (i == j->item)
-            return j->ename;
+            return j->name;
         j++;
     }
     return ordinaryname;
