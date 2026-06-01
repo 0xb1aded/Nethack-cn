@@ -447,7 +447,7 @@ newman(void)
        doesn't log "new <form>" when that isn't accompanied by level change */
     if (newlvl != oldlvl)
         livelog_printf(LL_MINORAC, "像一个新%s一样升到了%d级",
-                       newform, newlevel); /*修改语序:newlvl, newform);*/
+                       newform, newlvl); /*修改语序:newlvl, newform);*/
     else
         livelog_newform(TRUE, oldgend, newgend);
 
