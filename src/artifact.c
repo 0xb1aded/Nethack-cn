@@ -363,7 +363,7 @@ artifact_name(
 }
 
 const char *
-artifact_name( /*待写:同artiename*/
+artifact_ename( /*待写:同artiename*/
     const char *name, /* string from player that might be an artifact name */
     short *otyp_p,    /* secondary output */
     boolean fuzzy)    /* whether to allow extra or omitted spaces or dashes */
