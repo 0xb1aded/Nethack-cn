@@ -351,7 +351,8 @@ English README：[README_en.md](README_en.md)
 |slow digestion|减慢消化||
 |protection from shape changers|变形怪防护||
 |fixed abilities|属性维持||
-|变形怪|||
+|shape changers|变形怪||
+|gunyoki|兵粮|https://ita.hatenadiary.jp/entries/2004/08/26#p3|https://groups.google.com/g/rec.games.roguelike.nethack/c/7MLdsjU1lAU|https://www.reddit.com/r/nethack/comments/1q8uwxl/a_little_more_on_gunyoki/
 
 |死因|Francium-223||
 |----|----|----|
