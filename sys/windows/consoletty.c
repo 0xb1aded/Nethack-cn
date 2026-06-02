@@ -1182,7 +1182,7 @@ static int utf8_qtail = 0;
 int
 tgetch(void)
 {
-    /* 1. 优先读取队列中残留的 UTF-8 续字节或扩展键扫描码 */
+    /* 1. 优先读取队列中残留的 UTF-8 续字节 */
     if (utf8_qhead < utf8_qtail) {
         return utf8_input_queue[utf8_qhead++];
     }
@@ -1199,74 +1199,67 @@ tgetch(void)
         return 0;
     }
 
-    /* 【核心修复】手动强刷 C 语言标准输出缓冲区！
-     * 这行代码会把卡在内存里的 "Wield what?", "Cast what?" 等交互菜单提示
-     * 在玩家按键之前，立刻、马上逼出到 Windows Terminal 屏幕上。
-     */
+    /* 强刷 NetHack 的后备缓冲区，把 "Wield what?" 等交互菜单逼出到屏幕上 */
     really_move_cursor();
 
-    for (;;) {
-        /* 如果在循环内部因为处理鼠标/窗口大小等非按键事件导致重新循环，
-         * 也可以在这里补一句 fflush(stdout); 确保万无一失 */
-        really_move_cursor();
+    /* 2. 使用 W (Wide/Unicode) 版本 API 安全读取一个控制台事件 */
+    /* 注意：这里改用 if 而不是死循环。如果当前读到的是无效事件，
+       直接返回 0 让游戏主引擎去消化，绝对不会卡死。 */
+    if (!ReadConsoleInputW(hInput, &ir, 1, &count) || count == 0) {
+        return 0;
+    }
 
-        /* 2. 强制使用 W (Wide/Unicode) 版本 API 拦截控制台事件 */
-        if (!ReadConsoleInputW(hInput, &ir, 1, &count) || count == 0) {
-            continue;
-        }
+    /* 3. 仅处理键盘按下事件 (bKeyDown) */
+    if (ir.EventType == KEY_EVENT && ir.Event.KeyEvent.bKeyDown) {
+        WCHAR wc = ir.Event.KeyEvent.uChar.UnicodeChar;
 
-        /* 仅处理键盘按下事件 (bKeyDown) */
-        if (ir.EventType == KEY_EVENT && ir.Event.KeyEvent.bKeyDown) {
-            WCHAR wc = ir.Event.KeyEvent.uChar.UnicodeChar;
+        /* =========================================================
+         * 情况 A: 有常规 Unicode 编码的按键（普通 ASCII 和汉字输入）
+         * ========================================================= */
+        if (wc != 0) {
+            /* 如果是标准 ASCII 字符 (0x01 ~ 0x7F，如普通字母、数字、回车、Esc、退格等) */
+            if (wc <= 0x7F) {
+                return (int)wc;
+            }
 
-            /* =========================================================
-             * 情况 A: 处理有字符编码的常规按键（包含普通 ASCII 和汉字输入）
-             * ========================================================= */
-            if (wc != 0) {
-                if (wc <= 0x7F) {
-                    return (int)wc;
-                }
+            /* 如果是非 ASCII 字符（汉字宽字符），实时转换为 UTF-8 字节流并存入队列 */
+            int bytes = WideCharToMultiByte(CP_UTF8, 0, &wc, 1, 
+                                           (char*)utf8_input_queue, 
+                                           sizeof(utf8_input_queue), NULL, NULL);
+            
+            if (bytes > 0) {
+                utf8_qhead = 1;      /* 下一次从第 2 个字节（索引 1）开始吐 */
+                utf8_qtail = bytes;  /* 标记队列结束位置 */
+                return utf8_input_queue[0]; /* 立即返回第一个 UTF-8 字节 */
+            }
+        } 
+        /* =========================================================
+         * 情况 B: 无字符编码的特殊控制键（如方向键、小键盘、功能键等）
+         * ========================================================= */
+        else {
+            boolean valid = FALSE;
+            int numberpad = iflags.num_pad;
 
-                char utf8_buf[4] = {0};
-                int bytes = WideCharToMultiByte(CP_UTF8, 0, &wc, 1, utf8_buf, 4, NULL, NULL);
-                
-                if (bytes > 0) {
-                    for (int i = 0; i < bytes; i++) {
-                        utf8_input_queue[utf8_qtail++] = (unsigned char)utf8_buf[i];
-                    }
-                    return utf8_input_queue[utf8_qhead++];
-                }
-            } 
-            /* =========================================================
-             * 情况 B: 处理无字符编码的特殊控制键（如方向键、功能键等）
-             * ========================================================= */
-            else {
-                WORD vkey = ir.Event.KeyEvent.wVirtualKeyCode;
-                unsigned char scan = 0;
+#ifdef QWERTZ_SUPPORT
+            if (iflags.qwertz_layout)
+                numberpad |= 0x10;
+#endif
+            /* 调用 NetHack 原生的键盘处理器，将方向键安全地转换为游戏内的移动命令
+               （例如将方向键上转为 'k' 或数字，取决于玩家是否开启了 number_pad） */
+            int ch = nh340_processkeystroke(hInput, &ir, &valid, numberpad, 0);
 
-                switch (vkey) {
-                    case VK_UP:    scan = 72; break;
-                    case VK_LEFT:  scan = 75; break;
-                    case VK_RIGHT: scan = 77; break;
-                    case VK_DOWN:  scan = 80; break;
-                    case VK_INSERT:scan = 82; break;
-                    case VK_DELETE:scan = 83; break;
-                    case VK_HOME:  scan = 71; break;
-                    case VK_END:   scan = 79; break;
-                    case VK_PRIOR: scan = 73; break;
-                    case VK_NEXT:  scan = 81; break;
-                    default:
-                        continue;
-                }
-
-                if (scan != 0) {
-                    utf8_input_queue[utf8_qtail++] = 0xE0;
-                    utf8_input_queue[utf8_qtail++] = scan;
-                    return utf8_input_queue[utf8_qhead++];
-                }
+#ifdef QWERTZ_SUPPORT
+            numberpad &= ~0x10;
+#endif
+            if (valid) {
+                return ch;
             }
         }
     }
+    
+    /* 4. 如果遇到按键松开事件、鼠标移动、点击、或者窗口缩放等非目标事件，
+          直接返回 0，交由 NetHack 的上层主循环去安全处理，防止界面失去响应。 */
+    return 0;
 }
 
 int
