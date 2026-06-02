@@ -373,7 +373,7 @@ death_inflicted_by(
            can't cast spells */
         if (!type_is_pname(champtr) && !the_unique_pm(mptr))
             realnm = an(realnm);
-        Sprintf(eos(outbuf), ",由"); /*修改语序:Sprintf(eos(outbuf), ",由%s%s导致",*/
+        Sprintf(eos(outbuf), "%s", ",由"); /*修改语序:Sprintf(eos(outbuf), ",由%s%s导致",*/
         if (champtr != mptr){ /*修改语序:the_unique_pm(mptr) ? "" : "", realnm);*/
             Sprintf(eos(outbuf), "模仿成%s的", an(fakenm));}/*修改语序:if (champtr != mptr)*/
         Sprintf(eos(outbuf), "%s%s导致", the_unique_pm(mptr) ? "" : "", realnm); /*修改语序:Sprintf(eos(outbuf), "(模仿成%s)", an(fakenm));*/ Sprintf(eos(outbuf), deathreason); /*危险:原来没有*/

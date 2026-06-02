@@ -833,8 +833,8 @@ topten(int how, time_t when)
                     char pbuf[BUFSZ];
 
                     Sprintf(pbuf,
-                            "在总共%d名的榜单中,你达到了排行榜第%d%s名.",
-                            rank0, ordin(rank0), sysopt.entrymax);
+                            "在前%d名的榜单中,你达到了排行榜第%d名.",
+                            rank0, sysopt.entrymax); /*危险: 移除复数s后缀*/
                     topten_print(pbuf);
                 }
                 topten_print("");
@@ -979,7 +979,7 @@ outentry(int rank, struct toptenentry *t1, boolean so)
             *bp = (t1->deathdnum == astral_level.dnum) ? '\0' : ' ';
         second_line = FALSE;
     } else if (!strncmp("ascended", t1->death, 8)) {
-        Sprintf(eos(linebuf), "升为半神",
+        Sprintf(eos(linebuf), "升为半神%s",
                 (t1->plgend[0] == 'F') ? "" : "");
         second_line = FALSE;
     } else {

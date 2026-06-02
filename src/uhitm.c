@@ -118,7 +118,7 @@ dynamic_multi_reason(struct monst *mon, const char *verb, boolean by_gaze)
     p = eos(p);
     Sprintf(p, "被%s%s%s", !by_gaze ? who : s_suffix(who), /*危险.修改语序:Sprintf(p, "%s by %s%s", verb,*/
             !by_gaze ? "" : "的注视", /*修改语序:!by_gaze ? who : s_suffix(who),*/
-            (verb == "paralyzed") ? "麻痹" : ((verb == "frozen") ? "定住" : "")); /*修改语序:!by_gaze ? "" : " gaze");*/
+            (!strcmp(verb, "paralyzed")) ? "麻痹" : ((!strcmp(verb, "frozen")) ? "定住" : "")); /*修改语序:!by_gaze ? "" : " gaze");*/
     gm.multi_reason = p;
 }
 
@@ -5645,7 +5645,7 @@ hmonas(struct monst *mon)
                         || (mattk->aatyp == AT_CLAW && humanoid(mon->data)))
                         verb = "攻击";
                     Your("%s无害地%s%s.",
-                         (verb == "hit") ? "打击" : verb, vtense(verb, "穿过了"), mon_nam(mon));
+                         (!strcmp(verb, "hit")) ? "打击" : verb, vtense(verb, "穿过了"), mon_nam(mon));
                 } else {
                     /* either not a shade or no special silver/blessed damage,
                        other unsolid monsters are immune to AT_TUCH+AD_WRAP */
@@ -5657,7 +5657,7 @@ hmonas(struct monst *mon)
                     } else {
                         if (mattk->aatyp == AT_CLAW)
                             verb = "击"; /* not "claws" */
-                        You("%s中了%s.", (verb == "hit") ? "击" : verb, mon_nam(mon)); /*危险:我也不知道怎么改，先这样……*/
+                        You("%s中了%s.", (!strcmp(verb, "hit")) ? "击" : verb, mon_nam(mon)); /*危险:我也不知道怎么改，先这样……*/
                         if (silverhit && flags.verbose)
                             silver_sears(&gy.youmonst, mon, silverhit);
                     }

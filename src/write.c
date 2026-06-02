@@ -357,7 +357,7 @@ dowrite(struct obj *pen)
     /* success */
     if (new_obj->oclass == SPBOOK_CLASS) {
         /* acknowledge the change in the object's description... */
-        pline_The("魔法书奇怪地扭曲,然后变成了%s的.",
+        pline_The("魔法书奇怪地扭曲,然后变%s.",
                   new_book_description(new_obj->otyp, namebuf));
     }
     new_obj->blessed = (curseval > 0);
@@ -413,7 +413,7 @@ new_book_description(int booktype, char *outbuf)
         if (!strcmpi(descr, *comp_p))
             break;
 
-    Sprintf(outbuf, descr);
+    Sprintf(outbuf, "%s%s", *comp_p ? "成" : "", descr);
     return outbuf;
 }
 

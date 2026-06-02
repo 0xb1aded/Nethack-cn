@@ -114,7 +114,7 @@ new_were(struct monst *mon)
         pline("%s变成了%s.", Monnam(mon),
               is_human(&mons[pm]) ? "人"
                                   /* pmname()+4: skip past "were" prefix */
-                                  : (pmname(&mons[pm], Mgender(mon)) == "狼人") ? "狼" : ((pmname(&mons[pm], Mgender(mon)) == "豺狼人") ? "豺狼" : ((pmname(&mons[pm], Mgender(mon)) == "鼠人") ? "鼠" : ""))); /*危险:: pmname(&mons[pm], Mgender(mon)) + 4);*/
+                                  : (!strcmp(pmname(&mons[pm], Mgender(mon)), "狼人")) ? "狼" : ((!strcmp(pmname(&mons[pm], Mgender(mon)), "豺狼人")) ? "豺狼" : ((!strcmp(pmname(&mons[pm], Mgender(mon)), "鼠人")) ? "鼠" : ""))); /*危险:: pmname(&mons[pm], Mgender(mon)) + 4);*/
 
     set_mon_data(mon, &mons[pm]);
     if (helpless(mon)) {
@@ -199,7 +199,7 @@ you_were(void)
     if (controllable_poly) {
         /* `+4' => skip "were" prefix to get name of beast */
         Sprintf(qbuf, "你想变成%s吗?",
-                (&mons[u.ulycn].pmnames[NEUTRAL] == "狼人") ? "狼" : ((&mons[u.ulycn].pmnames[NEUTRAL] == "豺狼人") ? "豺狼" : ((&mons[u.ulycn].pmnames[NEUTRAL] == "鼠人") ? "鼠" : ""))); /*危险:an(mons[u.ulycn].pmnames[NEUTRAL] + 4));*/
+                (!strcmp(pmname(&mons[u.ulycn], Mgender(&gy.youmonst)), "狼人")) ? "狼" : ((!strcmp(pmname(&mons[u.ulycn], Mgender(&gy.youmonst)), "豺狼人")) ? "豺狼" : ((!strcmp(pmname(&mons[u.ulycn], Mgender(&gy.youmonst)), "鼠人")) ? "鼠" : ""))); /*危险:an(mons[u.ulycn].pmnames[NEUTRAL] + 4));*/
         if (!paranoid_query(ParanoidWerechange, qbuf))
             return;
     } else if (monster_nearby()) {
