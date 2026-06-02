@@ -379,11 +379,6 @@ colortable_to_bgr_int32(const struct nethack_color *tbl)
 }
 
 #define rgbtable_offset 16
-/* 1. 建立一个静态队列，用来暂存一个汉字拆出来的多个 UTF-8 字节 */
-
-static unsigned char utf8_input_queue[4];
-static int utf8_qhead = 0;
-static int utf8_qtail = 0;
 
 static void
 init_custom_colors(void)
