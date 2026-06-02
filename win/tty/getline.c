@@ -1,4 +1,4 @@
-/* NetHack 5.0	getline.c	$NHDT-Date: 1701285885 2023/11/29 19:24:45 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.59 $ */
+/* NetHack 5.0  getline.c   $NHDT-Date: 1701285885 2023/11/29 19:24:45 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.59 $ */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /*-Copyright (c) Michael Allison, 2006. */
 /* NetHack may be freely redistributed.  See license for details. */
@@ -49,6 +49,9 @@ hooked_tty_getlin(
     int c;
     struct WinDesc *cw = wins[WIN_MESSAGE];
     boolean doprev = FALSE;
+    char utf8_buffer[4];   /* UTF-8多字节字符缓冲 */
+    int utf8_needed = 0;   /* 还需要的UTF-8续字节数 */
+    int utf8_count = 0;    /* 已收集的UTF-8字节数 */
 
     if (ttyDisplay->toplin == TOPLINE_NEED_MORE && !(cw->flags & WIN_STOP))
         more();
@@ -82,6 +85,59 @@ hooked_tty_getlin(
         term_curs_set(1);
         c = pgetchar();
         term_curs_set(0);
+
+        /* 处理UTF-8多字节字符序列 */
+        if (utf8_needed > 0) {
+            /* 已在接收多字节字符，期望收到续字节 (10xxxxxx) */
+            if ((c & 0xC0) == 0x80) {
+                /* 有效的UTF-8续字节 */
+                utf8_buffer[utf8_count++] = c;
+                utf8_needed--;
+                if (utf8_needed == 0) {
+                    /* 完整的UTF-8字符已收到，添加到输入缓冲 */
+                    if (bufp - obufp < BUFSZ - utf8_count - 1 
+                        && bufp - obufp < COLNO) {
+                        int j;
+                        for (j = 0; j < utf8_count; j++) {
+                            *bufp = utf8_buffer[j];
+                            bufp[1] = 0;
+                            putsyms(bufp);
+                            bufp++;
+                        }
+                        if (hook && (*hook)(obufp)) {
+                            putsyms(bufp);
+                        }
+                    }
+                }
+            } else {
+                /* 期望的续字节没有收到，丢弃不完整的UTF-8字符 */
+                utf8_needed = 0;
+                utf8_count = 0;
+                /* 继续处理当前字符（不再是UTF-8续字节） */
+                goto process_char;
+            }
+        } else if ((c & 0x80) != 0 && c != '\033' && c != EOF) {
+            /* 检测UTF-8首字节 (非ASCII字符) */
+            if ((c & 0xE0) == 0xC0) {
+                /* 11xxxxxx 10xxxxxx: 2字节UTF-8字符 */
+                utf8_needed = 1;
+            } else if ((c & 0xF0) == 0xE0) {
+                /* 111xxxxx 10xxxxxx 10xxxxxx: 3字节UTF-8字符 */
+                utf8_needed = 2;
+            } else if ((c & 0xF8) == 0xF0) {
+                /* 1111xxxx 10xxxxxx 10xxxxxx 10xxxxxx: 4字节UTF-8字符 */
+                utf8_needed = 3;
+            }
+            
+            if (utf8_needed > 0) {
+                /* 开始接收多字节UTF-8字符 */
+                utf8_buffer[0] = c;
+                utf8_count = 1;
+                continue;  /* 等待续字节 */
+            }
+        }
+
+    process_char:
         if (c == '\033' || c == EOF) {
             if (c == EOF)
                 iflags.term_gone = 1;
@@ -146,6 +202,10 @@ hooked_tty_getlin(
 
 #endif /* NEWAUTOCOMP */
                 bufp--;
+                /* 处理多字节字符的删除：向后扫描找到UTF-8字符的起点 */
+                while (bufp > obufp && (*bufp & 0xC0) == 0x80) {
+                    bufp--;
+                }
 #ifndef NEWAUTOCOMP
                 putsyms("\b \b"); /* putsym converts \b */
 #else                             /* NEWAUTOCOMP */
@@ -163,9 +223,8 @@ hooked_tty_getlin(
             *bufp = 0;
 #endif /* not NEWAUTOCOMP */
             break;
-        } else if (' ' <= (unsigned char) c && c != '\177'
-                   /* avoid isprint() - some people don't have it
-                      ' ' is not always a printing char */
+        } else if ((' ' <= (unsigned char) c && c != '\177')
+                   || ((unsigned char) c >= 0x80)  /* UTF-8多字节字符，允许高位字节 */
                    && (bufp - obufp < BUFSZ - 1 && bufp - obufp < COLNO)) {
 #ifdef NEWAUTOCOMP
             char *i = eos(bufp);
