@@ -1114,7 +1114,39 @@ process_keystroke(
     int portdebug)
 {
     int ch;
-
+    if (ir->EventType == KEY_EVENT && ir->Event.KeyEvent.bKeyDown) {
+        WCHAR unicode_char = ir->Event.KeyEvent.uChar.UnicodeChar;
+        
+        // 如果是Unicode字符（非ASCII），需要转换为UTF-8
+        if (unicode_char > 127) {
+            static char utf8_buffer[4];
+            static int utf8_pos = 0;
+            
+            int utf8_len = 0;
+            unsigned char *out = (unsigned char *)utf8_buffer;
+            
+            // UTF-16转UTF-8
+            if (unicode_char < 0x80) {
+                utf8_len = 1;
+                out[0] = (unsigned char)unicode_char;
+            } else if (unicode_char < 0x800) {
+                utf8_len = 2;
+                out[0] = 0xC0 | (unicode_char >> 6);
+                out[1] = 0x80 | (unicode_char & 0x3F);
+            } else {
+                utf8_len = 3;
+                out[0] = 0xE0 | (unicode_char >> 12);
+                out[1] = 0x80 | ((unicode_char >> 6) & 0x3F);
+                out[2] = 0x80 | (unicode_char & 0x3F);
+            }
+            
+            // 逐字节返回，模拟TTY输入
+            if (utf8_pos < utf8_len) {
+                return utf8_buffer[utf8_pos++];
+            }
+            utf8_pos = 0;
+        }
+    }
 #ifdef QWERTZ_SUPPORT
     if (gc.Cmd.swap_yz)
         numberpad |= 0x10;
