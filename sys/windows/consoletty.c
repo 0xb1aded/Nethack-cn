@@ -1199,62 +1199,66 @@ tgetch(void)
         return 0;
     }
 
-    /* 强刷 NetHack 的后备缓冲区，把交互菜单立刻逼出到屏幕上 */
+    /* 强刷后备缓冲区，把交互提示推到屏幕上 */
     really_move_cursor();
 
-    /* 2. 使用 W (Wide/Unicode) 版本 API 安全读取一个控制台事件 
-     * 注意：这里用 if 而不是死循环。如果当前读到的是无效事件，
-     * 直接返回 0 让游戏主引擎去消化，绝对不会发生卡死 */
-    if (!ReadConsoleInputW(hInput, &ir, 1, &count) || count == 0) {
-        return 0;
-    }
+    /* 2. 恢复安全的阻塞死循环：只有拿到有效的游戏按键才返回，不吐出任何 0 干扰上层 */
+    for (;;) {
+        /* 在循环顶端强制刷新标准输出，确保万无一失 */
+        fflush(stdout);
 
-    /* 3. 仅处理键盘按下事件 (bKeyDown) */
-    if (ir.EventType == KEY_EVENT && ir.Event.KeyEvent.bKeyDown) {
-        WCHAR wc = ir.Event.KeyEvent.uChar.UnicodeChar;
+        /* 阻塞读取控制台输入事件 */
+        if (!ReadConsoleInputW(hInput, &ir, 1, &count) || count == 0) {
+            continue; /* 读取失败或无事件，继续等待 */
+        }
 
-        /* =========================================================
-         * 情况 A: 有常规 Unicode 编码的按键（普通 ASCII 和汉字输入）
-         * ========================================================= */
-        if (wc != 0) {
-            /* 如果是标准 ASCII 字符 (0x01 ~ 0x7F，如普通字母、数字、回车、Esc、退格等) */
-            if (wc <= 0x7F) {
-                return (int)wc;
-            }
+        /* 3. 只处理键盘类型，并且必须是【按下键】事件 (bKeyDown) */
+        /* 这样能完美过滤掉抬起键(bKeyDown==FALSE)、鼠标移动、窗口大小调整等无效事件，不会死锁 */
+        if (ir.EventType == KEY_EVENT && ir.Event.KeyEvent.bKeyDown) {
+            WCHAR wc = ir.Event.KeyEvent.uChar.UnicodeChar;
 
-            /* 如果是非 ASCII 字符（汉字宽字符），实时转换为 UTF-8 字节流并存入队列 */
-            int bytes = WideCharToMultiByte(CP_UTF8, 0, &wc, 1, 
-                                           (char*)utf8_input_queue, 
-                                           sizeof(utf8_input_queue), NULL, NULL);
-            
-            if (bytes > 0) {
-                utf8_qhead = 1;      /* 下一次从第 2 个字节（索引 1）开始吐 */
-                utf8_qtail = bytes;  /* 标记队列结束位置 */
-                return utf8_input_queue[0]; /* 立即返回第一个 UTF-8 字节 */
-            }
-        } 
-        /* =========================================================
-         * 情况 B: 无字符编码的特殊控制键（如方向键、小键盘、功能键等）
-         * ========================================================= */
-        else {
-            boolean valid = FALSE;
-            int numberpad = iflags.num_pad;
+            /* =========================================================
+             * 情况 A: 常规有 Unicode 编码的按键（普通 ASCII 和汉字输入）
+             * ========================================================= */
+            if (wc != 0) {
+                /* 如果是标准 ASCII 字符 (0x01 ~ 0x7F) */
+                if (wc <= 0x7F) {
+                    return (int)wc; /* 正常返回 ASCII 码 */
+                }
 
-            /* 【修复 C2039】删除了不存在的 iflags.qwertz_layout 条件宏 */
+                /* 如果是非 ASCII 字符（汉字），实时转换为 UTF-8 字节流并存入队列 */
+                int bytes = WideCharToMultiByte(CP_UTF8, 0, &wc, 1, 
+                                               (char*)utf8_input_queue, 
+                                               sizeof(utf8_input_queue), NULL, NULL);
+                
+                if (bytes > 0) {
+                    utf8_qhead = 1;      /* 下一次从第 2 个字节开始吐 */
+                    utf8_qtail = bytes;  /* 标记队列结束位置 */
+                    return utf8_input_queue[0]; /* 立即返回第一个 UTF-8 字节 */
+                }
+            } 
+            /* =========================================================
+             * 情况 B: 无常规字符编码的特殊控制键（如方向键、小键盘等）
+             * ========================================================= */
+            else {
+                boolean valid = FALSE;
+                int numberpad = iflags.num_pad;
 
-            /* 调用 NetHack 原生的键盘处理器，将方向键安全地转换为游戏内的移动命令
-               （例如将方向键上转为 'k' 或数字，取决于玩家是否开启了 number_pad） */
-            int ch = nh340_processkeystroke(hInput, &ir, &valid, numberpad, 0);
+                /* 调用 NetHack 原生的键盘处理器尝试把方向键转为游戏指令 */
+                int ch = nh340_processkeystroke(hInput, &ir, &valid, numberpad, 0);
 
-            if (valid) {
-                return ch;
+                /* 关键修复点：只有当转换器判定该方向键有效时，才允许返回！ */
+                /* 如果按了 Shift、Ctrl、Alt 或没有绑定的功能键，valid 会是 FALSE，
+                   程序会继续在 for(;;) 循环里等下一个真正有意义的按键，绝对不会卡死或返回 0 */
+                if (valid) {
+                    return ch;
+                }
             }
         }
+        
+        /* 如果读到的是按键抬起、鼠标乱晃、缩放窗口等事件，
+           会直接走到这里，不返回任何数据，继续循环等待下一个输入 */
     }
-    
-    /* 4. 如果遇到按键松开事件、鼠标移动、点击、或者窗口缩放等非目标事件，
-          直接返回 0，交由 NetHack 的上层主循环去安全处理，防止界面失去响应。 */
-    return 0;
 }
 
 int
