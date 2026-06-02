@@ -1199,12 +1199,12 @@ tgetch(void)
         return 0;
     }
 
-    /* 强刷 NetHack 的后备缓冲区，把 "Wield what?" 等交互菜单逼出到屏幕上 */
+    /* 强刷 NetHack 的后备缓冲区，把交互菜单立刻逼出到屏幕上 */
     really_move_cursor();
 
-    /* 2. 使用 W (Wide/Unicode) 版本 API 安全读取一个控制台事件 */
-    /* 注意：这里改用 if 而不是死循环。如果当前读到的是无效事件，
-       直接返回 0 让游戏主引擎去消化，绝对不会卡死。 */
+    /* 2. 使用 W (Wide/Unicode) 版本 API 安全读取一个控制台事件 
+     * 注意：这里用 if 而不是死循环。如果当前读到的是无效事件，
+     * 直接返回 0 让游戏主引擎去消化，绝对不会发生卡死 */
     if (!ReadConsoleInputW(hInput, &ir, 1, &count) || count == 0) {
         return 0;
     }
@@ -1240,17 +1240,12 @@ tgetch(void)
             boolean valid = FALSE;
             int numberpad = iflags.num_pad;
 
-#ifdef QWERTZ_SUPPORT
-            if (iflags.qwertz_layout)
-                numberpad |= 0x10;
-#endif
+            /* 【修复 C2039】删除了不存在的 iflags.qwertz_layout 条件宏 */
+
             /* 调用 NetHack 原生的键盘处理器，将方向键安全地转换为游戏内的移动命令
                （例如将方向键上转为 'k' 或数字，取决于玩家是否开启了 number_pad） */
             int ch = nh340_processkeystroke(hInput, &ir, &valid, numberpad, 0);
 
-#ifdef QWERTZ_SUPPORT
-            numberpad &= ~0x10;
-#endif
             if (valid) {
                 return ch;
             }
