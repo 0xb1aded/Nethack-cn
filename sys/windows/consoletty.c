@@ -1203,12 +1203,12 @@ tgetch(void)
      * 这行代码会把卡在内存里的 "Wield what?", "Cast what?" 等交互菜单提示
      * 在玩家按键之前，立刻、马上逼出到 Windows Terminal 屏幕上。
      */
-    fflush(stdout);
+    really_move_cursor();
 
     for (;;) {
         /* 如果在循环内部因为处理鼠标/窗口大小等非按键事件导致重新循环，
          * 也可以在这里补一句 fflush(stdout); 确保万无一失 */
-        fflush(stdout); 
+        really_move_cursor();
 
         /* 2. 强制使用 W (Wide/Unicode) 版本 API 拦截控制台事件 */
         if (!ReadConsoleInputW(hInput, &ir, 1, &count) || count == 0) {
