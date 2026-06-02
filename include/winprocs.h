@@ -156,7 +156,7 @@ extern
  *      [alternative fix for menu search via ':'.]
  *      getlin() is in windows.c
  */
-/* #define getlin (*windowprocs.win_getlin) */
+#define getlin (*windowprocs.win_getlin) /*危险*/
 #define get_ext_cmd (*windowprocs.win_get_ext_cmd)
 #define number_pad (*windowprocs.win_number_pad)
 #define nh_delay_output (*windowprocs.win_delay_output)

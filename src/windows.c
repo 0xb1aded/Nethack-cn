@@ -1864,6 +1864,7 @@ select_menu(winid window, int how, menu_item **menu_list)
     return reslt;
 }
 
+/*
 void
 getlin(const char *query, char *bufp)
 {
@@ -1900,4 +1901,5 @@ getlin(const char *query, char *bufp)
     gb.bot_disabled = old_bot_disabled;
     program_state.in_getlin = 0;
 }
+*/
 /*windows.c*/
