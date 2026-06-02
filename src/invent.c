@@ -375,10 +375,10 @@ loot_xname(struct obj *obj)
            but globs with different bless/curse state won't merge so it is
            feasible to have multiple at the same location; add a suffix to
            get such sorted by size (small first) */
-        Strcat(res, (obj->owt <= 100) ? "小"
-                    : (obj->owt <= 300) ? "中"
-                      : (obj->owt <= 500) ? "大"
-                        : "巨");
+        Strcat(res, (obj->owt <= 100) ? "a"
+                    : (obj->owt <= 300) ? "b"
+                      : (obj->owt <= 500) ? "c"
+                        : "d");
     }
     if (save_oname && !obj->oartifact)
         ONAME(obj) = save_oname;
