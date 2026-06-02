@@ -31,7 +31,7 @@ staticfn void newman(void);
 staticfn void polysense(void);
 
 static const char no_longer_petrify_resistant[] =
-    "你不再免疫石化,然后";
+    "你不再免疫石化,然后你";
 
 /* update the gy.youmonst.data structure pointer and intrinsics */
 void
@@ -324,7 +324,7 @@ livelog_newform(boolean viapoly, int oldgend, int newgend)
             newrank = rank_of(u.ulevel, Role_switch, newgend);
             Sprintf(buf, "%.10s %.30s", genders[flags.female].adj, newrank);
             livelog_printf(LL_MINORAC, "%s成了%s",
-                           viapoly ? "变形" : "转变", /*危险:transform和polymorph有什么区别？*/
+                           viapoly ? "变形" : "转变", /* 注:transform=性别转变, polymorph=变形 */
                            an(strcmp(newrole, oldrole) ? newrole
                               : strcmp(newrank, oldrank) ? newrank
                                 : buf));
@@ -750,7 +750,7 @@ polymon(int mntmp)
     /* KMH, conduct */
     if (!u.uconduct.polyselfs++)
         livelog_printf(LL_CONDUCT,
-                       "第一次自己变形,变成了%s",
+                       "第一次变形,变成了%s",
                        an(pmname(&mons[mntmp], flags.female ? FEMALE : MALE)));
 
     /* exercise used to be at the very end but only Wis was affected
