@@ -1199,7 +1199,17 @@ tgetch(void)
         return 0;
     }
 
+    /* 【核心修复】手动强刷 C 语言标准输出缓冲区！
+     * 这行代码会把卡在内存里的 "Wield what?", "Cast what?" 等交互菜单提示
+     * 在玩家按键之前，立刻、马上逼出到 Windows Terminal 屏幕上。
+     */
+    fflush(stdout);
+
     for (;;) {
+        /* 如果在循环内部因为处理鼠标/窗口大小等非按键事件导致重新循环，
+         * 也可以在这里补一句 fflush(stdout); 确保万无一失 */
+        fflush(stdout); 
+
         /* 2. 强制使用 W (Wide/Unicode) 版本 API 拦截控制台事件 */
         if (!ReadConsoleInputW(hInput, &ir, 1, &count) || count == 0) {
             continue;
@@ -1213,21 +1223,17 @@ tgetch(void)
              * 情况 A: 处理有字符编码的常规按键（包含普通 ASCII 和汉字输入）
              * ========================================================= */
             if (wc != 0) {
-                /* 如果是标准 ASCII 字符 (0x01 ~ 0x7F，如字母、数字、回车、Esc、退格等) */
                 if (wc <= 0x7F) {
                     return (int)wc;
                 }
 
-                /* 如果是非 ASCII 字符（输入法丢过来的汉字宽字符），实时转换为 UTF-8 字节流 */
                 char utf8_buf[4] = {0};
                 int bytes = WideCharToMultiByte(CP_UTF8, 0, &wc, 1, utf8_buf, 4, NULL, NULL);
                 
                 if (bytes > 0) {
-                    /* 将转换出的 3-4 个 UTF-8 字节装填入队列 */
                     for (int i = 0; i < bytes; i++) {
                         utf8_input_queue[utf8_qtail++] = (unsigned char)utf8_buf[i];
                     }
-                    /* 吐出第一个字节，剩下的续字节会在接下来的调用中被上方步骤 1 优先释放 */
                     return utf8_input_queue[utf8_qhead++];
                 }
             } 
@@ -1238,27 +1244,22 @@ tgetch(void)
                 WORD vkey = ir.Event.KeyEvent.wVirtualKeyCode;
                 unsigned char scan = 0;
 
-                /* * 模拟 Windows 传统的 _getch() 双字节扩展键逻辑。
-                 * 当按下方向键时，向 NetHack 连续发送 0xE0 和对应的扫描码（Scan Code）。
-                 * 这能完美兼容 NetHack 游戏内核对 PC 键盘方向移动、翻页的底层判定。
-                 */
                 switch (vkey) {
-                    case VK_UP:    scan = 72; break;  /* 方向键 上 */
-                    case VK_LEFT:  scan = 75; break;  /* 方向键 左 */
-                    case VK_RIGHT: scan = 77; break;  /* 方向键 右 */
-                    case VK_DOWN:  scan = 80; break;  /* 方向键 下 */
+                    case VK_UP:    scan = 72; break;
+                    case VK_LEFT:  scan = 75; break;
+                    case VK_RIGHT: scan = 77; break;
+                    case VK_DOWN:  scan = 80; break;
                     case VK_INSERT:scan = 82; break;
                     case VK_DELETE:scan = 83; break;
                     case VK_HOME:  scan = 71; break;
                     case VK_END:   scan = 79; break;
-                    case VK_PRIOR: scan = 73; break;  /* Page Up */
-                    case VK_NEXT:  scan = 81; break;  /* Page Down */
+                    case VK_PRIOR: scan = 73; break;
+                    case VK_NEXT:  scan = 81; break;
                     default:
-                        continue; /* 忽略未定义的控制组合键，继续等待有效输入 */
+                        continue;
                 }
 
                 if (scan != 0) {
-                    /* 压入标准 Windows 扩展键前缀 0xE0 和对应的扫描码 */
                     utf8_input_queue[utf8_qtail++] = 0xE0;
                     utf8_input_queue[utf8_qtail++] = scan;
                     return utf8_input_queue[utf8_qhead++];
