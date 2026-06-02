@@ -1175,58 +1175,100 @@ consoletty_kbhit(void)
     return keyboard_handling.pNHkbhit(console.hConIn, &gbl_ir);
 }
 
-/* 这是 NetHack 底层的键盘输入函数（请对准你文件里的实际函数名，通常是 tgetch） */
+#include <windows.h>
+
+/* * 静态 UTF-8 输入流缓冲队列
+ * 用于暂存从一个 Unicode 宽字符（汉字）拆解出来的多个 UTF-8 字节
+ */
+static unsigned char utf8_input_queue[8];
+static int utf8_qhead = 0;
+static int utf8_qtail = 0;
+
 int
 tgetch(void)
 {
-    /* 如果队列里还有没读完的 UTF-8 续字节，直接优先返回 */
+    /* 1. 优先读取队列中残留的 UTF-8 续字节或扩展键扫描码 */
     if (utf8_qhead < utf8_qtail) {
         return utf8_input_queue[utf8_qhead++];
     }
-    /* 重置队列指针 */
+    
+    /* 队列读完，重置指针 */
     utf8_qhead = utf8_qtail = 0;
 
-    // ------- 以下是获取新按键的循环 -------
     INPUT_RECORD ir;
     DWORD count;
     
-    // 假设你的 hInput 是游戏初始化好的标准输入句柄
-    // 如果原代码里使用的是 GetStdHandle(STD_INPUT_HANDLE)，请保持原样
-    extern HANDLE hInput; 
+    /* 获取 Windows 标准输入句柄 */
+    HANDLE hInput = GetStdHandle(STD_INPUT_HANDLE);
+    if (hInput == INVALID_HANDLE_VALUE) {
+        return 0;
+    }
 
     for (;;) {
-        /* 【核心改动】强制使用显式的 W (Wide/Unicode) 版本 API 读取控制台事件 */
+        /* 2. 强制使用 W (Wide/Unicode) 版本 API 拦截控制台事件 */
         if (!ReadConsoleInputW(hInput, &ir, 1, &count) || count == 0) {
             continue;
         }
 
+        /* 仅处理键盘按下事件 (bKeyDown) */
         if (ir.EventType == KEY_EVENT && ir.Event.KeyEvent.bKeyDown) {
-            /* 拿到输入法传过来的 UTF-16 宽字符 */
             WCHAR wc = ir.Event.KeyEvent.uChar.UnicodeChar;
 
-            /* 情况 A: 如果是标准的普通 ASCII 字符 (0~127)，直接原样返回 */
-            if (wc > 0 && wc <= 0x7F) {
-                return (int)wc;
-            }
+            /* =========================================================
+             * 情况 A: 处理有字符编码的常规按键（包含普通 ASCII 和汉字输入）
+             * ========================================================= */
+            if (wc != 0) {
+                /* 如果是标准 ASCII 字符 (0x01 ~ 0x7F，如字母、数字、回车、Esc、退格等) */
+                if (wc <= 0x7F) {
+                    return (int)wc;
+                }
 
-            /* 情况 B: 如果是汉字等高位非 ASCII 字符 (wc > 0x7F) */
-            if (wc > 0x7F) {
+                /* 如果是非 ASCII 字符（输入法丢过来的汉字宽字符），实时转换为 UTF-8 字节流 */
                 char utf8_buf[4] = {0};
-                /* 将 UTF-16 宽字符实时转换为 UTF-8 字节串 */
                 int bytes = WideCharToMultiByte(CP_UTF8, 0, &wc, 1, utf8_buf, 4, NULL, NULL);
                 
                 if (bytes > 0) {
-                    /* 把转换出来的字节装填进队列 */
+                    /* 将转换出的 3-4 个 UTF-8 字节装填入队列 */
                     for (int i = 0; i < bytes; i++) {
                         utf8_input_queue[utf8_qtail++] = (unsigned char)utf8_buf[i];
                     }
-                    /* 返回第一个字节，剩下的字节会在接下来的调用中被上面的 queue 优先吐出 */
+                    /* 吐出第一个字节，剩下的续字节会在接下来的调用中被上方步骤 1 优先释放 */
+                    return utf8_input_queue[utf8_qhead++];
+                }
+            } 
+            /* =========================================================
+             * 情况 B: 处理无字符编码的特殊控制键（如方向键、功能键等）
+             * ========================================================= */
+            else {
+                WORD vkey = ir.Event.KeyEvent.wVirtualKeyCode;
+                unsigned char scan = 0;
+
+                /* * 模拟 Windows 传统的 _getch() 双字节扩展键逻辑。
+                 * 当按下方向键时，向 NetHack 连续发送 0xE0 和对应的扫描码（Scan Code）。
+                 * 这能完美兼容 NetHack 游戏内核对 PC 键盘方向移动、翻页的底层判定。
+                 */
+                switch (vkey) {
+                    case VK_UP:    scan = 72; break;  /* 方向键 上 */
+                    case VK_LEFT:  scan = 75; break;  /* 方向键 左 */
+                    case VK_RIGHT: scan = 77; break;  /* 方向键 右 */
+                    case VK_DOWN:  scan = 80; break;  /* 方向键 下 */
+                    case VK_INSERT:scan = 82; break;
+                    case VK_DELETE:scan = 83; break;
+                    case VK_HOME:  scan = 71; break;
+                    case VK_END:   scan = 79; break;
+                    case VK_PRIOR: scan = 73; break;  /* Page Up */
+                    case VK_NEXT:  scan = 81; break;  /* Page Down */
+                    default:
+                        continue; /* 忽略未定义的控制组合键，继续等待有效输入 */
+                }
+
+                if (scan != 0) {
+                    /* 压入标准 Windows 扩展键前缀 0xE0 和对应的扫描码 */
+                    utf8_input_queue[utf8_qtail++] = 0xE0;
+                    utf8_input_queue[utf8_qtail++] = scan;
                     return utf8_input_queue[utf8_qhead++];
                 }
             }
-
-            /* 情况 C: 如果是方向键、功能键等特殊控制键，保持原有的 NetHack 映射逻辑不变 */
-            /* ... 这里保留你原文件里对 ir.Event.KeyEvent.wVirtualKeyCode 的处理代码 ... */
         }
     }
 }
