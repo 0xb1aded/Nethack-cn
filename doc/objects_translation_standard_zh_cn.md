@@ -684,7 +684,7 @@
 | fireball | 火球 |  |
 | cone of cold | 冰锥 |  |
 | sleep | 沉睡 |  |
-| finger of death | 死亡一指 |  |
+| finger of death | 死亡之指 |  |
 | light | 光亮 |  |
 | detect monsters | 探测怪物 |  |
 | healing | 治愈 |  |
