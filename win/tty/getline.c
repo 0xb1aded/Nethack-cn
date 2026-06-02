@@ -79,7 +79,7 @@ hooked_tty_getlin(
     *bufp = '\0';
 #endif
 
-    for (;;) {
+        for (;;) {
         (void) fflush(stdout);
         Strcat(strcat(strcpy(gt.toplines, query), " "), obufp);
         term_curs_set(1);
@@ -97,18 +97,19 @@ hooked_tty_getlin(
                     /* 完整的UTF-8字符已收到，添加到输入缓冲 */
                     if (bufp - obufp < BUFSZ - utf8_count - 1 
                         && bufp - obufp < COLNO) {
-                        int j;
-                        for (j = 0; j < utf8_count; j++) {
-                            *bufp = utf8_buffer[j];
-                            bufp[1] = 0;
-                            putsyms(bufp);
-                            bufp++;
-                        }
+                        
+                        /* 【修复2】不要逐字节输出，必须一次性把整个完整 UTF-8 字符复制并打印 */
+                        utf8_buffer[utf8_count] = '\0';
+                        Strcpy(bufp, utf8_buffer);
+                        putsyms(bufp); 
+                        bufp += utf8_count;
+
                         if (hook && (*hook)(obufp)) {
                             putsyms(bufp);
                         }
                     }
                 }
+                continue;  /* 【修复1】必须 continue！阻止它掉进下面的 process_char */
             } else {
                 /* 期望的续字节没有收到，丢弃不完整的UTF-8字符 */
                 utf8_needed = 0;
@@ -119,13 +120,13 @@ hooked_tty_getlin(
         } else if ((c & 0x80) != 0 && c != '\033' && c != EOF) {
             /* 检测UTF-8首字节 (非ASCII字符) */
             if ((c & 0xE0) == 0xC0) {
-                /* 11xxxxxx 10xxxxxx: 2字节UTF-8字符 */
+                /* 2字节UTF-8字符 */
                 utf8_needed = 1;
             } else if ((c & 0xF0) == 0xE0) {
-                /* 111xxxxx 10xxxxxx 10xxxxxx: 3字节UTF-8字符 */
+                /* 3字节UTF-8字符（绝大多数汉字在此区间） */
                 utf8_needed = 2;
             } else if ((c & 0xF8) == 0xF0) {
-                /* 1111xxxx 10xxxxxx 10xxxxxx 10xxxxxx: 4字节UTF-8字符 */
+                /* 4字节UTF-8字符 */
                 utf8_needed = 3;
             }
             
@@ -136,6 +137,9 @@ hooked_tty_getlin(
                 continue;  /* 等待续字节 */
             }
         }
+
+    process_char:
+        /* 下面保持你原有的逻辑不变... */
 
     process_char:
         if (c == '\033' || c == EOF) {

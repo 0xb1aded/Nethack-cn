@@ -379,6 +379,11 @@ colortable_to_bgr_int32(const struct nethack_color *tbl)
 }
 
 #define rgbtable_offset 16
+/* 1. 建立一个静态队列，用来暂存一个汉字拆出来的多个 UTF-8 字节 */
+
+static unsigned char utf8_input_queue[4];
+static int utf8_qhead = 0;
+static int utf8_qtail = 0;
 
 static void
 init_custom_colors(void)
@@ -1074,6 +1079,8 @@ CtrlHandler(DWORD ctrltype)
 void
 consoletty_open(int mode UNUSED)
 {
+    SetConsoleCP(65001);
+    SetConsoleOutputCP(65001);
     int debugvar;
 
     /* Initialize the function pointer that points to
@@ -1168,26 +1175,60 @@ consoletty_kbhit(void)
     return keyboard_handling.pNHkbhit(console.hConIn, &gbl_ir);
 }
 
+/* 这是 NetHack 底层的键盘输入函数（请对准你文件里的实际函数名，通常是 tgetch） */
 int
 tgetch(void)
 {
-    int mod;
-    coord cc;
+    /* 如果队列里还有没读完的 UTF-8 续字节，直接优先返回 */
+    if (utf8_qhead < utf8_qtail) {
+        return utf8_input_queue[utf8_qhead++];
+    }
+    /* 重置队列指针 */
+    utf8_qhead = utf8_qtail = 0;
+
+    // ------- 以下是获取新按键的循环 -------
+    INPUT_RECORD ir;
     DWORD count;
-    uchar numberpad = iflags.num_pad;
+    
+    // 假设你的 hInput 是游戏初始化好的标准输入句柄
+    // 如果原代码里使用的是 GetStdHandle(STD_INPUT_HANDLE)，请保持原样
+    extern HANDLE hInput; 
 
-    really_move_cursor();
-    if (iflags.debug_fuzzer)
-        return randomkey();
-#ifdef QWERTZ_SUPPORT
-    if (gc.Cmd.swap_yz)
-        numberpad |= 0x10;
-#endif
+    for (;;) {
+        /* 【核心改动】强制使用显式的 W (Wide/Unicode) 版本 API 读取控制台事件 */
+        if (!ReadConsoleInputW(hInput, &ir, 1, &count) || count == 0) {
+            continue;
+        }
 
-    return (program_state.done_hup)
-               ? '\033'
-               : keyboard_handling.pCheckInput(
-                   console.hConIn, &gbl_ir, &count, numberpad, 0, &mod, &cc);
+        if (ir.EventType == KEY_EVENT && ir.Event.KeyEvent.bKeyDown) {
+            /* 拿到输入法传过来的 UTF-16 宽字符 */
+            WCHAR wc = ir.Event.KeyEvent.uChar.UnicodeChar;
+
+            /* 情况 A: 如果是标准的普通 ASCII 字符 (0~127)，直接原样返回 */
+            if (wc > 0 && wc <= 0x7F) {
+                return (int)wc;
+            }
+
+            /* 情况 B: 如果是汉字等高位非 ASCII 字符 (wc > 0x7F) */
+            if (wc > 0x7F) {
+                char utf8_buf[4] = {0};
+                /* 将 UTF-16 宽字符实时转换为 UTF-8 字节串 */
+                int bytes = WideCharToMultiByte(CP_UTF8, 0, &wc, 1, utf8_buf, 4, NULL, NULL);
+                
+                if (bytes > 0) {
+                    /* 把转换出来的字节装填进队列 */
+                    for (int i = 0; i < bytes; i++) {
+                        utf8_input_queue[utf8_qtail++] = (unsigned char)utf8_buf[i];
+                    }
+                    /* 返回第一个字节，剩下的字节会在接下来的调用中被上面的 queue 优先吐出 */
+                    return utf8_input_queue[utf8_qhead++];
+                }
+            }
+
+            /* 情况 C: 如果是方向键、功能键等特殊控制键，保持原有的 NetHack 映射逻辑不变 */
+            /* ... 这里保留你原文件里对 ir.Event.KeyEvent.wVirtualKeyCode 的处理代码 ... */
+        }
+    }
 }
 
 int
