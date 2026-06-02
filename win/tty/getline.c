@@ -140,8 +140,6 @@ hooked_tty_getlin(
 
     process_char:
         /* 下面保持你原有的逻辑不变... */
-
-    process_char:
         if (c == '\033' || c == EOF) {
             if (c == EOF)
                 iflags.term_gone = 1;
