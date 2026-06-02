@@ -238,7 +238,7 @@ query_classes(
                         where = !strcmp(action, "pick up") ? "这里"
                                 : !strcmp(action, "take out") ? "里面" : "";
                     if (*where)
-                        There("%s没有%c.", sym, where); /*修改语序:There("没有%c 在%s.", sym, where);*/
+                        There("没有%c在%s.", sym, where); /*修改语序:There("没有%c 在%s.", sym, where);*/
                     else
                         You("没有%c.", sym);
                     not_everything = TRUE;
