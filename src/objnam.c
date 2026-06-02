@@ -7312,7 +7312,7 @@ static const struct figurine_spellings {
     { "地狱狗的尸体", PM_HELL_HOUND, NEUTRAL, CORPSE },
     { "地狱狗罐头", PM_HELL_HOUND, NEUTRAL, TIN },
     { "地狱狗的罐头", PM_HELL_HOUND, NEUTRAL, TIN },
-    { "地狱狗肉罐头", PM_HELL_HOUND, NEUTRAL, TIN },、
+    { "地狱狗肉罐头", PM_HELL_HOUND, NEUTRAL, TIN },
     /*
     { "刻耳柏洛斯雕像", PM_CERBERUS, NEUTRAL, STATUE },
     { "刻耳柏洛斯的雕像", PM_CERBERUS, NEUTRAL, STATUE },
