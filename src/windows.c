@@ -1864,7 +1864,6 @@ select_menu(winid window, int how, menu_item **menu_list)
     return reslt;
 }
 
-/*
 void
 getlin(const char *query, char *bufp)
 {
@@ -1872,14 +1871,57 @@ getlin(const char *query, char *bufp)
     char *obufp = bufp;
     boolean got_cmdq = FALSE;
     struct _cmd_queue *cmdq = NULL;
+    char *bufp_end = bufp + BUFSZ - 1; /* 缓冲区边界 */
 
     while ((cmdq = cmdq_pop()) != 0) {
         if (cmdq->typ == CMDQ_KEY) {
             got_cmdq = TRUE;
-            *bufp = (cmdq->key != '\n') ? cmdq->key : '\0';
-            bufp++;
-            if (cmdq->key == '\n')
+            
+            /* 检查是否是多字节字符的起始字节（UTF-8） */
+            unsigned char byte = (unsigned char)cmdq->key;
+            int bytes_needed = 0;
+            
+            if ((byte & 0x80) == 0) {
+                /* ASCII 字符 (0xxxxxxx) */
+                bytes_needed = 1;
+            } else if ((byte & 0xE0) == 0xC0) {
+                /* 2字节字符 (110xxxxx) */
+                bytes_needed = 2;
+            } else if ((byte & 0xF0) == 0xE0) {
+                /* 3字节字符 (1110xxxx) - 汉字通常是这个 */
+                bytes_needed = 3;
+            } else if ((byte & 0xF8) == 0xF0) {
+                /* 4字节字符 (11110xxx) */
+                bytes_needed = 4;
+            } else {
+                /* 连续字节 (10xxxxxx) 或无效字节，仍然添加 */
+                bytes_needed = 1;
+            }
+            
+            /* 添加第一个字节 */
+            if (bufp < bufp_end) {
+                *bufp++ = cmdq->key;
+            }
+            
+            /* 如果是多字节字符，继续读取剩余字节 */
+            if (bytes_needed > 1) {
+                for (int i = 1; i < bytes_needed; i++) {
+                    struct _cmd_queue *next_cmdq = cmdq_pop();
+                    if (next_cmdq && next_cmdq->typ == CMDQ_KEY && bufp < bufp_end) {
+                        *bufp++ = next_cmdq->key;
+                        free(next_cmdq);
+                    } else {
+                        if (next_cmdq)
+                            free(next_cmdq);
+                        break; /* 多字节字符不完整 */
+                    }
+                }
+            }
+            
+            /* 检查换行符（只有在输入完整的字符后才检查） */
+            if (cmdq->key == '\n') {
                 break;
+            }
         } else {
             break;
         }
@@ -1901,5 +1943,5 @@ getlin(const char *query, char *bufp)
     gb.bot_disabled = old_bot_disabled;
     program_state.in_getlin = 0;
 }
-*/
+
 /*windows.c*/
