@@ -10135,7 +10135,7 @@ set_playmode(void)
 {
     if (wizard) {
         if (authorize_wizard_mode())
-            gp.plnamelen = (int) strlen(strcpy(svp.plname, "巫师"));
+            gp.plnamelen = (int) strlen(strcpy(svp.plname, "wizard"));
         else
             wizard = FALSE; /* not allowed or not available */
         /* try explore mode if we didn't make it into wizard mode */
