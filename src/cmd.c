@@ -289,6 +289,28 @@ cmdq_add_key(int q, char key)
         gc.command_queue[q] = tmp;
 }
 
+void
+cmdq_add_key_mb(int q, const char *key_bytes, int len)
+{
+    struct _cmd_queue *tmp = (struct _cmd_queue *) alloc(sizeof *tmp);
+    struct _cmd_queue *cq = gc.command_queue[q];
+    
+    tmp->typ = CMDQ_KEY;
+    tmp->multibyte_len = (len > 4) ? 4 : len;
+    if (len > 0)
+        memcpy(tmp->multibyte_char, key_bytes, tmp->multibyte_len);
+    tmp->key = key_bytes[0];  /* 向后兼容 */
+    tmp->next = NULL;
+    
+    while (cq && cq->next)
+        cq = cq->next;
+    
+    if (cq)
+        cq->next = tmp;
+    else
+        gc.command_queue[q] = tmp;
+}
+
 /* add a direction to the command queue */
 void
 cmdq_add_dir(int q, schar dx, schar dy, schar dz)

@@ -3827,7 +3827,7 @@ extern void add_menu(winid, const glyph_info *, const ANY_P *,
 extern void add_menu_heading(winid, const char *) NONNULLARG2;
 extern void add_menu_str(winid, const char *) NONNULLARG2;
 extern int select_menu(winid, int, menu_item **) NONNULLARG3;
-extern void getlin(const char *, char *) NONNULLARG2;
+/*危险extern void getlin(const char *, char *) NONNULLARG2;*/
 
 /* ### windsys.c ### */
 

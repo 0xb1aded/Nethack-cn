@@ -181,12 +181,15 @@ enum cmdq_cmdtypes {
     CMDQ_INT,     /* integer value, cmdq_add_int() */
 };
 
+/*危险*/
 struct _cmd_queue {
     int typ;
     char key;
     schar dirx, diry, dirz;
     int intval;
     const struct ext_func_tab *ec_entry;
+    char multibyte_char[4];  /* 用于存储 UTF-8 多字节字符 */
+    int multibyte_len;       /* 多字节字符的实际长度 */
     struct _cmd_queue *next;
 };
 

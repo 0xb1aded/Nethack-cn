@@ -1902,7 +1902,7 @@ dopay(void)
     if (!eshkp->billct && !eshkp->debit) {
         umoney = money_cnt(gi.invent);
         if (!ltmp && NOTANGRY(shkp)) {
-            You("%s没有金币.", shkname(shkp));
+            You("没有欠%s钱.", shkname(shkp));
             if (!umoney)
                 pline(no_money, stashed_gold ? "看上去" : "");
         } else if (ltmp) {

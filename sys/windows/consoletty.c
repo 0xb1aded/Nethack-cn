@@ -1074,6 +1074,8 @@ CtrlHandler(DWORD ctrltype)
 void
 consoletty_open(int mode UNUSED)
 {
+    SetConsoleCP(65001);
+    SetConsoleOutputCP(65001);
     int debugvar;
 
     /* Initialize the function pointer that points to
@@ -1114,7 +1116,39 @@ process_keystroke(
     int portdebug)
 {
     int ch;
-
+    if (ir->EventType == KEY_EVENT && ir->Event.KeyEvent.bKeyDown) {
+        WCHAR unicode_char = ir->Event.KeyEvent.uChar.UnicodeChar;
+        
+        // 如果是Unicode字符（非ASCII），需要转换为UTF-8
+        if (unicode_char > 127) {
+            static char utf8_buffer[4];
+            static int utf8_pos = 0;
+            
+            int utf8_len = 0;
+            unsigned char *out = (unsigned char *)utf8_buffer;
+            
+            // UTF-16转UTF-8
+            if (unicode_char < 0x80) {
+                utf8_len = 1;
+                out[0] = (unsigned char)unicode_char;
+            } else if (unicode_char < 0x800) {
+                utf8_len = 2;
+                out[0] = 0xC0 | (unicode_char >> 6);
+                out[1] = 0x80 | (unicode_char & 0x3F);
+            } else {
+                utf8_len = 3;
+                out[0] = 0xE0 | (unicode_char >> 12);
+                out[1] = 0x80 | ((unicode_char >> 6) & 0x3F);
+                out[2] = 0x80 | (unicode_char & 0x3F);
+            }
+            
+            // 逐字节返回，模拟TTY输入
+            if (utf8_pos < utf8_len) {
+                return utf8_buffer[utf8_pos++];
+            }
+            utf8_pos = 0;
+        }
+    }
 #ifdef QWERTZ_SUPPORT
     if (gc.Cmd.swap_yz)
         numberpad |= 0x10;
@@ -1136,26 +1170,95 @@ consoletty_kbhit(void)
     return keyboard_handling.pNHkbhit(console.hConIn, &gbl_ir);
 }
 
+#include <windows.h>
+
+/* * 静态 UTF-8 输入流缓冲队列
+ * 用于暂存从一个 Unicode 宽字符（汉字）拆解出来的多个 UTF-8 字节
+ */
+static unsigned char utf8_input_queue[8];
+static int utf8_qhead = 0;
+static int utf8_qtail = 0;
+
 int
 tgetch(void)
 {
-    int mod;
-    coord cc;
+    /* 1. 优先读取队列中残留的 UTF-8 续字节 */
+    if (utf8_qhead < utf8_qtail) {
+        return utf8_input_queue[utf8_qhead++];
+    }
+    
+    /* 队列读完，重置指针 */
+    utf8_qhead = utf8_qtail = 0;
+
+    INPUT_RECORD ir;
     DWORD count;
-    uchar numberpad = iflags.num_pad;
+    
+    /* 获取 Windows 标准输入句柄 */
+    HANDLE hInput = GetStdHandle(STD_INPUT_HANDLE);
+    if (hInput == INVALID_HANDLE_VALUE) {
+        return 0;
+    }
 
+    /* 强刷后备缓冲区，把交互提示推到屏幕上 */
     really_move_cursor();
-    if (iflags.debug_fuzzer)
-        return randomkey();
-#ifdef QWERTZ_SUPPORT
-    if (gc.Cmd.swap_yz)
-        numberpad |= 0x10;
-#endif
 
-    return (program_state.done_hup)
-               ? '\033'
-               : keyboard_handling.pCheckInput(
-                   console.hConIn, &gbl_ir, &count, numberpad, 0, &mod, &cc);
+    /* 2. 恢复安全的阻塞死循环：只有拿到有效的游戏按键才返回，不吐出任何 0 干扰上层 */
+    for (;;) {
+        /* 在循环顶端强制刷新标准输出，确保万无一失 */
+        fflush(stdout);
+
+        /* 阻塞读取控制台输入事件 */
+        if (!ReadConsoleInputW(hInput, &ir, 1, &count) || count == 0) {
+            continue; /* 读取失败或无事件，继续等待 */
+        }
+
+        /* 3. 只处理键盘类型，并且必须是【按下键】事件 (bKeyDown) */
+        /* 这样能完美过滤掉抬起键(bKeyDown==FALSE)、鼠标移动、窗口大小调整等无效事件，不会死锁 */
+        if (ir.EventType == KEY_EVENT && ir.Event.KeyEvent.bKeyDown) {
+            WCHAR wc = ir.Event.KeyEvent.uChar.UnicodeChar;
+
+            /* =========================================================
+             * 情况 A: 常规有 Unicode 编码的按键（普通 ASCII 和汉字输入）
+             * ========================================================= */
+            if (wc != 0) {
+                /* 如果是标准 ASCII 字符 (0x01 ~ 0x7F) */
+                if (wc <= 0x7F) {
+                    return (int)wc; /* 正常返回 ASCII 码 */
+                }
+
+                /* 如果是非 ASCII 字符（汉字），实时转换为 UTF-8 字节流并存入队列 */
+                int bytes = WideCharToMultiByte(CP_UTF8, 0, &wc, 1, 
+                                               (char*)utf8_input_queue, 
+                                               sizeof(utf8_input_queue), NULL, NULL);
+                
+                if (bytes > 0) {
+                    utf8_qhead = 1;      /* 下一次从第 2 个字节开始吐 */
+                    utf8_qtail = bytes;  /* 标记队列结束位置 */
+                    return utf8_input_queue[0]; /* 立即返回第一个 UTF-8 字节 */
+                }
+            } 
+            /* =========================================================
+             * 情况 B: 无常规字符编码的特殊控制键（如方向键、小键盘等）
+             * ========================================================= */
+            else {
+                boolean valid = FALSE;
+                int numberpad = iflags.num_pad;
+
+                /* 调用 NetHack 原生的键盘处理器尝试把方向键转为游戏指令 */
+                int ch = nh340_processkeystroke(hInput, &ir, &valid, numberpad, 0);
+
+                /* 关键修复点：只有当转换器判定该方向键有效时，才允许返回！ */
+                /* 如果按了 Shift、Ctrl、Alt 或没有绑定的功能键，valid 会是 FALSE，
+                   程序会继续在 for(;;) 循环里等下一个真正有意义的按键，绝对不会卡死或返回 0 */
+                if (valid) {
+                    return ch;
+                }
+            }
+        }
+        
+        /* 如果读到的是按键抬起、鼠标乱晃、缩放窗口等事件，
+           会直接走到这里，不返回任何数据，继续循环等待下一个输入 */
+    }
 }
 
 int
