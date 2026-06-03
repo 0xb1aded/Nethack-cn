@@ -5067,7 +5067,7 @@ static const struct alt_spellings {
     { "load stone", LOADSTONE },
     { "touch stone", TOUCHSTONE },
     { "flintstone", FLINT },
-    /*修改语序，危险，冗余，待写:我知道这样很搞笑，但是既然能跑为什么不呢？*/
+    /*修改语序，危险，冗余，待写:我知道这样很搞笑，但是既然能跑为什么不呢？——Caesium-132*/
     /*所有可能的戒指*/
     { "装饰戒指", RIN_ADORNMENT },
     { "装饰品戒指", RIN_ADORNMENT },

@@ -13,550 +13,611 @@
 # equals        =  gender not specified, personal name
 
 # misc.
-jumbo shrimp
-giant pigmy
-gnu
-killer penguin
-giant cockroach
-giant slug
-maggot
-pterodactyl
-tyrannosaurus rex
-basilisk
-beholder
-nightmare
-efreeti
-marid
-rot grub
-bookworm
-master lichen
-shadow
-hologram
-jester
-attorney
-sleazoid
-killer tomato
-amazon
-robot
-battlemech
-rhinovirus
-harpy
-lion-dog
-rat-ant
-Y2K bug
-angry mariachi
-arch-pedant
-bluebird of happiness
-cardboard golem
-duct tape golem
-diagonally moving grid bug
-evil overlord
-newsgroup troll
-ninja pirate zombie robot
-octarine dragon
-plaid unicorn
-gonzo journalist
-lag monster
-loan shark
-possessed waffle iron
-poultrygeist
-stuffed raccoon puppet
-viking
-wee green blobbie
-wereplatypus
-hag of bolding
-blancmange
-raging nerd
-spelling bee
-land octopus
-frog prince
-pigasus
-_Semigorgon
-conventioneer
-large microbat
-small megabat
-uberhulk
-tofurkey
-+Dudley
-shrinking violet
-shallow one
-spherical cow
-electric giraffe
-steam dragon
-omnibus
-slinky
-maxotaur
-millitaur
-octahedron
-dungeon core
-quale
-holloway
-chiasmus
-giant tetrapod
-voussoir
-barking spider
-frog cloud
-toothsayer
-third eye
-owlpug
-pugasus
-acorn
-red dot
-robot chicken
-doozer
-poison cackler
-lhurgoyf
-phelddagrif
-tiktaalik
-weremoustache
-rapier tapir
-choplet
-pommelbug
-quest sprout
+巨型虾
+巨型侏儒人
+角马
+杀手企鹅
+巨型蟑螂
+巨型蛞蝓
+蛆虫
+翼龙
+霸王龙
+蜥蜴王
+凝视者
+噩梦魔
+伊弗利特魔
+马里德魔
+腐肉蛆
+书虫
+主宰地衣
+影子
+全息图
+小丑
+律师
+猥琐鬼
+杀手番茄
+亚马逊女战士
+机器人
+战斗机甲
+鼻病毒
+鹰身女妖
+狮犬
+鼠蚁
+千年虫
+愤怒的玛丽亚奇乐手
+死板的学究
+幸福蓝鸟
+纸板rhinovirus
+胶带魔像
+对角线电子虫
+邪恶统治者
+新闻水军
+忍者海盗僵尸机器人
+八色龙
+格子独角兽
+冈佐记者
+延迟怪兽
+高利贷者
+被附身的华夫饼机
+禽类幽灵
+浣熊布偶
+维京人
+小绿团
+鸭嘴兽人
+加粗女巫
+布丁
+暴怒书呆子
+拼字虫
+陆地章鱼
+青蛙王子
+猪驼
+_半戈耳工_
+会议代表
+巨型小蝙蝠
+小型巨蝙蝠
+吐巨怪
+豆腐火鸡
++达德利
+羞怯的紫罗兰
+肤浅魔君
+球形的牛
+电长颈鹿
+蒸汽龙
+大篷车
+弹簧玩具
+马克斯牛
+米利塔牛
+八面体
+地牢核心
+夸莱
+霍洛韦
+交叉句
+巨型四足兽
+拱心石
+吠叫蜘蛛
+青蛙云
+牙齿预言者
+第三只眼
+猫头鹰斗牛犬
+普加苏斯
+橡果
+红点
+机器人鸡
+杜泽
+毒笑鬼
+卢尔戈伊夫
+菲尔达格里夫
+提克塔利克
+胡子人
+短剑貘
+切片
+护手虫
+任务嫩芽
 
 # Quendor (Zork, &c.)
-grue
-Christmas-tree monster
-luck sucker
-paskald
-brogmoid
-dornbeast
+格鲁
+圣诞树怪
+吸运怪
+帕斯卡尔
+布罗格莫伊
+多恩兽
 
 # Moria
-Ancient Multi-Hued Dragon
-+Evil Iggy
+远古多色龙
++邪恶的伊吉
 
 # Rogue V5 http://rogue.rogueforge.net/vade-mecum/
-rattlesnake
-ice monster
-phantom
-quagga
-aquator
-griffin
-emu
-kestrel
-xeroc
-venus flytrap
+响尾蛇
+冰怪
+幻影
+斑马马
+水鳄
+狮鹫
+鸸鹋
+红尾隼
+泽罗克
+捕蝇草
 
 # Wizardry
-creeping coins
+爬行金币
 
 # Greek legend
-hydra
-siren
+许德拉
+塞壬
 
 # Monty Python
-killer bunny
+杀手兔
 
 # The Princess Bride
-rodent of unusual size
+体型异常庞大的啮齿动物
 
 # Wallace & Gromit
-were-rabbit
+兔人
 
 # "Only you can prevent forest fires!
-+Smokey Bear
++烟雾熊
 
 # Discworld
-Luggage
-vampiric watermelon
+行李箱
+吸血鬼西瓜
 
 # Lord of the Rings
-Ent
+恩特
 
 # Xanth
-tangle tree
-nickelpede
-wiggle
+缠结树
+镍足虫
+扭动
 
 # Lewis Carroll
-white rabbit
-snark
+白兔子
+挖苦
 
 # Dr. Dolittle
-pushmi-pullyu
+双头兽
 
 # The Smurfs
-smurf
+蓝精灵
 
 # Star Trek
-tribble
-Klingon
-Borg
+特里布尔
+克林贡人
+博格人
 
 # Star Wars
-Ewok
+伊沃克人
 
 # Tonari no Totoro
-Totoro
+龙猫
 
 # Nausicaa
-ohmu
+王虫
 
 # Sailor Moon
-youma
+妖魔
 
 # Pokemon (Meowth)
-nyaasu
+喵喵
 
 # monster movies
--Godzilla
-+King Kong
+-哥斯拉
++金刚
 
 # old L of SH
-earthquake beast
+地震兽
 
 # Robotech
-Invid
+因维德人
 
 # The Terminator
-Terminator
+地震兽
 
 # Bubblegum Crisis
-boomer
+炸弹机器人
 
 # Dr. Who ("Exterminate!")
-Dalek
+达莱克
 
 # HGttG
-microscopic space fleet
-Ravenous Bugblatter Beast of Traal
+微型太空舰队
+特拉尔的贪婪虫怪
 
 # The Tough Guide to Fantasyland
-leathery-winged avian
+皮翼鸟
 
 # TMNT
-teenage mutant ninja turtle
+忍者神龟
 
 # Usagi Yojimbo
-samurai rabbit
+宫本兔
 
 # Cerebus
-aardvark
+土豚
 
 # Little Shop of Horrors
-=Audrey II
+=奥黛丽二号
 
 # 50's rock 'n' roll
-witch doctor
-one-eyed one-horned flying purple people eater
+巫医
+独眼独角的紫色人肉食者
 
 # saccharine kiddy TV
-+Barney the dinosaur
++恐龙巴尼
 
 # Angband
-+Morgoth
++魔苟斯
 
 # Babylon 5
-Vorlon
+佛隆
 
 # King Arthur
-questing beast
+寻猎之兽
 
 # Movie
-Predator
+铁血战士
 
 # Harry Potter
-dementor
+摄魂怪
 
 # common pest
-mother-in-law
+婆婆
 
 # Actual creatures
-praying mantis
-beluga whale
-chicken
-coelacanth
-star-nosed mole
-lungfish
-slow loris
-sea cucumber
-tapeworm
-liger
-velociraptor
-corpulent porpoise
-quokka
-potoo
-lemming
-dhole
+螳螂
+白鲸
+鸡
+腔棘鱼
+星鼻鼹鼠
+肺鱼
+懒猴
+海参
+绦虫
+狮虎兽
+迅猛龙
+肥胖海豚
+袋狸
+夜鸮
+旅鼠
+印度豺
 
 # european cryptids
-wolpertinger
-elwedritsche
-skvader
-+Nessie
-tatzelwurm
-dahu
+沃尔珀丁格
+埃尔韦德里奇
+斯克瓦德尔
++尼斯湖水怪
+塔策尔沃姆
+达胡
 
 # fictitious beasts
-dropbear
-wild haggis
-jackalope
-flying monkey
-flying pig
-hippocampus
-hippogriff
-kelpie
-catoblepas
-phoenix
-amphisbaena
+滴熊
+野哈吉斯
+杰克洛普
+飞猴
+飞猪
+海马
+马狮兽
+凯尔皮
+三眼怪
+凤凰
+双头蛇
 
 # Unusually animate body parts
-bouncing eye
-floating nose
-wandering eye
+弹跳之眼
+浮鼻
+游荡之眼
 
 # Computerese
-buffer overflow
-dangling pointer
-walking disk drive
-floating point
-regex engine
-netsplit
-wiki
-peer
+缓冲区溢出
+悬空指针
+磁盘驱动器异常
+浮点运算
+正则表达式引擎
+网络分割
+维基
+对等节点
 COBOL
-wire shark
-stray tab
+WireShark
+多余的制表符
 
 # bugs
-bohrbug
-mandelbug
-schroedinbug
-heisenbug
+波尔虫
+曼德尔虫
+薛定谔虫
+海森堡虫
 
 # DooM
-cacodemon
-scrag
+恶恶魔
+瘦肉
 
 # MST3K
-+Crow T. Robot
++克罗T.机器人
 
 # Items and stuff
-chess pawn
-chocolate pudding
-ooblecks
-terracotta warrior
-hearse
-roomba
-miniature blimp
-dust speck
+国际象棋的兵
+巧克力布丁
+欧不裂
+兵马俑
+灵车
+扫地机器人
+微型飞艇
+尘埃微粒
 
 # DnD monster
-gazebo
+凉亭
 
 # SciFi elements
-gray goo
-magnetic monopole
-first category perpetual motion device
-big dumb object
+灰色粘液
+磁单极子
+第一类永动机
+巨大沉默物体
 
 # Ultima
-+Lord British
++布里蒂什勋爵
 
 # They Might Be Giants
-particle man
+粒子人
 
 # Robot Finds Kitten
-kitten prospecting robot
+搜寻小猫的机器人
 
 # Typography
-guillemet
-solidus
-obelus
-dingbat
-bold face
-boustrophedon
-ligature
-rebus
-dinkus
+引号
+斜线
+上标符
+装饰字符
+粗体字体
+倒行文
+连字符
+图画文字符
+装饰符号
 
 # Their actual character
-apostrophe golem
-voluptuous ampersand
+撇号石像鬼
+丰腴的&符号
 
 # Web comics and animation
-+Bob the angry flower
-+Strong Bad
-+Magical Trevor
++愤怒的花鲍勃
++强巴德
++魔法特雷弗
 
 # Girl Genius
-smakken
-mimmoth
+斯马肯
+萌犸象
 
 # KoL
-one-winged dewinged stab-bat
+单翼去翼刺蝠
 
 # deities
-Invisible Pink Unicorn
-Flying Spaghetti Monster
+隐形粉红独角兽
+飞天意大利面怪兽
 
 # Monkey Island
-three-headed monkey
-+El Pollo Diablo
+三头猴
++恶魔公鸡
 
 # modern folklore
-little green man
+小绿人
 
 # Portal
-weighted Companion Cube
+重量同伴方块
 
 # South Park
-manbearpig
+人熊猪
 
 # internet memes
-bonsai-kitten
-tie-thulu
-+Domo-kun
-looooooooooooong cat
-nyan cat
+盆景猫
+领带克苏鲁
++多摩君
+超~~~~长~~~~的猫
+彩虹猫
 
 # the Internet is made for cat pix
-ceiling cat
-basement cat
-monorail cat
+天花板猫
+地下室猫
+单轨猫
 
 # POWDER
-tridude
+阿三
 
 # Radomir Dopieralski
-orcus cosmicus
+宇宙奥喀斯
 
 # Angband
-yeek
-quylthulg
-Greater Hell Beast
+伊克
+奎尔图尔格
+大恶魔
 
 # Souljazz
-+Vendor of Yizard
+檐德污师
 
 # Dungeon Crawl Stone Soup
-+Sigmund
-lernaean hydra
--Ijyb
-=Gloorx Vloq
-+Blork the orc
++西格蒙德
+勒拿九头蛇
+-伊吉布
+=格洛克斯·弗洛克
++兽人布洛克
 
 # Wil Wheaton, John Scalzi
-unicorn pegasus kitten
+独角飞马猫
 
 # Minecraft
-enderman
+末影人
 
 # Pun
-wight supremacist
+白幽灵至上主义者
 
 # Starcraft 2
-zergling
+虫群
 
 # Feelings
-existential angst
-figment of your imagination
-flash of insight
+存在主义焦虑
+你的想象产物
+一闪的灵光
 
 # Fish
 ghoti
 
 # Roald Dahl
-vermicious knid
+蠕虫克尼德
 
 # Carcassonne
-meeple
+小人棋子
 
 # The Wombles
-womble
+沃姆布尔人
 
 # Fraggle Rock
-fraggle
+弗拉格尔人
 
 # Harry Harrison
-stainless steel rat
+不锈钢鼠
 
 # The Culture
-antagonistic undecagonstring
+对立的十一边形字符串
 
 # Spoonerism
-mock role
+鼠岩
 
 # Truly scary things
-clown
-mime
-peddler
-haggler
+小丑
+默剧演员
+小贩
+讨价还价的人
 
 # soundex and typos of monsters
-gloating eye
-flush golem
-martyr orc
-mortar orc
-acid blog
-acute blob
-aria elemental
-aliasing priest
-aligned parasite
-aligned parquet
-aligned proctor
-baby balky dragon
-baby blues dragon
-baby caricature
-baby crochet
-baby grainy dragon
-baby bong worm
-baby long word
-baby parable worm
-barfed devil
-beer wight
-boor wight
-brawny mold
-rave spider
-clue golem
-bust vortex
-errata elemental
-elastic eel
-electrocardiogram eel
-fir elemental
-tire elemental
-flamingo sphere
-fallacy golem
-frizzed centaur
-forest centerfold
-fierceness sphere
-frosted giant
-geriatric snake
-gnat ant
-giant bath
-grant beetle
-greater snake
-grind bug
-giant mango
-glossy golem
-gnome laureate
-gnome dummy
-gooier ooze
-green slide
-guardian nacho
-hell hound pun
-high purist
-hairnet devil
-ice trowel
-killer beet
-feather golem
-lounge worm
-mountain lymph
-pager golem
-pie fiend
-prophylactic worm
-sock mole
-rogue piercer
-seesawing sphere
-simile mimic
-moldier ant
-stain vortex
-scone giant
-umbrella hulk
-vampire mace
-verbal jabberwock
-water lemon
-water melon
-winged grizzly
-yellow wight
+飞眼
+肉质魔像
+殉道兽人
+迫击炮兽人
+酸液团
+锐利粘液团
+大气元素
+化名祭司
+阵营寄生虫
+阵营拼花
+阵营监考官
+顽皮龙宝宝
+蓝龙忧郁宝宝
+卡通龙宝宝
+钩针龙宝宝
+颗粒小龙
+水烟虫宝宝
+长词宝宝
+寓言虫宝宝
+呕吐恶魔
+啤酒亡灵
+粗鲁亡灵
+壮硕霉菌
+狂欢蜘蛛
+线索傀儡
+胸像漩涡
+勘误元素使
+弹性鳗鱼
+心电图鳗鱼
+冷杉元素体
+轮胎元素体
+火烈鸟球体
+谬误傀儡
+毛躁半人马
+森林封面女郎
+凶猛球体
+霜冻巨人
+老年蛇
+蚊蚁
+巨型浴缸
+格兰特甲虫
+巨蛇
+研磨虫
+巨型芒果
+光泽傀儡
+桂冠地精
+地精假人
+粘稠泥浆
+绿色滑梯
+守护者纳乔
+地狱猎犬双关语
+极致纯粹主义者
+发网恶魔
+冰铲
+杀手甲虫
+羽毛石像鬼
+懒散蠕虫
+山脉淋巴液
+寻呼机石像鬼
+馅饼恶魔
+避孕蠕虫
+袜子鼹鼠
+流氓穿刺者
+跷跷板球体
+比喻模仿者
+霉菌蚁
+污渍漩涡
+司康巨人
+雨伞巨兽
+吸血鬼战锤
+言语贾伯沃克
+水柠檬
+西瓜
+翼熊
+黄幽灵
+
+# Linguistics
+wug
+bouba
+kiki
+无色的绿色思想
+王冕的父亲
+水牛城水牛
+法国现任国王
+gavagai
+咬死了猎人的狗
+
+# Touhou
+毛玉
+阴阳玉
+-博丽灵梦
+-十六夜咲夜
+-雾雨魔理沙
+-东风谷早苗
+_现人神_
+-蕾米莉亚
+-八云紫
+-藤原妹红
+-爱丽丝
+-蓬莱人形
+-风见幽香
+-西行寺幽幽子
+-射命丸文
+_鸦天狗_
+_白狼天狗_
+_大天狗_
+-芙兰朵露
+-古明地觉
+-帕秋莉
+-魂魄妖梦
+_半幽灵_
+-永江衣玖
+-洩矢诹访子
+-琪露诺
+-伊吹萃香
+-八云蓝
+_妖狐_
+-红美铃
+-上白泽慧音
+_白泽人_
+-四季映姬
+-河城荷取
+_河童_
+-铃仙
+_月兔_
+-键山雏
+-灵乌路空
+_三足金乌_
+-犬走椛
+-蓬莱山辉夜
+-小野塚小町
+-八坂神奈子
+-八意永琳
+-火焰猫燐
+_猫又_
+-古明地恋
