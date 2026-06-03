@@ -2124,7 +2124,7 @@
     /*
      * Quantum mechanics
      */
-    MON(NAM("quantum mechanic"), NAM("量子力学"), S_QUANTMECH,
+    MON(NAM("quantum mechanic"), NAM("量子工程师"), S_QUANTMECH,
         LVL(7, 12, 3, 10, 0), (G_GENO | 3),
         A(ATTK(AT_CLAW, AD_TLPT, 1, 4),
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
