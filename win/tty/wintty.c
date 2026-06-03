@@ -12,6 +12,10 @@
  * to back out the changes. */
 #define H2344_BROKEN
 
+#ifdef WIN32CON
+#include <Windows.h>
+#endif
+
 #include "hack.h"
 
 #ifdef TTY_GRAPHICS
@@ -19,10 +23,6 @@
 
 /* leave this undefined; it produces bad screen output with rxvt-unicode */
 /*#define DECgraphicsOptimization*/
-
-#ifdef WIN32CON
-#include <Windows.h>
-#endif
 
 #ifdef MACOS9
 #define MICRO /* The Mac is a MICRO only for this file, not in general! */

@@ -77,6 +77,7 @@ English README：[README_en.md](README_en.md)
 |twitch|抽搐|
 |transform|转变|
 |polymorph|变形|
+|open,closed(门)|打开的,关上的|
 
 #### 体词
 
@@ -99,7 +100,8 @@ English README：[README_en.md](README_en.md)
 |slow digestion|减慢消化|
 |protection from shape changers|变形怪防护|
 |fixed abilities|属性维持|
-|变形怪||
+|shape changers|变形怪|
+|iron bars|铁栅栏|
 
 #### 死因
 

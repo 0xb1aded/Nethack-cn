@@ -311,7 +311,7 @@ wiz_kill(void)
 
             if (!iflags.menu_requested) {
                 /* normal case: hero is credited/blamed */
-                You("%s %s!", nonliving(mtmp->data) ? "消灭" : "杀死", Mn);
+                You("%s%s!", nonliving(mtmp->data) ? "消灭" : "杀死", Mn);
                 xkilled(mtmp, XKILL_NOMSG);
             } else { /* 'm'-prefix */
                 /* we know that monsters aren't moving because player has
@@ -320,7 +320,7 @@ wiz_kill(void)
                    need to have the mon_moving flag be True in order to
                    avoid blaming or crediting hero for their deaths */
                 svc.context.mon_moving = TRUE;
-                pline("%s被%s。", upstart(Mn),
+                pline("%s被%s.", upstart(Mn),
                       nonliving(mtmp->data) ? "摧毁" : "杀死");
                 /* Null second arg suppresses the usual message */
                 monkilled(mtmp, (char *) 0, AD_PHYS);
@@ -331,7 +331,7 @@ wiz_kill(void)
             if (u.utotype || !on_level(&u.uz, &uarehere))
                 break;
         } else {
-            There("那里没有怪物。");
+            There("那里没有怪物.");
             break;
         }
     }
@@ -500,7 +500,7 @@ wiz_telekinesis(void)
     cc.x = u.ux;
     cc.y = u.uy;
 
-    pline("选择一个怪物来投掷。");
+    pline("选择一个怪物来投掷.");
     do {
         ans = getpos(&cc, TRUE, "a monster");
         if (ans < 0 || cc.x < 1)
@@ -549,8 +549,8 @@ int
 wiz_fuzzer(void)
 {
     if (flags.suppress_alert < FEATURE_NOTICE_VER(3,7,0)) {
-        pline("模糊测试器将使 NetHack 执行随机按键。");
-        There("没有常规方式退出此模式。");
+        pline("模糊测试器将使 NetHack 执行随机按键.");
+        There("没有常规方式退出此模式.");
     }
     if (paranoid_query(TRUE, "Do you want to start fuzz testing?")) {
         /* Thoth, take the reins */
@@ -893,13 +893,13 @@ wiz_smell(void)
     cc.x = u.ux;
     cc.y = u.uy;
     if (!olfaction(gy.youmonst.data)) {
-        You("以你的当前形态无法探测气味。");
+        You("以你的当前形态无法探测气味.");
         return ECMD_OK;
     }
 
-    You("可以将光标移动到你想闻的怪物上。");
+    You("可以将光标移动到你想闻的怪物上.");
     do {
-        pline("选择一个怪物来闻。");
+        pline("选择一个怪物来闻.");
         ans = getpos(&cc, TRUE, "a monster");
         if (ans < 0 || cc.x < 0) {
             return ECMD_CANCEL; /* done */
@@ -923,14 +923,14 @@ wiz_smell(void)
         /* Is it a monster? */
         if (mptr) {
             if (is_you)
-                You("偷偷地嗅了嗅你的%s下面。", body_part(ARM));
+                You("偷偷地嗅了嗅你的%s下面.", body_part(ARM));
             if (!usmellmon(mptr))
-                pline("%s似乎没有发出任何气味。",
+                pline("%s似乎没有发出任何气味.",
                       is_you ? "你似乎" : "那个怪物似乎");
             if (!glyph_is_monster(glyph))
                 map_invisible(cc.x, cc.y);
         } else {
-            You("那里没有闻到任何怪物。");
+            You("那里没有闻到任何怪物.");
             if (glyph_is_invisible(glyph))
                 unmap_invisible(cc.x, cc.y);
         }
@@ -966,7 +966,7 @@ wiz_intrinsic(void)
         if (iflags.cmdassist) {
             /* start menu with a subtitle */
             Sprintf(buf,
-        "[在任何选择前加上一个计数，以使用不同于%d的增量。]",
+        "[在任何选择前加上一个计数，以使用不同于%d的增量.]",
                     DEFAULT_TIMEOUT_INCR);
             add_menu_str(win, buf);
         }
@@ -1073,7 +1073,7 @@ wiz_intrinsic(void)
                 if (p != GLIB)
                     incr_itimeout(&u.uprops[p].intrinsic, amt);
                 disp.botl = TRUE; /* have pline() do a status update */
-                pline("超时时间 %s %s %d。", propname,
+                pline("超时时间 %s %s %d.", propname,
                       oldtimeout ? "增加" : "设为", amt);
                 break;
             }
@@ -1524,10 +1524,10 @@ list_migrating_mons(
             ++other;
     }
     if (here + nxtlv + other == 0) {
-        pline("当前没有怪物正在迁移。");
+        pline("当前没有怪物正在迁移.");
     } else {
         pline(
-      "%d 个怪物%s等待进入当前层，%d个等待进入下一层，%d个等待进入其他层。",
+      "%d 个怪物%s等待进入当前层，%d个等待进入下一层，%d个等待进入其他层.",
               here, plur(here), nxtlv, other);
         prmpt[0] = xtra[0] = '\0';
         (void) strkitten(here ? prmpt : xtra, 'c');
@@ -1603,7 +1603,7 @@ list_migrating_mons(
             display_nhwindow(win, FALSE);
             destroy_nhwindow(win);
         } else if (c != 'q') {
-            pline("无。");
+            pline("无.");
         }
 
     }
@@ -1781,7 +1781,7 @@ wiz_display_macros(void)
 int
 wiz_show_nhuuid(void)
 {
-    pline("本游戏的 NHUUID 为 { %s }。", svn.nhuuid);
+    pline("本游戏的 NHUUID 为 { %s }.", svn.nhuuid);
     return ECMD_OK;
 }
 
@@ -1897,7 +1897,7 @@ wiz_migrate_mons(void)
         getlin("How many random monsters to migrate to next level? [0]",
                inbuf);
     else
-        pline("无法从这里到达那里。");
+        pline("无法从这里到达那里.");
     if (*inbuf == '\033' || *inbuf == '\0')
         return ECMD_OK;
 

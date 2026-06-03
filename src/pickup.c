@@ -378,9 +378,9 @@ describe_decor(void)
 
     /* we don't mention "ordinary" doors but do mention broken ones (and
        closed ones, which will only happen for Passes_walls) */
-    doorhere = dfeature && (!strcmp(dfeature, "open door")
-                            || !strcmp(dfeature, "doorway"));
-    waterhere = dfeature && !strcmp(dfeature, "pool of water");
+    doorhere = dfeature && (!strcmp(dfeature, "打开的门")
+                            || !strcmp(dfeature, "门路"));
+    waterhere = dfeature && !strcmp(dfeature, "水池");
     if (doorhere || Underwater
         || (ltyp == ICE && IS_POOL(iflags.prev_decor))) /* pooleffects() */
         dfeature = 0;
@@ -398,7 +398,7 @@ describe_decor(void)
             dfeature = an(dfeature);
 
         if (flags.verbose) {
-            Sprintf(outbuf, "这里有%s。", dfeature);
+            Sprintf(outbuf, "这里有%s.", dfeature);
         } else {
             if (dfeature != fbuf)
                 Strcpy(fbuf, dfeature);
