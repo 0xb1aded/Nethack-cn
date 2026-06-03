@@ -1226,7 +1226,7 @@ hmon_hitmon_misc_obj(
                     ? the(mons[mnum].pmnames[NEUTRAL])
                     : (cnt > 1L) ? "一些" : "一个";
 
-            You("你用%s蛋%s击中了%s。", eggp, plur(cnt), /*修改语序:You("hit %s with %s egg%s.", mon_nam(mon), eggp,*/
+            You("你用%s蛋%s击中了%s.", eggp, plur(cnt), /*修改语序:You("hit %s with %s egg%s.", mon_nam(mon), eggp,*/
                 mon_nam(mon)); /*修改语序:plur(cnt));*/
             if (touch_petrifies(hmd->mdat) && !stale_egg(obj)) {
                 pline_The("蛋%s%s有生命了...", plur(cnt),
@@ -1646,7 +1646,7 @@ hmon_hitmon_msg_hit(
         if (hmd->thrown)
             hit(mshot_xname(obj), mon, exclam(hmd->dmg));
         else if (!flags.verbose)
-            You("击中了它。");
+            You("击中了它.");
         else /* hand_to_hand */
             You("%s%s%s",
                 (obj && (is_shield(obj)
@@ -4032,7 +4032,7 @@ mhitm_ad_phys(
                 }
             } else if (u.ustuck == magr) {
                 exercise(A_STR, FALSE);
-                You("你正在被%s。",
+                You("你正在被%s.",
                     (pa == &mons[PM_ROPE_GOLEM]) ? "勒住" : "挤压");
             }
         } else { /* hand to hand weapon */
@@ -4656,7 +4656,7 @@ mhitm_ad_sedu(
             return;
         } else if (magr->mcan) {
             if (!Blind)
-                pline("%s试图%s你，但你%s.",
+                pline("%s试图%s你,但你%s.",
                       Adjmonnam(magr, "平庸的"),
                       flags.female ? "诱惑" : "魅惑",
                       flags.female ? "一尘不染" : "不感兴趣");
@@ -5578,7 +5578,7 @@ hmonas(struct monst *mon)
                 if (!u.uswallow
                     && (compat = could_seduce(&gy.youmonst, mon, mattk))
                        != 0) {
-                    You("你%s地对%s%s。",
+                    You("你%s地对%s%s.",
                         (compat == 2) ? "迷人" /*修改语序:(mon->mcansee && haseyes(mon->data)) ? "微笑地看着"*/
                                       : "诱人", /*修改语序:: "搭讪",*/
                         mon_nam(mon),
@@ -5762,7 +5762,7 @@ hmonas(struct monst *mon)
         case AT_EXPL: /* automatic hit if next to */
             dhit = -1;
             wakeup(mon, TRUE);
-            You("爆炸了！");
+            You("爆炸了!");
             sum[i] = explum(mon, mattk);
             break;
 

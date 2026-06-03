@@ -1910,13 +1910,13 @@ getobj(
     *ap = '\0';
 
     if (suggested == 0 && !forceprompt && !allownone) {
-        You("没有%s任何东西来%s.", inaccess ? "别的" : "", word);
+        You("没有%s东西可以%s.", inaccess ? "别的" : "", word);
         return (struct obj *) 0;
     }
     for (;;) {
         cnt = 0L;
         cntgiven = FALSE;
-        Sprintf(qbuf, "你想要 %s 什么？", word);
+        Sprintf(qbuf, "你想要%s什么?", word);
         if (gi.in_doagain) {
             ilet = readchar();
         } else if (iflags.force_invmenu) {
@@ -2009,7 +2009,7 @@ getobj(
                than one invent slot of gold and picking the non-'$' one */
             || (otmp && otmp->oclass == COIN_CLASS)) {
             if (otmp && obj_ok(otmp) <= GETOBJ_EXCLUDE) {
-                You("不能%s 金币.", word);
+                You("不能%s金币.", word);
                 return (struct obj *) 0;
             }
             /*
@@ -2025,8 +2025,8 @@ getobj(
                 return (struct obj *) 0;
             }
         }
-        if (cntgiven && !strcmp(word, "throw")) {
-            static const char only_one[] = "can only throw one at a time";
+        if (cntgiven && (!strcmp(word, "throw") || !strcmp(word, "扔"))) {
+            static const char only_one[] = "你一次只能扔一个";
             boolean coins;
 
             /* permit counts for throwing gold, but don't accept counts
@@ -2038,8 +2038,8 @@ getobj(
             coins = (otmp->oclass == COIN_CLASS);
             if (cnt > 1L && (!coins || cnt > otmp->quan)) {
                 if (cnt > otmp->quan)
-                    You("只有%ld%s%s。", otmp->quan,
-                        (!coins && otmp->quan > 1L) ? " 和 " : "",
+                    You("只有%ld%s%s.", otmp->quan,
+                        (!coins && otmp->quan > 1L) ? ",而且" : "",
                         (!coins && otmp->quan > 1L) ? only_one : "");
                 else
                     You("%s.", only_one);
@@ -2061,7 +2061,7 @@ getobj(
                 return (struct obj *) 0;
             continue;
         } else if (cnt < 0L || otmp->quan < cnt) {
-            You("没有那么多!  你只有%ld.", otmp->quan);
+            You("没有那么多!你只有%ld.", otmp->quan);
             if (gi.in_doagain)
                 return (struct obj *) 0;
             continue;

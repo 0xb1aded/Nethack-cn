@@ -784,7 +784,7 @@ teleport_pet(struct monst *mtmp, boolean force_it)
             yelp(mtmp);
             return FALSE;
         } else {
-            Your("皮带松了。");
+            Your("皮带松了.");
         release_it:
             m_unleash(mtmp, FALSE);
             return TRUE;
@@ -1677,7 +1677,7 @@ rloc_to_core(struct monst *mtmp, coordxy x, coordxy y, unsigned rlocflags)
         set_msg_xy(x, y);
         mtmp->mstrategy &= ~STRAT_APPEARMSG; /* one chance only */
         if (mtmp == u.ustuck && !u_at(u.ux0, u.uy0)) {
-            You("和%s一起传送。", mon_nam(mtmp));
+            You("和%s一起传送.", mon_nam(mtmp));
         } else if (telemsg && (couldsee(x, y) || sensemon(mtmp))) {
             pline("%s消失了又重现到%s.", Monnam(mtmp),
                   next                                  ? next
@@ -1953,9 +1953,9 @@ mtele_trap(struct monst *mtmp, struct trap *trap, int in_sight)
 
         if (in_sight) {
             if (canseemon(mtmp))
-                pline("%s 似乎迷失方向的.", monname);
+                pline("%s似乎迷失了方向.", monname);
             else
-                pline("%s突然消失了！", monname);
+                pline("%s突然消失了!", monname);
             seetrap(trap);
         }
     }
@@ -2221,7 +2221,7 @@ u_teleport_mon(struct monst *mtmp, boolean give_feedback)
 
     if (svl.level.flags.stasis_until >= svm.moves) {
         if (give_feedback)
-            pline("一股神秘的力量阻止了你传送%s！", mon_nam(mtmp));
+            pline("一股神秘的力量阻止了你传送%s!", mon_nam(mtmp));
         return FALSE;
     } else if (mtmp->ispriest && *in_rooms(mtmp->mx, mtmp->my, TEMPLE)) {
         if (give_feedback)

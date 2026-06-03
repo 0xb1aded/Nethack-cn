@@ -64,10 +64,10 @@ staticfn void tipcontainer(struct obj *);
 #define Icebox (gc.current_container->otyp == ICE_BOX)
 
 static const char
-    slightloadpfx[] = "有点麻烦",
-    moderateloadpfx[] = "很麻烦",
-    nearloadpfx[] = "非常麻烦",
-    overloadpfx[] = "极其麻烦";
+    slightloadpfx[] = "有点难",
+    moderateloadpfx[] = "很难",
+    nearloadpfx[] = "非常难",
+    overloadpfx[] = "极其难";
 
 /* BUG: this lets you look at cockatrice corpses while blind without
    touching them */
@@ -394,11 +394,11 @@ describe_decor(void)
     } else if (dfeature) {
         if (waterhere)
             dfeature = strcpy(fbuf, waterbody_name(u.ux, u.uy));
-        if (strcmp(dfeature, "swamp") && ltyp != ICE)
+        if (strcmp(dfeature, "沼泽") && ltyp != ICE)
             dfeature = an(dfeature);
 
         if (flags.verbose) {
-            Sprintf(outbuf, "这里有%s.", dfeature);
+            Sprintf(outbuf, "这里是%s.", dfeature);
         } else {
             if (dfeature != fbuf)
                 Strcpy(fbuf, dfeature);
@@ -727,7 +727,7 @@ pickup(int what) /* should be a long */
             check_here(FALSE);
             if (notake(gy.youmonst.data) && OBJ_AT(u.ux, u.uy)
                 && (autopickup || flags.pickup))
-                You("身体没法拾取任何东西.");
+                You("的当前形态无法拾取任何东西.");
             return 0;
         }
 
@@ -763,7 +763,7 @@ pickup(int what) /* should be a long */
         if (count) { /* looking for N of something */
             char qbuf[QBUFSZ];
 
-            Sprintf(qbuf, "捡起%d 个什么?", count);
+            Sprintf(qbuf, "捡起%d个什么?", count);
             gv.val_for_n_or_more = count; /* set up callback selector */
             n = query_objlist(qbuf, objchain_p, traverse_how,
                               &pick_list, PICK_ONE, n_or_more);
@@ -771,7 +771,7 @@ pickup(int what) /* should be a long */
             for (i = 0; i < n; i++)
                 pick_list[i].count = count;
         } else {
-            n = query_objlist("Pick up what?", objchain_p,
+            n = query_objlist("捡起什么?", objchain_p,
                               (traverse_how | FEEL_COCKATRICE),
                               &pick_list, PICK_ANY, all_but_uchain);
         }
@@ -828,7 +828,7 @@ pickup(int what) /* should be a long */
                     goto pickupdone;
                 if (selective)
                     traverse_how |= INVORDER_SORT;
-                n = query_objlist("Pick up what?", objchain_p, traverse_how,
+                n = query_objlist("捡起什么?", objchain_p, traverse_how,
                                   &pick_list, PICK_ANY,
                                   (via_menu == -2) ? allow_all
                                                    : allow_category);
@@ -849,7 +849,7 @@ pickup(int what) /* should be a long */
             if (!all_of_a_type) {
                 char qbuf[BUFSZ];
 
-                (void) safe_qbuf(qbuf, "Pick up ", "?", obj, doname,
+                (void) safe_qbuf(qbuf, "捡起", "?", obj, doname,
                                  ansimpleoname, something);
                 switch ((obj->quan < 2L) ? ynaq(qbuf) : ynNaq(qbuf)) {
                 case 'q':
@@ -1148,7 +1148,7 @@ query_objlist(const char *qstr,        /* query string */
 
         any = cg.zeroany;
         if (sorted && n > 1) {
-            Sprintf(buf, "%s 生物",
+            Sprintf(buf, "%s生物",
                     digests(u.ustuck->data) ? "被吞食的" : "被吞没的");
             add_menu_heading(win, buf);
         }
@@ -1179,11 +1179,11 @@ query_objlist(const char *qstr,        /* query string */
                 /* this isn't actually possible; fake item representing
                    hero is only included for look here (':'), not pickup,
                    and that's PICK_NONE so we can't get here from there */
-                You_cant("拾取你自己!");
+                You_cant("捡起你自己!");
                 continue;
             }
             if (engulfer_minvent && curr->owornmask != 0L) {
-                You_cant("捡起%s。", ysimple_name(curr));
+                You_cant("捡起%s.", ysimple_name(curr));
                 continue;
             }
             if (mi->count == -1L || mi->count > curr->quan)
@@ -1320,18 +1320,18 @@ query_category(
         add_menu(win, &nul_glyphinfo, &any, invlet, 0, ATR_NONE, clr,
                  /* note: menu_remarm() doesn't pass the CHOOSE_ALL flag,
                     so do_worn handling here is moot */
-                 do_worn ? "自动选择所有穿戴或持握的物品"
+                 do_worn ? "自动选择所有穿戴或手持的物品"
                          : "自动选择所有相关物品",
                  MENU_ITEMFLAGS_SKIPINVERT);
         verify_All = (how == PICK_ANY) && ParanoidAutoAll;
         if (!verify_All) {
             if (!ga.A_first_hint++ || iflags.cmdassist)
                 add_menu_str(win,
-                   "    (ignored unless some other choices are also picked)");
+                   "    (除非还选择了其他选项,否则将被忽略)");
         } else if (show_a) {
             if (!ga.A_second_hint++ || iflags.cmdassist)
                 add_menu_str(win,
-                      "    (if no other choices are picked, 'a' is implied)");
+                      "    (如果未选择其他选项,则默认选择'a')");
         }
         /* blank separator */
         add_menu_str(win, "");
@@ -1342,7 +1342,7 @@ query_category(
         any = cg.zeroany;
         any.a_int = ALL_TYPES_SELECTED;
         add_menu(win, &nul_glyphinfo, &any, invlet, 0, ATR_NONE, clr,
-                 do_worn ? "所有穿戴和持握的类型" : "所有类型",
+                 do_worn ? "所有穿戴和手持的类型" : "所有类型",
                  MENU_ITEMFLAGS_SKIPINVERT);
         ++invlet; /* invlet = 'b'; */
     }
@@ -1388,7 +1388,7 @@ query_category(
         any = cg.zeroany;
         any.a_int = 'u';
         add_menu(win, &nul_glyphinfo, &any, invlet, 0,
-                 ATR_NONE, clr, "未付物品", MENU_ITEMFLAGS_SKIPINVERT);
+                 ATR_NONE, clr, "未付款物品", MENU_ITEMFLAGS_SKIPINVERT);
     }
     /* billed items: checked by caller, so always include if BILLED_TYPES */
     if (do_usedup) {
@@ -1396,7 +1396,7 @@ query_category(
         any = cg.zeroany;
         any.a_int = 'x';
         add_menu(win, &nul_glyphinfo, &any, invlet, 0, ATR_NONE, clr,
-                 "未付款物品已用完", MENU_ITEMFLAGS_SKIPINVERT);
+                 "已用完的未付款物品", MENU_ITEMFLAGS_SKIPINVERT);
     }
 
     /* items with b/u/c/unknown if there are any;
@@ -1414,14 +1414,14 @@ query_category(
         any = cg.zeroany;
         any.a_int = 'C';
         add_menu(win, &nul_glyphinfo, &any, invlet, 0, ATR_NONE, clr,
-                 "已知是被诅咒的物品", MENU_ITEMFLAGS_SKIPINVERT);
+                 "已知被诅咒的物品", MENU_ITEMFLAGS_SKIPINVERT);
     }
     if (do_uncursed) {
         invlet = 'U';
         any = cg.zeroany;
         any.a_int = 'U';
         add_menu(win, &nul_glyphinfo, &any, invlet, 0, ATR_NONE, clr,
-                 "已知未被诅咒的物品", MENU_ITEMFLAGS_SKIPINVERT);
+                 "已知无诅咒的物品", MENU_ITEMFLAGS_SKIPINVERT);
     }
     if (do_buc_unknown) {
         invlet = 'X';
@@ -1435,7 +1435,7 @@ query_category(
         char tmpbuf[BUFSZ];
 
         if (num_justpicked == 1)
-            Sprintf(tmpbuf, "刚刚捡起: %s",
+            Sprintf(tmpbuf, "刚刚捡起:%s",
                     doname(find_justpicked(olist)));
         else
             Strcpy(tmpbuf, "你刚刚捡起的物品");
@@ -1462,7 +1462,7 @@ query_category(
                    just "y" to accept (and "no" rather than "n" to decline;
                    accepts "quit" and ESC without converting them to 'n') */
                 switch (paranoid_ynq(ParanoidConfirm,
-                                     "Really autoselect All?", TRUE)) {
+                                     "确定全选?", TRUE)) {
                 case 'y':
                     /* yes => honor Auto-select All */
                     break;
@@ -1498,7 +1498,7 @@ query_category(
         free((genericptr_t) *pick_list), *pick_list = 0;
         /* the menu entry description is "Auto-select every relevant item"
            [not sure whether issuing a message here is a good idea...] */
-        pline("没有选中任何相关物品。");
+        pline("没有选中任何相关物品.");
     }
  query_done:
     destroy_nhwindow(win);
@@ -1578,7 +1578,7 @@ carry_count(struct obj *obj,            /* object to pick up... */
     int wt, iw, ow, oow;
     long qq, savequan, umoney;
     unsigned saveowt;
-    const char *verb, *prefx1, *prefx2, *suffx;
+    const char *verb, *verb2, *prefx1, *prefx2, *suffx; /*危险:const char *verb, *prefx1, *prefx2, *suffx;*/
     char obj_nambuf[BUFSZ], where[BUFSZ];
 
     savequan = obj->quan;
@@ -1663,10 +1663,12 @@ carry_count(struct obj *obj,            /* object to pick up... */
         Strcpy(obj_nambuf, doname(obj));
         if (container) {
             Sprintf(where, "在%s里面", the(xname(container)));
-            verb = "carry";
+            verb = "拿";
+            verb2 = "出";
         } else {
-            Strcpy(where, "躺在这儿");
-            verb = telekinesis ? "acquire" : "lift";
+            Strcpy(where, "放在这里");
+            verb = telekinesis ? "吸" : "拿";
+            verb2 = "起";
         }
     } else {
         /* lint suppression */
@@ -1676,8 +1678,8 @@ carry_count(struct obj *obj,            /* object to pick up... */
     /* we can carry qq of them */
     if (qq > 0) {
         if (qq < count)
-            You("只能%s %s %s %s.", verb,
-                (qq == 1L) ? "一个" : "一些", obj_nambuf, where);
+            You("只能%s%s%s的%s中的%s.", verb, verb2, /*修改语序:You("只能%s %s %s %s.", verb,*/
+                where, obj_nambuf, (qq == 1L) ? "一个" : "一些"); /*修改语序:(qq == 1L) ? "一个" : "一些", obj_nambuf, where);*/
         *wt_after = wt;
         return qq;
     }
@@ -1685,16 +1687,16 @@ carry_count(struct obj *obj,            /* object to pick up... */
     if (!container)
         Strcpy(where, "在这儿"); /* slightly shorter form */
     if (gi.invent || umoney) {
-        prefx1 = "you cannot ";
+        prefx1 = "你一点也";
         prefx2 = "";
-        suffx = " any more";
+        suffx = "来";
     } else {
-        prefx1 = (obj->quan == 1L) ? "it " : "even one ";
-        prefx2 = "is too heavy for you to ";
-        suffx = "";
+        prefx1 = "重到你";
+        prefx2 = (obj->quan == 1L) ? "" : "一个都";
+        suffx = "来了";
     }
-    There("%s %s %s, 但%s%s%s%s.", otense(obj, "有"), obj_nambuf, where,
-          prefx1, prefx2, verb, suffx);
+    There("%s%s%s,但%s%s%s不%s%s.", otense(obj, "有"), obj_nambuf, where,
+          prefx1, prefx2, verb, verb2, suffx);
 
     /* *wt_after = iw; */
     return 0L;
@@ -1711,7 +1713,7 @@ lift_object(
     int result, old_wt, new_wt, prev_encumbr, next_encumbr;
 
     if (obj->otyp == BOULDER && Sokoban) {
-        You("无法把你的%s围抱着这个%s.", body_part(HAND),
+        You("无法用你的%s抱住这个%s.", body_part(HAND),
             xname(obj));
         return -1;
     }
@@ -1728,7 +1730,7 @@ lift_object(
            [this was using simpleonames(obj) for shortest description, but
            that's suboptimal for loadstones because it omits user-assigned
            type name which is something of interest for gray stones] */
-        You("携带了太多的东西不能拾取%s%s.",
+        You("携带了太多的东西,不能再拾取%s%s.",
             (obj->quan == 1L) ? "另一个" : "更多的", xname(obj));
         return -1;
     }
@@ -1746,10 +1748,10 @@ lift_object(
            we aren't limited by the 52 item limit for it, but caller and
            "grandcaller" aren't prepared to skip stuff and then pickup
            just gold, so the best we can do here is vary the message */
-        Your("背包不能容纳更多的东西了%s.",
+        Your("背包容纳不了更多的东西了%s.",
              /* floor follows by nexthere, otherwise container so by nobj */
              nxtobj(obj, GOLD_PIECE, (boolean) (obj->where == OBJ_FLOOR))
-                 ? " (除了金币)" : "");
+                 ? "(除了金币)" : "");
         result = -1; /* nothing lifted */
     } else {
         result = 1;
@@ -1765,13 +1767,13 @@ lift_object(
                 long savequan = obj->quan;
 
                 obj->quan = *cnt_p;
-                Sprintf(qbuf, "%s %s ",
+                Sprintf(qbuf, "%s%s", /*危险:看原版*/
                         (next_encumbr >= EXT_ENCUMBER) ? overloadpfx
                         : (next_encumbr >= HVY_ENCUMBER) ? nearloadpfx
                           : (next_encumbr >= MOD_ENCUMBER) ? moderateloadpfx
-                            : slightloadpfx,
-                        !container ? "提起" : "移除");
-                (void) safe_qbuf(qbuf, qbuf, ".  Continue?", obj, doname,
+                            : slightloadpfx, 
+                        !container ? "拿得动" : "拿出"); /*修改语序:交换*/
+                (void) safe_qbuf(qbuf, qbuf, ". 继续?", obj, doname,
                                  ansimpleoname, something);
                 obj->quan = savequan;
                 switch (ynq(qbuf)) {
@@ -1821,7 +1823,7 @@ pickup_object(
         return 0;
     } else if (obj->where == OBJ_MINVENT && obj->owornmask != 0L
                && engulfing_u(obj->ocarry)) {
-        You_cant("不能捡起%s。", ysimple_name(obj));
+        You_cant("捡起%s.", ysimple_name(obj));
         return 0;
     } else if (obj->oartifact && !touch_artifact(obj, &gy.youmonst)) {
         return 0;
@@ -1851,9 +1853,9 @@ pickup_object(
         } else if (!obj->spe && !obj->cursed) {
             obj->spe = 1;
         } else {
-            pline_The("卷轴%s %s为尘土当你%s %s起来.", plur(obj->quan),
-                      otense(obj, "化"), telekinesis ? "举起" : "捡起",
-                      (obj->quan == 1L) ? "它" : "它们");
+            pline_The("当你%s起来卷轴时,%s%s%s为了尘土", telekinesis ? "升" : "捡", /*修改语序:pline_The("卷轴%s%s为了尘土当你%s起来%s时.", plur(obj->quan),*/
+                      (obj->quan == 1L) ? "它" : "它们", plur(obj->quan), /*修改语序:otense(obj, "化"), telekinesis ? "升" : "捡",*/
+                      otense(obj, "化")); /*修改语序:(obj->quan == 1L) ? "它" : "它们");*/
             trycall(obj);
             useupf(obj, obj->quan);
             return 1; /* tried to pick something up and failed, but
@@ -1966,7 +1968,7 @@ pickup_prinv(
         gp.pickup_encumbrance = nearload;
     }
     if (prefix)
-        Sprintf(pbuf, "%s %s", prefix, verb);
+        Sprintf(pbuf, "%s%s", prefix, verb);
 
     prinv(pbuf, obj, count);
 }
@@ -1985,10 +1987,10 @@ encumber_msg(void)
             Your("移动速度因你的负担而轻微地变慢.");
             break;
         case 2:
-            You("调整了下你的负重.  移动比较困难.");
+            You("调整了下你的负重. 移动比较困难.");
             break;
         case 3:
-            You("在重载下%s.  移动非常艰难.",
+            You("在重载下%s. 移动非常艰难.",
                 stagger(gy.youmonst.data, "摇摇晃晃"));
             break;
         default:
@@ -2000,16 +2002,16 @@ encumber_msg(void)
     } else if (go.oldcap > newcap) {
         switch (newcap) {
         case 0:
-            Your("行动现在畅通无阻。");
+            Your("行动现在畅通无阻.");
             break;
         case 1:
             Your("移动速度因你的负担而仅轻微地变慢.");
             break;
         case 2:
-            You("调整了下你的负重.  移动仍然比较困难.");
+            You("调整了下你的负重. 移动仍然比较困难.");
             break;
         case 3:
-            You("在重载下%s.  移动仍然非常艰难.",
+            You("被沉重的负担压得%s. 移动仍然非常艰难.",
                 stagger(gy.youmonst.data, "摇摇晃晃"));
             break;
         }
@@ -2042,7 +2044,7 @@ able_to_loot(
     coordxy x, coordxy y,
     boolean looting) /* loot vs tip */
 {
-    const char *verb = looting ? "loot" : "tip";
+    const char *verb = looting ? "搜" : "够";
     struct trap *t = t_at(x, y);
 
     if (!can_reach_floor(t && is_pit(t->ttyp))) {

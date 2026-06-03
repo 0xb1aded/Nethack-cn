@@ -49,7 +49,7 @@ hooked_tty_getlin(
     int c;
     struct WinDesc *cw = wins[WIN_MESSAGE];
     boolean doprev = FALSE;
-    char utf8_buffer[4];   /* UTF-8多字节字符缓冲 */
+    char utf8_buffer[5];   /* 扩容至 5，确保容纳 4 字节 UTF-8 + '\0' */
     int utf8_needed = 0;   /* 还需要的UTF-8续字节数 */
     int utf8_count = 0;    /* 已收集的UTF-8字节数 */
 
@@ -79,7 +79,7 @@ hooked_tty_getlin(
     *bufp = '\0';
 #endif
 
-        for (;;) {
+    for (;;) {
         (void) fflush(stdout);
         Strcat(strcat(strcpy(gt.toplines, query), " "), obufp);
         term_curs_set(1);
@@ -98,40 +98,62 @@ hooked_tty_getlin(
                     if (bufp - obufp < BUFSZ - utf8_count - 1 
                         && bufp - obufp < COLNO) {
                         
-                        /* 【修复2】不要逐字节输出，必须一次性把整个完整 UTF-8 字符复制并打印 */
+#ifdef NEWAUTOCOMP
+                        char *i_comp = eos(bufp); /* 记录当前末尾用于补全失败时擦除 */
+#endif
                         utf8_buffer[utf8_count] = '\0';
-                        Strcpy(bufp, utf8_buffer);
-                        putsyms(bufp); 
+                        
+                        /* 修复 1：使用 memcpy 拷贝，并无条件追加 \0 截断字符串 */
+                        (void) memcpy(bufp, utf8_buffer, utf8_count);
+                        bufp[utf8_count] = '\0';
+
+                        /* 仅安全打印这一个多字节字符本身 */
+                        putsyms(utf8_buffer); 
                         bufp += utf8_count;
 
+                        /* 同步原版的补全状态机 */
                         if (hook && (*hook)(obufp)) {
                             putsyms(bufp);
+#ifndef NEWAUTOCOMP
+                            bufp = eos(bufp);
+#else  /* NEWAUTOCOMP */
+                            {
+                                char *curr;
+                                for (curr = bufp; *curr; ++curr)
+                                    putsyms("\b");
+                            }
+#endif /* NEWAUTOCOMP */
                         }
+#ifdef NEWAUTOCOMP
+                        else if (i_comp > bufp) {
+                            char *s_comp = i_comp;
+                            /* 若未触发新的补全，擦除历史残余补全字符 */
+                            for (; i_comp > bufp; --i_comp)
+                                putsyms(" ");
+                            for (; s_comp > bufp; --s_comp)
+                                putsyms("\b");
+                        }
+#endif /* NEWAUTOCOMP */
                     }
                 }
-                continue;  /* 【修复1】必须 continue！阻止它掉进下面的 process_char */
+                continue;  /* 阻止续字节掉进下面的 process_char */
             } else {
                 /* 期望的续字节没有收到，丢弃不完整的UTF-8字符 */
                 utf8_needed = 0;
                 utf8_count = 0;
-                /* 继续处理当前字符（不再是UTF-8续字节） */
                 goto process_char;
             }
         } else if ((c & 0x80) != 0 && c != '\033' && c != EOF) {
             /* 检测UTF-8首字节 (非ASCII字符) */
             if ((c & 0xE0) == 0xC0) {
-                /* 2字节UTF-8字符 */
                 utf8_needed = 1;
             } else if ((c & 0xF0) == 0xE0) {
-                /* 3字节UTF-8字符（绝大多数汉字在此区间） */
                 utf8_needed = 2;
             } else if ((c & 0xF8) == 0xF0) {
-                /* 4字节UTF-8字符 */
                 utf8_needed = 3;
             }
             
             if (utf8_needed > 0) {
-                /* 开始接收多字节UTF-8字符 */
                 utf8_buffer[0] = c;
                 utf8_count = 1;
                 continue;  /* 等待续字节 */
@@ -139,7 +161,6 @@ hooked_tty_getlin(
         }
 
     process_char:
-        /* 下面保持你原有的逻辑不变... */
         if (c == '\033' || c == EOF) {
             if (c == EOF)
                 iflags.term_gone = 1;
@@ -161,23 +182,19 @@ hooked_tty_getlin(
             ttyDisplay->intr--;
             *bufp = 0;
         }
-        if (c == C('p')) { /* ctrl-P, doesn't honor rebinding #prevmsg cmd */
+        if (c == C('p')) { 
             int sav = ttyDisplay->inread;
 
             ttyDisplay->inread = 0;
             if (iflags.prevmsg_window == 's'
                 || (iflags.prevmsg_window == 'c' && !doprev)) {
-                /* msg_window:single, or msg_window:combination while it's
-                   behaving like msg_window:single */
                 if (!doprev)
-                    (void) tty_doprev_message(); /* need two initially */
+                    (void) tty_doprev_message(); 
                 (void) tty_doprev_message();
                 ttyDisplay->inread = sav;
                 doprev = TRUE;
                 continue;
             } else {
-                /* msg_window:full or reverse, or msg_window:combination while
-                   it's behaving like msg_window:full */
                 (void) tty_doprev_message();
                 ttyDisplay->inread = sav;
                 doprev = FALSE;
@@ -201,17 +218,29 @@ hooked_tty_getlin(
             if (bufp != obufp) {
 #ifdef NEWAUTOCOMP
                 char *i;
-
 #endif /* NEWAUTOCOMP */
+                char *old_bufp = bufp;
+                int bytes_deleted;
+                int display_width;
+                int d;
+
                 bufp--;
-                /* 处理多字节字符的删除：向后扫描找到UTF-8字符的起点 */
+                /* 向后扫描找到UTF-8字符的起点 */
                 while (bufp > obufp && (*bufp & 0xC0) == 0x80) {
                     bufp--;
                 }
+                
+                bytes_deleted = (int)(old_bufp - bufp);
+                display_width = (bytes_deleted > 1) ? 2 : 1;
+
 #ifndef NEWAUTOCOMP
-                putsyms("\b \b"); /* putsym converts \b */
+                for (d = 0; d < display_width; d++) {
+                    putsyms("\b \b");
+                }
 #else                             /* NEWAUTOCOMP */
-                putsyms("\b");
+                for (d = 0; d < display_width; d++) {
+                    putsyms("\b");
+                }
                 for (i = bufp; *i; ++i)
                     putsyms(" ");
                 for (; i > bufp; --i)
@@ -225,37 +254,42 @@ hooked_tty_getlin(
             *bufp = 0;
 #endif /* not NEWAUTOCOMP */
             break;
-        } else if ((' ' <= (unsigned char) c && c != '\177')
-                   || ((unsigned char) c >= 0x80)  /* UTF-8多字节字符，允许高位字节 */
+        } else if (((' ' <= (unsigned char) c && c != '\177') || ((unsigned char) c >= 0x80))
                    && (bufp - obufp < BUFSZ - 1 && bufp - obufp < COLNO)) {
 #ifdef NEWAUTOCOMP
             char *i = eos(bufp);
-
 #endif /* NEWAUTOCOMP */
             *bufp = c;
+            
+            /* 修复 2：无条件写入 \0，确保 hook 能拿到正确的前缀 */
             bufp[1] = 0;
-            putsyms(bufp);
+
+            /* 仅打印当前输入的一个英文字符，防止破坏后续缓存 */
+            {
+                char chbuf[2];
+                chbuf[0] = c;
+                chbuf[1] = '\0';
+                putsyms(chbuf);
+            }
             bufp++;
+            
             if (hook && (*hook)(obufp)) {
                 putsyms(bufp);
 #ifndef NEWAUTOCOMP
                 bufp = eos(bufp);
 #else  /* NEWAUTOCOMP */
-                /* pointer and cursor left where they were */
                 for (i = bufp; *i; ++i)
                     putsyms("\b");
             } else if (i > bufp) {
                 char *s = i;
 
-                /* erase rest of prior guess */
                 for (; i > bufp; --i)
                     putsyms(" ");
                 for (; s > bufp; --s)
                     putsyms("\b");
 #endif /* NEWAUTOCOMP */
             }
-        } else if (c == kill_char || c == '\177') { /* Robert Viduya */
-            /* this test last - @ might be the kill_char */
+        } else if (c == kill_char || c == '\177') { 
 #ifndef NEWAUTOCOMP
             while (bufp != obufp) {
                 bufp--;
@@ -273,15 +307,12 @@ hooked_tty_getlin(
     }
     ttyDisplay->toplin = TOPLINE_NON_EMPTY;
     ttyDisplay->inread--;
-    clear_nhwindow(WIN_MESSAGE); /* clean up after ourselves */
+    clear_nhwindow(WIN_MESSAGE); 
 
     if (suppress_history) {
-        /* prevent next message from pushing current query+answer into
-           tty message history */
         *gt.toplines = '\0';
 #ifdef DUMPLOG_CORE
     } else {
-        /* needed because we've bypassed pline() */
         dumplogmsg(gt.toplines);
 #endif
     }

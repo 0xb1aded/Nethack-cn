@@ -31,6 +31,8 @@ English README：[README_en.md](README_en.md)
 
 [讨论怪物简中译名](https://github.com/StackC00ki3/Nethack-cn/discussions/4)
 
+原版两个空格中文版一个空格？
+
 #### 谓词
 
 |英文|中文|
@@ -78,6 +80,7 @@ English README：[README_en.md](README_en.md)
 |transform|转变|
 |polymorph|变形|
 |open,closed(门)|打开的,关上的|
+|loot|搜刮|
 
 #### 体词
 
