@@ -1104,8 +1104,9 @@ xname_flags(
             Strcpy(buf, "魔法书");
         } else if (nn) {
             if (typ != SPE_BOOK_OF_THE_DEAD)
-                Strcpy(buf, "魔法书");
-            Strcat(buf, actualn);
+                Sprintf(buf, "%s魔法书", actualn);
+            else
+                Strcat(buf, actualn);
         } else if (un) {
             xcalled(buf, BUFSZ - PREFIX, "魔法书", un);
         } else
@@ -12743,6 +12744,8 @@ rnd_otyp_by_namedesc(
                 && (of = strstri(zn, " of ")) != 0
                 && wishymatch(name, of + 4, FALSE)) /* partial name */
             || ((zn = OBJ_DESCR(objects[i])) != 0
+                && wishymatch(name, zn, FALSE)) /* objects[] description */
+            || ((zn = OBJ_EDESCR(objects[i])) != 0
                 && wishymatch(name, zn, FALSE)) /* objects[] description */
             /* "cloth" should match "piece of cloth"; there's only one
                description containing " of " so no special case handling */
