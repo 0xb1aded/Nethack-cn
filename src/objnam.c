@@ -2623,8 +2623,8 @@ corpse_xname(
        the obuf[] returned by an() can be made available for re-use */
     if (any_prefix) {
         char *obufp;
-
-        Strcpy(nambuf, obufp = an(nambuf));
+        Sprintf(obufp, "1 %s", nambuf); /*危险:原本什么都没有*/
+        Strcpy(nambuf, obufp); /*危险:Strcpy(nambuf, obufp = an(nambuf));*/
         releaseobuf(obufp);
     }
     return nambuf;
@@ -14999,7 +14999,7 @@ readobjnam_postparse2(struct _readobjnam_data *d)
         d->dn = d->actualn = d->bp;
         return 1; /*goto srch;*/
     } else if (!BSTRCMPI(d->bp, d->p - strlen("石"), "石") || !BSTRCMPI(d->bp, d->p - strlen("宝石"), "宝石")) {
-        d->p[!strcmpi(d->p - strlen("石"), "石") ? -strlen("石") : -strlen("宝石")] = '\0';
+        d->p[!strcmpi(d->p-strlen("石"), "石") ? -strlen("石") : -strlen("宝石")] = '\0';
         d->oclass = GEM_CLASS;
         d->dn = d->actualn = d->bp;
         return 1; /*goto srch;*/

@@ -1490,7 +1490,7 @@ make_angry_shk(
 
 static const char
         no_money[] = "再说了,你%s没有金币.",
-        not_enough_money[] = "而且,%s你也没有能买下的金币.";
+        not_enough_money[] = "而且,你也没有能买下%s的金币.";
 
 /* if one item is used-up and the other isn't, the used-up one comes first;
    otherwise, if their costs differ, the more expensive one comes first;
@@ -1890,7 +1890,7 @@ dopay(void)
                     pline("但你还有金币藏着!");
             }
             if ((umoney < ltmp / 2L) || (umoney < ltmp && stashed_gold))
-                pline("遗憾的是，%s看上去并不满意.",
+                pline("遗憾的是,%s看上去并不满意.",
                       noit_mhe(shkp));
             else
                 make_happy_shk(shkp, FALSE);
@@ -1924,7 +1924,7 @@ dopay(void)
         } else {
             /* shopkeeper is angry, but has not been robbed --
              * door broken, attacked, etc. */
-            pline("%s要的是你的命，不是钱!", Shknam(shkp));
+            pline("%s要的是你的命,不是钱!", Shknam(shkp));
             if (umoney < 1000L) {
                 if (!umoney)
                     pline(no_money, stashed_gold ? "看上去" : "");

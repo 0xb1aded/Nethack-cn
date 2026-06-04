@@ -81,6 +81,7 @@ English README：[README_en.md](README_en.md)
 |polymorph|变形|
 |open,closed(门)|打开的,关上的|
 |loot|搜刮|
+|tip(把箱子里的东西都倒出来)|倒空|
 
 #### 体词
 
@@ -105,6 +106,7 @@ English README：[README_en.md](README_en.md)
 |fixed abilities|属性维持|
 |shape changers|变形怪|
 |iron bars|铁栅栏|
+|gunyoki|||
 
 #### 死因
 

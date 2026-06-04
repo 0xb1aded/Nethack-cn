@@ -2876,6 +2876,7 @@ setup_rolemenu(
             any.a_int = i + 1;
         else
             any.a_string = roles[i].name.m;
+            thisch = '\0';
         /*危险，冗余:thisch = lowc(*roles[i].name.m);*/
         /*危险，冗余:if (thisch == lastch)
             thisch = highc(thisch);*/
