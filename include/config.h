@@ -747,3 +747,4 @@ typedef unsigned char uchar;
 #define cnstrcmp(bp, str) strncmp(bp, str, strlen(str))
 
 #define cnbstrcmp(bp, p, str) BSTRCMPI(bp, p - strlen(str), str)
+#define BSTRCMPI(base, ptr, str) ((ptr) < base || strcmpi((ptr), str))

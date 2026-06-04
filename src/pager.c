@@ -944,12 +944,12 @@ checkfile(
         dbase_str += strlen("部分吃掉的");
     if (!strncmp(dbase_str, "statue of ", 10))
         dbase_str[6] = '\0';
-    if (!cnbstrcmp(dbase_str, eos(dbase_str), "小雕像")) /*危险:你懂吧。。。*/
-        dbase_str[eos(dbase_str) - strlen("小雕像")] = '\0';
+    if (strstr(dbase_str, "小雕像")) /*危险:你懂吧。。。*/
+        Sprintf(dbase_str, "小雕像");
     if (!strncmp(dbase_str, "figurine of ", 12))
         dbase_str[8] = '\0';
-    if (!cnbstrcmp(dbase_str, eos(dbase_str), "雕像"))
-        dbase_str[eos(dbase_str) - strlen("雕像")] = '\0';
+    if (strstr(dbase_str, "雕像"))
+        Sprintf(dbase_str, "雕像");
     /* remove enchantment ("+0 aklys"); [for 3.6.0 and earlier, this wasn't
        needed because looking at items on the map used xname() rather than
        doname() hence known enchantment was implicitly suppressed] */
@@ -2065,8 +2065,8 @@ look_all(
                         Sprintf(outbuf, "当前在%s附近显示的%s:",
                                 (cmode != GPCOORDS_COMPASS)
                                   ? coord_desc(u.ux, u.uy, coordbuf, cmode)
-                                  : !canspotself() ? "你的位置" : "你"),
-                                upstart(which); /*修改语序:调换*/
+                                  : !canspotself() ? "你的位置" : "你",
+                                upstart(which)); /*修改语序:调换*/
                     else
                         Sprintf(outbuf, "当前在地图上显示的所有%s:",
                                 which);

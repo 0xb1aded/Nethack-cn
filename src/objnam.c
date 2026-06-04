@@ -1042,29 +1042,30 @@ xname_flags(
         if (dknown && obj->odiluted)
             Strcpy(buf, "稀释的");
         if (nn || un || !dknown) {
-            if (!dknown)
+            if (!dknown) {
                 Strcpy(buf, "药水");
                 break;
+            }
             if (nn) {
-                if (typ == POT_WATER && bknown
-                    && (obj->blessed || obj->cursed)) {
+                if (typ == POT_WATER && bknown && (obj->blessed || obj->cursed)) {
                     Strcat(buf, obj->blessed ? "圣" : "邪");
+                    /*Strcat(buf, "之");*/
                 }
                 Strcat(buf, actualn);
-                /*Strcat(buf, "之");*/
             } else {
                 xcalled(buf, BUFSZ - PREFIX, "", un);
+                Strcat(buf, "药水");
             }
-            Strcat(buf, "药水");
         } else {
             Strcat(buf, dn);
             Strcat(buf, "药水");
         }
         break;
     case SCROLL_CLASS:
-        if (!dknown)
+        if (!dknown){
             Strcpy(buf, "卷轴");
             break;
+        }
         if (nn) {
             Strcat(buf, actualn);
             /*Strcat(buf, "之");*/
