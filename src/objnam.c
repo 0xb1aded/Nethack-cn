@@ -321,7 +321,7 @@ obj_typename(int otyp)
         if (nn) {
             Strcat(buf, actualn);
             if (GemStone(otyp))
-                Strcat(buf, "石");
+                Strcat(buf, "石头");
             if (un) /* 3: length of " (" + ")" which will enclose 'dn' */
                 xcalled(buf, BUFSZ - (dn ? (int) strlen(dn) + 3 : 0), "", un);
             if (dn)
@@ -330,7 +330,7 @@ obj_typename(int otyp)
             Strcat(buf, dn ? dn : actualn);
             if (ocl->oc_class == GEM_CLASS)
                 Strcat(buf,
-                       (ocl->oc_material == MINERAL) ? "石" : "宝石");
+                       (ocl->oc_material == MINERAL) ? "石头" : "宝石");
             if (un)
                 xcalled(buf, BUFSZ, "", un);
         }
@@ -754,7 +754,7 @@ xcalled(
         panic("xcalled: not enough room for prefix (%d > %d)",
               pfxlen, bufsiz);
 
-    Sprintf(eos(buf), "%s,被称为%.*s", pfx, bufsiz - pfxlen, sfx);
+    Sprintf(eos(buf), "%s被称为%.*s", pfx, bufsiz - pfxlen, sfx);
 }
 
 staticfn void
@@ -1042,27 +1042,30 @@ xname_flags(
         if (dknown && obj->odiluted)
             Strcpy(buf, "稀释的");
         if (nn || un || !dknown) {
-            if (!dknown)
+            if (!dknown) {
+                Strcpy(buf, "药水");
                 break;
+            }
             if (nn) {
-                if (typ == POT_WATER && bknown
-                    && (obj->blessed || obj->cursed)) {
+                if (typ == POT_WATER && bknown && (obj->blessed || obj->cursed)) {
                     Strcat(buf, obj->blessed ? "圣" : "邪");
+                    /*Strcat(buf, "之");*/
                 }
                 Strcat(buf, actualn);
-                /*Strcat(buf, "之");*/
             } else {
                 xcalled(buf, BUFSZ - PREFIX, "", un);
+                Strcat(buf, "药水");
             }
-            Strcat(buf, "药水");
         } else {
             Strcat(buf, dn);
             Strcat(buf, "药水");
         }
         break;
     case SCROLL_CLASS:
-        if (!dknown)
+        if (!dknown){
+            Strcpy(buf, "卷轴");
             break;
+        }
         if (nn) {
             Strcat(buf, actualn);
             /*Strcat(buf, "之");*/
@@ -1123,7 +1126,7 @@ xname_flags(
             Sprintf(buf, "%s戒指", dn);
         break;
     case GEM_CLASS: {
-        const char *rock = (ocl->oc_material == MINERAL) ? "石" : "宝石";
+        const char *rock = (ocl->oc_material == MINERAL) ? "石头" : "宝石";
 
         if (!dknown) {
             Strcpy(buf, rock);
@@ -1135,7 +1138,7 @@ xname_flags(
         } else {
             Strcpy(buf, actualn);
             if (GemStone(typ))
-                Strcat(buf, "石");
+                Strcat(buf, "石头");
         }
         break;
     } /* gem */
@@ -15024,8 +15027,8 @@ readobjnam_postparse2(struct _readobjnam_data *d)
         d->oclass = GEM_CLASS;
         d->dn = d->actualn = d->bp;
         return 1; /*goto srch;*/
-    } else if (!BSTRCMPI(d->bp, d->p - strlen("石"), "石") || !BSTRCMPI(d->bp, d->p - strlen("宝石"), "宝石")) {
-        d->p[!strcmpi(d->p-strlen("石"), "石") ? -strlen("石") : -strlen("宝石")] = '\0';
+    } else if (!BSTRCMPI(d->bp, d->p - strlen("石头"), "石头") || !BSTRCMPI(d->bp, d->p - strlen("宝石"), "宝石")) {
+        d->p[!strcmpi(d->p-strlen("石头"), "石头") ? -strlen("石头") : -strlen("宝石")] = '\0';
         d->oclass = GEM_CLASS;
         d->dn = d->actualn = d->bp;
         return 1; /*goto srch;*/
