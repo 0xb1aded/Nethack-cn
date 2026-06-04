@@ -3544,7 +3544,7 @@ is_altseq(unsigned long shiftstate)
 
 int
 ray_processkeystroke(
-    HANDLE hConIn,
+    HANDLE hConIn UNUSED,
     INPUT_RECORD *ir,
     boolean *valid,
     uchar numberpad,
@@ -3556,7 +3556,6 @@ ray_processkeystroke(
     unsigned long shiftstate;
     int altseq = 0;
     const struct pad *kpad;
-    DWORD count = 0;
 
 #ifdef QWERTZ_SUPPORT
     if (numberpad & 0x10) {
@@ -3569,26 +3568,17 @@ ray_processkeystroke(
 
     *valid = FALSE;
 
-    /*
-     * 关键修复：
-     * 不要只 Peek 以后不消费。
-     * 这里把当前队首记录真正读掉，避免输入队列永远停在同一个事件上。
-     */
-    if (!ReadConsoleInput(hConIn, ir, 1, &count) || count != 1)
-        return 0;
-
-    if (ir->EventType != KEY_EVENT)
+    if (!ir || ir->EventType != KEY_EVENT)
         return 0;
 
     if (!ir->Event.KeyEvent.bKeyDown)
         return 0;
 
-    shiftstate = 0L;
+    shiftstate = ir->Event.KeyEvent.dwControlKeyState;
     ch = pre_ch = ir->Event.KeyEvent.uChar.AsciiChar;
     scan = ir->Event.KeyEvent.wVirtualScanCode;
     vk = ir->Event.KeyEvent.wVirtualKeyCode;
     keycode = MapVirtualKey(vk, 2);
-    shiftstate = ir->Event.KeyEvent.dwControlKeyState;
 
     if (scan == 0 && vk == 0) {
         /* bogus_key */
@@ -3607,6 +3597,7 @@ ray_processkeystroke(
 
     if (iskeypad(scan)) {
         kpad = numberpad ? numpad : keypad;
+
         if (shiftstate & SHIFT_PRESSED) {
             ch = kpad[scan - KEYPADLO].shift;
         } else if (shiftstate & (LEFT_CTRL_PRESSED | RIGHT_CTRL_PRESSED)) {
@@ -3614,22 +3605,32 @@ ray_processkeystroke(
         } else {
             ch = kpad[scan - KEYPADLO].normal;
         }
+
 #ifdef QWERTZ_SUPPORT
-        /* OPTIONS=number_pad:-1 for qwertz keyboards */
         if (qwertz && kpad[scan - KEYPADLO].normal == 'y')
             ch += 1; /* y->z, Y->Z, ^Y->^Z */
 #endif /* QWERTZ_SUPPORT */
-    } else if (altseq > 0) { /* ALT sequence */
+
+    } else if (altseq > 0) {
         if (vk == 0xBF)
             ch = M('?');
         else
             ch = M(tolower((uchar) keycode));
+
+    } else if (ch < 32 && !isnumkeypad(scan)) {
+        /*
+         * Control code.  不要在这里再读输入事件了。
+         * 让外层决定怎么消费这个事件。
+         */
+        if (ch == 0)
+            *valid = FALSE;
+
     } else {
         /*
-         * 保持原先的“能识别就认，不能识别就丢”行为。
-         * 这里不再 ReadConsole / WriteConsoleInput，不然会把队列搞乱。
+         * 非ASCII键。这里保持原始 AsciiChar，不再调用 ReadConsole / ReadConsoleInput。
+         * 否则会和外层 Peek/Read 逻辑打架。
          */
-        if (!ch)
+        if (ch == 0)
             *valid = FALSE;
     }
 
