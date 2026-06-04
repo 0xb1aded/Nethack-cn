@@ -1,4 +1,4 @@
-/* NetHack 5.0	consoletty.c	$NHDT-Date: 1596498316 2020/08/03 23:45:16 $  $NHDT-Branch: NetHack-5.0 $:$NHDT-Revision: 1.117 $ */
+/* NetHack 5.0  consoletty.c    $NHDT-Date: 1596498316 2020/08/03 23:45:16 $  $NHDT-Branch: NetHack-5.0 $:$NHDT-Revision: 1.117 $ */
 /* Copyright (c) NetHack PC Development Team 1993    */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -3542,7 +3542,8 @@ is_altseq(unsigned long shiftstate)
     }
 }
 
-int ray_processkeystroke(
+int
+ray_processkeystroke(
     HANDLE hConIn,
     INPUT_RECORD *ir,
     boolean *valid,
@@ -3555,7 +3556,7 @@ int ray_processkeystroke(
     unsigned long shiftstate;
     int altseq = 0;
     const struct pad *kpad;
-    DWORD count;
+    DWORD count = 0;
 
 #ifdef QWERTZ_SUPPORT
     if (numberpad & 0x10) {
@@ -3565,16 +3566,32 @@ int ray_processkeystroke(
         qwertz = FALSE;
     }
 #endif
+
+    *valid = FALSE;
+
+    /*
+     * 关键修复：
+     * 不要只 Peek 以后不消费。
+     * 这里把当前队首记录真正读掉，避免输入队列永远停在同一个事件上。
+     */
+    if (!ReadConsoleInput(hConIn, ir, 1, &count) || count != 1)
+        return 0;
+
+    if (ir->EventType != KEY_EVENT)
+        return 0;
+
+    if (!ir->Event.KeyEvent.bKeyDown)
+        return 0;
+
     shiftstate = 0L;
     ch = pre_ch = ir->Event.KeyEvent.uChar.AsciiChar;
     scan = ir->Event.KeyEvent.wVirtualScanCode;
     vk = ir->Event.KeyEvent.wVirtualKeyCode;
     keycode = MapVirtualKey(vk, 2);
     shiftstate = ir->Event.KeyEvent.dwControlKeyState;
+
     if (scan == 0 && vk == 0) {
-        /* It's the bogus_key */
-        ReadConsoleInput(hConIn, ir, 1, &count);
-        *valid = FALSE;
+        /* bogus_key */
         return 0;
     }
 
@@ -3584,25 +3601,11 @@ int ray_processkeystroke(
         else
             altseq = -1; /* invalid altseq */
     }
-    if (ch || (iskeypad(scan)) || (altseq > 0))
+
+    if (ch || iskeypad(scan) || (altseq > 0))
         *valid = TRUE;
-    /* if (!valid) return 0; */
-    /*
-     * shiftstate can be checked to see if various special
-     * keys were pressed at the same time as the key.
-     * Currently we are using the ALT & SHIFT & CONTROLS.
-     *
-     *           RIGHT_ALT_PRESSED, LEFT_ALT_PRESSED,
-     *           RIGHT_CTRL_PRESSED, LEFT_CTRL_PRESSED,
-     *           SHIFT_PRESSED,NUMLOCK_ON, SCROLLLOCK_ON,
-     *           CAPSLOCK_ON, ENHANCED_KEY
-     *
-     * are all valid bit masks to use on shiftstate.
-     * eg. (shiftstate & LEFT_CTRL_PRESSED) is true if the
-     *      left control key was pressed with the keystroke.
-     */
+
     if (iskeypad(scan)) {
-        ReadConsoleInput(hConIn, ir, 1, &count);
         kpad = numberpad ? numpad : keypad;
         if (shiftstate & SHIFT_PRESSED) {
             ch = kpad[scan - KEYPADLO].shift;
@@ -3612,43 +3615,27 @@ int ray_processkeystroke(
             ch = kpad[scan - KEYPADLO].normal;
         }
 #ifdef QWERTZ_SUPPORT
-        /* OPTIONS=number_pad:-1 is for qwertz keyboard; for that setting,
-           'numberpad' will be 0; core swaps y to zap, z to move northwest;
-           we want numpad 7 to move northwest, so when qwertz is set,
-           tell core that user who types numpad 7 typed z rather than y */
+        /* OPTIONS=number_pad:-1 for qwertz keyboards */
         if (qwertz && kpad[scan - KEYPADLO].normal == 'y')
-            ch += 1; /* changes y to z, Y to Z, ^Y to ^Z */
-#endif /*QWERTZ_SUPPORT*/
+            ch += 1; /* y->z, Y->Z, ^Y->^Z */
+#endif /* QWERTZ_SUPPORT */
     } else if (altseq > 0) { /* ALT sequence */
-        ReadConsoleInput(hConIn, ir, 1, &count);
         if (vk == 0xBF)
             ch = M('?');
         else
             ch = M(tolower((uchar) keycode));
-    } else if (ch < 32 && !isnumkeypad(scan)) {
-        /* Control code; ReadConsole seems to filter some of these,
-         * including ESC */
-        ReadConsoleInput(hConIn, ir, 1, &count);
-    }
-    /* Attempt to work better with international keyboards. */
-    else {
-        CHAR ch2;
-        DWORD written;
-        /* The bogus_key guarantees that ReadConsole will return,
-         * and does not itself do anything */
-        WriteConsoleInput(hConIn, &bogus_key, 1, &written);
-        ReadConsole(hConIn, &ch2, 1, &count, NULL);
-        /* Prevent high characters from being interpreted as alt
-         * sequences; also filter the bogus_key */
-        if (ch2 & 0x80)
-            *valid = FALSE;
-        else
-            ch = ch2;
-        if (ch == 0)
+    } else {
+        /*
+         * 保持原先的“能识别就认，不能识别就丢”行为。
+         * 这里不再 ReadConsole / WriteConsoleInput，不然会把队列搞乱。
+         */
+        if (!ch)
             *valid = FALSE;
     }
+
     if (ch == '\r')
         ch = '\n';
+
 #ifdef PORT_DEBUG
     if (portdebug) {
         char buf[BUFSZ];
@@ -3658,6 +3645,10 @@ int ray_processkeystroke(
         fprintf(stdout, "\n%s", buf);
     }
 #endif
+
+    if (!ch)
+        *valid = FALSE;
+
     return ch;
 }
 

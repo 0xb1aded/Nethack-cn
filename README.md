@@ -82,6 +82,9 @@ English README：[README_en.md](README_en.md)
 |open,closed(门)|打开的,关上的|
 |loot|搜刮|
 |tip(把箱子里的东西都倒出来)|倒空|
+|swallow|吞咽|
+|engulf|吞没|
+|hold|抓住|
 
 #### 体词
 
@@ -106,7 +109,7 @@ English README：[README_en.md](README_en.md)
 |fixed abilities|属性维持|
 |shape changers|变形怪|
 |iron bars|铁栅栏|
-|gunyoki|||
+|gunyoki|兵粮<sup>[5](#note5)</sup>|
 
 #### 死因
 
@@ -202,6 +205,8 @@ English README：[README_en.md](README_en.md)
 拉丁语我打算保留一个原句再加一个翻译。
 
 <a id="note4">4</a> bolt只有crossbow bolt（弩箭）一种，和arrow没有最小对立。
+
+<a id="note4">5</a> 日语没有gunyoki这个词，[Wiki](https://nethackwiki.com/wiki/Food_ration#Encyclopedia_entry)里写的实际上是[出阵三献](https://kotobank.jp/word/%E5%87%BA%E9%99%A3-528945#w-1173980)，但这三样[一份](https://amakoya.com/sankonnogi/)的[热量]()嘛……
 
 #### 代码规范
 
@@ -350,15 +355,16 @@ English README：[README_en.md](README_en.md)
 
 ##### 文本文件(主要的几个，还有好多)
 
-- [ ] bogusmon.txt
-- [ ] dungeon.lua
-- [ ] engrave.txt
-- [ ] epitaph.txt
-- [ ] oracles.txt
-- [ ] rumors.fal
-- [ ] rumors.tru
-- [ ] tribute
-- [ ] quest.lua
+- [ ] data.base (百科全书内容)
+- [ ] bogusmon.txt (幻觉怪物)
+- [ ] dungeon.lua (分支名称)
+- [ ] engrave.txt (地上生成的随机刻字)
+- [ ] epitaph.txt (墓志铭(很有意思))
+- [ ] oracles.txt (神谕)
+- [ ] rumors.fal (幸运饼干)
+- [ ] rumors.tru (幸运饼干)
+- [ ] tribute (碟形世界)
+- [ ] quest.lua (任务文本)
 
 ### 技术细节
 

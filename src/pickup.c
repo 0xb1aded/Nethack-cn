@@ -2342,7 +2342,7 @@ doloot_core(void)
             }
         }
     } else if (c != 'y' && c != 'n') {
-        You("%s%s可供搜刮.", underfoot ? "这里" : "那里", /*修改语序:You("%s%s可供搜刮。", dont_find_anything,*/
+        You("在%s东西%s可供搜刮.", underfoot ? "这里" : "那里", /*修改语序:You("%s%s可供搜刮。", dont_find_anything,*/
             dont_find_anything); /*修改语序:underfoot ? "这里" : "那里");*/
     }
     return (timepassed ? ECMD_TIME : ECMD_OK);
@@ -2771,7 +2771,7 @@ out_container(struct obj *obj)
         pick_pick(obj); /* shopkeeper feedback */
 
     otmp = addinv(obj);
-    pickup_prinv(otmp, count, "移除");
+    pickup_prinv(otmp, count, "拿出");
 
     if (is_gold) {
         bot(); /* update character's gold piece count immediately */

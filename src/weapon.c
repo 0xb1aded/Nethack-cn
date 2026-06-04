@@ -111,7 +111,7 @@ weapon_descr(struct obj *obj)
     case P_SLING:
         if (is_ammo(obj))
             descr = (obj->otyp == ROCK || is_graystone(obj))
-                        ? "石"
+                        ? "石头"
                         /* avoid "rock"; what about known glass? */
                         : (obj->oclass == GEM_CLASS)
                             ? "宝石"

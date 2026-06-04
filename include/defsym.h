@@ -108,7 +108,7 @@
     PCHAR( 17, '#',  S_bars,   "铁栅栏", HI_METAL)
     PCHAR( 18, '#',  S_tree,   "树木", CLR_GREEN)
     PCHAR( 19, '.',  S_room,   "房间地板", CLR_GRAY)
-    PCHAR( 20, '.',  S_darkroom, "房间的阴暗处", CLR_BLACK)
+    PCHAR( 20, '.',  S_darkroom, "房间暗处", CLR_BLACK)
     PCHAR2(21, '`',  S_engroom, "engraving in a room", "写字", CLR_BRIGHT_BLUE)
     PCHAR2(22, '#',  S_corr,   "dark corridor", "走廊", CLR_GRAY)
     PCHAR( 23, '#',  S_litcorr, "照亮的走廊", CLR_GRAY)
