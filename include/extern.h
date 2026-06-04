@@ -2235,7 +2235,9 @@ extern char *short_oname(struct obj *, char *(*)(struct obj *),
 extern const char *singular(struct obj *, char *(*)(struct obj *)) NONNULLPTRS;
 extern char *just_an(char *, const char *) NONNULL NONNULLARG12;
 /* an(), the() contain tests for NULL arg, preventing NONNULLARG1 */
+extern char *just_one(char *, const char *) NONNULL NONNULLARG12;
 extern char *an(const char *) NONNULL NO_NNARGS;
+extern char *one(const char *) NONNULL NO_NNARGS;
 extern char *An(const char *) NONNULL NO_NNARGS;
 extern char *The(const char *) NONNULL NO_NNARGS;
 extern char *the(const char *) NONNULL NO_NNARGS;

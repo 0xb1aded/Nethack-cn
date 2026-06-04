@@ -2606,6 +2606,20 @@ corpse_xname(
         if (digit(*adjective))
             any_prefix = FALSE;
     }
+    if (otmp->quan > 1L && !ignore_quan) {
+            Strcat(nambuf, "");
+            any_prefix = FALSE; /* avoid "a newt corpses" */
+    }
+
+    /* it's safe to overwrite our nambuf[] after an() has copied its
+       old value into another buffer; and once _that_ has been copied,
+       the obuf[] returned by an() can be made available for re-use */
+    if (any_prefix) {
+        char *obufp;
+
+        Strcpy(nambuf, obufp = one(nambuf));
+        releaseobuf(obufp);
+    }
 
     if (glob) {
         ; /* omit_corpse doesn't apply; quantity is always 1 */
@@ -2618,15 +2632,6 @@ corpse_xname(
         }
     }
 
-    /* it's safe to overwrite our nambuf[] after an() has copied its
-       old value into another buffer; and once _that_ has been copied,
-       the obuf[] returned by an() can be made available for re-use */
-    if (any_prefix) {
-        char *obufp;
-        Sprintf(obufp, "1 %s", nambuf); /*危险:原本什么都没有*/
-        Strcpy(nambuf, obufp); /*危险:Strcpy(nambuf, obufp = an(nambuf));*/
-        releaseobuf(obufp);
-    }
     return nambuf;
 }
 
@@ -3569,6 +3574,14 @@ just_an(char *outbuf, const char *str)
 }
 
 char *
+just_one(char *outbuf, const char *str)
+{
+    *outbuf = '\0';
+    Strcpy(outbuf, "1 ");
+    return outbuf;
+}
+
+char *
 an(const char *str)
 {
     char *buf = nextobuf();
@@ -3578,6 +3591,19 @@ an(const char *str)
         return strcpy(buf, "an []");
     }
     (void) just_an(buf, str);
+    return strncat(buf, str, BUFSZ - 1 - Strlen(buf));
+}
+
+char *
+one(const char *str)
+{
+    char *buf = nextobuf();
+
+    if (!str || !*str) {
+        impossible("Alphabet soup: 'an(%s)'.", str ? "\"\"" : "<null>");
+        return strcpy(buf, "an []");
+    }
+    (void) just_one(buf, str);
     return strncat(buf, str, BUFSZ - 1 - Strlen(buf));
 }
 
