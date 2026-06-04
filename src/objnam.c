@@ -1011,13 +1011,13 @@ xname_flags(
             char anbuf[10];
             const char *statue_pmname = obj_pmname(obj);
 
-            Snprintf(buf, bufspaceleft, "%s%s%s%s",
+            Snprintf(buf, bufspaceleft, "%s%s%s的%s",
                      (Role_if(PM_ARCHEOLOGIST)
                       && (obj->spe & CORPSTAT_HISTORIC) != 0) ? "历史感的"
                        : "",
                      type_is_pname(&mons[omndx]) ? ""
                        : the_unique_pm(&mons[omndx]) ? ""
-                         : just_an(anbuf, statue_pmname),
+                         : "", /*危险:: just_an(anbuf, statue_pmname),*/
                      statue_pmname,
                      actualn);
         } else if (typ == BOULDER && obj->next_boulder == 1) {
@@ -2606,6 +2606,20 @@ corpse_xname(
         if (digit(*adjective))
             any_prefix = FALSE;
     }
+    if (otmp->quan > 1L && !ignore_quan) {
+            Strcat(nambuf, "");
+            any_prefix = FALSE; /* avoid "a newt corpses" */
+    }
+
+    /* it's safe to overwrite our nambuf[] after an() has copied its
+       old value into another buffer; and once _that_ has been copied,
+       the obuf[] returned by an() can be made available for re-use */
+    if (any_prefix) {
+        char *obufp;
+
+        Strcpy(nambuf, obufp = one(nambuf));
+        releaseobuf(obufp);
+    }
 
     if (glob) {
         ; /* omit_corpse doesn't apply; quantity is always 1 */
@@ -2618,15 +2632,6 @@ corpse_xname(
         }
     }
 
-    /* it's safe to overwrite our nambuf[] after an() has copied its
-       old value into another buffer; and once _that_ has been copied,
-       the obuf[] returned by an() can be made available for re-use */
-    if (any_prefix) {
-        char *obufp;
-
-        Strcpy(nambuf, obufp = an(nambuf));
-        releaseobuf(obufp);
-    }
     return nambuf;
 }
 
@@ -3569,6 +3574,14 @@ just_an(char *outbuf, const char *str)
 }
 
 char *
+just_one(char *outbuf, const char *str)
+{
+    *outbuf = '\0';
+    Strcpy(outbuf, "1 ");
+    return outbuf;
+}
+
+char *
 an(const char *str)
 {
     char *buf = nextobuf();
@@ -3578,6 +3591,19 @@ an(const char *str)
         return strcpy(buf, "an []");
     }
     (void) just_an(buf, str);
+    return strncat(buf, str, BUFSZ - 1 - Strlen(buf));
+}
+
+char *
+one(const char *str)
+{
+    char *buf = nextobuf();
+
+    if (!str || !*str) {
+        impossible("Alphabet soup: 'an(%s)'.", str ? "\"\"" : "<null>");
+        return strcpy(buf, "an []");
+    }
+    (void) just_one(buf, str);
     return strncat(buf, str, BUFSZ - 1 - Strlen(buf));
 }
 
@@ -14999,7 +15025,7 @@ readobjnam_postparse2(struct _readobjnam_data *d)
         d->dn = d->actualn = d->bp;
         return 1; /*goto srch;*/
     } else if (!BSTRCMPI(d->bp, d->p - strlen("石"), "石") || !BSTRCMPI(d->bp, d->p - strlen("宝石"), "宝石")) {
-        d->p[!strcmpi(d->p - strlen("石"), "石") ? -strlen("石") : -strlen("宝石")] = '\0';
+        d->p[!strcmpi(d->p-strlen("石"), "石") ? -strlen("石") : -strlen("宝石")] = '\0';
         d->oclass = GEM_CLASS;
         d->dn = d->actualn = d->bp;
         return 1; /*goto srch;*/
