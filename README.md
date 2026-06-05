@@ -85,6 +85,12 @@ English README：[README_en.md](README_en.md)
 |swallow|吞咽|
 |engulf|吞没|
 |hold|抓住|
+|unencumbered|无负载|
+|burdened|轻度负重|
+|stressed|中度负重|
+|strained|高度负重|
+|overtaxed|严重超重|
+|overloaded|极其超重|
 
 #### 体词
 

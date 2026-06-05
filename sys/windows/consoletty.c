@@ -1690,20 +1690,38 @@ term_clear_screen(void)
 void
 term_curs_set(int visibility)
 {
+    static int initialized = 0;
+    static CONSOLE_CURSOR_INFO cursorinfo;
     static int vis = -1;
+    BOOL ok;
 
     if (vis == visibility)
         return;
 
-    static CONSOLE_CURSOR_INFO cursorinfo = { 0, 0 };
+    if (console.hConOut == NULL || console.hConOut == INVALID_HANDLE_VALUE)
+        return;
 
-    if (!cursorinfo.dwSize) {
-        GetConsoleCursorInfo(console.hConOut, &cursorinfo);
+    if (!initialized) {
+        ok = GetConsoleCursorInfo(console.hConOut, &cursorinfo);
+        if (!ok) {
+            /* 这里说明当前输出句柄不支持/不可用，
+             * 直接禁用这条路径，别让输入卡死。
+             */
+            return;
+        }
+        initialized = 1;
         vis = cursorinfo.bVisible ? 1 : 0;
     }
-    cursorinfo.bVisible = visibility ? (BOOL) TRUE : (BOOL) FALSE;
-    SetConsoleCursorInfo(console.hConOut, &cursorinfo);
-    vis = visibility;
+
+    cursorinfo.bVisible = visibility ? TRUE : FALSE;
+
+    ok = SetConsoleCursorInfo(console.hConOut, &cursorinfo);
+    if (!ok) {
+        /* 失败就别继续折腾，避免每次按键都碰一次异常路径 */
+        return;
+    }
+
+    vis = visibility ? 1 : 0;
 }
 
 void
