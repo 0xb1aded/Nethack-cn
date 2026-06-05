@@ -1979,8 +1979,8 @@ mlevel_tele_trap(struct monst *mtmp, struct trap *trap, boolean force_it,
                 assign_level(&tolevel, &valley_level);
             } else if (Is_botlevel(&u.uz)) {
                 if (in_sight && trap->tseen)
-                    pline_mon(mtmp, "%s avoids the %s.", Monnam(mtmp),
-                              (tt == HOLE) ? "hole" : "trap");
+                    pline_mon(mtmp, "%s躲过了%s.", Monnam(mtmp),
+                              (tt == HOLE) ? "洞" : "陷阱");
                 return Trap_Effect_Finished;
             } else {
                 assign_level(&tolevel, &trap->dst);
@@ -1991,7 +1991,7 @@ mlevel_tele_trap(struct monst *mtmp, struct trap *trap, boolean force_it,
                 && (mon_has_amulet(mtmp) || is_home_elemental(mtmp->data)
                     || rn2(7))) {
                 if (in_sight && mtmp->data->mlet != S_ELEMENTAL) {
-                    pline_mon(mtmp, "%s seems to shimmer for a moment.",
+                    pline_mon(mtmp, "%s闪烁了一刹那",
                               Monnam(mtmp));
                     seetrap(trap);
                 }
@@ -2011,7 +2011,7 @@ mlevel_tele_trap(struct monst *mtmp, struct trap *trap, boolean force_it,
                    currently inside his or her own special room */
                 || (tt == NO_TRAP && onscary(0, 0, mtmp))) {
                 if (in_sight)
-                    pline_mon(mtmp, "%s seems very disoriented for a moment.",
+                    pline_mon(mtmp, "%s看上去尤其迷失了一刹那.",
                               Monnam(mtmp));
                 return Trap_Effect_Finished;
             }
@@ -2025,7 +2025,7 @@ mlevel_tele_trap(struct monst *mtmp, struct trap *trap, boolean force_it,
                 nlev = random_teleport_level();
                 if (nlev == depth(&u.uz)) {
                     if (in_sight)
-                        pline_mon(mtmp, "%s shudders for a moment.",
+                        pline_mon(mtmp, "%s突然打了个哆嗦.",
                                   Monnam(mtmp));
                     return Trap_Effect_Finished;
                 }
@@ -2037,10 +2037,10 @@ mlevel_tele_trap(struct monst *mtmp, struct trap *trap, boolean force_it,
         }
 
         if (in_sight) {
-            pline_mon(mtmp, "Suddenly, %s %s.", mon_nam(mtmp),
-                      (tt == HOLE)       ? "falls into a hole"
-                      : (tt == TRAPDOOR) ? "falls through a trap door"
-                                         : "disappears out of sight");
+            pline_mon(mtmp, "突然,%s%s.", mon_nam(mtmp),
+                      (tt == HOLE)       ? "掉进了一个洞里"
+                      : (tt == TRAPDOOR) ? "掉进了一个陷阱门"
+                                         : "消失在你视线之外");
             if (trap)
                 seetrap(trap);
         }
@@ -2092,7 +2092,7 @@ rloco(struct obj *obj)
                                           svd.dndest.nly, svd.dndest.nhx,
                                           svd.dndest.nhy)));
 
-    if (flooreffects(obj, tx, ty, "fall")) {
+    if (flooreffects(obj, tx, ty, "掉")) {
         /* update old location (if any) since flooreffects() couldn't;
            unblock_point() for boulder handled by obj_extract_self() */
         if (!(otx == 0 && oty == 0))

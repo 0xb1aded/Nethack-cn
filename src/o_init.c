@@ -598,10 +598,10 @@ sortloot_descr(int otyp, char *outbuf)
 /* also used in options.c (optfn_sortdiscoveries) */
 static const char disco_order_let[] = "osca";
 static const char *const disco_orders_descr[] = {
-    "by order of discovery within each class",
-    "sortloot order (by class with some sub-class groupings)",
-    "alphabetical within each class",
-    "alphabetical across all classes",
+    "按种类内的发现顺序",
+    "战利品排序(按职业分类,并包含部分子职业分组)",
+    "先按种类,再按字母顺序",
+    "直接按字母顺序",
     (char *) 0
 };
 
@@ -635,11 +635,11 @@ choose_disco_sort(
            chosen sort will stick and also apply to '\' usage */
         add_menu_str(tmpwin, "");
         add_menu_str(tmpwin,
-                     "Note: full alphabetical and alphabetical within class");
+                     "注:按完整字母顺序排序和按类内字母顺序");
         add_menu_str(tmpwin,
-                     "      are equivalent for single class discovery, but");
+                     "  排序在单类检索中是等效的,但在将来进");
         add_menu_str(tmpwin,
-                    "      will matter for future use of total discoveries.");
+                    "  行全部检索时会产生影响.");
     }
     end_menu(tmpwin, "发现的排序");
 
@@ -724,7 +724,7 @@ disco_append_typename(char *buf, int dis)
 staticfn void
 disco_fmt_uniq(int uidx, char *outbuf)
 {
-    Sprintf(outbuf, "  %s", objects[uidx].oc_name_known
+    Sprintf(outbuf, "%s", objects[uidx].oc_name_known
                               ? OBJ_NAME(objects[uidx])
                               : OBJ_DESCR(objects[uidx]));
     /* in the spellbooks section of main discoveries list, encountered
@@ -733,7 +733,7 @@ disco_fmt_uniq(int uidx, char *outbuf)
        in the unique/relics section we want "papyrus spellbook" instead */
     if (!objects[uidx].oc_name_known
         && objects[uidx].oc_class == SPBOOK_CLASS)
-        Strcat(outbuf, " 法术书");
+        Strcat(outbuf, "魔法书");
 }
 
 /* sort and output sorted_lines to window and free the lines */
@@ -785,7 +785,7 @@ dodiscovered(void) /* free after Robert Viduya */
     sortindx = strchr(disco_order_let, flags.discosort) - disco_order_let;
 
     tmpwin = create_nhwindow(NHW_TEXT);
-    Sprintf(buf, "发现物，%s", disco_orders_descr[sortindx]);
+    Sprintf(buf, "发现物,%s", disco_orders_descr[sortindx]);
     putstr(tmpwin, 0, buf);
     putstr(tmpwin, 0, "");
 
@@ -804,7 +804,7 @@ dodiscovered(void) /* free after Robert Viduya */
             || (objects[uidx].oc_encountered && uidx != AMULET_OF_YENDOR)) {
             if (!dis++)
                 putstr(tmpwin, iflags.menu_headings.attr,
-                       "Unique items or Relics");
+                       "独特物品或圣物");
             ++uniq_ct;
             disco_fmt_uniq(uidx, buf);
             putstr(tmpwin, 0, buf);
@@ -862,7 +862,7 @@ dodiscovered(void) /* free after Robert Viduya */
                classes, we normally don't need a header; but it we showed
                any unique items or any artifacts then we do need one */
             if ((uniq_ct || arti_ct) && alphabetized && !alphabyclass)
-                putstr(tmpwin, iflags.menu_headings.attr, "Discovered items");
+                putstr(tmpwin, iflags.menu_headings.attr, "已发现物品");
             disco_output_sorted(tmpwin, sorted_lines, sorted_ct, lootsort);
         }
         display_nhwindow(tmpwin, TRUE);
@@ -891,10 +891,10 @@ int
 doclassdisco(void)
 {
     static NEARDATA const char
-        prompt[] = "View discoveries for which sort of objects?",
-        havent_discovered_any[] = "haven't discovered any %s yet.",
-        unique_items[] = "unique items or relics",
-        artifact_items[] = "artifacts";
+        prompt[] = "查看哪类物品的发现?",
+        havent_discovered_any[] = "还没有发现过任何%s.",
+        unique_items[] = "独特物品或圣物",
+        artifact_items[] = "神器";
     winid tmpwin = WIN_ERR;
     menu_item *pick_list = 0;
     anything any;
@@ -990,7 +990,7 @@ doclassdisco(void)
 
     /* there might not be anything for us to do... */
     if (!discosyms[0]) {
-        You(havent_discovered_any, "items");
+        You(havent_discovered_any, "物品");
         if (tmpwin != WIN_ERR)
             destroy_nhwindow(tmpwin);
         return ECMD_OK;
@@ -1081,10 +1081,10 @@ doclassdisco(void)
         /* this should never happen but has been observed via the fuzzer */
         if (oclass == MAXOCLASSES)
             impossible("doclassdisco: invalid object class '%s'", visctrl(c));
-        Sprintf(buf, "发现了 %s 于 %s", let_to_name(oclass, FALSE, FALSE),
-                (flags.discosort == 'o') ? "发现顺序"
-                : (flags.discosort == 's') ? "'sortloot'顺序"
-                  : "字母顺序");
+        Sprintf(buf, "Discovered %s in %s", let_to_name(oclass, FALSE, FALSE),
+                (flags.discosort == 'o') ? "order of discovery"
+                : (flags.discosort == 's') ? "'sortloot' order"
+                  : "alphabetical order");
         putstr(tmpwin, 0, buf); /* skip iflags.menu_headings */
         sorted_ct = 0;
         for (i = svb.bases[(int) oclass]; i <= svb.bases[oclass + 1] - 1;
@@ -1180,9 +1180,9 @@ rename_disco(void)
     if (ct == 0) {
         You("目前还没有发现任何物品...");
     } else if (mn == 0) {
-        pline("你的发现物没有一个能被指定名字...");
+        pline("你的发现的物品没有一个能被指定名字...");
     } else {
-        end_menu(tmpwin, "选择一个对象来命名");
+        end_menu(tmpwin, "选择一个物品来命名");
         dis = STRANGE_OBJECT;
         sl = select_menu(tmpwin, PICK_ONE, &selected);
         if (sl > 0) {

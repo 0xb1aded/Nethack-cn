@@ -187,7 +187,7 @@ bhitm(struct monst *mtmp, struct obj *otmp)
 
     switch (otyp) {
     case WAN_STRIKING:
-        zap_type_text = "wand";
+        zap_type_text = "魔杖";
         FALLTHROUGH;
     /*FALLTHRU*/
     case SPE_FORCE_BOLT:

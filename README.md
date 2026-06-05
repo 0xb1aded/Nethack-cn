@@ -31,8 +31,6 @@ English README：[README_en.md](README_en.md)
 
 [讨论怪物简中译名](https://github.com/StackC00ki3/Nethack-cn/discussions/4)
 
-原版两个空格中文版一个空格？
-
 #### 谓词
 
 |英文|中文|
@@ -116,6 +114,8 @@ English README：[README_en.md](README_en.md)
 |shape changers|变形怪|
 |iron bars|铁栅栏|
 |gunyoki|兵粮<sup>[5](#note5)</sup>|
+|chasm|裂口|
+|medallion|吊坠|
 
 #### 死因
 
@@ -172,6 +172,7 @@ English README：[README_en.md](README_en.md)
 |Ulch!|呃!|
 |Ooph!|呼!|
 |Crash!|哗啦!|
+|Boing!|咚!|
 
 #### 技能
 
@@ -207,12 +208,12 @@ English README：[README_en.md](README_en.md)
 <a id="note2">2</a> 根据[Wiki](https://nethackwiki.com/wiki/Quantum_mechanic#Origin)，这是一个对quantum mechanics（单数，“量子力学”）错误逆构词导致的双关，且从[贴图](https://nethackwiki.com/wiki/File:Quantum_mechanic.png)和游戏内信息可以推断出quantum mechanic显然是人形生物，不应翻译为“量子力学”。
 
 <a id="note3">4</a> 含有这种人称代词或shalt(shall 2nd sg)、art(be 2nd sg)、-est(2nd sg)、-eth(3rd sg)等的句子当译为文言。  
-~~也不一定是文言吧，或者像[浅文理和合本](https://www.bible.com/bible/1577/)那样的浅近文言？~~不行，还是不够高语域。
+<del>也不一定是文言吧，或者像[浅文理和合本](https://www.bible.com/bible/1577/)那样的浅近文言？</del>不行，还是不够高语域。
 拉丁语我打算保留一个原句再加一个翻译。
 
 <a id="note4">4</a> bolt只有crossbow bolt（弩箭）一种，和arrow没有最小对立。
 
-<a id="note4">5</a> 日语没有gunyoki这个词，[Wiki](https://nethackwiki.com/wiki/Food_ration#Encyclopedia_entry)里写的实际上是[出阵三献](https://kotobank.jp/word/%E5%87%BA%E9%99%A3-528945#w-1173980)，但这三样[一份](https://amakoya.com/sankonnogi/)的[热量]()嘛……
+<a id="note4">5</a> 日语没有gunyoki这个词，[游戏内百科全书](https://nethackwiki.com/wiki/Food_ration#Encyclopedia_entry)里写的实际上是[出阵三献](https://kotobank.jp/word/%E5%87%BA%E9%99%A3-528945#w-1173980)，但这三样[一份](https://amakoya.com/sankonnogi/)的[热量](https://nethackwiki.com/wiki/NetHack_units#Calculation)嘛……
 
 #### 代码规范
 
@@ -297,8 +298,8 @@ English README：[README_en.md](README_en.md)
 - [ ] nhlobj.c
 - [ ] nhlsel.c
 - [x] nhlua.c
-- [ ] nhmd4.c
-- [ ] objects.c
+- [x] nhmd4.c (无需翻译)
+- [x] objects.c (无需翻译)
 - [ ] objnam.c
 - [ ] options.c
 - [ ] o_init.c
@@ -473,3 +474,11 @@ English README：[README_en.md](README_en.md)
 功能: 寻找适合obj_ok行为的所有物品供玩家选择（若没有则默认展示所有物品）。
 
 **处理方案**: 这个\*word对字符串不敏感。它会问你："你想要"+传入的\*word+"?"（汉语的这个地方填的词可能是离合的，如：“写在什么上”）。
+
+##### monverbself(struct monst \*mon, char \*monnamtext, const char \*verb, const char \*othertext)
+
+位置: [do_name.c](src/do_name.c)
+
+功能: 输出"\<The monster\> \<verb\> \<othertext\> \<him/her/it\>self."
+
+**处理方案**: 改为"\<怪物\>对\<他/她/它\>自己\<动词\>\<其他文本\>"
