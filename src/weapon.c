@@ -111,7 +111,7 @@ weapon_descr(struct obj *obj)
     case P_SLING:
         if (is_ammo(obj))
             descr = (obj->otyp == ROCK || is_graystone(obj))
-                        ? "石"
+                        ? "石头"
                         /* avoid "rock"; what about known glass? */
                         : (obj->oclass == GEM_CLASS)
                             ? "宝石"
@@ -768,7 +768,7 @@ possibly_unwield(struct monst *mon, boolean polyspot)
         }
         obj_extract_self(obj);
         /* might be dropping object into water or lava */
-        if (!flooreffects(obj, mon->mx, mon->my, "drop")) {
+        if (!flooreffects(obj, mon->mx, mon->my, "掉")) {
             if (polyspot)
                 bypass_obj(obj);
             place_object(obj, mon->mx, mon->my);
@@ -909,7 +909,7 @@ mon_wield_item(struct monst *mon)
 
                 if (bimanual(obj))
                     mon_hand = makeplural(mon_hand);
-                pline("%s到了%s的%s上！", Tobjnam(obj, "自动粘"), /*危险:pline("%s %s 到 %s %s上！", Tobjnam(obj, "粘住"),*/
+                pline("%s到了%s的%s上!", Tobjnam(obj, "自动粘"), /*危险:pline("%s %s 到 %s %s上！", Tobjnam(obj, "粘住"),*/
                       /*冗余: is_plural(obj) ? "它们自己" : "它自己",*/
                       s_suffix(mon_nam(mon)), mon_hand);
                 obj->bknown = 1;
@@ -923,7 +923,7 @@ mon_wield_item(struct monst *mon)
                       ); /*修改语序: mbodypart(mon, HAND));*/
             /* 3.6.3: artifact might be getting wielded by invisible monst */
             else if (cansee(mon->mx, mon->my))
-                pline("光芒开始在%s照耀。",
+                pline("光芒开始在%s照耀.",
                       (mdistu(mon) <= 5 * 5) ? "附近" : "远处");
         }
         obj->owornmask = W_WEP;
