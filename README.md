@@ -173,6 +173,7 @@ English README：[README_en.md](README_en.md)
 |Ooph!|呼!|
 |Crash!|哗啦!|
 |Boing!|咚!|
+|Yecch!|噫!|
 
 #### 技能
 

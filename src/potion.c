@@ -1957,7 +1957,7 @@ potionbreathe(struct obj *obj)
 
                 if (eyecount(gy.youmonst.data) != 1)
                     eyes = makeplural(eyes);
-                Your("%s%s!", eyes, vtense(eyes, "刺痛"));
+                Your("%s在%s!", eyes, vtense(eyes, "刺痛"));
             }
             break;
         } else {

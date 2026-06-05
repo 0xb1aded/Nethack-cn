@@ -942,9 +942,9 @@ m_dowear_type(
                 /* size of newarm[] has been overallocated to guarantee
                    enough room to insert "another " */
                 if (!strncmpi(newarm, "a ", 2)) /*待写：if (!cnstrncmpi(newarm, "一个", 2))*/
-                    (void) strsubst(newarm, "a ", "another ");
+                    {(void) strsubst(newarm, "a ", "another ");}
                 else if (!strncmpi(newarm, "an ", 3)) /*待写：if (!cnstrncmpi(newarm, "一个", 2))*/
-                    (void) strsubst(newarm, "an ", "another ");
+                    {(void) strsubst(newarm, "an ", "another ");} if (!strncmpi(newarm, "1 ", 2)){(void) strsubst(newarm, "1 ", "另一个");}
                 newarm[BUFSZ - 1] = '\0';
             }
             pline_mon(mon, "%s%s穿上了%s.", Monnam(mon), buf, newarm);
