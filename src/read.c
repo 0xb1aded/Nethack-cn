@@ -106,10 +106,10 @@ tshirt_text(struct obj *tshirt, char *buf)
       "剑不在长,有#enhance则强.",
         "埃尔维拉夫人的魅魔之屋终身客户",
         "埃尔维拉夫人的魅魔之屋本月最佳员工",
-        "卢迪奥斯堡的守卫们在小小的暗黑房间里干的",
+        "吕底俄斯堡的守卫们在小小的暗黑房间里干的",
         "岩德军队的士兵们成群结队地行动",
         "我活过了岩德军队新兵训练营",
-        "卢迪奥斯会计学校校内长曲棍球队",
+        "吕底俄斯会计学校校内长曲棍球队",
         "Oracle(TM) Fountains第十届湿身T恤大赛",
         "来啊,黑龙!有本事就分解这个!",
         "我跟蠢货在一起-->",
@@ -162,7 +162,7 @@ tshirt_text(struct obj *tshirt, char *buf)
         "连环升天者",
         "真男人都是女武神",
         "青年掘洞协会",
-        "占领卢迪奥斯堡",
+        "占领吕底俄斯堡",
         "我买不起这件T恤,所以我偷了它!",
         "夺心魔……吸……",
         "我没穿内裤",
@@ -1250,13 +1250,13 @@ seffect_enchant_armor(struct obj **sobjp)
             maybe_adjust_light(otmp, old_light);
         return;
     }
-    pline("%s%s%s%s%s%s了%s.", Yname2(otmp), /*修改语序:多了一个%s*/
+    pline("%s%s%s%s了%s%s%s.", Yname2(otmp), /*修改语序:多了一个%s*/
           (s == 0) ? "猛烈地" : "",
           otense(otmp, Blind ? "振动" : "发出"),
           (!Blind && !same_color) ? "" : "",
-          (Blind || same_color)
-          ? "" : hcolor(scursed ? NH_BLACK : NH_SILVER), (Blind || same_color) ? "" : "光", /*修改语序:? "" : hcolor(scursed ? NH_BLACK : NH_SILVER),*/
-          (s * s > 1) ? "一会儿" : "一刹那");
+          (s * s > 1) ? "一会儿" : "一刹那",  /*修改语序:(Blind || same_color);*/
+          (Blind || same_color) ? "" : hcolor(scursed ? NH_BLACK : NH_SILVER), /*修改语序:? "" : hcolor(scursed ? NH_BLACK : NH_SILVER), (Blind || same_color) ? "" : "光",*/ /*修改语序:? "" : hcolor(scursed ? NH_BLACK : NH_SILVER),*/
+          (Blind || same_color) ? "" : "光"); /*修改语序:(s * s > 1) ? "一会儿" : "一刹那");*/
     /* [this cost handling will need updating if shop pricing is
        ever changed to care about curse/bless status of armor] */
     if (s < 0)
