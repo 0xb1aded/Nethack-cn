@@ -1172,104 +1172,138 @@ consoletty_kbhit(void)
 
 #include <windows.h>
 
-/* * 静态 UTF-8 输入流缓冲队列
- * 用于暂存从一个 Unicode 宽字符（汉字）拆解出来的多个 UTF-8 字节
- */
-static unsigned char utf8_input_queue[8];
+/* 放在 consoletty.c 文件顶部，和这几个函数同一个 .c 里 */
+static unsigned char utf8_input_queue[5];
 static int utf8_qhead = 0;
 static int utf8_qtail = 0;
+static unsigned char vk_down[256];
+
+static void
+reset_vk_down(void)
+{
+    memset(vk_down, 0, sizeof(vk_down));
+}
+
+static int
+utf8_seq_len(unsigned char c)
+{
+    if ((c & 0x80) == 0)
+        return 1;
+    if ((c & 0xE0) == 0xC0)
+        return 2;
+    if ((c & 0xF0) == 0xE0)
+        return 3;
+    if ((c & 0xF8) == 0xF0)
+        return 4;
+    return 0;
+}
 
 int
 tgetch(void)
 {
-    /* 1. 优先读取队列中残留的 UTF-8 续字节 */
-    if (utf8_qhead < utf8_qtail) {
-        return utf8_input_queue[utf8_qhead++];
-    }
-    
-    /* 队列读完，重置指针 */
-    utf8_qhead = utf8_qtail = 0;
-
     INPUT_RECORD ir;
     DWORD count;
-    
-    /* 获取 Windows 标准输入句柄 */
-    HANDLE hInput = GetStdHandle(STD_INPUT_HANDLE);
-    if (hInput == INVALID_HANDLE_VALUE) {
-        return 0;
-    }
+    HANDLE hInput;
+    WCHAR wc;
 
-    /* 强刷后备缓冲区，把交互提示推到屏幕上 */
+    /* 先吐出之前缓存的 UTF-8 续字节 */
+    if (utf8_qhead < utf8_qtail)
+        return (int) utf8_input_queue[utf8_qhead++];
+
+    utf8_qhead = utf8_qtail = 0;
+
+    hInput = GetStdHandle(STD_INPUT_HANDLE);
+    if (hInput == NULL || hInput == INVALID_HANDLE_VALUE)
+        return '\033';
+
     really_move_cursor();
 
-    /* 2. 恢复安全的阻塞死循环：只有拿到有效的游戏按键才返回，不吐出任何 0 干扰上层 */
     for (;;) {
-        /* 在循环顶端强制刷新标准输出，确保万无一失 */
-        fflush(stdout);
+        if (!ReadConsoleInputW(hInput, &ir, 1, &count) || count == 0)
+            continue;
 
-        /* 阻塞读取控制台输入事件 */
-        if (!ReadConsoleInputW(hInput, &ir, 1, &count) || count == 0) {
-            continue; /* 读取失败或无事件，继续等待 */
+        /* 丢焦点/改大小时，清掉按键状态，避免“卡成按住” */
+        if (ir.EventType == FOCUS_EVENT) {
+            if (!ir.Event.FocusEvent.bSetFocus)
+                reset_vk_down();
+            continue;
         }
 
-        /* 3. 只处理键盘类型，并且必须是【按下键】事件 (bKeyDown) */
-        /* 这样能完美过滤掉抬起键(bKeyDown==FALSE)、鼠标移动、窗口大小调整等无效事件，不会死锁 */
-        if (ir.EventType == KEY_EVENT && ir.Event.KeyEvent.bKeyDown) {
-            WCHAR wc = ir.Event.KeyEvent.uChar.UnicodeChar;
+        if (ir.EventType == WINDOW_BUFFER_SIZE_EVENT) {
+            reset_vk_down();
+            continue;
+        }
 
-            /* =========================================================
-             * 情况 A: 常规有 Unicode 编码的按键（普通 ASCII 和汉字输入）
-             * ========================================================= */
-            if (wc != 0) {
-                /* 如果是标准 ASCII 字符 (0x01 ~ 0x7F) */
-                if (wc <= 0x7F) {
-                    return (int)wc; /* 正常返回 ASCII 码 */
-                }
+        if (ir.EventType != KEY_EVENT)
+            continue;
 
-                /* 如果是非 ASCII 字符（汉字），实时转换为 UTF-8 字节流并存入队列 */
-                int bytes = WideCharToMultiByte(CP_UTF8, 0, &wc, 1, 
-                                               (char*)utf8_input_queue, 
-                                               sizeof(utf8_input_queue), NULL, NULL);
-                
+        {
+            WORD vk = ir.Event.KeyEvent.wVirtualKeyCode;
+
+            /* 关键：keyup 必须清状态 */
+            if (!ir.Event.KeyEvent.bKeyDown) {
+                if (vk < 256)
+                    vk_down[vk] = 0;
+                continue;
+            }
+
+            /*
+             * 只过滤“真实还按着”的重复键。
+             * 如果状态机脏了，但系统已经松开，这里把它放行并修正状态。
+             */
+            if (vk < 256 && vk_down[vk]) {
+                if (GetAsyncKeyState(vk) & 0x8000)
+                    continue;   /* 还是按着，丢掉自动连发 */
+                vk_down[vk] = 0; /* 已经松了，修正脏状态 */
+            }
+
+            if (vk < 256)
+                vk_down[vk] = 1;
+        }
+
+        wc = ir.Event.KeyEvent.uChar.UnicodeChar;
+
+        /* 普通可打印字符 / 汉字 */
+        if (wc != 0) {
+            if (wc <= 0x7F) {
+                return (int) wc;
+            } else {
+                int bytes = WideCharToMultiByte(CP_UTF8, 0,
+                                                &wc, 1,
+                                                (char *) utf8_input_queue,
+                                                (int) sizeof(utf8_input_queue),
+                                                NULL, NULL);
                 if (bytes > 0) {
-                    utf8_qhead = 1;      /* 下一次从第 2 个字节开始吐 */
-                    utf8_qtail = bytes;  /* 标记队列结束位置 */
-                    return utf8_input_queue[0]; /* 立即返回第一个 UTF-8 字节 */
-                }
-            } 
-            /* =========================================================
-             * 情况 B: 无常规字符编码的特殊控制键（如方向键、小键盘等）
-             * ========================================================= */
-            else {
-                boolean valid = FALSE;
-                int numberpad = iflags.num_pad;
-
-                /* 调用 NetHack 原生的键盘处理器尝试把方向键转为游戏指令 */
-                int ch = nh340_processkeystroke(hInput, &ir, &valid, numberpad, 0);
-
-                /* 关键修复点：只有当转换器判定该方向键有效时，才允许返回！ */
-                /* 如果按了 Shift、Ctrl、Alt 或没有绑定的功能键，valid 会是 FALSE，
-                   程序会继续在 for(;;) 循环里等下一个真正有意义的按键，绝对不会卡死或返回 0 */
-                if (valid) {
-                    return ch;
+                    utf8_qhead = 1;
+                    utf8_qtail = bytes;
+                    return (int) utf8_input_queue[0];
                 }
             }
+            continue;
         }
-        
-        /* 如果读到的是按键抬起、鼠标乱晃、缩放窗口等事件，
-           会直接走到这里，不返回任何数据，继续循环等待下一个输入 */
+
+        /* 特殊键 */
+        {
+            boolean valid = FALSE;
+            int numberpad = iflags.num_pad;
+            int ch = nh340_processkeystroke(hInput, &ir, &valid,
+                                            numberpad, 0);
+            if (valid)
+                return ch;
+        }
     }
 }
 
 int
 console_poskey(coordxy *x, coordxy *y, int *mod)
 {
-    int ch;
+    int ch = 0;
     coord cc = { 0, 0 };
-    DWORD count;
+    int count = 0;
     boolean numberpad = iflags.num_pad;
 
     really_move_cursor();
+
     if (iflags.debug_fuzzer) {
         int poskey = randomkey();
 
@@ -1279,23 +1313,50 @@ console_poskey(coordxy *x, coordxy *y, int *mod)
         }
         return poskey;
     }
+
 #ifdef QWERTZ_SUPPORT
     if (gc.Cmd.swap_yz)
         numberpad |= 0x10;
 #endif
-    term_curs_set(1);
-    ch = (program_state.done_hup)
-             ? '\033'
-             : keyboard_handling.pCheckInput(
-                   console.hConIn, &gbl_ir, &count, numberpad, 1, mod, &cc);
+
+    for (;;) {
+        if (program_state.done_hup) {
+            ch = '\033';
+            break;
+        }
+
+        ch = keyboard_handling.pCheckInput(console.hConIn, &gbl_ir, &count,
+                                           numberpad, 1, mod, &cc);
+
+        if (!ch) {
+            *x = cc.x;
+            *y = cc.y;
+            break;
+        }
+
+        if (gbl_ir.EventType == KEY_EVENT) {
+            WORD vk = gbl_ir.Event.KeyEvent.wVirtualKeyCode;
+
+            if (!gbl_ir.Event.KeyEvent.bKeyDown) {
+                if (vk < 256)
+                    vk_down[vk] = 0;
+                continue;
+            }
+
+            if (vk < 256 && vk_down[vk])
+                continue;
+
+            if (vk < 256)
+                vk_down[vk] = 1;
+        }
+
+        break;
+    }
+
 #ifdef QWERTZ_SUPPORT
     numberpad &= ~0x10;
 #endif
-    if (!ch) {
-        *x = cc.x;
-        *y = cc.y;
-    }
-    term_curs_set(0);
+
     return ch;
 }
 
@@ -1691,19 +1752,39 @@ void
 term_curs_set(int visibility)
 {
     static int vis = -1;
+    static int disabled = 0;
+    static CONSOLE_CURSOR_INFO cursorinfo;
+    BOOL ok;
+
+    if (disabled)
+        return;
+
+    /* 取键期间不在这里碰光标 API */
+    if (program_state.getting_char > 0)
+        return;
 
     if (vis == visibility)
         return;
 
-    static CONSOLE_CURSOR_INFO cursorinfo = { 0, 0 };
+    if (!console.hConOut || console.hConOut == INVALID_HANDLE_VALUE)
+        return;
 
     if (!cursorinfo.dwSize) {
-        GetConsoleCursorInfo(console.hConOut, &cursorinfo);
-        vis = cursorinfo.bVisible ? 1 : 0;
+        ok = GetConsoleCursorInfo(console.hConOut, &cursorinfo);
+        if (!ok || cursorinfo.dwSize == 0) {
+            disabled = 1;
+            return;
+        }
     }
-    cursorinfo.bVisible = visibility ? (BOOL) TRUE : (BOOL) FALSE;
-    SetConsoleCursorInfo(console.hConOut, &cursorinfo);
-    vis = visibility;
+
+    cursorinfo.bVisible = visibility ? TRUE : FALSE;
+    ok = SetConsoleCursorInfo(console.hConOut, &cursorinfo);
+    if (!ok) {
+        disabled = 1;
+        return;
+    }
+
+    vis = visibility ? 1 : 0;
 }
 
 void
@@ -3304,46 +3385,47 @@ default_checkinput(
                                                   numberpad, 0);
                     done = valid;
                 }
-            } else {
-                if (*count > 0) {
-                    if (ir->EventType == KEY_EVENT
-                        && ir->Event.KeyEvent.bKeyDown) {
-#ifdef QWERTZ_SUPPORT
-                        if (qwertz)
-                            numberpad |= 0x10;
-#endif
-                        ch = default_processkeystroke(hConIn, ir, &valid,
-                                                      numberpad, 0);
-#ifdef QWERTZ_SUPPORT
-                        numberpad &= ~0x10;
-#endif
-                        if (valid)
+                            } else {
+            if (*count > 0) {
+                if (ir->EventType == KEY_EVENT) {
+                    if (ir->Event.KeyEvent.bKeyDown) {
+                        /* 1. 正常处理按下事件 */
+                        ch = nh340_processkeystroke(hConIn, ir, &valid, numberpad, 0);
+                        if (valid) {
+                            /* 【修复点1】：绝不能再加多余的 ReadConsoleInput，直接返回！ */
                             return ch;
-                    } else if (ir->EventType == MOUSE_EVENT) {
-                        if ((ir->Event.MouseEvent.dwEventFlags == 0)
-                            && (ir->Event.MouseEvent.dwButtonState
-                                & MOUSEMASK)) {
-                            cc->x =
-                                ir->Event.MouseEvent.dwMousePosition.X + 1;
-                            cc->y =
-                                ir->Event.MouseEvent.dwMousePosition.Y - 1;
-
-                            if (ir->Event.MouseEvent.dwButtonState
-                                & LEFTBUTTON)
-                                *mod = CLICK_1;
-                            else if (ir->Event.MouseEvent.dwButtonState
-                                     & RIGHTBUTTON)
-                                *mod = CLICK_2;
-#if 0 /* middle button */
-                                    else if (ir->Event.MouseEvent.dwButtonState & MIDBUTTON)
-                                        *mod = CLICK_3;
-#endif
-                            return 0;
+                        }
+                    } else {
+                        /* 【修复点2】：处理松开按键（KeyUp）事件。
+                         * 必须在这里把防连发数组清零！否则按过一次的键会被永久拉黑，导致假死。 */
+                        WORD vk = ir->Event.KeyEvent.wVirtualKeyCode;
+                        if (vk < 256) {
+                            vk_down[vk] = 0;
                         }
                     }
-                } else
-                    done = 1;
+                } else if (ir->EventType == MOUSE_EVENT) {
+                    if ((ir->Event.MouseEvent.dwEventFlags == 0)
+                        && (ir->Event.MouseEvent.dwButtonState & MOUSEMASK)) {
+                        cc->x = ir->Event.MouseEvent.dwMousePosition.X + 1;
+                        cc->y = ir->Event.MouseEvent.dwMousePosition.Y - 1;
+
+                        if (ir->Event.MouseEvent.dwButtonState & LEFTBUTTON)
+                            *mod = CLICK_1;
+                        else if (ir->Event.MouseEvent.dwButtonState
+                                 & RIGHTBUTTON)
+                            *mod = CLICK_2;
+#if 0 /* middle button */
+                        else if (ir->Event.MouseEvent.dwButtonState & MIDBUTTON)
+                            *mod = CLICK_3;
+#endif
+                        /* 【修复点1】：同样直接返回 0，绝不能多读一次 */
+                        return 0;
+                    }
+                }
+            } else {
+                done = 1;
             }
+        }
         }
     }
     return mode ? 0 : ch;
