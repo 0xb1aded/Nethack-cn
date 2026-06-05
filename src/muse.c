@@ -69,7 +69,7 @@ precheck(struct monst *mon, struct obj *obj)
         static const char *const empty = "这个药水瓶原来是空的.";
         struct monst *mtmp;
 
-        if (objedescr_is(obj, "milky")) {
+        if (objdescr_is(obj, "milky")) {
             if (!(svm.mvitals[PM_GHOST].mvflags & G_GONE)
                 && !rn2(POTION_OCCUPANT_CHANCE(svm.mvitals[PM_GHOST].born))) {
                 if (!enexto(&cc, mon->mx, mon->my, &mons[PM_GHOST]))
