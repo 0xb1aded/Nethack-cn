@@ -1236,7 +1236,7 @@ level_tele(void)
         if (newlev == 0) {
             if (trycnt >= 10)
                 goto random_levtport;
-            if (ynq("你将前往虚无.你确定吗?") != 'y')
+            if (ynq("你将前往虚无. 你确定吗?") != 'y')
                 return;
             You("在痛苦中%s,你的身体开始扭曲...",
                 is_silent(gy.youmonst.data) ? "翻滚" : "尖叫");

@@ -3385,22 +3385,19 @@ default_checkinput(
                                                   numberpad, 0);
                     done = valid;
                 }
-                            } else {
+        } else {
             if (*count > 0) {
                 if (ir->EventType == KEY_EVENT) {
+                    /* 【彻底干碎防连发锁】：不管什么键，直接把外层的拦截状态强行清零！ */
+                    WORD vk = ir->Event.KeyEvent.wVirtualKeyCode;
+                    if (vk < 256) {
+                        vk_down[vk] = 0;
+                    }
+                    
                     if (ir->Event.KeyEvent.bKeyDown) {
-                        /* 1. 正常处理按下事件 */
                         ch = nh340_processkeystroke(hConIn, ir, &valid, numberpad, 0);
                         if (valid) {
-                            /* 【修复点1】：绝不能再加多余的 ReadConsoleInput，直接返回！ */
                             return ch;
-                        }
-                    } else {
-                        /* 【修复点2】：处理松开按键（KeyUp）事件。
-                         * 必须在这里把防连发数组清零！否则按过一次的键会被永久拉黑，导致假死。 */
-                        WORD vk = ir->Event.KeyEvent.wVirtualKeyCode;
-                        if (vk < 256) {
-                            vk_down[vk] = 0;
                         }
                     }
                 } else if (ir->EventType == MOUSE_EVENT) {
@@ -3418,7 +3415,6 @@ default_checkinput(
                         else if (ir->Event.MouseEvent.dwButtonState & MIDBUTTON)
                             *mod = CLICK_3;
 #endif
-                        /* 【修复点1】：同样直接返回 0，绝不能多读一次 */
                         return 0;
                     }
                 }

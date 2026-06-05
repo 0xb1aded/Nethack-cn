@@ -230,7 +230,7 @@ attack_checks(
     if (!canspotmon(mtmp)
         && !glyph_is_warning(glyph) && !glyph_is_invisible(glyph)
         && !(!Blind && mtmp->mundetected && hides_under(mtmp->data))) {
-        pline("等等!那里有%s你看不见!", something);
+        pline("等等! 那里有%s你看不见!", something);
         map_invisible(gb.bhitpos.x, gb.bhitpos.y);
         /* if it was an invisible mimic, treat it as if we stumbled
          * onto a visible mimic
@@ -287,9 +287,9 @@ attack_checks(
                       notseen ? "生物" : (const char *) lmonbuf,
                       notseen ? "在那里" : "出现了");
             else if (Blind || (is_pool(mtmp->mx, mtmp->my) && !Underwater))
-                pline("等等!那里有个隐藏的怪物!");
+                pline("等等! 那里有个隐藏的怪物!");
             else if ((obj = svl.level.objects[mtmp->mx][mtmp->my]) != 0)
-                pline("等等!有%s藏在%s底下!",
+                pline("等等! 有%s藏在%s底下!",
                       notseen ? something : (const char *) an(lmonbuf),
                       doname(obj));
             return TRUE;
@@ -497,7 +497,7 @@ do_attack(struct monst *mtmp)
                     monflee(mtmp, rnd(6), FALSE, FALSE);
                 Strcpy(buf, y_monnam(mtmp));
                 buf[0] = highc(buf[0]);
-                You("停下了.%s在挡着路!", buf);
+                You("停下了. %s在挡着路!", buf);
                 end_running(TRUE);
                 return TRUE;
             } else if (mtmp->mfrozen || helpless(mtmp)
@@ -1129,7 +1129,7 @@ hmon_hitmon_misc_obj(
         break;
     case MIRROR:
         if (breaktest(obj)) {
-            You("打破了%s.真不吉利!", ysimple_name(obj));
+            You("打破了%s. 真不吉利!", ysimple_name(obj));
             change_luck(-2);
             useup(obj);
             obj = (struct obj *) 0;
@@ -1140,7 +1140,7 @@ hmon_hitmon_misc_obj(
         hmd->dmg = 1;
         break;
     case EXPENSIVE_CAMERA:
-        You("成功破坏了%s.恭喜!",
+        You("成功破坏了%s. 恭喜!",
             ysimple_name(obj));
         release_camera_demon(obj, u.ux, u.uy);
         useup(obj);
@@ -1203,7 +1203,7 @@ hmon_hitmon_misc_obj(
         if (ismnum(obj->corpsenm)
             && touch_petrifies(&mons[obj->corpsenm])) {
             /*learn_egg_type(obj->corpsenm);*/
-            pline("啪!你用%s蛋%s击中了%s%s!",
+            pline("啪! 你用%s蛋%s击中了%s%s!",
                   obj->known ? "那个" : cnt > 1L ? "一些" : "一个", /*修改语序:  mon_nam(mon),*/
                   plur(cnt), /*修改语序:  obj->known ? "那个" : cnt > 1L ? "一些" : "一个",*/
                   mon_nam(mon), /*修改语序:  obj->known ? mons[obj->corpsenm].pmnames[NEUTRAL]*/
@@ -2207,7 +2207,7 @@ steal_it(struct monst *mdef, struct attack *mattk)
            switch to dynamic pronoun */
         if (gender(mdef) == (int) u.mfemale
             && gy.youmonst.data->mlet == S_NYMPH)
-            You("迷住了%s.%s乐意地交出了%s的%s财物.",
+            You("迷住了%s. %s乐意地交出了%s的%s财物.",
                 mon_nam(mdef), upstart(strcpy(heshe, mhe(mdef))),
                 mhis(mdef)), !gold ? "" : "大部分"; /*修改语序!gold ? "" : "大部分", mhis(mdef));*/
         else
@@ -2757,7 +2757,7 @@ mhitm_ad_acid(
                 monstseesu(M_SEEN_ACID);
                 mhm->damage = 0;
             } else {
-                pline("你被%s覆盖了!好烫!", hliquid("酸液"));
+                pline("你被%s覆盖了! 好烫!", hliquid("酸液"));
                 exercise(A_STR, FALSE);
                 monstunseesu(M_SEEN_ACID);
             }
@@ -4318,7 +4318,7 @@ mhitm_ad_heal(
             && !uarms && !uarmg && !uarmf && !uarmh) {
             boolean goaway = FALSE;
 
-            pline_mon(magr, "%s击中了!(你应该不介意吧).)",
+            pline_mon(magr, "%s击中了! (你应该不介意吧.))",
                       Monnam(magr));
             if (Upolyd) {
                 u.mh += rnd(7);
@@ -6208,7 +6208,7 @@ that_is_a_mimic(
     boolean reveal_it = (mimic_flags & MIM_REVEAL) != 0,
             omit_wait = (mimic_flags & MIM_OMIT_WAIT) != 0;
 
-    Strcpy(fmtbuf, "等等!那是个%s!");
+    Strcpy(fmtbuf, "等等! 那是个%s!");
     if (Blind) {
         if (!Blind_telepat)
             what = generic; /* with default fmt */
@@ -6247,7 +6247,7 @@ that_is_a_mimic(
             assert(mndx >= LOW_PM && mndx <= HIGH_PM);
             mtmp_name = pmname(&mons[mndx], Mgender(mtmp));
             Snprintf(fmtbuf, sizeof fmtbuf,
-                     "等等!那个%s其实是个%%s!", mtmp_name);
+                     "等等! 那个%s其实是个%%s!", mtmp_name);
         }
 
         /* cloned Wiz starts out mimicking some other monster and
@@ -6267,7 +6267,7 @@ that_is_a_mimic(
     }
 
     if (what) {
-        int i = (omit_wait && !strncmp(fmtbuf, "Wait!  ", 7)) ? 7 : 0; /*待写:int i = (omit_wait && !cnstrncmp(fmtbuf, "等等!", 3)) ? 3 : 0;*/
+        int i = (omit_wait && !strncmp(fmtbuf, "等等 ", strlen("等等 "))) ? strlen("等等 ") : 0; /*待写:int i = (omit_wait && !cnstrncmp(fmtbuf, "等等!", 3)) ? 3 : 0;*/
 
         pline(&fmtbuf[i], what);
     }

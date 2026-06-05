@@ -760,7 +760,7 @@ domonnoise(struct monst *mtmp)
             if (kindred) {
                 Sprintf(verbuf, "%s好,主人%s",
                         isnight ? "晚上" : "早上",
-                        isnight ? "!" : ".我们为什么不休息呢?");
+                        isnight ? "!" : ". 我们为什么不休息呢?");
                 verbl_msg = verbuf;
             } else {
                 Sprintf(verbuf, "%s%s",
@@ -798,7 +798,7 @@ domonnoise(struct monst *mtmp)
                        || gy.youmonst.data == &mons[PM_BABY_SILVER_DRAGON]) {
                 /* Silver dragons are silver in color, not made of silver */
                 Sprintf(verbuf,
-                        "%s!你的银色光泽""对我没用!",
+                        "%s! 你的银色光泽""对我没用!",
                         (gy.youmonst.data == &mons[PM_SILVER_DRAGON])
                             ? "傻瓜"
                             : "小傻瓜");
@@ -831,7 +831,7 @@ domonnoise(struct monst *mtmp)
             wake_nearto(mtmp->mx, mtmp->my, 11 * 11);
         } else {
             pline_msg =
-                "以几乎听不见的声音耳语.你只能听出来\"月亮\".";
+                "以几乎听不见的声音耳语. 你只能听出来\"月亮\".";
         }
         break;
     case MS_BARK:
@@ -1203,7 +1203,7 @@ domonnoise(struct monst *mtmp)
                 /* no Death featured in these two, so exclude them */
                 if (strcmpi(tribtitle, "Snuff")
                     && strcmpi(tribtitle, "The Wee Free Men")) /*危险:先别动。do_name.c 1591*/
-                    Strcat(verbuf, "我可能在那里面被曲解了.");
+                    Strcat(verbuf, " 我可能在那里面被曲解了.");
                 verbl_msg = verbuf;
             }
             svc.context.tribute.Deathnotice = 1;
@@ -1266,7 +1266,7 @@ dochat(void)
         return ECMD_OK;
     }
     if (Strangled) {
-        You_cant("说话.你正在窒息!");
+        You_cant("说话. 你正在窒息!");
         return ECMD_OK;
     }
     if (u.uswallow) {

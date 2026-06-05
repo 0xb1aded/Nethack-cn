@@ -95,7 +95,7 @@ thitu(
         knm = name;
         /* [perhaps ought to check for plural here too] */
         if (!strncmpi(name, "the ", 4) || !strncmpi(name, "an ", 3)
-            || !strncmpi(name, "a ", 2) || !strncmpi(name, "一个", strlen(一个)))
+            || !strncmpi(name, "a ", 2) || !strncmpi(name, "一个", strlen("一个")))
             kprefix = KILLED_BY;
     }
     onm = (obj && obj_is_pname(obj)) ? the(name)
@@ -905,7 +905,7 @@ return_from_mtoss(
                     pline("%s到了%s附近,落在%s的%s%s.",
                           Tobjnam(otmp, "飞回"), mon_nam(magr),
                           mhis(magr), makeplural(mbodypart(magr, FOOT)), 
-                          mlevitating ? "下" : "上", ); /*修改语序:自己看原文*/
+                          mlevitating ? "下" : "上"); /*修改语序:自己看原文*/
                 } else if (!Deaf) {
                     You_hear("%s落在%s附近.", Something, mon_nam(magr));
                 }

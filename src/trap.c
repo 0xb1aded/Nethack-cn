@@ -1896,7 +1896,7 @@ trapeffect_pit(
             pline("幸运的是,它至少还有个底...");
             trap->once = 1;
         } else if (u.umonnum == PM_PIT_VIPER || u.umonnum == PM_PIT_FIEND) {
-            pline("坑爹啊.这简直是个坑中坑!");
+            pline("坑爹啊. 这简直是个坑中坑!");
         }
         if (relevant_spikes && wearing_iron_shoes(mtmp)) {
             pline("%s保护你免受锋利尖刺的伤害.", Yname2(uarmf));
@@ -1994,7 +1994,7 @@ trapeffect_pit(
                      a_your[trap->madeby_u]);
             if (mptr == &mons[PM_PIT_VIPER]
                 || mptr == &mons[PM_PIT_FIEND])
-                pline("坑爹啊.这简直是个坑中坑!");
+                pline("坑爹啊. 这简直是个坑中坑!");
             seetrap(trap);
         }
         mselftouch(mtmp, "掉下去时,", FALSE);
@@ -2555,7 +2555,7 @@ trapeffect_landmine(
             if (already_seen && rn2(3))
                 return Trap_Effect_Finished;
             Soundeffect(se_kaablamm_of_mine, 80);
-            pline("轰隆!!!%s%s%s!",
+            pline("轰隆!!! %s%s%s!",
                   forcebungle ? "你笨拙的尝试引爆了"
                   : "气流引爆了",
                   already_seen ? a_your[trap->madeby_u] : "",
@@ -2570,7 +2570,7 @@ trapeffect_landmine(
             if (recursive_mine)
                 return Trap_Effect_Finished;
             feeltrap(trap);
-            pline("轰隆!!!你触发了%s地雷!",
+            pline("轰隆!!! 你触发了%s地雷!",
                   a_your[trap->madeby_u]);
             if (u.usteed)
                 steed_mid = u.usteed->m_id;
@@ -2625,11 +2625,11 @@ trapeffect_landmine(
             newsym(mtmp->mx, mtmp->my);
             pline_mon(mtmp,
                   "%s%s触发了%s触发器!",
-                  !Deaf ? "轰隆!!!" : "", Monnam(mtmp),
+                  !Deaf ? "轰隆!!! " : "", Monnam(mtmp),
                   a_your[trap->madeby_u]);
         }
         if (!in_sight && !Deaf)
-            pline("轰!%s远处的爆炸声!",
+            pline("轰 !%s远处的爆炸声!",
                   "你听见");  /* Deaf-aware */
         blow_up_landmine(trap);
         /* explosion might have destroyed a drawbridge; don't
@@ -2668,7 +2668,7 @@ trapeffect_rolling_boulder_trap(
 
         feeltrap(trap);
         pline("%s你触发了一个滚石陷阱！",
-              !Deaf ? "咔哒!  " : "");
+              !Deaf ? "咔哒! " : "");
         if (!launch_obj(BOULDER, trap->launch.x, trap->launch.y,
                         trap->launch2.x, trap->launch2.y, style)) {
             /* if this is a known trap, the player may have known there wasn't
@@ -2690,7 +2690,7 @@ trapeffect_rolling_boulder_trap(
             newsym(mtmp->mx, mtmp->my);
             if (in_sight)
                 pline_mon(mtmp, "%s%s触发了%s.",
-                      !Deaf ? "咔哒!" : "", Monnam(mtmp),
+                      !Deaf ? "咔哒! " : "", Monnam(mtmp),
                       trap->tseen ? "一个滚石陷阱" : something);
             if (launch_obj(BOULDER, trap->launch.x, trap->launch.y,
                            trap->launch2.x, trap->launch2.y, style)) {
@@ -3438,7 +3438,7 @@ launch_obj(
                     if (rn2(10) > 2) {
                         if (cansee(x, y))
                             set_msg_xy(x, y);
-                        pline("轰隆!!!%s",
+                        pline("轰隆!!! %s",
                               cansee(x, y)
                                ? "滚动的巨石触发了一个地雷."
                                : "");
@@ -3981,7 +3981,7 @@ float_up(void)
         else
             You("螺旋上升到%s.", mon_nam(u.ustuck));
     } else if (Hallucination) {
-        pline("你要飞得更高,飞得更高!你在空中行走!");
+        pline("你要飞得更高,飞得更高! 你在空中行走!");
     } else if (Is_airlevel(&u.uz)) {
         You("能控制你的移动了.");
     } else {
@@ -4125,7 +4125,7 @@ float_down(
                      * once levitation ceases knocks you off your feet.
                      */
                     if (Hallucination)
-                        pline("真倒霉!你崩溃了.");
+                        pline("真倒霉! 你崩溃了.");
                     else
                         You("跌倒了.");
                     losehp(rnd(2), "危险的风", KILLED_BY);
@@ -4136,7 +4136,7 @@ float_down(
                                         || is_flyer(u.usteed->data))) {
                     You("坐得更稳了.");
                 } else if (Hallucination) {
-                    pline("真倒霉!你%s.",
+                    pline("真倒霉! 你%s.",
                           is_pool(u.ux, u.uy)
                              ? "溅出了水花"
                              : "摔到了地面上");
@@ -5160,7 +5160,7 @@ drown(void)
         if (lost)
             You("扔掉一些装备来减轻重量...");
         if (succ) {
-            pline("呼!好险.");
+            pline("呼! 好险.");
             teleds(x, y, TELEDS_ALLOW_DRAG);
             return TRUE;
         }
@@ -5499,7 +5499,7 @@ try_disarm(
                             ? (ttmp2->ttyp == WEB)
                             /* make a new web to trap hero in */
                             : (ttmp2 = maketrap(u.ux, u.uy, WEB)) != 0)) {
-                        pline_The("蜘蛛网粘在了你身上.你也被缠住了!");
+                        pline_The("蜘蛛网粘在了你身上. 你也被缠住了!");
                         dotrap(ttmp2, NOWEBMSG);
                         if (u.usteed && u.utrap) {
                             /* you, not steed, are trapped */
@@ -5933,7 +5933,7 @@ untrap(
                     deal_with_floor_trap = FALSE;
                 } else {
                     Snprintf(qbuf, sizeof(qbuf),
-                             "这里有%s和%s.%s%s?",
+                             "这里有%s和%s. %s%s?",
                              (boxcnt == 1) ? "一个容器"
                                            : "几个容器",
                              an(trapdescr),
@@ -6006,7 +6006,7 @@ untrap(
                                      otmp, xname, ansimpleoname, "盒子");
                 else
                     (void) safe_qbuf(qbuf, "这里有一个",
-                                     ".检查一下有没有陷阱?", otmp,
+                                     ". 检查一下有没有陷阱?", otmp,
                                      doname, ansimpleoname, "盒子");
                 switch (ynq(qbuf)) {
                     case 'q':
@@ -6697,7 +6697,7 @@ b_trapped(const char *item, int bodypart)
         dmg = rnd(5 + (lvl < 5 ? lvl : 2 + lvl / 2));
 
     Soundeffect(se_kaboom, 80);
-    pline("嘭!!%s里藏了个炸弹!", The(item));
+    pline("嘭!! %s里藏了个炸弹!", The(item));
     wake_nearby(FALSE);
     losehp(Maybe_Half_Phys(dmg), "爆炸", KILLED_BY_AN);
     exercise(A_STR, FALSE);

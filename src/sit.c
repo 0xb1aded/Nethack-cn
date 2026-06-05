@@ -472,7 +472,7 @@ dosit(void)
                 u.utrap++;
             } else if (u.utraptype == TT_PIT) {
                 if (trap && trap->ttyp == SPIKED_PIT) {
-                    You("坐在尖刺上.哎哟!");
+                    You("坐在尖刺上. 哎哟!");
                     losehp(Half_physical_damage ? rn2(2) : 1,
                            "坐在尖刺上", KILLED_BY);
                     exercise(A_STR, FALSE);

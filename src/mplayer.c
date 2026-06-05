@@ -76,9 +76,9 @@ get_mplname(struct monst *mtmp, char *nam)
 
     devnam = dev_name();
     if (!devnam)
-        Strcpy(nam, fmlkind ? "夏娃" : "亚当");
+        Strcpy(nam, fmlkind ? "Eve" : "Adam");
     else if (fmlkind && !!strcmp(devnam, "Janet"))
-        Strcpy(nam, rn2(2) ? "莫德" : "伊芙");
+        Strcpy(nam, rn2(2) ? "Maud" : "Eve");
     else
         Strcpy(nam, devnam);
 
@@ -86,7 +86,7 @@ get_mplname(struct monst *mtmp, char *nam)
         mtmp->female = 1;
     else
         mtmp->female = 0;
-    Strcat(nam, " 的 ");
+    Strcat(nam, ",");
     Strcat(nam, rank_of((int) mtmp->m_lev, monsndx(mtmp->data),
                         (boolean) mtmp->female));
 }
@@ -357,21 +357,21 @@ mplayer_talk(struct monst *mtmp)
 {
     static const char
         *same_class_msg[3] = {
-            "I can't win, and neither will you!",
-            "You don't deserve to win!",
-            "Mine should be the honor, not yours!",
+            "我赢不了,你也别想赢!",
+            "你不配赢!",
+            "荣誉应是我的,不是你的!",
         },
         *other_class_msg[3] = {
-            "The low-life wants to talk, eh?",
-            "Fight, scum!",
-            "Here is what I have to say!",
+            "你这贱人想说话,是吗?",
+            "来打啊,败类!",
+            "这就是我要说的!",
         };
 
     if (mtmp->mpeaceful)
         return; /* will drop to humanoid talk */
 
     SetVoice(mtmp, 0, 80, 0);
-    verbalize("Talk? -- %s", mtmp->data == &mons[gu.urole.mnum]
+    verbalize("说话? -- %s", mtmp->data == &mons[gu.urole.mnum]
                                 ? same_class_msg[rn2(3)]
                                 : other_class_msg[rn2(3)]);
 }

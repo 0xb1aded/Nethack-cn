@@ -469,7 +469,7 @@ invault(void)
                 && gy.youmonst.mappearance != GOLD_PIECE)
                 if (!Deaf) {
                     SetVoice(guard, 0, 80, 0);
-                    verbalize("嘿!谁把那%s落在里面了?",
+                    verbalize("嘿! 谁把那%s落在里面了?",
                               mimic_obj_name(&gy.youmonst));
                 }
             /* You're mimicking some object or you're hidden. */
@@ -519,7 +519,7 @@ invault(void)
                 } else {
                     SetVoice(guard, 0, 80, 0);
                     verbalize(
-                         "哦,是的,没问题.真抱歉打扰您了.");
+                         "哦,是的,没问题. 真抱歉打扰您了.");
                 }
                 mongone(guard);
             } else {
@@ -531,7 +531,7 @@ invault(void)
                 } else {
                    SetVoice(guard, 0, 80, 0);
                    verbalize(
-                           "嫌自己还没死透,是吧?我这就给你补上一刀!");
+                           "嫌自己还没死透,是吧? 我这就给你补上一刀!");
                 }
                 /* don't want guard to waste next turn wielding a weapon */
                 if (!MON_WEP(guard)) {

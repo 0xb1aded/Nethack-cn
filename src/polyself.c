@@ -1423,7 +1423,7 @@ dobreathe(void)
     struct attack *mattk;
 
     if (Strangled) {
-        You_cant("呼吸.抱歉.");
+        You_cant("呼吸. 抱歉.");
         return ECMD_OK;
     }
     if (u.uen < 15) {

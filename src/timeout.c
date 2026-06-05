@@ -334,7 +334,7 @@ sickness_dialogue(void)
         if (Hallucination && strstri(buf, "你已濒临")) {
             /* youmonst: for Hallucination, mhe()'s mon argument isn't used */
             Strcpy(pronounbuf, mhe(&gy.youmonst));
-            Sprintf(eos(buf), "  %s%s邀请你进来.",
+            Sprintf(eos(buf), " %s%s邀请你进来.",
                     /* upstart() modifies its argument but vtense() doesn't
                        care whether or not that has already happened */
                     upstart(pronounbuf), vtense(pronounbuf, "正在"));
@@ -506,7 +506,7 @@ slimed_to_death(struct kinfo *kptr)
         Strcpy(slimebuf, "绿色黏液已经被灭绝了...");
         if (iflags.last_msg == PLNMSG_OK_DONT_DIE)
             /* follows "OK, so you don't die." and arg is second sentence */
-            urgent_pline("好的.%s", upstart(slimebuf));
+            urgent_pline("好的. %s", upstart(slimebuf));
         else
             /* follows "The medallion crumbles to dust." */
             urgent_pline("不幸的是,%s", slimebuf);
@@ -1248,7 +1248,7 @@ slip_or_trip(void)
         if (Hallucination) {
             what = strcpy(buf, what);
             buf[0] = highc(buf[0]);
-            pline("天哪!%s咬了%s你的%s!", what,
+            pline("天哪! %s咬了%s你的%s!", what,
                   (!otmp || otmp->quan == 1L) ? "" : "", body_part(FOOT));
         } else {
             You("被%s绊倒.", what);
@@ -1878,7 +1878,7 @@ do_storms(void)
         /* Inside a cloud during a thunderstorm is deafening. */
         /* Even if already deaf, we sense the thunder's vibrations. */
         Soundeffect(se_kaboom_boom_boom, 80);
-        pline("嘭!!!嘭!!嘭!!");
+        pline("嘭!!! 嘭!! 嘭!!");
         incr_itimeout(&HDeaf, rn1(20, 30));
         disp.botl = TRUE;
         if (!u.uinvulnerable) {

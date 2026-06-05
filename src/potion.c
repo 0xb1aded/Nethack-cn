@@ -169,7 +169,7 @@ make_sick(long xtime,
             set_itimeout(&Sick, Sick * 2); /* approximation */
         } else {
             if (talk)
-                You_feel("痊愈了.轻松多了!");
+                You_feel("痊愈了. 轻松多了!");
             Sick = 0L; /* set_itimeout(&Sick, 0L) */
         }
         disp.botl = TRUE;
@@ -277,7 +277,7 @@ make_blinded(long xtime, boolean talk)
     if (can_see_now && !u_could_see) { /* regaining sight */
         if (talk) {
             if (Hallucination)
-                pline("非常奇怪!一切都再次充满宇宙感!");
+                pline("非常奇怪! 一切都再次充满宇宙感!");
             else
                 You("又能看见了.");
         }
@@ -300,7 +300,7 @@ make_blinded(long xtime, boolean talk)
     if (u_could_see && !can_see_now) { /* losing sight */
         if (talk) {
             if (Hallucination)
-                pline("倒霉!一切都是黑的!救命!");
+                pline("倒霉! 一切都是黑的! 救命!");
             else
                 pline("一片黑暗的乌云落在你身上.");
         }
@@ -379,7 +379,7 @@ make_hallucinated(
         talk = FALSE;
 
     message = (!xtime) ? "一切都%s如此普通了."
-                       : "哇哦!一切%s都如此宇宙感!";
+                       : "哇哦! 一切%s都如此宇宙感!";
     verb = (!Blind) ? "看上去" : "感觉";
 
     if (mask) {
@@ -471,8 +471,8 @@ void
 self_invis_message(void)
 {
     pline("%s %s.",
-          Hallucination ? "太棒了,伙计!你"
-                        : "哇,突然间,你",
+          Hallucination ? "太棒了,伙计! 你"
+                        : "哇! 突然间,你",
           See_invisible ? "能看透自己了"
                         : "看不见自己了");
 }
@@ -647,7 +647,7 @@ peffect_restore_ability(struct obj *otmp)
 {
     gp.potion_unkn++;
     if (otmp->cursed) {
-        pline("额!这让你感觉平庸!");
+        pline("额! 这让你感觉平庸!");
         return;
     } else {
         int i, ii;
@@ -655,7 +655,7 @@ peffect_restore_ability(struct obj *otmp)
         /* unlike unicorn horn, overrides Fixed_abil;
            does not recover temporary strength loss due to hunger
            or temporary dexterity loss due to wounded legs */
-        pline("哇!这让你感觉%s!",
+        pline("哇! 这让你感觉%s!",
               (!otmp->blessed) ? "挺好"
               : unfixable_trouble_count(FALSE) ? "极好"
                 : "很好");
@@ -771,7 +771,7 @@ staticfn void
 peffect_booze(struct obj *otmp)
 {
     gp.potion_unkn++;
-    pline("呼!这尝起来像%s%s!",
+    pline("呼! 这尝起来像%s%s!",
           otmp->odiluted ? "掺水的 " : "",
           Hallucination ? "蒲公英酒" : "液态的火");
     if (!otmp->blessed) {
@@ -845,7 +845,7 @@ peffect_see_invisible(struct obj *otmp)
 
     gp.potion_unkn++;
     if (otmp->cursed)
-        pline("噫!这尝起来%s.",
+        pline("噫! 这尝起来%s.",
               Hallucination ? "熟透了" : "像是过期了");
     else
         pline(
@@ -963,7 +963,7 @@ peffect_object_detection(struct obj *otmp)
 staticfn void
 peffect_sickness(struct obj *otmp)
 {
-    pline("啊!这个东西尝起来像毒药.");
+    pline("啊! 这个东西尝起来像毒药.");
     if (otmp->blessed) {
         pline("(但实际上它是有点不新鲜的%s.)", fruitname(TRUE));
         if (!Role_if(PM_HEALER)) {
@@ -1018,7 +1018,7 @@ peffect_confusion(struct obj *otmp)
             pline("这幻觉真奇妙!");
             gp.potion_unkn++;
         } else
-            pline("哈,什么?我在哪儿?");
+            pline("哈,什么? 我在哪儿?");
     } else
         gp.potion_nothing++;
     make_confused(itimeout_incr(HConfusion,
@@ -1030,7 +1030,7 @@ staticfn void
 peffect_gain_ability(struct obj *otmp)
 {
     if (otmp->cursed) {
-        pline("呃!那个药水尝起来令人作呕!");
+        pline("呃! 那个药水尝起来令人作呕!");
         gp.potion_unkn++;
     } else if (Fixed_abil) {
         gp.potion_nothing++;
@@ -1951,7 +1951,7 @@ potionbreathe(struct obj *obj)
     case POT_GAIN_ABILITY:
         if (obj->cursed) {
             if (!breathless(gy.youmonst.data)) {
-                pline("呃!那个药水闻起来很糟!");
+                pline("呃! 那个药水闻起来很糟!");
             } else if (haseyes(gy.youmonst.data)) {
                 const char *eyes = body_part(EYE);
 
@@ -2424,7 +2424,7 @@ dip_potion_explosion(struct obj *obj, int dmg)
            around for potionbreathe() [and we can't set obj->in_use
            to 'amt' because that's not implemented] */
         obj->in_use = 1;
-        pline("%s它们爆炸了!", !Deaf ? "嘭!" : "");
+        pline("%s它们爆炸了!", !Deaf ? "嘭! " : "");
         wake_nearto(u.ux, u.uy, (BOLT_LIM + 1) * (BOLT_LIM + 1));
         exercise(A_STR, FALSE);
         if (!breathless(gy.youmonst.data) || haseyes(gy.youmonst.data))
@@ -2840,7 +2840,7 @@ djinni_from_bottle(struct obj *obj)
     SetVoice(mtmp, 0, 80, 0);
     switch (chance) {
     case 0:
-        verbalize("我欠你一个人情.我会实现你一个愿望!");
+        verbalize("我欠你一个人情. 我会实现你一个愿望!");
         /* give a wish and discard the monster (mtmp set to null) */
         mongrantswish(&mtmp);
         break;

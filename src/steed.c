@@ -48,7 +48,7 @@ use_saddle(struct obj *otmp)
         return ECMD_CANCEL;
     }
     if (!u.dx && !u.dy) {
-        pline("要骑上你自己吗?有意思...");
+        pline("要骑上你自己吗? 有意思...");
         return ECMD_OK;
     }
     if (!isok(u.ux + u.dx, u.uy + u.dy)
@@ -632,13 +632,13 @@ dismount_steed(
     case DISMOUNT_BYCHOICE:
     default:
         if (otmp && otmp->cursed) {
-            You("不能.这个鞍%s被诅咒的.",
+            You("不能. 这个鞍%s被诅咒的.",
                 otmp->bknown ? "是" : "似乎是");
             otmp->bknown = 1; /* ok to skip set_bknown() here */
             return;
         }
         if (!have_spot) {
-            You("不能.没有任何地方能让你站起来.");
+            You("不能. 没有任何地方能让你站起来.");
             return;
         }
         if (!has_mgivenname(mtmp)) {

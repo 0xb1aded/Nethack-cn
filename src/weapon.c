@@ -1383,7 +1383,7 @@ enhance_weapon_skill(void)
         Strcpy(buf, (to_advance > 0) ? "选择一项技能提升:"
                                      : "当前技能:");
         if (wizard && !speedy)
-            Sprintf(eos(buf), "  (%d个技能槽%s可用)", u.weapon_slots,
+            Sprintf(eos(buf), " (%d个技能槽%s可用)", u.weapon_slots,
                     plur(u.weapon_slots));
         end_menu(win, buf);
         n = select_menu(win, to_advance ? PICK_ONE : PICK_NONE, &selected);

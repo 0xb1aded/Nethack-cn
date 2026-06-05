@@ -838,7 +838,7 @@ gcrownu(void)
     case A_LAWFUL:
         u.uevent.uhand_of_elbereth = 1;
         SetVoice((struct monst *) 0, 0, 80, voice_deity);
-        verbalize("吾冠汝为...Elbereth之手!");
+        verbalize("吾冠汝为... Elbereth之手!");
         livelog_printf(LL_DIVINEGIFT,
                        "被%s加冕为\"Elbereth之手\"",
                        u_gname());
@@ -1042,7 +1042,7 @@ give_spell(void)
                    is similar to "added to your repertoire, as 'a'"
                    and without any spellbook on hand a novice player
                    might not recognize that 'spe_name' is a spell */
-                pline("%s的神圣知识充满了你的脑海!法术'%c'.",
+                pline("%s的神圣知识充满了你的脑海! 法术'%c'.",
                       spe_name, spe_let);
             else
                 Your("关于法术'%c'的知识-%s已%s.",
@@ -1235,7 +1235,7 @@ pleased(aligntyp g_align)
                 } else if (u.uevent.uheard_tune < 2) {
                     Soundeffect(se_divine_music, 50);
                     You_hear("一种神圣的音乐...");
-                    pline("它听起来像:\"%s\".", svt.tune);
+                    pline("它听起来像: \"%s\".", svt.tune);
                     u.uevent.uheard_tune++;
                     record_achievement(ACH_TUNE);
                     break;
@@ -1515,7 +1515,7 @@ desecrate_altar(boolean highaltar, aligntyp altaralign)
     You_feel("你周围的气氛变得紧张...");
     pline("突然, 你意识到%s在注意你...",
           align_gname(altaralign));
-    Sprintf(gvbuf, "咄,凡人!汝焉敢污吾%s!",
+    Sprintf(gvbuf, "咄,凡人! 汝焉敢污吾%s!",
             highaltar ? "庙" : "圣坛");
     godvoice(altaralign, gvbuf);
     /* Throw everything we have at the player */
@@ -2112,7 +2112,7 @@ offer_corpse(struct obj *otmp, boolean highaltar, aligntyp altaralign)
                     body_part(FOOT));
             else
                 You(Hallucination
-                ? "看见你的%s上有一颗马唐草.这地牢还挺有意思."
+                ? "看见你的%s上有一颗马唐草. 这地牢还挺有意思."
                         : "瞥见你的%s上有一颗四叶草.",
                     makeplural(body_part(FOOT)));
         }

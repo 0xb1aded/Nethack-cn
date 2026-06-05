@@ -583,8 +583,8 @@ priest_talk(struct monst *priest)
     /* priests don't chat unless peaceful and in their own temple */
     if (!inhistemple(priest) || !priest->mpeaceful || helpless(priest)) {
         static const char *const cranky_msg[3] = {
-            "汝欲语?来吾与汝一二!",
-            "语乎?吾所欲语者止此耳.",
+            "汝欲语? 来吾与汝一二!",
+            "语乎? 吾所欲语者止此耳.",
             "求道者,予欲无言."
         };
 
@@ -605,7 +605,7 @@ priest_talk(struct monst *priest)
         && !has_shrine(priest)) {
         SetVoice(priest, 0, 80, 0);
         verbalize(
-              "速去!汝之在此,实污此圣地矣.");
+              "速去! 汝之在此,实污此圣地矣.");
         priest->mpeaceful = 0;
         return;
     }
@@ -849,15 +849,15 @@ ghod_hitsu(struct monst *priest)
 
     switch (rn2(3)) {
     case 0:
-        pline("%s愤怒地咆哮:\"汝将受苦!\"",
+        pline("%s愤怒地咆哮: \"汝将受苦!\"",
               a_gname_at(ax, ay));
         break;
     case 1:
-        pline("%s声音洪亮:\"汝焉敢伤吾仆!\"",
+        pline("%s声音洪亮: \"汝焉敢伤吾仆!\"",
               s_suffix(a_gname_at(ax, ay)));
         break;
     default:
-        pline("%s怒吼:\"汝污吾庙矣!\"",
+        pline("%s怒吼: \"汝污吾庙矣!\"",
               a_gname_at(ax, ay));
         break;
     }

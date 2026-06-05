@@ -246,7 +246,7 @@ deadbook(struct obj *book2)
         if (book2->cursed) {
             pline_The("%s!",
                       Blind ? "这本书似乎在无视你"
-                            : "里面的符文看起来杂乱无章,你不会读.");
+                            : "里面的符文看起来杂乱无章. 你不会读");
             return;
         }
 
@@ -332,7 +332,7 @@ deadbook(struct obj *book2)
             pline_The("墓地里的墓碑开始移动!");
             break;
         default:
-            pline("天哪!你的名字出现在书里!");
+            pline("天哪! 你的名字出现在书里!");
         }
     }
     return;
@@ -588,7 +588,7 @@ study_book(struct obj *spellbook)
                     char qbuf[QBUFSZ];
 
                     Sprintf(qbuf,
-                    "这本魔法书%s难理解.继续吗?",
+                    "这本魔法书%s难理解. 继续吗?",
                             (read_ability < 12 ? "非常 " : "很"));
                     if (y_n(qbuf) != 'y') {
                         spellbook->in_use = FALSE;
@@ -1658,7 +1658,7 @@ throwspell(void)
     struct monst *mtmp;
 
     if (u.uinwater) {
-        pline("别开玩笑了!你在水里面!");
+        pline("别开玩笑了! 你在水里面!");
         return 0;
     } else if (Is_waterlevel(&u.uz)) {
         You("还是等太阳出来再说吧.");

@@ -2796,7 +2796,7 @@ zapyourself(struct obj *obj, boolean ordinary)
             monstseesu(M_SEEN_MAGR);
         } else {
             damage = d(4, 6);
-            pline("笨蛋!你在打自己!");
+            pline("笨蛋! 你在打自己!");
             monstunseesu(M_SEEN_MAGR);
         }
         break;

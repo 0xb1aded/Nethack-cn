@@ -529,7 +529,7 @@ steal(struct monst *mtmp, char *objnambuf)
                 otmp->cursed = 0;
                 slowly = (armordelay >= 1 || gm.multi < 0);
                 if (flags.female)
-                    urgent_pline("%s在诱惑你.你乐意地%s你的%s.",
+                    urgent_pline("%s在诱惑你. 你乐意地%s你的%s.",
                                  !seen ? "她" : Monnambuf,
                                  curssv ? "让她脱下了"
                                  : !slowly ? "交出了"

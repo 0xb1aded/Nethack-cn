@@ -377,7 +377,7 @@ dowrite(struct obj *pen)
     if (objects[new_obj->otyp].oc_name_known || by_descr)
         observe_object(new_obj);
 
-    new_obj = hold_another_object(new_obj, "哦不!%s出了你的手中!",
+    new_obj = hold_another_object(new_obj, "哦不! %s出了你的手中!",
                                   The(aobjnam(new_obj, "滑落")),
                                   (const char *) 0);
     nhUse(new_obj); /* try to avoid complaint about dead assignment */

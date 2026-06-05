@@ -39,7 +39,7 @@ English README：[README_en.md](README_en.md)
 |reflect|反射|
 |hit(结果)|击中|
 |shine|照耀|
-|better（恢复）|好些了|
+|better(恢复)|好些了|
 |much better|好多了|
 |shine|照耀<sup>[2](#note2)</sup>|
 |glow|发/散发|
@@ -167,7 +167,7 @@ English README：[README_en.md](README_en.md)
 |Bummer!|真倒霉!|
 |Phew|呼!|
 |Whoops...|哎呀...|
-|KABOOM|嘭!|
+|KABOOM!|嘭!|
 |Egads!|天哪!|
 |Ulch!|呃!|
 |Ooph!|呼!|
@@ -291,7 +291,7 @@ English README：[README_en.md](README_en.md)
 - [ ] mon.c
 - [ ] mondata.c
 - [ ] monmove.c
-- [ ] monst.c
+- [x] monst.c (无需翻译)
 - [ ] mplayer.c
 - [ ] mthrowu.c
 - [ ] muse.c

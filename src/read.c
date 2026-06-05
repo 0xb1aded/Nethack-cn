@@ -111,7 +111,7 @@ tshirt_text(struct obj *tshirt, char *buf)
         "我活过了岩德军队新兵训练营",
         "吕底俄斯会计学校校内长曲棍球队",
         "Oracle(TM) Fountains第十届湿身T恤大赛",
-        "来啊,黑龙!有本事就分解这个!",
+        "来啊,黑龙! 有本事就分解这个!",
         "我跟蠢货在一起-->",
         "别怪我,我投给了Izchak!",
         "别慌", /* HHGTTG */
@@ -128,11 +128,11 @@ tshirt_text(struct obj *tshirt, char *buf)
         "蚂蚁队加油!",
         "有蝾螈了?",
         "我想死你们啦!", /* Charlie Drake */
-        "嘿!仙女!来偷这件T恤呀!",
+        "嘿! 仙女! 来偷这件T恤呀!",
         "我<3命运地牢",
         "我<3莫德",
         /* note: there is a similarly worded apron (alchemy smock) slogan */
-        "我是一个女武神.如果你看见我在跑,那就赶快跟上.",
+        "我是一个女武神. 如果你看见我在跑, 那就赶快跟上.",
         "我不是个囤积狂 -- 我只是个收藏家",
         "我跳下了橡胶树",         /* Monkey Island */
         "劫掠岛硫磺沙滩俱乐部", /* Monkey Island */
@@ -434,7 +434,7 @@ doread(void)
                      simpleonames(scroll));
             return ECMD_OK;
         }
-        pline("%s%s上面%s:%s.", /*修改语序:pline("%s%s上面写着":"%s.",*/
+        pline("%s%s上面%s: %s.", /*修改语序:pline("%s%s上面写着":"%s.",*/
               !Blind ? "你看到" : "你摸到",
               simpleonames(scroll), !Blind ? "写着" : "的字", cap_text); /*危险,修改语序:simpleonames(scroll), cap_text);*/
         if (!u.uconduct.literate++)
@@ -508,7 +508,7 @@ doread(void)
         if (flags.verbose)
             pline("上面写着:");
         Sprintf(buf, "%s", pmname(pm, NEUTRAL));
-        pline("\"魔法记号笔(TM)%s红色墨水记号笔.水溶.\"",
+        pline("\"魔法记号笔(TM)%s红色墨水记号笔. 水溶.\"",
               upwords(buf));
         if (!u.uconduct.literate++)
             livelog_printf(LL_CONDUCT,
@@ -520,7 +520,7 @@ doread(void)
             You("读道:");
         else if (flags.verbose)
             You("读:");
-        pline("\"1zorkmid.伟大的地底帝国857年.我们信仰众弗罗布.\"");
+        pline("\"1zorkmid. 伟大的地底帝国857年.我们信仰众弗罗布.\"");
         if (!u.uconduct.literate++)
             livelog_printf(LL_CONDUCT,
                            "因读一块硬币上的字而脱离文盲");
@@ -588,7 +588,7 @@ doread(void)
            scroll didn't come from bones, ask for confirmation */
         if (!u.uconduct.literate) {
             if (!scroll->spe && y_n(
-             "阅读邮件将违反\"文盲\"挑战.仍然阅读?"
+             "阅读邮件将违反\"文盲\"挑战. 仍然阅读?"
                                    ) != 'y')
                 return ECMD_OK;
         }
@@ -2074,7 +2074,7 @@ seffect_identify(struct obj **sobjp)
         if (confused || (scursed && !already_known))
             You("鉴定出来这是一张鉴定卷轴.");
         else if (!already_known)
-            pline("哇!现代艺术.");
+            pline("哇! 现代艺术.");
         if (!already_known)
             (void) learnscrolltyp(SCR_IDENTIFY);
         if (confused || (scursed && !already_known))
@@ -2921,7 +2921,7 @@ do_genocide(
                               "响彻洞穴:");
                     SetVoice((struct monst *) 0, 0, 80, voice_deity);
                     /* FIXME? shouldn't this override deafness? */
-                    verbalize("非也,凡人!此事断不可为.");
+                    verbalize("非也,凡人! 此事断不可为.");
                 }
                 continue;
             }
