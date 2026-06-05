@@ -859,10 +859,10 @@ petname_optfn(
     if (req == do_init) {
         ;
     } else if (req == do_set) {
-        if (op == empty_optstr && !negated)
-            return optn_err;
-        if (negated || !strcmp(op, "none") || !strcmp(op, none)) || !strcmp(op, "无") /*危险:加了一个"无"*/
-            op = empty_optstr;
+        if (op == empty_optstr && !negated){
+            return optn_err;}
+        if (negated || !strcmp(op, "none") || !strcmp(op, none) || !strcmp(op, "无")){
+            op = empty_optstr;}
         nmcpy(petname, op, PL_PSIZ);
         sanitize_name(petname);
     } else if (req == get_val || req == get_cnf_val) {
@@ -8739,7 +8739,7 @@ term_for_boolean(int idx, boolean *b)
 {
     int i, f_t = (*b) ? 1: 0;
     const char *boolean_term;
-    static const char *const booleanterms[2][num_terms] = {
+    static const char *const booleanterms[2][num_terms + 4] = {
         { "false", "off", "disabled", "excluded from build", "关", "禁", "关闭", "禁用" },
         { "true", "on", "enabled", "included", "开", "开启", "可用"},
     };
