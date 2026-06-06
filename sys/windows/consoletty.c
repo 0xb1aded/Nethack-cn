@@ -3823,86 +3823,71 @@ ray_checkinput(
     *mod = 0;
     *count = 0;
 
-    /* 完全非阻塞 */
+    /* 1. 先用 Peek 看一眼有没有事件，绝对不消耗队列 */
     if (!PeekConsoleInput(hConIn, ir, 1, count))
         return 0;
 
-    if (*count == 0)
+    /* 2. 如果队列是空的 */
+    if (*count == 0) {
+        if (mode == 0) {
+            /* mode == 0 是阻塞模式，游戏正在等待按键。必须休眠等待，否则 CPU 空转飙升导致假死 */
+            WaitForSingleObject(hConIn, INFINITE);
+        }
+        /* 如果 mode != 0，直接返回 0，让后台动画继续渲染 */
         return 0;
+    }
 
-    if (mode == 0) {
+    /* ====================================================================
+     * 3. 终极修复：既然队列有事件，第一步必须是立即用 ReadConsoleInput 吃掉它！
+     * 之前卡死/必须按两下的罪魁祸首，就是 Peek 后没统一吃掉导致事件堆积，
+     * 或者是吃掉的时机不对吞了长按信号。这里在源头统一下肚，保证队列永远畅通。
+     * ==================================================================== */
+    ReadConsoleInput(hConIn, ir, 1, count);
 
-        if ((ir->EventType == KEY_EVENT)
-            && ir->Event.KeyEvent.bKeyDown) {
-
-            ch = process_keystroke2(hConIn, ir, &valid);
+    /* 4. 分发处理已经被吃掉、干净的事件 */
+    if (ir->EventType == KEY_EVENT) {
+        if (ir->Event.KeyEvent.bKeyDown) {
+            
+            /* 因为没有多余的拦截逻辑，长按连发也会自然进入这里，完美恢复长按走路 */
+            if (mode == 0) {
+                ch = process_keystroke2(hConIn, ir, &valid);
+            } else {
+#ifdef QWERTZ_SUPPORT
+                if (qwertz) numberpad |= 0x10;
+#endif
+                ch = ray_processkeystroke(hConIn, ir, &valid, numberpad, 0);
+#ifdef QWERTZ_SUPPORT
+                numberpad &= ~0x10;
+#endif
+            }
 
             if (valid)
                 return ch;
-
-        } else {
-
-            ReadConsoleInput(hConIn, ir, 1, count);
-
+                
+            return 0; /* 如果按下了无效键 (如单按Shift)，直接返回，事件已经被第3步吃掉了，不会死循环 */
         }
-
-        return 0;
-    }
-
-    if (ir->EventType == KEY_EVENT
-        && ir->Event.KeyEvent.bKeyDown) {
-
-#ifdef QWERTZ_SUPPORT
-        if (qwertz)
-            numberpad |= 0x10;
-#endif
-
-        ch = ray_processkeystroke(
-            hConIn,
-            ir,
-            &valid,
-            numberpad,
-#ifdef PORTDEBUG
-            1
-#else
-            0
-#endif
-        );
-
-#ifdef QWERTZ_SUPPORT
-        numberpad &= ~0x10;
-#endif
-
-        if (valid)
-            return ch;
-
-        return 0;
-    }
-
-    ReadConsoleInput(hConIn, ir, 1, count);
-
+        return 0; /* 如果是按键抬起 (KEY_UP)，直接返回，事件同样已被吃掉 */
+    } 
+    
     if (ir->EventType == MOUSE_EVENT) {
+        if (mode != 0) {
+            if ((ir->Event.MouseEvent.dwEventFlags == 0)
+                && (ir->Event.MouseEvent.dwButtonState & MOUSEMASK)) {
 
-        if ((ir->Event.MouseEvent.dwEventFlags == 0)
-            && (ir->Event.MouseEvent.dwButtonState & MOUSEMASK)) {
+                cc->x = ir->Event.MouseEvent.dwMousePosition.X + 1;
+                cc->y = ir->Event.MouseEvent.dwMousePosition.Y - 1;
 
-            cc->x = ir->Event.MouseEvent.dwMousePosition.X + 1;
-            cc->y = ir->Event.MouseEvent.dwMousePosition.Y - 1;
-
-            if (ir->Event.MouseEvent.dwButtonState & LEFTBUTTON)
-                *mod = CLICK_1;
-            else if (ir->Event.MouseEvent.dwButtonState & RIGHTBUTTON)
-                *mod = CLICK_2;
-#if 0
-            else if (ir->Event.MouseEvent.dwButtonState & MIDBUTTON)
-                *mod = CLICK_3;
-#endif
-
-            return 0;
+                if (ir->Event.MouseEvent.dwButtonState & LEFTBUTTON)
+                    *mod = CLICK_1;
+                else if (ir->Event.MouseEvent.dwButtonState & RIGHTBUTTON)
+                    *mod = CLICK_2;
+            }
         }
+        return 0; /* 鼠标事件处理完直接返回 */
     }
 
-    return 0;
+    /* 其它焦点、窗口大小事件直接忽略并返回，反正已经在第3步被吃掉了 */
+    return 0; 
 }
 
 int
