@@ -87,6 +87,7 @@ staticfn char *tunesuffix(mapseen *, char *, size_t) NONNULL NONNULLPTRS;
 #ifdef DEBUG
 staticfn void dumpit(void);
 
+static const char* cdungeonsnames[] = {"命运地牢", "地狱", "侏儒矿坑", "任务", "推箱子", "吕底俄斯堡", "弗拉德塔", "元素位面", "教程"};
 staticfn void
 dumpit(void)
 {

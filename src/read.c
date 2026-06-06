@@ -1252,7 +1252,7 @@ seffect_enchant_armor(struct obj **sobjp)
     }
     pline("%s%s%s%s了%s%s%s.", Yname2(otmp), /*修改语序:多了一个%s*/
           (s == 0) ? "猛烈地" : "",
-          otense(otmp, Blind ? "振动" : "发出"),
+          otense(otmp, Blind ? "振动" : "闪"),
           (!Blind && !same_color) ? "" : "",
           (s * s > 1) ? "一会儿" : "一刹那",  /*修改语序:(Blind || same_color);*/
           (Blind || same_color) ? "" : hcolor(scursed ? NH_BLACK : NH_SILVER), /*修改语序:? "" : hcolor(scursed ? NH_BLACK : NH_SILVER), (Blind || same_color) ? "" : "光",*/ /*修改语序:? "" : hcolor(scursed ? NH_BLACK : NH_SILVER),*/

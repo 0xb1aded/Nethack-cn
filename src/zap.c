@@ -5352,13 +5352,13 @@ zap_over_floor(
                 if (see_it)
                     Norep("%s%s了一些,但仍保持完好.",
                           defsyms[S_bars].explanation,
-                          (damgtype == ZT_ACID) ? "腐蚀" : "熔化");
+                          (damgtype == ZT_ACID) ? "腐蚀" : "融化");
                 /* but nothing actually happens... */
             } else {
                 rangemod -= 3;
                 if (see_it)
                     Norep("%s被%s了.", defsyms[S_bars].explanation,
-                          (damgtype == ZT_ACID) ? "腐蚀" : "熔化");
+                          (damgtype == ZT_ACID) ? "腐蚀" : "融化");
                 dissolve_bars(x, y);
                 if (*in_rooms(x, y, SHOPBASE)) {
                     add_damage(x, y, (type >= 0) ? SHOP_BARS_COST : 0L);
@@ -6406,14 +6406,14 @@ makewish(void)
                         : (otmp->otyp == CORPSE && otmp->wishedfor)
                           ? "实体化" : "掉"),
                *oops_msg = (u.uswallow
-                            ? "哦不!你够不到%s!"
+                            ? "哦不! 你够不到%s!"
                             : (Is_airlevel(&u.uz) || Is_waterlevel(&u.uz)
                                || levl[u.ux][u.uy].typ < IRONBARS
                                || levl[u.ux][u.uy].typ >= ICE)
-                               ? "哦不!%s出了你的身边!"
+                               ? "哦不! %s出了你的身边!"
                                : !(otmp->otyp == CORPSE && otmp->wishedfor)
-                                 ? "哦不!%s到了地上!"
-                                 : "小心!%s在了地上!");
+                                 ? "哦不! %s到了地上!"
+                                 : "小心! %s在了地上!");
 
     /* The(aobjnam()) is safe since otmp is unidentified -dlc */
     (void) hold_another_object(otmp, oops_msg, The(aobjnam(otmp, verb)),

@@ -1149,7 +1149,7 @@ doengrave(void)
                        || de->type == ENGR_BLOOD) {
                 You("无法抹去%s此处%s的信息。",
                     (de->oep->engr_type == BURN)
-                        ? (de->frosted ? "融化在" : "烧在")
+                        ? (de->frosted ? "熔化在" : "烧在")
                         : "刻在",
                     surface(u.ux, u.uy));
                 de->ret = ECMD_TIME;

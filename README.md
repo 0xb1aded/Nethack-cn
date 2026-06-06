@@ -286,11 +286,11 @@ English README：[README_en.md](README_en.md)
 - [ ] mhitm.c
 - [ ] mhitu.c
 - [ ] minion.c
-- [ ] mklev.c
-- [ ] mkmap.c
+- [x] mklev.c (无需翻译)
+- [x] mkmap.c (无需翻译)
 - [ ] mkmaze.c
 - [ ] mkobj.c
-- [ ] mkroom.c
+- [x] mkroom.c (无需翻译)
 - [ ] mon.c
 - [ ] mondata.c
 - [ ] monmove.c

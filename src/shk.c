@@ -6086,7 +6086,7 @@ globby_bill_fixup(struct obj *obj_absorber, struct obj *obj_absorbed)
         amount = bp->price;
         bill_dummy_object(obj_absorbed);
         SetVoice(shkp, 0, 80, 0);
-        verbalize("你%s把我的%s和你的%s布丁团混合到了一起,需支付%ld%s%s", /*修改语序:verbalize("You owe me %ld %s for my %s that you %s with your%s",*/
+        verbalize("你%s把我的%s和你的%s布丁团混合到了一起,你要赔我%ld%s%s", /*修改语序:verbalize("You owe me %ld %s for my %s that you %s with your%s",*/
                   ANGRY(shkp) ? "居然敢" : "刚", obj_typename(obj_absorbed->otyp), /*修改语序:amount, currency(amount), obj_typename(obj_absorbed->otyp),*/
                   ANGRY(shkp) ? "恶心的" : "", /*修改语序:ANGRY(shkp) ? "had the audacity to mix" : "just mixed",*/
                   amount, currency(amount), ANGRY(shkp) ? "!" : "."); /*修改语序:ANGRY(shkp) ? " stinking batch!" : "s.");*/
@@ -6109,7 +6109,7 @@ use_unpaid_trapobj(struct obj *otmp, coordxy x, coordxy y)
 
             if (shkp && !muteshk(shkp)) {
                 SetVoice(shkp, 0, 80, 0);
-                verbalize("你触发的,你付钱!");
+                verbalize("你触发的,你赔钱!");
             }
         }
         bill_dummy_object(otmp);
