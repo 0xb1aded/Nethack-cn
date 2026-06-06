@@ -1574,7 +1574,7 @@ offer_real_amulet(struct obj *otmp, aligntyp altaralign)
         /* You've won the game!  Feedback-wise, it's a bit of a let down. */
         u.uevent.ascended = 1;
         adjalign(10);
-        pline("一个看不见的唱诗班在歌唱, 你沐浴在黑暗之中...");
+        pline("一个看不见的唱诗班在歌唱,你沐浴在光辉之中...");
         godvoice(altaralign, "凡人,汝克有成!");
         display_nhwindow(WIN_MESSAGE, FALSE);
         SetVoice((struct monst *) 0, 0, 80, voice_deity);

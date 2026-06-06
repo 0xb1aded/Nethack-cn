@@ -286,7 +286,7 @@ English README：[README_en.md](README_en.md)
 - [ ] mhitm.c
 - [ ] mhitu.c
 - [ ] minion.c
-- [x] mklev.c (无需翻译)
+- [ ] mklev.c
 - [x] mkmap.c (无需翻译)
 - [ ] mkmaze.c
 - [ ] mkobj.c

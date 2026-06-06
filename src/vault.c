@@ -473,7 +473,7 @@ invault(void)
                               mimic_obj_name(&gy.youmonst));
                 }
             /* You're mimicking some object or you're hidden. */
-            pline("很困惑, %s转身离开.", mhe(guard));
+            pline("%s感到很困惑,随后转身离开.", mhe(guard));
             mongone(guard);
             return;
         }
