@@ -1423,7 +1423,7 @@ dobreathe(void)
     struct attack *mattk;
 
     if (Strangled) {
-        You_cant("呼吸.抱歉.");
+        You_cant("呼吸. 抱歉.");
         return ECMD_OK;
     }
     if (u.uen < 15) {
@@ -1758,7 +1758,7 @@ dogaze(void)
                     pline("注视睁着眼的%s不是一个非常好的主意.",
                           l_monnam(mtmp));
                     /* as if gazing at a sleeping anything is fruitful... */
-                    urgent_pline("变成石头了...");
+                    urgent_pline("你变成了石头...");
                     svk.killer.format = KILLED_BY;
                     Strcpy(svk.killer.name,
                            "故意正视美杜莎的眼睛");
