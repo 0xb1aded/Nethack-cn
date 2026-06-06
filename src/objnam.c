@@ -831,41 +831,46 @@ xname_flags(
         break;
     case POTION_CLASS:
         if (dknown && obj->odiluted)
-            Strcpy(buf, "稀释的 ");
+            Strcpy(buf, "稀释的");
         if (nn || un || !dknown) {
-            Strcat(buf, "药水");
-            if (!dknown)
+            if (!dknown) {
+                Strcpy(buf, "药水");
                 break;
+            }
             if (nn) {
-                Strcat(buf, "之");
-                if (typ == POT_WATER && bknown
-                    && (obj->blessed || obj->cursed)) {
+                if (typ == POT_WATER && bknown && (obj->blessed || obj->cursed)) {
                     Strcat(buf, obj->blessed ? "圣" : "邪");
+                    /*Strcat(buf, "之");*/
                 }
                 Strcat(buf, actualn);
+                Strcat(buf, "药水");
             } else {
                 xcalled(buf, BUFSZ - PREFIX, "", un);
+                Strcat(buf, "药水");
             }
         } else {
             Strcat(buf, dn);
-            Strcat(buf, " 药水");
+            Strcat(buf, "药水");
         }
         break;
     case SCROLL_CLASS:
-        Strcpy(buf, "卷轴");
-        if (!dknown)
+        if (!dknown){
+            Strcpy(buf, "卷轴");
             break;
+        }
         if (nn) {
-            Strcat(buf, "之");
             Strcat(buf, actualn);
+            /*Strcat(buf, "之");*/
+            Strcat(buf, "卷轴");
         } else if (un) {
             xcalled(buf, BUFSZ - PREFIX, "", un);
         } else if (ocl->oc_magic) {
-            Strcat(buf, "卷轴");
+            Strcpy(buf, "写着");
             Strcat(buf, dn);
+            Strcat(buf, "的卷轴");
         } else {
             Strcpy(buf, dn);
-            Strcat(buf, " 卷轴");
+            Strcat(buf, "卷轴");
         }
         break;
     case WAND_CLASS:
@@ -874,7 +879,7 @@ xname_flags(
         else if (nn)
             Sprintf(buf, "%s魔杖", actualn);
         else if (un)
-            xcalled(buf, BUFSZ - PREFIX, "wand", un);
+            xcalled(buf, BUFSZ - PREFIX, "魔杖", un);
         else
             Sprintf(buf, "%s魔杖", dn);
         break;
@@ -885,21 +890,22 @@ xname_flags(
             else if (nn)
                 Strcpy(buf, actualn);
             else if (un)
-                xcalled(buf, BUFSZ - PREFIX, "novel", un);
+                xcalled(buf, BUFSZ - PREFIX, "小说", un);
             else
                 Sprintf(buf, "%s书", dn);
             break;
             /* end of tribute */
         } else if (!dknown) {
-            Strcpy(buf, "法术书");
+            Strcpy(buf, "魔法书");
         } else if (nn) {
             if (typ != SPE_BOOK_OF_THE_DEAD)
-                Strcpy(buf, "法术书：");
-            Strcat(buf, actualn);
+                Sprintf(buf, "%s魔法书", actualn);
+            else
+                Strcat(buf, actualn);
         } else if (un) {
-            xcalled(buf, BUFSZ - PREFIX, "spellbook", un);
+            xcalled(buf, BUFSZ - PREFIX, "魔法书", un);
         } else
-            Sprintf(buf, "%s法术书", dn);
+            Sprintf(buf, "%s魔法书", dn);
         break;
     case RING_CLASS:
         if (!dknown)
@@ -907,12 +913,12 @@ xname_flags(
         else if (nn)
             Sprintf(buf, "%s戒指", actualn);
         else if (un)
-            xcalled(buf, BUFSZ - PREFIX, "ring", un);
+            xcalled(buf, BUFSZ - PREFIX, "戒指", un);
         else
             Sprintf(buf, "%s戒指", dn);
         break;
     case GEM_CLASS: {
-        const char *rock = (ocl->oc_material == MINERAL) ? "stone" : "gem";
+        const char *rock = (ocl->oc_material == MINERAL) ? "石头" : "宝石";
 
         if (!dknown) {
             Strcpy(buf, rock);
@@ -920,11 +926,11 @@ xname_flags(
             if (un)
                 xcalled(buf, BUFSZ - PREFIX, rock, un);
             else
-                Sprintf(buf, "%s %s", dn, rock);
+                Sprintf(buf, "%s%s", dn, rock);
         } else {
             Strcpy(buf, actualn);
             if (GemStone(typ))
-                Strcat(buf, " 石");
+                Strcat(buf, "石头");
         }
         break;
     } /* gem */
