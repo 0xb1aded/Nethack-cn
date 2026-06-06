@@ -469,20 +469,20 @@ mstrength(struct permonst *ptr)
         if ((tmp2 == AD_DRLI) || (tmp2 == AD_STON) || (tmp2 == AD_DRST)
             || (tmp2 == AD_DRDX) || (tmp2 == AD_DRCO) || (tmp2 == AD_WERE))
             n += 2;
-        else if (strcmp(ptr->pmnames[NEUTRAL], "grid bug"))
+        else if (strcmp(ptr->epmnames[NEUTRAL], "grid bug")) /*危险:原为pmnames,下同*/
             n += (tmp2 != AD_PHYS);
         n += ((int) (ptr->mattk[i].damd * ptr->mattk[i].damn) > 23);
     }
 
     /* Leprechauns are a special case.  They have many hit dice so they can
        hit and are hard to kill, but they don't really do much damage. */
-    if (!strcmp(ptr->pmnames[NEUTRAL], "leprechaun"))
+    if (!strcmp(ptr->epmnames[NEUTRAL], "leprechaun"))
         n -= 2;
 
     /* despite group and poison increments, soldier ants and killer bees are
        underestimated by the formula, so have an artificial +1 difficulty */
-    if (!strcmp(ptr->pmnames[NEUTRAL], "killer bee") ||
-        !strcmp(ptr->pmnames[NEUTRAL], "soldier ant"))
+    if (!strcmp(ptr->epmnames[NEUTRAL], "killer bee") ||
+        !strcmp(ptr->epmnames[NEUTRAL], "soldier ant"))
         n += 2; /* +1 after 'tmp += n/2' below */
 
     /* finally, adjust the monster level  0 <= n <= 24 (approx.) */
@@ -1364,17 +1364,17 @@ raceptr(struct monst *mtmp)
 }
 
 typedef const char *const locoverbs[4];
-static locoverbs levitate = { "漂浮", "漂浮", "摇晃", "摇晃" },
-                 flys = { "飞行", "飞行", "扑腾", "扑腾" },
-                 flyl = { "飞行", "飞行", "踉跄", "踉跄" },
-                 slither = { "蠕动", "蠕动", "蹒跚", "蹒跚" },
+static locoverbs levitate = { "漂", "漂", "摇晃", "摇晃" },
+                 flys = { "飞", "飞", "扑腾", "扑腾" },
+                 flyl = { "飞", "飞", "踉跄", "踉跄" },
+                 slither = { "滑", "滑", "蹒跚", "蹒跚" },
                  /* it would be useful to incorporate "swim" but we lack
                   * sufficient information to know whether water is involved
                  swim = { "swim", "Swim", "flop", "Flop" },
                   */
-                 ooze = { "滑行", "滑行", "颤抖", "颤抖" },
+                 ooze = { "渗", "渗", "颤抖", "颤抖" },
                  immobile = { "扭动", "扭动", "震动", "震动" },
-                 crawl = { "爬行", "爬行", "蹒跚", "蹒跚" };
+                 crawl = { "爬", "爬", "蹒跚", "蹒跚" };
 
 const char *
 locomotion(const struct permonst *ptr, const char *def)
@@ -1422,11 +1422,11 @@ on_fire(struct permonst *mptr, struct attack *mattk)
     case PM_WATER_ELEMENTAL:
     case PM_FOG_CLOUD:
     case PM_STEAM_VORTEX:
-        what = "沸腾了";
+        what = "在沸腾";
         break;
     case PM_ICE_VORTEX:
     case PM_GLASS_GOLEM:
-        what = "熔化了";
+        what = "在熔化";
         break;
     case PM_STONE_GOLEM:
     case PM_CLAY_GOLEM:
@@ -1435,7 +1435,7 @@ on_fire(struct permonst *mptr, struct attack *mattk)
     case PM_EARTH_ELEMENTAL:
     case PM_DUST_VORTEX:
     case PM_ENERGY_VORTEX:
-        what = "升温了";
+        what = "在升温";
         break;
     default:
         what = (mattk->aatyp == AT_HUGS) ? "正在被烤" : "着火了";
@@ -1453,7 +1453,7 @@ msummon_environ(struct permonst *mptr, const char **cloud)
                 : (mptr->mlet == S_LIGHT) ? PM_YELLOW_LIGHT
                   : monsndx(mptr));
 
-    *cloud = "cloud"; /* default is "cloud of <something>" */
+    *cloud = "云"; /* default is "cloud of <something>" */
     switch (mndx) {
     case PM_WATER_DEMON:
     case PM_AIR_ELEMENTAL:
@@ -1461,34 +1461,34 @@ msummon_environ(struct permonst *mptr, const char **cloud)
     case PM_FOG_CLOUD:
     case PM_ICE_VORTEX:
     case PM_FREEZING_SPHERE:
-        what = "vapor";
+        what = "蒸汽";
         break;
     case PM_STEAM_VORTEX:
-        what = "steam";
+        what = "水汽";
         break;
     case PM_ENERGY_VORTEX:
     case PM_SHOCKING_SPHERE:
-        *cloud = "shower"; /* "shower of sparks" instead of "cloud of..." */
-        what = "sparks";
+        *cloud = "四溅的"; /* "shower of sparks" instead of "cloud of..." */
+        what = "火花";
         break;
     case PM_EARTH_ELEMENTAL:
     case PM_DUST_VORTEX:
-        what = "dust";
+        what = "尘土";
         break;
     case PM_FIRE_ELEMENTAL:
     case PM_FIRE_VORTEX:
     case PM_FLAMING_SPHERE:
     /*case PM_SALAMANDER:*/
-        *cloud = "ball"; /* "ball of flame" instead of "cloud of..." */
-        what = "flame";
+        *cloud = "火焰"; /* "ball of flame" instead of "cloud of..." */
+        what = "球";
         break;
     case PM_ANGEL: /* actually any 'A'-class */
     case PM_YELLOW_LIGHT: /* any 'y'-class */
-        *cloud = "flash"; /* "flash of light" instead of "cloud of..." */
-        what = "light";
+        *cloud = "一道"; /* "flash of light" instead of "cloud of..." */
+        what = "闪光";
         break;
     default:
-        what = "smoke";
+        what = "烟雾";
         break;
     }
     return what;

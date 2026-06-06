@@ -3808,11 +3808,8 @@ ray_checkinput(
     int *mod,
     coord *cc)
 {
-#if defined(SAFERHANGUP)
-    DWORD dwWait;
-#endif
     int ch = 0;
-    boolean valid = 0, done = 0;
+    boolean valid = 0;
 
 #ifdef QWERTZ_SUPPORT
     if (numberpad & 0x10) {
@@ -3822,78 +3819,90 @@ ray_checkinput(
         qwertz = FALSE;
     }
 #endif
-    while (!done) {
-        *count = 0;
-        dwWait = WaitForSingleObject(hConIn, INFINITE);
-#if defined(SAFERHANGUP)
-        if (dwWait == WAIT_FAILED)
-            return '\033';
-#endif
-        PeekConsoleInput(hConIn, ir, 1, count);
-        if (mode == 0) {
-            if ((ir->EventType == KEY_EVENT) && ir->Event.KeyEvent.bKeyDown) {
-                ch = process_keystroke2(hConIn, ir, &valid);
-                done = valid;
-            } else
-                ReadConsoleInput(hConIn, ir, 1, count);
-        } else {
-            ch = 0;
-            if (*count > 0) {
-                if (ir->EventType == KEY_EVENT
-                    && ir->Event.KeyEvent.bKeyDown) {
-#ifdef QWERTZ_SUPPORT
-                    if (qwertz)
-                        numberpad |= 0x10;
-#endif
-                    ch = ray_processkeystroke(hConIn, ir, &valid, numberpad,
-#ifdef PORTDEBUG
-                                          1);
-#else
-                                          0);
-#endif
-#ifdef QWERTZ_SUPPORT
-                    numberpad &= ~0x10;
-#endif
-                    if (valid)
-                        return ch;
-                } else {
-                    ReadConsoleInput(hConIn, ir, 1, count);
-                    if (ir->EventType == MOUSE_EVENT) {
-                        if ((ir->Event.MouseEvent.dwEventFlags == 0)
-                            && (ir->Event.MouseEvent.dwButtonState
-                                & MOUSEMASK)) {
-                            cc->x =
-                                ir->Event.MouseEvent.dwMousePosition.X + 1;
-                            cc->y =
-                                ir->Event.MouseEvent.dwMousePosition.Y - 1;
 
-                            if (ir->Event.MouseEvent.dwButtonState
-                                & LEFTBUTTON)
-                                *mod = CLICK_1;
-                            else if (ir->Event.MouseEvent.dwButtonState
-                                     & RIGHTBUTTON)
-                                *mod = CLICK_2;
-#if 0 /* middle button */
-                            else if (ir->Event.MouseEvent.dwButtonState & MIDBUTTON)
-                                *mod = CLICK_3;
+    *mod = 0;
+    *count = 0;
+
+    /* 完全非阻塞 */
+    if (!PeekConsoleInput(hConIn, ir, 1, count))
+        return 0;
+
+    if (*count == 0)
+        return 0;
+
+    if (mode == 0) {
+
+        if ((ir->EventType == KEY_EVENT)
+            && ir->Event.KeyEvent.bKeyDown) {
+
+            ch = process_keystroke2(hConIn, ir, &valid);
+
+            if (valid)
+                return ch;
+
+        } else {
+
+            ReadConsoleInput(hConIn, ir, 1, count);
+
+        }
+
+        return 0;
+    }
+
+    if (ir->EventType == KEY_EVENT
+        && ir->Event.KeyEvent.bKeyDown) {
+
+#ifdef QWERTZ_SUPPORT
+        if (qwertz)
+            numberpad |= 0x10;
 #endif
-                            return 0;
-                        }
-                    }
+
+        ch = ray_processkeystroke(
+            hConIn,
+            ir,
+            &valid,
+            numberpad,
+#ifdef PORTDEBUG
+            1
+#else
+            0
+#endif
+        );
+
+#ifdef QWERTZ_SUPPORT
+        numberpad &= ~0x10;
+#endif
+
+        if (valid)
+            return ch;
+
+        return 0;
+    }
+
+    ReadConsoleInput(hConIn, ir, 1, count);
+
+    if (ir->EventType == MOUSE_EVENT) {
+
+        if ((ir->Event.MouseEvent.dwEventFlags == 0)
+            && (ir->Event.MouseEvent.dwButtonState & MOUSEMASK)) {
+
+            cc->x = ir->Event.MouseEvent.dwMousePosition.X + 1;
+            cc->y = ir->Event.MouseEvent.dwMousePosition.Y - 1;
+
+            if (ir->Event.MouseEvent.dwButtonState & LEFTBUTTON)
+                *mod = CLICK_1;
+            else if (ir->Event.MouseEvent.dwButtonState & RIGHTBUTTON)
+                *mod = CLICK_2;
 #if 0
-                    /* We ignore these types of console events */
-                        else if (ir->EventType == FOCUS_EVENT) {
-                        }
-                        else if (ir->EventType == MENU_EVENT) {
-                        }
+            else if (ir->Event.MouseEvent.dwButtonState & MIDBUTTON)
+                *mod = CLICK_3;
 #endif
-                }
-            } else
-                done = 1;
+
+            return 0;
         }
     }
-    *mod = 0;
-    return ch;
+
+    return 0;
 }
 
 int

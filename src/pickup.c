@@ -3659,7 +3659,7 @@ dotip(void)
             Sprintf(buf, ",然后%s掉了",
                     vtense(spillage, "立即燃烧"));
         pline("一些%s%s到了%s上%s.", spillage,
-              vtense(spillage, "掉"), surface(u.ux, u.uy), buf);
+              vtense(spillage, "洒落"), surface(u.ux, u.uy), buf);
         /* shop usage message comes after the spill message */
         if (cobj->otyp == CAN_OF_GREASE && cobj->spe > 0) {
             consume_obj_charge(cobj, TRUE);

@@ -1494,7 +1494,7 @@ burn_object(anything *arg, long timeout)
                     switch (obj->where) {
                     case OBJ_INVENT:
                     case OBJ_MINVENT:
-                        pline("%s看起来要熄灭了.", Yname2(obj));
+                        pline("%s看上去要熄灭了.", Yname2(obj));
                         break;
                     case OBJ_FLOOR:
                         You_see("%s快要熄灭了.", an(xname(obj)));

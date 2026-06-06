@@ -1210,7 +1210,7 @@ xname_flags(
     }
 
     if (has_oname(obj) && dknown) {
-        Concat(buf, 0, ",被称为");
+        Concat(buf, 0, "(被称为"); /*冗余:你懂吧*/
 
         /* jump directly here if obj passes the has-personal-name test */
  nameit:
@@ -1220,6 +1220,7 @@ xname_flags(
         /* downcase "The" in "<quest-artifact-item> named The ..." */
         /*冗余:if (obj->oartifact && !strncmp(obufp, "The ", 4))
             *obufp = lowc(*obufp);*/ /* change 'T' in "The " to 't' */
+        Concat(buf, 0, ")");
     }
     /*冗余:
     if (!strncmpi(buf, "the ", 4))
@@ -13991,10 +13992,10 @@ readobjnam_postparse1(struct _readobjnam_data *d)
                 return 1; /*goto srch;*/
             }
     }
-    if ((d->p = strstri(d->bp, "被称为")) != 0) {
+    if ((d->p = strstri(d->bp, "(被称为")) != 0) {
         *d->p = 0;
         /* note: if 'un' is too long, obj lookup just won't match anything */
-        d->un = d->p + strlen("被称为");
+        d->un = d->p + strlen("(被称为");
         /* "helmet called telepathy" is not "helmet" (a specific type)
          * "shield called reflection" is not "shield" (a general type)
          */
@@ -14008,6 +14009,19 @@ readobjnam_postparse1(struct _readobjnam_data *d)
         *d->p = 0;
         /* note: if 'un' is too long, obj lookup just won't match anything */
         d->un = d->p + strlen(",被称为");
+        /* "helmet called telepathy" is not "helmet" (a specific type)
+         * "shield called reflection" is not "shield" (a general type)
+         */
+        for (i = 0; i < SIZE(o_ranges); i++)
+            if (!strcmpi(d->bp, o_ranges[i].name)) {
+                d->oclass = o_ranges[i].oclass;
+                return 1; /*goto srch;*/
+            }
+    }
+    if ((d->p = strstri(d->bp, "被称为")) != 0) {
+        *d->p = 0;
+        /* note: if 'un' is too long, obj lookup just won't match anything */
+        d->un = d->p + strlen("被称为");
         /* "helmet called telepathy" is not "helmet" (a specific type)
          * "shield called reflection" is not "shield" (a general type)
          */

@@ -116,6 +116,8 @@ English README：[README_en.md](README_en.md)
 |gunyoki|兵粮<sup>[5](#note5)</sup>|
 |chasm|裂口|
 |medallion|吊坠|
+|vapor|蒸汽|
+|steam|水汽|
 
 #### 死因
 
@@ -150,6 +152,7 @@ English README：[README_en.md](README_en.md)
 |gurgling|咕噜声|
 |clatter|哐当声|
 |snicker-snack|咔嚓|
+|slurping|啜饮声|
 
 #### 感叹词/拟声词
 
