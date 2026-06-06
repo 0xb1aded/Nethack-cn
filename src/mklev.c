@@ -1276,10 +1276,10 @@ makelevel(void)
         char fillname[9];
         s_level *loc_lev;
 
-        Sprintf(fillname, "%s-中心", gu.urole.filecode);
+        Sprintf(fillname, "%s-loca", gu.urole.filecode);
         loc_lev = find_level(fillname);
 
-        Sprintf(fillname, "%s-填充", gu.urole.filecode);
+        Sprintf(fillname, "%s-fil", gu.urole.filecode);
         Strcat(fillname,
                 (u.uz.dlevel < loc_lev->dlevel.dlevel) ? "a" : "b");
         makemaz(fillname);
@@ -2364,7 +2364,7 @@ mkgrave(struct mkroom *croom)
         return;
 
     /* Put a grave at <m.x,m.y> */
-    make_grave(m.x, m.y, dobell ? "Saved by the bell!" : (char *) 0);
+    make_grave(m.x, m.y, dobell ? "解铃还须系铃人!" : (char *) 0);
 
     /* Possibly fill it with objects */
     if (!rn2(3)) {
@@ -2490,7 +2490,7 @@ mkinvokearea(void)
         nh_delay_output();
     }
 
-    You("站在通往下面的楼梯井的顶端!");
+    You("站在通往下面的楼梯的顶端!");
     mkstairs(u.ux, u.uy, 0, (struct mkroom *) 0, FALSE); /* down */
     newsym(u.ux, u.uy);
     gv.vision_full_recalc = 1; /* everything changed */
@@ -2627,7 +2627,7 @@ mk_knox_portal(coordxy x, coordxy y)
     branch *br;
     schar u_depth;
 
-    br = dungeon_branch("Fort Ludios");
+    br = dungeon_branch("吕底俄斯堡");
     /* dungeon_branch() panics (so never returns) if result would be Null */
     assert(br != NULL);
 
@@ -2645,7 +2645,7 @@ mk_knox_portal(coordxy x, coordxy y)
         return;
 
     if (!(u.uz.dnum == oracle_level.dnum      /* in main dungeon */
-          && !at_dgn_entrance("The Quest")    /* but not Quest's entry */
+          && !at_dgn_entrance("任务")    /* but not Quest's entry */
           && (u_depth = depth(&u.uz)) > 10    /* beneath 10 */
           && u_depth < depth(&medusa_level))) /* and above Medusa */
         return;

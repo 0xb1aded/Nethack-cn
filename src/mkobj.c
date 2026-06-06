@@ -747,6 +747,12 @@ static const char *const alteration_verbs[] = {
     "bite", "open", "break the lock on", "rust", "rot", "tarnish", "crack",
 };
 
+static const char *const calteration_verbs[] = {
+    "取消", "吸干", "消耗", "诅咒", "去诅咒", "祛魔",
+    "降解", "稀释", "抹掉", "烧掉", "中和", "摧毁", "溅出",
+    "吃掉", "打开", "的锁打开", "弄锈", "腐烂", "玷污", "弄断",
+};
+
 /* possibly bill for an object which the player has just modified */
 void
 costly_alteration(struct obj *obj, int alter_type)
@@ -786,9 +792,9 @@ costly_alteration(struct obj *obj, int alter_type)
     }
 
     if (obj->quan == 1L)
-        those = "that", them = "it";
+        those = "那个", them = "它";
     else
-        those = "those", them = "them";
+        those = "那些", them = "它们";
 
     /* when shopkeeper describes the object as being uncursed or unblessed
        hero will know that it is now uncursed; will also make the feedback
@@ -803,8 +809,8 @@ costly_alteration(struct obj *obj, int alter_type)
         if (shkp) {
             SetVoice(shkp, 0, 80, 0);
         }
-        verbalize("You %s %s %s, you pay for %s!",
-                  alteration_verbs[alter_type], those, simpleonames(obj),
+        verbalize("你把%s%s%s的,你赔我%s的钱!",
+                  those, simpleonames(obj), calteration_verbs[alter_type], /*危险,修改语序:alteration_verbs[alter_type], those, simpleonames(obj),*/
                   them);
         bill_dummy_object(obj);
         break;
@@ -815,8 +821,8 @@ costly_alteration(struct obj *obj, int alter_type)
             if (shkp) {
                 SetVoice(shkp, 0, 80, 0);
             }
-            verbalize("You %s %s, you pay for %s!",
-                      alteration_verbs[alter_type], those, them);
+            verbalize("你把%s%s的,你赔我%s的钱!",
+                      those, calteration_verbs[alter_type], them); /*危险,修改语序:alteration_verbs[alter_type], those, them);*/
             bill_dummy_object(obj);
         } else {
             (void) stolen_value(obj, ox, oy, FALSE, FALSE);
@@ -1602,7 +1608,7 @@ shrink_glob(
        inside-container-in-invent, and going away when can-see-on-floor */
     if (ininv) {
         if (shrink || gone)
-            pline("%s %s.", globnambuf,
+            pline("%s%s了.", globnambuf,
                   /* globs always have quantity 1 so we don't need otense()
                      because the verb always references a singular item */
                   gone ? "完全溶解" : "收缩");
@@ -1629,9 +1635,9 @@ shrink_glob(
                however, always say the bag is lighter for the 'gone' case */
             if (gone || (shrink && topcontnr->owt != old_top_owt)
                 || near_capacity() != go.oldcap)
-                pline("%s %s%s轻了。", Yname2(topcontnr),
+                pline("%s%s%s变轻了.", Yname2(topcontnr),
                       /* containers also always have quantity 1 */
-                      (topcontnr->owt != old_top_owt) ? "变得" : "似乎",
+                      (topcontnr->owt != old_top_owt) ? "" : "似乎",
                       /* TODO?  maybe also skip "slightly" if description
                          is changing (from "very large" to "large",
                          "large" to "medium", or "medium to "small") */
@@ -1656,7 +1662,7 @@ shrink_glob(
                 /* fortunately none of the glob adjectives warrant "An " */
                 (void) strsubst(globnambuf, "The ", "A ");
             /* again, quantity is always 1 so no need for otense()/vtense() */
-            pline("%s消失了。", globnambuf);
+            pline("%s消失了.", globnambuf);
         }
     } else {
         /* schedule next shrink ~25 turns from now */
@@ -1727,9 +1733,9 @@ maybe_adjust_light(struct obj *obj, int old_range)
                    when changing intensity, using "less brightly" is
                    straightforward for dimming, but we need "brighter"
                    rather than "more brightly" for brightening; ugh */
-                pline("%s%s得%s%s了.", buf, otense(obj, "照耀"),
-                      (abs(delta) > 1) ? "更加" : "",
-                      (delta > 0) ? "明亮些" : "不明亮");
+                pline("%s%s得%s%s了.", buf, otense(obj, "照耀"), /*修改语序:看原文*/
+                      (delta > 0) ? "明亮" : "暗淡",
+                      (abs(delta) > 1) ? "多" : "些");
             }
         }
     }
@@ -2874,15 +2880,15 @@ hornoplenty(
                 if (obj->otyp == POT_OIL)
                     fixup_oil(obj, (struct obj *) NULL);
             }
-            what = (obj->quan > 1L) ? "Some potions" : "A potion";
+            what = (obj->quan > 1L) ? "几瓶药水" : "一瓶药水";
         } else {
             obj = mkobj(FOOD_CLASS, FALSE);
             if (obj->otyp == FOOD_RATION && !rn2(7))
                 obj->otyp = LUMP_OF_ROYAL_JELLY;
-            what = "Some food";
+            what = "一些食物";
         }
         ++objcount;
-        pline("%s %s了出来.", what, vtense(what, "溢"));
+        pline("%s%s了出来.", what, vtense(what, "溢"));
         obj->blessed = horn->blessed;
         obj->cursed = horn->cursed;
         obj->owt = weight(obj);
@@ -2896,14 +2902,14 @@ hornoplenty(
         if (!tipping) {
             obj = hold_another_object(obj,
                                       u.uswallow
-                                        ? "Oops!  %s out of your reach!"
+                                        ? "哦不! 你够不到%s!"
                                         : (Is_airlevel(&u.uz)
                                            || Is_waterlevel(&u.uz)
                                            || levl[u.ux][u.uy].typ < IRONBARS
                                            || levl[u.ux][u.uy].typ >= ICE)
-                                          ? "Oops!  %s away from you!"
-                                          : "Oops!  %s to the floor!",
-                                      The(aobjnam(obj, "slip")), (char *) 0);
+                                          ? "哦不! %s出了你的身边!"
+                                          : "哦不! %s到了地上!",
+                                      The(aobjnam(obj, "掉")), (char *) 0);
             nhUse(obj);
         } else if (targetbox) {
             add_to_container(targetbox, obj);
@@ -2923,8 +2929,8 @@ hornoplenty(
                 if (IS_ALTAR(levl[u.ux][u.uy].typ))
                     doaltarobj(obj); /* does its own drop message */
                 else
-                    pline("%s %s 到 %s 上。", Doname2(obj),
-                          otense(obj, "掉落"), surface(u.ux, u.uy));
+                    pline("%s%s到了%s上.", Doname2(obj),
+                          otense(obj, "掉"), surface(u.ux, u.uy));
                 dropy(obj);
             }
         }
@@ -2976,15 +2982,15 @@ obj_sanity_check(void)
                 } else if (obj->otyp == BOULDER) {
                     if (prevo && prevo->otyp != BOULDER) {
                         Sprintf(at_fmt,
-                                "%%s 巨石@<%d,%d> %%s %%s: 不在顶部",
+                                "%%s boulder@<%d,%d> %%s %%s: not on top",
                                 x, y);
                         insane_object(obj, at_fmt, "boulder sanity",
                                       (struct monst *) 0);
                     }
                     if (is_pool_or_lava(x, y)) {
                         Sprintf(at_fmt,
-                                "%%s 巨石@<%d,%d> %%s %%s: 位于%s上/中",
-                                x, y, is_pool(x, y) ? "水" : "熔岩");
+                                "%%s boulder@<%d,%d> %%s %%s: on/in %s",
+                                x, y, is_pool(x, y) ? "water" : "lava");
                         insane_object(obj, at_fmt, "boulder sanity",
                                       (struct monst *) 0);
                     }
@@ -3040,7 +3046,7 @@ objlist_sanity(struct obj *objlist, int wheretype, const char *mesg)
             char lostbuf[40];
 
             /* %d: bitfield is unsigned but narrow, so promotes to int */
-            Sprintf(lostbuf, "how_lost=%d 物品在背包中！", obj->how_lost);
+            Sprintf(lostbuf, "how_lost=%d obj in inventory!", obj->how_lost);
             insane_object(obj, ofmt0, lostbuf, (struct monst *) 0);
         }
         if (Has_contents(obj)) {
@@ -3076,7 +3082,7 @@ objlist_sanity(struct obj *objlist, int wheretype, const char *mesg)
                 if ((obj != uchain && obj != uball) || !bc_ok) {
                     /* discovered an object not in inventory which
                        erroneously has worn mask set */
-                    Sprintf(maskbuf, "佩戴掩码 0x%08lx", obj->owornmask);
+                    Sprintf(maskbuf, "worn mask 0x%08lx", obj->owornmask);
                     insane_object(obj, ofmt0, maskbuf, (struct monst *) 0);
                 }
                 break;
@@ -3093,7 +3099,7 @@ objlist_sanity(struct obj *objlist, int wheretype, const char *mesg)
                     insane_object(obj, ofmt0, buf, (struct monst *) 0);
                 } else if (!mtmp->mleashed) { /* found leashed mon
                                                * not flagged as leashed */
-                    Sprintf(buf, "leashmon=%u %s 未拴绳,",
+                    Sprintf(buf, "leashmon=%u %s not leashed,",
                             (unsigned) obj->leashmon, mon_pmname(mtmp));
                     insane_object(obj, ofmt0, buf, (struct monst *) 0);
                 }
@@ -3107,12 +3113,12 @@ objlist_sanity(struct obj *objlist, int wheretype, const char *mesg)
                                       ? obj->ocarry : (struct monst *) 0;
 
                 if (mtmp) { /* found monst leashed by non-invent leash */
-                    Sprintf(buf, "leashmon:%u %s 被 %s 牵绳拴住,",
+                    Sprintf(buf, "leashmon:%u %s leashed by %s leash,",
                             (unsigned) obj->leashmon,
                             mon_pmname(mtmp), where_name(obj));
                     insane_object(obj, ofmt0, buf, mtmp2);
                 } else { /* found non-invent leash with m_id of phantom mon */
-                    Sprintf(buf, "leashmon:%u 无怪物拴于%s leash,",
+                    Sprintf(buf, "leashmon:%u no monst for %s leash,",
                             (unsigned) obj->leashmon, where_name(obj));
                     insane_object(obj, ofmt0, buf, mtmp2);
                 }
@@ -3264,11 +3270,11 @@ insane_obj_bits(struct obj *obj, struct monst *mon)
     if (o_in_use || o_bypass || o_nomerge || o_boulder) {
         char infobuf[QBUFSZ];
 
-        Sprintf(infobuf, "标记%s%s%s%s",
-                o_in_use ? " 使用中" : "",
-                o_bypass ? " 绕过" : "",
-                o_nomerge ? " 不合并" : "",
-                o_boulder ? " 下一巨石" : "");
+        Sprintf(infobuf, "flagged%s%s%s%s",
+                o_in_use ? " in_use" : "",
+                o_bypass ? " bypass" : "",
+                o_nomerge ? " nomerge" : "",
+                o_boulder ? " nxtbldr" : "");
         insane_object(obj, ofmt0, infobuf, mon);
     }
 }
@@ -3302,7 +3308,7 @@ where_name(struct obj *obj)
         return "nowhere";
     where = obj->where;
     if (where < 0 || where >= NOBJ_STATES || !obj_state_names[where]) {
-        Sprintf(unknown, "未知[%d]", where);
+        Sprintf(unknown, "unknown[%d]", where);
         return unknown;
     }
     return obj_state_names[where];
@@ -3327,7 +3333,7 @@ insane_object(
         iflags.override_ID--;
     }
     if (mon || (strstri(mesg, "minvent") && !strstri(mesg, "contained"))) {
-        Strcat(strcpy(altfmt, fmt), " 被怪物 %s (%s)持有");
+        Strcat(strcpy(altfmt, fmt), " held by mon %s (%s)");
         if (mon)
             monnm = x_monnam(mon, ARTICLE_A, (char *) 0, EXACT_NAME, TRUE);
         impossible(altfmt, mesg, fmt_ptr((genericptr_t) obj), where_name(obj),
@@ -3382,7 +3388,7 @@ check_contained(struct obj *container, const char *mesg)
     /* change "invent sanity" to "contained invent sanity"
        but leave "nested contained invent sanity" as is */
     if (!strstri(mesg, "contained"))
-        mesg = strcat(strcpy(mesgbuf, "被容纳的 "), mesg);
+        mesg = strcat(strcpy(mesgbuf, "contained "), mesg);
 
     for (obj = container->cobj; obj; obj = obj->nobj) {
         /* catch direct cycle to avoid unbounded recursion */
@@ -3406,7 +3412,7 @@ check_contained(struct obj *container, const char *mesg)
                 panic("failed sanity check: container holds its parent");
             /* change "contained... sanity" to "nested contained... sanity"
                and "nested contained..." to "nested nested contained..." */
-            Strcpy(nestedmesg, "嵌套的 ");
+            Strcpy(nestedmesg, "nested ");
             copynchars(eos(nestedmesg), mesg, (int) sizeof nestedmesg
                                               - (int) strlen(nestedmesg) - 1);
             /* recursively check contents */
@@ -3434,7 +3440,7 @@ check_glob(struct obj *obj, const char *mesg)
         ) {
         char mesgbuf[BUFSZ], globbuf[QBUFSZ];
 
-        Sprintf(globbuf, " 全局%d,数量=%ld,重量=%u ",
+        Sprintf(globbuf, " glob %d,quan=%ld,owt=%u ",
                 obj->otyp, obj->quan, obj->owt);
         mesg = strsubst(strcpy(mesgbuf, mesg), " obj ", globbuf);
         insane_object(obj, ofmt0, mesg,
@@ -3489,13 +3495,13 @@ sanity_check_worn(struct obj *obj)
     }
     if (n > 1) {
         /* multiple bits set */
-        Sprintf(maskbuf, "穿戴掩码（多重）0x%08lx", obj->owornmask);
+        Sprintf(maskbuf, "worn mask (multiple) 0x%08lx", obj->owornmask);
         insane_object(obj, ofmt0, maskbuf, (struct monst *) 0);
     }
     if ((owornmask & ~allmask) != 0L
         || (carried(obj) && (owornmask & W_SADDLE) != 0L)) {
         /* non-wearable bit(s) set */
-        Sprintf(maskbuf, "穿戴掩码（无效）) 0x%08lx", obj->owornmask);
+        Sprintf(maskbuf, "worn mask (bogus)) 0x%08lx", obj->owornmask);
         insane_object(obj, ofmt0, maskbuf, (struct monst *) 0);
     }
     if (n == 1 && (carried(obj) || (owornmask & (W_BALL | W_CHAIN)) != 0L)) {
@@ -3572,7 +3578,7 @@ sanity_check_worn(struct obj *obj)
             break;
         }
         if (what) {
-            Sprintf(maskbuf, "装备掩码 0x%08lx != %s", obj->owornmask, what);
+            Sprintf(maskbuf, "worn mask 0x%08lx != %s", obj->owornmask, what);
             insane_object(obj, ofmt0, maskbuf, (struct monst *) 0);
         }
     }
@@ -3625,7 +3631,7 @@ sanity_check_worn(struct obj *obj)
             /* if we've found a potion worn in the amulet slot,
                this yields "worn (potion amulet)" */
             Strcpy(oclassname, def_oc_syms[(uchar) obj->oclass].name);
-            Sprintf(maskbuf, "装备 (%s %s)", makesingular(oclassname), what);
+            Sprintf(maskbuf, "worn (%s %s)", makesingular(oclassname), what);
             insane_object(obj, ofmt0, maskbuf, mon);
         }
     }
@@ -3837,10 +3843,10 @@ pudding_merge_message(struct obj *otmp, struct obj *otmp2)
             boolean adj = ((otmp->ox != u.ux || otmp->oy != u.uy)
                            && (otmp2->ox != u.ux || otmp2->oy != u.uy));
 
-            pline("这些%s%s合并%s。",
+            pline("%s%s%s合并到了一起.",
                   (onfloor && adj) ? "附近的" : "",
-                  makeplural(obj_typename(otmp->otyp)),
-                  inpack ? "在你的背包里" : "");
+                  inpack ? "你的背包里的" : "",
+                  makeplural(obj_typename(otmp->otyp)));
         }
     } else {
         Soundeffect(se_faint_sloshing, 25);
