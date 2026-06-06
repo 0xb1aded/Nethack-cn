@@ -3,16 +3,16 @@
 /*-Copyright (c) Michael Allison, 2009. */
 /* NetHack may be freely redistributed.  See license for details. */
 
-#ifdef WIN32CON
-#include <Windows.h>
-#endif
-
 #include "hack.h"
 
 #ifdef TTY_GRAPHICS
 
 #include "tcap.h"
 #include "wintty.h"
+
+#ifdef WIN32CON
+#include <Windows.h>
+#endif
 
 static void redotoplin(const char *);
 static void topl_putsym(char);

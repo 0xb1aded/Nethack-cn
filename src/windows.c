@@ -1871,25 +1871,12 @@ getlin(const char *query, char *bufp)
     char *obufp = bufp;
     boolean got_cmdq = FALSE;
     struct _cmd_queue *cmdq = NULL;
-    char *bufp_end = bufp + BUFSZ - 1;
 
     while ((cmdq = cmdq_pop()) != 0) {
         if (cmdq->typ == CMDQ_KEY) {
             got_cmdq = TRUE;
-            
-            /* 处理多字节字符 */
-            if (cmdq->multibyte_len > 0) {
-                int len = cmdq->multibyte_len;
-                if (bufp + len <= bufp_end) {
-                    memcpy(bufp, cmdq->multibyte_char, len);
-                    bufp += len;
-                }
-            } else {
-                /* 处理单字节字符（向后兼容） */
-                if (bufp < bufp_end)
-                    *bufp++ = cmdq->key;
-            }
-            
+            *bufp = (cmdq->key != '\n') ? cmdq->key : '\0';
+            bufp++;
             if (cmdq->key == '\n')
                 break;
         } else {
@@ -1913,5 +1900,4 @@ getlin(const char *query, char *bufp)
     gb.bot_disabled = old_bot_disabled;
     program_state.in_getlin = 0;
 }
-
 /*windows.c*/

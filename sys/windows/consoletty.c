@@ -1,4 +1,4 @@
-/* NetHack 5.0  consoletty.c    $NHDT-Date: 1596498316 2020/08/03 23:45:16 $  $NHDT-Branch: NetHack-5.0 $:$NHDT-Revision: 1.117 $ */
+/* NetHack 5.0	consoletty.c	$NHDT-Date: 1596498316 2020/08/03 23:45:16 $  $NHDT-Branch: NetHack-5.0 $:$NHDT-Revision: 1.117 $ */
 /* Copyright (c) NetHack PC Development Team 1993    */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -1074,8 +1074,6 @@ CtrlHandler(DWORD ctrltype)
 void
 consoletty_open(int mode UNUSED)
 {
-    SetConsoleCP(65001);
-    SetConsoleOutputCP(65001);
     int debugvar;
 
     /* Initialize the function pointer that points to
@@ -1116,39 +1114,7 @@ process_keystroke(
     int portdebug)
 {
     int ch;
-    if (ir->EventType == KEY_EVENT && ir->Event.KeyEvent.bKeyDown) {
-        WCHAR unicode_char = ir->Event.KeyEvent.uChar.UnicodeChar;
-        
-        // 如果是Unicode字符（非ASCII），需要转换为UTF-8
-        if (unicode_char > 127) {
-            static char utf8_buffer[4];
-            static int utf8_pos = 0;
-            
-            int utf8_len = 0;
-            unsigned char *out = (unsigned char *)utf8_buffer;
-            
-            // UTF-16转UTF-8
-            if (unicode_char < 0x80) {
-                utf8_len = 1;
-                out[0] = (unsigned char)unicode_char;
-            } else if (unicode_char < 0x800) {
-                utf8_len = 2;
-                out[0] = 0xC0 | (unicode_char >> 6);
-                out[1] = 0x80 | (unicode_char & 0x3F);
-            } else {
-                utf8_len = 3;
-                out[0] = 0xE0 | (unicode_char >> 12);
-                out[1] = 0x80 | ((unicode_char >> 6) & 0x3F);
-                out[2] = 0x80 | (unicode_char & 0x3F);
-            }
-            
-            // 逐字节返回，模拟TTY输入
-            if (utf8_pos < utf8_len) {
-                return utf8_buffer[utf8_pos++];
-            }
-            utf8_pos = 0;
-        }
-    }
+
 #ifdef QWERTZ_SUPPORT
     if (gc.Cmd.swap_yz)
         numberpad |= 0x10;
@@ -1170,140 +1136,37 @@ consoletty_kbhit(void)
     return keyboard_handling.pNHkbhit(console.hConIn, &gbl_ir);
 }
 
-#include <windows.h>
-
-/* 放在 consoletty.c 文件顶部，和这几个函数同一个 .c 里 */
-static unsigned char utf8_input_queue[5];
-static int utf8_qhead = 0;
-static int utf8_qtail = 0;
-static unsigned char vk_down[256];
-
-static void
-reset_vk_down(void)
-{
-    memset(vk_down, 0, sizeof(vk_down));
-}
-
-static int
-utf8_seq_len(unsigned char c)
-{
-    if ((c & 0x80) == 0)
-        return 1;
-    if ((c & 0xE0) == 0xC0)
-        return 2;
-    if ((c & 0xF0) == 0xE0)
-        return 3;
-    if ((c & 0xF8) == 0xF0)
-        return 4;
-    return 0;
-}
-
 int
 tgetch(void)
 {
-    INPUT_RECORD ir;
+    int mod;
+    coord cc;
     DWORD count;
-    HANDLE hInput;
-    WCHAR wc;
-
-    /* 先吐出之前缓存的 UTF-8 续字节 */
-    if (utf8_qhead < utf8_qtail)
-        return (int) utf8_input_queue[utf8_qhead++];
-
-    utf8_qhead = utf8_qtail = 0;
-
-    hInput = GetStdHandle(STD_INPUT_HANDLE);
-    if (hInput == NULL || hInput == INVALID_HANDLE_VALUE)
-        return '\033';
+    uchar numberpad = iflags.num_pad;
 
     really_move_cursor();
+    if (iflags.debug_fuzzer)
+        return randomkey();
+#ifdef QWERTZ_SUPPORT
+    if (gc.Cmd.swap_yz)
+        numberpad |= 0x10;
+#endif
 
-    for (;;) {
-        if (!ReadConsoleInputW(hInput, &ir, 1, &count) || count == 0)
-            continue;
-
-        /* 丢焦点/改大小时，清掉按键状态，避免“卡成按住” */
-        if (ir.EventType == FOCUS_EVENT) {
-            if (!ir.Event.FocusEvent.bSetFocus)
-                reset_vk_down();
-            continue;
-        }
-
-        if (ir.EventType == WINDOW_BUFFER_SIZE_EVENT) {
-            reset_vk_down();
-            continue;
-        }
-
-        if (ir.EventType != KEY_EVENT)
-            continue;
-
-        {
-            WORD vk = ir.Event.KeyEvent.wVirtualKeyCode;
-
-            /* 关键：keyup 必须清状态 */
-            if (!ir.Event.KeyEvent.bKeyDown) {
-                if (vk < 256)
-                    vk_down[vk] = 0;
-                continue;
-            }
-
-            /*
-             * 只过滤“真实还按着”的重复键。
-             * 如果状态机脏了，但系统已经松开，这里把它放行并修正状态。
-             */
-            if (vk < 256 && vk_down[vk]) {
-                if (GetAsyncKeyState(vk) & 0x8000)
-                    continue;   /* 还是按着，丢掉自动连发 */
-                vk_down[vk] = 0; /* 已经松了，修正脏状态 */
-            }
-
-            if (vk < 256)
-                vk_down[vk] = 1;
-        }
-
-        wc = ir.Event.KeyEvent.uChar.UnicodeChar;
-
-        /* 普通可打印字符 / 汉字 */
-        if (wc != 0) {
-            if (wc <= 0x7F) {
-                return (int) wc;
-            } else {
-                int bytes = WideCharToMultiByte(CP_UTF8, 0,
-                                                &wc, 1,
-                                                (char *) utf8_input_queue,
-                                                (int) sizeof(utf8_input_queue),
-                                                NULL, NULL);
-                if (bytes > 0) {
-                    utf8_qhead = 1;
-                    utf8_qtail = bytes;
-                    return (int) utf8_input_queue[0];
-                }
-            }
-            continue;
-        }
-
-        /* 特殊键 */
-        {
-            boolean valid = FALSE;
-            int numberpad = iflags.num_pad;
-            int ch = nh340_processkeystroke(hInput, &ir, &valid,
-                                            numberpad, 0);
-            if (valid)
-                return ch;
-        }
-    }
+    return (program_state.done_hup)
+               ? '\033'
+               : keyboard_handling.pCheckInput(
+                   console.hConIn, &gbl_ir, &count, numberpad, 0, &mod, &cc);
 }
 
 int
 console_poskey(coordxy *x, coordxy *y, int *mod)
 {
-    int ch = 0;
+    int ch;
     coord cc = { 0, 0 };
-    int count = 0;
+    DWORD count;
     boolean numberpad = iflags.num_pad;
 
     really_move_cursor();
-
     if (iflags.debug_fuzzer) {
         int poskey = randomkey();
 
@@ -1313,50 +1176,23 @@ console_poskey(coordxy *x, coordxy *y, int *mod)
         }
         return poskey;
     }
-
 #ifdef QWERTZ_SUPPORT
     if (gc.Cmd.swap_yz)
         numberpad |= 0x10;
 #endif
-
-    for (;;) {
-        if (program_state.done_hup) {
-            ch = '\033';
-            break;
-        }
-
-        ch = keyboard_handling.pCheckInput(console.hConIn, &gbl_ir, &count,
-                                           numberpad, 1, mod, &cc);
-
-        if (!ch) {
-            *x = cc.x;
-            *y = cc.y;
-            break;
-        }
-
-        if (gbl_ir.EventType == KEY_EVENT) {
-            WORD vk = gbl_ir.Event.KeyEvent.wVirtualKeyCode;
-
-            if (!gbl_ir.Event.KeyEvent.bKeyDown) {
-                if (vk < 256)
-                    vk_down[vk] = 0;
-                continue;
-            }
-
-            if (vk < 256 && vk_down[vk])
-                continue;
-
-            if (vk < 256)
-                vk_down[vk] = 1;
-        }
-
-        break;
-    }
-
+    term_curs_set(1);
+    ch = (program_state.done_hup)
+             ? '\033'
+             : keyboard_handling.pCheckInput(
+                   console.hConIn, &gbl_ir, &count, numberpad, 1, mod, &cc);
 #ifdef QWERTZ_SUPPORT
     numberpad &= ~0x10;
 #endif
-
+    if (!ch) {
+        *x = cc.x;
+        *y = cc.y;
+    }
+    term_curs_set(0);
     return ch;
 }
 
@@ -1752,39 +1588,19 @@ void
 term_curs_set(int visibility)
 {
     static int vis = -1;
-    static int disabled = 0;
-    static CONSOLE_CURSOR_INFO cursorinfo;
-    BOOL ok;
-
-    if (disabled)
-        return;
-
-    /* 取键期间不在这里碰光标 API */
-    if (program_state.getting_char > 0)
-        return;
 
     if (vis == visibility)
         return;
 
-    if (!console.hConOut || console.hConOut == INVALID_HANDLE_VALUE)
-        return;
+    static CONSOLE_CURSOR_INFO cursorinfo = { 0, 0 };
 
     if (!cursorinfo.dwSize) {
-        ok = GetConsoleCursorInfo(console.hConOut, &cursorinfo);
-        if (!ok || cursorinfo.dwSize == 0) {
-            disabled = 1;
-            return;
-        }
+        GetConsoleCursorInfo(console.hConOut, &cursorinfo);
+        vis = cursorinfo.bVisible ? 1 : 0;
     }
-
-    cursorinfo.bVisible = visibility ? TRUE : FALSE;
-    ok = SetConsoleCursorInfo(console.hConOut, &cursorinfo);
-    if (!ok) {
-        disabled = 1;
-        return;
-    }
-
-    vis = visibility ? 1 : 0;
+    cursorinfo.bVisible = visibility ? (BOOL) TRUE : (BOOL) FALSE;
+    SetConsoleCursorInfo(console.hConOut, &cursorinfo);
+    vis = visibility;
 }
 
 void
@@ -3385,43 +3201,46 @@ default_checkinput(
                                                   numberpad, 0);
                     done = valid;
                 }
-        } else {
-            if (*count > 0) {
-                if (ir->EventType == KEY_EVENT) {
-                    /* 【彻底干碎防连发锁】：不管什么键，直接把外层的拦截状态强行清零！ */
-                    WORD vk = ir->Event.KeyEvent.wVirtualKeyCode;
-                    if (vk < 256) {
-                        vk_down[vk] = 0;
-                    }
-                    
-                    if (ir->Event.KeyEvent.bKeyDown) {
-                        ch = nh340_processkeystroke(hConIn, ir, &valid, numberpad, 0);
-                        if (valid) {
+            } else {
+                if (*count > 0) {
+                    if (ir->EventType == KEY_EVENT
+                        && ir->Event.KeyEvent.bKeyDown) {
+#ifdef QWERTZ_SUPPORT
+                        if (qwertz)
+                            numberpad |= 0x10;
+#endif
+                        ch = default_processkeystroke(hConIn, ir, &valid,
+                                                      numberpad, 0);
+#ifdef QWERTZ_SUPPORT
+                        numberpad &= ~0x10;
+#endif
+                        if (valid)
                             return ch;
+                    } else if (ir->EventType == MOUSE_EVENT) {
+                        if ((ir->Event.MouseEvent.dwEventFlags == 0)
+                            && (ir->Event.MouseEvent.dwButtonState
+                                & MOUSEMASK)) {
+                            cc->x =
+                                ir->Event.MouseEvent.dwMousePosition.X + 1;
+                            cc->y =
+                                ir->Event.MouseEvent.dwMousePosition.Y - 1;
+
+                            if (ir->Event.MouseEvent.dwButtonState
+                                & LEFTBUTTON)
+                                *mod = CLICK_1;
+                            else if (ir->Event.MouseEvent.dwButtonState
+                                     & RIGHTBUTTON)
+                                *mod = CLICK_2;
+#if 0 /* middle button */
+                                    else if (ir->Event.MouseEvent.dwButtonState & MIDBUTTON)
+                                        *mod = CLICK_3;
+#endif
+                            return 0;
                         }
                     }
-                } else if (ir->EventType == MOUSE_EVENT) {
-                    if ((ir->Event.MouseEvent.dwEventFlags == 0)
-                        && (ir->Event.MouseEvent.dwButtonState & MOUSEMASK)) {
-                        cc->x = ir->Event.MouseEvent.dwMousePosition.X + 1;
-                        cc->y = ir->Event.MouseEvent.dwMousePosition.Y - 1;
-
-                        if (ir->Event.MouseEvent.dwButtonState & LEFTBUTTON)
-                            *mod = CLICK_1;
-                        else if (ir->Event.MouseEvent.dwButtonState
-                                 & RIGHTBUTTON)
-                            *mod = CLICK_2;
-#if 0 /* middle button */
-                        else if (ir->Event.MouseEvent.dwButtonState & MIDBUTTON)
-                            *mod = CLICK_3;
-#endif
-                        return 0;
-                    }
-                }
-            } else {
-                done = 1;
+                } else
+                    done = 1;
             }
-        }
         }
     }
     return mode ? 0 : ch;
@@ -3620,9 +3439,8 @@ is_altseq(unsigned long shiftstate)
     }
 }
 
-int
-ray_processkeystroke(
-    HANDLE hConIn UNUSED,
+int ray_processkeystroke(
+    HANDLE hConIn,
     INPUT_RECORD *ir,
     boolean *valid,
     uchar numberpad,
@@ -3634,6 +3452,7 @@ ray_processkeystroke(
     unsigned long shiftstate;
     int altseq = 0;
     const struct pad *kpad;
+    DWORD count;
 
 #ifdef QWERTZ_SUPPORT
     if (numberpad & 0x10) {
@@ -3643,23 +3462,16 @@ ray_processkeystroke(
         qwertz = FALSE;
     }
 #endif
-
-    *valid = FALSE;
-
-    if (!ir || ir->EventType != KEY_EVENT)
-        return 0;
-
-    if (!ir->Event.KeyEvent.bKeyDown)
-        return 0;
-
-    shiftstate = ir->Event.KeyEvent.dwControlKeyState;
+    shiftstate = 0L;
     ch = pre_ch = ir->Event.KeyEvent.uChar.AsciiChar;
     scan = ir->Event.KeyEvent.wVirtualScanCode;
     vk = ir->Event.KeyEvent.wVirtualKeyCode;
     keycode = MapVirtualKey(vk, 2);
-
+    shiftstate = ir->Event.KeyEvent.dwControlKeyState;
     if (scan == 0 && vk == 0) {
-        /* bogus_key */
+        /* It's the bogus_key */
+        ReadConsoleInput(hConIn, ir, 1, &count);
+        *valid = FALSE;
         return 0;
     }
 
@@ -3669,13 +3481,26 @@ ray_processkeystroke(
         else
             altseq = -1; /* invalid altseq */
     }
-
-    if (ch || iskeypad(scan) || (altseq > 0))
+    if (ch || (iskeypad(scan)) || (altseq > 0))
         *valid = TRUE;
-
+    /* if (!valid) return 0; */
+    /*
+     * shiftstate can be checked to see if various special
+     * keys were pressed at the same time as the key.
+     * Currently we are using the ALT & SHIFT & CONTROLS.
+     *
+     *           RIGHT_ALT_PRESSED, LEFT_ALT_PRESSED,
+     *           RIGHT_CTRL_PRESSED, LEFT_CTRL_PRESSED,
+     *           SHIFT_PRESSED,NUMLOCK_ON, SCROLLLOCK_ON,
+     *           CAPSLOCK_ON, ENHANCED_KEY
+     *
+     * are all valid bit masks to use on shiftstate.
+     * eg. (shiftstate & LEFT_CTRL_PRESSED) is true if the
+     *      left control key was pressed with the keystroke.
+     */
     if (iskeypad(scan)) {
+        ReadConsoleInput(hConIn, ir, 1, &count);
         kpad = numberpad ? numpad : keypad;
-
         if (shiftstate & SHIFT_PRESSED) {
             ch = kpad[scan - KEYPADLO].shift;
         } else if (shiftstate & (LEFT_CTRL_PRESSED | RIGHT_CTRL_PRESSED)) {
@@ -3683,38 +3508,44 @@ ray_processkeystroke(
         } else {
             ch = kpad[scan - KEYPADLO].normal;
         }
-
 #ifdef QWERTZ_SUPPORT
+        /* OPTIONS=number_pad:-1 is for qwertz keyboard; for that setting,
+           'numberpad' will be 0; core swaps y to zap, z to move northwest;
+           we want numpad 7 to move northwest, so when qwertz is set,
+           tell core that user who types numpad 7 typed z rather than y */
         if (qwertz && kpad[scan - KEYPADLO].normal == 'y')
-            ch += 1; /* y->z, Y->Z, ^Y->^Z */
-#endif /* QWERTZ_SUPPORT */
-
-    } else if (altseq > 0) {
+            ch += 1; /* changes y to z, Y to Z, ^Y to ^Z */
+#endif /*QWERTZ_SUPPORT*/
+    } else if (altseq > 0) { /* ALT sequence */
+        ReadConsoleInput(hConIn, ir, 1, &count);
         if (vk == 0xBF)
             ch = M('?');
         else
             ch = M(tolower((uchar) keycode));
-
     } else if (ch < 32 && !isnumkeypad(scan)) {
-        /*
-         * Control code.  不要在这里再读输入事件了。
-         * 让外层决定怎么消费这个事件。
-         */
-        if (ch == 0)
+        /* Control code; ReadConsole seems to filter some of these,
+         * including ESC */
+        ReadConsoleInput(hConIn, ir, 1, &count);
+    }
+    /* Attempt to work better with international keyboards. */
+    else {
+        CHAR ch2;
+        DWORD written;
+        /* The bogus_key guarantees that ReadConsole will return,
+         * and does not itself do anything */
+        WriteConsoleInput(hConIn, &bogus_key, 1, &written);
+        ReadConsole(hConIn, &ch2, 1, &count, NULL);
+        /* Prevent high characters from being interpreted as alt
+         * sequences; also filter the bogus_key */
+        if (ch2 & 0x80)
             *valid = FALSE;
-
-    } else {
-        /*
-         * 非ASCII键。这里保持原始 AsciiChar，不再调用 ReadConsole / ReadConsoleInput。
-         * 否则会和外层 Peek/Read 逻辑打架。
-         */
+        else
+            ch = ch2;
         if (ch == 0)
             *valid = FALSE;
     }
-
     if (ch == '\r')
         ch = '\n';
-
 #ifdef PORT_DEBUG
     if (portdebug) {
         char buf[BUFSZ];
@@ -3724,10 +3555,6 @@ ray_processkeystroke(
         fprintf(stdout, "\n%s", buf);
     }
 #endif
-
-    if (!ch)
-        *valid = FALSE;
-
     return ch;
 }
 
@@ -3808,8 +3635,11 @@ ray_checkinput(
     int *mod,
     coord *cc)
 {
+#if defined(SAFERHANGUP)
+    DWORD dwWait;
+#endif
     int ch = 0;
-    boolean valid = 0;
+    boolean valid = 0, done = 0;
 
 #ifdef QWERTZ_SUPPORT
     if (numberpad & 0x10) {
@@ -3819,90 +3649,78 @@ ray_checkinput(
         qwertz = FALSE;
     }
 #endif
-
-    *mod = 0;
-    *count = 0;
-
-    /* 完全非阻塞 */
-    if (!PeekConsoleInput(hConIn, ir, 1, count))
-        return 0;
-
-    if (*count == 0)
-        return 0;
-
-    if (mode == 0) {
-
-        if ((ir->EventType == KEY_EVENT)
-            && ir->Event.KeyEvent.bKeyDown) {
-
-            ch = process_keystroke2(hConIn, ir, &valid);
-
-            if (valid)
-                return ch;
-
+    while (!done) {
+        *count = 0;
+        dwWait = WaitForSingleObject(hConIn, INFINITE);
+#if defined(SAFERHANGUP)
+        if (dwWait == WAIT_FAILED)
+            return '\033';
+#endif
+        PeekConsoleInput(hConIn, ir, 1, count);
+        if (mode == 0) {
+            if ((ir->EventType == KEY_EVENT) && ir->Event.KeyEvent.bKeyDown) {
+                ch = process_keystroke2(hConIn, ir, &valid);
+                done = valid;
+            } else
+                ReadConsoleInput(hConIn, ir, 1, count);
         } else {
-
-            ReadConsoleInput(hConIn, ir, 1, count);
-
-        }
-
-        return 0;
-    }
-
-    if (ir->EventType == KEY_EVENT
-        && ir->Event.KeyEvent.bKeyDown) {
-
+            ch = 0;
+            if (*count > 0) {
+                if (ir->EventType == KEY_EVENT
+                    && ir->Event.KeyEvent.bKeyDown) {
 #ifdef QWERTZ_SUPPORT
-        if (qwertz)
-            numberpad |= 0x10;
+                    if (qwertz)
+                        numberpad |= 0x10;
 #endif
-
-        ch = ray_processkeystroke(
-            hConIn,
-            ir,
-            &valid,
-            numberpad,
+                    ch = ray_processkeystroke(hConIn, ir, &valid, numberpad,
 #ifdef PORTDEBUG
-            1
+                                          1);
 #else
-            0
+                                          0);
 #endif
-        );
-
 #ifdef QWERTZ_SUPPORT
-        numberpad &= ~0x10;
+                    numberpad &= ~0x10;
 #endif
+                    if (valid)
+                        return ch;
+                } else {
+                    ReadConsoleInput(hConIn, ir, 1, count);
+                    if (ir->EventType == MOUSE_EVENT) {
+                        if ((ir->Event.MouseEvent.dwEventFlags == 0)
+                            && (ir->Event.MouseEvent.dwButtonState
+                                & MOUSEMASK)) {
+                            cc->x =
+                                ir->Event.MouseEvent.dwMousePosition.X + 1;
+                            cc->y =
+                                ir->Event.MouseEvent.dwMousePosition.Y - 1;
 
-        if (valid)
-            return ch;
-
-        return 0;
-    }
-
-    ReadConsoleInput(hConIn, ir, 1, count);
-
-    if (ir->EventType == MOUSE_EVENT) {
-
-        if ((ir->Event.MouseEvent.dwEventFlags == 0)
-            && (ir->Event.MouseEvent.dwButtonState & MOUSEMASK)) {
-
-            cc->x = ir->Event.MouseEvent.dwMousePosition.X + 1;
-            cc->y = ir->Event.MouseEvent.dwMousePosition.Y - 1;
-
-            if (ir->Event.MouseEvent.dwButtonState & LEFTBUTTON)
-                *mod = CLICK_1;
-            else if (ir->Event.MouseEvent.dwButtonState & RIGHTBUTTON)
-                *mod = CLICK_2;
+                            if (ir->Event.MouseEvent.dwButtonState
+                                & LEFTBUTTON)
+                                *mod = CLICK_1;
+                            else if (ir->Event.MouseEvent.dwButtonState
+                                     & RIGHTBUTTON)
+                                *mod = CLICK_2;
+#if 0 /* middle button */
+                            else if (ir->Event.MouseEvent.dwButtonState & MIDBUTTON)
+                                *mod = CLICK_3;
+#endif
+                            return 0;
+                        }
+                    }
 #if 0
-            else if (ir->Event.MouseEvent.dwButtonState & MIDBUTTON)
-                *mod = CLICK_3;
+                    /* We ignore these types of console events */
+                        else if (ir->EventType == FOCUS_EVENT) {
+                        }
+                        else if (ir->EventType == MENU_EVENT) {
+                        }
 #endif
-
-            return 0;
+                }
+            } else
+                done = 1;
         }
     }
-
-    return 0;
+    *mod = 0;
+    return ch;
 }
 
 int
