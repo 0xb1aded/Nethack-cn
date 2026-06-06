@@ -1052,6 +1052,7 @@ xname_flags(
                     /*Strcat(buf, "之");*/
                 }
                 Strcat(buf, actualn);
+                Strcat(buf, "药水");
             } else {
                 xcalled(buf, BUFSZ - PREFIX, "", un);
                 Strcat(buf, "药水");
@@ -1218,8 +1219,8 @@ xname_flags(
         obufp = eos(buf); /* remember where the name will start */
         Concat(buf, 0, ONAME(obj));
         /* downcase "The" in "<quest-artifact-item> named The ..." */
-        /*冗余:if (obj->oartifact && !strncmp(obufp, "The ", 4))
-            *obufp = lowc(*obufp);*/ /* change 'T' in "The " to 't' */
+        if (obj->oartifact && !strncmp(obufp, "The ", 4))
+            *obufp = lowc(*obufp); /* change 'T' in "The " to 't' */
         Concat(buf, 0, ")");
     }
     /*冗余:
