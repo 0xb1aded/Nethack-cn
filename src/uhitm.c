@@ -2452,7 +2452,7 @@ mhitm_ad_drli(
             && !mhitm_mgc_atk_negated(magr, mdef, TRUE)) {
             mhm->damage = d(2, 6); /* Stormbringer uses monhp_per_lvl
                                     * (usually 1d8) */
-            pline("%s变弱了！", Monnam(mdef));
+            pline("%s变弱了!", Monnam(mdef));
             if (mdef->mhpmax - mhm->damage > (int) mdef->m_lev) {
                 mdef->mhpmax -= mhm->damage;
             } else {
@@ -2729,7 +2729,7 @@ mhitm_ad_elec(
             pline_mon(mdef, "%s被电击了!", Monnam(mdef));
         if (resists_elec(mdef) || defended(mdef, AD_ELEC)) {
             if (gv.vis && canseemon(mdef))
-                pline_The("电流没有冲击到%s！", mon_nam(mdef));
+                pline_The("电流没有冲击到%s!", mon_nam(mdef));
             shieldeff(mdef->mx, mdef->my);
             golemeffects(mdef, AD_ELEC, mhm->damage);
             mhm->damage = 0;
@@ -2890,7 +2890,7 @@ mhitm_ad_tlpt(
             You("未受影响.");
         } else {
             if (flags.verbose)
-                Your("你的位置突然变得%s不确定！",
+                Your("你的位置突然变得%s不确定!",
                      (Teleport_control && !Stunned && !unconscious()) ? ""
                      : "非常");
             tele();
@@ -2944,7 +2944,7 @@ mhitm_ad_tlpt(
             (void) rloc(mdef, RLOC_NOMSG);
             /* TODO: use RLOC_MSG instead? */
             if (gv.vis && wasseen && !canspotmon(mdef) && mdef != u.usteed)
-                pline("%s突然消失了！", mdef_Monnam);
+                pline("%s突然消失了!", mdef_Monnam);
             if (mhm->damage >= mdef->mhp) { /* see hitmu(mhitu.c) */
                 if (mdef->mhp == 1)
                     ++mdef->mhp;
@@ -3449,7 +3449,7 @@ mhitm_ad_plys(
                 You("僵住了一刹那.");
             } else {
                 if (Blind)
-                    You("你被定住了！");
+                    You("你被定住了!");
                 else
                     You("被%s定住了!", mon_nam(magr));
                 gn.nomovemsg = You_can_move_again;
@@ -5374,7 +5374,7 @@ mhitm_knockback(
               mdefbuf, vtense(magrbuf, "击"), knockedhow); /*修改语序:rn2(2) ? "有力的" : "强大的", rn2(2) ? "重击" : "打击");*/
     } else if (u_agr) {
         /* hero knocks unseen foe back; noticed by touch */
-        You_feel("%s被击%s！", some_mon_nam(mdef), knockedhow);
+        You_feel("%s被击%s!", some_mon_nam(mdef), knockedhow);
     }
 
     if (u.ustuck && (u_def || u_agr))
@@ -6038,7 +6038,7 @@ passive(
                         You("在%s的注视下僵住了一刹那!",
                             s_suffix(mon_nam(mon)));
                     } else {
-                        You("被%s的注视定住了！", s_suffix(mon_nam(mon)));
+                        You("被%s的注视定住了!", s_suffix(mon_nam(mon)));
                         nomul((ACURR(A_WIS) > 12 || rn2(4)) ? -tmp : -127);
                         /* set gm.multi_reason;
                            3.6.x used "frozen by a monster's gaze" */

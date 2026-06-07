@@ -230,7 +230,7 @@ mount_steed(
         char qbuf[QBUFSZ];
 
         legs_in_no_shape("riding", FALSE);
-        Sprintf(qbuf, "治疗你的%s腿吗？",
+        Sprintf(qbuf, "治疗你的%s腿吗?",
                 ((HWounded_legs & BOTH_SIDES) == BOTH_SIDES) ? "双" : "");
         if (force && wizard && y_n(qbuf) == 'y')
             heal_legs(0);

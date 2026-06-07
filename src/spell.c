@@ -2063,7 +2063,7 @@ show_spells(void)
         pline("你目前不知道任何法术.");
         pline("%s", "");
     } else {
-        pline("法术：");
+        pline("法术:");
         nhUse(dospellmenu("", SPELLMENU_DUMP, &unused));
     }
 }

@@ -985,7 +985,7 @@ mu_maybe_destroy_web(
         if (flaming(mptr) || acidic(mptr)) {
             if (domsg) {
                 if (isyou)
-                    You("%s了%s蜘蛛网！",
+                    You("%s了%s蜘蛛网!",
                         (flaming(mptr)) ? "烧掉" : "溶解",
                         a_your[trap->madeby_u]);
                 else
@@ -2667,7 +2667,7 @@ trapeffect_rolling_boulder_trap(
         int style = ROLL | (trap->tseen ? LAUNCH_KNOWN : 0);
 
         feeltrap(trap);
-        pline("%s你触发了一个滚石陷阱！",
+        pline("%s你触发了一个滚石陷阱!",
               !Deaf ? "咔哒! " : "");
         if (!launch_obj(BOULDER, trap->launch.x, trap->launch.y,
                         trap->launch2.x, trap->launch2.y, style)) {
@@ -4250,7 +4250,7 @@ dofiretrap(
             losehp(rnd(3), "沸水", KILLED_BY);
         return;
     }
-    pline("%s%s从%s！", the(box ? xname(box) : surface(u.ux, u.uy)), /*修改语序:pline("%s%s从%s！", tower_of_flame, box ? "喷出" : "喷出",*/
+    pline("%s%s从%s!", the(box ? xname(box) : surface(u.ux, u.uy)), /*修改语序:pline("%s%s从%s！", tower_of_flame, box ? "喷出" : "喷出",*/
           tower_of_flame, box ? "喷出" : "喷出"); /*修改语序:the(box ? xname(box) : surface(u.ux, u.uy)));*/
     if (Fire_resistance) {
         shieldeff(u.ux, u.uy);
@@ -5472,7 +5472,7 @@ try_disarm(
         if (u.usteed && P_SKILL(P_RIDING) < P_BASIC)
             rider_cant_reach();
         else
-            You("够不到%s！", trapname(ttype, FALSE));
+            You("够不到%s!", trapname(ttype, FALSE));
         return 0;
     }
 
@@ -5578,7 +5578,7 @@ disarm_holdingtrap(struct trap *ttmp)
 
         if (wep && wep->oartifact
             && (u_wield_art(ART_STING) || attacks(AD_FIRE, wep)))
-            pline("%s%s了%s蜘蛛网！", bare_artifactname(uwep),
+            pline("%s%s了%s蜘蛛网!", bare_artifactname(uwep),
                   u_wield_art(ART_STING) ? "切穿" : "烧穿", which);
         else if (wep)
             You("切断了%s蜘蛛网.", which);
@@ -6968,7 +6968,7 @@ lava_effects(void)
         set_utrap((unsigned) (rn1(4, 4) + ((boil_away ? 2
                                                       : rn1(4, 12)) << 8)),
                   TT_LAVA);
-        You("沉入%s中%s！", waterbody_name(u.ux, u.uy),
+        You("沉入%s中%s!", waterbody_name(u.ux, u.uy),
             !boil_away ? ",但只是轻微灼烧"
                        : "并且即将被烧死");
         if (Fire_resistance)

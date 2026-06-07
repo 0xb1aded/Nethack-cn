@@ -216,7 +216,7 @@ dowrite(struct obj *pen)
         boolean fanfic = !rn2(3), tearup = !rn2(3);
 
         if (!fanfic) {
-            You("%s写伟大的岩德利亚人小说，但%s.",
+            You("%s写伟大的岩德利亚人小说,但%s.",
                 !tearup ? "准备" : "尝试",
                 !Hallucination ? "缺乏灵感" : "灵感太多了写不下");
         } else {
@@ -237,7 +237,7 @@ dowrite(struct obj *pen)
     } else if (by_descr && paper->oclass == SPBOOK_CLASS
                && !objects[i].oc_name_known) {
         /* can't write unknown spellbooks by description */
-        pline("不幸的是，你没有足够的知识以继续.");
+        pline("不幸的是,你没有足够的知识以继续.");
         return ECMD_TIME;
     }
 
@@ -255,7 +255,7 @@ dowrite(struct obj *pen)
     /* see if there's enough ink */
     basecost = cost(new_obj);
     if (pen->spe < basecost / 2) {
-        Your("魔笔太干了，写不了!");
+        Your("魔笔太干了,写不了!");
         obfree(new_obj, (struct obj *) 0);
         return ECMD_TIME;
     }
@@ -271,10 +271,10 @@ dowrite(struct obj *pen)
         Your("魔笔干了!");
         /* scrolls disappear, spellbooks don't */
         if (paper->oclass == SPBOOK_CLASS) {
-            pline_The("魔法书没写完，而且你写的字消失了.");
+            pline_The("魔法书没写完,而且你写的字消失了.");
             update_inventory(); /* pen charges */
         } else {
-            pline_The("卷轴现在已经没用了，然后消失了!");
+            pline_The("卷轴现在已经没用了,然后消失了!");
             useup(paper);
         }
         obfree(new_obj, (struct obj *) 0);

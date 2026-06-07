@@ -1001,7 +1001,7 @@ explmm(struct monst *magr, struct monst *mdef, struct attack *mattk)
         /* mondead() -> m_detach() -> m_unleash() always suppresses
            the m_unleash() slack message, so deliver it here instead */
         if (was_leashed)
-            Your("狗链松了。");
+            Your("狗链松了.");
     }
     if (magr->mtame) /* give this one even if it was visible */
         You(brief_feeling, "忧郁");
@@ -1138,7 +1138,7 @@ mon_poly(struct monst *magr, struct monst *mdef, int dmg)
                 You_feel("一股不自然的冲动涌上心头.");
                 you_were();
             } else {
-                You_feel("一股自然的冲动涌上心头。");
+                You_feel("一股自然的冲动涌上心头.");
                 you_unwere(FALSE);
             }
             dmg = 0;

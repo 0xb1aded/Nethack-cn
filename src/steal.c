@@ -89,7 +89,7 @@ stealgold(struct monst *mtmp)
         /* reduce "rear hooves/claws" to "hooves/claws" */
         if (!strncmp(what, "rear ", 5))
             what += 5;
-        pline("%s迅速从%s%s%s抢走了一些金币！", Monnam(mtmp),
+        pline("%s迅速从%s%s%s抢走了一些金币!", Monnam(mtmp),
               whose, what, (Levitation || Flying) ? "下" : "间"); /*修改语序:(Levitation || Flying) ? "下" : "间", whose, what);*/
         if (!ygold || !rn2(5)) {
             if (!tele_restrict(mtmp))

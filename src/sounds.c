@@ -320,7 +320,7 @@ dosounds(void)
             && !strchr(u.ushops, (int) (ROOM_INDEX(sroom) + ROOMOFFSET))) {
             static const char *const shop_msg[3] = {
                 "有人在咒骂偷东西的人.",
-                "收银机的叮当声.", "七、十一吵起来了!",
+                "收银机的叮当声.", "小七和小十一吵起来了!",
             };
             You_hear1(shop_msg[rn2(2) + hallu]);
             noisy_shop(sroom);
@@ -1014,7 +1014,7 @@ domonnoise(struct monst *mtmp)
                 pline_msg = "抱怨吃的全是羊肉.";
                 break;
             default:
-                pline_msg = "大喊：\"菲,菲,福,福!\"然后放声大笑.";
+                pline_msg = "大喊:\"菲,菲,福,福!\"然后放声大笑.";
                 wake_nearto(mtmp->mx, mtmp->my, 7 * 7);
                 break;
             }

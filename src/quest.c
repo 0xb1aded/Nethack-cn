@@ -243,7 +243,7 @@ finish_quest(struct obj *obj) /* quest artifact or thrown unique item or faux
             verbalize(
       "很遗憾,这不过一个真正的岩德护身符的仿制品罢了.");
         } else {
-            verbalize("啊，看来你找到了%s.", the(xname(obj)));
+            verbalize("啊,看来你找到了%s.", the(xname(obj)));
         }
         return;
     }

@@ -1034,7 +1034,7 @@ rest_levl(NHFILE *nhfp)
 void
 trickery(char *reason)
 {
-    pline("奇怪，这张地图和我记忆中的不一样.");
+    pline("奇怪,这张地图和我记忆中的不一样.");
     pline("肯定有人在搞什么鬼把戏...");
     pline("此局游戏作废.");
     Strcpy(svk.killer.name, reason ? reason : "");

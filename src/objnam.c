@@ -12981,7 +12981,7 @@ wizterrainwish(struct _readobjnam_data *d)
             EHalluc_resistance = 1;
             new_water = waterbody_name(x, y);
             EHalluc_resistance = save_prop;
-            pline("%s。", An(new_water));
+            pline("%s.", An(new_water));
             /* Must manually make kelp! */
         } else {
             dbterrainmesg("Moat", x, y);
@@ -13030,7 +13030,7 @@ wizterrainwish(struct _readobjnam_data *d)
         if (!is_dbridge) {
             char icebuf[40];
 
-            pline("%s。", upstart(ice_descr(x, y, icebuf)));
+            pline("%s.", upstart(ice_descr(x, y, icebuf)));
         } else {
             dbterrainmesg("Ice", x, y);
         }

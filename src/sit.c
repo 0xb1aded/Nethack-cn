@@ -228,8 +228,8 @@ throne_sit_effect(void)
         newsym_force(tx, ty);
         /* "[God] promptly vanishes in a puff of logic" is from
            Douglas Adams' _The_Hitchhiker's_Guide_to_the_Galaxy_. */
-        pline_The("王座在一团逻辑烟雾中%s。",
-                  cansee(tx, ty) ? "消失" : "已经消失");
+        pline_The("王座在一团逻辑烟雾中%s.",
+                  cansee(tx, ty) ? "消失了" : "已经消失");
     }
 }
 
@@ -301,7 +301,7 @@ special_throne_effect(int effect) {
     {
         /* summon demons; a NULL argument to msummon summons demons as
            though they were summoned by the Wizard of Yendor */
-        pline_The("王座似乎在呼救！");
+        pline_The("王座似乎在呼救!");
         msummon(NULL);
         msummon(NULL);
         msummon(NULL);

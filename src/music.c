@@ -703,7 +703,7 @@ do_improvisation(struct obj *instr)
     case LEATHER_DRUM: /* Awaken monsters */
         if (!mundane) {
             if (!Deaf) {
-                You("敲出了一阵%s震耳欲聋的声响！",
+                You("敲出了一阵%s震耳欲聋的声响!",
                     same_old_song ? "熟悉的" : "");
                 Hero_playnotes(obj_to_instr(&itmp), "CCC", 100);
                 incr_itimeout(&HDeaf, rn1(20, 30));
