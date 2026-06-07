@@ -2075,7 +2075,7 @@ m_slips_free(struct monst *mdef, struct attack *mattk)
         && (!obj->cursed || rn2(3))) {
         You("%s%s%s%s!",
             (mattk->adtyp == AD_WRAP) ? "滑过"
-                                      : "抓住, 但不能持续控制",
+                                      : "抓住,但不能持续控制",
             s_suffix(mon_nam(mdef)), obj->greased ? "上油的" : "光滑的",
             /* avoid "slippery slippery cloak"
                for undiscovered oilskin cloak */
@@ -2084,7 +2084,7 @@ m_slips_free(struct monst *mdef, struct attack *mattk)
                 : cloak_simple_name(obj));
 
         if (obj->greased && !rn2(2)) {
-            pline_The("油脂失效了.");
+            pline_The("油脂消失了.");
             obj->greased = 0;
         }
         return TRUE;
@@ -2757,7 +2757,7 @@ mhitm_ad_acid(
                 monstseesu(M_SEEN_ACID);
                 mhm->damage = 0;
             } else {
-                pline("你被%s覆盖了! 好烫!", hliquid("酸液"));
+                pline("你被%s覆盖了! 它在灼烧!", hliquid("酸液"));
                 exercise(A_STR, FALSE);
                 monstunseesu(M_SEEN_ACID);
             }
@@ -3695,7 +3695,7 @@ mhitm_ad_conf(
         /* uhitm */
         if (!mdef->mconf) {
             if (canseemon(mdef))
-                pline("%s看起来很迷惑.", Monnam(mdef));
+                pline("%s看起来很混乱.", Monnam(mdef));
             mdef->mconf = 1;
         }
     } else if (mdef == &gy.youmonst) {
@@ -3718,7 +3718,7 @@ mhitm_ad_conf(
          */
         if (!magr->mcan && !mdef->mconf && !magr->mspec_used) {
             if (gv.vis && canseemon(mdef))
-                pline_mon(mdef, "%s看起来很迷惑.", Monnam(mdef));
+                pline_mon(mdef, "%s看起来很混乱.", Monnam(mdef));
             mdef->mconf = 1;
             mdef->mstrategy &= ~STRAT_WAITFORU;
         }
@@ -3912,7 +3912,7 @@ mhitm_ad_halu(
         if (!magr->mcan && haseyes(pd) && mdef->mcansee) {
             if (gv.vis && canseemon(mdef))
                 pline_mon(mdef, "%s看起来%s.", Monnam(mdef),
-                      mdef->mconf ? "更迷惑了" : "很迷惑");
+                      mdef->mconf ? "更混乱了" : "很混乱");
             mdef->mconf = 1;
             mdef->mstrategy &= ~STRAT_WAITFORU;
         }
@@ -5118,7 +5118,7 @@ gulpum(struct monst *mdef, struct attack *mattk)
                 }
                 break;
             case AD_ACID:
-                pline("%s被你的黏质覆盖!", Monnam(mdef));
+                pline("%s被你的黏液覆盖!", Monnam(mdef));
                 if (resists_acid(mdef)) {
                     pline("看起来对%s无害.", mon_nam(mdef));
                     dam = 0;
@@ -6067,7 +6067,7 @@ passive(
             if (monnear(mon, u.ux, u.uy)) {
                 if (Cold_resistance) {
                     shieldeff(u.ux, u.uy);
-                    You_feel("轻微的冷.");
+                    You_feel("有一点点冷.");
                     monstseesu(M_SEEN_COLD);
                     ugolemeffects(AD_COLD, tmp);
                     break;
@@ -6090,7 +6090,7 @@ passive(
             if (monnear(mon, u.ux, u.uy)) {
                 if (Fire_resistance) {
                     shieldeff(u.ux, u.uy);
-                    You_feel("轻微的热.");
+                    You_feel("有一点点热.");
                     monstseesu(M_SEEN_FIRE);
                     ugolemeffects(AD_FIRE, tmp);
                     break;
@@ -6103,7 +6103,7 @@ passive(
         case AD_ELEC:
             if (Shock_resistance) {
                 shieldeff(u.ux, u.uy);
-                You_feel("轻微的刺痛.");
+                You_feel("有一点点刺痛.");
                 monstseesu(M_SEEN_ELEC);
                 ugolemeffects(AD_ELEC, tmp);
                 break;

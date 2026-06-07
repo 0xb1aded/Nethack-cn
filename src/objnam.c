@@ -3452,7 +3452,7 @@ killer_xname(struct obj *obj)
            devnull tournament, suppress player supplied fruit names because
            those can be used to fake other objects and dungeon features */
         buf = nextobuf();
-        Sprintf(buf, "致命的粘液霉菌%s", plur(obj->quan));
+        Sprintf(buf, "致命的黏液霉菌%s", plur(obj->quan));
     } else {
         buf = xname(obj);
     }

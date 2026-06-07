@@ -144,7 +144,7 @@ thitu(
                 exercise(A_CON, FALSE);
             }
             if (is_acid) {
-                pline("它在烧灼!");
+                pline("它在灼烧!");
                 monstunseesu(M_SEEN_ACID);
             }
             losehp(dam, knm, kprefix); /* acid damage */

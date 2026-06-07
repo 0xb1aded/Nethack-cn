@@ -89,6 +89,8 @@ English README：[README_en.md](README_en.md)
 |strained|高度负重|
 |overtaxed|严重超重|
 |overloaded|极其超重|
+|lunge|突进/刺|
+|ooze|渗|
 
 #### 体词
 

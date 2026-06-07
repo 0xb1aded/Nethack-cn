@@ -3039,7 +3039,7 @@ lightdamage(
             dmg = 10 + rnd(dmg - 10);
         if (dmg > 20)
             dmg = 20;
-        pline("哦, 被那束光伤到了%c", (dmg > 2 || u.mh <= 5) ? '!' : '.');
+        pline("哦,被那束光伤到了%c", (dmg > 2 || u.mh <= 5) ? '!' : '.');
         /* [composing killer/reason is superfluous here; if fatal, cause
            of death will always be "killed while stuck in creature form"] */
         if (obj->oclass == SCROLL_CLASS || obj->oclass == SPBOOK_CLASS)

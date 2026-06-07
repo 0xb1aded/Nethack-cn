@@ -477,7 +477,7 @@ moveloop_core(void)
                       due to being next to it while it's in a gas cloud
                       and then you moved away; it should no longer be seen
                       when that happens, even if it hasn't moved */
-                   || (svc.context.move && any_visible_region_safe())) { /* TODO: optimize this */
+                   || (svc.context.move && !gv.vision_full_recalc && any_visible_region())) { /* TODO: optimize this */
             see_monsters();
         }
         if (gv.vision_full_recalc)

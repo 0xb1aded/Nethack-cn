@@ -190,7 +190,7 @@ expulsion(boolean seal)
     struct trap *t;
     int portal_flag = u.uevent.qexpelled ? UTOTYPE_NONE : UTOTYPE_PORTAL;
 
-    br = dungeon_branch("任务");
+    br = dungeon_branch("The Quest");
     dest = (br->end1.dnum == u.uz.dnum) ? &br->end2 : &br->end1;
     if (seal)
         portal_flag |= UTOTYPE_RMPORTAL;

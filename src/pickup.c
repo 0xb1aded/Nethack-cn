@@ -1995,7 +1995,7 @@ encumber_msg(void)
                 stagger(gy.youmonst.data, "摇摇晃晃"));
             break;
         default:
-            You("在此负重下%s移动一拃远!",
+            You("在此负重下%s移动一掌宽!",
                 newcap == 4 ? "勉强能" : "甚至不能");
             break;
         }
