@@ -133,7 +133,7 @@ questtext = {
          "\"吾当向汝泄气,恐反令汝香!\"",
       },
       legacy = {
-         synopsis = "[%dChaschosenyoutorecovertheAmuletofYendorfor %dI.]",
+         synopsis = "[%dC已选中你为%dI取回岩德护身符.]",
          output = "menu",
          text = [[%d之书里这样写道:
 
@@ -153,7 +153,7 @@ questtext = {
       },
 -- starting with 'pauper' option set, last paragraph differs from normal legacy
       pauper_legacy = {
-         synopsis = "[%dChaschosenyoutorecovertheAmuletofYendorfor %dI.]",
+         synopsis = "[%dC已选中你为%dI取回岩德护身符.]",
          output = "menu",
          text = [[%d之书里这样写道:
 
