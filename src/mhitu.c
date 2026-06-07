@@ -37,7 +37,7 @@ hitmsg(struct monst *mtmp, struct attack *mattk)
     if ((compat = could_seduce(mtmp, &gy.youmonst, mattk)) != 0
         && !mtmp->mcan && !mtmp->mspec_used) {
         pline_mon(mtmp, "%s%s%s.", Monst_name,
-              (compat == 2) ? "动人地" : "魅惑地", /*修改语序:!Blind ? "对你微笑" : !Deaf ? "对你说话" : "碰到了你",*/
+              (compat == 2) ? "迷人地" : "魅惑地", /*修改语序:!Blind ? "对你微笑" : !Deaf ? "对你说话" : "碰到了你",*/
               !Blind ? "向你微笑" : !Deaf ? "对你说话" : "碰到了你"); /*修改语序:(compat == 2) ? "生动地" : "魅惑地");*/
     } else {
         switch (mattk->aatyp) {
@@ -237,7 +237,7 @@ wildmiss(struct monst *mtmp, struct attack *mattk)
         /* give 'displaced' message even if hero is Blind */
         if (compat)
             pline("%s%s向你的%s幻影微笑...", Monst_name,
-                  (compat == 2) ? "动人地" : "魅惑地",
+                  (compat == 2) ? "迷人地" : "魅惑地",
                   Invis ? "隐形的" : "");
         else
             pline("%s攻击你的%s幻影,但没有击中你!",

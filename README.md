@@ -91,6 +91,9 @@ English README：[README_en.md](README_en.md)
 |overloaded|极其超重|
 |lunge|突进/刺|
 |ooze|渗|
+|gulp|吸住|
+|adhere|叮住|
+|grab|抓住|
 
 #### 体词
 

@@ -9684,7 +9684,7 @@ all_options_strbuf(strbuf_t *sbuf)
     int i;
 
     strbuf_init(sbuf);
-    Sprintf(tmp, "#NetHack配置文件,保存于 %s\n#\n",
+    Sprintf(tmp, "#NetHack配置文件,保存于%s\n#\n",
             yyyymmddhhmmss((time_t) 0));
     strbuf_append(sbuf, tmp);
 

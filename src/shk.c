@@ -4137,7 +4137,7 @@ sellobj(
                when container's contents are unknown, plural "items"
                should be used to not give away information.
              */
-            Sprintf(qbuf, "%s出价%s%ld金币%s购买%s%s ",
+            Sprintf(qbuf, "%s出价%s%ld金币%s购买%s%s",
                     Shknam(shkp), short_funds ? "仅" : "", offer,
                     plur(offer),
                     (cltmp && !ltmp)

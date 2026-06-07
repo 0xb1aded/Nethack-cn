@@ -902,7 +902,7 @@ hmon_hitmon_weapon_ranged(
         && rnl(4) == 4 - 1) {
         boolean more_than_1 = (obj->quan > 1L);
 
-        pline("当你击中%s时, %s%s破成了碎片.",
+        pline("当你击中%s时,%s%s破成了碎片.",
               mon_nam(mon), more_than_1 ? "其中一个" : "",
               yname(obj));
         if (!more_than_1)
@@ -4990,7 +4990,7 @@ gulpum(struct monst *mdef, struct attack *mattk)
            vampire form now instead of dealing with that when it dies */
         if (is_vampshifter(mdef)
             && newcham(mdef, &mons[mdef->cham], NO_NC_FLAGS)) {
-            You("把它%s, 然后%s了它.",
+            You("把它%s,然后%s了它.",
                 u_digest ? "吞下" : u_enfold ? "裹住" : "吞没",
                 expel_verb);
             if (canspotmon(mdef)) {
@@ -5184,7 +5184,7 @@ gulpum(struct monst *mdef, struct attack *mattk)
                 if (DEADMONSTER(mdef)) /* not lifesaved */
                     return M_ATTK_DEF_DIED;
             }
-            You("%s %s!", expel_verb, mon_nam(mdef));
+            You("%s%s!", expel_verb, mon_nam(mdef));
             if ((Slow_digestion || is_animal(gy.youmonst.data)) && u_digest) {
                 pline("显然你不喜欢%s的味道.",
                       s_suffix(mon_nam(mdef)));
@@ -5363,7 +5363,7 @@ mhitm_knockback(
         Strcpy(mdefbuf, (u_def || was_u) ? "你" : y_monnam(mdef));
         if (was_u)
             Snprintf(eos(mdefbuf), sizeof mdefbuf - strlen(mdefbuf),
-                     " and %s", y_monnam(u.usteed));
+                     "和%s", y_monnam(u.usteed));
         /*
          * uhitm: You knock the gnome back with a powerful blow!
          * mhitu: The red dragon knocks you back with a forceful blow!

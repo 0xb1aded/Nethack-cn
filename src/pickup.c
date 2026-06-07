@@ -2421,7 +2421,7 @@ reverse_loot(void)
             if (!rn2(10))
                 levl[x][y].looted = T_LOOTED;
         } else {
-            You("丢下 %s.", doname(goldob));
+            You("丢下了%s.", doname(goldob));
             dropx(goldob);
         }
     }

@@ -118,7 +118,7 @@ mon_yells(struct monst *mon, const char *shout)
                                    : makeplural(mbodypart(mon, ARM)));
     } else {
         if (canspotmon(mon)) {
-            pline_mon(mon, "%s yells:", Amonnam(mon));
+            pline_mon(mon, "%s叫喊:", Amonnam(mon));
         } else {
             /* Soundeffect(se_someone_yells, 75); */
             You_hear("有人叫喊:");

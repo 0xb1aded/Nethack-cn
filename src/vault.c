@@ -954,7 +954,7 @@ gd_move(struct monst *grd)
                                      : "");
                 SetVoice(grd, 0, 80, 0);
                 if (egrd->dropgoldcnt || !u_carry_gold)
-                    verbalize("我再说一遍, %s", buf);
+                    verbalize("我再说一遍,%s", buf);
                 else
                     verbalize("%s", upstart(buf));
                 if (u_carry_gold)

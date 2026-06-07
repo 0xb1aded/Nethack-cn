@@ -470,7 +470,7 @@ make_glib(int xtime)
 void
 self_invis_message(void)
 {
-    pline("%s %s.",
+    pline("%s%s.",
           Hallucination ? "太棒了,伙计! 你"
                         : "哇! 突然间,你",
           See_invisible ? "能看透自己了"
@@ -487,7 +487,7 @@ ghost_from_bottle(void)
         return;
     }
     if (Blind) {
-        pline("当你打开了瓶子, %s浮现出来.", something);
+        pline("当你打开了瓶子,%s浮现出来.", something);
         return;
     }
     pline("当你打开了瓶子, 一个巨大的%s浮现出来!",
@@ -2589,7 +2589,7 @@ potion_dip(struct obj *obj, struct obj *potion)
            been made in order to get the merge result for both cases;
            as a consequence, mixing while Fumbling drops the mixture */
         freeinv(obj);
-        hold_potion(obj, "You drop %s!", doname(obj), (const char *) 0);
+        hold_potion(obj, "你丢下了%s!", doname(obj), (const char *) 0);
         return ECMD_TIME;
     }
 

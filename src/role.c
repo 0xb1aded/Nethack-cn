@@ -1783,7 +1783,7 @@ role_selection_prolog(int which, winid where)
         /* distinct female name [caveman/cavewoman, priest/priestess] */
         if (gend == 1)
             /* female specified; replace male role name with female one */
-            Sprintf(strchr(buf, ':'), ": %s", roles[r].name.f);
+            Sprintf(strchr(buf, ':'), ":%s", roles[r].name.f);
         else if (gend < 0)
             /* gender unspecified; append slash and female role name */
             Sprintf(eos(buf), "/%s", roles[r].name.f);

@@ -434,7 +434,7 @@ doread(void)
                      simpleonames(scroll));
             return ECMD_OK;
         }
-        pline("%s%s上面%s: %s.", /*修改语序:pline("%s%s上面写着":"%s.",*/
+        pline("%s%s上面%s:%s.", /*修改语序:pline("%s%s上面写着":"%s.",*/
               !Blind ? "你看到" : "你摸到",
               simpleonames(scroll), !Blind ? "写着" : "的字", cap_text); /*危险,修改语序:simpleonames(scroll), cap_text);*/
         if (!u.uconduct.literate++)
@@ -2651,7 +2651,7 @@ do_class_genocide(void)
         Strcpy(promptbuf, "你想要灭绝哪类怪物?");
         if (j > 0)
             Snprintf(eos(promptbuf), sizeof promptbuf - strlen(promptbuf),
-                     " [输入 %s]",
+                     " [%s]",
                      iflags.cmdassist
                        ? "输入你想灭绝的怪物名称或其符号,或者'?'"
                        : "输入'?'以查看已灭绝物种");
@@ -2958,7 +2958,7 @@ do_genocide(
                            "实施了%s的第一次灭绝(%s)",
                            uhis(), makeplural(realbuf));
         else
-            livelog_printf(LL_GENOCIDE, "genocided %s", makeplural(realbuf));
+            livelog_printf(LL_GENOCIDE, "灭绝了%s", makeplural(realbuf));
 
         /* setting no-corpse affects wishing and random tin generation */
         svm.mvitals[mndx].mvflags |= (G_GENOD | G_NOCORPSE);

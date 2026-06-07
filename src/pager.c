@@ -128,7 +128,7 @@ self_lookat(char *outbuf)
         Sprintf(eos(outbuf), ",被锁链拴在%s上",
                 uball ? ansimpleoname(uball) : "什么都没有?");
     if (u.utrap) /* bear trap, pit, web, in-floor, in-lava, tethered */
-        Sprintf(eos(outbuf), ", %s", trap_predicament(trapbuf, 0, FALSE));
+        Sprintf(eos(outbuf), ",%s", trap_predicament(trapbuf, 0, FALSE));
     return outbuf;
 }
 

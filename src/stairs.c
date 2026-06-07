@@ -196,17 +196,17 @@ stairs_description(
 
     tolev = sway->tolev;
     stairs = sway->isladder ? "梯子" : stcase ? "楼梯" : "台阶";
-    updown = sway->up ? "向上" : "向下";
+    updown = sway->up ? "上行" : "下行";
 
     if (!known_branch_stairs(sway)) {
         /* ordinary stairs or branch stairs to not-yet-visited branch */
-        Sprintf(outbuf, "%s %s", stairs, updown);
+        Sprintf(outbuf, "%s%s", updown, stairs); /*修改语序:Sprintf(outbuf, "%s的%s", stairs, updown);*/
         if (sway->u_traversed) {
             boolean specialdepth = (tolev.dnum == quest_dnum
                                     || single_level_branch(&tolev)); /* knox */
             int to_dlev = specialdepth ? dunlev(&tolev) : depth(&tolev);
 
-            Sprintf(eos(outbuf), " 到第%d层", to_dlev);
+            Sprintf(eos(outbuf), "(到第%d层)", to_dlev);
         }
     } else if (u.uz.dnum == 0 && u.uz.dlevel == 1 && sway->up) {
         /* stairs up from level one are a special case; they are marked

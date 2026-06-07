@@ -2575,7 +2575,7 @@ use_misc(struct monst *mtmp)
                 pline("%s没能缠绕住%s.", The_whip, the_weapon);
                 return 1;
             }
-            urgent_pline("%s wraps around %s you're wielding!", The_whip,
+            urgent_pline("%s缠绕在你手中的%s上!", The_whip,
                          the_weapon);
             if (welded(obj)) {
                 pline("%s焊在你的%s上%c",

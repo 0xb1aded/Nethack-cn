@@ -6168,9 +6168,9 @@ wishcmdassist(int triesleft)
         wishinfo[] = {
   "许愿详情:",
   "",
-  "输入物品的名称,例如\"potion of monster detection\"、",
+  "输入物品的名称,例如\"potion of monster detection\",",
   "\"scroll labeled README\",\"elven mithril-coat\"或",
-  "\"Grimtooth\"（不带引号）.",
+  "\"Grimtooth\"(不带引号).",
   "",
   "对于成堆出现的物品类型,可以指定复数名称,例如\"potions ",
   "of healing\",或指定数量,例如\"1000 gold pieces\",尽",
