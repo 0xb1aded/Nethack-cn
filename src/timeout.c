@@ -406,7 +406,7 @@ slime_dialogue(void)
 
         Strcpy(buf, slime_texts[SIZE(slime_texts) - i - 1L]);
         if (nolimbs(gy.youmonst.data) && strstri(buf, "四肢"))
-            (void) strsubst(buf, "外围", "外围");
+            (void) strsubst(buf, "四肢", "身体末端");
 
         if (strchr(buf, '%')) {
             if (i == 4L) {  /* "you are turning green" */
