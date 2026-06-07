@@ -918,9 +918,9 @@ mon_wield_item(struct monst *mon)
         if (artifact_light(obj) && !obj->lamplit) {
             begin_burn(obj, FALSE);
             if (canseemon(mon))
-                pline("%s在%s中照耀出%s的光芒%s!", Tobjnam(obj, ""), mbodypart(mon, HAND),/*修改语序: pline("%s%s在%s的%s中闪耀！", Tobjnam(obj, "闪耀"),*/
-                      arti_light_description(obj), s_suffix(mon_nam(mon))
-                      ); /*修改语序: mbodypart(mon, HAND));*/
+                pline("%s在%s的%s中照耀出%s的光芒!", Tobjnam(obj, ""), s_suffix(mon_nam(mon)),/*修改语序: pline("%s%s在%s的%s中闪耀！", Tobjnam(obj, "闪耀"),*/
+                      mbodypart(mon, HAND), 
+                      arti_light_description(obj)); /*修改语序: mbodypart(mon, HAND));*/
             /* 3.6.3: artifact might be getting wielded by invisible monst */
             else if (cansee(mon->mx, mon->my))
                 pline("光芒开始在%s照耀.",
@@ -1383,7 +1383,7 @@ enhance_weapon_skill(void)
         Strcpy(buf, (to_advance > 0) ? "选择一项技能提升:"
                                      : "当前技能:");
         if (wizard && !speedy)
-            Sprintf(eos(buf), "  (%d个技能槽%s可用)", u.weapon_slots,
+            Sprintf(eos(buf), " (%d个技能槽%s可用)", u.weapon_slots,
                     plur(u.weapon_slots));
         end_menu(win, buf);
         n = select_menu(win, to_advance ? PICK_ONE : PICK_NONE, &selected);
