@@ -123,6 +123,7 @@ English README：[README_en.md](README_en.md)
 |medallion|吊坠|
 |vapor|蒸汽|
 |steam|水汽|
+|displaced image|幻影|
 
 #### 死因
 
@@ -287,7 +288,7 @@ English README：[README_en.md](README_en.md)
 - [ ] mail.c
 - [ ] makemon.c
 - [ ] mcastu.c
-- [ ] mdlib.c
+- [x] mdlib.c
 - [ ] mhitm.c
 - [ ] mhitu.c
 - [ ] minion.c
