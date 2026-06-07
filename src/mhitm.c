@@ -82,9 +82,9 @@ missmm(
 
     if (gv.vis) {
         pline("%s%s%s%s.", Monnam(magr), /*修改语序:pline("%s%s%s.", Monnam(magr),*/
-              (magr->mcan || !could_seduce(magr, mdef, mattk)) ? "没有击中"
-                  : "假装对", /*修改语序:: "假装对...友好",*/
-              mon_nam_too(mdef, magr), (magr->mcan || !could_seduce(magr, mdef, mattk)) ? "", "友好"); /*修改语序:mon_nam_too(mdef, magr));*/
+              (magr->mcan || !could_seduce(magr, mdef, mattk)) ?
+                "没有击中" : "假装对", /*修改语序:: "假装对...友好",*/
+              mon_nam_too(mdef, magr), (magr->mcan || !could_seduce(magr, mdef, mattk)) ? "" : "友好"); /*修改语序:mon_nam_too(mdef, magr));*/
     } else {
         noises(magr, mattk);
     }
