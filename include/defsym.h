@@ -100,7 +100,7 @@
     PCHAR2(10, '|',  S_tlwall, "tlwall", "墙壁", CLR_GRAY)
     PCHAR2(11, '|',  S_trwall, "trwall", "墙壁", CLR_GRAY)
     /* start cmap A                                                      */
-    PCHAR2(12, '.',  S_ndoor,  "no door", "门路", CLR_GRAY)
+    PCHAR2(12, '.',  S_ndoor,  "no door", "门口", CLR_GRAY)
     PCHAR2(13, '-',  S_vodoor, "vertical open door", "打开的门", CLR_BROWN)
     PCHAR2(14, '|',  S_hodoor, "horizontal open door", "打开的门", CLR_BROWN)
     PCHAR2(15, '+',  S_vcdoor, "vertical open door", "关闭的门", CLR_BROWN)

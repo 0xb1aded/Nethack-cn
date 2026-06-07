@@ -1290,9 +1290,9 @@ mswingsm(
                         && (dist2(magr->mx, magr->my, mdef->mx, mdef->my)
                             <= 2));
 
-        pline("%s%s向%s%s%s%s.", (otemp->quan > 1L) ? "其中一个" : "", Monnam(magr), /*修改语序:pline("%s%s%s%s%s向%s.", Monnam(magr), mswings_verb(otemp, bash),*/
+        pline("%s向%s%s%s的%s%s.", Monnam(magr), /*修改语序:pline("%s%s%s%s%s向%s.", Monnam(magr), mswings_verb(otemp, bash),*/
                 mon_nam(mdef), mswings_verb(otemp, bash), /*修改语序:(otemp->quan > 1L) ? "其中一个" : "", mhis(magr), xname(otemp),*/
-                mhis(magr), xname(otemp)); /*修改语序:mon_nam(mdef));*/
+                mhis(magr), xname(otemp), (otemp->quan > 1L) ? "之一" : ""); /*修改语序:mon_nam(mdef));*/
     }
 }
 

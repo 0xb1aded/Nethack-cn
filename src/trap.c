@@ -4250,8 +4250,8 @@ dofiretrap(
             losehp(rnd(3), "沸水", KILLED_BY);
         return;
     }
-    pline("%s%s从%s!", the(box ? xname(box) : surface(u.ux, u.uy)), /*修改语序:pline("%s%s从%s！", tower_of_flame, box ? "喷出" : "喷出",*/
-          tower_of_flame, box ? "喷出" : "喷出"); /*修改语序:the(box ? xname(box) : surface(u.ux, u.uy)));*/
+    pline("%s从%s%s!", tower_of_flame, the(box ? xname(box) : surface(u.ux, u.uy)), /*修改语序:pline("%s%s从%s！", tower_of_flame, box ? "喷出" : "喷出",*/
+          box ? "爆出" : "喷出"); /*修改语序:the(box ? xname(box) : surface(u.ux, u.uy)));*/
     if (Fire_resistance) {
         shieldeff(u.ux, u.uy);
         monstseesu(M_SEEN_FIRE);
@@ -6002,10 +6002,10 @@ untrap(
                 if (!Is_box(otmp))
                     continue;
                 if (otmp->tknown && otmp->dknown)
-                    (void) safe_qbuf(qbuf, "解除这个", NULL,
+                    (void) safe_qbuf(qbuf, "解除这", NULL,
                                      otmp, xname, ansimpleoname, "盒子");
                 else
-                    (void) safe_qbuf(qbuf, "这里有一个",
+                    (void) safe_qbuf(qbuf, "这里有",
                                      ". 检查一下有没有陷阱?", otmp,
                                      doname, ansimpleoname, "盒子");
                 switch (ynq(qbuf)) {
@@ -6399,7 +6399,7 @@ chest_trap(
             exercise(A_STR, FALSE);
             if (costly && loss) {
                 if (insider) {
-                    You("因物品被毁,你需要支付%ld%s.", loss,
+                    You("因物品被毁,你需支付%ld%s.", loss,
                         currency(loss));
                 } else {
                     You("造成了%ld%s的损失!", loss,

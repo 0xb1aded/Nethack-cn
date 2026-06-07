@@ -379,7 +379,7 @@ describe_decor(void)
     /* we don't mention "ordinary" doors but do mention broken ones (and
        closed ones, which will only happen for Passes_walls) */
     doorhere = dfeature && (!strcmp(dfeature, "打开的门")
-                            || !strcmp(dfeature, "门路"));
+                            || !strcmp(dfeature, "门口"));
     waterhere = dfeature && !strcmp(dfeature, "水池");
     if (doorhere || Underwater
         || (ltyp == ICE && IS_POOL(iflags.prev_decor))) /* pooleffects() */
@@ -3607,7 +3607,7 @@ dotip(void)
                     nobj = cobj->nexthere;
                     if (!Is_container(cobj))
                         continue;
-                    c = ynq(safe_qbuf(qbuf, "这里有一个", ",把它倒空?",
+                    c = ynq(safe_qbuf(qbuf, "这里有", ",把它倒空?",
                                       cobj,
                                       doname, ansimpleoname, "容器"));
                     if (c == 'q')
