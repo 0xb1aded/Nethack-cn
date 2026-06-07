@@ -34,44 +34,44 @@ questtext = {
    common = {
       TEST_PATTERN = {
          output = "text",
-         text = [[%p:	return(plname);
- %c:	return(pl_character);
- %r:	return((char *)rank_of(u.ulevel));
- %R:	return((char *)rank_of(MIN_QUEST_LEVEL));
- %s:	return((flags.female) ? "sister" : "brother" );
- %S:	return((flags.female) ? "daughter" : "son" );
- %l:	return((char *)ldrname());
- %i:	return(intermed());
- %o:	return(artiname());
- %O:	return(shortened(artiname()));
- %n:	return((char *)neminame());
- %g:	return((char *)guardname());
- %G:	return((char *)align_gtitle(u.ualignbase[1]));
- %H:	return((char *)homebase());
- %a:	return(Alignnam(u.ualignbase[1]));
- %A:	return(Alignnam(u.ualign.type));
- %d:	return((char *)align_gname(u.ualignbase[1]));
- %D:	return((char *)align_gname(A_LAWFUL));
- %C:	return("chaotic");
- %N:	return("neutral");
- %L:	return("lawful");
- %x:	return((Blind) ? "sense" : "see");
- %Z:	return("TheDungeonsofDoom");
- %%:	return(percent_sign);
- asuffix:	returnan(root);
- Asuffix:	returnAn(root);
- Csuffix:	returncapitalized(root);
- hsuffix:	returnpronoun(he_or_she, mon_of(root)); /* for %l,%n,%d,%o */
- Hsuffix:	returncapitalized(pronoun(he_or_she, mon_of(root)));
- isuffix:	returnpronoun(him_or_her, mon_of(root));
- Isuffix:	returncapitalized(pronoun(him_or_her, mon_of(root)));
- jsuffix:	returnpronoun(his_or_her, mon_of(root));
- Jsuffix:	returncapitalized(pronoun(his_or_her, mon_of(root)));
- psuffix:	returnmakeplural(root);
- Psuffix:	returnmakeplural(capitalized(root));
- ssuffix:	returns_suffix(root);
- Ssuffix:	returns_suffix(capitalized(root));
- tsuffix:	returnstrip_the_prefix(root);]],
+         text = [[%p:   return(plname);
+ %c:  return(pl_character);
+ %r:  return((char *)rank_of(u.ulevel));
+ %R:  return((char *)rank_of(MIN_QUEST_LEVEL));
+ %s:  return((flags.female) ? "sister" : "brother" );
+ %S:  return((flags.female) ? "daughter" : "son" );
+ %l:  return((char *)ldrname());
+ %i:  return(intermed());
+ %o:  return(artiname());
+ %O:  return(shortened(artiname()));
+ %n:  return((char *)neminame());
+ %g:  return((char *)guardname());
+ %G:  return((char *)align_gtitle(u.ualignbase[1]));
+ %H:  return((char *)homebase());
+ %a:  return(Alignnam(u.ualignbase[1]));
+ %A:  return(Alignnam(u.ualign.type));
+ %d:  return((char *)align_gname(u.ualignbase[1]));
+ %D:  return((char *)align_gname(A_LAWFUL));
+ %C:  return("chaotic");
+ %N:  return("neutral");
+ %L:  return("lawful");
+ %x:  return((Blind) ? "sense" : "see");
+ %Z:  return("TheDungeonsofDoom");
+ %%:  return(percent_sign);
+ asuffix:   returnan(root);
+ Asuffix:   returnAn(root);
+ Csuffix:   returncapitalized(root);
+ hsuffix:   returnpronoun(he_or_she, mon_of(root)); /* for %l,%n,%d,%o */
+ Hsuffix:   returncapitalized(pronoun(he_or_she, mon_of(root)));
+ isuffix:   returnpronoun(him_or_her, mon_of(root));
+ Isuffix:   returncapitalized(pronoun(him_or_her, mon_of(root)));
+ jsuffix:   returnpronoun(his_or_her, mon_of(root));
+ Jsuffix:   returncapitalized(pronoun(his_or_her, mon_of(root)));
+ psuffix:   returnmakeplural(root);
+ Psuffix:   returnmakeplural(capitalized(root));
+ ssuffix:   returns_suffix(root);
+ Ssuffix:   returns_suffix(capitalized(root));
+ tsuffix:   returnstrip_the_prefix(root);]],
       },
       angel_cuss = {
          "\"汝其悔罪,便可得赎!\"",
@@ -279,7 +279,7 @@ questtext = {
          synopsis = "[%o的力量流过你的身体!你必须把它还给%l.]",
          output = "text",
          text = [[%o的力量流过你的身体!你感觉
-仿佛现在就能单挑岩德wizard本人并获胜,但
+仿佛现在就能单挑岩德巫师本人并获胜,但
 你知道必须将%o归还给%l.]],
       },
       guardtalk_after = {
@@ -485,7 +485,7 @@ questtext = {
 但你想,为什么%l会在那里?
 
 突然,你脖子后面的汗毛竖了起来,因为你察觉到了
-空气中邪恶魔法的aura.
+空气中邪恶魔法的光环.
 
 想都没想,你握紧了武器,低声说道:
 
@@ -511,7 +511,7 @@ questtext = {
       guardtalk_after = {
          "\"这里的战斗很激烈--敌人的鲜血浸透了土壤!\"",
          "\"记住,荣耀就是把敌人踩在脚下!\"",
-         "\"现在horde被击败了,好日子会回来的.\"",
+         "\"现在敌军被击败了,好日子会回来的.\"",
          "\"你击败%n,为我们的氏族带来了极大的荣誉.\"",
          "\"你将配得上做%l的继承人.\"",
       },
@@ -755,7 +755,7 @@ questtext = {
       guardtalk_before = {
          "\"自从巨人封锁了我们通往外部世界的通道,我们就没能收集到那么多食物.\"",
          "\"自从%n派来她的仆从,我们就一直在战斗.\"",
-         "\"我听说你的visionquest成功了.是这样吗?\"",
+         "\"我听说你的灵视探索成功了.是这样吗?\"",
          "\"那么,告诉我,%p,你过得怎么样?\"",
          "\"%lC年事已高.我们不知道在他升天之后谁会领导我们.\"",
       },
@@ -779,7 +779,7 @@ questtext = {
       leader_first = {
          synopsis = "[\"你回来了.我们急需你的帮助.\"]",
          output = "text",
-         text = [["你从visionquest回来了,%p.感谢%d.
+         text = [["你从灵视探索回来了,%p.感谢%d.
 
 \"我们急需你的帮助,我的%S.
 
@@ -1004,7 +1004,7 @@ questtext = {
          text = [[%l虚弱地抬起头看着你.
 
 \"很高兴再次见到你,%p.我从你眼中看到了关切,
-但不要为我担心.我还没准备好去Hades呢.我们
+但不要为我担心.我还没准备好去哈迪斯呢.我们
 已经耗尽了大部分治愈力量来抵御%n.
 我需要你新鲜的力量来继续我们的工作.
 
@@ -1016,8 +1016,8 @@ questtext = {
          output = "text",
          text = [["你辜负了我们,%p.你是个庸医!一个骗子!
 
-\"Hades会很高兴听到你又在
-对毫无戒心的人施展你的arts.\"]],
+\"哈迪斯会很高兴听到你又在
+对毫无戒心的人施展你的医术.\"]],
       },
       leader_next = {
          text = [["你又回到了我身边,%p.我感觉每次回来
@@ -1026,7 +1026,7 @@ questtext = {
 你成为这些不良体液的牺牲品之前准备好你的任务.\"]],
       },
       leader_other = {
-         text = [["Chiron倒下了,Hermes倒下了,我还要告诉你什么才能
+         text = [["喀戎倒下了,赫尔墨斯倒下了,我还要告诉你什么才能
 让你明白你任务的重要性!我希望你这次
 已经准备好了.\"]],
       },
@@ -1075,7 +1075,7 @@ questtext = {
 
     \"既然我们已经补足了我们自己,我们可以击败这场瘟疫了.你必须
     带着%o,并补足你接下来被召唤前往的
-    世界.我希望你能骑Chiron到
+    世界.我希望你能骑喀戎到
     你旅程的终点,但我需要他帮我传播治愈方法.现在
     走吧,继续你的旅程.\"]],
       },
@@ -1113,16 +1113,16 @@ questtext = {
 部队被逼退时,%n偷走了%o.
 
 \"我们最终扭转了局势,但在战斗中失去了许多%cP.
-Merlin被他的学徒带走,但一直没有康复.我们被告知
+梅林被他的学徒带走,但一直没有康复.我们被告知
 只要%n拥有%o,
-Merlin就不会恢复健康.
+梅林就不会恢复健康.
 
 \"我们特此委托你这个最重要的职责:
 
 \"从这里出发,前往沼泽地,在那里你会找到
 %i.从那里,你必须追踪%n.摧毁那个
 野兽,并把%o归还给我们.只有这样
-我们才能恢复Merlin的健康.\"]],
+我们才能恢复梅林的健康.\"]],
       },
       badalign = {
          synopsis = "[去做忏悔吧.当你真正%a了再回来.]",
@@ -1136,7 +1136,7 @@ Merlin就不会恢复健康.
          output = "text",
          text = [["诚然,%p,你做得很好.你能活到现在
 是你勇气的荣耀,但你还没有准备好面对
-作为我们的champion所需的要求.%rA,无论多么
+作为我们的勇士所需的要求.%rA,无论多么
 纯洁,都绝不可能希望击败邪恶的%n.
 
 \"从这里出发,磨练你的技能.当你
@@ -1216,7 +1216,7 @@ Merlin就不会恢复健康.
          text = [["你成功了,我们看到,%p!现在你奉命
 把护身符带到星界位面,献给%d.
 
-\"Merlin告诉我们,你必须始终向上穿过
+\"梅林告诉我们,你必须始终向上穿过
 元素位面,才能实现这个目标.
 
 \"与%d同行吧,%p.\"]],
@@ -1443,7 +1443,7 @@ Merlin就不会恢复健康.
          synopsis = "[%lC检查你是否准备好迎接重大挑战.]",
          output = "text",
          text = [["啊,%p,我的%S.你终于回到了我们身边.
-我们的order遭受了沉重打击;也许你能帮助我们.
+我们的教团遭受了沉重打击;也许你能帮助我们.
 首先,我必须确定你是否准备好了迎接这个
 重大挑战.\"]],
       },
@@ -1452,7 +1452,7 @@ Merlin就不会恢复健康.
          output = "text",
          text = [["你是个异教徒,%p!你身为%ra,怎么能如此偏离
 %d的教导?离开这座寺庙.你不再是
-这个order的%s了.我们将向%d祈祷寻求其他帮助,
+这个教团的%s了.我们将向%d祈祷寻求其他帮助,
 因为你完全辜负了我们.\"]],
       },
       leader_next = {
@@ -1659,7 +1659,7 @@ Merlin就不会恢复健康.
          synopsis = "[你回来了,我们需要你的帮助.你准备好了吗?]",
          output = "text",
          text = [["啊,%p,我的%S.你终于回到了我们身边.
-我们的order遭受了沉重打击;也许你能帮助我们.
+我们的教团遭受了沉重打击;也许你能帮助我们.
 首先,我必须确定你是否准备好了迎接这个
 重大挑战.\"]],
       },
@@ -1668,7 +1668,7 @@ Merlin就不会恢复健康.
          output = "text",
          text = [["你是个异教徒,%p!你身为%ra,怎么能如此偏离
 %d的教导?离开这座寺庙.你不再是
-这个order的%s了.我们将向%d祈祷寻求其他帮助,
+这个教团的%s了.我们将向%d祈祷寻求其他帮助,
 因为你完全辜负了我们.\"]],
       },
       leader_next = {
@@ -2076,7 +2076,7 @@ Merlin就不会恢复健康.
          synopsis = "[死前,%n告诉你明智地使用%o.]",
          output = "text",
          text = [[\"我知道你在想什么,%p.现在还不算太晚,你可以
-明智地使用%o.为了你的guild
+明智地使用%o.为了你的行会
 %sP,做正确的事.\"
 
 你坐着等待死亡降临到%n身上,然后
@@ -2149,8 +2149,8 @@ Merlin就不会恢复健康.
 
 \"你不在的时候我开始想,你和%o
 在一起能给我带来比你们分开更多的财宝,所以你为什么不
-带着它呢.我所要求的只是你弄到的任何loot中的一份分成.
-这比我给%n的deal更好.
+带着它呢.我所要求的只是你弄到的任何赃物中的一份分成.
+这比我给%n的出价更好.
 
 \"但是,你看到%n拒绝时发生了什么.
 别让我这次再找别人去追你.\"]],
@@ -2182,7 +2182,7 @@ Merlin就不会恢复健康.
       assignquest = {
          synopsis = "[你必须进入%i,然后从%n那里取回%o.]",
          output = "text",
-         text = [["どうも,%pさん,你确实准备好了.我现在可以告诉你
+         text = [["どうも,%p桑,你确实准备好了.我现在可以告诉你
 我需要你做什么.
 
 \"大名%n背叛了我们.他从我们这里偷走了
@@ -2202,7 +2202,7 @@ Merlin就不会恢复健康.
       badalign = {
          synopsis = "[等你能想%a并做%a时再回来.]",
          output = "text",
-         text = [["%pさん,你最好成为一个侠客.
+         text = [["%p桑,你最好成为一个侠客.
 
 \"你有技能,但除非你有武士道而且知道何时以及
 如何使用它们,否则你就不是武士.等你能想%a并
@@ -2211,7 +2211,7 @@ Merlin就不会恢复健康.
       badlevel = {
          synopsis = "[\"我需要%Ra来击败%n.等你准备好了再回来.\"]",
          output = "text",
-         text = [["%pさん,你学得很好,为你的家族赢得了荣誉.
+         text = [["%p桑,你学得很好,为你的家族赢得了荣誉.
 我需要%Ra的技能来击败%n.
 去寻找老师吧.学习他们所学的东西.当你
 准备好了,回到我身边.\"]],
@@ -2223,7 +2223,7 @@ Merlin就不会恢复健康.
          "\"你的出现只会加重%l不亲自来的耻辱.\"",
          "\"我会用你的头发泡茶,然后端给%l.\"",
          "\"你的恐惧从眼中可见,懦夫!\"",
-         "\"我没听说过你,%pさん;你的生活就那么一文不值吗?\"",
+         "\"我没听说过你,%p桑;你的生活就那么一文不值吗?\"",
          "\"如果你不顺从我,你就会死.\"",
          "\"现在跪下,完成光荣的两刀.我会告诉你的%sp你死得很光荣.\"",
          "\"你的师匠是个糟糕的老师.你将为他教学中的错误付出代价.\"",
@@ -2306,16 +2306,16 @@ Merlin就不会恢复健康.
          text = [[你的治疗技能告诉你%n的伤口是致命的.
 
 你知道武士道告诉你结束他的生命,让他的神
-带着荣誉死去,但想到这么多samurai因这个
+带着荣誉死去,但想到这么多武士因这个
 人的耻辱而死,你无法给出最后一击.
 
 你命令把他未洗的头颅扔给乌鸦,把
 他的尸体扔进海里.]],
       },
       leader_first = {
-         synopsis = "[%lC需要有人领导%ljsamurai对抗%n.你准备好了吗?]",
+         synopsis = "[%lC需要有人领导%lj武士对抗%n.你准备好了吗?]",
          output = "text",
-         text = [["啊,%pさん,很高兴再次见到你.我需要一个能
+         text = [["啊,%p桑,很高兴再次见到你.我需要一个能
 领导我的武士对抗%n的人.如果你准备好了,你就会是
 那个人.\"]],
       },
@@ -2328,13 +2328,13 @@ Merlin就不会恢复健康.
 成为一名僧侣.你的封地和家族被没收.わかりますか?\"]],
       },
       leader_next = {
-         text = [["又一次,%pさん,你跪在我面前.你还有能力
+         text = [["又一次,%p桑,你跪在我面前.你还有能力
 做我的附庸吗?\"]],
       },
       leader_other = {
          synopsis = "[你真的是武士吗?]",
          output = "text",
-         text = [["你开始考验我的耐心了,%pさん.
+         text = [["你开始考验我的耐心了,%p桑.
 如果你不能判断我想要一个武士具备什么,我怎么能指望你
 想出一个武士需要什么呢?\"]],
       },
@@ -2347,7 +2347,7 @@ Merlin就不会恢复健康.
 你的恐惧,你再次准备前进.]],
       },
       nemesis_first = {
-         text = [["啊,所以是你,%pさん.我提议你切腹.
+         text = [["啊,所以是你,%p桑.我提议你切腹.
 如果你愿意,我愿意做你的介错.\"]],
       },
       nemesis_next = {
@@ -2524,7 +2524,7 @@ Merlin就不会恢复健康.
 \"你已经走了太远,不能现在停下来,因为我们的口述历史
 还预言了更多任务.然而,从今以后,你的名字将永远
 被%gP们怀着敬畏念诵.你真正成为了是你的%sp
-的inspiration!\"]],
+的鼓舞!\"]],
       },
       killed_nemesis = {
          synopsis = "[%nC在你%nh死时诅咒你.]",
@@ -2560,7 +2560,7 @@ Merlin就不会恢复健康.
          synopsis = "[你%x到%n的爪牙们的手艺.]",
          output = "text",
          text = [[只有你对%d的信仰让你不至于发抖.你%x到
-%n的henchlings的手艺无处不在.]],
+%n的爪牙的手艺无处不在.]],
       },
       locate_next = {
          text = "你知道这次必须找到并摧毁%n.",
@@ -2889,7 +2889,7 @@ Merlin就不会恢复健康.
          "\"当你被击败后,你的折磨将持续一千年.\"",
          "\"在你失败之后,%p,我会把%l当甜点吃掉!\"",
          "\"你准备好求饶了吗?我可以宽容一点...\"",
-         "\"你的灵魂将加入我指挥的受奴役的multitude!\"",
+         "\"你的灵魂将加入我指挥的众多受奴役者!\"",
          "\"你缺乏意志是显而易见的,你会因此而死.\"",
          "\"你对%d的信仰是徒劳的!来吧,现在顺从我!\"",
          "\"区区%r与我的技能相比不值一提!\"",
@@ -2958,7 +2958,7 @@ Merlin就不会恢复健康.
          synopsis = "[把护身符带到星界%d的祭坛上.]",
          output = "text",
          text = [["恭喜,%p.我一直认为,如果有人能成功
-击败岩德的Wizard和他的仆从,那一定是你.
+击败岩德的巫师和他的仆从,那一定是你.
 
 \"现在走吧,把护身符带到星界位面.到了那里,
 把护身符呈现在%d的祭坛上.沿途你会穿过
@@ -2972,10 +2972,10 @@ Merlin就不会恢复健康.
          output = "text",
          text = [[%nC,他的身体开始萎缩,用沙哑的声音说:
 
-    \"我会一直haunt你的progress直到时间尽头.一千个
-    诅咒落在你和%l身上.\"
+    "我会纠缠你的征途直到时间尽头.一千个
+    诅咒落在你和%l身上."
 
-然后,身体burst成一团令人窒息的灰尘,吹走了.]],
+然后,身体爆成一团令人窒息的灰尘,吹走了.]]
       },
       leader_first = {
          synopsis = "[你走了很远的路,但你准备好接受我要求的任务了吗?]",
@@ -3044,7 +3044,7 @@ Merlin就不会恢复健康.
     勇敢的服务.
 
     \"在你寻找岩德护身符的任务中带上%oh.
-    我能感觉到它已经attuned %oiself到你身上了.
+    我能感觉到%o%oiself已经同你调谐.
 
     \"愿%d在你任务中指引你,并保护你免受伤害.\"]],
       },
