@@ -3610,7 +3610,7 @@ wizterrainwish(struct _readobjnam_data *d)
             EHalluc_resistance = 1;
             new_water = waterbody_name(x, y);
             EHalluc_resistance = save_prop;
-            pline("%s。", An(new_water));
+            pline("%s.", An(new_water));
             /* Must manually make kelp! */
         } else {
             dbterrainmesg("Moat", x, y);
@@ -3632,7 +3632,7 @@ wizterrainwish(struct _readobjnam_data *d)
         }
         del_engr_at(x, y);
         if (!is_dbridge) {
-            pline("一%s熔岩。",
+            pline("一%s熔岩.",
                   (lev->typ == LAVAPOOL) ? "池" : "墙");
             if (!(Levitation || Flying) || lev->typ == LAVAWALL)
                 pooleffects(FALSE);
@@ -3659,7 +3659,7 @@ wizterrainwish(struct _readobjnam_data *d)
         if (!is_dbridge) {
             char icebuf[40];
 
-            pline("%s。", upstart(ice_descr(x, y, icebuf)));
+            pline("%s.", upstart(ice_descr(x, y, icebuf)));
         } else {
             dbterrainmesg("Ice", x, y);
         }
@@ -3687,10 +3687,10 @@ wizterrainwish(struct _readobjnam_data *d)
         if (IS_GRAVE(lev->typ)) {
             lev->looted = 0; /* overlays 'flags' */
             lev->disturbed = d->looted ? 1 : 0;
-            pline("一座%s墓地。", lev->disturbed ? "被扰动的 " : "");
+            pline("一座%s墓地.", lev->disturbed ? "被扰动的 " : "");
             madeterrain = TRUE;
         } else {
-            pline("无法在此处放置坟墓。");
+            pline("无法在此处放置坟墓.");
             badterrain = TRUE;
         }
     } else if (!BSTRCMPI(bp, p - 4, "tree")) {
@@ -3712,7 +3712,7 @@ wizterrainwish(struct _readobjnam_data *d)
     } else if (!BSTRCMPI(bp, p - 5, "cloud")) {
         lev->typ = CLOUD;
         lev->flags = 0;
-        pline("一朵云。");
+        pline("一朵云.");
         del_engr_at(x, y);
         madeterrain = TRUE;
     } else if (!BSTRCMPI(bp, p - 4, "door")
@@ -3794,7 +3794,7 @@ wizterrainwish(struct _readobjnam_data *d)
             madeterrain = TRUE;
         } else {
             Strcpy(dbuf, secret ? "秘密门" : "门");
-            pline("%s 需要门或墙的位置。", upstart(dbuf));
+            pline("%s 需要门或墙的位置.", upstart(dbuf));
             badterrain = TRUE;
         }
     } else if (!BSTRCMPI(bp, p - 4, "wall")
@@ -3810,7 +3810,7 @@ wizterrainwish(struct _readobjnam_data *d)
         set_wallprop_from_str(bp);
         fix_wall_spines(max(0,u.ux-1), max(0,u.uy-1),
                         min(COLNO,u.ux+1), min(ROWNO,u.uy+1));
-        pline("一堵墙。");
+        pline("一堵墙.");
     } else if (!BSTRCMPI(bp, p - 15, "secret corridor")) {
         if (lev->typ == CORR) {
             lev->typ = SCORR;
@@ -3818,7 +3818,7 @@ wizterrainwish(struct _readobjnam_data *d)
             pline("秘密走廊.");
             madeterrain = TRUE;
         } else {
-            pline("秘密走廊需要走廊位置。");
+            pline("秘密走廊需要走廊位置.");
             badterrain = TRUE;
         }
     } else if (!BSTRCMPI(bp, p - 4, "room")
@@ -3830,7 +3830,7 @@ wizterrainwish(struct _readobjnam_data *d)
             struct trap *t;
 
             lev->typ = ROOM;
-            pline("房间地板。");
+            pline("房间地板.");
             if (IS_FURNITURE(oldtyp))
                 count_level_features();
             if ((t = t_at(x, y)) != 0 && t->ttyp != MAGIC_PORTAL)
@@ -3842,7 +3842,7 @@ wizterrainwish(struct _readobjnam_data *d)
             dbterrainmesg("Floor", x, y);
             madeterrain = TRUE;
         } else {
-            pline("此处不允许房间、地板或地面。");
+            pline("此处不允许房间、地板或地面.");
             badterrain = TRUE;
         }
     }
