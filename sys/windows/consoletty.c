@@ -333,6 +333,11 @@ static char nullstr[] = "";
 char erase_char, kill_char;
 #define DEFTEXTCOLOR ttycolors[7]
 static INPUT_RECORD bogus_key;
+static uchar console_getlin_utf8buf[5];
+static int console_getlin_utf8idx, console_getlin_utf8len;
+static int console_getlin_ch(void);
+static int console_getlin_queued_ch(void);
+static int console_queue_getlin_utf8(WCHAR);
 
 /*
 Windows console palette:
@@ -1143,10 +1148,15 @@ tgetch(void)
     coord cc;
     DWORD count;
     uchar numberpad = iflags.num_pad;
+    int queued_ch;
 
     really_move_cursor();
     if (iflags.debug_fuzzer)
         return randomkey();
+    if (program_state.in_getlin) {
+        queued_ch = console_getlin_queued_ch();
+        return queued_ch ? queued_ch : console_getlin_ch();
+    }
 #ifdef QWERTZ_SUPPORT
     if (gc.Cmd.swap_yz)
         numberpad |= 0x10;
@@ -1194,6 +1204,102 @@ console_poskey(coordxy *x, coordxy *y, int *mod)
     }
     term_curs_set(0);
     return ch;
+}
+
+static int
+console_getlin_queued_ch(void)
+{
+    int ch = 0;
+
+    if (console_getlin_utf8idx < console_getlin_utf8len) {
+        ch = (int) console_getlin_utf8buf[console_getlin_utf8idx++];
+        if (console_getlin_utf8idx >= console_getlin_utf8len)
+            console_getlin_utf8idx = console_getlin_utf8len = 0;
+    }
+    return ch;
+}
+
+static int
+console_queue_getlin_utf8(WCHAR wch)
+{
+    WCHAR wbuf[2];
+    int len;
+
+    wbuf[0] = wch;
+    wbuf[1] = L'\0';
+    len = WideCharToMultiByte(CP_UTF8, 0, wbuf, -1,
+                              (char *) console_getlin_utf8buf,
+                              (int) sizeof console_getlin_utf8buf,
+                              NULL, NULL);
+    if (len <= 1)
+        return 0;
+
+    console_getlin_utf8len = len - 1; /* exclude terminating NUL */
+    console_getlin_utf8idx = 1;
+    return (int) console_getlin_utf8buf[0];
+}
+
+static int
+console_getlin_ch(void)
+{
+    enum { getlin_keypadlo = 0x47, getlin_keypadhi = 0x53 };
+    static const char keypad_nums[] = "789-456+1230.";
+    INPUT_RECORD ir;
+    DWORD count = 0, wait_time, dwWait;
+    boolean done_a_checkpoint = FALSE;
+
+    wait_time = iflags.idlecheckpoint
+                    ? (IDLECHECKPOINT_WAIT_TIME * 1000)
+                    : INFINITE;
+    for (;;) {
+        dwWait = WaitForSingleObjectEx(console.hConIn, wait_time, TRUE);
+#if defined(SAFERHANGUP)
+        if (dwWait == WAIT_FAILED)
+            return '\033';
+#endif
+        if (iflags.idlecheckpoint && dwWait == WAIT_TIMEOUT
+            && !done_a_checkpoint) {
+#ifdef INSURANCE
+            save_currentstate();
+#endif
+            done_a_checkpoint = TRUE;
+            continue;
+        }
+        if (!ReadConsoleInputW(console.hConIn, &ir, 1, &count))
+            return '\033';
+        if (count == 0 || ir.EventType != KEY_EVENT
+            || !ir.Event.KeyEvent.bKeyDown)
+            continue;
+
+        {
+            WCHAR wch = ir.Event.KeyEvent.uChar.UnicodeChar;
+            unsigned short scan = ir.Event.KeyEvent.wVirtualScanCode;
+            unsigned short vk = ir.Event.KeyEvent.wVirtualKeyCode;
+            unsigned long shiftstate = ir.Event.KeyEvent.dwControlKeyState;
+
+            if (scan == 0 && vk == 0 && (wch == 0x80 || wch == 0x20ac))
+                continue; /* internal bogus_key used to unblock ReadConsole */
+            if (wch == L'\r')
+                return '\n';
+            if (wch == L'\b' || vk == VK_BACK)
+                return '\b';
+            if (wch == 0x1b || vk == VK_ESCAPE)
+                return '\033';
+            if (wch > 0 && wch < L' ')
+                return (int) wch;
+            if (wch == 0x7f)
+                return '\177';
+            if (vk == VK_DELETE)
+                return '\177';
+            if (wch >= L' ' && wch < 0x80)
+                return (int) wch;
+            if (wch >= 0x80)
+                return console_queue_getlin_utf8(wch);
+            if (getlin_keypadlo <= scan && scan <= getlin_keypadhi
+                && !(shiftstate & (LEFT_ALT_PRESSED | RIGHT_ALT_PRESSED)))
+                return keypad_nums[scan - getlin_keypadlo];
+        }
+    }
 }
 
 static void set_console_cursor(int x, int y)
