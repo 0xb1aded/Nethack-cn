@@ -4250,8 +4250,9 @@ dofiretrap(
             losehp(rnd(3), "沸水", KILLED_BY);
         return;
     }
-    pline("%s%s从%s！", the(box ? xname(box) : surface(u.ux, u.uy)), /*修改语序:pline("%s%s从%s！", tower_of_flame, box ? "喷出" : "喷出",*/
-          tower_of_flame, box ? "喷出" : "喷出"); /*修改语序:the(box ? xname(box) : surface(u.ux, u.uy)));*/
+    pline("%s从%s%s!", tower_of_flame,
+          the(box ? xname(box) : surface(u.ux, u.uy)),
+          box ? "爆出" : "喷出");
     if (Fire_resistance) {
         shieldeff(u.ux, u.uy);
         monstseesu(M_SEEN_FIRE);
