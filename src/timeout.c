@@ -208,8 +208,8 @@ vomiting_dialogue(void)
         break;
     case 11:
         txt = vomiting_texts[1];
-        if (strstri(txt, "confused") && Confusion) /*待写:if (strstri(txt, "恶心") && Confusion)*/
-            txt = strsubst(strcpy(buf, txt), " confused", " more confused"); /*待写:txt = strsubst(strcpy(buf, txt), "恶心", "更恶心了");*/
+        if (strstri(txt, "困惑") && Confusion)
+            txt = strsubst(strcpy(buf, txt), "困惑", "更加困惑");
         break;
     case 6:
         make_stunned((HStun & TIMEOUT) + (long) d(2, 4), FALSE);
