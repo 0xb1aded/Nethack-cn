@@ -1430,7 +1430,7 @@ trapeffect_sqky_board(
                 Soundeffect(tsnds[trap->tnote], 50);
             }
             pline("你脚下的板子%s%s%s.",
-                  Deaf ? "" : " 大声地", /*修改语序:Deaf ? "振动" : "嘎吱作响 ",*/
+                  Deaf ? "" : "大声地", /*修改语序:Deaf ? "振动" : "嘎吱作响 ",*/
                   Deaf ? "在振动" : "嘎吱作响出", /*修改语序:Deaf ? "" : trapnote(trap, FALSE),*/
                   Deaf ? "" : trapnote(trap, FALSE)); /*修改语序:Deaf ? "" : " 大声地");*/
             wake_nearby(FALSE);

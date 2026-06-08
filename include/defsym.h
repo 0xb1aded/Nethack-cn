@@ -157,7 +157,7 @@
     PCHAR( 57, '^',  S_rust_trap, "锈蚀陷阱", CLR_BLUE)
     PCHAR( 58, '^',  S_fire_trap, "火焰陷阱", CLR_ORANGE)
     PCHAR( 59, '^',  S_pit, "深坑", CLR_BLACK)
-    PCHAR( 60, '^',  S_spiked_pit, "带刺深坑", CLR_BLACK)
+    PCHAR( 60, '^',  S_spiked_pit, "有刺的坑", CLR_BLACK)
     PCHAR( 61, '^',  S_hole, "洞穴", CLR_BROWN)
     PCHAR( 62, '^',  S_trap_door, "陷阱门", CLR_BROWN)
     PCHAR( 63, '^',  S_teleportation_trap, "传送陷阱", CLR_MAGENTA)
