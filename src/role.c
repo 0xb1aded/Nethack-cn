@@ -27,6 +27,8 @@
 
 /* NUM_ROLES is defined in hack.h */
 
+const char role_choices[] = {'a','b','c','h','k','m','p','r','R','s','t','v','w'};
+
 const struct Role roles[NUM_ROLES+1] = {
     { { "考古学家", 0 },
       { { "挖掘者", 0 },
@@ -2893,11 +2895,11 @@ setup_rolemenu(
         }
         /* !filtering implies reset_role_filtering() where we want to
            mark this role as preselected if current filter excludes it */
-        add_menu(win, &nul_glyphinfo, &any, "abchkmprRstvw"[i], 0, /*危险:add_menu(win, &nul_glyphinfo, &any, thisch, 0,*/
+        add_menu(win, &nul_glyphinfo, &any, role_choices[i], 0, /*危险:add_menu(win, &nul_glyphinfo, &any, thisch, 0,*/
                  ATR_NONE, clr, rolenamebuf,
                  (!filtering && !role_ok)
                     ? MENU_ITEMFLAGS_SELECTED : MENU_ITEMFLAGS_NONE);
-        lastch = thisch;
+        //lastch = thisch;
     }
 }
 
