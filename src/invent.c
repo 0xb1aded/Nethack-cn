@@ -4179,7 +4179,7 @@ look_here(
 
     otmp = svl.level.objects[u.ux][u.uy];
     dfeature = dfeature_at(u.ux, u.uy, fbuf2);
-    if (dfeature && !strcmp(dfeature, "pool of water") && Underwater)
+    if (dfeature && !strcmp(dfeature, "水池") && Underwater)
         dfeature = 0;
 
     if (Blind) {
@@ -4226,6 +4226,14 @@ look_here(
         if (!strcmp(dfeature, "molten lava")
             || !strcmp(dfeature, "iron bars")
             || !strcmp(dfeature, "ice")
+            || !strcmp(dfeature, "水池")
+            || !strcmp(dfeature, "护城河")
+            || !strcmp(dfeature, "沼泽")
+            || !strcmp(dfeature, "浅海")
+            || !strcmp(dfeature, "池塘")
+            || !strcmp(dfeature, "无穷的水")
+            || !strcmp(dfeature, "水墙")
+            || !strcmp(dfeature, "冰")
             || !strncmp(dfeature, "frozen ", 7) /* ice while hallucinating */
             /* thawing ice ("solid ice", "thin ice", &c) */
             || ((p = strchr(dfeature, ' ')) != 0 && !strcmpi(p, " ice")))

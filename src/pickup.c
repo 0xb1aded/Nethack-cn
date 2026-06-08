@@ -394,7 +394,14 @@ describe_decor(void)
     } else if (dfeature) {
         if (waterhere)
             dfeature = strcpy(fbuf, waterbody_name(u.ux, u.uy));
-        if (strcmp(dfeature, "swamp") && ltyp != ICE)
+        if (ltyp != ICE
+            && strcmp(dfeature, "水池")
+            && strcmp(dfeature, "护城河")
+            && strcmp(dfeature, "沼泽")
+            && strcmp(dfeature, "浅海")
+            && strcmp(dfeature, "池塘")
+            && strcmp(dfeature, "无穷的水")
+            && strcmp(dfeature, "水墙"))
             dfeature = an(dfeature);
 
         if (flags.verbose) {
