@@ -1118,7 +1118,7 @@ hatch_egg(anything *arg, long timeout)
             if (yours) {
                 pline("%s%s%s像\"%s%s\"",
                       siblings ? "它们的" : "它的",
-                      ing_suffix(cry_sound(mon)),
+                      ing_suffix(cry_sound(mon)) ? "" : "",
                       (is_silent(mon->data) || Deaf) ? "似乎" : "听起来",
                       flags.female ? "妈妈" : "爸爸", egg->spe ? "." : "?");
             } else if (mon->data->mlet == S_DRAGON && !Deaf) {
@@ -1282,7 +1282,7 @@ slip_or_trip(void)
             && ((saddle = which_armor(u.usteed, W_SADDLE)) == 0
                 || !saddle->cursed)
             && (!ice_only || !rn2(3))) {
-            You("你失去了平衡.");
+            You("失去了平衡.");
             dismount_steed(DISMOUNT_FELL);
         } else if (!rn2(10 + ACURR(A_DEX))) {
             /* Maybe slip in a random direction.  This takes place after

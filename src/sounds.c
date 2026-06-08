@@ -1446,7 +1446,7 @@ tiphat(void)
     /* most helmets have a short wear/take-off delay and we could set
        'multi' to account for that, but we'll pretend that no extra time
        beyond the current move is necessary */
-    You("你轻轻摘下你的%s.", helm_simple_name(uarmh));
+    You("轻轻摘下你的%s.", helm_simple_name(uarmh));
 
     if (!u.dx && !u.dy) {
         if (u.usteed && u.dz > 0) {

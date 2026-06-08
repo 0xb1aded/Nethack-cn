@@ -630,7 +630,7 @@ restgamestate(NHFILE *nhfp)
 #endif
     if (u.uhp <= 0 && (!Upolyd || u.mh <= 0)) {
         u.ux = u.uy = 0; /* affects pline() [hence You()] */
-        You("你不够健康,无法在恢复中存活.");
+        You("不够健康,无法在恢复中存活.");
         /* wiz1_level.dlevel is used by mklev.c to see if lots of stuff is
          * uninitialized, so we only have to set it and not the other stuff.
          */

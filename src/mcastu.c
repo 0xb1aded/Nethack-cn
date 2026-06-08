@@ -329,7 +329,7 @@ touch_of_death(struct monst *mtmp)
     /* if we get here, we know that hero isn't magic resistant and isn't
        poly'd into an undead or demon */
     You_feel("被吸干了...");
-    (void) death_inflicted_by(kbuf, "死亡之指", mtmp);
+    (void) death_inflicted_by(kbuf, "死亡之触", mtmp);
 
     if (Upolyd) {
         u.mh = 0;

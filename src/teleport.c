@@ -1063,7 +1063,7 @@ dotele(boolean break_the_rules) /* True: wizard mode ^T */
             /* casting isn't inhibited by being Stunned (...it ought to be) */
             castit = (knownsp >= spe_Fresh && !Confusion);
             if (!castit && !break_the_rules) {
-                You("你%s.", (!Teleportation ? ((knownsp != spe_Unknown)
+                You("%s.", (!Teleportation ? ((knownsp != spe_Unknown)
                                                     ? "无法施放那个法术"
                                                     : "不知道那个法术")
                                              : "无法随意传送"));

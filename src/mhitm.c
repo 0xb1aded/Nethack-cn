@@ -1132,7 +1132,7 @@ mon_poly(struct monst *magr, struct monst *mdef, int dmg)
         } else {
             /* system shock might take place in polyself() */
             if (u.ulycn == NON_PM) {
-                You("你经历了一次怪异的变形.");
+                You("经历了一次怪异的变形.");
                 polyself(POLY_NOFLAGS);
             } else if (u.umonnum != u.ulycn) {
                 You_feel("一股不自然的冲动涌上心头.");

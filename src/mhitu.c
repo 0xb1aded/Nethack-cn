@@ -2291,7 +2291,7 @@ doseduce(struct monst *mon)
                 pline("免费.");
             }
         } else {
-            pline_mon(mon, "%s收取了%ld%s作为服务费!",
+            pline_mon(mon, "%s收取了%ld %s作为服务费!",
                       noit_Monnam(mon), cost, currency(cost));
             money2mon(mon, cost);
             disp.botl = TRUE;

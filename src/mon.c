@@ -3098,7 +3098,7 @@ mondead(struct monst *mtmp)
         return;
 
     if (be_sad)
-        You("你一时感到难过,但很快就过去了.");
+        You("一时感到难过,但很快就过去了.");
 
     if (mtmp->data == &mons[PM_STEAM_VORTEX])
         create_gas_cloud(mtmp->mx, mtmp->my, rn2(10) + 5, 0); /* harmless */
@@ -3561,7 +3561,7 @@ xkilled(
     }
 
     if (be_sad)
-        You("你一时感到难过,但很快就过去了.");
+        You("一时感到难过,但很快就过去了.");
 
     mdat = mtmp->data; /* note: mondead can change mtmp->data */
     mndx = monsndx(mdat);
@@ -5882,7 +5882,7 @@ usmellmon(struct permonst *mdat)
                 msg_given = TRUE;
                 break;
             case S_UNICORN:
-                You("你嗅到一%s气味,令你联想到马厩.",
+                You("嗅到一%s气味,令你联想到马厩.",
                     (mndx == PM_PONY) ? "股" : "股强烈的");
                 msg_given = TRUE;
                 break;

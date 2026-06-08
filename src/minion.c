@@ -327,7 +327,7 @@ demon_talk(struct monst *mtmp)
             demand = cash + (long) rn1(1000, 125);
 
         if (!Deaf)
-            pline("%s要求%ld%s的安全通行费.",
+            pline("%s要求%ld %s的安全通行费.",
                   Amonnam(mtmp), demand, currency(demand));
         else if (canseemon(mtmp))
             pline("%s似乎在索要什么东西.", Amonnam(mtmp));
@@ -350,7 +350,7 @@ demon_talk(struct monst *mtmp)
     /* if 'mtmp' is unrecognizable due to hero's hallucination,
        #chronicle will reveal its true identity -- just live with that;
        also, avoid random hallucinatory currency() units */
-    livelog_printf(LL_UMONST, "贿赂了%s%ld%s以换取安全通行",
+    livelog_printf(LL_UMONST, "贿赂了%s%ld %s以换取安全通行",
                    x_monnam(mtmp, ARTICLE_A, (char *) 0, EXACT_NAME, FALSE),
                    offer, (offer == 1L) ? "zorkmid" : "zorkmid");
     mongone(mtmp);
@@ -380,7 +380,7 @@ bribe(struct monst *mtmp, const char *prompt)
         You("把你所有的金币都给了%s.", mon_nam(mtmp));
         offer = umoney;
     } else {
-        You("给了%s%ld%s.", mon_nam(mtmp), offer, currency(offer));
+        You("给了%s%ld %s.", mon_nam(mtmp), offer, currency(offer));
     }
     (void) money2mon(mtmp, offer);
     disp.botl = TRUE;

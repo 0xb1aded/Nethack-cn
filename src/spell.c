@@ -720,7 +720,7 @@ getspell(int *spell_no)
 
     nspells = num_spells();
     if (!nspells) {
-        You("你目前不知道任何法术.");
+        You("目前不知道任何法术.");
         return FALSE;
     }
     if (rejectcasting())
@@ -1561,7 +1561,7 @@ spelleffects(int spell_otyp, boolean atme, boolean force)
          *  Sick +  Slimed -- You are no longer ill.  The slime disappears.
          */
         if (was_sick || !was_slimed)
-            You("你%s.", was_sick ? "痊愈了" : "没有生病");
+            You("%s.", was_sick ? "痊愈了" : "没有生病");
         if (was_slimed)
             make_slimed(0L, "黏液消失了!");
         break;
@@ -2025,7 +2025,7 @@ dovspell(void)
     struct spell spl_tmp;
 
     if (spellid(0) == NO_SPELL) {
-        You("你目前不知道任何法术.");
+        You("目前不知道任何法术.");
     } else {
         while (dospellmenu("已知法术",
                            SPELLMENU_VIEW, &splnum)) {

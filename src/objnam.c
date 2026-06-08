@@ -2440,7 +2440,7 @@ doname_base(
         long quotedprice = unpaid_cost(obj, COST_CONTENTS);
 
         /* separately formatted suffix avoids need for ConcatF3() */
-        Sprintf(pricebuf, "%ld%s", quotedprice, currency(quotedprice));
+        Sprintf(pricebuf, "%ld %s", quotedprice, currency(quotedprice));
         ConcatF2(bp, 0, " (%s,%s)",
                  obj->unpaid ? "未付款" : "内容物", pricebuf);
 
@@ -2452,7 +2452,7 @@ doname_base(
         if (price > 0L) {
             char pricebuf[40];
 
-            Sprintf(pricebuf, "%ld%s", price, currency(price));
+            Sprintf(pricebuf, "%ld %s", price, currency(price));
             ConcatF2(bp, 0, " (%s,%s)",
                      nochrg ? "内容物" : "出售", pricebuf);
         } else if (nochrg > 0) {

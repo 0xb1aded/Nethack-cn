@@ -304,7 +304,7 @@ do_pit(coordxy x, coordxy y, unsigned tu_pit)
         if (Levitation || Flying || is_clinger(gy.youmonst.data)) {
             if (!tu_pit) { /* no pit here previously */
                 pline("一条裂口出现在你脚下!");
-                You("你没有掉进去!");
+                You("没有掉进去!");
             }
         } else if (!tu_pit || !u.utrap || u.utraptype != TT_PIT) {
             /* no pit here previously, or you were
@@ -320,7 +320,7 @@ do_pit(coordxy x, coordxy y, unsigned tu_pit)
                      && (!(rnl(Role_if(PM_ARCHEOLOGIST) ? 3 : 9))
                          || ((ACURR(A_DEX) > 7) && rn2(5))));
 
-            You("你被猛烈地推来推去!");
+            You("被猛烈地推来推去!");
             set_utrap(rn1(6, 2), TT_PIT);
             losehp(Maybe_Half_Phys(rnd(keepfooting ? 2 : 4)),
                    "裂口的磕碰", NO_KILLER_PREFIX);

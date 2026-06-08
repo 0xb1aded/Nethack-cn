@@ -206,7 +206,7 @@ breakchestlock(struct obj *box, boolean destroyit)
         if (costly)
             loss += stolen_value(box, u.ux, u.uy, peaceful_shk, TRUE);
         if (loss)
-            You("因物品被毁,你需支付%ld%s.", loss, currency(loss));
+            You("因物品被毁,你需支付%ld %s.", loss, currency(loss));
         delobj(box);
     }
 }
@@ -1012,7 +1012,7 @@ doclose(void)
             There("没有明显的方式来关闭吊桥.");
         else {
  nodoor:
-            You("你%s那里没有门.", Blind ? "感觉到" : "看到");
+            You("%s那里没有门.", Blind ? "感觉到" : "看到");
         }
         return res;
     }

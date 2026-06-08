@@ -1373,7 +1373,7 @@ seffect_destroy_armor(struct obj **sobjp)
             if (!objects[sobj->otyp].oc_name_known)
                 pline("这是%s!", an(actualoname(sobj)));
             gk.known = TRUE;
-            atmp = getobj("destroy", any_worn_armor_ok, GETOBJ_PROMPT);
+            atmp = getobj("摧毁什么", any_worn_armor_ok, GETOBJ_PROMPT);
             /* check the return value, if user picked non-valid obj */
             if (any_worn_armor_ok(atmp) == GETOBJ_SUGGEST)
                 otmp = atmp;
@@ -1821,7 +1821,7 @@ seffect_charging(struct obj **sobjp)
        was already delivered */
     useup(sobj);
     *sobjp = 0; /* it's gone */
-    otmp = getobj("给什么充能", charge_ok, GETOBJ_PROMPT | GETOBJ_ALLOWCNT);
+    otmp = getobj("充能什么", charge_ok, GETOBJ_PROMPT | GETOBJ_ALLOWCNT);
     if (otmp)
         recharge(otmp, scursed ? -1 : sblessed ? 1 : 0);
 }

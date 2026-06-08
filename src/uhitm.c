@@ -1226,7 +1226,7 @@ hmon_hitmon_misc_obj(
                     ? the(mons[mnum].pmnames[NEUTRAL])
                     : (cnt > 1L) ? "一些" : "一个";
 
-            You("你用%s蛋%s击中了%s.", eggp, plur(cnt), /*修改语序:You("hit %s with %s egg%s.", mon_nam(mon), eggp,*/
+            You("用%s蛋%s击中了%s.", eggp, plur(cnt), /*修改语序:You("hit %s with %s egg%s.", mon_nam(mon), eggp,*/
                 mon_nam(mon)); /*修改语序:plur(cnt));*/
             if (touch_petrifies(hmd->mdat) && !stale_egg(obj)) {
                 pline_The("蛋%s%s有生命了...", plur(cnt),
@@ -2564,7 +2564,7 @@ mhitm_ad_fire(
         if (!mhitm_mgc_atk_negated(magr, mdef, TRUE)) {
             pline("你%s!", on_fire(pd, mattk));
             if (completelyburns(pd)) { /* paper or straw golem */
-                You("你被火焰吞噬了!");
+                You("被火焰吞噬了!");
                 monstunseesu(M_SEEN_FIRE);
                 /* KMH -- this is okay with unchanging */
                 rehumanize();
@@ -3030,7 +3030,7 @@ mhitm_ad_curs(
                 /* Don't return yet; keep hp<1 and mhm.damage=0 for pet msg */
             } else {
                 mdef->mcan = 1;
-                You("你轻声笑了笑.");
+                You("轻声笑了笑.");
             }
         }
         mhm->damage = 0;
@@ -3350,7 +3350,7 @@ mhitm_ad_wrap(
                 if (m_slips_free(mdef, mattk)) {
                     mhm->damage = 0;
                 } else {
-                    You("你%s在%s%s!", /*修改语序:You("你%s在%s身上!",*/
+                    You("%s在%s%s!", /*修改语序:You("你%s在%s身上!",*/
                         coil ? "盘绕" : "扭动", mon_nam(mdef), coil ? "身上" : "身边"); /*修改语序:coil ? "盘绕" : "扭动", mon_nam(mdef));*/
                     set_ustuck(mdef);
                 }
@@ -3449,7 +3449,7 @@ mhitm_ad_plys(
                 You("僵住了一刹那.");
             } else {
                 if (Blind)
-                    You("你被定住了!");
+                    You("被定住了!");
                 else
                     You("被%s定住了!", mon_nam(magr));
                 gn.nomovemsg = You_can_move_again;
@@ -4032,7 +4032,7 @@ mhitm_ad_phys(
                 }
             } else if (u.ustuck == magr) {
                 exercise(A_STR, FALSE);
-                You("你正在被%s.",
+                You("正在被%s.",
                     (pa == &mons[PM_ROPE_GOLEM]) ? "勒住" : "挤压");
             }
         } else { /* hand to hand weapon */
@@ -5022,7 +5022,7 @@ gulpum(struct monst *mdef, struct attack *mattk)
 
             if (!type_is_pname(pd))
                 mnam = an(mnam);
-            You("你%s了%s.", u_digest ? "吞下" : "围住", mon_nam(mdef));
+            You("%s了%s.", u_digest ? "吞下" : "围住", mon_nam(mdef));
             Sprintf(kbuf, "%s%s%s",
                     u_digest ? "吞下"
                     : u_enfold ? "裹住"
@@ -5578,7 +5578,7 @@ hmonas(struct monst *mon)
                 if (!u.uswallow
                     && (compat = could_seduce(&gy.youmonst, mon, mattk))
                        != 0) {
-                    You("你%s地对%s%s.",
+                    You("%s地对%s%s.",
                         (compat == 2) ? "迷人" /*修改语序:(mon->mcansee && haseyes(mon->data)) ? "微笑地看着"*/
                                       : "诱人", /*修改语序:: "搭讪",*/
                         mon_nam(mon),

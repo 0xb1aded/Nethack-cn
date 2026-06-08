@@ -3961,10 +3961,10 @@ float_up(void)
                 body_part(LEG),
                 IS_ROOM(levl[cc.x][cc.y].typ) ? "地板" : "地面");
         } else if (u.utraptype == WEB) {
-            You("你微微上浮,但仍仍然卡在%s中.",
+            You("微微上浮,但仍仍然卡在%s中.",
                 trapname(WEB, FALSE));
         } else { /* bear trap */
-            You("你微微上浮,但你的%s仍然卡在里面.",
+            You("微微上浮,但你的%s仍然卡在里面.",
                 body_part(LEG));
         }
         /* when still trapped, float_vs_flight() below will block levitation */
@@ -6399,10 +6399,10 @@ chest_trap(
             exercise(A_STR, FALSE);
             if (costly && loss) {
                 if (insider) {
-                    You("因物品被毁,你需支付%ld%s.", loss,
+                    You("因物品被毁,你需支付%ld %s.", loss,
                         currency(loss));
                 } else {
-                    You("造成了%ld%s的损失!", loss,
+                    You("造成了%ld %s的损失!", loss,
                         currency(loss));
                     make_angry_shk(shkp, ox, oy);
                 }

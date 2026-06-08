@@ -2812,7 +2812,7 @@ mbag_item_gone(boolean held, struct obj *item, boolean silent)
         if (item->dknown)
             pline("%s%s消失了!", Doname2(item), otense(item, "已经"));
         else
-            You("你%s%s消失了!", Blind ? "注意到" : "看到", doname(item));
+            You("%s%s消失了!", Blind ? "注意到" : "看到", doname(item));
     }
 
     if (*u.ushops && (shkp = shop_keeper(*u.ushops)) != 0) {
@@ -3033,7 +3033,7 @@ use_container(
     if (cursed_mbag
         && (loss = boh_loss(gc.current_container, held)) != 0) {
         used = ECMD_TIME;
-        You("因丢失商品需支付%ld%s.", loss, currency(loss));
+        You("因丢失商品需支付%ld %s.", loss, currency(loss));
         gc.current_container->owt = weight(gc.current_container);
     }
     /* might put something in if carrying anything other than just the
@@ -3176,7 +3176,7 @@ use_container(
         add_valid_menu_class(0);
     } else if (stash_one) {
         /* put one item into container */
-        if ((otmp = getobj("藏入", stash_ok,
+        if ((otmp = getobj("藏入什么", stash_ok,
                            GETOBJ_PROMPT | GETOBJ_ALLOWCNT)) != 0) {
             if (in_container(otmp)) {
                 used = 1;
@@ -3240,12 +3240,12 @@ traditional_loot(boolean put_in)
     int used = ECMD_OK, menu_on_request = 0;
 
     if (put_in) {
-        action = "put in";
+        action = "放入";
         objlist = &gi.invent;
         actionfunc = in_container;
         checkfunc = ck_bag;
     } else {
-        action = "take out";
+        action = "拿出";
         objlist = &(gc.current_container->cobj);
         actionfunc = out_container;
         checkfunc = (int (*)(OBJ_P)) 0;
@@ -3624,7 +3624,7 @@ dotip(void)
 
     /* either no floor container(s) or 'm' prefix was used to ignore such
        or couldn't tip one or didn't tip any */
-    cobj = getobj("倒空", tip_ok, GETOBJ_PROMPT);
+    cobj = getobj("倒空什么", tip_ok, GETOBJ_PROMPT);
     if (!cobj)
         return ECMD_CANCEL;
 
@@ -3831,7 +3831,7 @@ tipcontainer(struct obj *box) /* or bag */
                 iflags.suppress_price--; /* reset */
         }
         if (loss) /* magic bag lost some shop goods */
-            You("因丢失商品需支付%ld%s.", loss, currency(loss));
+            You("因丢失商品需支付%ld %s.", loss, currency(loss));
         box->owt = weight(box); /* mbag_item_gone() doesn't update this */
         if (targetbox)
             targetbox->owt = weight(targetbox);
