@@ -1,4 +1,4 @@
-/* NetHack 5.0	objnam.c	$NHDT-Date: 1745114235 2025/04/19 17:57:15 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.453 $ */
+/* NetHack 5.0  objnam.c    $NHDT-Date: 1745114235 2025/04/19 17:57:15 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.453 $ */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /*-Copyright (c) Robert Patrick Rankin, 2011. */
 /* NetHack may be freely redistributed.  See license for details. */
@@ -7879,12 +7879,10 @@ readobjnam_postparse1(struct _readobjnam_data *d)
         const struct wand_spellings *fs = wand_aliases;
         while (fs->sp) {
             if (!strncmp(d->bp, fs->sp, strlen(fs->sp))) {
-                pline("wand found1");
                 if(!strcmp(d->bp + strlen(fs->sp), "魔杖") || !strcmp(d->bp + strlen(fs->sp), "的魔杖") ||
                     !strcmp(d->bp + strlen(fs->sp), "之杖") || !strcmp(d->bp + strlen(fs->sp), "之魔杖"))
                 {
                     d->typ = fs->itstype;
-                    pline("wand found2");
                     return 2; /*goto typfnd;*/
                 }
             }
