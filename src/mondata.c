@@ -1364,17 +1364,17 @@ raceptr(struct monst *mtmp)
 }
 
 typedef const char *const locoverbs[4];
-static locoverbs levitate = { "漂浮", "漂浮", "摇晃", "摇晃" },
-                 flys = { "飞行", "飞行", "扑腾", "扑腾" },
-                 flyl = { "飞行", "飞行", "踉跄", "踉跄" },
-                 slither = { "蠕动", "蠕动", "蹒跚", "蹒跚" },
+static locoverbs levitate = { "漂", "漂", "摇晃", "摇晃" },
+                 flys = { "飞", "飞", "扑腾", "扑腾" },
+                 flyl = { "飞", "飞", "踉跄", "踉跄" },
+                 slither = { "滑", "滑", "蹒跚", "蹒跚" },
                  /* it would be useful to incorporate "swim" but we lack
                   * sufficient information to know whether water is involved
                  swim = { "swim", "Swim", "flop", "Flop" },
                   */
-                 ooze = { "滑行", "滑行", "颤抖", "颤抖" },
+                 ooze = { "渗", "渗", "颤抖", "颤抖" },
                  immobile = { "扭动", "扭动", "震动", "震动" },
-                 crawl = { "爬行", "爬行", "蹒跚", "蹒跚" };
+                 crawl = { "爬", "爬", "蹒跚", "蹒跚" };
 
 const char *
 locomotion(const struct permonst *ptr, const char *def)
