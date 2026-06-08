@@ -134,7 +134,7 @@
     /*
      * blobs
      */
-    MON(NAM("acid blob"), NAM("酸滴"), S_BLOB,
+    MON(NAM("acid blob"), NAM("强酸团怪"), S_BLOB,
         LVL(1, 3, 8, 0, 0), (G_GENO | 2),
         A(ATTK(AT_NONE, AD_ACID, 1, 8),
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
@@ -144,7 +144,7 @@
             | M1_MINDLESS | M1_ACID,
         M2_WANDER | M2_NEUTER, 0,
         2, CLR_GREEN, ACID_BLOB),
-    MON(NAM("quivering blob"), NAM("颤抖的斑点"), S_BLOB,
+    MON(NAM("quivering blob"), NAM("颤动团怪"), S_BLOB,
         LVL(5, 1, 8, 0, 0), (G_GENO | 2),
         A(ATTK(AT_TUCH, AD_PHYS, 1, 8),
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
@@ -152,7 +152,7 @@
         M1_NOEYES | M1_NOLIMBS | M1_NOHEAD | M1_MINDLESS,
         M2_WANDER | M2_HOSTILE | M2_NEUTER, 0,
         6, CLR_WHITE, QUIVERING_BLOB),
-    MON(NAM("gelatinous cube"), NAM("黏胶立方怪"), S_BLOB,
+    MON(NAM("gelatinous cube"), NAM("凝胶方块"), S_BLOB,
         LVL(6, 6, 8, 0, 0), (G_GENO | 2),
         A(ATTK(AT_TUCH, AD_PLYS, 2, 4), ATTK(AT_NONE, AD_PLYS, 1, 4),
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
@@ -210,7 +210,7 @@
         SIZ(300, 250, MS_BARK, MZ_SMALL), 0, 0,
         M1_ANIMAL | M1_NOHANDS | M1_CARNIVORE, M2_HOSTILE, M3_INFRAVISIBLE,
         1, CLR_RED, FOX),
-    MON(NAM("coyote"), NAM("土狼"), S_DOG,
+    MON(NAM("coyote"), NAM("郊狼"), S_DOG,
         LVL(1, 12, 7, 0, 0), (G_GENO | G_SGROUP | 1),
         A(ATTK(AT_BITE, AD_PHYS, 1, 4),
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
@@ -434,7 +434,7 @@
         M1_ANIMAL | M1_NOHANDS | M1_CARNIVORE, M2_HOSTILE,
         M3_INFRAVISIBLE | M3_INFRAVISION,
         8, CLR_YELLOW, TIGER),
-    MON(NAM("displacer beast"), NAM("幻影兽"), S_FELINE,
+    MON(NAM("displacer beast"), NAM("移位兽"), S_FELINE,
         LVL(12, 12, -10, 0, -3), (G_GENO | 1),
         A(ATTK(AT_CLAW, AD_PHYS, 4, 4), ATTK(AT_CLAW, AD_PHYS, 4, 4),
           ATTK(AT_BITE, AD_PHYS, 2, 10), NO_ATTK, NO_ATTK, NO_ATTK),
@@ -528,7 +528,7 @@
         M2_HOSTILE | M2_NASTY | M2_GREEDY | M2_JEWELS | M2_COLLECT,
         M3_INFRAVISIBLE | M3_INFRAVISION,
         13, CLR_BRIGHT_MAGENTA, MIND_FLAYER),
-    MON(NAM("master mind flayer"), NAM("夺心魔大师"), S_HUMANOID,
+    MON(NAM("master mind flayer"), NAM("主宰夺心魔"), S_HUMANOID,
         LVL(13, 12, 0, 90, -8), (G_GENO | 1),
         A(ATTK(AT_WEAP, AD_PHYS, 1, 8), ATTK(AT_TENT, AD_DRIN, 2, 1),
           ATTK(AT_TENT, AD_DRIN, 2, 1), ATTK(AT_TENT, AD_DRIN, 2, 1),
@@ -548,7 +548,7 @@
         SIZ(100, 100, MS_SILENT, MZ_SMALL), MR_SLEEP | MR_POISON, 0, M1_POIS,
         M2_HOSTILE | M2_STALK, M3_INFRAVISIBLE | M3_INFRAVISION,
         3, CLR_RED, MANES),
-    MON(NAM("homunculus"), NAM("雏形人"), S_IMP,
+    MON(NAM("homunculus"), NAM("造妖"), S_IMP,
         LVL(2, 12, 6, 10, -7), (G_GENO | 2),
         A(ATTK(AT_BITE, AD_SLEE, 1, 3),
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
@@ -588,7 +588,7 @@
     /*
      * jellies
      */
-    MON(NAM("blue jelly"), NAM("蓝色果冻"), S_JELLY,
+    MON(NAM("blue jelly"), NAM("蓝冻怪"), S_JELLY,
         LVL(4, 0, 8, 10, 0), (G_GENO | 2),
         A(ATTK(AT_NONE, AD_COLD, 0, 6),
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
@@ -598,7 +598,7 @@
             | M1_MINDLESS | M1_NOTAKE,
         M2_HOSTILE | M2_NEUTER, 0,
         5, CLR_BLUE, BLUE_JELLY),
-    MON(NAM("spotted jelly"), NAM("珍珠果冻"), S_JELLY,
+    MON(NAM("spotted jelly"), NAM("斑冻怪"), S_JELLY,
         LVL(5, 0, 8, 10, 0), (G_GENO | 1),
         A(ATTK(AT_NONE, AD_ACID, 0, 6),
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
@@ -667,7 +667,7 @@
     /*
      * mimics
      */
-    MON(NAM("small mimic"), NAM("小拟形怪"), S_MIMIC,
+    MON(NAM("small mimic"), NAM("小拟身怪"), S_MIMIC,
         LVL(7, 3, 7, 0, 0), (G_GENO | 2),
         A(ATTK(AT_CLAW, AD_PHYS, 3, 4),
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
@@ -676,7 +676,7 @@
             | M1_NOHEAD | M1_NOLIMBS | M1_THICK_HIDE | M1_CARNIVORE,
         M2_HOSTILE, 0,
         8, CLR_BROWN, SMALL_MIMIC),
-    MON(NAM("large mimic"), NAM("大拟形怪"), S_MIMIC,
+    MON(NAM("large mimic"), NAM("大拟身怪"), S_MIMIC,
         LVL(8, 3, 7, 10, 0), (G_GENO | 1),
         A(ATTK(AT_CLAW, AD_STCK, 3, 4),
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
@@ -686,7 +686,7 @@
             | M1_CARNIVORE,
         M2_HOSTILE | M2_STRONG, 0,
         9, CLR_RED, LARGE_MIMIC),
-    MON(NAM("giant mimic"), NAM("巨型拟形怪"), S_MIMIC,
+    MON(NAM("giant mimic"), NAM("巨型拟身怪"), S_MIMIC,
         LVL(9, 3, 7, 20, 0), (G_GENO | 1),
         A(ATTK(AT_CLAW, AD_STCK, 3, 6), ATTK(AT_CLAW, AD_STCK, 3, 6),
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
@@ -699,14 +699,14 @@
     /*
      * nymphs
      */
-    MON(NAM("wood nymph"), NAM("木仙女"), S_NYMPH,
+    MON(NAM("wood nymph"), NAM("木妖精"), S_NYMPH,
         LVL(3, 12, 9, 20, 0), (G_GENO | 2),
         A(ATTK(AT_CLAW, AD_SITM, 0, 0), ATTK(AT_CLAW, AD_SEDU, 0, 0),
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
         SIZ(WT_NYMPH, 300, MS_SEDUCE, MZ_HUMAN), 0, 0, M1_HUMANOID | M1_TPORT,
         M2_HOSTILE | M2_FEMALE | M2_COLLECT, M3_INFRAVISIBLE,
         5, CLR_GREEN, WOOD_NYMPH),
-    MON(NAM("water nymph"), NAM("水仙女"), S_NYMPH,
+    MON(NAM("water nymph"), NAM("水妖精"), S_NYMPH,
         LVL(3, 12, 9, 20, 0), (G_GENO | 2),
         A(ATTK(AT_CLAW, AD_SITM, 0, 0), ATTK(AT_CLAW, AD_SEDU, 0, 0),
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
@@ -714,7 +714,7 @@
         M1_HUMANOID | M1_TPORT | M1_SWIM, M2_HOSTILE | M2_FEMALE | M2_COLLECT,
         M3_INFRAVISIBLE,
         5, CLR_BLUE, WATER_NYMPH),
-    MON(NAM("mountain nymph"), NAM("山仙女"), S_NYMPH,
+    MON(NAM("mountain nymph"), NAM("山妖精"), S_NYMPH,
         LVL(3, 12, 9, 20, 0), (G_GENO | 2),
         A(ATTK(AT_CLAW, AD_SITM, 0, 0), ATTK(AT_CLAW, AD_SEDU, 0, 0),
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
@@ -867,7 +867,7 @@
         M1_ANIMAL | M1_THICK_HIDE | M1_NOHANDS | M1_HERBIVORE,
         M2_HOSTILE | M2_STRONG, M3_INFRAVISIBLE,
         13, CLR_GRAY, TITANOTHERE),
-    MON(NAM("baluchitherium"), NAM("俾路支兽"), S_QUADRUPED,
+    MON(NAM("baluchitherium"), NAM("巨犀"), S_QUADRUPED,
         LVL(14, 12, 5, 0, 0), (G_GENO | 2),
         A(ATTK(AT_CLAW, AD_PHYS, 5, 4), ATTK(AT_CLAW, AD_PHYS, 5, 4),
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
@@ -978,7 +978,7 @@
      * The Monster Manual states that someone engulfed by a trapper
      * can't use weapons but we do not enforce that.
      */
-    MON(NAM("lurker above"), NAM("潜伏者"), S_TRAPPER,
+    MON(NAM("lurker above"), NAM("蛰伏怪"), S_TRAPPER,
         LVL(10, 3, 3, 0, 0), (G_GENO | 2),
         A(ATTK(AT_ENGL, AD_WRAP, 1, 6), ATTK(AT_ENGL, AD_PHYS, 2, 6),
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
@@ -987,7 +987,7 @@
             | M1_CARNIVORE,
         M2_HOSTILE | M2_STALK | M2_STRONG, 0,
         12, CLR_GRAY, LURKER_ABOVE),
-    MON(NAM("trapper"), NAM("捕兽者"), S_TRAPPER,
+    MON(NAM("trapper"), NAM("诱陷者"), S_TRAPPER,
         LVL(12, 3, 3, 0, 0), (G_GENO | 2),
         A(ATTK(AT_ENGL, AD_WRAP, 1, 8), ATTK(AT_ENGL, AD_PHYS, 2, 8),
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
@@ -1119,7 +1119,7 @@
         M1_ANIMAL | M1_SLITHY | M1_NOLIMBS | M1_CARNIVORE | M1_NOTAKE,
         M2_HOSTILE, 0,
         6, CLR_BROWN, BABY_LONG_WORM),
-    MON(NAM("baby purple worm"), NAM("幼紫蠕虫"), S_WORM,
+    MON(NAM("baby purple worm"), NAM("幼紫虫"), S_WORM,
         LVL(8, 3, 5, 0, 0), G_GENO,
         A(ATTK(AT_BITE, AD_PHYS, 1, 6),
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
@@ -1135,7 +1135,7 @@
             | M1_NOTAKE,
         M2_HOSTILE | M2_STRONG | M2_NASTY, 0,
         10, CLR_BROWN, LONG_WORM),
-    MON(NAM("purple worm"), NAM("紫蠕虫"), S_WORM,
+    MON(NAM("purple worm"), NAM("紫虫"), S_WORM,
         LVL(15, 9, 6, 20, 0), (G_GENO | 2),
         A(ATTK(AT_BITE, AD_PHYS, 2, 8), ATTK(AT_ENGL, AD_DGST, 1, 10),
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
@@ -1212,7 +1212,7 @@
         M2_MINION | M2_STALK | M2_STRONG | M2_NASTY,
         M3_INFRAVISIBLE | M3_INFRAVISION,
         11, CLR_GREEN, COUATL),
-    MON(NAM("Aleax"), NAM("亚历克斯"), S_ANGEL,
+    MON(NAM("Aleax"), NAM("神罚化身"), S_ANGEL,
         LVL(10, 8, 0, 30, 7), (G_NOHELL | G_NOCORPSE | 1),
         A(ATTK(AT_WEAP, AD_PHYS, 1, 6), ATTK(AT_WEAP, AD_PHYS, 1, 6),
           ATTK(AT_KICK, AD_PHYS, 1, 4), NO_ATTK, NO_ATTK, NO_ATTK),
@@ -1251,7 +1251,7 @@
         M2_NOPOLY | M2_MINION | M2_STALK | M2_STRONG | M2_NASTY | M2_LORD,
         M3_INFRAVISIBLE | M3_INFRAVISION,
         21, HI_GOLD, KI_RIN),
-    MON(NAM("Archon"), NAM("执政官"), S_ANGEL,
+    MON(NAM("Archon"), NAM("亚空天族"), S_ANGEL,
         LVL(19, 16, -6, 80, 15), (G_NOHELL | G_NOCORPSE | 1),
         A(ATTK(AT_WEAP, AD_PHYS, 2, 4), ATTK(AT_WEAP, AD_PHYS, 2, 4),
           ATTK(AT_GAZE, AD_BLND, 2, 6), ATTK(AT_CLAW, AD_PHYS, 1, 8),
@@ -1803,7 +1803,7 @@
      */
     /* the illustration from _Through_the_Looking_Glass_
        depicts hands as well as wings */
-    MON(NAM("jabberwock"), NAM("颊脖龙"), S_JABBERWOCK,
+    MON(NAM("jabberwock"), NAM("炸脖龙"), S_JABBERWOCK,
         LVL(15, 12, -2, 50, 0), (G_GENO | 1),
         A(ATTK(AT_BITE, AD_PHYS, 2, 10), ATTK(AT_BITE, AD_PHYS, 2, 10),
           ATTK(AT_CLAW, AD_PHYS, 2, 10), ATTK(AT_CLAW, AD_PHYS, 2, 10),
@@ -1877,7 +1877,7 @@
         MR_COLD, M1_BREATHLESS | M1_HUMANOID | M1_POIS | M1_REGEN,
         M2_UNDEAD | M2_HOSTILE | M2_MAGIC, M3_INFRAVISION,
         18, CLR_RED, DEMILICH),
-    MON(NAM("master lich"), NAM("巫妖大师"), S_LICH,
+    MON(NAM("master lich"), NAM("主宰巫妖"), S_LICH,
         LVL(17, 9, -4, 90, -15), (G_HELL | G_GENO | G_NOCORPSE | 1),
         A(ATTK(AT_TUCH, AD_COLD, 3, 6), ATTK(AT_MAGC, AD_SPEL, 0, 0),
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
@@ -2078,7 +2078,7 @@
      *
      * must be in the same order as the pudding globs in objects.c
      */
-    MON(NAM("gray ooze"), NAM("灰色软泥"), S_PUDDING,
+    MON(NAM("gray ooze"), NAM("灰泥怪"), S_PUDDING,
         LVL(3, 1, 8, 0, 0), (G_GENO | G_NOCORPSE | 2),
         A(ATTK(AT_BITE, AD_RUST, 2, 8),
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
@@ -2089,7 +2089,7 @@
             | M1_MINDLESS | M1_OMNIVORE | M1_ACID,
         M2_HOSTILE | M2_NEUTER, 0,
         4, CLR_GRAY, GRAY_OOZE),
-    MON(NAM("brown pudding"), NAM("棕色布丁"), S_PUDDING,
+    MON(NAM("brown pudding"), NAM("棕布丁"), S_PUDDING,
         LVL(5, 3, 8, 0, 0), (G_GENO | G_NOCORPSE | 1),
         A(ATTK(AT_BITE, AD_DCAY, 0, 0),
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
@@ -2110,7 +2110,7 @@
             | M1_MINDLESS | M1_OMNIVORE | M1_ACID | M1_POIS,
         M2_HOSTILE | M2_NEUTER, 0,
         8, CLR_GREEN, GREEN_SLIME),
-    MON(NAM("black pudding"), NAM("黑色布丁"), S_PUDDING,
+    MON(NAM("black pudding"), NAM("黑布丁"), S_PUDDING,
         LVL(10, 6, 6, 0, 0), (G_GENO | G_NOCORPSE | 1),
         A(ATTK(AT_BITE, AD_CORR, 3, 8), ATTK(AT_NONE, AD_CORR, 0, 0),
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
@@ -2144,7 +2144,7 @@
     /*
      * Rust monster or disenchanter
      */
-    MON(NAM("rust monster"), NAM("锈怪"), S_RUSTMONST,
+    MON(NAM("rust monster"), NAM("锈蚀怪"), S_RUSTMONST,
         LVL(5, 18, 2, 0, 0), (G_GENO | 2),
         A(ATTK(AT_TUCH, AD_RUST, 0, 0), ATTK(AT_TUCH, AD_RUST, 0, 0),
           ATTK(AT_NONE, AD_RUST, 0, 0), NO_ATTK, NO_ATTK, NO_ATTK),
@@ -2152,7 +2152,7 @@
         M1_SWIM | M1_ANIMAL | M1_NOHANDS | M1_METALLIVORE, M2_HOSTILE,
         M3_INFRAVISIBLE,
         8, CLR_BROWN, RUST_MONSTER),
-    MON(NAM("disenchanter"), NAM("解魔怪"), S_RUSTMONST,
+    MON(NAM("disenchanter"), NAM("祛魔怪"), S_RUSTMONST,
         LVL(12, 12, -10, 0, -3), (G_HELL | G_GENO | 2),
         A(ATTK(AT_CLAW, AD_ENCH, 4, 4), ATTK(AT_NONE, AD_ENCH, 0, 0),
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
@@ -2255,7 +2255,7 @@
         M1_HUMANOID | M1_REGEN | M1_CARNIVORE | M1_SWIM,
         M2_STRONG | M2_STALK | M2_HOSTILE, M3_INFRAVISIBLE | M3_INFRAVISION,
         13, CLR_BLUE, WATER_TROLL),
-    MON(NAM("Olog-hai"), NAM("欧罗海"), S_TROLL,
+    MON(NAM("Olog-hai"), NAM("奥洛格"), S_TROLL,
         LVL(13, 12, -4, 0, -7), (G_GENO | 1),
         A(ATTK(AT_WEAP, AD_PHYS, 3, 6), ATTK(AT_CLAW, AD_PHYS, 2, 8),
           ATTK(AT_BITE, AD_PHYS, 2, 6), NO_ATTK, NO_ATTK, NO_ATTK),
@@ -2936,7 +2936,7 @@
         M2_DEMON | M2_STALK | M2_HOSTILE | M2_NASTY,
         M3_INFRAVISIBLE | M3_INFRAVISION,
         8, CLR_GRAY, AMOROUS_DEMON),
-    MON(NAM("horned devil"), NAM("有角的魔鬼"), S_DEMON,
+    MON(NAM("horned devil"), NAM("角魔"), S_DEMON,
         LVL(6, 9, -5, 50, 11), (G_HELL | G_NOCORPSE | 2),
         A(ATTK(AT_WEAP, AD_PHYS, 1, 4), ATTK(AT_CLAW, AD_PHYS, 1, 4),
           ATTK(AT_BITE, AD_PHYS, 2, 3), ATTK(AT_STNG, AD_PHYS, 1, 3),
@@ -2947,7 +2947,7 @@
         9, CLR_BROWN, HORNED_DEVIL),
     /* Used by AD&D for a type of demon, originally one of the Furies
        and spelled this way; plural is erinyes */
-    MON(NAM("erinys"), NAM("伊里逆丝"), S_DEMON,
+    MON(NAM("erinys"), NAM("厄里倪厄斯"), S_DEMON,
         LVL(7, 12, 2, 30, 10), (G_HELL | G_NOCORPSE | G_SGROUP | 2),
         /* erinys attacks (among other things) are variable depending on your
            alignment abuse, can be increased from here by adj_erinys(mon.c) */
@@ -2959,7 +2959,7 @@
             | M2_COLLECT,
         M3_INFRAVISIBLE | M3_INFRAVISION,
         10, CLR_RED, ERINYS),
-    MON(NAM("barbed devil"), NAM("哈玛魔"), S_DEMON,
+    MON(NAM("barbed devil"), NAM("猬魔"), S_DEMON,
         LVL(8, 12, 0, 35, 8), (G_HELL | G_NOCORPSE | G_SGROUP | 2),
         A(ATTK(AT_CLAW, AD_PHYS, 2, 4), ATTK(AT_CLAW, AD_STCK, 2, 4),
           ATTK(AT_STNG, AD_PHYS, 3, 4), NO_ATTK, NO_ATTK, NO_ATTK),
@@ -3032,7 +3032,7 @@
         16, CLR_RED, PIT_FIEND),
     /* from Jack Vance's _Rhialto_the_Marvellous_, one of the sequels
        to _The_Dying_Earth_ */
-    MON(NAM("sandestin"), NAM("桑德斯廷"), S_DEMON,
+    MON(NAM("sandestin"), NAM("沙魔"), S_DEMON,
         LVL(13, 12, 4, 60, -5), (G_HELL | G_NOCORPSE | 1),
         A(ATTK(AT_WEAP, AD_PHYS, 2, 6), ATTK(AT_WEAP, AD_PHYS, 2, 6),
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
@@ -3052,7 +3052,7 @@
     /* Named demon lords & princes plus Arch-Devils.
      * (their order matters; see minion.c)
      */
-    MON(NAM("Juiblex"), NAM("朱比烈斯"), S_DEMON, LVL(50, 3, -7, 65, -15),
+    MON(NAM("Juiblex"), NAM("朱庇莱克斯"), S_DEMON, LVL(50, 3, -7, 65, -15),
         (G_HELL | G_NOCORPSE | G_NOGEN | G_UNIQ),
         A(ATTK(AT_ENGL, AD_DISE, 4, 10), ATTK(AT_SPIT, AD_ACID, 3, 6),
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
@@ -3064,7 +3064,7 @@
             | M2_LORD | M2_MALE,
         M3_WAITFORU | M3_WANTSAMUL | M3_INFRAVISION,
         26, CLR_BRIGHT_GREEN, JUIBLEX),
-    MON(NAM("Yeenoghu"), NAM("伊诺胡"), S_DEMON,
+    MON(NAM("Yeenoghu"), NAM("耶诺古"), S_DEMON,
         LVL(56, 18, -5, 80, -15), (G_HELL | G_NOCORPSE | G_NOGEN | G_UNIQ),
         A(ATTK(AT_WEAP, AD_PHYS, 3, 6), ATTK(AT_WEAP, AD_CONF, 2, 8),
           ATTK(AT_CLAW, AD_PLYS, 1, 6), ATTK(AT_MAGC, AD_MAGM, 2, 6),
@@ -3087,7 +3087,7 @@
         M3_WAITFORU | M3_WANTSBOOK | M3_WANTSAMUL | M3_INFRAVISIBLE
             | M3_INFRAVISION,
         36, HI_LORD, ORCUS),
-    MON(NAM("Geryon"), NAM("吉里昂"), S_DEMON,
+    MON(NAM("Geryon"), NAM("格殷永"), S_DEMON,
         LVL(72, 3, -3, 75, 15), (G_HELL | G_NOCORPSE | G_NOGEN | G_UNIQ),
         A(ATTK(AT_CLAW, AD_PHYS, 3, 6), ATTK(AT_CLAW, AD_PHYS, 3, 6),
           ATTK(AT_STNG, AD_DRST, 2, 4), NO_ATTK, NO_ATTK, NO_ATTK),
@@ -3117,7 +3117,7 @@
             | M2_PRINCE | M2_MALE,
         M3_WANTSAMUL | M3_WAITFORU | M3_INFRAVISIBLE | M3_INFRAVISION,
         45, HI_LORD, BAALZEBUB),
-    MON(NAM("Asmodeus"), NAM("阿斯莫德"), S_DEMON,
+    MON(NAM("Asmodeus"), NAM("阿斯蒙蒂斯"), S_DEMON,
         LVL(105, 12, -7, 90, 20), (G_HELL | G_NOCORPSE | G_NOGEN | G_UNIQ),
         A(ATTK(AT_CLAW, AD_PHYS, 4, 4), ATTK(AT_MAGC, AD_COLD, 6, 6),
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
@@ -3174,7 +3174,7 @@
     /* other demons
      */
 #ifdef MAIL_STRUCTURES
-    MON(NAM("mail daemon"), NAM("邮件幽灵程序"), S_DEMON,
+    MON(NAM("mail daemon"), NAM("邮件守护灵"), S_DEMON,
         LVL(56, 24, 10, 127, 0), (G_NOGEN | G_NOCORPSE),
         A(NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
         SIZ(600, 300, MS_SILENT, MZ_HUMAN),
@@ -3613,7 +3613,7 @@
     /*
      * quest nemeses
      */
-    MON(NAM("Minion of Huhetotl"), NAM("修堤库特里的奴才"), S_DEMON,
+    MON(NAM("Minion of Huhetotl"), NAM("休特奥特尔的爪牙"), S_DEMON,
         LVL(16, 12, -2, 75, -14), (G_NOCORPSE | G_NOGEN | G_UNIQ),
         A(ATTK(AT_WEAP, AD_PHYS, 8, 4), ATTK(AT_WEAP, AD_PHYS, 4, 6),
           ATTK(AT_MAGC, AD_SPEL, 0, 0), ATTK(AT_CLAW, AD_SAMU, 2, 6),
@@ -3676,7 +3676,7 @@
             | M2_HOSTILE | M2_NASTY | M2_MALE | M2_JEWELS | M2_COLLECT,
         M3_WANTSARTI | M3_WAITFORU | M3_INFRAVISION | M3_INFRAVISIBLE,
         23, CLR_GRAY, CYCLOPS),
-    MON(NAM("Ixoth"), NAM("恶龙"), S_DRAGON,
+    MON(NAM("Ixoth"), NAM("恶龙埃索斯"), S_DRAGON,
         LVL(15, 12, -1, 20, -14), (G_NOGEN | G_UNIQ),
         A(ATTK(AT_BREA, AD_FIRE, 8, 6), ATTK(AT_BITE, AD_PHYS, 4, 8),
           ATTK(AT_MAGC, AD_SPEL, 0, 0), ATTK(AT_CLAW, AD_PHYS, 2, 4),
@@ -3746,7 +3746,7 @@
     /*
      * Note: the Master of Thieves was defined above.
      */
-    MON(NAM("Lord Surtur"), NAM("叙尔特领主"), S_GIANT,
+    MON(NAM("Lord Surtur"), NAM("苏尔特领主"), S_GIANT,
         LVL(15, 12, 2, 50, 12), (G_NOGEN | G_UNIQ),
         A(ATTK(AT_WEAP, AD_PHYS, 2, 10), ATTK(AT_WEAP, AD_PHYS, 2, 10),
           ATTK(AT_CLAW, AD_SAMU, 2, 6), NO_ATTK, NO_ATTK, NO_ATTK),
