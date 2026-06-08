@@ -2125,7 +2125,7 @@ silly_thing(const char *word,
     if (!strcmp(word, "call")
         && (otmp->otyp == AMULET_OF_YENDOR
             || (otmp->otyp == FAKE_AMULET_OF_YENDOR && !otmp->known)))
-        pline_The("护符不喜欢被叫名字。");
+        pline_The("护身符不喜欢被命名.");
     else
         pline(silly_thing_to, word);
 }
@@ -4051,7 +4051,7 @@ dfeature_at(coordxy x, coordxy y, char *buf)
             cmap = S_vodoor;
             break; /* "open door" */
         case D_BROKEN:
-            dfeature = "broken door";
+            dfeature = "坏掉的门";
             break;
         default:
             cmap = S_vcdoor;
@@ -4059,7 +4059,7 @@ dfeature_at(coordxy x, coordxy y, char *buf)
         }
         /* override door description for open drawbridge */
         if (is_drawbridge_wall(x, y) >= 0)
-            dfeature = "open drawbridge portcullis", cmap = -1;
+            dfeature = "打开的吊桥闸门", cmap = -1;
     } else if (IS_FOUNTAIN(ltyp))
         cmap = S_fountain; /* "fountain" */
     else if (IS_THRONE(ltyp))
@@ -4069,14 +4069,14 @@ dfeature_at(coordxy x, coordxy y, char *buf)
     else if (is_ice(x, y))
         dfeature = ice_descr(x, y, altbuf), cmap = -1; /* "ice" */
     else if (is_pool(x, y))
-        dfeature = "pool of water";
+        dfeature = "水池";
     else if (IS_SINK(ltyp))
         cmap = S_sink; /* "sink" */
     else if (IS_ALTAR(ltyp)) {
-        Sprintf(altbuf, "%s祭坛向%s（%s）",
-                (lev->altarmask & AM_SANCTUM) ? "高阶" : "",
-                a_gname(),
-                align_str(Amask2align(lev->altarmask & ~AM_SHRINE)));
+        Sprintf(altbuf, "%s(%s)的%s祭坛", /*修改语序:Sprintf(altbuf, "%s祭坛向%s(%s)",*/
+                a_gname(), /*修改语序:(lev->altarmask & AM_SANCTUM) ? "高阶" : "",*/
+                align_str(Amask2align(lev->altarmask & ~AM_SHRINE)), /*修改语序:a_gname(),*/
+                (lev->altarmask & AM_SANCTUM) ? "高阶" : ""); /*修改语序:align_str(Amask2align(lev->altarmask & ~AM_SHRINE)));*/
         dfeature = altbuf;
     } else if (stway) {
         dfeature = stairs_description(stway, altbuf, TRUE);
@@ -4089,7 +4089,7 @@ dfeature_at(coordxy x, coordxy y, char *buf)
     else if (ltyp == TREE)
         cmap = S_tree; /* "tree" */
     else if (ltyp == IRONBARS)
-        dfeature = "set of iron bars";
+        dfeature = "铁栅栏";
 
     if (cmap >= 0)
         dfeature = defsyms[cmap].explanation;
@@ -4179,7 +4179,7 @@ look_here(
 
     otmp = svl.level.objects[u.ux][u.uy];
     dfeature = dfeature_at(u.ux, u.uy, fbuf2);
-    if (dfeature && !strcmp(dfeature, "pool of water") && Underwater)
+    if (dfeature && !strcmp(dfeature, "水池") && Underwater)
         dfeature = 0;
 
     if (Blind) {
@@ -4226,6 +4226,14 @@ look_here(
         if (!strcmp(dfeature, "molten lava")
             || !strcmp(dfeature, "iron bars")
             || !strcmp(dfeature, "ice")
+            || !strcmp(dfeature, "水池")
+            || !strcmp(dfeature, "护城河")
+            || !strcmp(dfeature, "沼泽")
+            || !strcmp(dfeature, "浅海")
+            || !strcmp(dfeature, "池塘")
+            || !strcmp(dfeature, "无穷的水")
+            || !strcmp(dfeature, "水墙")
+            || !strcmp(dfeature, "冰")
             || !strncmp(dfeature, "frozen ", 7) /* ice while hallucinating */
             /* thawing ice ("solid ice", "thin ice", &c) */
             || ((p = strchr(dfeature, ' ')) != 0 && !strcmpi(p, " ice")))
@@ -4679,7 +4687,7 @@ int
 dopramulet(void)
 {
     if (!uamul) {
-        You("没有佩戴护身符。");
+        You("没有佩戴护身符.");
     } else {
         char lets[2];
 

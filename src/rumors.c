@@ -1,4 +1,4 @@
-/* NetHack 5.0	rumors.c	$NHDT-Date: 1594370241 2020/07/10 08:37:21 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.56 $ */
+/* NetHack 5.0  rumors.c    $NHDT-Date: 1594370241 2020/07/10 08:37:21 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.56 $ */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /*-Copyright (c) Robert Patrick Rankin, 2012. */
 /* NetHack may be freely redistributed.  See license for details. */
@@ -139,7 +139,7 @@ getrumor(
             if (gt.true_rumor_size == 0L) { /* if this is 1st outrumor() */
                 init_rumors(rumors);
                 if (gt.true_rumor_size < 0L) { /* init failed */
-                    Sprintf(rumor_buf, "读取\"%.80s\"时出错。", RUMORFILE);
+                    Sprintf(rumor_buf, "Error reading \"%.80s\".", RUMORFILE);
                     return rumor_buf;
                 }
             }
@@ -161,7 +161,7 @@ getrumor(
                 break;
             default:
                 impossible("strange truth value for rumor");
-                return strcpy(rumor_buf, "哎呀...");
+                return strcpy(rumor_buf, "Oops...");
             }
             Strcpy(rumor_buf,
                    get_rnd_line(rumors, line, (unsigned) sizeof line, rn2,
@@ -217,13 +217,13 @@ rumor_check(void)
          * reveal the values.
          */
         Sprintf(rumor_buf,
-               "T 起始=%06ld (%06lx), 结束=%06ld (%06lx), 大小=%06ld (%06lx)",
+               "T start=%06ld (%06lx), end=%06ld (%06lx), size=%06ld (%06lx)",
             (long) gt.true_rumor_start, gt.true_rumor_start,
             gt.true_rumor_end, (unsigned long) gt.true_rumor_end,
             gt.true_rumor_size,(unsigned long) gt.true_rumor_size);
         putstr(tmpwin, 0, rumor_buf);
         Sprintf(rumor_buf,
-               "假起始=%06ld (%06lx), 结束=%06ld (%06lx), 大小=%06ld (%06lx)",
+               "F start=%06ld (%06lx), end=%06ld (%06lx), size=%06ld (%06lx)",
             (long) gf.false_rumor_start, gf.false_rumor_start,
             gf.false_rumor_end, (unsigned long) gf.false_rumor_end,
             gf.false_rumor_size, (unsigned long) gf.false_rumor_size);
@@ -278,7 +278,7 @@ rumor_check(void)
        we didn't bother trying again this time */
     } else if (gt.true_rumor_size < 0L) {
  no_rumors: /* file could be opened but init_rumors() didn't like it */
-        pline("谣言不可访问.");
+        pline("rumors not accessible.");
         /* engravings, epitaphs, and bogus monsters will still be shown,
            and in tmpwin rather than via additional pline() calls */
         display_nhwindow(WIN_MESSAGE, TRUE); /* --more-- */
@@ -531,7 +531,7 @@ outrumor(
     int mechanism)
 {
     static const char fortune_msg[] =
-        "This cookie has a scrap of paper inside.";
+        "这块饼干里夹着一张小纸条.";
     const char *line;
     char buf[BUFSZ];
     boolean reading = (mechanism == BY_COOKIE || mechanism == BY_PAPER);
@@ -550,11 +550,11 @@ outrumor(
 
     line = getrumor(truth, buf, reading ? FALSE : TRUE);
     if (!*line)
-        line = "NetHack rumors file closed for renovation.";
+        line = "NetHack谣言文件已关闭,正在维护.";
     switch (mechanism) {
     case BY_ORACLE:
         /* Oracle delivers the rumor */
-        pline("不背其言, 神谕 %s说: ",
+        pline("不背其言,神谕者%s说:",
               (!rn2(4) ? "随口 "
                        : (!rn2(3) ? "随意 "
                                   : (rn2(2) ? "若无其事地 " : ""))));
@@ -567,7 +567,7 @@ outrumor(
         FALLTHROUGH;
     /* FALLTHRU */
     case BY_PAPER:
-        pline("上面写着：");
+        pline("上面写着:");
         break;
     }
     pline1(line);
@@ -671,10 +671,10 @@ outoracle(boolean special, boolean delphi)
         if (delphi)
             putstr(tmpwin, 0,
                    special
-                     ? "The Oracle scornfully takes all your gold and says:"
-                     : "The Oracle meditates for a moment and then intones:");
+                     ? "神谕者不屑地拿走了你所有的金子,说:"
+                     : "神谕沉思了片刻,随后沉声说道:");
         else
-            putstr(tmpwin, 0, "The message reads:");
+            putstr(tmpwin, 0, "信息内容如下:");
         putstr(tmpwin, 0, "");
 
         while (dlb_fgets(line, COLNO, oracles) && strcmp(line, "---\n")) {
@@ -704,17 +704,17 @@ doconsult(struct monst *oracl)
     umoney = money_cnt(gi.invent);
 
     if (!oracl) {
-        There("没有人来咨询.");
+        There("没有人让你咨询.");
         return ECMD_OK;
     } else if (!oracl->mpeaceful) {
-        pline("%s 没有心情让你咨询.", Monnam(oracl));
+        pline("%s没有心情让你咨询.", Monnam(oracl));
         return ECMD_OK;
     } else if (!umoney) {
-        You("没有金币。");
+        You("没有金币.");
         return ECMD_OK;
     }
 
-    Sprintf(qbuf, "\" 汝欲小咨询否?\" (%d %s)",
+    Sprintf(qbuf, "\"汝欲小卜乎?\"(%d%s)",
             minor_cost, currency((long) minor_cost));
     switch (ynq(qbuf)) {
     default:
@@ -722,7 +722,7 @@ doconsult(struct monst *oracl)
         return ECMD_OK;
     case 'y':
         if (umoney < (long) minor_cost) {
-            You("你甚至都没有足够的金币来支付这个！");
+            You("你没有足够的金币来支付这个!");
             return ECMD_OK;
         }
         u_pay = minor_cost;
@@ -731,7 +731,7 @@ doconsult(struct monst *oracl)
         if (umoney <= (long) minor_cost /* don't even ask */
             || (svo.oracle_cnt == 1 || go.oracle_flg < 0))
             return ECMD_OK;
-        Sprintf(qbuf, "\" 则汝欲大咨询耶?\" (%d %s)",
+        Sprintf(qbuf, "\"然,汝欲大卜邪?\"(%d%s)",
                 major_cost, currency((long) major_cost));
         if (y_n(qbuf) != 'y')
             return ECMD_OK;

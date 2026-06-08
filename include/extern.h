@@ -145,8 +145,10 @@ extern void init_artifacts(void);
 extern void save_artifacts(NHFILE *);
 extern void restore_artifacts(NHFILE *);
 extern const char *artiname(int);
+extern const char *artiename(int);
 extern struct obj *mk_artifact(struct obj *, aligntyp, uchar, boolean);
 extern const char *artifact_name(const char *, short *, boolean) NONNULLARG1;
+extern const char *artifact_ename(const char *, short *, boolean) NONNULLARG1;
 extern boolean exist_artifact(int, const char *) NONNULLPTRS;
 extern void artifact_exists(struct obj *, const char *, boolean, unsigned) ;
 extern void found_artifact(int);
@@ -2233,7 +2235,9 @@ extern char *short_oname(struct obj *, char *(*)(struct obj *),
 extern const char *singular(struct obj *, char *(*)(struct obj *)) NONNULLPTRS;
 extern char *just_an(char *, const char *) NONNULL NONNULLARG12;
 /* an(), the() contain tests for NULL arg, preventing NONNULLARG1 */
+extern char *just_one(char *, const char *) NONNULL NONNULLARG12;
 extern char *an(const char *) NONNULL NO_NNARGS;
+extern char *one(const char *) NONNULL NO_NNARGS;
 extern char *An(const char *) NONNULL NO_NNARGS;
 extern char *The(const char *) NONNULL NO_NNARGS;
 extern char *the(const char *) NONNULL NO_NNARGS;

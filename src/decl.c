@@ -37,18 +37,18 @@ const char *c_obj_colors[] = {
 };
 
 const struct c_common_strings c_common_strings =
-    { "Nothing happens.",
-      "Nothing seems to happen.",
-      "That's enough tries!",
-      "That is a silly thing to %s.",
-      "shudder for a moment.",
-      "something",
-      "Something",
-      "You can move again.",
-      "Never mind.",
-      "vision quickly clears.",
-      { "the", "your" },
-      { "mon", "you" }
+    { "无事发生.",
+      "看上去无事发生.",
+      "你已经试了够多次了!",
+      "%s这个挺蠢的.",
+      "突然打了个哆嗦.",
+      "有什么",
+      "有什么",
+      "你现在可以移动了.",
+      "算了.",
+      "视线瞬间又清晰了.",
+      { "", "你的" },
+      { "怪物", "你" }
 };
 
 const char disclosure_options[] = "iavgco";

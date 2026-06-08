@@ -565,45 +565,45 @@ waterbody_name(coordxy x, coordxy y)
     boolean hallucinate = Hallucination && !program_state.gameover;
 
     if (!isok(x, y))
-        return "drink"; /* should never happen */
+        return "饮料"; /* should never happen */
     ltyp = SURFACE_AT(x, y);
 
     if (ltyp == LAVAPOOL) {
-        Snprintf(pooltype, sizeof pooltype, "molten %s", hliquid("lava"));
+        Snprintf(pooltype, sizeof pooltype, "%s", hliquid("熔岩"));
         return pooltype;
     } else if (ltyp == ICE) {
         if (!hallucinate)
-            return "ice";
-        Snprintf(pooltype, sizeof pooltype, "frozen %s", hliquid("water"));
+            return "冰";
+        Snprintf(pooltype, sizeof pooltype, "冰%s", hliquid("水"));
         return pooltype;
     } else if (ltyp == POOL) {
-        Snprintf(pooltype, sizeof pooltype, "pool of %s", hliquid("water"));
+        Snprintf(pooltype, sizeof pooltype, "%s池", hliquid("水"));
         return pooltype;
     } else if (ltyp == MOAT) {
         /* a bit of extra flavor over general moat */
         if (hallucinate) {
-            Snprintf(pooltype, sizeof pooltype, "deep %s", hliquid("water"));
+            Snprintf(pooltype, sizeof pooltype, "深%s", hliquid("水"));
             return pooltype;
         } else if (Is_medusa_level(&u.uz)) {
             /* somewhat iffy since ordinary stairs can take you beneath,
                but previous generic "water" was rather anti-climactic */
-            return "shallow sea";
+            return "浅海";
         } else if (Is_juiblex_level(&u.uz)) {
-            return "swamp";
+            return "沼泽";
         } else if (Role_if(PM_SAMURAI) && Is_qstart(&u.uz)) {
             /* samurai quest home level has two isolated moat spots;
                they sound silly if farlook describes them as such */
-            return "pond";
+            return "池塘";
         } else {
-            return "moat";
+            return "护城河";
         }
     } else if (IS_WATERWALL(ltyp)) {
         if (Is_waterlevel(&u.uz))
-            return "limitless water"; /* even if hallucinating */
-        Snprintf(pooltype, sizeof pooltype, "wall of %s", hliquid("water"));
+            return "无穷的水"; /* even if hallucinating */
+        Snprintf(pooltype, sizeof pooltype, "%s墙", hliquid("水"));
         return pooltype;
     } else if (ltyp == LAVAWALL) {
-        Snprintf(pooltype, sizeof pooltype, "wall of %s", hliquid("lava"));
+        Snprintf(pooltype, sizeof pooltype, "%s墙", hliquid("熔岩"));
         return pooltype;
     }
     /* default; should be unreachable */
@@ -1152,10 +1152,10 @@ add_cmap_descr(
         if (!strcmp(x_str, "water")) {
             /* duplicate some transformations performed by waterbody_name() */
             if (idx == S_pool)
-                x_str = "pool of water";
+                x_str = "水池";
             else if (idx == S_water)
-                x_str = !Is_waterlevel(&u.uz) ? "wall of water"
-                                              : "limitless water";
+                x_str = !Is_waterlevel(&u.uz) ? "水墙" : "无穷的水";
+            article = 0;
         }
         if (absidx == S_pool)
             idx = S_pool;
@@ -1187,26 +1187,20 @@ add_cmap_descr(
         EHalluc_resistance = save_prop;
         levl[cc.x][cc.y].typ = save_ltyp;
 
-        /* shorten the feedback for farlook/quicklook: "pool or ..." */
-        if (!strcmp(mbuf, "pool of water"))
-            mbuf[4] = '\0';
-        else if (!strcmp(mbuf, "molten lava"))
-            Strcpy(mbuf, "熔岩");
         x_str = mbuf;
         /* avoid "an ice" and so forth; "a pool", "a moat", and
            "a wall of ..." are grammatically correct but make
            "a pool or a moat or a wall of water" become too verbose */
-        article = !(!strncmp(x_str, "water", 5)
-                    || !strncmp(x_str, "ice", 3)
-                    || !strncmp(x_str, "pool", 4)
-                    || !strncmp(x_str, "moat", 4)
-                    || !strncmp(x_str, "lava", 4)
-                    || !strncmp(x_str, "swamp", 5)
-                    || !strncmp(x_str, "molten", 6)
-                    || !strncmp(x_str, "shallow", 7)
-                    || !strncmp(x_str, "limitless", 9)
-                    || !strncmp(x_str, "wall of lava", 12)
-                    || !strncmp(x_str, "wall of water", 13)
+        article = !(!strcmp(x_str, "水池")
+                    || !strcmp(x_str, "护城河")
+                    || !strcmp(x_str, "熔岩")
+                    || !strcmp(x_str, "沼泽")
+                    || !strcmp(x_str, "浅海")
+                    || !strcmp(x_str, "池塘")
+                    || !strcmp(x_str, "无穷的水")
+                    || !strcmp(x_str, "水墙")
+                    || !strcmp(x_str, "熔岩墙")
+                    || !strcmp(x_str, "冰")
                     /* ice while hallucinating */
                     || !strncmp(x_str, "frozen", 6)
                     /* thawing ice ("solid ice", "thin ice", &c) */
@@ -1487,12 +1481,12 @@ do_screen_description(
                                    cc, x_str, prefix,
                                    &hit_trap, firstmatch, out_str);
             if (alt_i == S_pool) {
-                /* "pool of water" and "moat" use the same symbol and glyph
+                /* "水池" and "护城河" use the same symbol and glyph
                    but have different descriptions; when handling pool, add
                    it a second time for moat but pass an alternate symbol;
                    skip incrementing 'found' to avoid "can be many things" */
-                (void) add_cmap_descr(found, -S_pool, glyph, 1,
-                                      cc, "moat", prefix,
+                (void) add_cmap_descr(found, -S_pool, glyph, 0,
+                                      cc, "护城河", prefix,
                                       &hit_trap, firstmatch, out_str);
                 need_to_look = TRUE;
             }
@@ -1610,7 +1604,7 @@ do_screen_description(
             if (*(*firstmatch)) {
                 Sprintf(temp_buf, " (%s", *firstmatch);
                 (void) add_quoted_engraving(cc.x, cc.y, temp_buf, FALSE);
-                Strcat(temp_buf, " (左");
+                Strcat(temp_buf, ")");
                 (void) strncat(out_str, temp_buf,
                                BUFSZ - strlen(out_str) - 1);
                 found = 1; /* we have something to look up */

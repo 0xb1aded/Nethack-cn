@@ -3918,8 +3918,8 @@ do_break_wand(struct obj *obj)
     boolean shop_damage = FALSE;
     boolean fillmsg = FALSE;
     char confirm[QBUFSZ], buf[BUFSZ];
-    boolean is_fragile = (objdescr_is(obj, "巴沙木")
-                          || objdescr_is(obj, "玻璃"));
+    boolean is_fragile = (objdescr_is(obj, "balsa")
+                          || objdescr_is(obj, "glass"));
 
     if (nohands(gy.youmonst.data)) {
         You_cant("没有手就折断%s!", yname(obj));

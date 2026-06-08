@@ -4,20 +4,6 @@
 
 English README：[README_en.md](README_en.md)
 
-### 简中译名标准
-
-[物品简中译名标准（objects.h）](doc/objects_translation_standard_zh_cn.md)
-
-[怪物简中译名标准（monsters.h）](doc/monsters_translation_standard_zh_cn.md)
-
-**当前译名标准仍需要更多玩家参与讨论和校对，欢迎在以下讨论中提出意见：**
-
-[讨论物品简中译名](https://github.com/StackC00ki3/Nethack-cn/discussions/3)
-
-[讨论怪物简中译名](https://github.com/StackC00ki3/Nethack-cn/discussions/4)
-
-
-
 ### 快速开始
 无需本地编译，可直接在[本项目 Release 页面](http://github.com/stackC00ki3/nethack-cn/releases)下载自动构建的汉化预览版
 
@@ -30,12 +16,44 @@ English README：[README_en.md](README_en.md)
 - [x] 使用 deepseek-v4-flash 完成初步 AI 翻译
 - [x] 怪物翻译
 - [x] 物品翻译
-- [x] 跨平台前端：**[直接启动浏览器版](https://stackc00ki3.github.io/nethack-3d/)** 仓库：[nethack-3d](https://github.com/StackC00ki3/nethack-3d)     
-- [x] 安卓版：**[点我下载apk](https://github.com/StackC00ki3/ANetHack-cn/releases)** 仓库：[Anethack-cn](https://github.com/StackC00ki3/ANetHack-cn)
 - [ ] 许愿机制
 - [ ] 灭绝机制
 
+### 翻译标准化
+
+[物品简中译名标准（objects.h）](doc/objects_translation_standard_zh_cn.md)
+
+[怪物简中译名标准（monsters.h）](doc/monsters_translation_standard_zh_cn.md)
+
+[通用简中翻译标准（谓词、体词、死因、声音、技能等）](doc/common_translation_standard_zh_cn.md)
+
+**当前译名标准仍需要更多玩家参与讨论和校对，欢迎在以下讨论中提出意见：**
+
+[讨论物品简中译名](https://github.com/StackC00ki3/Nethack-cn/discussions/3)
+
+[讨论怪物简中译名](https://github.com/StackC00ki3/Nethack-cn/discussions/4)
+
+[讨论通用译名](https://github.com/StackC00ki3/Nethack-cn/discussions/7)
+
+#### 代码规范
+
+翻译时请去除所有英文单词间的空格，仅在遇到数字时用空格分割，例如：“这里有 %ld 金币。”
+
+翻译时标点符号请使用半角符号即英文标点符号
+
+在遇到逗号时请在逗号后加一个空格
+
+如果要修改语序（变量在字符串中出现的顺序），请在行最后添加注释：/*修改语序:(修改前的代码)*/
+
+如果要用到不存在的（待补充的）函数，请把修改后的代码写到行最后的注释里：/*待写:(修改后的代码)*/
+
+如果有冗余的代码，请在注释掉的代码前标注上“冗余：”：/*冗余:(冗余的代码)*/
+
+如果对修改后的代码没有把握，请在行最后添加注释：/*危险:(修改前的代码)*/
+
 #### 人工审校
+##### 源代码
+
 - [x] allmain.c
 - [x] alloc.c
 - [x] apply.c
@@ -121,42 +139,42 @@ English README：[README_en.md](README_en.md)
 - [ ] quest.c
 - [ ] questpgr.c
 - [ ] read.c
-- [ ] rect.c
+- [x] rect.c (无需翻译)
 - [ ] region.c
 - [ ] report.c
 - [ ] restore.c
 - [ ] rip.c
-- [ ] rnd.c
+- [x] rnd.c (无需翻译)
 - [ ] role.c
 - [ ] rumors.c
 - [ ] save.c
-- [ ] selvar.c
-- [ ] sfbase.c
-- [ ] sfstruct.c
+- [x] selvar.c (无需翻译)
+- [x] sfbase.c (无需翻译)
+- [x] sfstruct.c (无需翻译)
 - [ ] shk.c
 - [ ] shknam.c
 - [ ] sit.c
 - [ ] sounds.c
 - [ ] spell.c
-- [ ] sp_lev.c
+- [x] sp_lev.c (无需翻译)
 - [ ] stairs.c
 - [ ] steal.c
 - [ ] steed.c
 - [ ] strutil.c
-- [ ] symbols.c
-- [ ] sys.c
+- [x] symbols.c (无需翻译)
+- [x] sys.c (无需翻译)
 - [ ] teleport.c
 - [ ] tile.c
 - [ ] timeout.c
 - [ ] topten.c
-- [ ] track.c
+- [x] track.c (无需翻译)
 - [ ] trap.c
 - [ ] uhitm.c
-- [ ] utf8map.c
-- [ ] u_init.c
+- [x] utf8map.c (无需翻译)
+- [x] u_init.c (无需翻译)
 - [ ] vault.c
-- [ ] version.c
-- [ ] vision.c
+- [x] version.c (无需翻译)
+- [x] vision.c (无需翻译)
 - [ ] weapon.c
 - [ ] were.c
 - [ ] wield.c
@@ -167,6 +185,18 @@ English README：[README_en.md](README_en.md)
 - [ ] worn.c
 - [ ] write.c
 - [ ] zap.c
+
+##### 文本文件(主要的几个，还有好多)
+
+- [ ] bogusmon.txt
+- [ ] dungeon.lua
+- [ ] engrave.txt
+- [ ] epitaph.txt
+- [ ] oracles.txt
+- [ ] rumors.fal
+- [ ] rumors.tru
+- [ ] tribute
+- [ ] quest.lua
 
 ### 技术细节
 
@@ -200,7 +230,7 @@ English README：[README_en.md](README_en.md)
 
 **处理方案**: 统一返回空字符串，不区分单复数形式。
 
-##### makeplural(const char *oldstr)
+##### makeplural(const char \*oldstr)
 
 位置: [objnam.c](src/objnam.c)
 
@@ -208,7 +238,7 @@ English README：[README_en.md](README_en.md)
 
 **处理方案**: 将加后缀 s 的位置全部改成加空字符串
 
-##### an(const char *str) / An / just_an
+##### an(const char \*str) / An / just_an
 
 位置: [objnam.c](src/objnam.c)
 
@@ -216,7 +246,7 @@ English README：[README_en.md](README_en.md)
 
 **处理方案**: `just_an()` 返回 `"一个"`
 
-##### s_suffix(const char *s)
+##### s_suffix(const char \*s)
 
 位置: [hacklib.c](src/hacklib.c)
 
@@ -224,10 +254,48 @@ English README：[README_en.md](README_en.md)
 
 **处理方案**: 直接返回 `s`
 
-##### vtense(const char *subj, const char *verb)
+##### vtense(const char \*subj, const char \*verb)
 
 位置: [objnam.c](src/objnam.c)
 
 功能: 返回在现在时第三人称下动词 `verb` 的正确形式
 
 **处理方案**: 将加后缀 s 的位置改成加空字符串
+
+##### uhe(), uhim(), uhis()
+
+位置: [you.h](include/you.h)
+
+功能: 返回人称代词的主格、宾格、形容词性物主代词（男："he"、"him"、"his"；女："she"、"her"、"her"；）
+
+##### ordin(int n)
+
+位置: [hacklib.c](src/hacklib.c)
+
+功能: 返回数字 n 对应的序数词后缀（1→st，2→nd，3→rd……）
+
+**处理方案**: 返回一个空字符串""
+
+##### arti_light_description(wep)
+
+位置: [light.c](src/light.c)
+
+功能: 返回“radiantly”/“brilliantly”/“brightly”/“dimly”/“strangely”
+
+**处理方案**: 只返回一个不带“的”的实词，使用时请在后面加上“的光芒”。
+
+##### objdescr_is(struct obj \*obj, const char \*descr) 
+
+位置: [o_init.c](src\o_init.c)
+
+功能: 对比某物品的描述（(obj_descr[(obj).oc_descr_idx].oc_descr)）与descr是否相等
+
+**处理方案**: 改为对比其edescr，调用时请保留英文。
+
+##### getobj(const char \*word, int (\*obj_ok)(OBJ_P), unsigned int ctrlflags)
+
+位置: [invent.c](src/invent.c)
+
+功能: 寻找适合obj_ok行为的所有物品供玩家选择（若没有则默认展示所有物品）。
+
+**处理方案**: 这个\*word对字符串不敏感。它会问你："你想要"+传入的\*word+"?"（汉语的这个地方填的词可能是离合的，如：“写在什么上”）。

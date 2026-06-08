@@ -2166,7 +2166,7 @@ domove_swap_with_pet(
         newsym(x, y);
         newsym(u.ux0, u.uy0);
 
-        You("%s %s。", mtmp->mpeaceful ? "交换位置" : "惊吓",
+        You(mtmp->mpeaceful ? "与%s交换位置." : "吓到了%s.", /*修改语序:You("%s %s。", mtmp->mpeaceful ? "交换位置" : "惊吓",*/
             x_monnam(mtmp,
                      mtmp->mtame ? ARTICLE_YOUR
                      : (!has_mgivenname(mtmp)

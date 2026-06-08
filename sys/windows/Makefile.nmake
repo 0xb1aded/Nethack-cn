@@ -183,6 +183,7 @@ R_WSHR      = ..\win\share   # Tile support files
 R_QT        = ..\win\Qt      # QT support files
 R_X11       = ..\win\X11     # X11 support files
 R_LIBDIR    = ..\lib         # libraries and external bits
+R_LIBPATCH  = ..\lib-patch   # local patches for bundled libraries
 R_SUBM      = ..\submodules  # NetHack git submodules
 R_SndWavDir = ..\sound\wav # sound files that get integrated
 R_BinDir    = ..\binary
@@ -209,6 +210,7 @@ WSHR      = $(R_WSHR)$(BACKSLASH)
 QT        = $(R_QT)$(BACKSLASH)
 X11       = $(R_X11)$(BACKSLASH)
 LIBDIR    = $(R_LIBDIR)$(BACKSLASH)
+LIBPATCH  = $(R_LIBPATCH)$(BACKSLASH)
 SUBM      = $(R_SUBM)$(BACKSLASH)
 DOC       = $(R_DOC)$(BACKSLASH)
 SndWavDir = $(R_SndWavDir)$(BACKSLASH)
@@ -601,6 +603,7 @@ PDCTXTFOLDER            = wincon
 PDCURSES_CURSES_H	= $(PDCURSES_TOP)curses.h
 PDCURSES_CURSPRIV_H	= $(PDCURSES_TOP)curspriv.h
 PDCURSES_HEADERS	= $(PDCURSES_CURSES_H) $(PDCURSES_CURSPRIV_H)
+PDCURSES_REFRESH_PATCH = $(LIBPATCH)pdcursesmod-refresh.c
 R_PDCSRC                = $(PDCURSES_TOP)pdcurses
 PDCSRC                  = $(R_PDCSRC)$(BACKSLASH)
 !IF "$(CURSES_CONSOLE)" == "Y"
@@ -799,7 +802,7 @@ WINDHDR = $(MSWSYS)win10.h $(MSWSYS)winos.h $(MSWSYS)win32api.h
 #
 
 !IF "$(ADD_CURSES)" == "Y"
-PDCURSESFLAGS = -DPDC_WIDE -DPDC_RGB
+PDCURSESFLAGS = -DPDC_WIDE -DPDC_RGB -DPDC_FORCE_UTF8
 CURSESOBJ= $(OTTY)cursdial.o $(OTTY)cursinit.o $(OTTY)cursinvt.o \
 	$(OTTY)cursmain.o $(OTTY)cursmesg.o $(OTTY)cursmisc.o \
 	$(OTTY)cursstat.o $(OTTY)curswins.o
@@ -813,7 +816,7 @@ CURSESDEF2=-DCURSES_UNICODE $(PDCURSESFLAGS)
 !IF "$(CURSES_GRAPHICAL)" == "Y"
 CURSESWINGUIOBJS = $(CURSESOBJ) $(OGUI)guitty.o
 PDCGUILIB = $(LIBDIR)$(R_PDCDIST)-wingui-$(TARGET_CPU)-static.lib
-CURSESGUIDEF1=-D"CURSES_GRAPHICS" -DPDC_NCMOUSE
+CURSESGUIDEF1=-D"CURSES_GRAPHICS" -DPDC_NCMOUSE -DPDC_RGB
 #CURSESDEF2=-D"CURSES_BRIEF_INCLUDE" -DCHTYPE_32
 CURSESDEF2=-DCURSES_UNICODE $(PDCURSESFLAGS)
 !ENDIF
@@ -839,7 +842,7 @@ OGUIHACKLIB = $(OGUI)hacklib-$(TARGET_CPU)-static.lib
 # - TTY
 #
 
-TTYDEF=  -D"_CONSOLE" -DWIN32CON $(CURSESCONDEF1) $(CURSESGUIDEF1)
+TTYDEF=  -D"_CONSOLE" -DWIN32CON $(CURSESCONDEF1) $(CURSESGUIDEF1) $(CURSESDEF2)
 
 #RANDOMTTY = $(OTTY)random.o
 MDLIBTTY  = $(OTTY)mdlib.o
@@ -1317,6 +1320,8 @@ ctmpflags = $(ctmpflags) -w45262 -w45264 -w45266 -w44431 -w44777 -wd4820 /std:cl
 !ENDIF
 !ENDIF
 
+ctmpflags = $(ctmpflags) /utf-8
+
 #More verbose warning output options below
 #ctmpflags = $(ctmpflags:-W4=-wd4131
 #ctmpflags = $(ctmpflags:-W4=-Wall)
@@ -1525,6 +1530,10 @@ DLB =
 !IF "$(ADD_CURSES)" == "Y"
 {$(R_PDCURSES_TOP)}.c{$(R_OBJPDC)}.o:
 	$(Q)$(CC) /wd4244 $(PDCINCL) $(CFLAGS) $(CURSESDEF2) /wd5262 $(CROSSCOMPILE) $(CROSSCOMPILE_TARGET) -Fo$@ $<
+
+$(OPDC)refresh.o: $(PDCSRC)refresh.c $(PDCURSES_REFRESH_PATCH)
+	@copy /Y "$(PDCURSES_REFRESH_PATCH)" "$(PDCSRC)refresh.c"
+	$(Q)$(CC) /wd4244 /wd4267 /wd4774 $(PDCINCL) $(CFLAGS:-w44774= ) $(CURSESDEF2) /wd5262 $(CROSSCOMPILE) $(CROSSCOMPILE_TARGET) -Fo$@ $(PDCSRC)refresh.c
 
 {$(R_PDCSRC)}.c{$(R_OBJPDC)}.o:
 	$(Q)$(CC) /wd4244 /wd4267 /wd4774 $(PDCINCL) $(CFLAGS:-w44774= ) $(CURSESDEF2) /wd5262 $(CROSSCOMPILE) $(CROSSCOMPILE_TARGET) -Fo$@ $<
@@ -2785,11 +2794,11 @@ $(SndWavDir)sa2_xplevelup.wav: $(SndWavDir)sa2_xplevelup.uu $(U)uudecode.exe
 #===============================================================================
 
 PKGFILES = nethackrc.template Guidebook.txt license NetHack.exe NetHack.txt \
-	 NetHackW.exe opthelp nhdat370 record symbols \
+	 NetHackW.exe opthelp nhdat500 record symbols \
 	 sysconf.template $(SFCTOOLBASENAM)
 FILESTOZIP = $(BinDir)nethackrc.template $(BinDir)Guidebook.txt $(BinDir)license \
 	$(BinDir)NetHack.exe $(BinDir)NetHack.txt $(BinDir)NetHackW.exe \
-	$(BinDir)opthelp $(BinDir)nhdat370 $(BinDir)record \
+	$(BinDir)opthelp $(BinDir)nhdat500 $(BinDir)record \
 	$(BinDir)symbols $(BinDir)sysconf.template $(SFCTOOLPKG)
 
 DBGSYMS = NetHack.PDB NetHackW.PDB $(SFCTOOLPDBNAM)

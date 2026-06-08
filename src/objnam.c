@@ -831,41 +831,46 @@ xname_flags(
         break;
     case POTION_CLASS:
         if (dknown && obj->odiluted)
-            Strcpy(buf, "稀释的 ");
+            Strcpy(buf, "稀释的");
         if (nn || un || !dknown) {
-            Strcat(buf, "药水");
-            if (!dknown)
+            if (!dknown) {
+                Strcpy(buf, "药水");
                 break;
+            }
             if (nn) {
-                Strcat(buf, "之");
-                if (typ == POT_WATER && bknown
-                    && (obj->blessed || obj->cursed)) {
+                if (typ == POT_WATER && bknown && (obj->blessed || obj->cursed)) {
                     Strcat(buf, obj->blessed ? "圣" : "邪");
+                    /*Strcat(buf, "之");*/
                 }
                 Strcat(buf, actualn);
+                Strcat(buf, "药水");
             } else {
                 xcalled(buf, BUFSZ - PREFIX, "", un);
+                Strcat(buf, "药水");
             }
         } else {
             Strcat(buf, dn);
-            Strcat(buf, " 药水");
+            Strcat(buf, "药水");
         }
         break;
     case SCROLL_CLASS:
-        Strcpy(buf, "卷轴");
-        if (!dknown)
+        if (!dknown){
+            Strcpy(buf, "卷轴");
             break;
+        }
         if (nn) {
-            Strcat(buf, "之");
             Strcat(buf, actualn);
+            /*Strcat(buf, "之");*/
+            Strcat(buf, "卷轴");
         } else if (un) {
             xcalled(buf, BUFSZ - PREFIX, "", un);
         } else if (ocl->oc_magic) {
-            Strcat(buf, "卷轴");
+            Strcpy(buf, "写着");
             Strcat(buf, dn);
+            Strcat(buf, "的卷轴");
         } else {
             Strcpy(buf, dn);
-            Strcat(buf, " 卷轴");
+            Strcat(buf, "卷轴");
         }
         break;
     case WAND_CLASS:
@@ -874,7 +879,7 @@ xname_flags(
         else if (nn)
             Sprintf(buf, "%s魔杖", actualn);
         else if (un)
-            xcalled(buf, BUFSZ - PREFIX, "wand", un);
+            xcalled(buf, BUFSZ - PREFIX, "魔杖", un);
         else
             Sprintf(buf, "%s魔杖", dn);
         break;
@@ -885,21 +890,22 @@ xname_flags(
             else if (nn)
                 Strcpy(buf, actualn);
             else if (un)
-                xcalled(buf, BUFSZ - PREFIX, "novel", un);
+                xcalled(buf, BUFSZ - PREFIX, "小说", un);
             else
                 Sprintf(buf, "%s书", dn);
             break;
             /* end of tribute */
         } else if (!dknown) {
-            Strcpy(buf, "法术书");
+            Strcpy(buf, "魔法书");
         } else if (nn) {
             if (typ != SPE_BOOK_OF_THE_DEAD)
-                Strcpy(buf, "法术书：");
-            Strcat(buf, actualn);
+                Sprintf(buf, "%s魔法书", actualn);
+            else
+                Strcat(buf, actualn);
         } else if (un) {
-            xcalled(buf, BUFSZ - PREFIX, "spellbook", un);
+            xcalled(buf, BUFSZ - PREFIX, "魔法书", un);
         } else
-            Sprintf(buf, "%s法术书", dn);
+            Sprintf(buf, "%s魔法书", dn);
         break;
     case RING_CLASS:
         if (!dknown)
@@ -907,12 +913,12 @@ xname_flags(
         else if (nn)
             Sprintf(buf, "%s戒指", actualn);
         else if (un)
-            xcalled(buf, BUFSZ - PREFIX, "ring", un);
+            xcalled(buf, BUFSZ - PREFIX, "戒指", un);
         else
             Sprintf(buf, "%s戒指", dn);
         break;
     case GEM_CLASS: {
-        const char *rock = (ocl->oc_material == MINERAL) ? "stone" : "gem";
+        const char *rock = (ocl->oc_material == MINERAL) ? "石头" : "宝石";
 
         if (!dknown) {
             Strcpy(buf, rock);
@@ -920,11 +926,11 @@ xname_flags(
             if (un)
                 xcalled(buf, BUFSZ - PREFIX, rock, un);
             else
-                Sprintf(buf, "%s %s", dn, rock);
+                Sprintf(buf, "%s%s", dn, rock);
         } else {
             Strcpy(buf, actualn);
             if (GemStone(typ))
-                Strcat(buf, " 石");
+                Strcat(buf, "石头");
         }
         break;
     } /* gem */
@@ -3604,7 +3610,7 @@ wizterrainwish(struct _readobjnam_data *d)
             EHalluc_resistance = 1;
             new_water = waterbody_name(x, y);
             EHalluc_resistance = save_prop;
-            pline("%s。", An(new_water));
+            pline("%s.", An(new_water));
             /* Must manually make kelp! */
         } else {
             dbterrainmesg("Moat", x, y);
@@ -3626,7 +3632,7 @@ wizterrainwish(struct _readobjnam_data *d)
         }
         del_engr_at(x, y);
         if (!is_dbridge) {
-            pline("一%s熔岩。",
+            pline("一%s熔岩.",
                   (lev->typ == LAVAPOOL) ? "池" : "墙");
             if (!(Levitation || Flying) || lev->typ == LAVAWALL)
                 pooleffects(FALSE);
@@ -3653,7 +3659,7 @@ wizterrainwish(struct _readobjnam_data *d)
         if (!is_dbridge) {
             char icebuf[40];
 
-            pline("%s。", upstart(ice_descr(x, y, icebuf)));
+            pline("%s.", upstart(ice_descr(x, y, icebuf)));
         } else {
             dbterrainmesg("Ice", x, y);
         }
@@ -3681,10 +3687,10 @@ wizterrainwish(struct _readobjnam_data *d)
         if (IS_GRAVE(lev->typ)) {
             lev->looted = 0; /* overlays 'flags' */
             lev->disturbed = d->looted ? 1 : 0;
-            pline("一座%s墓地。", lev->disturbed ? "被扰动的 " : "");
+            pline("一座%s墓地.", lev->disturbed ? "被扰动的 " : "");
             madeterrain = TRUE;
         } else {
-            pline("无法在此处放置坟墓。");
+            pline("无法在此处放置坟墓.");
             badterrain = TRUE;
         }
     } else if (!BSTRCMPI(bp, p - 4, "tree")) {
@@ -3706,7 +3712,7 @@ wizterrainwish(struct _readobjnam_data *d)
     } else if (!BSTRCMPI(bp, p - 5, "cloud")) {
         lev->typ = CLOUD;
         lev->flags = 0;
-        pline("一朵云。");
+        pline("一朵云.");
         del_engr_at(x, y);
         madeterrain = TRUE;
     } else if (!BSTRCMPI(bp, p - 4, "door")
@@ -3788,7 +3794,7 @@ wizterrainwish(struct _readobjnam_data *d)
             madeterrain = TRUE;
         } else {
             Strcpy(dbuf, secret ? "秘密门" : "门");
-            pline("%s 需要门或墙的位置。", upstart(dbuf));
+            pline("%s 需要门或墙的位置.", upstart(dbuf));
             badterrain = TRUE;
         }
     } else if (!BSTRCMPI(bp, p - 4, "wall")
@@ -3804,7 +3810,7 @@ wizterrainwish(struct _readobjnam_data *d)
         set_wallprop_from_str(bp);
         fix_wall_spines(max(0,u.ux-1), max(0,u.uy-1),
                         min(COLNO,u.ux+1), min(ROWNO,u.uy+1));
-        pline("一堵墙。");
+        pline("一堵墙.");
     } else if (!BSTRCMPI(bp, p - 15, "secret corridor")) {
         if (lev->typ == CORR) {
             lev->typ = SCORR;
@@ -3812,7 +3818,7 @@ wizterrainwish(struct _readobjnam_data *d)
             pline("秘密走廊.");
             madeterrain = TRUE;
         } else {
-            pline("秘密走廊需要走廊位置。");
+            pline("秘密走廊需要走廊位置.");
             badterrain = TRUE;
         }
     } else if (!BSTRCMPI(bp, p - 4, "room")
@@ -3824,7 +3830,7 @@ wizterrainwish(struct _readobjnam_data *d)
             struct trap *t;
 
             lev->typ = ROOM;
-            pline("房间地板。");
+            pline("房间地板.");
             if (IS_FURNITURE(oldtyp))
                 count_level_features();
             if ((t = t_at(x, y)) != 0 && t->ttyp != MAGIC_PORTAL)
@@ -3836,7 +3842,7 @@ wizterrainwish(struct _readobjnam_data *d)
             dbterrainmesg("Floor", x, y);
             madeterrain = TRUE;
         } else {
-            pline("此处不允许房间、地板或地面。");
+            pline("此处不允许房间、地板或地面.");
             badterrain = TRUE;
         }
     }

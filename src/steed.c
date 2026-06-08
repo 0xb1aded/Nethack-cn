@@ -16,7 +16,7 @@ staticfn void maybewakesteed(struct monst *);
 void
 rider_cant_reach(void)
 {
-    You("还不够熟练从%s上够到.", y_monnam(u.usteed));
+    You("还不够熟练,无法从%s上够到.", y_monnam(u.usteed));
 }
 
 /*** Putting the saddle on ***/
@@ -48,44 +48,44 @@ use_saddle(struct obj *otmp)
         return ECMD_CANCEL;
     }
     if (!u.dx && !u.dy) {
-        pline("给你自己装鞍?  非常滑稽...");
+        pline("要骑上你自己吗?有意思...");
         return ECMD_OK;
     }
     if (!isok(u.ux + u.dx, u.uy + u.dy)
         || !(mtmp = m_at(u.ux + u.dx, u.uy + u.dy)) || !canspotmon(mtmp)) {
-        pline("我看不到那里有人。");
+        pline("那里没有东西可以骑.");
         return ECMD_TIME;
     }
 
     /* Is this a valid monster? */
     if ((mtmp->misc_worn_check & W_SADDLE) != 0L
         || which_armor(mtmp, W_SADDLE)) {
-        pline("%s 不需要又一个.", Monnam(mtmp));
+        pline("%s已经有一个了.", Monnam(mtmp));
         return ECMD_TIME;
     }
     ptr = mtmp->data;
     if (touch_petrifies(ptr) && !uarmg && !Stone_resistance) {
         char kbuf[BUFSZ];
 
-        You("触摸 %s.", mon_nam(mtmp));
+        You("碰到了%s.", mon_nam(mtmp));
         if (!(poly_when_stoned(gy.youmonst.data) && polymon(PM_STONE_GOLEM))) {
-            Sprintf(kbuf, "试图给 %s 装上鞍",
+            Sprintf(kbuf, "试图给%s装上鞍",
                     an(pmname(mtmp->data, Mgender(mtmp))));
             instapetrify(kbuf);
         }
     }
     if (ptr == &mons[PM_AMOROUS_DEMON]) {
-        pline("你真不要脸!");
+        pline("真不要脸!");
         exercise(A_WIS, FALSE);
         return ECMD_TIME;
     }
     if (mtmp->isminion || mtmp->isshk || mtmp->ispriest || mtmp->isgd
         || mtmp->iswiz) {
-        pline("我想%s会介意的。", mon_nam(mtmp));
+        pline("我想%s会介意的.", mon_nam(mtmp));
         return ECMD_TIME;
     }
     if (!can_saddle(mtmp)) {
-        You_cant("给这种生物装鞍.");
+        You_cant("给这种生物装上鞍.");
         return ECMD_TIME;
     }
 
@@ -127,14 +127,14 @@ use_saddle(struct obj *otmp)
 
     /* Make the attempt */
     if (rn2(100) < chance) {
-        You("把鞍放到%s 上.", mon_nam(mtmp));
+        You("把鞍放到%s身上.", mon_nam(mtmp));
         if (otmp->owornmask)
             remove_worn_item(otmp, FALSE);
         freeinv(otmp);
         /* !can_saddle(mtmp) already eliminated above */
         put_saddle_on_mon(otmp, mtmp);
     } else
-        pline("%s 抵抗！", Monnam(mtmp));
+        pline("%s不顺从!", Monnam(mtmp));
     return ECMD_TIME;
 }
 
@@ -182,7 +182,7 @@ doride(void)
     if (u.usteed) {
         dismount_steed(DISMOUNT_BYCHOICE);
     } else if (getdir((char *) 0) && isok(u.ux + u.dx, u.uy + u.dy)) {
-        if (wizard && y_n("Force the mount to succeed?") == 'y')
+        if (wizard && y_n("强行骑上去?") == 'y')
             forcemount = TRUE;
         return (mount_steed(m_at(u.ux + u.dx, u.uy + u.dy), forcemount)
                 ? ECMD_TIME : ECMD_OK);
@@ -204,7 +204,7 @@ mount_steed(
 
     /* Sanity checks */
     if (u.usteed) {
-        You("已经骑着%s.", mon_nam(u.usteed));
+        You("已经在骑着%s了.", mon_nam(u.usteed));
         return (FALSE);
     }
 
@@ -230,8 +230,8 @@ mount_steed(
         char qbuf[QBUFSZ];
 
         legs_in_no_shape("riding", FALSE);
-        Sprintf(qbuf, "治疗你的腿%s吗？",
-                ((HWounded_legs & BOTH_SIDES) == BOTH_SIDES) ? "" : "");
+        Sprintf(qbuf, "治疗你的%s腿吗？",
+                ((HWounded_legs & BOTH_SIDES) == BOTH_SIDES) ? "双" : "");
         if (force && wizard && y_n(qbuf) == 'y')
             heal_legs(0);
         else
@@ -242,11 +242,11 @@ mount_steed(
                    || verysmall(gy.youmonst.data)
                    || bigmonst(gy.youmonst.data)
                    || slithy(gy.youmonst.data))) {
-        You("不适合马鞍.");
+        You("不适合骑乘.");
         return (FALSE);
     }
     if (!force && (near_capacity() > SLT_ENCUMBER)) {
-        You_cant("在携带这么多物品时这样做。");
+        You_cant("在携带这么多物品时这么做.");
         return (FALSE);
     }
 
@@ -254,7 +254,7 @@ mount_steed(
     if (!mtmp || (!force && ((Blind && !Blind_telepat) || mtmp->mundetected
                              || M_AP_TYPE(mtmp) == M_AP_FURNITURE
                              || M_AP_TYPE(mtmp) == M_AP_OBJECT))) {
-        pline("那里空无一人。");
+        pline("那里没有东西可以骑.");
         return (FALSE);
     }
     if (mtmp->data == &mons[PM_LONG_WORM]
@@ -264,14 +264,14 @@ mount_steed(
            attempting to mount a tail segment when hero was not adjacent
            to worm's head could trigger an impossible() in worm_cross()
            called from test_move(), so handle not-on-head before that */
-        You("无法乘骑%s, 更不用说它的尾巴了.", a_monnam(mtmp));
+        You("无法骑乘%s,更不用说它的尾巴了.", a_monnam(mtmp));
         return FALSE;
     }
     if (u.uswallow || u.ustuck || u.utrap || Punished
         || !test_move(u.ux, u.uy, mtmp->mx - u.ux, mtmp->my - u.uy,
                       TEST_MOVE)) {
         if (Punished || !(u.uswallow || u.ustuck || u.utrap))
-            You("不能够摆动你的%s.", body_part(LEG));
+            You("挪不动你的%s.", body_part(LEG));
         else
             You("暂时被困在这儿.");
         return (FALSE);
@@ -280,7 +280,7 @@ mount_steed(
     /* Is this a valid monster? */
     otmp = which_armor(mtmp, W_SADDLE);
     if (!otmp) {
-        pline("%s 没有装鞍.", Monnam(mtmp));
+        pline("%s没有装鞍.", Monnam(mtmp));
         return (FALSE);
     }
 
@@ -288,28 +288,28 @@ mount_steed(
     if (touch_petrifies(ptr) && !Stone_resistance) {
         char kbuf[BUFSZ];
 
-        You("触摸了%s。", mon_nam(mtmp));
-        Sprintf(kbuf, "试图骑上%s",
+        You("碰到了%s.", mon_nam(mtmp));
+        Sprintf(kbuf, "试图骑乘%s",
                 an(pmname(mtmp->data, Mgender(mtmp))));
         instapetrify(kbuf);
     }
     if (!mtmp->mtame || mtmp->isminion) {
-        pline("我觉得 %s 会介意的。", mon_nam(mtmp));
+        pline("我觉得%s会介意的.", mon_nam(mtmp));
         return (FALSE);
     }
     if (mtmp->mtrapped) {
         struct trap *t = t_at(mtmp->mx, mtmp->my);
 
-        You_cant("骑上%s 在%s陷在%s 的时候.", mon_nam(mtmp),
-                 mhe(mtmp), an(trapname(t->ttyp, FALSE)));
+        You_cant("在%s困于%s时骑上%s.", mhe(mtmp), /*修改语序:You_cant("骑上%s在%s陷在% 的时候.", mon_nam(mtmp),*/
+                 an(trapname(t->ttyp, FALSE)), mon_nam(mtmp)); /*修改语序:mhe(mtmp), an(trapname(t->ttyp, FALSE)));*/
         return (FALSE);
     }
 
     if (!force && !Role_if(PM_KNIGHT) && !(--mtmp->mtame)) {
         /* no longer tame */
         newsym(mtmp->mx, mtmp->my);
-        pline("%s抵抗%s!", Monnam(mtmp),
-              mtmp->mleashed ? " 并且它的链子脱落了" : "");
+        pline("%s不顺从%s!", Monnam(mtmp),
+              mtmp->mleashed ? ",并且把它的链子甩掉了" : "");
         if (mtmp->mleashed)
             m_unleash(mtmp, FALSE);
         return (FALSE);
@@ -320,18 +320,18 @@ mount_steed(
         return (FALSE);
     }
     if (!can_saddle(mtmp) || !can_ride(mtmp)) {
-        You_cant("骑这样的生物.");
+        You_cant("骑这种生物.");
         return FALSE;
     }
 
     /* Is the player impaired? */
     if (!force && !is_floater(ptr) && !is_flyer(ptr) && Levitation
         && !Lev_at_will) {
-        You("不能够到%s.", mon_nam(mtmp));
+        You("够不到%s.", mon_nam(mtmp));
         return (FALSE);
     }
     if (!force && uarm && is_metallic(uarm) && greatest_erosion(uarm)) {
-        Your("%s盔甲太硬了来骑上%s.",
+        Your("%s盔甲太硬了,骑不上%s.",
              uarm->oeroded ? "生锈的" : "腐蚀的", mon_nam(mtmp));
         return (FALSE);
     }
@@ -340,12 +340,12 @@ mount_steed(
             || otmp->greased
             || (u.ulevel + mtmp->mtame < rnd(MAXULEV / 2 + 5)))) {
         if (Levitation) {
-            pline("%s跑开了.", Monnam(mtmp));
+            pline("%s从你身边溜走了.", Monnam(mtmp));
             return FALSE;
         }
         You("在试图骑上%s时滑了下来.", mon_nam(mtmp));
 
-        Sprintf(buf, "在骑上%s时滑倒",
+        Sprintf(buf, "在试图骑上%s时滑倒",
                 /* "a saddled mumak" or "a saddled pony called Dobbin" */
                 x_monnam(mtmp, ARTICLE_A, (char *) 0,
                          SUPPRESS_IT | SUPPRESS_INVISIBLE
@@ -360,8 +360,8 @@ mount_steed(
     if (!force) {
         if (Levitation && !is_floater(ptr) && !is_flyer(ptr))
             /* Must have Lev_at_will at this point */
-            pline("%s神奇地浮了起来！", Monnam(mtmp));
-        You("骑上%s.", mon_nam(mtmp));
+            pline("%s魔法般地浮了起来!", Monnam(mtmp));
+        You("骑上了%s.", mon_nam(mtmp));
         if (Flying)
             You("和%s一起腾空而起.", mon_nam(mtmp));
     }
@@ -374,7 +374,7 @@ mount_steed(
 
         steed_vs_stealth();
         if (was_stealthy && !Stealth)
-            You("你不再能悄悄行动了。");
+            You("停止潜伏.");
     }
     remove_monster(mtmp->mx, mtmp->my);
     teleds(mtmp->mx, mtmp->my, TELEDS_ALLOW_DRAG);
@@ -422,13 +422,13 @@ kick_steed(void)
                 u.usteed->mcanmove = 1;
             }
             if (helpless(u.usteed))
-                pline("%s动了一下。", He);
+                pline("%s动了动.", He);
             else
                 /* if hallucinating, might yield "He rouses herself" or
                    "She rouses himself" */
-                pline("%s！", monverbself(u.usteed, He, "惊醒", (char *) 0));
+                pline("%s!", monverbself(u.usteed, He, "惊醒", (char *) 0));
         } else
-            pline("%s 没有反应.", He);
+            pline("%s没有反应.", He);
         return;
     }
 
@@ -444,7 +444,7 @@ kick_steed(void)
         return;
     }
 
-    pline("%s 急驰!", Monnam(u.usteed));
+    pline("%s开始疾驰!", Monnam(u.usteed));
     u.ugallop += rn1(20, 30);
     return;
 }
@@ -593,30 +593,30 @@ dismount_steed(
                    * also affects u_locomotion() */
     ufly = Flying ? TRUE : FALSE;
     ulev = Levitation ? TRUE : FALSE;
-    verb = u_locomotion("fall"); /* only used for _FELL and _KNOCKED */
+    verb = u_locomotion("掉"); /* only used for _FELL and _KNOCKED */
     u.usteed = mtmp;
 
     /* Check the reason for dismounting */
     otmp = which_armor(mtmp, W_SADDLE);
     switch (reason) {
     case DISMOUNT_THROWN:
-        verb = "are thrown";
+        verb = "被甩";
         FALLTHROUGH;
         /*FALLTHRU*/
     case DISMOUNT_KNOCKED:
     case DISMOUNT_FELL:
-        You("从%s上%s下!", verb, mon_nam(mtmp));
+        You("从%s上%s下!", mon_nam(mtmp), verb); /*修改语序:You("从%s上%s下!", verb, mon_nam(mtmp));*/
         if (!have_spot)
             have_spot = landing_spot(&cc, reason, 1);
         if (!ulev && !ufly) {
-            losehp(Maybe_Half_Phys(rn1(10, 10)), "riding accident",
+            losehp(Maybe_Half_Phys(rn1(10, 10)), "骑行事故",
                    KILLED_BY_AN);
             set_wounded_legs(BOTH_SIDES, (int) HWounded_legs + rn1(5, 5));
             repair_leg_damage = FALSE;
         }
         break;
     case DISMOUNT_POLY:
-        You("再也无法骑乘%s。", mon_nam(u.usteed));
+        You("不能再骑乘%s了.", mon_nam(u.usteed));
         if (!have_spot)
             have_spot = landing_spot(&cc, reason, 1);
         break;
@@ -632,22 +632,22 @@ dismount_steed(
     case DISMOUNT_BYCHOICE:
     default:
         if (otmp && otmp->cursed) {
-            You("没办法.  这个鞍%s被诅咒的.",
+            You("不能.这个鞍%s被诅咒的.",
                 otmp->bknown ? "是" : "似乎是");
             otmp->bknown = 1; /* ok to skip set_bknown() here */
             return;
         }
         if (!have_spot) {
-            You("没办法. 没有任何地方能让你站起来.");
+            You("不能.没有任何地方能让你站起来.");
             return;
         }
         if (!has_mgivenname(mtmp)) {
-            pline("你和没有名字的%s 曾一起在地牢里闯荡.",
+            pline("你骑着无名的%s横穿了地牢.",
                   an(pmname(mtmp->data, Mgender(mtmp))));
             if (Hallucination)
-                pline("从雨中走出来感觉很好.");
+                pline("走出雨中的感觉真好.");
         } else
-            You("从%s 下来.", mon_nam(mtmp));
+            You("从%s上下来.", mon_nam(mtmp));
     }
     /* While riding, Wounded_legs refers to the steed's legs;
        after dismounting, it reverts to the hero's legs. */
@@ -662,7 +662,7 @@ dismount_steed(
 
         steed_vs_stealth();
         if (Stealth && !was_stealthy)
-            You("现在似乎不那么吵闹了。");
+            You("似乎不那么吵闹了.");
     }
 
     if (u.utraptype == TT_BEARTRAP
@@ -724,14 +724,14 @@ dismount_steed(
             if (grounded(mdat)) {
                 if (is_pool(u.ux, u.uy)) {
                     if (!Underwater)
-                        pline("%s 落进%s!", Monnam(mtmp),
+                        pline("%s掉到%s!", Monnam(mtmp),
                               surface(u.ux, u.uy));
                     if (!cant_drown(mdat)) {
                         killed(mtmp);
                         adjalign(-1);
                     }
                 } else if (is_lava(u.ux, u.uy)) {
-                    pline("%s 被拉进%s!", Monnam(mtmp),
+                    pline("%s被拉进%s中!", Monnam(mtmp),
                           hliquid("熔岩"));
                     if (!likes_lava(mdat)) {
                         killed(mtmp);
@@ -842,7 +842,7 @@ maybewakesteed(struct monst *steed)
         }
     }
     if (wasimmobile && !helpless(steed))
-        pline("%s 醒了.", Monnam(steed));
+        pline("%s醒来了.", Monnam(steed));
     /* regardless of waking, terminate any meal in progress */
     finish_meating(steed);
 }
@@ -864,8 +864,8 @@ poly_steed(
         Strcpy(buf, x_monnam(steed, ARTICLE_YOUR, (char *) 0,
                              SUPPRESS_SADDLE, FALSE));
         if (oldshape != steed->data)
-            (void) strsubst(buf, "your ", "your new ");
-        You("不得不调整你所坐在%s上的鞍.", buf);
+            (void) strsubst(buf, "你的", "你的新");
+        You("调整你坐的安在%s上的鞍.", buf);
 
         /* riding blocks stealth unless hero+steed fly */
         steed_vs_stealth();
@@ -882,12 +882,12 @@ stucksteed(boolean checkfeeding)
     if (steed) {
         /* check whether steed can move */
         if (helpless(steed)) {
-            pline("%s 不动了!", YMonnam(steed));
+            pline("%s动不了了!", YMonnam(steed));
             return TRUE;
         }
         /* optionally check whether steed is in the midst of a meal */
         if (checkfeeding && steed->meating) {
-            pline("%s 还在吃.", YMonnam(steed));
+            pline("%s还在吃.", YMonnam(steed));
             return TRUE;
         }
     }

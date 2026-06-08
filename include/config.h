@@ -1,4 +1,4 @@
-/* NetHack 5.0	config.h	$NHDT-Date: 1710344316 2024/03/13 15:38:36 $  $NHDT-Branch: keni-staticfn $:$NHDT-Revision: 1.188 $ */
+﻿/* NetHack 5.0	config.h	$NHDT-Date: 1710344316 2024/03/13 15:38:36 $  $NHDT-Branch: keni-staticfn $:$NHDT-Revision: 1.188 $ */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /*-Copyright (c) Robert Patrick Rankin, 2016. */
 /* NetHack may be freely redistributed.  See license for details. */
@@ -737,5 +737,10 @@ typedef unsigned char uchar;
 #define DUMPLOG_MSG_COUNT   50
 #endif /* DUMPLOG_MSG_COUNT */
 #endif
+
+/*复制自https://github.com/SunnyYuer/NetHack-cn/wiki，用于含汉字字符串检验*/
+#define cnstrcmpi(bp, str, l) strncmpi(bp, str, l = strlen(str))
+#define cnstrcmp(bp, str) strncmp(bp, str, strlen(str))
+#define cnbstrcmp(bp, p, str) BSTRCMPI(bp, p - strlen(str), str)
 
 #endif /* CONFIG_H */

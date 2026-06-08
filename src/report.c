@@ -1,4 +1,4 @@
-/* NetHack 5.0	report.c	$NHDT-Date: 1777240823 2026/04/26 22:00:23 $  $NHDT-Branch: to500 $:$NHDT-Revision: 1.19 $ */
+/* NetHack 5.0  report.c    $NHDT-Date: 1777240823 2026/04/26 22:00:23 $  $NHDT-Branch: to500 $:$NHDT-Revision: 1.19 $ */
 /* Copyright (c) Kenneth Lorber, Kensington, Maryland, 2024 */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -166,7 +166,7 @@ crashreport_init(int argc, char *argv[])
     return;
 
  skip:
-    Strcpy(bid, "未知");
+    Strcpy(bid, "unknown");
     HASH_CLEANUP(ctxp);
     HASH_PRAGMA_END
     nhUse(argc);
@@ -311,7 +311,7 @@ submit_web_report(int cos, const char *msg, const char *why)
         /* msg==NULL for #bugreport */
     if (msg) {
         SWR_ADD("&subject=");
-        Sprintf(temp, "%.40s 关于 NetHack %.40s 的报告",
+        Sprintf(temp, "%.40s report for NetHack %.40s",
                 msg, version_string(temp2, sizeof temp2 ));
         SWR_ADD_URIcoded(temp);
     }
@@ -461,7 +461,7 @@ int
 dobugreport(void)
 {
     if (!submit_web_report(2, NULL, "#bugreport command")) {
-        pline("无法发送错误报告。请改为访问%s。",
+        pline("Unable to send bug report.  Please visit %s instead.",
               (sysopt.crashreporturl && *sysopt.crashreporturl)
               ? sysopt.crashreporturl
               : DEVTEAM_URL

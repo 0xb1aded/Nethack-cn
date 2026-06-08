@@ -1,4 +1,5 @@
-/* NetHack 5.0	teleport.c	$NHDT-Date: 1769342601 2026/01/25 04:03:21 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.239 $ */
+/* NetHack 5.0	teleport.c	$NHDT-Date: 1769342601 2026/01/25 04:03:21 $
+ * $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.239 $ */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /*-Copyright (c) Robert Patrick Rankin, 2011. */
 /* NetHack may be freely redistributed.  See license for details. */
@@ -50,13 +51,11 @@ noteleport_level(struct monst *mon)
    fields aside from 'monst->data'; used primarily for new monster creation
    and monster teleport destination, not for ordinary monster movement */
 staticfn boolean
-goodpos_onscary(
-    coordxy x, coordxy y,
-    struct permonst *mptr)
+goodpos_onscary(coordxy x, coordxy y, struct permonst *mptr)
 {
     /* onscary() checks Angels and lawful minions; this oversimplifies */
-    if (mptr->mlet == S_HUMAN || mptr->mlet == S_ANGEL
-        || is_rider(mptr) || unique_corpstat(mptr))
+    if (mptr->mlet == S_HUMAN || mptr->mlet == S_ANGEL || is_rider(mptr)
+        || unique_corpstat(mptr))
         return FALSE;
     /* onscary() checks for vampshifted vampire bats/fog clouds/wolves too */
     if (IS_ALTAR(levl[x][y].typ) && mptr->mlet == S_VAMPIRE)
@@ -83,10 +82,7 @@ goodpos_onscary(
  * call it to generate new monster positions with fake monster structures.
  */
 boolean
-goodpos(
-    coordxy x, coordxy y,
-    struct monst *mtmp,
-    mmflags_nht gpflags)
+goodpos(coordxy x, coordxy y, struct monst *mtmp, mmflags_nht gpflags)
 {
     struct permonst *mdat = (struct permonst *) 0;
     boolean ignorewater = ((gpflags & MM_IGNOREWATER) != 0),
@@ -142,8 +138,7 @@ goodpos(
                             && (Levitation || Flying || Wwalking)));
             else
                 return (is_swimmer(mdat)
-                        || (!Is_waterlevel(&u.uz)
-                            && !is_waterwall(x, y)
+                        || (!Is_waterlevel(&u.uz) && !is_waterwall(x, y)
                             && m_in_air(mtmp)));
         } else if (mdat->mlet == S_EEL && rn2(13) && !ignorewater) {
             return FALSE;
@@ -165,13 +160,13 @@ goodpos(
         if (amorphous(mdat) && closed_door(x, y))
             return TRUE;
         /* avoid onscary() if caller has specified that restriction */
-        if (checkscary && (mtmp->m_id ? onscary(x, y, mtmp)
-                                      : goodpos_onscary(x, y, mdat)))
+        if (checkscary
+            && (mtmp->m_id ? onscary(x, y, mtmp)
+                           : goodpos_onscary(x, y, mdat)))
             return FALSE;
     }
     if (!accessible(x, y)) {
-        if (!(is_pool(x, y) && ignorewater)
-            && !(is_lava(x, y) && ignorelava))
+        if (!(is_pool(x, y) && ignorewater) && !(is_lava(x, y) && ignorelava))
             return FALSE;
     }
     /* skip boulder locations for most creatures */
@@ -193,21 +188,15 @@ goodpos(
  * Return TRUE and the position chosen when successful, FALSE otherwise.
  */
 boolean
-enexto(
-    coord *cc,
-    coordxy xx, coordxy yy,
-    struct permonst *mdat)
+enexto(coord *cc, coordxy xx, coordxy yy, struct permonst *mdat)
 {
     return (enexto_core(cc, xx, yy, mdat, GP_CHECKSCARY)
             || enexto_core(cc, xx, yy, mdat, NO_MM_FLAGS));
 }
 
 boolean
-enexto_gpflags(
-    coord *cc,
-    coordxy xx, coordxy yy,
-    struct permonst *mdat,
-    mmflags_nht entflags)
+enexto_gpflags(coord *cc, coordxy xx, coordxy yy, struct permonst *mdat,
+               mmflags_nht entflags)
 {
     return (enexto_core(cc, xx, yy, mdat, GP_CHECKSCARY | entflags)
             || enexto_core(cc, xx, yy, mdat, entflags));
@@ -269,20 +258,16 @@ enexto_core(
         return TRUE;
 
     /* failed to find any acceptable spot */
-    debugpline4("enexto(\"%s\",%d,%d,0x%08lx) failed",
-                mdat->pmnames[NEUTRAL], (int) xx, (int) yy,
-                (unsigned long) entflags);
+    debugpline4("enexto(\"%s\",%d,%d,0x%08lx) failed", mdat->pmnames[NEUTRAL],
+                (int) xx, (int) yy, (unsigned long) entflags);
     return FALSE;
 }
 
-#else   /* !NEW_ENEXTO */
+#else /* !NEW_ENEXTO */
 
 boolean
-enexto_core(
-    coord *cc,
-    coordxy xx, coordxy yy,
-    struct permonst *mdat,
-    mmflags_nht entflags)
+enexto_core(coord *cc, coordxy xx, coordxy yy, struct permonst *mdat,
+            mmflags_nht entflags)
 {
 #define MAX_GOOD 15
     coord good[MAX_GOOD], *good_ptr;
@@ -360,13 +345,13 @@ enexto_core(
         if (allow_xx_yy && goodpos(xx, yy, &fakemon, entflags)) {
             return TRUE; /* 'cc' is set */
         } else {
-            debugpline3("enexto(\"%s\",%d,%d) failed",
-                        mdat->pmnames[NEUTRAL], (int) xx, (int) yy);
+            debugpline3("enexto(\"%s\",%d,%d) failed", mdat->pmnames[NEUTRAL],
+                        (int) xx, (int) yy);
             return FALSE;
         }
     }
 
- full:
+full:
     /* we've got between 1 and SIZE(good) candidates; choose one */
     i = (coordxy) rn2((int) (good_ptr - good));
     cc->x = good[i].x;
@@ -449,8 +434,8 @@ teleds(coordxy nux, coordxy nuy, int teleds_flags)
 {
     unsigned was_swallowed;
     boolean ball_active, ball_still_in_range = FALSE,
-            allow_drag = (teleds_flags & TELEDS_ALLOW_DRAG) != 0,
-            is_teleport = (teleds_flags & TELEDS_TELEPORT) != 0;
+                         allow_drag = (teleds_flags & TELEDS_ALLOW_DRAG) != 0,
+                         is_teleport = (teleds_flags & TELEDS_TELEPORT) != 0;
     struct monst *vault_guard = vault_occupied(u.urooms) ? findgd() : 0;
 
     if (u.utraptype == TT_BURIEDBALL) {
@@ -458,8 +443,7 @@ teleds(coordxy nux, coordxy nuy, int teleds_flags)
         buried_ball_to_punishment();
     }
     ball_active = (Punished && uball->where != OBJ_FREE);
-    if (!ball_active
-        || near_capacity() > SLT_ENCUMBER
+    if (!ball_active || near_capacity() > SLT_ENCUMBER
         || distmin(u.ux, u.uy, nux, nuy) > 1)
         allow_drag = FALSE;
 
@@ -496,7 +480,7 @@ teleds(coordxy nux, coordxy nuy, int teleds_flags)
     }
 
     if (was_swallowed) {
-        if (Punished) { /* ball&chain are off map while swallowed */
+        if (Punished) {         /* ball&chain are off map while swallowed */
             ball_active = TRUE; /* to put chain and non-carried ball on map */
             ball_still_in_range = allow_drag = FALSE; /* (redundant) */
         }
@@ -507,8 +491,8 @@ teleds(coordxy nux, coordxy nuy, int teleds_flags)
         coordxy ballx, bally, chainx, chainy;
         boolean cause_delay;
 
-        if (drag_ball(nux, nuy, &bc_control, &ballx, &bally, &chainx,
-                      &chainy, &cause_delay, allow_drag))
+        if (drag_ball(nux, nuy, &bc_control, &ballx, &bally, &chainx, &chainy,
+                      &cause_delay, allow_drag))
             move_bc(0, bc_control, ballx, bally, chainx, chainy);
         else {
             /* dragging fails if hero is encumbered beyond 'burdened' */
@@ -543,7 +527,7 @@ teleds(coordxy nux, coordxy nuy, int teleds_flags)
     /* this used to take place sooner, but if a --More-- prompt was issued
        then the old map display was shown instead of the new one */
     if (is_teleport && flags.verbose)
-        You("出现在%s位置！",
+        You("出现在%s位置!",
             (nux == u.ux0 && nuy == u.uy0) ? "同一个" : "另一个");
     /* if terrain type changes, levitation or flying might become blocked
        or unblocked; might issue message, so do this after map+vision has
@@ -593,16 +577,16 @@ collect_coords(
     int radius, rowrange, colrange, k, n = 0;
     coord cc, *passcc = NULL;
     boolean newpass, passend,
-            /* is <cx,cy> a candidate? */
-            include_cxcy = (cc_flags & CC_INCL_CENTER) != 0,
-            /* flag is negative; turn local variable into positive */
-            scramble = (cc_flags & CC_UNSHUFFLED) == 0,
-            /* if scrambling, shuffle rings 1+2, 3+4, &c together */
-            ring_pairs = (scramble && (cc_flags & CC_RING_PAIRS) != 0),
-            /* exclude locations containing monsters from output */
-            skip_mons = (cc_flags & CC_SKIP_MONS) != 0,
-            /* exclude !ZAP_POS() locations from output; allows pools+lava */
-            skip_inaccessible = (cc_flags & CC_SKIP_INACCS) != 0;
+        /* is <cx,cy> a candidate? */
+        include_cxcy = (cc_flags & CC_INCL_CENTER) != 0,
+        /* flag is negative; turn local variable into positive */
+        scramble = (cc_flags & CC_UNSHUFFLED) == 0,
+        /* if scrambling, shuffle rings 1+2, 3+4, &c together */
+        ring_pairs = (scramble && (cc_flags & CC_RING_PAIRS) != 0),
+        /* exclude locations containing monsters from output */
+        skip_mons = (cc_flags & CC_SKIP_MONS) != 0,
+        /* exclude !ZAP_POS() locations from output; allows pools+lava */
+        skip_inaccessible = (cc_flags & CC_SKIP_INACCS) != 0;
     int result = 0;
 
     rowrange = (cy < ROWNO / 2) ? (ROWNO - 1 - cy) : cy;
@@ -661,7 +645,7 @@ collect_coords(
             newpass = passend = TRUE;
         } else {
             /* 0 (if include_cxcy) and maxradius override odd/even */
-            newpass = ((radius % 2) != 0 || radius == 0); /* odd */
+            newpass = ((radius % 2) != 0 || radius == 0);         /* odd */
             passend = ((radius % 2) == 0 || radius == maxradius); /* even */
         }
         if (newpass || !passcc) { /* !passcc is redundant but used to fend
@@ -698,7 +682,7 @@ collect_coords(
             /* shuffle entries gathered for current radius (or pair) */
             while (n > 1) {
                 k = rn2(n); /* 0..n-1 */
-                if (k) { /* swap [k] with [0] when k is 1..n-1 */
+                if (k) {    /* swap [k] with [0] when k is 1..n-1 */
                     cc = passcc[0];
                     passcc[0] = passcc[k];
                     passcc[k] = cc;
@@ -800,8 +784,8 @@ teleport_pet(struct monst *mtmp, boolean force_it)
             yelp(mtmp);
             return FALSE;
         } else {
-            Your("皮带松了。");
- release_it:
+            Your("皮带松了.");
+        release_it:
             m_unleash(mtmp, FALSE);
             return TRUE;
         }
@@ -829,8 +813,7 @@ tele_to_rnd_pet(void)
                 pet = mtmp;
         }
     if (pet && !m_next2u(pet)) {
-        coordxy tx = pet->mx + rn2(3) - 1,
-                ty = pet->my + rn2(3) - 1;
+        coordxy tx = pet->mx + rn2(3) - 1, ty = pet->my + rn2(3) - 1;
 
         if (isok(tx, ty) && teleok(tx, ty, FALSE))
             teleds(tx, ty, TELEDS_TELEPORT);
@@ -844,7 +827,8 @@ tele(void)
     scrolltele((struct obj *) 0);
 }
 
-/* teleport the hero; usually discover scroll of teleportation if via scroll */
+/* teleport the hero; usually discover scroll of teleportation if via scroll
+ */
 void
 scrolltele(struct obj *scroll)
 {
@@ -852,7 +836,7 @@ scrolltele(struct obj *scroll)
 
     /* Disable teleportation in stronghold && Vlad's Tower */
     if (noteleport_level(&gy.youmonst) && !wizard) {
-        pline("一种神秘的力量阻止了你传送!");
+        pline("一股神秘的力量阻止了你传送!");
         if (scroll)
             learnscroll(scroll); /* this is obviously a teleport scroll */
         return;
@@ -863,7 +847,7 @@ scrolltele(struct obj *scroll)
         make_blinded(0L, FALSE);
 
     if ((u.uhave.amulet || On_W_tower_level(&u.uz)) && !rn2(3)) {
-        You_feel("迷失方向了片刻.");
+        You_feel("迷失了一刹那.");
         /* don't discover the scroll [at least not yet for wizard override];
            disorientation doesn't reveal that this is a teleport attempt */
         if (!wizard || y_n("Override?") != 'y')
@@ -872,14 +856,14 @@ scrolltele(struct obj *scroll)
     if (((Teleport_control || (scroll && scroll->blessed)) && !Stunned)
         || wizard) {
         if (unconscious()) {
-            pline("处于无意识中, 你不能控制你的传送.");
+            pline("由于你处于昏迷状态,你不能控制你的传送.");
         } else {
             char whobuf[BUFSZ];
 
             Strcpy(whobuf, "你");
             if (u.usteed)
                 Sprintf(eos(whobuf), "和%s", mon_nam(u.usteed));
-            pline("%s想被传送到什么位置?", whobuf);
+            pline("想%s传送到哪里?", whobuf);
             if (scroll)
                 learnscroll(scroll);
             cc.x = u.ux;
@@ -889,7 +873,7 @@ scrolltele(struct obj *scroll)
                  * pre-suggest this coordinate. */
                 cc = iflags.travelcc;
             }
-            if (getpos(&cc, TRUE, "the desired position") < 0)
+            if (getpos(&cc, TRUE, "想要传送到的位置") < 0)
                 return; /* abort */
             /* possible extensions: introduce a small error if
                magic power is low; allow transfer to solid rock */
@@ -922,9 +906,9 @@ dotelecmd(void)
     int res, added, hidden;
     boolean ignore_restrictions = FALSE;
 /* also defined in spell.c */
-#define NOOP_SPELL  0
-#define HIDE_SPELL  1
-#define ADD_SPELL   2
+#define NOOP_SPELL 0
+#define HIDE_SPELL 1
+#define ADD_SPELL 2
 #define UNHIDESPELL 3
 #define REMOVESPELL 4
 
@@ -957,10 +941,10 @@ dotelecmd(void)
              * This ignores the fact that there is an experience level
              * (or poly-form) requirement which might make normal ^T fail.
              */
-            { 'n', "normal ^T on demand; no spell, obey restrictions" },
-            { 's', "via spellcast; no intrinsic teleport" },
-            { 't', "try ^T without having it; no spell" },
-            { 'w', "debug mode; ignore restrictions" }, /* trad wizard mode */
+            { 'n', "常规^T选择;无魔法,遵循一般限制" },
+            { 's', "通过魔法;没有传送内在属性" },
+            { 't', "尝试不掌握而使用^T;无魔法" },
+            { 'w', "调试模式;忽略限制" }, /* trad wizard mode */
         };
         menu_item *picks = (menu_item *) 0;
         anything any;
@@ -972,12 +956,12 @@ dotelecmd(void)
         any = cg.zeroany;
         for (i = 0; i < SIZE(tports); ++i) {
             any.a_int = (int) tports[i].menulet;
-            add_menu(win, &nul_glyphinfo, &any, (char) any.a_int, 0,
-                     ATR_NONE, clr, tports[i].menudesc,
+            add_menu(win, &nul_glyphinfo, &any, (char) any.a_int, 0, ATR_NONE,
+                     clr, tports[i].menudesc,
                      (tports[i].menulet == 'w') ? MENU_ITEMFLAGS_SELECTED
                                                 : MENU_ITEMFLAGS_NONE);
         }
-        end_menu(win, "你想用哪种方式传送?");
+        end_menu(win, "你想以哪种方式传送?");
         i = select_menu(win, PICK_ONE, &picks);
         destroy_nhwindow(win);
         if (i > 0) {
@@ -999,11 +983,11 @@ dotelecmd(void)
             break;
         case 's':
             HTeleportation = ETeleportation = 0L; /* suppress intrinsic */
-            added = tport_spell(ADD_SPELL); /* add teleport-away */
+            added = tport_spell(ADD_SPELL);       /* add teleport-away */
             break;
         case 't':
             HTeleportation = ETeleportation = 0L; /* suppress intrinsic */
-            hidden = tport_spell(HIDE_SPELL); /* hide teleport-away */
+            hidden = tport_spell(HIDE_SPELL);     /* hide teleport-away */
             break;
         case 'w':
             ignore_restrictions = TRUE;
@@ -1031,8 +1015,7 @@ dotelecmd(void)
 }
 
 int
-dotele(
-    boolean break_the_rules) /* True: wizard mode ^T */
+dotele(boolean break_the_rules) /* True: wizard mode ^T */
 {
     struct trap *trap;
     const char *cantdoit;
@@ -1044,7 +1027,7 @@ dotele(
 
     if (trap) {
         if (trap->ttyp == LEVEL_TELEP && trap->tseen) {
-            if (y_n("There is a level teleporter here. Trigger it?") == 'y') {
+            if (y_n("这里有一个层间传送陷阱.触发它?") == 'y') {
                 level_tele_trap(trap, FORCETRAP);
                 /* deliberate jumping will always take time even if it doesn't
                  * work */
@@ -1054,8 +1037,8 @@ dotele(
         } else if (trap->ttyp == TELEP_TRAP) {
             trap_once = trap->once; /* trap may get deleted, save this */
             if (trap->once) {
-                pline("这是一个金库传送口, 只能使用一次.");
-                if (y_n("Jump in?") == 'n') {
+                pline("这是一个金库传送口,只能使用一次.");
+                if (y_n("跳进去?") == 'n') {
                     trap = 0;
                 } else {
                     deltrap(trap);
@@ -1063,7 +1046,7 @@ dotele(
                 }
             }
             if (trap)
-                You("%s 到传送陷阱上.", u_locomotion("跳"));
+                You("%s到传送陷阱上.", u_locomotion("跳"));
         } else
             trap = 0;
     }
@@ -1071,18 +1054,19 @@ dotele(
         boolean castit = FALSE;
         int energy = 0;
 
-        if (!Teleportation || (u.ulevel < (Role_if(PM_WIZARD) ? 8 : 12)
-                               && !can_teleport(gy.youmonst.data))) {
+        if (!Teleportation
+            || (u.ulevel < (Role_if(PM_WIZARD) ? 8 : 12)
+                && !can_teleport(gy.youmonst.data))) {
             /* Try to use teleport away spell. */
             int knownsp = known_spell(SPE_TELEPORT_AWAY);
 
             /* casting isn't inhibited by being Stunned (...it ought to be) */
             castit = (knownsp >= spe_Fresh && !Confusion);
             if (!castit && !break_the_rules) {
-                You("你%s。", (!Teleportation ? ((knownsp != spe_Unknown)
-                                              ? "无法施展那个法术"
-                                              : "不知道那个法术")
-                            : "无法随意传送"));
+                You("你%s.", (!Teleportation ? ((knownsp != spe_Unknown)
+                                                    ? "无法施放那个法术"
+                                                    : "不知道那个法术")
+                                             : "无法随意传送"));
                 return 0;
             }
         }
@@ -1113,18 +1097,16 @@ dotele(
         } else
 #endif
         if (u.uhunger <= 10) {
-            cantdoit = "are too weak from hunger";
+            cantdoit = "太饿了";
         } else if (ACURR(A_STR) < 4) {
-            cantdoit = "lack the strength";
+            cantdoit = "力量太低";
         } else if (energy > u.uen) {
-            cantdoit = "lack the energy";
+            cantdoit = "缺乏能量";
         }
         if (cantdoit) {
-            You("%s %s.", cantdoit,
-                castit ? "施放传送法术" : "进行传送");
+            You("%s,无法%s.", cantdoit, castit ? "施放传送法术" : "进行传送");
             return 0;
-        } else if (check_capacity(
-                       "Your concentration falters from carrying so much.")) {
+        } else if (check_capacity("因为负担过重,你的注意力开始涣散.")) {
             return 1; /* this failure in spelleffects() also uses the move */
         }
 
@@ -1164,7 +1146,7 @@ dotele(
 void
 level_tele(void)
 {
-    static const char get_there_from[] = "get there from %s.";
+    static const char get_there_from[] = "从%s到达那里.";
     int newlev;
     d_level newlevel;
     const char *escape_by_flying = 0; /* when surviving dest of -N */
@@ -1184,7 +1166,7 @@ level_tele(void)
     }
     if ((u.uhave.amulet || In_endgame(&u.uz) || In_sokoban(&u.uz))
         && !wizard) {
-        You_feel("一时间非常迷失方向。");
+        You_feel("迷失了一刹那.");
         return;
     }
     if ((Teleport_control && !Stunned) || wizard) {
@@ -1202,7 +1184,7 @@ level_tele(void)
             }
             if (++trycnt == 2) {
                 if (wizard)
-                    Strcat(qbuf, " [输入数字, 名字, 或? 寻求帮助]");
+                    Strcat(qbuf, " [输入数字,名字,或?寻求帮助]");
                 else
                     Strcat(qbuf, " [输入数字或名字]");
             }
@@ -1222,7 +1204,7 @@ level_tele(void)
                 schar destlev;
                 xint16 destdnum;
 
- levTport_menu:
+            levTport_menu:
                 destlev = 0;
                 destdnum = 0;
                 newlev = (int) print_dungeon(TRUE, &destlev, &destdnum);
@@ -1254,21 +1236,19 @@ level_tele(void)
         if (newlev == 0) {
             if (trycnt >= 10)
                 goto random_levtport;
-            if (ynq("Go to Nowhere.  Are you sure?") != 'y')
+            if (ynq("你将前往虚无.你确定吗?") != 'y')
                 return;
-            You("在痛苦中%s你的身体开始扭曲...",
+            You("在痛苦中%s,你的身体开始扭曲...",
                 is_silent(gy.youmonst.data) ? "翻滚" : "尖叫");
             display_nhwindow(WIN_MESSAGE, FALSE);
             You("终止了存在.");
             if (gi.invent)
-                Your("物品砰的一声掉在%s上.",
-                     surface(u.ux, u.uy));
+                Your("物品砰的一声掉在%s上.", surface(u.ux, u.uy));
             svk.killer.format = NO_KILLER_PREFIX;
-            Strcpy(svk.killer.name, "自杀了");
+            Strcpy(svk.killer.name, "自杀");
             done(DIED);
             pline("一股能量气体开始合并.");
-            Your("身体重生了%s.",
-                 gi.invent ? "，并拾起你所有的物品" : "");
+            Your("身体重新实体化%s.", gi.invent ? ",并拾起你所有的物品" : "");
             return;
         }
 
@@ -1290,7 +1270,7 @@ level_tele(void)
         if (In_quest(&u.uz) && newlev > 0)
             newlev = newlev + svd.dungeons[u.uz.dnum].depth_start - 1;
     } else { /* involuntary level tele */
- random_levtport:
+    random_levtport:
         newlev = random_teleport_level();
         if (newlev == depth(&u.uz)) {
             You1(shudder_for_moment);
@@ -1309,7 +1289,7 @@ level_tele(void)
         int llimit = dunlevs_in_dungeon(&u.uz);
 
         if (newlev >= 0 || newlev <= -llimit) {
-            You_cant(get_there_from, "here");
+            You_cant(get_there_from, "这里");
             return;
         }
         newlevel.dnum = u.uz.dnum;
@@ -1332,11 +1312,11 @@ level_tele(void)
             gi.in_mklev = FALSE;
         }
         if (newlev <= -10) {
-            You("到达了天堂.");
+            You("升入了天堂.");
             SetVoice((struct monst *) 0, 0, 80, voice_deity);
-            verbalize("Thou art early, but we'll admit thee.");
+            verbalize("汝来甚早,然请入.");
             svk.killer.format = NO_KILLER_PREFIX;
-            Strcpy(svk.killer.name, "永久进入了天堂");
+            Strcpy(svk.killer.name, "永久升入了天堂");
         } else if (newlev == -9) {
             You_feel("非常高兴.");
             pline("(事实上, 你在9号云上了!)");
@@ -1347,15 +1327,13 @@ level_tele(void)
         if (svk.killer.name[0]) {
             ; /* arrival in heaven is pending */
         } else if (Levitation) {
-            escape_by_flying = "float gently down to earth";
+            escape_by_flying = "轻轻飘落到地上";
         } else if (Flying) {
-            escape_by_flying = "fly down to the ground";
+            escape_by_flying = "飞回了地上";
         } else {
-            pline("不幸的是,  你不会飞.");
+            pline("不幸的是,你不会飞.");
             You("跌下几千英尺摔死了.");
-            Sprintf(svk.killer.name,
-                    "传送出地牢并摔至%s死亡",
-                    uhis());
+            Sprintf(svk.killer.name, "%s传送出了地牢, 并坠落身亡", uhis());
             svk.killer.format = NO_KILLER_PREFIX;
         }
     }
@@ -1370,13 +1348,13 @@ level_tele(void)
         done(DIED);
         /* can only get here via life-saving (or declining to die in
            explore|debug mode); the hero has now left the dungeon... */
-        escape_by_flying = "find yourself back on the surface";
+        escape_by_flying = "发现你回到了地面上";
         u.uz = lsav; /* restore u.uz so escape code works */
     }
 
     /* calls done(ESCAPED) if newlevel==0 */
     if (escape_by_flying) {
-        You("%s。", escape_by_flying);
+        You("%s.", escape_by_flying);
         /* [dlevel used to be set to 1, but it doesn't make sense to
             teleport out of the dungeon and float or fly down to the
             surface but then actually arrive back inside the dungeon] */
@@ -1394,9 +1372,9 @@ level_tele(void)
            which branches don't connect to anything deeper;
            mainly used to distinguish "can't get there from here"
            vs "from anywhere" rather than to control destination */
-        d_level *qbranch = In_quest(&u.uz) ? &qstart_level
-                          : In_mines(&u.uz) ? &mineend_level
-                            : &sanctum_level;
+        d_level *qbranch = In_quest(&u.uz)   ? &qstart_level
+                           : In_mines(&u.uz) ? &mineend_level
+                                             : &sanctum_level;
         int deepest = svd.dungeons[qbranch->dnum].depth_start
                       + dunlevs_in_dungeon(qbranch) - 1;
 
@@ -1418,20 +1396,19 @@ level_tele(void)
 
         if (on_level(&newlevel, &u.uz) && newlev != depth(&u.uz)) {
             You_cant(get_there_from,
-                     (newlev > deepest) ? "anywhere" : "here");
+                     (newlev > deepest) ? "任何地方" : "这里");
             return;
         }
     }
 
     schedule_goto(&newlevel, UTOTYPE_NONE, (char *) 0,
-                  flags.verbose ? "You materialize on a different level!"
-                                : (char *) 0);
-#if 0   /* always wait until end of turn to change level, otherwise code
-         * that references monsters as this call stack unwinds won't be
-         * able to access them reliably; the do-the-change-now code here
-         * dates from when reading a scroll of teleportation wouldn't
-         * always make the scroll become discovered but that's no longer
-         * the case so it shouldn't be needed anymore */
+                  flags.verbose ? "出现在另一层!" : (char *) 0);
+#if 0 /* always wait until end of turn to change level, otherwise code \
+       * that references monsters as this call stack unwinds won't be  \
+       * able to access them reliably; the do-the-change-now code here \
+       * dates from when reading a scroll of teleportation wouldn't    \
+       * always make the scroll become discovered but that's no longer \
+       * the case so it shouldn't be needed anymore */
 
     /* in case player just read a scroll and is about to be asked to
        call it something, we can't defer until the end of the turn */
@@ -1467,7 +1444,7 @@ domagicportal(struct trap *ttmp)
      * next level, and thus losing the game
      */
     if (In_endgame(&u.uz) && !u.uhave.amulet) {
-        You_feel("眩晕了片刻, 但无事发生...");
+        You_feel("眩晕了片刻,但什么都没有发生...");
         return;
     }
 
@@ -1477,11 +1454,10 @@ domagicportal(struct trap *ttmp)
     if (In_tutorial(&u.uz) && !In_tutorial(&target_level)) {
         /* returning to normal play => arrive on level 1 stairs */
         totype = UTOTYPE_ATSTAIRS;
-        stunmsg = "Resuming regular play.";
+        stunmsg = "继续游戏.";
     } else {
         totype = UTOTYPE_PORTAL;
-        stunmsg = !Stunned ? "You feel slightly dizzy."
-                            : "You feel dizzier.";
+        stunmsg = !Stunned ? "你感到头有点晕." : "你的头更晕了.";
         make_stunned((HStun & TIMEOUT) + 3L, FALSE);
     }
 
@@ -1492,8 +1468,8 @@ void
 tele_trap(struct trap *trap)
 {
     /* a fixed-destination teleport trap could theoretically place hero onto a
-     * second teleport trap; prevent the recursive call from spoteffects() from
-     * triggering the trap at the destination */
+     * second teleport trap; prevent the recursive call from spoteffects()
+     * from triggering the trap at the destination */
     static boolean in_tele_trap = FALSE;
     if (in_tele_trap)
         return;
@@ -1502,7 +1478,7 @@ tele_trap(struct trap *trap)
     if (In_endgame(&u.uz) || Antimagic || noteleport_level(&gy.youmonst)) {
         if (Antimagic)
             shieldeff(u.ux, u.uy);
-        You_feel("一阵扭曲感。");
+        You_feel("一阵扭曲.");
     } else if (!next_to_u()) {
         You1(shudder_for_moment);
     } else if (trap->once) {
@@ -1519,8 +1495,7 @@ tele_trap(struct trap *trap)
                 /* could not find some other place to put mtmp; the level must
                  * be nearly or completely full */
                 You1(shudder_for_moment);
-            }
-            else {
+            } else {
                 rloc_to(mtmp, cc.x, cc.y);
                 mtmp = (struct monst *) 0; /* no longer a monster at dest */
             }
@@ -1544,14 +1519,14 @@ level_tele_trap(struct trap *trap, unsigned int trflags)
         Strcpy(verbbuf, "触发"); /* follows "You sit down." */
         intentional = TRUE;
     } else
-        Sprintf(verbbuf, "%s 上", u_locomotion("踏"));
-    You("%s地层传送陷阱!", verbbuf);
+        Sprintf(verbbuf, "%s上", u_locomotion("踏"));
+    You("%s了一个层间传送陷阱!", verbbuf);
 
     if (Antimagic && !intentional) {
         shieldeff(u.ux, u.uy);
     }
     if ((Antimagic && !intentional) || In_endgame(&u.uz)) {
-        You_feel("一阵扭曲感。");
+        You_feel("一阵扭曲.");
         return;
     }
     deltrap(trap);
@@ -1559,9 +1534,9 @@ level_tele_trap(struct trap *trap, unsigned int trflags)
     level_tele();
 
     if (Hallucination || Teleport_control)
-        You("短暂地感到%s。", Hallucination ? "定向" : "集中");
+        You("短暂地%s.", Hallucination ? "有了方向" : "心神安定");
     else
-        You_feel("%s晕头转向。", Confusion ? "更加" : "");
+        You_feel("%s迷失.", Confusion ? "更加" : "有点");
     /* magic portal traversal causes brief Stun; for level teleport, use
        confusion instead, and only when hero lacks control; do this after
        processing the level teleportation attempt because being confused
@@ -1572,9 +1547,8 @@ level_tele_trap(struct trap *trap, unsigned int trflags)
 
 /* check whether monster can arrive at location <x,y> via Tport (or fall) */
 staticfn boolean
-rloc_pos_ok(
-    coordxy x, coordxy y, /* coordinates of candidate location */
-    struct monst *mtmp)
+rloc_pos_ok(coordxy x, coordxy y, /* coordinates of candidate location */
+            struct monst *mtmp)
 {
     coordxy xx, yy;
 
@@ -1594,25 +1568,23 @@ rloc_pos_ok(
         if (svd.dndest.nlx && On_W_tower_level(&u.uz))
             return (((yy & 2) != 0)
                     /* inside xor not within */
-                    ^ !within_bounded_area(x, y,
-                                           svd.dndest.nlx, svd.dndest.nly,
-                                           svd.dndest.nhx, svd.dndest.nhy));
+                    ^ !within_bounded_area(x, y, svd.dndest.nlx,
+                                           svd.dndest.nly, svd.dndest.nhx,
+                                           svd.dndest.nhy));
         if (svu.updest.lx && (yy & 1) != 0) /* moving up */
-            return (within_bounded_area(x, y,
-                                        svu.updest.lx, svu.updest.ly,
+            return (within_bounded_area(x, y, svu.updest.lx, svu.updest.ly,
                                         svu.updest.hx, svu.updest.hy)
                     && (!svu.updest.nlx
-                        || !within_bounded_area(x, y,
-                                            svu.updest.nlx, svu.updest.nly,
-                                            svu.updest.nhx, svu.updest.nhy)));
+                        || !within_bounded_area(
+                            x, y, svu.updest.nlx, svu.updest.nly,
+                            svu.updest.nhx, svu.updest.nhy)));
         if (svd.dndest.lx && (yy & 1) == 0) /* moving down */
-            return (within_bounded_area(x, y,
-                                        svd.dndest.lx, svd.dndest.ly,
+            return (within_bounded_area(x, y, svd.dndest.lx, svd.dndest.ly,
                                         svd.dndest.hx, svd.dndest.hy)
                     && (!svd.dndest.nlx
-                        || !within_bounded_area(x, y,
-                                            svd.dndest.nlx, svd.dndest.nly,
-                                            svd.dndest.nhx, svd.dndest.nhy)));
+                        || !within_bounded_area(
+                            x, y, svd.dndest.nlx, svd.dndest.nly,
+                            svd.dndest.nhx, svd.dndest.nhy)));
     } else {
         /* [try to] prevent a shopkeeper or temple priest from being
            sent out of his room (caller might resort to goodpos() if
@@ -1621,7 +1593,7 @@ rloc_pos_ok(
             if (levl[x][y].roomno != (unsigned char) ESHK(mtmp)->shoproom)
                 return FALSE;
         } else if (mtmp->ispriest && inhistemple(mtmp)) {
-            if (levl[x][y].roomno !=  (unsigned char) EPRI(mtmp)->shroom)
+            if (levl[x][y].roomno != (unsigned char) EPRI(mtmp)->shroom)
                 return FALSE;
         }
         /* current location is <xx,yy> */
@@ -1642,10 +1614,7 @@ rloc_pos_ok(
  * placed randomly around the head of the worm.
  */
 staticfn void
-rloc_to_core(
-    struct monst *mtmp,
-    coordxy x, coordxy y,
-    unsigned rlocflags)
+rloc_to_core(struct monst *mtmp, coordxy x, coordxy y, unsigned rlocflags)
 {
     coordxy oldx = mtmp->mx, oldy = mtmp->my;
     boolean resident_shk = mtmp->isshk && inhishop(mtmp);
@@ -1693,7 +1662,7 @@ rloc_to_core(
             check_special_room(FALSE);
             docrt();
         } else if (!m_next2u(mtmp)) {
-           unstuck(mtmp);
+            unstuck(mtmp);
         }
     }
 
@@ -1702,27 +1671,26 @@ rloc_to_core(
     set_apparxy(mtmp); /* orient monster */
     if (domsg && (canspotmon(mtmp) || appearmsg || mtmp == u.ustuck)) {
         int du = distu(x, y), olddu;
-        const char *next = (du <= 2) ? " next to you" : 0, /* next2u() */
-                   *nearu = (du <= BOLT_LIM * BOLT_LIM) ? " close by" : 0;
+        const char *next = (du <= 2) ? "你身边" : 0, /* next2u() */
+            *nearu = (du <= BOLT_LIM * BOLT_LIM) ? "你附近" : 0;
 
         set_msg_xy(x, y);
         mtmp->mstrategy &= ~STRAT_APPEARMSG; /* one chance only */
         if (mtmp == u.ustuck && !u_at(u.ux0, u.uy0)) {
-            You("和%s一起传送。", mon_nam(mtmp));
+            You("和%s一起传送.", mon_nam(mtmp));
         } else if (telemsg && (couldsee(x, y) || sensemon(mtmp))) {
-            pline("%s消失了又重现%s.",
-                  Monnam(mtmp),
-                  next ? next
-                  : nearu ? nearu
-                    : ((olddu = distu(oldx, oldy)) == du) ? ""
-                      : (du < olddu) ? "离你更近"
-                        : "离你更远");
+            pline("%s消失了又重现到%s.", Monnam(mtmp),
+                  next                                  ? next
+                  : nearu                               ? nearu
+                  : ((olddu = distu(oldx, oldy)) == du) ? ""
+                  : (du < olddu)                        ? "更近处"
+                                                        : "得更处");
         } else {
-            pline("%s %s%s%s!",
-                  appearmsg ? Amonnam(mtmp) : Monnam(mtmp),
-                  appearmsg ? "突然" : "",
-                  !Blind ? "出现" : "到达",
-                  next ? next : nearu ? nearu : "");
+            pline("%s%s%s%s!", appearmsg ? Amonnam(mtmp) : Monnam(mtmp),
+                  appearmsg ? "突然" : "", !Blind ? "出现在" : "到达",
+                  next    ? next
+                  : nearu ? nearu
+                          : "");
         }
         /* wand discovery only happens if a messaage is delivered (bug?);
            if spell or q.mechanic attack or artifact #invoke for banish
@@ -1774,10 +1742,7 @@ rloc_to(struct monst *mtmp, coordxy x, coordxy y)
 }
 
 void
-rloc_to_flag(
-    struct monst *mtmp,
-    coordxy x, coordxy y,
-    unsigned rlocflags)
+rloc_to_flag(struct monst *mtmp, coordxy x, coordxy y, unsigned rlocflags)
 {
     rloc_to_core(mtmp, x, y, rlocflags);
 }
@@ -1787,8 +1752,9 @@ stairway_find_forwiz(boolean isladder, boolean up)
 {
     stairway *stway = gs.stairs;
 
-    while (stway && !(stway->isladder == isladder
-                      && stway->up == up && stway->tolev.dnum == u.uz.dnum))
+    while (stway
+           && !(stway->isladder == isladder && stway->up == up
+                && stway->tolev.dnum == u.uz.dnum))
         stway = stway->next;
     return stway;
 }
@@ -1796,9 +1762,8 @@ stairway_find_forwiz(boolean isladder, boolean up)
 /* place a monster at a random location, typically due to teleport;
    return TRUE if successful, FALSE if not; rlocflags is RLOC_foo flags */
 boolean
-rloc(
-    struct monst *mtmp, /* mtmp->mx==0 implies migrating monster arrival */
-    unsigned rlocflags)
+rloc(struct monst *mtmp, /* mtmp->mx==0 implies migrating monster arrival */
+     unsigned rlocflags)
 {
     coord cc, backupcc, candy[ROWNO * (COLNO - 1)]; /* room for entire map */
     unsigned cc_flags;
@@ -1847,8 +1812,8 @@ rloc(
        on levels with lots of available space, random can find a spot more
        quickly but might fail to find one no matter how many tries it makes */
     for (trycount = 0; trycount < 50; ++trycount) {
-        x = rnd(COLNO - 1); /* 1..COLNO-1 */
-        y = rn2(ROWNO); /* 0..ROWNO-1 */
+        x = rnd(COLNO - 1);          /* 1..COLNO-1 */
+        y = rn2(ROWNO);              /* 0..ROWNO-1 */
         if (rloc_pos_ok(x, y, mtmp)) /* rejects 'onscary' */
             goto found_xy;
     }
@@ -1889,7 +1854,7 @@ rloc(
     }
     x = backupcc.x, y = backupcc.y;
     /*goto found_xy;*/
- found_xy:
+found_xy:
     rloc_to_core(mtmp, x, y, rlocflags);
     return TRUE;
 }
@@ -1899,8 +1864,7 @@ boolean
 control_mon_tele(
     struct monst *mon,
     coord *cc_p, /* input: default spot; output: player selected spot */
-    unsigned rlocflags,
-    boolean via_rloc)
+    unsigned rlocflags, boolean via_rloc)
 {
     char tcbuf[BUFSZ];
 
@@ -1913,23 +1877,20 @@ control_mon_tele(
     if (!wizard || !iflags.mon_telecontrol)
         return FALSE;
 
-    pline("传送 %s 到 <%d,%d> 哪里？",
-          noit_mon_nam(mon), mon->mx, mon->my);
+    pline("将%s传送到<%d,%d>哪里?", noit_mon_nam(mon), mon->mx, mon->my);
     /* getpos '?' will show "Move the cursor to <where to teleport Foo>:" */
-    Sprintf(tcbuf, "将 %s 传送到哪里", noit_mon_nam(mon));
+    Sprintf(tcbuf, "将%s传送到哪里", noit_mon_nam(mon));
     if (getpos(cc_p, FALSE, tcbuf) >= 0 && !u_at(cc_p->x, cc_p->y)) {
-        if (via_rloc
-              ? rloc_pos_ok(cc_p->x, cc_p->y, mon)
-              : goodpos(cc_p->x, cc_p->y, mon, rlocflags))
+        if (via_rloc ? rloc_pos_ok(cc_p->x, cc_p->y, mon)
+                     : goodpos(cc_p->x, cc_p->y, mon, rlocflags))
             return TRUE;
         if (!iflags.debug_fuzzer) {
-            Sprintf(tcbuf, "<%d,%d> 不被认为是可行的；是否强制传送？",
-                    mon->mx, mon->my);
+            Sprintf(tcbuf, "<%d,%d>不可行;强制传送?", mon->mx, mon->my);
             if (y_n(tcbuf) == 'y')
                 return TRUE;
         }
     }
-    pline("%s 目的地。", via_rloc ? "随机选取" : "使用衍生的");
+    pline("%s目的地.", via_rloc ? "选取了随机" : "使用了衍生的");
     return FALSE;
 }
 
@@ -1951,8 +1912,7 @@ tele_restrict(struct monst *mon)
 {
     if (noteleport_level(mon)) {
         if (canseemon(mon))
-            pline("一种神秘的力量阻止了%s 传送!",
-                  mon_nam(mon));
+            pline("一股神秘的力量阻止了%s传送!", mon_nam(mon));
         return TRUE;
     }
     return FALSE;
@@ -1993,9 +1953,9 @@ mtele_trap(struct monst *mtmp, struct trap *trap, int in_sight)
 
         if (in_sight) {
             if (canseemon(mtmp))
-                pline("%s 似乎迷失方向的.", monname);
+                pline("%s似乎迷失了方向.", monname);
             else
-                pline("%s突然消失了！", monname);
+                pline("%s突然消失了!", monname);
             seetrap(trap);
         }
     }
@@ -2003,15 +1963,12 @@ mtele_trap(struct monst *mtmp, struct trap *trap, int in_sight)
 
 /* return Trap_Effect_Finished if still on level, Trap_Moved_Mon if not */
 int
-mlevel_tele_trap(
-    struct monst *mtmp,
-    struct trap *trap,
-    boolean force_it,
-    int in_sight)
+mlevel_tele_trap(struct monst *mtmp, struct trap *trap, boolean force_it,
+                 int in_sight)
 {
     int tt = (trap ? trap->ttyp : NO_TRAP);
 
-    if (mtmp == u.ustuck) /* probably a vortex */
+    if (mtmp == u.ustuck)            /* probably a vortex */
         return Trap_Effect_Finished; /* temporary? kludge */
     if (teleport_pet(mtmp, force_it)) {
         d_level tolevel;
@@ -2022,21 +1979,19 @@ mlevel_tele_trap(
                 assign_level(&tolevel, &valley_level);
             } else if (Is_botlevel(&u.uz)) {
                 if (in_sight && trap->tseen)
-                    pline_mon(mtmp, "%s avoids the %s.",
-                              Monnam(mtmp),
-                             (tt == HOLE) ? "hole" : "trap");
+                    pline_mon(mtmp, "%s躲过了%s.", Monnam(mtmp),
+                              (tt == HOLE) ? "洞" : "陷阱");
                 return Trap_Effect_Finished;
             } else {
                 assign_level(&tolevel, &trap->dst);
                 (void) clamp_hole_destination(&tolevel);
             }
         } else if (tt == MAGIC_PORTAL) {
-            if (In_endgame(&u.uz) && (mon_has_amulet(mtmp)
-                                      || is_home_elemental(mtmp->data)
-                                      || rn2(7))) {
+            if (In_endgame(&u.uz)
+                && (mon_has_amulet(mtmp) || is_home_elemental(mtmp->data)
+                    || rn2(7))) {
                 if (in_sight && mtmp->data->mlet != S_ELEMENTAL) {
-                    pline_mon(mtmp,
-                              "%s seems to shimmer for a moment.",
+                    pline_mon(mtmp, "%s闪烁了一刹那",
                               Monnam(mtmp));
                     seetrap(trap);
                 }
@@ -2048,16 +2003,16 @@ mlevel_tele_trap(
         } else if (tt == LEVEL_TELEP || tt == NO_TRAP) {
             int nlev;
 
-            if (mon_has_amulet(mtmp) || In_endgame(&u.uz)
+            if (mon_has_amulet(mtmp)
+                || In_endgame(&u.uz)
                 /* NO_TRAP is used when forcing a monster off the level;
                    onscary(0,0,) is true for the Wizard, Riders, lawful
                    minions, Angels of any alignment, shopkeeper or priest
                    currently inside his or her own special room */
                 || (tt == NO_TRAP && onscary(0, 0, mtmp))) {
                 if (in_sight)
-                    pline_mon(mtmp,
-                             "%s seems very disoriented for a moment.",
-                             Monnam(mtmp));
+                    pline_mon(mtmp, "%s看上去尤其迷失了一刹那.",
+                              Monnam(mtmp));
                 return Trap_Effect_Finished;
             }
             if (tt == NO_TRAP) {
@@ -2070,7 +2025,7 @@ mlevel_tele_trap(
                 nlev = random_teleport_level();
                 if (nlev == depth(&u.uz)) {
                     if (in_sight)
-                        pline_mon(mtmp, "%s shudders for a moment.",
+                        pline_mon(mtmp, "%s突然打了个哆嗦.",
                                   Monnam(mtmp));
                     return Trap_Effect_Finished;
                 }
@@ -2082,10 +2037,10 @@ mlevel_tele_trap(
         }
 
         if (in_sight) {
-            pline_mon(mtmp, "Suddenly, %s %s.", mon_nam(mtmp),
-                     (tt == HOLE) ? "falls into a hole"
-                   : (tt == TRAPDOOR) ? "falls through a trap door"
-                   : "disappears out of sight");
+            pline_mon(mtmp, "突然,%s%s.", mon_nam(mtmp),
+                      (tt == HOLE)       ? "掉进了一个洞里"
+                      : (tt == TRAPDOOR) ? "掉进了一个陷阱门"
+                                         : "消失在你视线之外");
             if (trap)
                 seetrap(trap);
         }
@@ -2119,26 +2074,25 @@ rloco(struct obj *obj)
         ty = rn2(ROWNO);
         if (!--try_limit)
             break;
-    } while (!goodpos(tx, ty, (struct monst *) 0, 0)
-             || (restricted_fall
-                 && (!within_bounded_area(tx, ty,
-                                          svd.dndest.lx, svd.dndest.ly,
-                                          svd.dndest.hx, svd.dndest.hy)
-                     || (svd.dndest.nlx
-                         && within_bounded_area(tx, ty,
-                                            svd.dndest.nlx, svd.dndest.nly,
-                                            svd.dndest.nhx, svd.dndest.nhy))))
-             /* on the Wizard Tower levels, objects inside should
-                stay inside and objects outside should stay outside */
-             || (svd.dndest.nlx && On_W_tower_level(&u.uz)
-                 && within_bounded_area(tx, ty,
-                                        svd.dndest.nlx, svd.dndest.nly,
-                                        svd.dndest.nhx, svd.dndest.nhy)
-                    != within_bounded_area(otx, oty,
-                                           svd.dndest.nlx, svd.dndest.nly,
-                                           svd.dndest.nhx, svd.dndest.nhy)));
+    } while (
+        !goodpos(tx, ty, (struct monst *) 0, 0)
+        || (restricted_fall
+            && (!within_bounded_area(tx, ty, svd.dndest.lx, svd.dndest.ly,
+                                     svd.dndest.hx, svd.dndest.hy)
+                || (svd.dndest.nlx
+                    && within_bounded_area(tx, ty, svd.dndest.nlx,
+                                           svd.dndest.nly, svd.dndest.nhx,
+                                           svd.dndest.nhy))))
+        /* on the Wizard Tower levels, objects inside should
+           stay inside and objects outside should stay outside */
+        || (svd.dndest.nlx && On_W_tower_level(&u.uz)
+            && within_bounded_area(tx, ty, svd.dndest.nlx, svd.dndest.nly,
+                                   svd.dndest.nhx, svd.dndest.nhy)
+                   != within_bounded_area(otx, oty, svd.dndest.nlx,
+                                          svd.dndest.nly, svd.dndest.nhx,
+                                          svd.dndest.nhy)));
 
-    if (flooreffects(obj, tx, ty, "fall")) {
+    if (flooreffects(obj, tx, ty, "掉")) {
         /* update old location (if any) since flooreffects() couldn't;
            unblock_point() for boulder handled by obj_extract_self() */
         if (!(otx == 0 && oty == 0))
@@ -2164,13 +2118,14 @@ rloco(struct obj *obj)
                  oo = *in_rooms(otx, oty, 0);
             boolean hinshop = h && strchr(in_rooms(shkp->mx, shkp->my, 0), h);
 
-            if (hinshop && costly_spot(tx, ty)
+            if (hinshop
+                && costly_spot(tx, ty)
                 /* verify that it's the same shop */
                 && oo && strchr(in_rooms(tx, ty, 0), oo)) {
                 if (obj->unpaid)
                     subfrombill(obj, shkp);
-            } else if (hinshop && costly_adjacent(shkp, tx, ty)
-                       && oo && strchr(in_rooms(tx, ty, 0), oo)) {
+            } else if (hinshop && costly_adjacent(shkp, tx, ty) && oo
+                       && strchr(in_rooms(tx, ty, 0), oo)) {
                 if (!obj->unpaid)
                     addtobill(obj, FALSE, FALSE, FALSE);
             } else {
@@ -2260,24 +2215,21 @@ random_teleport_level(void)
 /* you teleport a monster (via wand, spell, or poly'd q.mechanic attack);
    return false iff the attempt fails */
 boolean
-u_teleport_mon(
-    struct monst *mtmp,
-    boolean give_feedback)
+u_teleport_mon(struct monst *mtmp, boolean give_feedback)
 {
     coord cc;
 
     if (svl.level.flags.stasis_until >= svm.moves) {
         if (give_feedback)
-            pline("一股神秘的力量阻止了你传送%s！",
-                  mon_nam(mtmp));
+            pline("一股神秘的力量阻止了你传送%s!", mon_nam(mtmp));
         return FALSE;
     } else if (mtmp->ispriest && *in_rooms(mtmp->mx, mtmp->my, TEMPLE)) {
         if (give_feedback)
-            pline("%s 抵抗你的魔法!", Monnam(mtmp));
+            pline("%s抵抗了你的魔法!", Monnam(mtmp));
         return FALSE;
     } else if (engulfing_u(mtmp) && noteleport_level(mtmp)) {
         if (give_feedback)
-            You("不再在%s 的里面!", mon_nam(mtmp));
+            You("不再在%s里面了!", mon_nam(mtmp));
         unstuck(mtmp);
         if (!rloc(mtmp, RLOC_MSG))
             m_into_limbo(mtmp);

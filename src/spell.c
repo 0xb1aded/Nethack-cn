@@ -108,7 +108,7 @@ staticfn void propagate_chain_lightning(struct chain_lightning_queue *,
 #define uarmfbon 2 /* All metal interferes to some degree */
 
 /* since the spellbook itself doesn't blow up, don't say just "explodes" */
-static const char explodes[] = "radiates explosive energy";
+static const char explodes[] = "爆炸的能量";
 
 /* convert a letter into a number in the range 0..51, or -1 if not a letter */
 staticfn int
@@ -135,11 +135,11 @@ cursed_book(struct obj *bp)
 
     switch (rn2(lev)) {
     case 0:
-        You_feel("一种扭曲的感觉。");
+        You_feel("一阵扭曲.");
         tele(); /* teleport him */
         break;
     case 1:
-        You_feel("受威胁。");
+        You_feel("被威胁了.");
         aggravate();
         break;
     case 2:
@@ -149,13 +149,13 @@ cursed_book(struct obj *bp)
         take_gold();
         break;
     case 4:
-        pline("这些符文只是太难理解了.");
+        pline("这些符文太难理解了.");
         make_confused(HConfusion + rn1(7, 16), FALSE);
         break;
     case 5:
-        pline_The("书中被涂了毒!");
+        pline_The("这本书里被涂了毒!");
         if (uarmg) {
-            erode_obj(uarmg, "gloves", ERODE_CORRODE, EF_GREASE | EF_VERBOSE);
+            erode_obj(uarmg, "手套", ERODE_CORRODE, EF_GREASE | EF_VERBOSE);
             break;
         }
         /* temp disable in_use; death should not destroy the book */
@@ -163,18 +163,18 @@ cursed_book(struct obj *bp)
         bp->in_use = FALSE;
         poison_strdmg(Poison_resistance ? rn1(2, 1) : rn1(4, 3),
                       rnd(Poison_resistance ? 6 : 10),
-                      "contact-poisoned spellbook", KILLED_BY_AN);
+                      "书页涂毒", KILLED_BY_AN);
         bp->in_use = was_in_use;
         break;
     case 6:
         if (Antimagic) {
             shieldeff(u.ux, u.uy);
-            pline_The("书%s, 但你安然无恙!", explodes);
+            pline_The("书释放出了%s,但你安然无恙!", explodes);
         } else {
-            pline("在你读这本书的时候, 它%s 在你的%s 上!", explodes,
+            pline("你打开这本书,它把%s释放到了你的%s上!", explodes,
                   body_part(FACE));
             dmg = 2 * rnd(10) + 5;
-            losehp(Maybe_Half_Phys(dmg), "exploding rune", KILLED_BY_AN);
+            losehp(Maybe_Half_Phys(dmg), "爆炸符文", KILLED_BY_AN);
         }
         return TRUE;
     default:
@@ -193,15 +193,15 @@ confused_book(struct obj *spellbook)
     if (!rn2(3) && spellbook->otyp != SPE_BOOK_OF_THE_DEAD) {
         spellbook->in_use = TRUE; /* in case called from learn() */
         pline(
-         "于混乱中你很难控制你的行动.");
+         "你正处于混乱中,很难控制你的行动.");
         display_nhwindow(WIN_MESSAGE, FALSE);
         You("不小心把书撕碎了.");
         trycall(spellbook);
         useup(spellbook);
         gone = TRUE;
     } else {
-        You("发现你自己不断的在读%s行.",
-            spellbook == svc.context.spbook.book ? "第二" : "第一");
+        You("发现你自己在不断地读%s行.",
+            spellbook == svc.context.spbook.book ? "下一" : "第一");
     }
     return gone;
 }
@@ -233,7 +233,7 @@ deadbook(struct obj *book2)
     struct monst *mtmp;
     coord mm;
 
-    You("给死亡之书翻过一页...");
+    You("翻动死亡之书...");
     makeknown(SPE_BOOK_OF_THE_DEAD);
     observe_object(book2); /* in case blind now and hasn't been seen yet */
     /* KMH -- Need ->known to avoid "_a_ Book of the Dead" */
@@ -245,19 +245,19 @@ deadbook(struct obj *book2)
 
         if (book2->cursed) {
             pline_The("%s!",
-                      Blind ? "书似乎无视了你"
-                            : "符文看起来杂乱无章。你无法阅读它们。");
+                      Blind ? "这本书似乎在无视你"
+                            : "里面的符文看起来杂乱无章,你不会读.");
             return;
         }
 
         if (!u.uhave.bell || !u.uhave.menorah) {
-            pline("寒意落进了你的%s.", body_part(SPINE));
+            pline("一股寒意顺着你的%s蔓延.", body_part(SPINE));
             if (!u.uhave.bell) {
                 Soundeffect(se_faint_chime, 30);
-                You_hear("一个微弱的钟声...");
+                You_hear("一阵微弱的铃声...");
             }
             if (!u.uhave.menorah)
-                pline("弗拉德的幽灵很开心.");
+                pline("弗拉德的二重身很开心.");
             return;
         }
 
@@ -279,10 +279,10 @@ deadbook(struct obj *book2)
         }
 
         if (arti_cursed) {
-            pline_The("符咒失败!");
+            pline_The("呼唤失败了!");
             /* this used to say "your artifacts" but the invocation tools
                are not artifacts */
-            pline("你的圣物中至少有一个被诅咒了...");
+            pline("你的圣物中至少有一个是被诅咒的...");
         } else if (arti1_primed && arti2_primed) {
             unsigned soon = (unsigned) d(2, 6); /* time til next intervene() */
 
@@ -296,7 +296,7 @@ deadbook(struct obj *book2)
             if (!u.udg_cnt || u.udg_cnt > soon)
                 u.udg_cnt = soon;
         } else { /* at least one relic not prepared properly */
-            You("有一种感觉%s有差错...", something);
+            You("感觉好像缺少%s...", something);
             goto raise_dead;
         }
         return;
@@ -306,7 +306,7 @@ deadbook(struct obj *book2)
     if (book2->cursed) {
  raise_dead:
 
-        You("让人起死回生!");
+        You("唤起了死者!");
         /* first maybe place a dangerous adversary */
         if (!rn2(3) && ((mtmp = makemon(&mons[PM_MASTER_LICH], u.ux, u.uy,
                                         NO_MINVENT)) != 0
@@ -326,13 +326,13 @@ deadbook(struct obj *book2)
     } else {
         switch (rn2(3)) {
         case 0:
-            Your("祖先对你很气恼!");
+            Your("祖先对你很生气!");
             break;
         case 1:
             pline_The("墓地里的墓碑开始移动!");
             break;
         default:
-            pline("天哪!  你的名字出现在书里!");
+            pline("天哪!你的名字出现在书里!");
         }
     }
     return;
@@ -344,7 +344,7 @@ book_cursed(struct obj *book)
 {
     if (book->cursed && gm.multi >= 0
         && go.occupation == learn && svc.context.spbook.book == book) {
-        pline("%s 合上了！", Tobjnam(book, "砰地合上"));
+        pline("%s了!", Tobjnam(book, "砰地合上"));
         set_bknown(book, 1);
         stop_occupation();
     }
@@ -370,7 +370,7 @@ learn(void)
         svc.context.spbook.book = 0; /* no longer studying */
         svc.context.spbook.o_id = 0;
         nomul(svc.context.spbook.delay); /* remaining delay is uninterrupted */
-        gm.multi_reason = "reading a book";
+        gm.multi_reason = "读书";
         gn.nomovemsg = 0;
         svc.context.spbook.delay = 0;
         return 0;
@@ -388,7 +388,7 @@ learn(void)
     }
 
     Sprintf(splname,
-            objects[booktype].oc_name_known ? "\" %s\"" : "\" %s\" 魔法",
+            objects[booktype].oc_name_known ? "\"%s\"" : "\"%s\"魔法",
             OBJ_NAME(objects[booktype]));
     for (i = 0; i < MAXSPELL; i++)
         if (spellid(i) == booktype || spellid(i) == NO_SPELL)
@@ -399,13 +399,13 @@ learn(void)
     } else if (spellid(i) == booktype) {
         /* normal book can be read and re-read a total of 4 times */
         if (book->spestudied > MAX_SPELL_STUDY) {
-            pline("这本魔法书太模糊不能再读了.");
+            pline("这本魔法书已经模糊到字迹无法辨认了.");
             book->otyp = booktype = SPE_BLANK_PAPER;
             faded_to_blank = TRUE;
             /* reset spestudied as if polymorph had taken place */
             book->spestudied = rn2(book->spestudied);
         } else {
-            Your("对%s的熟悉%s.", splname,
+            Your("对%s的理解%s.", splname,
                  spellknow(i) ? "更深了" : "恢复了");
             incrnknow(i, 1);
             book->spestudied++;
@@ -417,7 +417,7 @@ learn(void)
            one less reading is available than when re-learning */
         if (book->spestudied >= MAX_SPELL_STUDY) {
             /* pre-used due to being the product of polymorph */
-            pline("这本魔法书太模糊以至于不能再读一次.");
+            pline("这本魔法书已经模糊到字迹无法辨认了.");
             book->otyp = booktype = SPE_BLANK_PAPER;
             faded_to_blank = TRUE;
             /* reset spestudied as if polymorph had taken place */
@@ -429,9 +429,9 @@ learn(void)
             book->spestudied++;
             if (!i)
                 /* first is always 'a', so no need to mention the letter */
-                You("学会%s。", splname);
+                You("学会了%s.", splname);
             else
-                You("将%s添加到你的法术库中，作为'%c'。",
+                You("将%s添加到你的魔法列表中,快捷键为'%c'.",
                     splname, spellet(i));
         }
     }
@@ -485,7 +485,7 @@ study_book(struct obj *spellbook)
             eyes = body_part(EYE);
             if (eyecount(gy.youmonst.data) > 1)
                 eyes = makeplural(eyes);
-            pline("这本书太枯燥以至于你不能睁开你的%s.",
+            pline("这本书枯燥到你连%s都睁不开.",
                   eyes);
             dullbook += rnd(2 * objects[booktype].oc_level);
             fall_asleep(-dullbook, TRUE);
@@ -498,13 +498,13 @@ study_book(struct obj *spellbook)
         /* handle the sequence: start reading, get interrupted, have
            svc.context.spbook.book become erased somehow, resume reading it */
         && booktype != SPE_BLANK_PAPER) {
-        You("继续你%s的努力。",
+        You("继续%s.",
             (booktype == SPE_NOVEL) ? "阅读小说"
-                                    : "记忆法术");
+                                    : "记忆魔法");
     } else {
         /* KMH -- Simplified this code */
         if (booktype == SPE_BLANK_PAPER) {
-            pline("这本法术书完全是空白的。");
+            pline("这本魔法书是完全空白的.");
             makeknown(booktype);
             return 1;
         }
@@ -518,7 +518,7 @@ study_book(struct obj *spellbook)
                              spellbook->o_id)) {
                 if (!u.uconduct.literate++)
                     livelog_printf(LL_CONDUCT,
-                                   "became literate by reading %s",
+                                   "因读%s而脱离文盲",
                                    tribtitle);
 
                 check_unpaid(spellbook);
@@ -563,12 +563,12 @@ study_book(struct obj *spellbook)
             if (spellid(i) == booktype || spellid(i) == NO_SPELL)
                 break;
         if (spellid(i) == booktype && spellknow(i) > KEEN / 10) {
-            You("已经相当熟悉\"%s\"了。",
+            You("已经相当熟悉\"%s\"了.",
                 OBJ_NAME(objects[booktype]));
             /* hero has just been told what spell this book is for; it may
                have been undiscovered if spell was learned via divine gift */
             makeknown(booktype);
-            if (y_n("Refresh your memory anyway?") == 'n')
+            if (y_n("确定刷新记忆?") == 'n')
                 return 0;
         }
 
@@ -588,8 +588,8 @@ study_book(struct obj *spellbook)
                     char qbuf[QBUFSZ];
 
                     Sprintf(qbuf,
-                    "这本法术书是%s难以理解.  继续吗?",
-                            (read_ability < 12 ? "非常 " : ""));
+                    "这本魔法书%s难理解.继续吗?",
+                            (read_ability < 12 ? "非常 " : "很"));
                     if (y_n(qbuf) != 'y') {
                         spellbook->in_use = FALSE;
                         return 1;
@@ -606,12 +606,12 @@ study_book(struct obj *spellbook)
             boolean gone = cursed_book(spellbook);
 
             nomul(svc.context.spbook.delay); /* study time */
-            gm.multi_reason = "reading a book";
+            gm.multi_reason = "读书";
             gn.nomovemsg = 0;
             svc.context.spbook.delay = 0;
             if (gone || !rn2(3)) {
                 if (!gone)
-                    pline_The("法术书化为尘土！");
+                    pline_The("魔法书化为了尘土!");
                 trycall(spellbook);
                 useup(spellbook);
             } else
@@ -622,21 +622,21 @@ study_book(struct obj *spellbook)
                 spellbook->in_use = FALSE;
             }
             nomul(svc.context.spbook.delay);
-            gm.multi_reason = "reading a book";
+            gm.multi_reason = "读书";
             gn.nomovemsg = 0;
             svc.context.spbook.delay = 0;
             return 1;
         }
         spellbook->in_use = FALSE;
 
-        You("开始%s符文。",
-            spellbook->otyp == SPE_BOOK_OF_THE_DEAD ? "吟诵" : "记忆");
+        You("开始%s符文.",
+            spellbook->otyp == SPE_BOOK_OF_THE_DEAD ? "吟诵" : "记住");
     }
 
     svc.context.spbook.book = spellbook;
     if (svc.context.spbook.book)
         svc.context.spbook.o_id = svc.context.spbook.book->o_id;
-    set_occupation(learn, "studying", 0);
+    set_occupation(learn, "学习", 0);
     return 1;
 }
 
@@ -688,10 +688,10 @@ rejectcasting(void)
 {
     /* rejections which take place before selecting a particular spell */
     if (Stunned) {
-        You("在施展魔法时太受影响.");
+        You("身体不稳,不能施放法术.");
         return TRUE;
     } else if (!can_chant(&gy.youmonst)) {
-        You("无法念咒语.");
+        You("不能念咒.");
         return TRUE;
     } else if (!freehand() && !(uwep && uwep->otyp == QUARTERSTAFF)) {
         /* Note: !freehand() occurs when weapon and shield (or two-handed
@@ -701,7 +701,7 @@ rejectcasting(void)
          * But why isn't lack of free arms (for gesturing) an issue when
          * poly'd hero has no limbs?
          */
-        Your("手没空施法!");
+        Your("手腾不出来!");
         return TRUE;
     }
     return FALSE;
@@ -720,7 +720,7 @@ getspell(int *spell_no)
 
     nspells = num_spells();
     if (!nspells) {
-        You("你目前不知道任何法术。");
+        You("你目前不知道任何法术.");
         return FALSE;
     }
     if (rejectcasting())
@@ -752,13 +752,13 @@ getspell(int *spell_no)
         else
             Sprintf(lets, "a-zA-%c", 'A' + nspells - 27);
 
-        Snprintf(qbuf, sizeof qbuf, "Cast which spell? [%s *?]", lets);
+        Snprintf(qbuf, sizeof qbuf, "施放哪个法术? [%s *?]", lets);
         for (retry_limit = 0; ; ++retry_limit) {
             if (retry_limit == 10) {
                 /* limit is mainly to prevent the fuzzer from getting stuck
                    since hangup should hit the 'quitchars' case; fuzzer
                    would too, but after an arbitrary number of attempts */
-                pline("尝试次数够多了。");
+                pline("你试了够多次了.");
                 return FALSE;
             }
             ilet = yn_function(qbuf, (char *) 0, '\0', TRUE);
@@ -771,14 +771,14 @@ getspell(int *spell_no)
 
             idx = spell_let_to_idx(ilet);
             if (idx < 0 || idx >= nspells) {
-                You("不知道那个魔法.");
+                You("不知道那个法术.");
                 continue; /* ask again */
             }
             *spell_no = idx;
             return TRUE;
         }
     }
-    return dospellmenu("Choose which spell to cast", SPELLMENU_CAST,
+    return dospellmenu("选择施放的法术", SPELLMENU_CAST,
                        spell_no);
 }
 
@@ -803,7 +803,7 @@ dowizcast(void)
         add_menu(win, &nul_glyphinfo, &any, 0, 0, ATR_NONE, NO_COLOR,
                  OBJ_NAME(objects[n]), MENU_ITEMFLAGS_NONE);
     }
-    end_menu(win, "施放哪个法术？");
+    end_menu(win, "施放哪个法术?");
     n = select_menu(win, PICK_ONE, &selected);
     destroy_nhwindow(win);
     if (n > 0) {
@@ -833,19 +833,19 @@ spelltypemnemonic(int skill)
 {
     switch (skill) {
     case P_ATTACK_SPELL:
-        return "attack";
+        return "攻击";
     case P_HEALING_SPELL:
-        return "healing";
+        return "治疗";
     case P_DIVINATION_SPELL:
-        return "divination";
+        return "预测";
     case P_ENCHANTMENT_SPELL:
-        return "enchantment";
+        return "迷惑";
     case P_CLERIC_SPELL:
-        return "clerical";
+        return "神圣";
     case P_ESCAPE_SPELL:
-        return "escape";
+        return "逃脱";
     case P_MATTER_SPELL:
-        return "matter";
+        return "物质";
     default:
         impossible("Unknown spell skill, %d;", skill);
         return "";
@@ -1056,7 +1056,7 @@ cast_chain_lightning(void)
                             map_invisible(zap.x, zap.y);
                     }
                 } else if (canseemon(mon)) {
-                    pline("%s抵抗了。", Monnam(mon));
+                    pline("%s挡住了你的闪电.", Monnam(mon));
                 }
                 if (!DEADMONSTER(mon)) {
                     /* wakeup is via attack, but since mon is already
@@ -1145,23 +1145,23 @@ cast_protection(void)
             const char *hgolden = hcolor(NH_GOLDEN), *atmosphere;
 
             if (u.uspellprot) {
-                pline_The("你周围%s雾霭变得更加浓密了.", hgolden);
+                pline_The("你周围的%s雾霭变得更浓密了.", hgolden);
             } else {
                 struct permonst *pm = u.ustuck ? u.ustuck->data : 0;
 
                 rmtyp = levl[u.ux][u.uy].typ;
                 atmosphere = (pm && u.uswallow)
-                                ? ((pm == &mons[PM_FOG_CLOUD]) ? "mist"
-                                   : is_whirly(pm) ? "maelstrom"
-                                     : enfolds(pm) ? "folds"
-                                       : is_animal(pm) ? "maw"
-                                         : "ooze")
-                                : (u.uinwater ? hliquid("water")
-                                   : (rmtyp == CLOUD) ? "cloud"
-                                     : IS_TREE(rmtyp) ? "vegetation"
-                                       : IS_STWALL(rmtyp) ? "stone"
+                                ? ((pm == &mons[PM_FOG_CLOUD]) ? "将你包围的雾"
+                                   : is_whirly(pm) ? "将你吞没的漩涡"
+                                     : enfolds(pm) ? "裹住你的东西"
+                                       : is_animal(pm) ? "将你包围的巨口"
+                                         : "将你包围的软泥")
+                                : (u.uinwater ? hliquid("你周围的水")
+                                   : (rmtyp == CLOUD) ? "你周围的云"
+                                     : IS_TREE(rmtyp) ? "你周围的植被"
+                                       : IS_STWALL(rmtyp) ? "你周围的石头"
                                          : "air");
-                pline_The("你周围的%s开始发出微弱的%s暗淡色泽.",
+                pline_The("%s开始发出微弱的暗淡%s色.",
                           atmosphere, an(hgolden));
             }
         }
@@ -1269,15 +1269,15 @@ spelleffects_check(int spell, int *res, int *energy)
     }
 
     if (u.uhunger <= 10 && spellid(spell) != SPE_DETECT_FOOD) {
-        You("太饿了不能施展那个魔法.");
+        You("太饿了,不能施展那个魔法.");
         *res = ECMD_OK;
         return TRUE;
     } else if (ACURR(A_STR) < 4 && spellid(spell) != SPE_RESTORE_ABILITY) {
-        You("缺乏力量来施展魔法.");
+        You("的力量不足以来施展魔法.");
         *res = ECMD_OK;
         return TRUE;
     } else if (check_capacity(
-                "Your concentration falters while carrying so much stuff.")) {
+                "因为负担过重,你的注意力开始涣散.")) {
         *res = ECMD_TIME;
         return TRUE;
     }
@@ -1288,7 +1288,7 @@ spelleffects_check(int spell, int *res, int *energy)
        the attempt may fail due to lack of energy after the draining, in
        which case a turn will be used up in addition to the energy loss */
     if (u.uhave.amulet && u.uen >= *energy) {
-        You_feel("护身符在消耗你的能量.");
+        You_feel("你的护身符正在消耗你的能量.");
         /* this used to be 'energy += rnd(2 * energy)' (without 'res'),
            so if amulet-induced cost was more than u.uen, nothing
            (except the "don't have enough energy" message) happened
@@ -1312,7 +1312,7 @@ spelleffects_check(int spell, int *res, int *energy)
          * isn't now (lost energy when losing levels or polymorphing into
          * new person or had some stripped away by traps or monsters).
          */
-        You("没有足够的能量施放那个法术%s。",
+        You("的能量%s还不足以施放那个法术.",
             (u.uen < u.uenmax) ? "" /* not at full energy => normal message */
             : (*energy > u.uenpeak) ? "还" /* haven't ever had enough */
               : "了"); /* once had enough but have lost some since */
@@ -1427,7 +1427,7 @@ spelleffects(int spell_otyp, boolean atme, boolean force)
                     if (!u.dx && !u.dy && !u.dz) {
                         if ((damage = zapyourself(pseudo, TRUE)) != 0) {
                             char buf[BUFSZ];
-                            Sprintf(buf, "用咒语电击了 %s自身",
+                            Sprintf(buf, "用咒语击中了%s自己",
                                     uhim());
                             losehp(damage, buf, NO_KILLER_PREFIX);
                         }
@@ -1501,7 +1501,7 @@ spelleffects(int spell_otyp, boolean atme, boolean force)
                 if ((damage = zapyourself(pseudo, TRUE)) != 0) {
                     char buf[BUFSZ];
 
-                    Sprintf(buf, "用咒术击中了%s自己", uhim());
+                    Sprintf(buf, "用咒语击中了%s自己", uhim());
                     if (physical_damage)
                         damage = Maybe_Half_Phys(damage);
                     losehp(damage, buf, NO_KILLER_PREFIX);
@@ -1561,9 +1561,9 @@ spelleffects(int spell_otyp, boolean atme, boolean force)
          *  Sick +  Slimed -- You are no longer ill.  The slime disappears.
          */
         if (was_sick || !was_slimed)
-            You("你%s生病了。", was_sick ? "不再" : "不");
+            You("你%s.", was_sick ? "痊愈了" : "没有生病");
         if (was_slimed)
-            make_slimed(0L, "The slime disappears!");
+            make_slimed(0L, "黏液消失了!");
         break;
     }
     case SPE_CREATE_FAMILIAR:
@@ -1658,19 +1658,19 @@ throwspell(void)
     struct monst *mtmp;
 
     if (u.uinwater) {
-        pline("你在开玩笑吧! 在这种天气里?");
+        pline("别开玩笑了!你在水里面!");
         return 0;
     } else if (Is_waterlevel(&u.uz)) {
-        You("最好等到太阳出来.");
+        You("还是等太阳出来再说吧.");
         return 0;
     }
 
-    pline("你想在哪儿施展魔法?");
+    pline("你想在哪里施放法术?");
     cc.x = u.ux;
     cc.y = u.uy;
     getpos_sethilite(display_spell_target_positions,
                      can_center_spell_location);
-    if (getpos(&cc, TRUE, "the desired position") < 0)
+    if (getpos(&cc, TRUE, "想要施放的位置") < 0)
         return 0; /* user pressed ESC */
     clear_nhwindow(WIN_MESSAGE); /* discard any autodescribe feedback */
 
@@ -1679,7 +1679,7 @@ throwspell(void)
         pline_The("魔法在这段距离中消散了!");
         return 0;
     } else if (u.uswallow) {
-        pline_The("魔法被打断!");
+        pline_The("魔法被挡住了!");
         exercise(A_WIS, FALSE); /* What were you THINKING! */
         u.dx = 0;
         u.dy = 0;
@@ -1853,16 +1853,16 @@ enum spl_sort_types {
 };
 
 static const char *const spl_sortchoices[NUM_SPELL_SORTBY] = {
-    "by casting letter",
-    "alphabetically",
-    "by level, low to high",
-    "by level, high to low",
-    "by skill group, alphabetized within each group",
-    "by skill group, low to high level within group",
-    "by skill group, high to low level within group",
-    "maintain current ordering",
+    "按快捷键顺序",
+    "按字母顺序", /*危险:还用我说吗，，，*/
+    "按等级,从低到高",
+    "按等级,从高到低",
+    "按法术种类,每组内按字母排序",
+    "按法术种类,每组内从低到高",
+    "按法术种类,每组内从高到低",
+    "保持当前排序",
     /* a menu choice rather than a sort choice */
-    "reassign casting letters to retain current order",
+    "在当前排序中重新分配快捷键",
 };
 
 /* qsort callback routine */
@@ -2000,7 +2000,7 @@ spellsortmenu(void)
                  (i == gs.spl_sortmode) ? MENU_ITEMFLAGS_SELECTED
                                         : MENU_ITEMFLAGS_NONE);
     }
-    end_menu(tmpwin, "查看已知的魔法列表排序");
+    end_menu(tmpwin, "查看已知的法术列表");
 
     n = select_menu(tmpwin, PICK_ONE, &selected);
     destroy_nhwindow(tmpwin);
@@ -2025,15 +2025,15 @@ dovspell(void)
     struct spell spl_tmp;
 
     if (spellid(0) == NO_SPELL) {
-        You("你现在不会任何法术。");
+        You("你目前不知道任何法术.");
     } else {
-        while (dospellmenu("Currently known spells",
+        while (dospellmenu("已知法术",
                            SPELLMENU_VIEW, &splnum)) {
             if (splnum == SPELLMENU_SORT) {
                 if (spellsortmenu())
                     sortspells();
             } else {
-                Sprintf(qbuf, "重新排序; 哪个和'%c' 互换位置",
+                Sprintf(qbuf, "重新排序;'%c'交换",
                         spellet(splnum));
                 if (!dospellmenu(qbuf, splnum, &othnum))
                     break;
@@ -2060,7 +2060,7 @@ show_spells(void)
 {
     int unused = SPELLMENU_DUMP;
     if (spellid(0) == NO_SPELL) {
-        pline("你一个法术都不会。");
+        pline("你目前不知道任何法术.");
         pline("%s", "");
     } else {
         pline("法术：");
@@ -2100,14 +2100,14 @@ dospellmenu(
      * need to be subtracted.
      */
     if (!iflags.menu_tab_sep) {
-        Sprintf(buf, "%s%-20s 等级 %-12s 失败率 记忆保持",
+        Sprintf(buf, "%s%-20s 等级 %-12s 失败率 留存率",
                 splaction == SPELLMENU_DUMP ? "" : "    ",
                 "名称",
-                "类别");
+                "种类");
         fmt = "%-20s  %2d   %-12s %3d%% %9s";
         sep = ' ';
     } else {
-        Sprintf(buf, "名字\t等级\t种类\t失败几率\t记忆度");
+        Sprintf(buf, "名称\t等级\t种类\t失败率\t留存率");
         fmt = "%s\t%-d\t%s\t%-d%%\t%s";
         sep = '\t';
     }
@@ -2304,7 +2304,7 @@ spellretention(int idx, char * outbuf)
 
     if (turnsleft < 1L) {
         /* spell has expired; hero can't successfully cast it anymore */
-        Strcpy(outbuf, "( 遗忘)");
+        Strcpy(outbuf, "(已遗忘)");
     } else if (turnsleft >= (long) KEEN) {
         /* full retention, first turn or immediately after reading book */
         Strcpy(outbuf, "100%");

@@ -1,4 +1,4 @@
--- NetHack quest.lua	$NHDT-Date: 1726894904 2024/09/21 05:01:44 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.10 $
+-- NetHack quest.lua $NHDT-Date: 1726894904 2024/09/21 05:01:44 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.10 $
 -- Copyright (c) 2021 by Pasi Kallinen
 -- NetHack may be freely redistributed.  See license for details.
 -- TODO:
@@ -34,3054 +34,3034 @@ questtext = {
    common = {
       TEST_PATTERN = {
          output = "text",
-         text = [[%p:	return(plname);
- %c:	return(pl_character);
- %r:	return((char *)rank_of(u.ulevel));
- %R:	return((char *)rank_of(MIN_QUEST_LEVEL));
- %s:	return((flags.female) ? "sister" : "brother" );
- %S:	return((flags.female) ? "daughter" : "son" );
- %l:	return((char *)ldrname());
- %i:	return(intermed());
- %o:	return(artiname());
- %O:	return(shortened(artiname()));
- %n:	return((char *)neminame());
- %g:	return((char *)guardname());
- %G:	return((char *)align_gtitle(u.ualignbase[1]));
- %H:	return((char *)homebase());
- %a:	return(Alignnam(u.ualignbase[1]));
- %A:	return(Alignnam(u.ualign.type));
- %d:	return((char *)align_gname(u.ualignbase[1]));
- %D:	return((char *)align_gname(A_LAWFUL));
- %C:	return("chaotic");
- %N:	return("neutral");
- %L:	return("lawful");
- %x:	return((Blind) ? "sense" : "see");
- %Z:	return("The Dungeons of Doom");
- %%:	return(percent_sign);
- a suffix:	return an(root);
- A suffix:	return An(root);
- C suffix:	return capitalized(root);
- h suffix:	return pronoun(he_or_she, mon_of(root)); /* for %l,%n,%d,%o */
- H suffix:	return capitalized(pronoun(he_or_she, mon_of(root)));
- i suffix:	return pronoun(him_or_her, mon_of(root));
- I suffix:	return capitalized(pronoun(him_or_her, mon_of(root)));
- j suffix:	return pronoun(his_or_her, mon_of(root));
- J suffix:	return capitalized(pronoun(his_or_her, mon_of(root)));
- p suffix:	return makeplural(root);
- P suffix:	return makeplural(capitalized(root));
- s suffix:	return s_suffix(root);
- S suffix:	return s_suffix(capitalized(root));
- t suffix:	return strip_the_prefix(root);]],
+         text = [[%p:   return(plname);
+ %c:  return(pl_character);
+ %r:  return((char *)rank_of(u.ulevel));
+ %R:  return((char *)rank_of(MIN_QUEST_LEVEL));
+ %s:  return((flags.female) ? "sister" : "brother" );
+ %S:  return((flags.female) ? "daughter" : "son" );
+ %l:  return((char *)ldrname());
+ %i:  return(intermed());
+ %o:  return(artiname());
+ %O:  return(shortened(artiname()));
+ %n:  return((char *)neminame());
+ %g:  return((char *)guardname());
+ %G:  return((char *)align_gtitle(u.ualignbase[1]));
+ %H:  return((char *)homebase());
+ %a:  return(Alignnam(u.ualignbase[1]));
+ %A:  return(Alignnam(u.ualign.type));
+ %d:  return((char *)align_gname(u.ualignbase[1]));
+ %D:  return((char *)align_gname(A_LAWFUL));
+ %C:  return("chaotic");
+ %N:  return("neutral");
+ %L:  return("lawful");
+ %x:  return((Blind) ? "sense" : "see");
+ %Z:  return("TheDungeonsofDoom");
+ %%:  return(percent_sign);
+ asuffix:   returnan(root);
+ Asuffix:   returnAn(root);
+ Csuffix:   returncapitalized(root);
+ hsuffix:   returnpronoun(he_or_she, mon_of(root)); /* for %l,%n,%d,%o */
+ Hsuffix:   returncapitalized(pronoun(he_or_she, mon_of(root)));
+ isuffix:   returnpronoun(him_or_her, mon_of(root));
+ Isuffix:   returncapitalized(pronoun(him_or_her, mon_of(root)));
+ jsuffix:   returnpronoun(his_or_her, mon_of(root));
+ Jsuffix:   returncapitalized(pronoun(his_or_her, mon_of(root)));
+ psuffix:   returnmakeplural(root);
+ Psuffix:   returnmakeplural(capitalized(root));
+ ssuffix:   returns_suffix(root);
+ Ssuffix:   returns_suffix(capitalized(root));
+ tsuffix:   returnstrip_the_prefix(root);]],
       },
       angel_cuss = {
-         "\"Repent, and thou shalt be saved!\"",
-         "\"Thou shalt pay for thine insolence!\"",
-         "\"Very soon, my child, thou shalt meet thy maker.\"",
-         "\"The great %D has sent me to make you pay for your sins!\"",
-         "\"The wrath of %D is now upon you!\"",
-         "\"Thy life belongs to %D now!\"",
-         "\"Dost thou wish to receive thy final blessing?\"",
-         "\"Thou art but a godless void.\"",
-         "\"Thou art not worthy to seek the Amulet.\"",
-         "\"No one expects the Spanish Inquisition!\"",
-         "\"Judgment hath been passed upon thee, %p.\"",
-         "\"Thy reckoning is at hand, %p.\"",
-         "\"Thou shalt be brought before %D for thy crimes!\"",
-         "\"With %D as my witness, I shall strike thee down.\"",
+         "\"汝其悔罪,便可得赎!\"",
+         "\"汝当为无礼受罚!\"",
+         "\"吾儿,汝不日将面见造主.\"",
+         "\"至高%D遣我,令汝为罪受罚!\"",
+         "\"%D之怒,已降于汝!\"",
+         "\"汝命今属%D矣!\"",
+         "\"愿受此临终之祝乎?\"",
+         "\"汝不啻一无神之虚空耳.\"",
+         "\"求彼符事,汝何堪之?\"",
+         "\"孰料西班牙宗教裁判所竟至?\"",
+         "\"汝之罪决已定,%p.\"",
+         "\"汝之清算在即,%p.\"",
+         "\"汝当因罪解于%D座前!\"",
+         "\"%D在上,吾将击汝使伏.\"",
       },
       banished = {
-         synopsis = "[You are banished from %H for betraying your allegiance to %d.]",
+         synopsis = "[因你背叛了%d的盟约,你被从%H中\'逐了出来.]",
          output = "text",
-         text = [["You have betrayed all those who hold allegiance to %d, as you once did.
-My allegiance to %d holds fast and I cannot condone or accept what you
-have done.
+         text = [["你背叛了所有效忠于%d者,就像你曾经那样.
+我对%d的忠诚坚定不移.我无法宽恕或接受你所
+做的一切.
 
-Leave this place.  You shall never set foot at %H again.
-That which you seek is now lost forever, for without the Bell of Opening,
-you will never be able to enter the place where he who has the Amulet
-resides.
+离开此地.你永远不得再踏足%H.
+你所追寻之物已永远失去,因为没有开启之钟,
+你将永远无法进入持有护身符者
+的巢穴.
 
-Go now!  You are banished from this place.]],
+现在就走!你已被逐出此地.]],
       },
       demon_cuss = {
-         "\"I first mistook thee for a statue, when I regarded thy head of stone.\"",
-         "\"Come here often?\"",
-         "\"Doth pain excite thee?  Wouldst thou prefer the whip?\"",
-         "\"Thinkest thou it shall tickle as I rip out thy lungs?\"",
-         "\"Eat slime and die!\"",
-         "\"Go ahead, fetch thy mama!  I shall wait.\"",
-         "\"Go play leapfrog with a herd of unicorns!\"",
-         "\"Hast thou been drinking, or art thou always so clumsy?\"",
-         "\"This time I shall let thee off with a spanking, but let it not happen again.\"",
-         "\"I've met smarter (and prettier) acid blobs.\"",
-         "\"Look!  Thy bootlace is undone!\"",
-         "\"Mercy!  Dost thou wish me to die of laughter?\"",
-         "\"Run away!  Live to flee another day!\"",
-         "\"Thou hadst best fight better than thou canst dress!\"",
-         "\"Twixt thy cousin and thee, Medusa is the prettier.\"",
-         "\"Methinks thou wert unnaturally stirred by yon corpse back there, eh, varlet?\"",
-         "\"Up thy nose with a rubber hose!\"",
-         "\"Verily, thy corpse could not smell worse!\"",
-         "\"Wait!  I shall polymorph into a grid bug to give thee a fighting chance!\"",
-         "\"Why search for the Amulet?  Thou wouldst but lose it, cretin.\"",
-         "\"Thou ought to be a comedian, thy skills are so laughable!\"",
-         "\"Thy gaze is so vacant, I thought thee a floating eye!\"",
-         "\"Thy head is unfit for a mind flayer to munch upon!\"",
-         "\"Only thy reflection could love thee!\"",
-         "\"Hast thou considered masking thine odour?\"",
-         "\"Hold! Thy face is a most exquisite torture!\"",
-         "\"I should fart in thy direction, but it might improve thy smell!\"",
+         "\"初见汝时,以为偶人也--及察,诚石首耳.\"",
+         "\"数临此乎?\"",
+         "\"痛,汝悦之乎?其欲鞭笞乎?\"",
+         "\"吾裂尔肺,尔以为痒乎?\"",
+         "\"啖黏液而死!\"",
+         "\"往召尔母!吾待焉.\"",
+         "\"往与独角兽为戏!\"",
+         "\"饮酒邪?抑素来拙邪?\"",
+         "\"今但笞汝,后毋尔为.\"",
+         "\"吾见酸液怪,智与色皆胜汝.\"",
+         "\"视之!汝鞋带松矣!\"",
+         "\"饶命!汝欲吾笑死乎?\"",
+         "\"速去!全生以俟后遁!\"",
+         "\"尔战宜胜尔衣!\"",
+         "\"较汝与尔从昆弟,美杜莎犹妍.\"",
+         "\"吾观汝于彼尸有异动,信乎,贱人?\"",
+         "\"且以胶管贯汝鼻!\"",
+         "\"诚哉,汝尸之臭无以复加!\"",
+         "\"少待!吾当化形为电子虫,以资尔一战之力!\"",
+         "\"曷求彼符?汝必失之,竖子.\"",
+         "\"汝宜为俳倡,技何可笑.\"",
+         "\"尔目洞然,吾以为浮眼!\"",
+         "\"尔首,夺心魔弗啮也!\"",
+         "\"惟镜中影爱汝!\"",
+         "\"尔尝思掩尔秽乎?\"",
+         "\"止!尔面乃极刑!\"",
+         "\"吾当向汝泄气,恐反令汝香!\"",
       },
       legacy = {
-         synopsis = "[%dC has chosen you to recover the Amulet of Yendor for %dI.]",
+         synopsis = "[%dC已选中你为%dI取回岩德护身符.]",
          output = "menu",
-         text = [[It is written in the Book of %d:
+         text = [[%d之书里这样写道:
 
-    After the Creation, the cruel god Moloch rebelled
-    against the authority of Marduk the Creator.
-    Moloch stole from Marduk the most powerful of all
-    the artifacts of the gods, the Amulet of Yendor,
-    and he hid it in the dark cavities of Gehennom, the
-    Under World, where he now lurks, and bides his time.
+    创世之后,残暴之神摩洛背叛了创世神马尔杜克
+    的权威.摩洛从马尔杜克手中窃取了众神中最强
+    大的神器--岩德护符,并将它藏匿于地狱的幽暗
+    洞穴之中,如今他正潜伏于此,伺机而动.
 
-Your %G %d seeks to possess the Amulet, and with it
-to gain deserved ascendance over the other gods.
+你的%G%d企图夺取这枚护身符,并借此获得
+理应属于他的神权,凌驾于其他诸神之上.
 
-You, a newly trained %r, have been heralded
-from birth as the instrument of %d.  You are destined
-to recover the Amulet for your deity, or die in the
-attempt.  Your hour of destiny has come.  For the sake
-of us all:  Go bravely with %d!]],
+你,一位新近受训的%r,自出生起便被预言为
+%G%d的器具.你注定要为你的神夺回护符,否
+则便死于尝试之中.命运的时刻已然降临.为了我们
+所有人:与%d一同勇敢前行吧!
+]],
       },
 -- starting with 'pauper' option set, last paragraph differs from normal legacy
       pauper_legacy = {
-         synopsis = "[%dC has chosen you to recover the Amulet of Yendor for %dI.]",
+         synopsis = "[%dC已选中你为%dI取回岩德护身符.]",
          output = "menu",
-         text = [[It is written in the Book of %d:
+         text = [[%d之书里这样写道:
 
-    After the Creation, the cruel god Moloch rebelled
-    against the authority of Marduk the Creator.
-    Moloch stole from Marduk the most powerful of all
-    the artifacts of the gods, the Amulet of Yendor,
-    and he hid it in the dark cavities of Gehennom, the
-    Under World, where he now lurks, and bides his time.
+    创世之后,残暴之神摩洛背叛了创世神马尔杜克
+    的权威.摩洛从马尔杜克手中窃取了众神中最强
+    大的神器--岩德护符,并将它藏匿于地狱的幽暗
+    洞穴之中,如今他正潜伏于此,伺机而动.
 
-Your %G %d seeks to possess the Amulet, and with it
-to gain deserved ascendance over the other gods.
+你的%G%d企图夺取这枚护身符,并借此获得
+理应属于他的神权,凌驾于其他诸神之上.
 
-You, an untrained %r, have been unable to adequately
-prepare to be the instrument of %d.  Nevertheless, you
-are destined to recover the Amulet for your deity, or die
-in the attempt.  Your hour of destiny has come.  For the
-sake of us all:  Go bravely with %d!]],
+你,一位未经训练的%r,未能充分准备好成为
+%G%d的器具.尽管如此,你仍注定要为你的神
+夺回护符,否则便死于尝试之中.命运的时刻已然降
+临.为了我们所有人:与%d一同勇敢前行吧!]],
       },
       quest_complete_no_bell = {
-         text = [["The silver bell which was hoarded by %n will be
-essential in locating the Amulet of Yendor."]],
+         text = [["%n掉落的那枚银铃对寻找岩德护符将起到至关重要的作用."]],
+      
       },
       quest_portal = {
          output = "pline",
-         text = [[You receive a faint telepathic message from %l:
-Your help is urgently needed at %H!
-Look for a ...ic transporter.
-You couldn't quite make out that last message.]],
+         text = [[你微弱地心灵感应到了%l的消息:
+%H急需你的帮助!
+我在等一个...的人传送过来.
+你没能完全听清最后那句话.]],
       },
       quest_portal_again = {
-         text = "You again sense %l pleading for help.",
+         text = "你再次感受到%l在求救.",
       },
       quest_portal_demand = {
-         text = "You again sense %l demanding your attendance.",
+         text = "你再次感受到%l需求你的参与.",
       },
    },
    Arc = {
       assignquest = {
-         synopsis = "[%nC has stolen %o.  Locate %i, defeat %ni, and return %O.]",
+         synopsis = "[%nC偷走了%o.找到%i,打败%ni,然后把%O还回来.]",
          output = "text",
-         text = [["Grave times have befallen the college, for %na has
-stolen %o.  Without it, the board of directors of
-the university will soon have no choice but to revoke our research grants.
+         text = [["学院遭遇了不幸,因为%na
+偷走了%o.没有它,大学的董事会
+很快将别无选择,只能撤销我们的研究经费.
 
-"You must locate the entrance to %i.  Within it,
-you will find %n.
+\"你必须找到通往%i的入口.在它里面,
+你会找到%n.
 
-"You must then defeat %n and return %o
-to me.
+\"然后你必须击败%n并将%o
+归还给我.
 
-"Only in this way will we be able to prevent the budget cuts that could
-close this college.
+\"只有这样,我们才能阻止可能导致
+这所学院关闭的预算削减.
 
-"May the wisdom of %d be your guide."]],
+\"愿%d的智慧指引你.\"]],
       },
       badalign = {
-         synopsis = "[\"%pC, you have strayed from the %a path.  Purify yourself!\"]",
+         synopsis = "[\"%pC,你已经偏离了%a之路.净化你自己!\"]",
          output = "text",
-         text = [["%pC!  I've heard that you've been using sloppy techniques.  Your
-results lately can hardly be called suitable for %ra!
+         text = [["%pC!我听说你一直在使用马虎的技术.你
+最近的结果简直不配称为%ra!
 
-"How could you have strayed from the %a path?  Go from here, and come
-back only when you have purified yourself."]],
+\"你怎么能偏离%a之路?离开这里,只有
+当你净化了自己之后再回来.\"]],
       },
       badlevel = {
-         synopsis = "[%pC, a mere %r is too inexperienced.]",
+         synopsis = "[%pC,一个区区%r太缺乏经验了.]",
          output = "text",
-         text = [["%p, you are yet too inexperienced to undertake such a demanding
-quest.  A mere %r could not possibly face the rigors demanded and
-survive.  Go forth, and come here again when your adventures have further
-taught you."]],
+         text = [["%p,你还太缺乏经验,无法承担如此苛刻的
+任务.一个区区%r不可能面对所需的要求并
+幸存下来.出发吧,当你的冒险进一步
+教会你之后再来这里.\"]],
       },
       discourage = {
-         "\"Try your best, %p.  You cannot defeat me.\"",
-         "\"I shall rend the flesh from your body whilst you still breathe!\"",
-         "\"First you, %p, then I shall destroy your mentor, %l.\"",
-         "\"Tiring yet, %p?  I draw my power from my master and cannot falter!\"",
-         "\"I shall rend thy soul from thy body and consume it!\"",
-         "\"You are far too %a -- it weakens you.  You shall die in this place.\"",
-         "\"%d has forsaken you!  You are lost now!\"",
-         "\"A mere %r cannot hope to defeat me!\"",
-         "\"If you are the best %l can send, I have nothing to fear.\"",
-         "\"Die %c!  I shall exhibit your carcass as a trophy.\"",
+         "\"尽力吧,%p.你无法击败我.\"",
+         "\"我会在你还在呼吸时撕下你身上的肉!\"",
+         "\"先是你,%p,然后我会摧毁你的导师%l.\"",
+         "\"累了吗,%p?我从我的主人那里汲取力量,绝不会动摇!\"",
+         "\"我会将你的灵魂从身体中撕裂并吞噬!\"",
+         "\"你太%a了--这削弱了你.你会死在这里.\"",
+         "\"%d已经抛弃了你!你现在完蛋了!\"",
+         "\"区区%r不可能希望击败我!\"",
+         "\"如果%l能派出的最好的人是你,那我就没什么好怕的.\"",
+         "\"去死吧%c!我会把你的尸体作为战利品展出.\"",
       },
       encourage = {
-         "\"Beware, for %n is powerful and cunning.\"",
-         "\"To locate the entrance to %i, you must pass many traps.\"",
-         "\"A %nt may be vulnerable to attacks by magical cold.\"",
-         "\"Call upon %d when you encounter %n.\"",
-         "\"You must destroy %n.  It will pursue you otherwise.\"",
-         "\"%oC is a mighty talisman.  With it you can destroy %n.\"",
-         "\"Go forth with the blessings of %d.\"",
-         "\"I will have my %gP watch for your return.\"",
-         "\"Remember not to stray from the true %a path.\"",
-         "\"You may be able to sense %o when you are near.\"",
+         "\"小心,%n既强大又狡猾.\"",
+         "\"要找到通往%i的入口,你必须经过许多陷阱.\"",
+         "\"%nt可能容易受到魔法寒冷的攻击.\"",
+         "\"当你遇到%n时,呼唤%d.\"",
+         "\"你必须摧毁%n.否则它会追杀你.\"",
+         "\"%oC是一件强大的护符.有了它你可以摧毁%n.\"",
+         "\"带着%d的祝福前进吧.\"",
+         "\"我会让我的%gP们留意你的归来.\"",
+         "\"记住不要偏离真正的%a之路.\"",
+         "\"当你靠近时,你也许能感知到%o.\"",
       },
       firsttime = {
-         synopsis = "[You arrive at %H, but all is not well.]",
+         synopsis = "[你到达%H,但一切并不顺利.]",
          output = "text",
-         text = [[You are suddenly in familiar surroundings.  The buildings in the distance
-seem to be those of your old alma mater, but something is wrong.  It feels
-as if there has been a riot recently, or %H has
-been under siege.
+         text = [[你突然置身于熟悉的环境中.远处的建筑
+似乎是你母校的建筑,但有些不对劲.感觉
+好像最近发生了一场骚乱,或者%H
+遭到了围攻.
 
-All of the windows are boarded up, and there are objects scattered around
-the entrance.
+所有的窗户都用木板封住了,入口周围
+散落着各种物品.
 
-Strange forbidding shapes seem to be moving in the distance.]],
+奇怪的吓人身影似乎正在远处移动.]],
       },
       goal_alt = {
-         text = "You have returned to %ns lair.",
+         text = "你已经回到了%n的巢穴.",
       },
       goal_first = {
-         synopsis = "[This strange feeling must be the presence of %o.]",
+         synopsis = "[这奇怪的感觉一定是%o的存在.]",
          output = "text",
-         text = [[A strange feeling washes over you, and you think back to things you
-learned during the many lectures of %l.
+         text = [[一种奇怪的感觉冲刷着你,你回想起在%l的
+许多讲座中学到的东西.
 
-You realize the feeling must be the presence of %o.]],
+你意识到这种感觉一定是%o的存在.]],
       },
       goal_next = {
-         text = "The familiar presence of %o is in the ether.",
+         text = "%o的熟悉存在感在以太中.",
       },
       gotit = {
-         synopsis = "[The power of %o flows through your body!  You must return it to %l.]",
+         synopsis = "[%o的力量流过你的身体!你必须把它还给%l.]",
          output = "text",
-         text = [[The power of %o flows through your body!  You feel
-as if you could now take on the Wizard of Yendor himself and win, but
-you know you must return %o to %l.]],
+         text = [[%o的力量流过你的身体!你感觉
+仿佛现在就能单挑岩德巫师本人并获胜,但
+你知道必须将%o归还给%l.]],
       },
       guardtalk_after = {
-         "\"Did you see Lash LaRue in 'Song of Old Wyoming' the other night?\"",
-         "\"Hey man, got any potions of hallucination for sale?\"",
-         "\"I guess you are guaranteed to make full professor now.\"",
-         "\"So, what was worse, %n or your entrance exams?\"",
-         "\"%oC is impressive, but nothing like the bones I dug up!\"",
+         "\"你前几天晚上看了拉什·拉鲁的'旧怀俄明之歌'吗?\"",
+         "\"嘿,伙计,有没有幻觉药水卖?\"",
+         "\"我猜你现在肯定能当上正教授了.\"",
+         "\"那么,哪个更糟,%n还是你的入学考试?\"",
+         "\"%oC令人印象深刻,但比不上我挖出的骨头!\"",
       },
       guardtalk_before = {
-         "\"Did you see Lash LaRue in 'Song of Old Wyoming' the other night?\"",
-         "\"Hey man, got any potions of hallucination for sale?\"",
-         "\"Did you see the artifact %l brought back from the last dig?\"",
-         "\"So what species do *you* think we evolved from?\"",
-         "\"So you're %ls prize pupil!  I don't know what he sees in you.\"",
+         "\"你前几天晚上看了拉什·拉鲁的'旧怀俄明之歌'吗?\"",
+         "\"嘿,伙计,有没有幻觉药水卖?\"",
+         "\"你看到%l上次挖掘带回的神器了吗?\"",
+         "\"那你觉得我们是从哪个物种进化来的?\"",
+         "\"所以你就是%l的得意门生!我不知道他看上了你哪一点.\"",
       },
       hasamulet = {
-         synopsis = "[Take the Amulet to the Astral Plane and sacrifice it at the altar of %d.]",
+         synopsis = "[把护身符带到星界,在%d的祭坛上献祭它.]",
          output = "text",
-         text = [["Congratulations, %p.  I wondered if anyone could prevail against
-the Wizard and the minions of Moloch.  Now, you must embark on one
-final adventure.
+         text = [["恭喜,%p.我曾怀疑是否有人能战胜
+岩德巫师和摩洛的仆从.现在,你必须开始
+最后一场冒险.
 
-"Take the Amulet, and find your way onto the Astral Plane.
-There you must find the altar of %d and sacrifice the
-Amulet on that altar to fulfill your destiny.
+\"带上护身符,找到通往星界的方法.
+在那里你必须找到%d的祭坛,并在
+那个祭坛上献祭护身符,以完成你的命运.
 
-"Remember, your path now should always be upwards."]],
+\"记住,从现在起你的路应该始终向上.\"]],
       },
       killed_nemesis = {
-         text = "The body of %n dissipates in a cloud of noxious fumes.",
+         text = "%n的身体化作一团有毒烟雾消散.",
       },
       leader_first = {
-         synopsis = "[\"You have returned, %p, to a difficult task.\"]",
+         synopsis = "[\"你回来了,%p,去面对一个艰巨的任务.\"]",
          output = "text",
-         text = [["Finally you have returned, %p.  You were always
-my most promising student.  Allow me to see if you are ready for the
-most difficult task of your career."]],
+         text = [["你终于回来了,%p.你一直是我
+最有前途的学生.让我看看你是否准备好迎接
+你职业生涯中最艰巨的任务.\"]],
       },
       leader_last = {
-         synopsis = "[\"%pC, you have failed us.  Begone!\"]",
+         synopsis = "[\"%pC,你辜负了我们.滚开!\"]",
          output = "text",
-         text = [["%p, you have failed us.  All of my careful training has been in
-vain.  Begone!  Your tenure at this college has been revoked!
+         text = [["%p,你辜负了我们.我所有的精心培养都
+白费了.滚开!你在本学院的教职已被撤销!
 
-"You are a disgrace to the profession!"]],
+\"你是这个行业的耻辱!\"]],
       },
       leader_next = {
-         text = [["Again, %p, you stand before me.
-Let me see if you have gained experience in the interim."]],
+         text = [["再次,%p,你站在我面前.
+让我看看你是否在此间隙获得了经验.\"]],
       },
       leader_other = {
-         text = [["Once more, %p, you have returned from the field.
-Are you finally ready for the task that must be accomplished?"]],
+         text = [["又一次,%p,你从野外回来了.
+你终于准备好完成必须完成的任务了吗?\"]],
       },
       locate_first = {
-         synopsis = "[This foreboding edifice must hide the entrance to %i.]",
+         synopsis = "[这座不祥的建筑一定是通往%i的入口.]",
          output = "text",
-         text = [[A plain opens before you.  Beyond the plain lies a foreboding edifice.
+         text = [[一片平原展现在你面前.平原的远处是一座不祥的建筑.
 
-You have the feeling that you will soon find the entrance to
-%i.]],
+你有种感觉,你很快就会找到通往
+%i的入口.]],
       },
       locate_next = {
-         text = "Once again, you are near the entrance to %i.",
+         text = "再一次,你靠近了%i的入口.",
       },
       nemesis_first = {
-         synopsis = "[\"Come, %p, I shall destroy you!\"]",
+         synopsis = "[\"来吧,%p,我会摧毁你!\"]",
          output = "text",
-         text = [["So, %p, you think that you can succeed in recovering
-%o, when your teacher, %l, has already failed.
+         text = [["那么,%p,你认为你能成功找回
+%o,而你的老师%l已经失败了?
 
-"Come, try your best!  I shall destroy you, and gnaw on your bones."]],
+\"来吧,尽全力吧!我会摧毁你,然后啃咬你的骨头.\"]],
       },
       nemesis_next = {
-         synopsis = "[\"Again you try to best me, %p?  You shall never recover %o.\"]",
+         synopsis = "[\"你又想战胜我,%p?你永远找不回%o.\"]",
          output = "text",
-         text = [["Again you try to best me, eh %p?  Well, you shall fail again.
+         text = [["你又想战胜我,嗯%p?好吧,你会再次失败.
 
-"You shall never recover %o.
+\"你永远找不回%o.
 
-"I shall bear your soul to the Plane of Origins for my master's pleasure."]],
+\"我会把你的灵魂带到起源位面,供我的主人取乐.\"]],
       },
       nemesis_other = {
-         text = "\"You persist yet %p!  Good.  Now, you shall die!\"",
+         text = "\"你还坚持着,%p!很好.现在,你去死吧!\"",
       },
       nemesis_wantsit = {
-         text = [["I shall have %o from you, %p, then feast
-upon your entrails!"]],
+         text = [["我会从你那里得到%o,%p,然后
+享用你的内脏!\"]],
       },
       nexttime = {
-         text = "Once again, you are back at %H.",
+         text = "又一次,你回到了%H.",
       },
       offeredit = {
-         synopsis = "[%lC instructs you to guard %o from now on.]",
+         synopsis = "[%lC指示你从现在起守护%o.]",
          output = "text",
-         text = [[%lC touches %o briefly, gazes into it,
-then smiles at you and says:
+         text = [[%lC短暂地触摸%o,凝视着它,
+然后对你微笑说道:
 
-"Well done, %p.  You have defeated %n and
-recovered %o.  But I fear that it shall never be safe
-here.
+\"干得好,%p.你击败了%n并
+找回了%o.但我担心它在这里
+永远不会安全.
 
-Please take %o with you.  You, %p, can
-guard it now far better than I.
+\"请带上%o.你,%p,现在
+可以比我更好地守护它.
 
-May the blessings of %d follow you and guard you."]],
+\"愿%d的祝福跟随你并保护你.\"]],
       },
       offeredit2 = {
-         synopsis = "[\"Resume your search for the Amulet beyond the magic portal to %Z.\"]",
+         synopsis = "[\"通过通往%Z的魔法传送门,继续寻找护身符.\"]",
          output = "text",
-         text = [["Careful, %p!  %oC might break, and that would be
-a tragic loss.  You are its keeper now, and the time has come to
-resume your search for the Amulet.  %Z await your
-return through the magic portal that brought you here."]],
+         text = [["小心,%p!%oC可能会碎,那将是
+一个悲剧性的损失.你现在是它的守护者,是时候
+继续寻找护身符了.%Z正通过
+带你来到这里的魔法传送门等待你的归来.\"]],
       },
       othertime = {
-         text = [[You are back at %H.
-You have an odd feeling this may be the last time you ever come here.]],
+         text = [[你回到了%H.
+你有一种奇怪的感觉,这可能是你最后一次来这里.]],
       },
       posthanks = {
-         synopsis = "[\"Have you progressed with your quest to regain the Amulet of Yendor for %d?\"]",
+         synopsis = "[\"你在为%d重夺岩德护身符的任务中取得进展了吗?\"]",
          output = "text",
-         text = [["Welcome back, %p.  Have you progressed with your quest to
-regain the Amulet of Yendor for %d?"]],
+         text = [["欢迎回来,%p.你在为%d重夺
+岩德护身符的任务中取得进展了吗?\"]],
       },
    },
    Bar = {
       assignquest = {
-         synopsis = "[\"Find %n, defeat %ni, and return %o to us.\"]",
+         synopsis = "[\"找到%n,击败%ni,并把%o归还给我们.\"]",
          output = "text",
-         text = [["The world is in great need of your assistance, %p.
+         text = [["世界迫切需要你的帮助,%p.
 
-"About six months ago, I learned that a mysterious sorcerer, known
-as %n, had begun to gather a large group of cutthroats and brigands
-about %ni.
+\"大约六个月前,我得知一个神秘的巫师,
+名叫%n,开始在%ni周围聚集一大群
+暴徒和强盗.
 
-"At about the same time, these people you once rode with `liberated' a
-potent magical talisman, %o, from a Turanian caravan.
+\"大约在同一时间,你曾经一起骑马的那些人从
+一个图兰商队中\'解放\'了一个强大的魔法护身符,
+%o.
 
-"%nC and %nj Black Horde swept down upon %i and defeated
-the people there, driving them out into the desert.  He has taken
-%o, and seeks to bend it to %nj will.  I detected the
-subtle changes in the currents of fate, and joined these people.
-Then I sent forth a summons for you.
+\"%nC和%nj的黑潮席卷了%i,
+击败了那里的人,把他们赶进了沙漠.他拿走了
+%o,并试图将其屈从于%nj意志.我察觉到了
+命运之流中的微妙变化,并加入了这些人.
+然后我发出了召唤你的讯息.
 
-"If %n can bend %o to %nj will, he will become
-almost indestructible.  He will then be able to enslave the minds of
-men across the world.  You are the only hope.  The gods smile upon you,
-and with %d behind you, you alone can defeat %n.
+\"如果%n能将%o屈从于%nj意志,他将变得
+几乎不可摧毁.然后他将能够奴役全世界
+人们的思想.你是唯一的希望.众神对你微笑,
+有%d在你身后,只有你能击败%n.
 
-"You must go to %i.  From there, you can track down
-%n, defeat %ni, and return %o to us.  Only
-then will the world be safe."]],
+\"你必须去%i.从那里,你可以追踪
+%n,击败%ni,并将%o归还给我们.只有
+那时世界才会安全.\"]],
       },
       badalign = {
-         synopsis = "[\"You have wandered from the path of the %a.  Come back when you have atoned.\"]",
+         synopsis = "[\"你已经偏离了%a之路.等你赎罪之后再回来.\"]",
          output = "text",
-         text = [["%pC!  You have wandered from the path of the %a!
-If you attempt to overcome %n in this state, he will surely
-enslave your soul.  Your only hope, and ours, lies in your purification.
-Go forth, and return when you feel ready."]],
+         text = [["%pC!你已经偏离了%a之路!
+如果你在这种状态下试图击败%n,他必定会
+奴役你的灵魂.你唯一的希望,也是我们的希望,在于你的净化.
+出发吧,当你感觉准备好了再回来.\"]],
       },
       badlevel = {
-         synopsis = "[\"You are too inexperienced.  Come back when you are %Ra.\"]",
+         synopsis = "[\"你太缺乏经验了.等你成为%Ra之后再回来.\"]",
          output = "text",
-         text = [["%p, I fear that you are as yet too inexperienced to face
-%n.  Only %Ra with the help of %d could ever hope to
-defeat %ni."]],
+         text = [["%p,我担心你还太缺乏经验,无法面对
+%n.只有%Ra在%d的帮助下才有希望
+击败%ni.\"]],
       },
       discourage = {
-         "\"My pets will dine on your carcass tonight!\"",
-         "\"You are a sorry excuse for %ra.\"",
-         "\"Run while you can, %c.  My next spell will be your last.\"",
-         "\"I shall use your very skin to bind my next grimoire.\"",
-         "\"%d cannot protect you now.  Here, you die.\"",
-         "\"Your %a nature makes you weak.  You cannot defeat me.\"",
-         "\"Come, %c.  I shall kill you, then unleash the horde on your tribe.\"",
-         "\"Once you are dead, my horde shall finish off %l, and your tribe.\"",
-         "\"Fight, %c, or are you afraid of the mighty %n?\"",
-         "\"You have failed, %c.  Now, my victory is complete.\"",
+         "\"今晚我的宠物会享用你的尸体!\"",
+         "\"你是个可怜的%ra.\"",
+         "\"趁还能跑,快跑吧,%c.我的下一个法术将是你的末日.\"",
+         "\"我会用你的皮肤来装订我的下一本魔法书.\"",
+         "\"%d现在保护不了你了.在这里,你死定了.\"",
+         "\"你的%a本性使你软弱.你无法击败我.\"",
+         "\"来吧,%c.我会杀了你,然后把我的部落放出来干掉你的部落.\"",
+         "\"一旦你死了,我的部落就会干掉%l,还有你的部落.\"",
+         "\"战斗吧,%c,还是你害怕强大的%n?\"",
+         "\"你失败了,%c.现在,我的胜利完整了.\"",
       },
       encourage = {
-         "\"%nC is strong in the dark arts, but not immune to cold steel.\"",
-         "\"Remember that %n is a great sorcerer.  He lived in the time of Atlantis.\"",
-         "\"If you fail, %p, I will not be able to protect these people long.\"",
-         "\"To enter %i, you must be very stealthy.  The horde will be on guard.\"",
-         "\"Call upon %d in your time of need.\"",
-         "\"May %d protect you, and guide your steps.\"",
-         "\"If you can lay hands upon %o, carry it for good fortune.\"",
-         "\"I cannot stand against %ns sorcery.  But %d will help you.\"",
-         "\"Do not fear %n.  I know you can defeat %ni.\"",
-         "\"You have a great road to travel, %p, but only after you defeat %n.\"",
+         "\"%nC在黑魔法上很强,但对冷钢并非免疫.\"",
+         "\"记住%n是个伟大的巫师.他生活在亚特兰蒂斯时代.\"",
+         "\"如果你失败了,%p,我将无法长久保护这些人.\"",
+         "\"要进入%i,你必须非常隐秘.部落会保持警惕.\"",
+         "\"在你需要的时候呼唤%d.\"",
+         "\"愿%d保护你,指引你的脚步.\"",
+         "\"如果你能拿到%o,就带着它求好运.\"",
+         "\"我无法抵挡%n的巫术.但%d会帮助你.\"",
+         "\"不要害怕%n.我知道你能击败%ni.\"",
+         "\"你还有很长的路要走,%p,但只有在你击败%n之后.\"",
       },
       firsttime = {
-         synopsis = "[You reach the vicinity of %H, but sense evil magic nearby.]",
+         synopsis = "[你到达%H附近,但感觉到附近有邪恶魔法.]",
          output = "text",
-         text = [[Warily you scan your surroundings, all of your senses alert for signs
-of possible danger.  Off in the distance, you can %x the familiar shapes
-of %H.
+         text = [[你警惕地扫视四周,所有感官都警觉起来,寻找
+可能的危险迹象.在远处,你可以%x到%H
+熟悉的外形.
 
-But why, you think, should %l be there?
+但你想,为什么%l会在那里?
 
-Suddenly, the hairs on your neck stand on end as you detect the aura of
-evil magic in the air.
+突然,你脖子后面的汗毛竖了起来,因为你察觉到了
+空气中邪恶魔法的光环.
 
-Without thought, you ready your weapon, and mutter under your breath:
+想都没想,你握紧了武器,低声说道:
 
-    "By %d, there will be blood spilt today."]],
+    \"以%d之名,今天必将流血.\"]],
       },
       goal_first = {
-         synopsis = "[This is surely the lair of %n.]",
+         synopsis = "[这里肯定是%n的巢穴.]",
          output = "text",
-         text = [[The hairs on the nape of your neck lift as you sense an energy in the
-very air around you.  You fight down a primordial panic that seeks to
-make you turn and run.  This is surely the lair of %n.]],
+         text = [[你颈后的毛发竖了起来,因为你感觉到
+周围空气中有一股能量.你抑制住一种原始的恐慌,它试图
+让你转身逃跑.这里肯定是%n的巢穴.]],
       },
       goal_next = {
-         text = "Yet again you feel the air around you heavy with malevolent magical energy.",
+         text = "你又感觉到周围的空气中弥漫着恶意的魔法能量.",
       },
       gotit = {
-         synopsis = "[You feel the power of %o flowing through your hands.]",
+         synopsis = "[你感觉到%o的力量流过你的双手.]",
          output = "text",
-         text = [[As you pick up %o, you feel the power of it
-flowing through your hands.  It seems to be in two or more places
-at once, even though you are holding it.]],
+         text = [[当你拿起%o时,你感觉到它的力量
+流过你的双手.它似乎同时存在于两个或更多
+地方,尽管你正拿着它.]],
       },
       guardtalk_after = {
-         "\"The battles here have been good -- our enemies' blood soaks the soil!\"",
-         "\"Remember that glory is crushing your enemies beneath your feet!\"",
-         "\"Times will be good again, now that the horde is vanquished.\"",
-         "\"You have brought our clan much honor in defeating %n.\"",
-         "\"You will be a worthy successor to %l.\"",
+         "\"这里的战斗很激烈--敌人的鲜血浸透了土壤!\"",
+         "\"记住,荣耀就是把敌人踩在脚下!\"",
+         "\"现在敌军被击败了,好日子会回来的.\"",
+         "\"你击败%n,为我们的氏族带来了极大的荣誉.\"",
+         "\"你将配得上做%l的继承人.\"",
       },
       guardtalk_before = {
-         "\"The battles here have been good -- our enemies' blood soaks the soil!\"",
-         "\"Remember that glory is crushing your enemies beneath your feet!\"",
-         "\"There has been little treasure to loot, since the horde arrived.\"",
-         "\"The horde is mighty in numbers, but they have little courage.\"",
-         "\"%lC is a strange one, but he has helped defend us.\"",
+         "\"这里的战斗很激烈--敌人的鲜血浸透了土壤!\"",
+         "\"记住,荣耀就是把敌人踩在脚下!\"",
+         "\"自从部落到来后,就没什么财宝可掠夺了.\"",
+         "\"部落人数众多,但没什么勇气.\"",
+         "\"%lC是个奇怪的家伙,但他帮助保卫了我们.\"",
       },
       hasamulet = {
-         synopsis = "[\"Take the Amulet to the altar of %d on the Astral Plane and offer it.\"]",
+         synopsis = "[\"把护身符带到星界%d的祭坛上并献上它.\"]",
          output = "text",
-         text = [["This is wondrous, %p.  I feared that you could not possibly
-succeed in your quest, but here you are in possession of the Amulet
-of Yendor!
+         text = [["这太不可思议了,%p.我担心你不可能
+在你的任务中成功,但你现在却拥有了
+岩德的护身符!
 
-"I have studied the texts of the magi constantly since you left.  In
-the Book of Skelos, I found this:
+\"自从你离开后,我一直在不断研究法师的文本.在
+斯凯洛斯之书中,我找到了这个:
 
-    %d will cause a child to be sent into the world.  This child is to
-    be made strong by trial of battle and magic, for %d has willed it so.
-    It is said that the child of %d will recover the Amulet of Yendor
-    that was stolen from the Creator at the beginning of time.
+    %d将让一个孩子被送到这个世界上.这个孩子将通过
+    战斗和魔法的考验变得坚强,因为%d如此意愿.
+    据说%d的孩子将找回
+    创世之初被偷走的岩德护身符.
 
-"As you now possess the amulet, %p, I suspect that the Book
-speaks of you.
+\"既然你现在拥有了护身符,%p,我怀疑这本书
+说的是你.
 
-    The child of %d will take the Amulet, and travel to the Astral
-    Plane, where the Great Temple of %d is to be found.  The Amulet
-    will be sacrificed to %d, there on %dJ altar.  Then the child will
-    stand by %d as champion of all %cP for eternity.
+    %d的孩子将带上护身符,前往星界
+    位面,在那里可以找到%d的大神殿.护身符
+    将在那里献给%d,就在%dJ祭坛上.然后孩子将
+    作为所有%cP的勇士永远站在%d身边.
 
-"This is all I know, %p.  I hope it will help you."]],
+\"这就是我所知道的,%p.我希望它能帮助你.\"]],
       },
       killed_nemesis = {
-         synopsis = "[%nC curses you, but you feel the overpowering aura of magic fading.]",
+         synopsis = "[%nC诅咒你,但你感觉到空气中压倒性的魔法光晕正在消退.]",
          output = "text",
-         text = [[%nC falls to the ground, and utters a last curse at you.  Then %nj
-body fades slowly, seemingly dispersing into the air around you.  You
-slowly become aware that the overpowering aura of magic in the air has
-begun to fade.]],
+         text = [[%nC倒在地上,向你发出最后的诅咒.然后%nj
+身体慢慢消散,似乎散入了你周围的空气.你
+慢慢意识到空气中压倒性的魔法光晕已经
+开始消退.]],
       },
       leader_first = {
-         synopsis = "[\"At last you have returned.  There is a great quest you must undertake.\"]",
+         synopsis = "[\"你终于回来了.有一个伟大的任务你必须承担.\"]",
          output = "text",
-         text = [["Ah, %p.  You have returned at last.  The world is in dire
-need of your help.  There is a great quest you must undertake.
+         text = [["啊,%p.你终于回来了.世界迫切需要
+你的帮助.有一个伟大的任务你必须承担.
 
-"But first, I must see if you are ready to take on such a challenge."]],
+\"但首先,我必须看看你是否准备好迎接这样的挑战.\"]],
       },
       leader_last = {
-         synopsis = "[\"You have betrayed %d; soon %n will destroy us.  Begone!\"]",
+         synopsis = "[\"你背叛了%d;很快%n就会摧毁我们.滚开!\"]",
          output = "text",
-         text = [["Pah!  You have betrayed the gods, %p.  You will never attain
-the glory which you aspire to.  Your failure to follow the true path has
-closed this future to you.
+         text = [["呸!你背叛了众神,%p.你永远不会获得
+你渴望的荣耀.你未能遵循正确的道路已经
+为你关闭了这未来.
 
-"I will protect these people as best I can, but soon %n will overcome
-me and destroy all who once called you %s.  Now begone!"]],
+\"我会尽力保护这些人,但很快%n就会
+击败我,摧毁所有曾经称你为%s的人.现在滚开!\"]],
       },
       leader_next = {
-         text = "\"%p, you are back.  Are you ready now for the challenge?\"",
+         text = "\"%p,你回来了.你现在准备好迎接挑战了吗?\"",
       },
       leader_other = {
-         text = "\"Again, you stand before me, %p.  Surely you have prepared yourself.\"",
+         text = "\"你又站在我面前了,%p.想必你已经准备好了.\"",
       },
       locate_first = {
-         synopsis = "[You have located %i.]",
+         synopsis = "[你已经找到了%i.]",
          output = "text",
-         text = [[The scent of water comes to you in the desert breeze.  You know that
-you have located %i.]],
+         text = [[沙漠的微风中传来水的气息.你知道
+你已经找到了%i.]],
       },
       locate_next = {
-         text = "Yet again you have a chance to infiltrate %i.",
+         text = "你又一次有机会潜入%i.",
       },
       nemesis_first = {
-         synopsis = "[%nC boasts that %nh has slain many.  \"Prepare to die, %c.\"]",
+         synopsis = "[%nC吹嘘%nh杀过很多人.\"准备受死吧,%c.\"]",
          output = "text",
-         text = [["So.  This is what that second rate sorcerer %l sends to do %lj bidding.
-I have slain many before you.  You shall give me little sport.
+         text = [["那么.这就是那个二流巫师%l派来为他
+做事的家伙.我之前杀过很多人.你不会给我带来什么乐趣.
 
-"Prepare to die, %c."]],
+\"准备受死吧,%c.\"]],
       },
       nemesis_next = {
-         text = "\"I have wasted too much time on you already.  Now, you shall die.\"",
+         text = "\"我在你身上已经浪费了太多时间.现在,你去死吧.\"",
       },
       nemesis_other = {
-         text = "\"You return yet again, %c!  Are you prepared for death now?\"",
+         text = "\"你又回来了,%c!你现在准备好受死了吗?\"",
       },
       nemesis_wantsit = {
-         text = [["I shall have %o back, you pitiful excuse for %ca.
-And your life as well."]],
+         text = [["我要拿回%o,你这可怜的%ca.
+还有你的命.\"]],
       },
       nexttime = {
-         text = [[Once again, you near %H.  You know that %l
-will be waiting.]],
+         text = [[又一次,你接近%H.你知道%l
+会在等待.]],
       },
       offeredit = {
-         synopsis = "[%lC tells you to guard %o, and to return when you have triumphed.]",
+         synopsis = "[%lC告诉你守护%o,并在你胜利后归来.]",
          output = "text",
-         text = [[When %l sees %o, he smiles, and says:
+         text = [[当%l看到%o时,他笑了,说道:
 
-    Well done, %p.  You have saved the world from certain doom.
-    What, now, should be done with %o?
+    干得好,%p.你拯救了世界免于必然的毁灭.
+    那么,现在该如何处理%o呢?
 
-    These people, brave as they are, cannot hope to guard it from
-    other sorcerers who will detect it, as surely as %n did.
+    这些人,尽管勇敢,却无法希望守护它免于
+    其他巫师的侦测,就像%n一样.
 
-    Take %o with you, %p.  It will guard you in
-    your adventures, and you can best guard it.  You embark on a
-    quest far greater than you realize.
+    带上%o吧,%p.它会在
+    你的冒险中保护你,你也可以最好地守护它.你正在开始一项
+    比你意识到的要伟大得多的任务.
 
-    Remember me, %p, and return when you have triumphed.  I
-    will tell you then of what you must do.  You will understand when the
-    time comes.]],
+    记住我,%p,当你胜利时再回来.我
+    到时会告诉你必须做什么.当时机到来时你会明白的.]],
       },
       offeredit2 = {
-         synopsis = "[\"You keep %o.  Return to %Z to search for the Amulet.\"]",
+         synopsis = "[\"你留着%o.回到%Z去寻找护身符.\"]",
          output = "text",
-         text = [[%l gazes reverently at %o, then back at you.
+         text = [[%l虔诚地凝视着%o,然后回到你身上.
 
-"You are its keeper now, and the time has come to resume your search
-for the Amulet.  %Z await your return through the
-magic portal which brought you here."]],
+\"你现在是它的守护者,是时候继续寻找
+护身符了.%Z正等待你通过
+带你来到这里的魔法传送门返回.\"]],
       },
       othertime = {
-         text = [[Again, and you think possibly for the last time, you approach
+         text = [[又一次,而且你认为可能是最后一次,你接近了
 %H.]],
       },
       posthanks = {
-         text = "\"Tell us, %p, have you fared well on your great quest?\"",
+         text = "\"告诉我们,%p,你伟大的任务进展顺利吗?\"",
       },
    },
    Cav = {
       assignquest = {
-         synopsis = "[Find and defeat %n, recover %o, and return with it.]",
+         synopsis = "[找到并击败%n,取回%o,然后带着它回来.]",
          output = "text",
-         text = [["You are indeed ready now, %p.  I shall tell you a tale of
-great suffering among your people:
+         text = [["你现在确实准备好了,%p.我要告诉你一个关于
+你的人民遭受巨大苦难的故事:
 
-"Shortly after you left on your vision quest, the caves were invaded by
-the creatures sent against us by %n.
+\"你离开去进行你的灵视探索后不久,洞穴就被
+%n派来的生物入侵了.
 
-"She, herself, could not attack us due to her great size, but her minions
-have harassed us ever since.  In the first attacks, many died, and the
-minions of %n managed to steal %o.
-They took it to %i and there, none of our
-%g warriors have been able to go.
+\"她本人由于体型巨大无法攻击我们,但她的仆从
+从那时起就一直骚扰我们.在最初的袭击中,许多人死去,
+%n的仆从设法偷走了%o.
+他们把它带到了%i,在那里,我们
+%g战士没有一个能去.
 
-"You must find %i, and within it wrest
-%o from %n.  She guards it as
-jealously as she guards all treasures she attains.  But with it,
-we can make our caves safe once more.
+\"你必须找到%i,并在其中从
+%n手中夺取%o.她像
+守护她获得的所有财宝一样嫉妒地守护着它.但有了它,
+我们可以再次让我们的洞穴安全.
 
-"Please, %p, recover %o for us, and return it here."]],
+\"拜托,%p,为我们找回%o,并把它带回这里.\"]],
       },
       badalign = {
-         synopsis = "[\"You no longer follow the path of the %a.  Go, and purify yourself.\"]",
+         synopsis = "[\"你不再遵循%a之路了.去净化你自己.\"]",
          output = "text",
-         text = [["%pC!  You have deviated from my teachings.  You no longer follow
-the path of the %a as you should.  I banish you from these caves, to
-go forth and purify yourself.  Then, you might be able to accomplish this
-quest."]],
+         text = [["%pC!你已经偏离了我的教导.你不再像
+你应该做的那样遵循%a之路.我把你驱逐出这些洞穴,
+去净化你自己.然后,你或许能够完成这个
+任务.\"]],
       },
       badlevel = {
-         synopsis = "[\"%rA is too inexperienced.  Come back when you have progressed.\"]",
+         synopsis = "[\"%rA太缺乏经验了.等你进步了再回来.\"]",
          output = "text",
-         text = [["Alas, %p, you are as yet too inexperienced to embark upon such
-a difficult quest as that I propose to give you.
+         text = [["唉,%p,你还太缺乏经验,无法承担
+我要交给你的如此艰巨的任务.
 
-"%rA could not possibly survive the rigors demanded to find
-%i, never mind to confront %n herself.
+\"一个%rA不可能承受找到
+%i所需的要求,更不用说面对%n本人了.
 
-"Adventure some more, and you will learn the skills you will require.
-%d decrees it."]],
+\"多冒险一些,你会学到所需的技能.
+%d注定如此.\"]],
       },
       discourage = {
-         "\"You are weak, %c.  No challenge for the Mother of all Dragons.\"",
-         "\"I grow hungry, %r.  You look like a nice appetizer!\"",
-         "\"Join me for lunch?  You're the main course, %c.\"",
-         "\"With %o, I am invincible!  You cannot succeed.\"",
-         "\"Your mentor, %l has failed.  You are nothing to fear.\"",
-         "\"You shall die here, %c.  %rA cannot hope to defeat me.\"",
-         "\"You, a mere %r challenge the might of %n?  Hah!\"",
-         "\"I am the Mother of all Dragons!  You cannot hope to defeat me.\"",
-         "\"My claws are sharp now.  I shall rip you to shreds!\"",
-         "\"%d has deserted you, %c.  This is my domain.\"",
+         "\"你很弱,%c.对万龙之母来说不是挑战.\"",
+         "\"我饿了,%r.你看起来像一道不错的前菜!\"",
+         "\"和我共进午餐吧?你就是主菜,%c.\"",
+         "\"有了%o,我无敌了!你不可能成功.\"",
+         "\"你的导师%l已经失败了.你没什么好怕的.\"",
+         "\"你会死在这里,%c.%rA不可能希望击败我.\"",
+         "\"你,一个区区%r,胆敢挑战%n的威严?哈!\"",
+         "\"我是万龙之母!你别想打败我.\"",
+         "\"我的爪子现在很锋利.我会把你撕成碎片!\"",
+         "\"%d抛弃了你,%c.这是我的领域.\"",
       },
       encourage = {
-         "\"%nC is immune to her own breath weapons. You should use magic upon her that she does not use herself.\"",
-         "\"When you encounter %n, call upon %d for assistance.\"",
-         "\"There will be nowhere to hide inside %ns inner sanctum.\"",
-         "\"Your best chance with %n will be to keep moving.\"",
-         "\"Do not be distracted by the great treasures in %ns lair. Concentrate on %o.\"",
-         "\"%oC is the only object that %n truly fears.\"",
-         "\"Do not be fooled by %ns size.  She is fast, and it is rumored that she uses magic.\"",
-         "\"I would send a party of %gP with you, but we will need all of our strength to defend ourselves.\"",
-         "\"Remember, be %a at all times.  This is your strength.\"",
-         "\"If only we had an amulet of reflection, this would not have happened.\"",
+         "\"%nC对她自己的吐息免疫.你应该对她使用她自己不用的魔法.\"",
+         "\"当你遇到%n时,呼唤%d寻求帮助.\"",
+         "\"在%n的内殿里没有地方可以躲藏.\"",
+         "\"对付%n的最佳机会是不断移动.\"",
+         "\"不要被%n巢穴里的巨大财宝分心.专注于%o.\"",
+         "\"%oC是%n唯一真正害怕的物品.\"",
+         "\"不要被%n的体型愚弄.她速度很快,而且传闻她使用魔法.\"",
+         "\"我会派一队%gP和你一起去,但我们需要全部力量来保卫自己.\"",
+         "\"记住,始终保持%a.这是你的力量.\"",
+         "\"要是我们有一面反射护身符就好了,这样就不会发生这种事了.\"",
       },
       firsttime = {
-         synopsis = "[You arrive back at %H, but something is wrong here.]",
+         synopsis = "[你回到%H,但这里有些不对劲.]",
          output = "text",
-         text = [[You descend through a barely familiar stairwell that you remember
-%l showing you when you embarked upon your vision quest.
+         text = [[你从一个依稀熟悉的楼梯下来,记得是%l
+在你开始灵视探索时带你走过的.
 
-You arrive back at %H, but something seems
-wrong here.  The usual smoke and glowing light of the fires of the
-outer caves are absent, and an uneasy quiet fills the damp air.]],
+你回到了%H,但这里似乎
+有些不对劲.外洞篝火的烟雾和光芒
+不见了,潮湿的空气中充满了不安的寂静.]],
       },
       goal_first = {
-         synopsis = "[You enter a large cavern.  %nC is present.]",
+         synopsis = "[你进入一个大洞穴.%nC在场.]",
          output = "text",
-         text = [[You find yourself in a large cavern, with neatly polished walls, that
-nevertheless show signs of being scorched by fire.
+         text = [[你发现自己身处一个大洞穴中,墙壁被精心打磨,
+但仍然显示出被火烧焦的痕迹.
 
-Bones litter the floor, and there are objects scattered everywhere.
-The air is close with the stench of sulphurous fumes.
+地板上散落着骨头,到处散落着物品.
+空气中弥漫着刺鼻的硫磺味.
 
-%nC is clearly visible, but %nh seems to be asleep.]],
+%nC清晰可见,但%nh似乎在睡觉.]],
       },
       goal_next = {
-         text = "Once again, you find yourself in the lair of %n.",
+         text = "又一次,你发现自己身处%n的巢穴.",
       },
       gotit = {
-         synopsis = "[%oC fills you with a feeling of power.]",
+         synopsis = "[%oC让你充满力量感.]",
          output = "text",
-         text = [[As you pick up %o it seems heavy at first, but as you
-hold it strength flows into your arms.
+         text = [[当你拿起%o时,起初感觉很重,但当你
+握住它时,力量涌入你的手臂.
 
-You suddenly feel full of power, as if nothing could possibly stand
-in your path.]],
+你突然感到充满力量,仿佛没有什么能阻挡
+你的道路.]],
       },
       guardtalk_after = {
-         "\"The rains have returned and the land grows lush again.\"",
-         "\"Peace has returned, give thanks to %d!\"",
-         "\"Welcome back!  Did you find %o?\"",
-         "\"So, %p, tell us the story of your fight with %n.\"",
-         "\"%lC grows old.  Perhaps you will guide us after he ascends.\"",
+         "\"雨水回来了,土地又变得郁郁葱葱.\"",
+         "\"和平恢复了,感谢%d!\"",
+         "\"欢迎回来!你找到%o了吗?\"",
+         "\"那么,%p,给我们讲讲你和%n战斗的故事吧.\"",
+         "\"%lC年事已高.也许在他升天之后你会领导我们.\"",
       },
       guardtalk_before = {
-         "\"We have not been able to gather as much food since the Giants sealed off our access to the outer world.\"",
-         "\"Since %n sent her minions, we have been constantly fighting.\"",
-         "\"I have heard your vision quest was successful.  Is this so?\"",
-         "\"So, tell me, %p, how have you fared?\"",
-         "\"%lC grows old.  We know not who will guide us after he ascends.\"",
+         "\"自从巨人封锁了我们通往外部世界的通道,我们就没能收集到那么多食物.\"",
+         "\"自从%n派来她的仆从,我们就一直在战斗.\"",
+         "\"我听说你的灵视探索成功了.是这样吗?\"",
+         "\"那么,告诉我,%p,你过得怎么样?\"",
+         "\"%lC年事已高.我们不知道在他升天之后谁会领导我们.\"",
       },
       hasamulet = {
-         synopsis = "[\"Take the Amulet to the altar of %d on the Astral Plane and offer it.\"]",
+         synopsis = "[\"把护身符带到星界%d的祭坛上并献上它.\"]",
          output = "text",
-         text = [["You have been successful, I see, %p.
+         text = [["你已经成功了,我看到了,%p.
 
-"Now that the Amulet of Yendor is yours, here is what you must do:
+\"既然岩德的护身符是你的了,接下来你必须这样做:
 
-"Journey upwards to the open air.  The Amulet you carry will then
-take you into the Astral Planes, where the Great Temple of %d
-casts its influence throughout our world.
+\"向上旅行到开阔的天空.你携带的护身符会
+带你进入星界位面,在那里%d的大神殿
+将它的影响投射到我们的整个世界.
 
-"Sacrifice the Amulet on the altar.  Thus shall %d become supreme!"]],
+\"在祭坛上献祭护身符.这样%d就能成为至高无上的存在!\"]],
       },
       killed_nemesis = {
-         text = [[%nC sinks to the ground, her heads flailing about.
-As she dies, a cloud of noxious fumes billows about her.]],
+         text = [[%nC倒在地上,她的头四处乱甩.
+当她死去时,一股有毒的烟雾从她身上喷出.]],
       },
       leader_first = {
-         synopsis = "[\"You have returned.  We are in dire need of your help.\"]",
+         synopsis = "[\"你回来了.我们急需你的帮助.\"]",
          output = "text",
-         text = [["You have returned from your vision quest, %p.  Thank %d.
+         text = [["你从灵视探索回来了,%p.感谢%d.
 
-"We are in dire need of your help, my %S.
+\"我们急需你的帮助,我的%S.
 
-"But first, I must see if you are yet capable of the quest I would
-ask you to undertake."]],
+\"但首先,我必须看看你是否还有能力承担
+我将要求你承担的任务.\"]],
       },
       leader_last = {
-         synopsis = "[\"You have betrayed the %L.  Begone!\"]",
+         synopsis = "[\"你背叛了%L.滚开!\"]",
          output = "text",
-         text = [["%pC!  You have sealed our fate.  You seem unable to reform yourself,
-so I must select another to take your place.
+         text = [["%pC!你已经注定了我们的命运.你似乎无法自我改造,
+所以我必须另选他人接替你的位置.
 
-"Begone from %H!  You have betrayed us by choosing
-the path of the %C over the true path of the %L.
+\"从%H滚开!你选择了
+%C之路而非%L的真正之路,背叛了我们.
 
-"You no longer live in our eyes."]],
+\"在我们眼中,你已经不存在了.\"]],
       },
       leader_next = {
-         text = "\"Again, you return to us, %p.  Let me see if you are ready now.\"",
+         text = "\"你又回到了我们身边,%p.让我看看你现在是否准备好了.\"",
       },
       leader_other = {
-         text = "\"Ah, %p.  Are you finally ready?\"",
+         text = "\"啊,%p.你终于准备好了吗?\"",
       },
       locate_first = {
-         synopsis = "[You %x many large claw marks, smell carrion, and notice bones.]",
+         synopsis = "[你%x到许多巨大的爪印,闻到腐肉味,并注意到骨头.]",
          output = "text",
-         text = [[You %x many large claw marks on the ground.  The tunnels ahead
-of you are larger than most of those in any cave complex you have
-ever been in before.
+         text = [[你%x到地上有许多巨大的爪印.你前面的隧道
+比你曾经去过的任何洞穴都要大.
 
-Your nose detects the smell of carrion from within, and bones litter
-the sides of the tunnels.]],
+你的鼻子闻到了里面的腐肉味,隧道两边
+散落着骨头.]],
       },
       locate_next = {
-         text = "Once again, you approach %i.",
+         text = "又一次,你接近%i.",
       },
       nemesis_first = {
-         synopsis = "[%nC threatens to eat you.]",
+         synopsis = "[%nC威胁要吃掉你.]",
          output = "text",
-         text = [["So, follower of %l, you seek to invade the lair of
-%n.  Only my meals are allowed down here.  Prepare
-to be eaten!"]],
+         text = [["那么,%l的追随者,你试图入侵
+%n的巢穴.只有我的食物才被允许在这里.准备
+被吃掉吧!\"]],
       },
       nemesis_next = {
-         text = [["So, again you face me, %c.  No one has ever before escaped me.
-Now I shall kill you."]],
+         text = [["那么,你又来面对我了,%c.以前从没有人从我手中逃脱过.
+现在我要杀了你.\"]],
       },
       nemesis_other = {
-         text = "\"You are getting annoying, %c.  Prepare to die.\"",
+         text = "\"你变得烦人了,%c.准备受死吧.\"",
       },
       nemesis_wantsit = {
-         text = "\"I'll have %o from you, %c.  You shall die.\"",
+         text = "\"我会从你那里拿回%o,%c.你会死的.\"",
       },
       nexttime = {
-         text = "Once again, you arrive back at %H.",
+         text = "又一次,你回到了%H.",
       },
       offeredit = {
-         synopsis = "[\"Take %o with you.  It will help in your quest for the Amulet of Yendor.\"]",
+         synopsis = "[\"带上%o.它将帮助你寻找岩德的护身符.\"]",
          output = "text",
-         text = [[%lC glimpses %o in your possession.
-He smiles and says:
+         text = [[%lC瞥见了你手中的%o.
+他微笑着说道:
 
-    You have done it!  We are saved.  But I fear that %o
-    will always be a target for %C forces who will want it for their
-    own.
+    你做到了!我们得救了.但我担心%o
+    总会成为%C势力的目标,他们会想要它为己用.
 
-    To prevent further trouble, I would like you, %p,
-    to take %o away with you.  It will help you as you
-    quest for the Amulet of Yendor.]],
+    为了防止进一步的麻烦,我希望你,%p,
+    把%o带走.它会在你寻找
+    岩德护身符时帮助你.]],
       },
       offeredit2 = {
-         synopsis = "[\"You are the keeper of %o now.  Return to %Z to search for the Amulet.]",
+         synopsis = "[\"你现在是%o的守护者了.回到%Z去寻找护身符.]",
          output = "text",
-         text = [[%l grasps %o proudly for a moment, then looks at you.
+         text = [[%l自豪地握着%o片刻,然后看着你.
 
-"You are its keeper now, and the time has come to resume your search
-for the Amulet.  %Z await your return through the
-magic portal which brought you here."]],
+\"你现在是它的守护者,是时候继续寻找
+护身符了.%Z正等待你通过
+带你来到这里的魔法传送门返回.\"]],
       },
       othertime = {
-         text = [[For some reason, you think that this may be the last time you will
-enter %H.]],
+         text = [[出于某种原因,你认为这可能是你最后一次
+进入%H.]],
       },
       posthanks = {
-         text = [["%pC!  Welcome back.
-How goes your quest to recover the Amulet for %d?"]],
+         text = [["%pC!欢迎回来.
+你为%d找回护身符的任务进展如何?\"]],
       },
    },
    Hea = {
       assignquest = {
-         synopsis = "[Travel to %i on your way to recover %o from %n.]",
+         synopsis = "[前往%i,在从%n那里找回%o的路上.]",
          output = "text",
-         text = [[For the first time, you sense a smile on %ls face.
+         text = [[你第一次感觉到%l脸上露出了微笑.
 
-    "You have indeed learned as much as we can teach you in preparation
-    for this task.  Let me tell you what I know of the symptoms and hope
-    that you can provide a cure.
+    \"你确实学到了我们所能教你的所有东西,为
+    这个任务做准备.让我告诉你我所知道的症状,并希望
+    你能提供治愈方法.
 
-    "A short while ago, the dreaded %nt was fooled by the gods
-    into thinking that %nh could use %o to find a
-    cure for old age.  Think of it, eternal youth!  But %nj good
-    health is accomplished by drawing the health from those around %ni.
+    \"不久前,可怕的%nt被众神愚弄,
+    以为%nh可以用%o找到
+    治疗衰老的方法.想想看,永生!但%nj的
+    良好健康是通过吸取%ni周围人的健康来实现的.
 
-    "He has exhausted %nj own supply of healthy people and now %nh seeks to
-    extend %nj influence into our world.  You must recover from %ni
-    %o and break the spell.
+    \"他已经耗尽了自己可用的健康人群,现在%nh试图
+    将%nj的影响扩展到我们的世界.你必须从%ni那里找回
+    %o并打破咒语.
 
-    "You must travel into the swamps to %i, and from there
-    follow the trail to %ns island lair.  Be careful."]],
+    \"你必须进入沼泽地前往%i,然后从那里
+    追踪到%n的岛屿巢穴.小心.\"]],
       },
       badalign = {
-         synopsis = "[Return when you are more %a.]",
+         synopsis = "[等你变得更%a了再回来.]",
          output = "text",
-         text = [["You have learned much of the remedies that benefit, but you must also
-know which physic for which ail.  That is why %ds teachings are a
-part of your training.
+         text = [["你已经学到了很多有益的治疗方法,但你也必须知道
+哪种药治哪种病.这就是为什么%d的教导是你
+训练的一部分.
 
-"Return to us when you have healed thyself."]],
+\"等你治好了自己再回来找我们.\"]],
       },
       badlevel = {
-         synopsis = "[You are too inexperienced.  Return when you are %Ra.]",
+         synopsis = "[你太缺乏经验了.等你成为%Ra之后再回来.]",
          output = "text",
-         text = [["Alas, %p, you are yet too inexperienced to deal with the rigors
-of such a task.  You must be able to draw on the knowledge of botany,
-alchemy and veterinary practices before I can send you on this quest 
-with good conscience.
+         text = [["唉,%p,你还太缺乏经验,无法应对
+如此艰巨的任务.你必须能够运用植物学,
+炼金术和兽医学的知识,我才能凭良心派你去执行这个任务.
 
-"Return when you wear %Ra's caduceus."]],
+\"当你戴上%Ra的双蛇杖时再回来.\"]],
       },
       discourage = {
-         "\"They might as well give scalpels to wizards as to let you try to use %o!\"",
-         "\"If I could strike %l, surrounded by %lj %gP, imagine what I can do to you here by yourself.\"",
-         "\"I will put my %Rp to work making a physic out of your ashes.\"",
-         "\"As we speak, Hades gathers your patients to join you.\"",
-         "\"After I'm done with you, I'll destroy %l as well.\"",
-         "\"You will have to kill me if you ever hope to leave this place.\"",
-         "\"I will impale your head on my caduceus for all to see.\"",
-         "\"There is no materia medica in your sack which will cure you of me!\"",
-         "\"Do not fight too hard, I want your soul strong, not weakened!\"",
-         "\"You should have stopped studying at veterinary.\"",
+         "\"他们把手术刀交给巫师,也好过让你尝试使用%o!\"",
+         "\"如果我能击败被%lj%gP包围的%l,想象一下我在这里独自一人能对你做什么.\"",
+         "\"我会让我的%Rp用你的骨灰制药.\"",
+         "\"就在我们说话的时候,哈迪斯正在召集你的病人加入你.\"",
+         "\"我干掉你之后,也会摧毁%l.\"",
+         "\"你必须杀了我才有希望离开这个地方.\"",
+         "\"我会把你的头刺在我的双蛇杖上供所有人观看.\"",
+         "\"你袋子里没有任何药材能治好我的病!\"",
+         "\"别太拼命,我要你的灵魂强壮,而不是虚弱!\"",
+         "\"你应该早点止步于兽医学.\"",
       },
       encourage = {
-         "\"Remember, %p, to always wash your hands before operating.\"",
-         "\"%nC has no real magic of %nj own.  To this %nh is vulnerable.\"",
-         "\"If you have been true to %d, you can draw on the power of %o.\"",
-         "\"Bring with you antidotes for poisons.\"",
-         "\"Remember this, %n can twist the powers of %o to hurt instead of heal.\"",
-         "\"I have sent for Chiron, but I am afraid he will come too late.\"",
-         "\"Maybe when you return the snakes will once again begin to shed.\"",
-         "\"The plague grows worse as we speak.  Hurry, %p!\"",
-         "\"Many times %n has caused trouble in these lands.  It is time that %nh was eradicated like the diseases %nh has caused.\"",
-         "\"With but one eye, %n should be easy to blind.  Remember this.\"",
+         "\"记住,%p,手术前一定要洗手.\"",
+         "\"%nC没有真正属于自己的魔法.%nh在这方面很脆弱.\"",
+         "\"如果你一直忠于%d,你就可以运用%o的力量.\"",
+         "\"带上解毒剂.\"",
+         "\"记住这一点,%n可以扭曲%o的力量来伤害而不是治愈.\"",
+         "\"我已经派人去找喀戎,但我担心他来得太晚了.\"",
+         "\"也许当你回来时,蛇会再次开始蜕皮.\"",
+         "\"瘟疫在我们说话时越来越严重.快,%p!\"",
+         "\"%n在这片土地上已经引起了许多次麻烦.是时候像%nh引起的疾病一样根除%nh了.\"",
+         "\"只有一只眼睛的%n应该很容易被弄瞎.记住这一点.\"",
       },
       firsttime = {
-         synopsis = "[You arrive back at %H and must find %l.]",
+         synopsis = "[你回到%H,必须找到%l.]",
          output = "text",
-         text = [[What sorcery has brought you back to %H?  The smell
-of fresh funeral pyres tells you that something is amiss with the healing
-powers that used to practice here.
+         text = [[是什么巫术把你带回了%H?新鲜的火葬柴堆
+的气味告诉你,曾经在这里行医的治愈力量出了
+问题.
 
-No rhizotomists are tending the materia medica gardens, and where are the
-common folk who used to come for the cures?
+没有草药师在照料药材花园,那些曾经
+来寻求治疗的普通百姓又在哪里?
 
-You know that you must quickly make your way to the collegium, and
-%ls iatreion, and find out what has happened in your absence.]],
+你知道你必须赶紧前往学院和
+%l的诊所,看看你不在的时候发生了什么.]],
       },
       goal_first = {
-         synopsis = "[You have reached the lair of %n.  Take %o away from %ni.]",
+         synopsis = "[你已经到达%n的巢穴.从%ni那里拿走%o.]",
          output = "text",
-         text = [[You stand within sight of the infamous Isle of %n.  Even
-the words of %l had not prepared you for this.
+         text = [[你站在臭名昭著的%n岛视线之内.即使是
+%l的话也没有让你为此做好准备.
 
-Steeling yourself against the wails of the ill that pierce your ears,
-you hurry on your task.  Maybe with %o you can
-heal them on your return, but not now.]],
+你咬紧牙关,忍受着刺痛你耳朵的病人哀嚎,
+匆匆继续你的任务.也许有了%o,你
+可以在回来时治愈他们,但现在不行.]],
       },
       goal_next = {
-         text = "Once again, you %x the Isle of %n in the distance.",
+         text = "又一次,你在远处%x到%n岛.",
       },
       gotit = {
-         synopsis = "[You feel the healing power of %o and should return it to %l.]",
+         synopsis = "[你感觉到%o的治愈力量,应该把它还给%l.]",
          output = "text",
-         text = [[As you pick up %o, you feel its healing begin to
-warm your soul.  You curse Zeus for taking it from its rightful owner,
-but at least you hope that %l can put it to good use once
-again.]],
+         text = [[当你拿起%o时,你感觉到它的治愈开始
+温暖你的灵魂.你诅咒宙斯把它从它真正的主人那里拿走,
+但你至少希望%l能再次好好利用它.]],
       },
       guardtalk_after = {
-         "\"Did you read that new treatise on the therapeutic use of leeches?\"",
-         "\"Paint a red caduceus on your shield and monsters won't hit you.\"",
-         "\"How are you feeling?  Perhaps a good bleeding will improve your spirits.\"",
-         "\"Have you heard the absurd new theory that diseases are caused by microscopic organisms, and not ill humors?\"",
-         "\"I see that you bring %o, now you can cure this plague!\"",
+         "\"你看了那篇关于水蛭治疗用途的新论文吗?\"",
+         "\"在你的盾牌上画一个红色的双蛇杖,怪物就不会打中你了.\"",
+         "\"你感觉怎么样?也许放点血会改善你的精神.\"",
+         "\"你听过那个荒谬的新理论吗,说疾病是由微生物引起的,而不是不良体液?\"",
+         "\"我看到你带着%o,现在你可以治愈这场瘟疫了!\"",
       },
       guardtalk_before = {
-         "\"Did you read that new treatise on the therapeutic use of leeches?\"",
-         "\"Paint a red caduceus on your shield and monsters won't hit you.\"",
-         "\"I passed handwriting so they are demoting me a rank.\"",
-         "\"I've heard that even %l has not been able to cure Chiron.\"",
-         "\"We think %n has used %nj alchemists, and %o, to unleash a new disease we call 'the cold' on Gehennom.\"",
+         "\"你看了那篇关于水蛭治疗用途的新论文吗?\"",
+         "\"在你的盾牌上画一个红色的双蛇杖,怪物就不会打中你了.\"",
+         "\"我通过了笔迹测试,所以他们在把我降级.\"",
+         "\"我听说连%l都没能治好喀戎.\"",
+         "\"我们认为%n用%nj炼金术士和%o,在地狱释放了一种叫做\'感冒\'的新疾病.\"",
       },
       hasamulet = {
-         synopsis = "[\"You have recovered the Amulet.  Travel to the Astral Plane and return it to %d.\"]",
+         synopsis = "[\"你已经找回了护身符.前往星界,把它还给%d.\"]",
          output = "text",
-         text = [["Ah, you have recovered the Amulet, %p.  Well done!
+         text = [["啊,你找回了护身符,%p.干得好!
 
-"Now, you should know that you must travel through the Elemental Planes
-to the Astral, and there return the Amulet to %d.  Go forth and
-may our prayers be as a wind upon your back."]],
+\"现在,你应该知道,你必须穿越元素位面
+前往星界,在那里把护身符还给%d.前进吧,
+愿我们的祈祷像你背上的风一样.\"]],
       },
       killed_nemesis = {
-         synopsis = "[%nC curses you as %nh dies.]",
+         synopsis = "[%nC在你%nh死时诅咒你.]",
          output = "text",
-         text = [[The battered body of %n slumps to the ground and gasps
-out one last curse:
+         text = [[%n被打得遍体鳞伤的身体瘫倒在地,喘着气发出
+最后的诅咒:
 
-    "You have defeated me, %p, but I shall have my revenge.
-    How, I shall not say, but this curse shall be like a cancer
-    on you."
+    \"你击败了我,%p,但我会报仇的.
+    怎么报,我不说,但这个诅咒会像癌症一样
+    缠着你.\"
 
-With that %n dies.]],
+说完%n就死了.]],
       },
       leader_first = {
-         synopsis = "[%l is weak from the struggle with %n.  %lH wants to examine you.]",
+         synopsis = "[%l在与%n的斗争中变得虚弱.%lH想检查你.]",
          output = "text",
-         text = [[Feebly, %l raises %lj head to look at you.
+         text = [[%l虚弱地抬起头看着你.
 
-"It is good to see you again, %p.  I see the concern in your
-eyes, but do not worry for me.  I am not ready for Hades yet.  We have
-exhausted much of our healing powers holding off %n.
-I need your fresh strength to carry on our work.
+\"很高兴再次见到你,%p.我从你眼中看到了关切,
+但不要为我担心.我还没准备好去哈迪斯呢.我们
+已经耗尽了大部分治愈力量来抵御%n.
+我需要你新鲜的力量来继续我们的工作.
 
-"Come closer and let me lay hands on you, and determine if you have
-the skills necessary to accomplish this mission."]],
+\"靠近一点,让我把双手放在你身上,看看你是否
+具备完成这个任务所需的技能.\"]],
       },
       leader_last = {
-         synopsis = "[You are a failure as a healer.]",
+         synopsis = "[你作为一个治疗师是失败的.]",
          output = "text",
-         text = [["You have failed us, %p.  You are a quack!  A charlatan!
+         text = [["你辜负了我们,%p.你是个庸医!一个骗子!
 
-"Hades will be happy to hear that you are once again practicing your
-arts on the unsuspecting."]],
+\"哈迪斯会很高兴听到你又在
+对毫无戒心的人施展你的医术.\"]],
       },
       leader_next = {
-         text = [["Again you return to me, %p.  I sense that each trip back
-the pleurisy and maladies of our land begin to infect you.  Let us
-hope and pray to %d that you become ready for your task before
-you fall victim to the bad humors."]],
+         text = [["你又回到了我身边,%p.我感觉每次回来
+我们土地的胸膜炎和疾病都开始感染你.让我们
+希望并祈祷%d,希望你能在
+你成为这些不良体液的牺牲品之前准备好你的任务.\"]],
       },
       leader_other = {
-         text = [["Chiron has fallen, Hermes has fallen, what else must I tell you to
-impress upon you the importance of your mission!  I hope that you
-have come prepared this time."]],
+         text = [["喀戎倒下了,赫尔墨斯倒下了,我还要告诉你什么才能
+让你明白你任务的重要性!我希望你这次
+已经准备好了.\"]],
       },
       locate_first = {
-         synopsis = "[You have reached %i but all is not well.]",
+         synopsis = "[你已经到达%i,但一切并不顺利.]",
          output = "text",
-         text = [[You stand before the entrance to %i.  Strange
-scratching noises come from within the building.
+         text = [[你站在%i的入口前.奇怪的
+刮擦声从建筑内部传来.
 
-The swampy ground around you seems to stink with disease.]],
+你周围的沼泽地似乎散发着疾病的气息.]],
       },
       locate_next = {
-         text = "Once again you stand at the entrance to %i.",
+         text = "又一次,你站在%i的入口前.",
       },
       nemesis_first = {
-         synopsis = "[\"I will take your life, then defeat %l.\"]",
+         synopsis = "[\"我会取走你的命,然后击败%l.\"]",
          output = "text",
-         text = [["They have made a mistake in sending you, %p.
+         text = [["派你来是个错误,%p.
 
-"When I add your youth to mine, it will just make it easier for me
-to defeat %l."]],
+\"当我把你的青春加到我身上时,只会让我更容易
+击败%l.\"]],
       },
       nemesis_next = {
-         text = "\"Unlike your patients, you seem to keep coming back, %p!\"",
+         text = "\"不像你的病人,你似乎总是回来,%p!\"",
       },
       nemesis_other = {
-         text = "\"Which would you like, %p?  Boils, pleurisy, convulsions?\"",
+         text = "\"你想要哪个,%p?疖子,胸膜炎,抽搐?\"",
       },
       nemesis_wantsit = {
-         text = [["I'll have %o back from you, %r.  You are
-not going to live to escape this place."]],
+         text = [["我会从你那里拿回%o,%r.你
+不会活着离开这个地方的.\"]],
       },
       nexttime = {
-         text = [[After your last experience you expected to be here, but you certainly
-did not expect to see things so much worse.  This time you must succeed.]],
+         text = [[经历了上次的经历,你本以为会来到这里,但你绝对
+没想到情况会变得更糟.这次你必须成功.]],
       },
       offeredit = {
-         synopsis = "[%l touches %o and tells %lj %gP to do so too, then tells you to take it with you.]",
+         synopsis = "[%l触摸%o并告诉%lj%gP也这样做,然后告诉你带着它.]",
          output = "text",
-         text = [[As soon as %l sees %o %lh summons %lj
+         text = [[%l一看到%o就召唤%lj
 %gP.
 
-Gently, %l reaches out and touches %o.
-He instructs each of the assembled to do the same.  When everyone
-has finished %lh speaks to you.
+%l轻轻地伸出手触摸%o.
+他指示每个集结的人也这样做.当所有人
+都完成后,%lh对你说道.
 
-    "Now that we have been replenished we can defeat this plague.  You must
-    take %o with you and replenish the worlds you have
-    been called upon to travel next.  I wish you could ride Chiron to the
-    end of your journey, but I need him to help me spread the cure.  Go
-    now and continue your journey."]],
+    \"既然我们已经补足了我们自己,我们可以击败这场瘟疫了.你必须
+    带着%o,并补足你接下来被召唤前往的
+    世界.我希望你能骑喀戎到
+    你旅程的终点,但我需要他帮我传播治愈方法.现在
+    走吧,继续你的旅程.\"]],
       },
       offeredit2 = {
-         synopsis = "[%l tells you to keep %o and return to %Z to search for the Amulet.]",
+         synopsis = "[%l告诉你保留%o并回到%Z去寻找护身符.]",
          output = "text",
-         text = [[%l cautiously handles %o while watching you.
+         text = [[%l小心翼翼地拿着%o,同时看着你.
 
-"You are its keeper now, and the time has come to resume your search
-for the Amulet.  %Z await your return through the
-magic portal which brought you here."]],
+\"你现在是它的守护者,是时候继续寻找
+护身符了.%Z正等待你通过
+带你来到这里的魔法传送门返回.\"]],
       },
       othertime = {
-         text = [[Again, you %x %H in the distance.
+         text = [[又一次,你在远处%x到%H.
 
-The smell of death and disease permeates the air.  You do not have
-to be %Ra to know that %n is on the verge of victory.]],
+死亡和疾病的气味弥漫在空气中.你不需要
+是%Ra就知道%n即将胜利.]],
       },
       posthanks = {
-         text = [["You have again returned to us, %p.  We have done well in your
-absence, yes?  How fare you upon your quest for the Amulet?"]],
+         text = [["你又一次回到了我们身边,%p.我们不在的时候做得很好,对吧?
+你寻找护身符的任务进展如何?\"]],
       },
    },
    Kni = {
       assignquest = {
-         synopsis = "[Pass through %i to reach %n.  Destroy %ni and return with %o.]",
+         synopsis = "[穿过%i到达%n.摧毁%ni并带着%o回来.]",
          output = "text",
-         text = [["Ah, %p.  Thou art truly ready, as no %c before thee hath
-been.  Hear now Our words:
+         text = [["啊,%p.你真的准备好了,没有哪个%c在你之前
+如此.现在听我说:
 
-"As thou noticed as thou approached %H, a great battle hath
-been fought recently in these fields.  Know thou that Merlin himself
-came to aid Us here as We battled the foul %n.  In the midst of that
-battle, %n struck Merlin a great blow, felling him.  Then, as Our
-forces were pressed back, %n stole %o.
+\"正如你接近%H时注意到的,最近在这些田野上
+进行了一场大战.要知道,当我们与邪恶的%n
+交战时,梅林本人亲自来帮助我们.在那场战斗中,
+%n给了梅林重重一击,将他击倒.然后,当我们的
+部队被逼退时,%n偷走了%o.
 
-"We eventually turned the tide, but lost many %cP in doing so.
-Merlin was taken off by his apprentice, but hath not recovered.  We have
-been told that so long as %n possesseth %o,
-Merlin will not regain his health.
+\"我们最终扭转了局势,但在战斗中失去了许多%cP.
+梅林被他的学徒带走,但一直没有康复.我们被告知
+只要%n拥有%o,
+梅林就不会恢复健康.
 
-"We hereby charge thee with this most important of duties:
+\"我们特此委托你这个最重要的职责:
 
-"Go forth from this place, to the fens, and there thou wilt find
-%i.  From there, thou must track down %n.  Destroy the
-beast, and return to Us %o.  Only then can
-We restore Merlin to health."]],
+\"从这里出发,前往沼泽地,在那里你会找到
+%i.从那里,你必须追踪%n.摧毁那个
+野兽,并把%o归还给我们.只有这样
+我们才能恢复梅林的健康.\"]],
       },
       badalign = {
-         synopsis = "[Go and do penance.  Return when you are truly %a.]",
+         synopsis = "[去做忏悔吧.当你真正%a了再回来.]",
          output = "text",
-         text = [["Thou dishonourest Us, %p!  Thou hast strayed from the path of
-chivalry! Go from Our presence and do penance.  Only when thou art again
-pure mayst thou return hence."]],
+         text = [["你羞辱了我们,%p!你已经偏离了骑士精神的道路!
+离开我们的视线去做忏悔.只有当你再次纯洁
+之后,你才能回到这里.\"]],
       },
       badlevel = {
-         synopsis = "[You are not prepared to face %n.  Return when you are %Ra.]",
+         synopsis = "[你还没准备好面对%n.等你成为%Ra后再回来.]",
          output = "text",
-         text = [["Verily, %p, thou hast done well.  That thou hast survived thus
-far is a credit to thy valor, but thou art yet unprepared for
-the demands required as Our Champion.  %rA, no matter how
-pure, could never hope to defeat the foul %n.
+         text = [["诚然,%p,你做得很好.你能活到现在
+是你勇气的荣耀,但你还没有准备好面对
+作为我们的勇士所需的要求.%rA,无论多么
+纯洁,都绝不可能希望击败邪恶的%n.
 
-"Journey forth from this place, and hone thy skills.  Return to
-Our presence when thou hast attained the noble title of %R."]],
+\"从这里出发,磨练你的技能.当你
+获得了%R的高贵头衔后再回到我们面前.\"]],
       },
       discourage = {
-         "\"A mere %r can never withstand me!\"",
-         "\"I shall kill thee now, and feast!\"",
-         "\"Puny %c.  What manner of death dost thou wish?\"",
-         "\"First thee, %p, then I shall feast upon %l.\"",
-         "\"Hah!  Thou hast failed, %r.  Now thou shalt die.\"",
-         "\"Die, %c.  Thou art as nothing against my might.\"",
-         "\"I shall suck the marrow from thy bones, %c.\"",
-         "\"Let's see...  Baked?  No.  Fried?  Nay.  Broiled?  Yea verily, that is the way I like my %c for dinner.\"",
-         "\"Thy strength waneth, %p.  The time of thy death draweth near.\"",
-         "\"Call upon thy precious %d, %p.  It shall not avail thee.\"",
+         "\"区区%r永远无法抵挡我!\"",
+         "\"我现在就杀了你,然后享用!\"",
+         "\"可怜的%c.你想要什么样的死法?\"",
+         "\"先是你,%p,然后我会享用%l.\"",
+         "\"哈!你失败了,%r.现在你死定了.\"",
+         "\"去死吧,%c.你与我的力量相比不值一提.\"",
+         "\"我会吸干你骨髓里的汁液,%c.\"",
+         "\"让我想想... 烤?不.炸?不.炙烤?是的,诚然,那是我喜欢%c当晚餐的方式.\"",
+         "\"你的力量在衰退,%p.你的死亡时刻正在临近.\"",
+         "\"呼唤你宝贵的%d吧,%p.它帮不了你.\"",
       },
       encourage = {
-         "\"Remember, %p, follow always the path of %d.\"",
-         "\"Though %n is verily a mighty foe, We have confidence in thy victory.\"",
-         "\"Beware, for %n hath surrounded %niself with hordes of foul creatures.\"",
-         "\"Great treasure, 'tis said, is hoarded in the lair of %n.\"",
-         "\"If thou possessest %o, %p, %ns magic shall therewith be thwarted.\"",
-         "\"The gates of %i are guarded by forces unseen, %p. Go carefully.\"",
-         "\"Return %o to Us quickly, %p.\"",
-         "\"Destroy %n, %p, else %H shall surely fall.\"",
-         "\"Call upon %d when thou art in need.\"",
-         "\"To find %i, thou must keep thy heart pure.\"",
+         "\"记住,%p,始终遵循%d的道路.\"",
+         "\"尽管%n确实是一个强大的对手,我们对你的胜利有信心.\"",
+         "\"小心,因为%n用成群的邪恶生物包围了%niself.\"",
+         "\"据说,%n的巢穴中囤积着巨大的财宝.\"",
+         "\"如果你拥有%o,%p,%n的魔法就会被它挫败.\"",
+         "\"%i的大门由看不见的力量守卫着,%p.小心行事.\"",
+         "\"快点把%o还给我们,%p.\"",
+         "\"摧毁%n,%p,否则%H必然沦陷.\"",
+         "\"当你需要的时候呼唤%d.\"",
+         "\"要找到%i,你必须保持心灵纯洁.\"",
       },
       firsttime = {
-         synopsis = "[Signs of battle include long gouges in the walls of %H.]",
+         synopsis = "[战斗的痕迹包括%H墙壁上的长条划痕.]",
          output = "text",
-         text = [[You materialize in the shadows of %H.  Immediately, you notice
-that something is wrong.  The fields around the castle are trampled and
-withered, as if some great battle has been recently fought.
+         text = [[你显现在%H的阴影中.你立刻注意到
+有些不对劲.城堡周围的田野被践踏和
+枯萎,好像最近有一场大战.
 
-Exploring further, you %x long gouges in the walls of %H.
-You know of only one creature that makes those kinds of marks...]],
+进一步探索,你%x到%H墙壁上的长条划痕.
+你知道只有一种生物会制造那种痕迹...]],
       },
       goal_first = {
-         synopsis = "[You %x the entrance to a cavern inside a hill.]",
+         synopsis = "[你%x到一个山丘内的洞穴入口.]",
          output = "text",
-         text = [[As you exit the swamps, you %x before you a huge, gaping hole in the
-side of a hill.  From within, you smell the foul stench of carrion.
+         text = [[当你离开沼泽时,你%x到面前一个巨大的,张开的洞口,
+位于一个山丘的侧面.从里面,你闻到腐烂的恶臭.
 
-The pools on either side of the entrance are fouled with blood, and
-pieces of rusted metal and broken weapons show above the surface.]],
+入口两边的水池被鲜血污染,生锈的金属碎片
+和破碎的武器露出水面.]],
       },
       goal_next = {
-         text = "Again, you stand at the entrance to %ns lair.",
+         text = "又一次,你站在%n巢穴的入口处.",
       },
       gotit = {
-         synopsis = "[You feel the magic of %o.]",
+         synopsis = "[你感觉到%o的魔法.]",
          output = "text",
-         text = [[As you pick up %o, you feel its protective fields
-form around your body.  You also feel a faint stirring in your mind, as
-if you are in two places at once, and in the second, you are waking from
-a long sleep.]],
+         text = [[当你拿起%o时,你感觉到它的保护场
+在你的身体周围形成.你也感觉到脑海中有一丝微弱的悸动,仿佛
+你同时存在于两个地方,而在第二个地方,你正从
+长眠中醒来.]],
       },
       guardtalk_after = {
-         "\"Hail, %p!  Verily, thou lookest well.\"",
-         "\"So, %p, didst thou find %n in the fens near %i?\"",
-         "\"Worthy %p, hast thou proven thy right purpose on the body of %n?\"",
-         "\"Verily, %l could have no better champion, %p.\"",
-         "\"Hast thou indeed recovered %o?\"",
+         "\"万岁,%p!诚然,你看起来很好.\"",
+         "\"那么,%p,你在%i附近的沼泽地里找到%n了吗?\"",
+         "\"可敬的%p,你是否在%n的尸体上证明了你正义的目的?\"",
+         "\"诚然,%l不可能有比你更好的勇士了,%p.\"",
+         "\"你真的找回了%o吗?\"",
       },
       guardtalk_before = {
-         "\"Hail, %p!  Verily, thou lookest well.\"",
-         "\"There is word, %p, that %n hath been sighted in the fens near %i.\"",
-         "\"Thou art our only hope now, %p.\"",
-         "\"Verily, %l could have no better champion, %p.\"",
-         "\"Many brave %cP died when %n attacked.\"",
+         "\"万岁,%p!诚然,你看起来很好.\"",
+         "\"有消息说,%p,%n在%i附近的沼泽地被发现了.\"",
+         "\"你现在是我们唯一的希望了,%p.\"",
+         "\"诚然,%l不可能有比你更好的勇士了,%p.\"",
+         "\"许多勇敢的%cP在%n袭击时牺牲了.\"",
       },
       hasamulet = {
-         synopsis = "[Take the Amulet to the Astral Plane and deliver it to %d.]",
+         synopsis = "[把护身符带到星界,交给%d.]",
          output = "text",
-         text = [["Thou hast succeeded, We see, %p!  Now thou art commanded to take
-the Amulet to be sacrificed to %d in the Plane of the Astral.
+         text = [["你成功了,我们看到,%p!现在你奉命
+把护身符带到星界位面,献给%d.
 
-"Merlin hath counseled Us that thou must travel always upwards through
-the Planes of the Elements, to achieve this goal.
+\"梅林告诉我们,你必须始终向上穿过
+元素位面,才能实现这个目标.
 
-"Go with %d, %p."]],
+\"与%d同行吧,%p.\"]],
       },
       killed_nemesis = {
-         synopsis = "[%nC curses you as %nh dies.]",
+         synopsis = "[%nC在你%nh死时诅咒你.]",
          output = "text",
-         text = [[As %n sinks to the ground, blood gushing from %nj open mouth, %nh
-defiantly curses you and %l:
+         text = [[当%n倒在地上,鲜血从%nj张开的嘴里涌出时,%nh
+倔强地诅咒你和%l:
 
-    "Thou hast not won yet, %r.  By the gods, I shall return
-    and dog thy steps to the grave!"
+    \"你还没有赢,%r.以诸神之名,我会回来
+    并一直跟踪你的脚步直到坟墓!\"
 
-%nJ tail flailing madly, %n tries to crawl towards you, but slumps
-to the ground and dies in a pool of %nj own blood.]],
+%nJ尾巴疯狂地甩动,%n试图爬向你,但瘫倒
+在地上,死在%nj自己的血泊中.]],
       },
       leader_first = {
-         synopsis = "[%lC checks whether you are ready for a great undertaking.]",
+         synopsis = "[%lC检查你是否准备好承担一项伟大任务.]",
          output = "text",
-         text = [["Ah, %p.  We see thou hast received Our summons.
-We are in dire need of thy prowess.  But first, We must needs
-decide if thou art ready for this great undertaking."]],
+         text = [["啊,%p.我们看到你收到了我们的召唤.
+我们急需你的prowess.但首先,我们必须
+判断你是否准备好了承担这项伟大任务.\"]],
       },
       leader_last = {
-         synopsis = "[You are a disgrace as %ca.]",
+         synopsis = "[你作为%ca是个耻辱.]",
          output = "text",
-         text = [["Thou disgracest this noble court with thine impure presence.  We have been
-lenient with thee, but no more.  Thy name shall be spoken no more.  We
-hereby strip thee of thy title, thy lands, and thy standing as %ca.
-Begone from Our sight!"]],
+         text = [["你以你不纯的存在羞辱了这个高贵的宫廷.我们对你一直
+很宽容,但不再宽容了.你的名字将不再被提起.我们
+特此剥夺你的头衔,土地和作为%ca的地位.
+滚出我们的视线!\"]],
       },
       leader_next = {
-         text = "\"Welcome again, %p.  We hope thou art ready now.\"",
+         text = "\"再次欢迎,%p.我们希望你现在准备好了.\"",
       },
       leader_other = {
-         text = "\"Once again, thou standest before Us, %p.  Art thou ready now?\"",
+         text = "\"又一次,你站在我们面前,%p.你现在准备好了吗?\"",
       },
       locate_first = {
-         synopsis = "[You have reached %i and can %x a shrine.]",
+         synopsis = "[你已经到达%i,可以%x到一个神殿.]",
          output = "text",
-         text = [[You stand at the foot of %i.  Atop, you can %x a shrine.
-Strange energies seem to be focused here, and the hair on the back of
-your neck stands on end.]],
+         text = [[你站在%i的脚下.在顶上,你可以%x到一个神殿.
+奇怪的能量似乎集中在这里,你脖子后面的头发
+竖了起来.]],
       },
       locate_next = {
-         text = "Again, you stand at the foot of %i.",
+         text = "又一次,你站在%i的脚下.",
       },
       nemesis_first = {
-         synopsis = "[%nC taunts you and issues a threat against %H.]",
+         synopsis = "[%nC嘲弄你并对%H发出威胁.]",
          output = "text",
-         text = [["Hah!  Another puny %c seeks death.  I shall dine well tonight,
-then tomorrow, %H shall fall!"]],
+         text = [["哈!又一个可怜的%c在寻求死亡.我今晚会享用大餐,
+然后明天,%H就要沦陷了!\"]],
       },
       nemesis_next = {
-         text = "\"Again, thou challengest me, %r?  So be it.  Thou wilt die here.\"",
+         text = "\"你又来挑战我了,%r?那就这样吧.你会死在这里.\"",
       },
       nemesis_other = {
-         text = "\"Thou art truly foolish, %r.  I shall dispatch thee anon.\"",
+         text = "\"你真蠢,%r.我立刻就会把你干掉.\"",
       },
       nemesis_wantsit = {
-         text = [["So, thou darest touch MY property!  I shall have that bauble back,
-puny %r.  Thou wilt die in agony!"]],
+         text = [["那么,你胆敢碰我的财产!我会拿回那个小玩意儿,
+可怜的%r.你会在痛苦中死去!\"]],
       },
       nexttime = {
-         text = "Once again you stand in the shadows of %H.",
+         text = "又一次,你站在%H的阴影中.",
       },
       offeredit = {
-         synopsis = "[%oC is yours now.  It will aid in your search for the Amulet.]",
+         synopsis = "[%oC现在是你的了.它将在你寻找护身符时提供帮助.]",
          output = "text",
-         text = [[As you approach %l, %lh beams at you and says:
+         text = [[当你接近%l时,%lh对你微笑并说道:
 
-    "Well done!  Thou art truly the Champion of %H.  We
-    have received word that Merlin is recovering, and shall soon
-    rejoin Us.
+    \"干得好!你是%H的真正的勇士.我们
+    收到消息说梅林正在康复,很快就会
+    回到我们身边.
 
-    "He hath instructed Us that thou art now to be the guardian of
-    %o.  He feeleth that thou mayst have need of
-    its powers in thine adventures.  It is Our wish that thou keepest
-    %o with thee as thou searchest for the fabled
-    Amulet of Yendor."]],
+    \"他指示我们,你现在应该成为
+    %o的守护者.他感觉你很可能在
+    你的冒险中需要它的力量.我们希望你能
+    带着%o,在你寻找传说中的
+    岩德护身符时.\"]],
       },
       offeredit2 = {
-         synopsis = "[You are the keeper of %o.  Return to %Z and find the Amulet.]",
+         synopsis = "[你是%o的守护者.回到%Z去寻找护身符.]",
          output = "text",
-         text = [["Careful, %p!  %oC might break, and that would
-be a tragic loss.  Thou art its keeper now, and the time hath come
-to resume thy search for the Amulet.  %Z await thy
-return through the magic portal that brought thee here."]],
+         text = [["小心,%p!%oC可能会碎,那将是
+一个悲剧性的损失.你现在是它的守护者,是时候
+继续寻找护身符了.%Z正等待你
+通过带你来到这里的魔法传送门返回.\"]],
       },
       othertime = {
-         text = [[Again, you stand before %H.  You vaguely sense that this
-may be the last time you stand before %l.]],
+         text = [[又一次,你站在%H面前.你隐约感觉到这
+可能是你最后一次站在%l面前.]],
       },
       posthanks = {
-         text = "\"Well met, %p.  How goeth thy search for the Amulet of Yendor?\"",
+         text = "\"幸会,%p.你寻找岩德护身符的任务进展如何?\"",
       },
    },
    Mon = {
       assignquest = {
-         synopsis = "[Find %i, then continue to %ns lair.  Defeat %ni and return with %o.]",
+         synopsis = "[找到%i,然后继续前往%n的巢穴.击败%ni并带着%o回来.]",
          output = "text",
-         text = [["Yes, %p.  You are truly ready now.  Attend to me and I shall
-tell you of what has transpired:
+         text = [["是的,%p.你现在真正准备好了.注意听我说,我会
+告诉你发生了什么:
 
-"During one of the Great Meditations a short time ago, %n and
-a legion of elementals invaded %H.  Many %gP
-were killed, including the one bearing %o.
+\"不久前在一次大冥想中,%n和
+一队元素生物入侵了%H.许多%gP
+被杀,包括携带%o的那位.
 
-Now, there are barely enough %gP left to keep the elementals
-at bay.
+\"现在,剩下的%gP勉强能把元素生物
+挡在门外.
 
-"We need you to find %i, then, from there,
-travel to %ns lair.  If you can manage to defeat %n and
-return %o here, we can then drive off the legions
-of elementals that slay our students.
+\"我们需要你找到%i,然后从那里
+前往%n的巢穴.如果你能设法击败%n并把
+%o带回这里,我们就能赶走那些
+杀害我们学生的元素生物军团.
 
-"Go with %d as your guide, %p."]],
+\"以%d为你的向导,%p.\"]],
       },
       badalign = {
-         synopsis = "[You must atone.  Come back when you are worthy of %d.]",
+         synopsis = "[你必须赎罪.当你配得上%d时再回来.]",
          output = "text",
-         text = [["This is terrible, %p.  You have deviated from the true path!
-You know that %d requires the most strident devotion of this
-order.  The %shood must stand for utmost piety.
+         text = [["这太糟糕了,%p.你已经偏离了正确的的道路!
+你知道%d要求这个教团保持最严格的风险.
+%s的教团必须代表极致虔诚.
 
-"Go from here, atone for your sins against %d.  Return only when
-you have purified yourself."]],
+\"离开这里,为你对%d的罪行赎罪.只有当你
+净化了自己之后才能回来.\"]],
       },
       badlevel = {
-         synopsis = "[You are not ready to face %n.  Come back when you are %Ra.]",
+         synopsis = "[你还没准备好面对%n.当你成为%Ra后再回来.]",
          output = "text",
-         text = [["Alas, %p, it is not yet to be.  A mere %r could never
-withstand the might of %n.  Go forth, again into the world, and
-return when you have attained the post of %R."]],
+         text = [["唉,%p,时机未到.区区%r永远无法
+承受%n的力量.出发吧,再次进入世界,当你
+达到了%R的职位后再回来.\"]],
       },
       discourage = {
-         "\"Submit to my will, %c, and I shall spare you.\"",
-         "\"Your puny powers are no match for me, %c.\"",
-         "\"I shall have you turned into a zombie for my pleasure!\"",
-         "\"Despair now, %r.  %d cannot help you.\"",
-         "\"I shall feast upon your soul for many days, %c.\"",
-         "\"Your death will be slow and painful.  That I promise!\"",
-         "\"You cannot defeat %n, you fool.  I shall kill you now.\"",
-         "\"Your precious %lt will be my next victim.\"",
-         "\"I feel your powers failing you, %r.  You shall die now.\"",
-         "\"With %o, nothing can stand in my way.\"",
+         "\"顺从我,%c,我会饶你一命.\"",
+         "\"你可怜的力量不是我的对手,%c.\"",
+         "\"我会把你变成僵尸供我取乐!\"",
+         "\"现在绝望吧,%r.%d帮不了你.\"",
+         "\"我会尽情享用你的灵魂很多天,%c.\"",
+         "\"你的死亡会是缓慢而痛苦的.我保证!\"",
+         "\"你无法击败%n,傻瓜.我现在就杀了你.\"",
+         "\"你珍视的%l将是我的下一个受害者.\"",
+         "\"我感觉你的力量在衰退,%r.你现在会死.\"",
+         "\"有了%o,没有什么能阻挡我.\"",
       },
       encourage = {
-         "\"You can prevail, if you rely on %d.\"",
-         "\"Remember that %n has great magic at his command.\"",
-         "\"Be pure, my %S.\"",
-         "\"Beware, %i is surrounded by hordes of earth elementals.\"",
-         "\"Remember your studies, and you will prevail!\"",
-         "\"Acquire and wear %o if you can.  They will aid you against %n.\"",
-         "\"Call upon %d when your need is greatest.  You will be answered.\"",
-         "\"Remember to use the elementals' strength against them!\"",
-         "\"Do not lose faith, %p.  If you do so, %n will grow stronger.\"",
-         "\"Wear %o.  They will assist you in your efforts.\"",
+         "\"如果你依靠%d,你就能获胜.\"",
+         "\"记住%n拥有强大的魔法.\"",
+         "\"保持纯洁,我的%S.\"",
+         "\"小心,%i被成群的土元素包围着.\"",
+         "\"记住你的学习,你就会成功!\"",
+         "\"如果可能的话,获取并佩戴%o.它会在对抗%n时帮助你.\"",
+         "\"当你最需要的时候呼唤%d.你会得到回应.\"",
+         "\"记住利用元素生物的力量对抗它们!\"",
+         "\"不要失去信念,%p.如果你失去了,%n会变得更强.\"",
+         "\"佩戴%o.它会帮助你努力.\"",
       },
       firsttime = {
-         synopsis = "[You have reached %H but something is wrong.  %lC needs your aid.]",
+         synopsis = "[你已经到达%H,但有些不对劲.%lC需要你的帮助!]",
          output = "text",
-         text = [[You find yourself standing in sight of %H.
-Something is obviously wrong here.  Strange shapes lumber around
-outside %H!
+         text = [[你发现自己站在%H的视线之内.
+这里显然有些不对劲.奇怪的身影在%H外面
+笨重地移动!
 
-You realize that %l needs your assistance!]],
+你意识到%l需要你的帮助!]],
       },
       goal_first = {
-         synopsis = "[You are surrounded by brimstone, lava, and elementals.]",
+         synopsis = "[你被硫磺,熔岩和元素生物包围.]",
          output = "text",
-         text = [[The stench of brimstone is all about you, and the elementals close in
-from all sides!
+         text = [[硫磺的恶臭包围着你,元素生物从四面八方
+逼近!
 
-Ahead, there is a small clearing amidst the bubbling pits of lava...]],
+前方,在冒泡的熔岩坑之间有一小块空地...]],
       },
       goal_next = {
-         text = "Again, you have invaded %ns domain.",
+         text = "又一次,你侵入了%n的领域.",
       },
       gotit = {
-         synopsis = "[You feel the essence of %d and realize that you should take %o to %l.]",
+         synopsis = "[你感觉到%d的本质,并意识到你应该把%o带给%l.]",
          output = "text",
-         text = [[As you pick up %o, you feel the essence of
-%d fill your soul.  You know now why %n stole %oi from
-%H, for with %oi, %ca of %d could
-easily defeat his plans.
+         text = [[当你拿起%o时,你感觉到%d的本质
+充满了你的灵魂.你现在知道为什么%n从
+%H偷走%oi了,因为有了%oi,%d的%ca
+可以轻易挫败他的计划.
 
-You sense a message from %d.  Though not verbal, you
-get the impression that you must return to %l as soon
-as possible.]],
+你感觉到来自%d的信息.虽然不是言语,但
+你得到的感觉是必须尽快回到%l那里.]],
       },
       guardtalk_after = {
-         "\"Greetings, honorable %r.  It is good to see you again.\"",
-         "\"Ah, %p!  Our deepest gratitude for all of your help.\"",
-         "\"Greetings, %s.  Perhaps you will take some time to meditate with us?\"",
-         "\"With this test behind you, may %d bring you enlightenment.\"",
-         "\"May %d be with you, %s.\"",
+         "\"你好,尊敬的%r.很高兴再次见到你.\"",
+         "\"啊,%p!我们对你所有的帮助深表感激.\"",
+         "\"你好,%s.也许你会花点时间和我们一起冥想?\"",
+         "\"通过了这个考验,愿%d带给你启蒙.\"",
+         "\"愿%d与你同在,%s.\"",
       },
       guardtalk_before = {
-         "\"Greetings, honorable %r.  It is good to see you.\"",
-         "\"Ah, %p!  Surely you can help us in our hour of need.\"",
-         "\"Greetings, %s.  %lC has great need of your help.\"",
-         "\"Alas, it seems as if even %d has deserted us.\"",
-         "\"May %d be with you, %s.\"",
+         "\"你好,尊敬的%r.很高兴见到你.\"",
+         "\"啊,%p!你肯定能在我们急需的时候帮助我们.\"",
+         "\"你好,%s.%lC非常需要你的帮助.\"",
+         "\"唉,似乎连%d都抛弃了我们.\"",
+         "\"愿%d与你同在,%s.\"",
       },
       hasamulet = {
-         synopsis = "[Take the Amulet to the Astral Plane and deliver it to %d.]",
+         synopsis = "[把护身符带到星界,交给%d.]",
          output = "text",
-         text = [["You have prevailed, %p!  %d is surely with you.  Now,
-you must take the Amulet, and sacrifice it on %ds altar on
-the Astral Plane.  I suspect that I shall never see you again in this
-life, but I hope to at %ds feet."]],
+         text = [["你赢了,%p!%d肯定与你同在.现在,
+你必须带着护身符,在星界位面的%d祭坛上
+献祭它.我猜想我这辈子再也见不到你了,
+但我希望在%d的脚下与你相见.\"]],
       },
       killed_nemesis = {
-         synopsis = "[As %n dies, %nh threatens to return.]",
+         synopsis = "[当%n死去时,%nh威胁要回来.]",
          output = "text",
-         text = [[%nC gasps:
+         text = [[%nC喘着气说:
 
-    "You have only defeated this mortal body.  Know this: my spirit
-    is strong.  I shall return and reclaim what is mine!"
+    \"你只是击败了这个凡人的身体.要知道:我的灵魂
+    很强大.我会回来夺回属于我的东西!\"
 
-With that, %n expires.]],
+说完,%n就死了.]],
       },
       leader_first = {
-         synopsis = "[%lC checks whether you are ready for the great challenge.]",
+         synopsis = "[%lC检查你是否准备好迎接重大挑战.]",
          output = "text",
-         text = [["Ah, %p, my %S.  You have returned to us at last.
-A great blow has befallen our order; perhaps you can help us.
-First, however, I must determine if you are prepared for this
-great challenge."]],
+         text = [["啊,%p,我的%S.你终于回到了我们身边.
+我们的教团遭受了沉重打击;也许你能帮助我们.
+首先,我必须确定你是否准备好了迎接这个
+重大挑战.\"]],
       },
       leader_last = {
-         synopsis = "[You are a heretic and have failed utterly.]",
+         synopsis = "[你是个异教徒,完全失败了.]",
          output = "text",
-         text = [["You are a heretic, %p!  How can you, %ra, deviate so from the
-teachings of %d?  Begone from this temple.  You are no longer
-%sa to this order.  We will pray to %d for other assistance,
-as you have failed us utterly."]],
+         text = [["你是个异教徒,%p!你身为%ra,怎么能如此偏离
+%d的教导?离开这座寺庙.你不再是
+这个教团的%s了.我们将向%d祈祷寻求其他帮助,
+因为你完全辜负了我们.\"]],
       },
       leader_next = {
-         text = "\"Again, my %S, you stand before me.  Are you ready now to help us?\"",
+         text = "\"再次,我的%S,你站在我面前.你现在准备好帮助我们了吗?\"",
       },
       leader_other = {
-         text = "\"Once more, %p, you stand within the sanctum.  Are you ready now?\"",
+         text = "\"又一次,%p,你站在圣所内.你现在准备好了吗?\"",
       },
       locate_first = {
-         synopsis = "[You have reached %i.  %nC lurks further ahead.]",
+         synopsis = "[你已经到达%i.%nC潜伏在更前方.]",
          output = "text",
-         text = [[You remember the descriptions of %i, given
-to you by %l.  It is ahead that you will find
-%n's trail.]],
+         text = [[你记得%l给你的关于%i的描述.
+就在前面,你会找到%n的踪迹.]],
       },
       locate_next = {
-         text = "Again, you stand before %i.",
+         text = "又一次,你站在%i面前.",
       },
       nemesis_first = {
-         synopsis = "[You are no %g.  You shall never regain %o.]",
+         synopsis = "[你不是%g.你永远拿不回%o.]",
          output = "text",
-         text = [["Ah, so %l has sent another %g to retrieve
+         text = [["啊,所以%l派了另一个%g来取回
 %o.
 
-"No, I see you are no %g.  Perhaps I shall have some fun today
-after all.  Prepare to die, %r!  You shall never regain
-%o."]],
+\"不,我看你不是%g.也许我今天终究能找到点乐子
+吧.准备受死吧,%r!你永远拿不回
+%o.\"]],
       },
       nemesis_next = {
-         text = "\"So, %r.  Again you challenge me.\"",
+         text = "\"那么,%r.你又来挑战我了.\"",
       },
       nemesis_other = {
-         text = "\"Die now, %r.  %d has no power here to aid you.\"",
+         text = "\"现在去死吧,%r.%d在这里没有力量帮助你.\"",
       },
       nemesis_wantsit = {
-         text = "\"You shall die, %r, and I will have %o back.\"",
+         text = "\"你会死的,%r,我会拿回%o.\"",
       },
       nexttime = {
-         text = "Once again, you stand before %H.",
+         text = "又一次,你站在%H面前.",
       },
       offeredit = {
-         synopsis = "[Keep %o.  %oH will help you recover the Amulet of Yendor.]",
+         synopsis = "[保留%o.%oH将帮助你找回岩德的护身符.]",
          output = "text",
-         text = [["You have returned, %p.  And with %o, I see.
-Congratulations.
+         text = [["你回来了,%p.还带着%o,我看到了.
+恭喜.
 
-"I have been in meditation, and have received direction from
-a minion of %d.  %d commands that you retain
-%o.  With %oi, you must recover the Amulet
-of Yendor.
+\"我一直在冥想,并收到了来自
+%d仆从的指示.%d命令你保留
+%o.有了%oi,你必须找回岩德
+的护身符.
 
-"Go forth, and let %d guide your steps."]],
+\"出发吧,让%d指引你的脚步.\"]],
       },
       offeredit2 = {
-         synopsis = "[Keep %o and return to %Z to search for the Amulet.]",
+         synopsis = "[保留%o并回到%Z去寻找护身符.]",
          output = "text",
-         text = [[%lC studies %o for a moment,
-then returns his gaze to you.
+         text = [[%lC研究了一会儿%o,
+然后把目光转回你身上.
 
-"%oC must remain with you.  Use %oi
-as you resume your search for the Amulet.
-%Z await your return through the magic portal
-that brought you here."]],
+\"%oC必须留在你身边.当你
+继续寻找护身符时,使用%oi.
+%Z正等待你通过带你来到这里的魔法传送门
+返回.\"]],
       },
       othertime = {
-         text = [[Again you face %H.  Your intuition hints that this
-may be the final time you come here.]],
+         text = [[再次面对%H.你的直觉暗示这
+可能是你最后一次来这里.]],
       },
       posthanks = {
-         text = "\"Welcome back, %p.  How is your quest for the Amulet going?\"",
+         text = "\"欢迎回来,%p.你的护身符任务进展如何?\"",
       },
    },
    Pri = {
       assignquest = {
-         synopsis = "[%nC invaded %H and captured %o.  Defeat %ni and retrieve %oh.]",
+         synopsis = "[%nC入侵了%H并夺取了%o.击败%ni并取回%oh.]",
          output = "text",
-         text = [["Yes, %p.  You are truly ready now.  Attend to me and I shall
-tell you of what has transpired:
+         text = [["是的,%p.你现在真正准备好了.注意听我说,我会
+告诉你发生了什么:
 
-"At one of the Great Festivals a short time ago, %n and a legion
-of undead invaded %H.  Many %gP were killed, including
-the one carrying %o.
+\"不久前在一次大节日上,%n和一队不死生物
+入侵了%H.许多%gP被杀,包括
+携带%o的那位.
 
-"As a final act of vengefulness, %n desecrated the altar here.
-Without it, we could not mount a counter-attack.  Now, there are
-barely enough %gP left to keep the undead at bay.
+\"作为最后的报复行为,%n亵渎了这里的祭坛.
+没有它,我们无法发起反击.现在,剩下的
+%gP勉强能把不死生物挡在门外.
 
-"We need you to find %i, then, from there, travel
-to %ns lair.  If you can manage to defeat %n and return
-%o here, we can then drive off the legions of
-undead that befoul the land.
+\"我们需要你找到%i,然后从那里
+前往%n的巢穴.如果你能设法击败%n并把
+%o带回这里,我们就能赶走那些
+污染这片土地的不死生物军团.
 
-"Go with %d as your guide, %p."]],
+\"以%d为你的向导,%p.\"]],
       },
       badalign = {
-         synopsis = "[You have deviated from the path.  Return when you have purified yourself.]",
+         synopsis = "[你已经偏离了道路.等你净化了自己再回来.]",
          output = "text",
-         text = [["This is terrible, %p.  You have deviated from the true path!
-You know that %d requires the most strident devotion of this
-order.  The %shood must stand for utmost piety.
+         text = [["这太糟糕了,%p.你已经偏离了正确的的道路!
+你知道%d要求这个教团保持最严格的风险.
+%s的教团必须代表极致虔诚.
 
-"Go from here, atone for your sins against %d.  Return only when
-you have purified yourself."]],
+\"离开这里,为你对%d的罪行赎罪.只有当你
+净化了自己之后才能回来.\"]],
       },
       badlevel = {
-         synopsis = "[%rA cannot withstand %n.  Come back when you are %Ra.]",
+         synopsis = "[%rA无法承受%n.当你成为%Ra后再回来.]",
          output = "text",
-         text = [["Alas, %p, it is not yet to be.  A mere %r could never
-withstand the might of %n.  Go forth, again into the world, and return
-when you have attained the post of %R."]],
+         text = [["唉,%p,时机未到.区区%r永远无法
+承受%n的力量.出发吧,再次进入世界,当你
+达到了%R的职位后再回来.\"]],
       },
       discourage = {
-         "\"Submit to my will, %c, and I shall spare you.\"",
-         "\"Your puny powers are no match for me, %c.\"",
-         "\"I shall have you turned into a zombie for my pleasure!\"",
-         "\"Despair now, %r.  %d cannot help you.\"",
-         "\"I shall feast upon your soul for many days, %c.\"",
-         "\"Your death will be slow and painful.  That I promise!\"",
-         "\"You cannot defeat %n, you fool.  I shall kill you now.\"",
-         "\"Your precious %lt will be my next victim.\"",
-         "\"I feel your powers failing you, %r.  You shall die now.\"",
-         "\"With %o, nothing can stand in my way.\"",
+         "\"顺从我,%c,我会饶你一命.\"",
+         "\"你可怜的力量不是我的对手,%c.\"",
+         "\"我会把你变成僵尸供我取乐!\"",
+         "\"现在绝望吧,%r.%d帮不了你.\"",
+         "\"我会尽情享用你的灵魂很多天,%c.\"",
+         "\"你的死亡会是缓慢而痛苦的.我保证!\"",
+         "\"你无法击败%n,傻瓜.我现在就杀了你.\"",
+         "\"你precious的%l将是我的下一个受害者.\"",
+         "\"我感觉你的力量在衰退,%r.你现在会死.\"",
+         "\"有了%o,没有什么能阻挡我.\"",
       },
       encourage = {
-         "\"You can prevail, if you rely on %d.\"",
-         "\"Remember that %n has great magic at his command.\"",
-         "\"Be pure, my %S.\"",
-         "\"Beware, %i is surrounded by a great graveyard.\"",
-         "\"You may be able to affect %n with magical cold.\"",
-         "\"Acquire and wear %o if you can.  It will aid you against %n.\"",
-         "\"Call upon %d when your need is greatest.  You will be answered.\"",
-         "\"The undead legions are weakest during the daylight hours.\"",
-         "\"Do not lose faith, %p.  If you do so, %n will grow stronger.\"",
-         "\"Wear %o.  It will assist you against the undead.\"",
+         "\"如果你依靠%d,你就能获胜.\"",
+         "\"记住%n拥有强大的魔法.\"",
+         "\"保持纯洁,我的%S.\"",
+         "\"小心,%i被一个大墓地包围着.\"",
+         "\"你可能可以用魔法寒冷影响%n.\"",
+         "\"如果可能的话,获取并佩戴%o.它会在对抗%n时帮助你.\"",
+         "\"当你最需要的时候呼唤%d.你会得到回应.\"",
+         "\"不死生物军团在白天最弱.\"",
+         "\"不要失去信念,%p.如果你失去了,%n会变得更强.\"",
+         "\"佩戴%o.它会在对抗不死生物时帮助你.\"",
       },
       firsttime = {
-         synopsis = "[You are at %H; the doors are closed.  %lC needs your help!]",
+         synopsis = "[你在%H;门是关着的.%lC需要你的帮助!]",
          output = "text",
-         text = [[You find yourself standing in sight of %H.  Something
-is obviously wrong here.  The doors to %H, which usually
-stand open, are closed.  Strange human shapes shamble around
-outside.
+         text = [[你发现自己站在%H的视线之内.这里
+显然有些不对劲.%H的门通常
+敞开着,现在却关着.奇怪的人形在外面
+蹒跚移动.
 
-You realize that %l needs your assistance!]],
+你意识到%l需要你的帮助!]],
       },
       goal_first = {
-         synopsis = "[The stench of brimstone surrounds you, the shrieks and moans are endless.]",
+         synopsis = "[硫磺的恶臭包围着你,尖叫声和呻吟声无休无止.]",
          output = "text",
-         text = [[The stench of brimstone is all about you, and the shrieks and moans
-of tortured souls assault your psyche.
+         text = [[硫磺的恶臭包围着你,折磨灵魂的尖叫和呻吟
+冲击着你的psyche.
 
-Ahead, there is a small clearing amidst the bubbling pits of lava...]],
+前方,在冒泡的熔岩坑之间有一小块空地...]],
       },
       goal_next = {
-         text = "Again, you have invaded %ns domain.",
+         text = "又一次,你侵入了%n的领域.",
       },
       gotit = {
-         synopsis = "[You feel %d as you pick up %o; return %oh to %l.]",
+         synopsis = "[你拿起%o时感觉到%d;把%oh还给%l.]",
          output = "text",
-         text = [[As you pick up %o, you feel the essence of
-%d fill your soul.  You know now why %n stole it from
-%H, for with it, %ca of %d could
-easily defeat his plans.
+         text = [[当你拿起%o时,你感觉到%d的本质
+充满了你的灵魂.你现在知道为什么%n从
+%H偷走它了,因为有了它,%d的%ca
+可以轻易挫败他的计划.
 
-You sense a message from %d.  Though not verbal, you
-get the impression that you must return to %l as soon
-as possible.]],
+你感觉到来自%d的信息.虽然不是言语,但
+你得到的感觉是必须尽快回到%l那里.]],
       },
       guardtalk_after = {
-         "\"Greetings, %r.  It is good to see you again.\"",
-         "\"Ah, %p!  Our deepest gratitude for all of your help.\"",
-         "\"Welcome back, %s!  With %o, no undead can stand against us.\"",
-         "\"Praise be to %d, for delivering us from %n.\"",
-         "\"May %d be with you, %s.\"",
+         "\"你好,%r.很高兴再次见到你.\"",
+         "\"啊,%p!我们对你所有的帮助深表感激.\"",
+         "\"欢迎回来,%s!有了%o,没有不死生物能对抗我们.\"",
+         "\"赞美%d,因为他把我们从%n手中解救出来.\"",
+         "\"愿%d与你同在,%s.\"",
       },
       guardtalk_before = {
-         "\"Greetings, honored %r.  It is good to see you.\"",
-         "\"Ah, %p!  Surely you can help us in our hour of need.\"",
-         "\"Greetings, %s.  %lC has great need of your help.\"",
-         "\"Alas, it seems as if even %d has deserted us.\"",
-         "\"May %d be with you, %s.\"",
+         "\"你好,尊敬的%r.很高兴见到你.\"",
+         "\"啊,%p!你肯定能在我们急需的时候帮助我们.\"",
+         "\"你好,%s.%lC非常需要你的帮助.\"",
+         "\"唉,似乎连%d都抛弃了我们.\"",
+         "\"愿%d与你同在,%s.\"",
       },
       hasamulet = {
-         synopsis = "[Take the Amulet to the Astral Plane and offer it on %ds altar.]",
+         synopsis = "[把护身符带到星界,在%d的祭坛上献上它.]",
          output = "text",
-         text = [["You have prevailed, %p!  %d is surely with you.  Now,
-you must take the amulet, and sacrifice it on %ds altar on
-the Astral Plane.  I suspect that I shall never see you again in this
-life, but I hope to at %ds feet."]],
+         text = [["你赢了,%p!%d肯定与你同在.现在,
+你必须带着护身符,在星界位面的%d祭坛上
+献祭它.我猜想我这辈子再也见不到你了,
+但我希望在%d的脚下与你相见.\"]],
       },
       killed_nemesis = {
-         synopsis = "[%nC dies.  Moloch is aware of you and angry at %n.]",
+         synopsis = "[%nC死了.摩洛知道了你,并对%n感到愤怒.]",
          output = "text",
-         text = [[You feel a wrenching shift in the ether as %ns body dissolves
-into a cloud of noxious gas.
+         text = [[当%n的身体化作一团有毒气体消散时,你感觉到
+以太中一阵扭曲.
 
-Suddenly, a voice booms out:
+突然,一个声音轰然响起:
 
-    "Thou hast defeated the least of my minions, %r.
-    Know now that Moloch is aware of thy presence.
-    As for thee, %n, I shall deal with thy failure
-    at my leisure."
+    \"你击败了我最弱的仆从,%r.
+    现在要知道,摩洛已经知道了你的存在.
+    至于你,%n,我会在闲暇时处理你的失败.\"
 
-You then hear the voice of %n, screaming in terror...]],
+然后你听到了%n的声音,在恐惧中尖叫...]],
       },
       leader_first = {
-         synopsis = "[You have returned and we need your help.  Are you ready?]",
+         synopsis = "[你回来了,我们需要你的帮助.你准备好了吗?]",
          output = "text",
-         text = [["Ah, %p, my %S.  You have returned to us at last.
-A great blow has befallen our order; perhaps you can help us.
-First, however, I must determine if you are prepared for this
-great challenge."]],
+         text = [["啊,%p,我的%S.你终于回到了我们身边.
+我们的教团遭受了沉重打击;也许你能帮助我们.
+首先,我必须确定你是否准备好了迎接这个
+重大挑战.\"]],
       },
       leader_last = {
-         synopsis = "[You are a heretic who has deviated from the teachings of %d.]",
+         synopsis = "[你是个异教徒,偏离了%d的教导.]",
          output = "text",
-         text = [["You are a heretic, %p!  How can you, %ra, deviate so from the
-teachings of %d?  Begone from this temple.  You are no longer
-%sa to this order.  We will pray to %d for other assistance,
-as you have failed us utterly."]],
+         text = [["你是个异教徒,%p!你身为%ra,怎么能如此偏离
+%d的教导?离开这座寺庙.你不再是
+这个教团的%s了.我们将向%d祈祷寻求其他帮助,
+因为你完全辜负了我们.\"]],
       },
       leader_next = {
-         text = "\"Again, my %S, you stand before me.  Are you ready now to help us?\"",
+         text = "\"再次,我的%S,你站在我面前.你现在准备好帮助我们了吗?\"",
       },
       leader_other = {
-         text = "\"Once more, %p, you stand within the sanctum.  Are you ready now?\"",
+         text = "\"又一次,%p,你站在圣所内.你现在准备好了吗?\"",
       },
       locate_first = {
-         synopsis = "[You have found %i.  The trail to %n lies ahead.]",
+         synopsis = "[你已经找到了%i.通往%n的踪迹就在前面.]",
          output = "text",
-         text = [[You stand facing a large graveyard.  The sky above is filled with clouds
-that seem to get thicker closer to the center.  You sense the presence of
-undead in larger numbers than you have ever encountered before.
+         text = [[你面对着一个大墓地.上空的云层
+似乎在靠近中心的地方变得更厚.你感觉到
+不死生物的存在,数量比你见过的都多.
 
-You remember the descriptions of %i, given to you by
-%l.  It is ahead that you will find %ns trail.]],
+你记得%l给你的关于%i的描述.
+就在前面,你会找到%n的踪迹.]],
       },
       locate_next = {
-         text = "Again, you stand before %i.",
+         text = "又一次,你站在%i面前.",
       },
       nemesis_first = {
-         synopsis = "[%lC has sent you, but you are no %gC.  I shall destroy you.]",
+         synopsis = "[%lC派了你来,但你不是%gC.我会摧毁你.]",
          output = "text",
-         text = [["Ah, so %l has sent another %gC to retrieve
+         text = [["啊,所以%l派了另一个%gC来取回
 %o.
 
-"No, I see you are no %gC.  Perhaps I shall have some fun today
-after all.  Prepare to die, %r!  You shall never regain
-%o."]],
+\"不,我看你不是%gC.也许我今天终究能找到点乐子
+吧.准备受死吧,%r!你永远拿不回
+%o.\"]],
       },
       nemesis_next = {
-         text = "\"So, %r.  Again you challenge me.\"",
+         text = "\"那么,%r.你又来挑战我了.\"",
       },
       nemesis_other = {
-         text = "\"Die now, %r.  %d has no power here to aid you.\"",
+         text = "\"现在去死吧,%r.%d在这里没有力量帮助你.\"",
       },
       nemesis_wantsit = {
-         text = "\"You shall die, %r, and I will have %o back.\"",
+         text = "\"你会死的,%r,我会拿回%o.\"",
       },
       nexttime = {
-         text = "Once again, you stand before %H.",
+         text = "又一次,你站在%H面前.",
       },
       offeredit = {
-         synopsis = "[Congratulations, %p.  Keep %o; go and recover the Amulet.]",
+         synopsis = "[恭喜,%p.保留%o;去寻找护身符.]",
          output = "text",
-         text = [["You have returned, %p.  And with %o, I see.
-Congratulations.
+         text = [["你回来了,%p.还带着%o,我看到了.
+恭喜.
 
-"I have been in meditation, and have received direction from
-a minion of %d.  %d commands that you retain
-%o.  With it, you must recover the Amulet
-of Yendor.
+\"我一直在冥想,并收到了来自
+%d仆从的指示.%d命令你保留
+%o.有了它,你必须找回岩德
+的护身符.
 
-"Go forth, and let %d guide your steps."]],
+\"出发吧,让%d指引你的脚步.\"]],
       },
       offeredit2 = {
-         synopsis = "[%oC is yours now.  Return to %Z and find the Amulet.]",
+         synopsis = "[%oC现在是你的了.回到%Z去寻找护身符.]",
          output = "text",
-         text = [[%lC reiterates that %o is yours now.
+         text = [[%lC重申%o现在是你的了.
 
-"The time has come to resume your search for the Amulet.
-%Z await your return through the magic portal
-that brought you here."]],
+\"是时候继续寻找护身符了.
+%Z正等待你通过带你来到这里的魔法传送门
+返回.\"]],
       },
       othertime = {
-         text = [[Again you face %H.  Your intuition hints that this may be
-the final time you come here.]],
+         text = [[再次面对%H.你的直觉暗示这可能是
+你最后一次来这里.]],
       },
       posthanks = {
-         text = "\"Welcome back, %p.  How is your quest for the Amulet going?\"",
+         text = "\"欢迎回来,%p.你的护身符任务进展如何?\"",
       },
    },
    Ran = {
       assignquest = {
-         synopsis = "[%nC has stolen %o.  Infiltrate %i and retrieve %oh for us.]",
+         synopsis = "[%nC偷走了%o.潜入%i并为我们取回%oh.]",
          output = "text",
-         text = [["You are indeed ready, %p.  I shall tell you what has transpired,
-and why we so desperately need your help:
+         text = [["你确实准备好了,%p.我会告诉你发生了什么,
+以及为什么我们如此迫切需要你的帮助:
 
-"A short time ago, the mountain centaurs to the east invaded
-and enslaved the plains centaurs in this area.  The local
-leader is now only a figurehead, and serves %n.
+\"不久前,东边的山半人马入侵并
+奴役了这个地区的平原半人马.当地的
+领导者现在只是一个傀儡,为%n服务.
 
-"During our last gathering of worship here, we were beset by hordes of
-hostile centaurs, as you witnessed.  In the first onslaught a group,
-headed by %n %niself, managed to breach the grove and steal
+\"在我们上次在这里举行worship集会时,我们被成群的
+敌对半人马袭击,正如你所目睹的.在第一次进攻中,
+由%n%niself率领的一队人,设法突破了树林并偷走了
 %o.
 
-"Since then, we have been besieged.  We do not know how much longer
-we will be able to maintain our magical barriers.
+\"从那以后,我们一直被围困.我们不知道我们的魔法屏障
+还能维持多久.
 
-"If we are to survive, you, %p, must infiltrate
-%i.  There, you will find a pathway down, to the
-underground cavern of %n.  He has always coveted
-%o, and will surely keep it.
+\"如果我们想生存下去,你,%p,必须潜入
+%i.在那里,你会找到一条向下的路,通往
+%n的地下洞穴.他一直垂涎
+%o,肯定会把它留在那里.
 
-"Recover %o for us, %p!  Only then will %d be safe."]],
+\"为我们找回%o,%p!只有那样%d才会安全.\"]],
       },
       badalign = {
-         synopsis = "[You are not sufficiently %a.  Come back when you have purified yourself.]",
+         synopsis = "[你不够%a.等你净化了自己再回来.]",
          output = "text",
-         text = [["You have strayed, %p!  You know that %d requires that
-we maintain a pure devotion to things %a!
+         text = [["你偏离了,%p!你知道%d要求
+我们保持对%a事物的纯粹奉献!
 
-"You must go from us.  Return when you have purified yourself."]],
+\"你必须离开我们.等你净化了自己再回来.\"]],
       },
       badlevel = {
-         synopsis = "[You are too inexperienced.  Come back when you are %Ra.]",
+         synopsis = "[你太缺乏经验了.等你成为%Ra后再回来.]",
          output = "text",
-         text = [["%p, you are yet too inexperienced to withstand the demands of that
-which we need you to do.  %RA might just be able to do this thing.
+         text = [["%p,你还太缺乏经验,无法承受我们
+需要你做的事情带来的要求.%RA或许刚好能做成这件事.
 
-"Return to us when you have learned more, my %S."]],
+\"当你学到了更多之后再回来,我的%S.\"]],
       },
       discourage = {
-         "\"Your %d is nothing, %c.  You are mine now!\"",
-         "\"Run away little %c!  You can never hope to defeat %n!\"",
-         "\"My servants will rip you to shreds!\"",
-         "\"I shall display your head as a trophy.  What do you think about that wall?\"",
-         "\"I shall break your %ls grove, and destroy all the %gP!\"",
-         "\"%d has abandoned you, %c.  You are doomed.\"",
-         "\"%rA?  %lC sends a mere %r against me?  Hah!\"",
-         "\"%lC has failed, %c.  %oC will never leave here.\"",
-         "\"You really think you can defeat me, eh %c?  You are wrong!\"",
-         "\"You weaken, %c.  I shall kill you now.\"",
+         "\"你的%d什么都不是,%c.你现在是我的了!\"",
+         "\"快跑吧,小%c!你绝不可能希望打败%n!\"",
+         "\"我的仆人会把你们撕成碎片!\"",
+         "\"我会把你的头作为战利品展示.你觉得那面墙怎么样?\"",
+         "\"我会摧毁你%l的树林,并消灭所有的%gP!\"",
+         "\"%d抛弃了你,%c.你完蛋了.\"",
+         "\"%rA?%lC派了一个区区%r来对付我?哈!\"",
+         "\"%lC失败了,%c.%oC永远不会离开这里.\"",
+         "\"你真以为你能打败我,嗯%c?你错了!\"",
+         "\"你变弱了,%c.我现在就杀了你.\"",
       },
       encourage = {
-         "\"It is rumored that the Forest and Mountain Centaurs have resolved their ancient feud and now band together against us.\"",
-         "\"%nC is strong, and very smart.\"",
-         "\"Use %o, when you find it.  It will help you survive to reach us.\"",
-         "\"Remember, let %d be your guide.\"",
-         "\"Call upon %d when you face %n. The very act of doing so will infuriate him, and give you advantage.\"",
-         "\"%n and his kind have always hated us.\"",
-         "\"We cannot hold the grove much longer, %p.  Hurry!\"",
-         "\"To infiltrate %i, you must be very stealthy.\"",
-         "\"Remember that %n is a braggart.  Trust not what he says.\"",
-         "\"You can triumph, %p, if you trust in %d.\"",
+         "\"有传言说森林半人马和山地半人马已经解决了他们古老的世仇,现在联合起来对抗我们.\"",
+         "\"%nC很强,而且非常聪明.\"",
+         "\"当你找到%o时,使用它.它会帮助你生存下来找到我们.\"",
+         "\"记住,让%d做你的向导.\"",
+         "\"当你面对%n时,呼唤%d.这个举动本身就会激怒他,给你带来优势.\"",
+         "\"%n和他的同类一直憎恨我们.\"",
+         "\"我们撑不了太久了,%p.快!\"",
+         "\"要潜入%i,你必须非常隐蔽.\"",
+         "\"记住%n是个吹牛大王.不要相信他说的话.\"",
+         "\"如果你相信%d,你就能获胜,%p.\"",
       },
       firsttime = {
-         synopsis = "[The ancient forest grove is surrounded by centaurs.]",
+         synopsis = "[古老的森林树林被半人马包围着.]",
          output = "text",
-         text = [[You arrive in familiar surroundings.  In the distance, you %x the
-ancient forest grove, the place of worship to %d.
+         text = [[你来到熟悉的环境中.在远处,你%x到
+古老的森林树林,那是敬拜%d的地方.
 
-Something is wrong, though.  Surrounding the grove are centaurs!
-And they've noticed you!]],
+有些不对劲,不过.树林周围是半人马!
+而且他们已经注意到你了!]],
       },
       goal_first = {
-         synopsis = "[You descend into a subterranean complex.  Hooves clatter in the distance.]",
+         synopsis = "[你进入一个地下建筑群.远处传来马蹄的哐当声.]",
          output = "text",
-         text = [[You descend into a weird place, in which roughly cut cave-like walls
-join with smooth, finished ones, as if someone was in the midst of
-finishing off the construction of a subterranean complex.
+         text = [[你进入一个奇怪的地方,粗糙切割的洞穴状墙壁
+与光滑平整的墙壁相接,仿佛有人正在
+完成一个地下建筑群的建造.
 
-Off in the distance, you hear a sound like the clattering of many
-hooves on rock.]],
+远处,你听到像是许多马蹄在岩石上
+敲击的声音.]],
       },
       goal_next = {
-         text = "Once again, you enter the distorted castle of %n.",
+         text = "又一次,你进入%n的扭曲城堡.",
       },
       gotit = {
-         synopsis = "[You pick up %o and feel power.  It's time to return %oh to %l.]",
+         synopsis = "[你拿起%o感到力量.是时候把%oh还给%l了.]",
          output = "text",
-         text = [[As you pick up %o, it seems to glow, and a warmth
-fills you completely.  You realize that its power is what has protected
-your %sp against their enemies for so long.
+         text = [[当你拿起%o时,它似乎发光,一股温暖
+完全充满了你.你意识到正是它的力量保护了你的%sP
+这么长时间对抗敌人.
 
-You must now return it to %l without delay -- their lives depend
-on your speed.]],
+你现在必须毫不拖延地把它还给%l--他们的生命
+取决于你的速度.]],
       },
       guardtalk_after = {
-         "\"%pC!  I have not seen you in many moons.  How do you fare?\"",
-         "\"Birdsong has returned to the grove, surely this means you have defeated %n.\"",
-         "\"%lC seems to have regained some of his strength.\"",
-         "\"So, tell us how you entered %i, in case some new evil arises there.\"",
-         "\"Is that truly %o that I see you carrying?\"",
+         "\"%pC!我已经好多个月没见你了.你过得怎么样?\"",
+         "\"鸟鸣声回到了树林,这肯定意味着你打败了%n.\"",
+         "\"%lC似乎恢复了一些力量.\"",
+         "\"那么,告诉我们你是如何进入%i的,以防那里再出现新的邪恶.\"",
+         "\"那真的是我看到你携带的%o吗?\"",
       },
       guardtalk_before = {
-         "\"%pC!  I have not seen you in many moons.  How do you fare?\"",
-         "\"%nC continues to threaten the grove.  But we hold fast.\"",
-         "\"%lC is growing weak.  The magic required to defend the grove drains us.\"",
-         "\"Remember %i is hard to enter.  Beware the distraction of leatherwings.\"",
-         "\"We must regain %o.  Without it we will be overrun.\"",
+         "\"%pC!我已经好多个月没见你了.你过得怎么样?\"",
+         "\"%nC继续威胁着树林.但我们坚守着.\"",
+         "\"%lC正在变弱.保卫树林所需的魔法消耗着我们.\"",
+         "\"记住%i很难进入.小心那些长翅膀的的干扰.\"",
+         "\"我们必须找回%o.没有它我们会被击溃.\"",
       },
       hasamulet = {
-         synopsis = "[You have the Amulet!  Take it to the Astral Plane and offer it to %d.]",
+         synopsis = "[你有了护身符!把它带到星界,献祭给%d.]",
          output = "text",
-         text = [["You have it!  You have recovered the Amulet of Yendor!
-Now attend to me, %p, and I will tell you what must be done:
+         text = [["你拿到了!你已经找回了岩德的护身符!
+现在听我说,%p,我会告诉你必须做什么:
 
-"The Amulet has within it magic, the capability to transport you to
-the Astral Plane, where the primary circle of %d resides.
+\"护身符内部有魔法,能够将你传送到
+星界位面,那里有%d的主要祭坛.
 
-"To activate this magic, you must travel upwards as far as you can.
-When you reach the temple, sacrifice the Amulet to %d.
+\"要激活这个魔法,你必须尽可能向上旅行.
+当你到达神殿时,把护身符献祭给%d.
 
-"Thus will you fulfill your destiny."]],
+\"这样你就能完成你的命运.\"]],
       },
       killed_nemesis = {
-         synopsis = "[%nC curses you as %nh dies.]",
+         synopsis = "[%nC在你%nh死时诅咒你.]",
          output = "text",
-         text = [[%nC collapses to the ground, cursing you and %l, then says:
+         text = [[%nC倒在地上,诅咒你和%l,然后说道:
 
-    "You have defeated me, %r!  But I curse you one final time, with
-    my dying breath!  You shall die before you leave my castle!"]],
+    \"你打败了我,%r!但我要用我垂死的最后一口气诅咒你一次!
+    你离开我的城堡之前就会死!\"]],
       },
       leader_first = {
-         synopsis = "[You have returned, %p.  We need your help.  Are you ready?]",
+         synopsis = "[你回来了,%p.我们需要你的帮助.你准备好了吗?]",
          output = "text",
-         text = [["%pC!  You have returned!  Thank %d.
+         text = [["%pC!你回来了!感谢%d.
 
-"We have great need of you.  But first, I must see if you have the
-required abilities to take on this responsibility."]],
+\"我们非常需要你.但首先,我必须看看你是否拥有
+承担这一责任所需的能力.\"]],
       },
       leader_last = {
-         synopsis = "[You are not sufficiently %a.  We renounce your %shood.]",
+         synopsis = "[你不够%a.我们不承认你的%s身份.]",
          output = "text",
-         text = [["%pC!  You have doomed us all.  You fairly radiate %L influences
-and weaken the power we have raised in this grove as a result!
+         text = [["%pC!你注定了我们所有人的命运.你散发着%L的影响,
+削弱了我们在这片树林中凝聚的力量!
 
-"Begone!  We renounce your %shood with us!  You are an outcast now!"]],
+\"滚开!我们不承认你作为我们%s的身份!你现在是个外人!\"]],
       },
       leader_next = {
-         text = "\"Once again, %p, you stand in our midst.  Are you ready now?\"",
+         text = "\"又一次,%p,你站在我们中间.你现在准备好了吗?\"",
       },
       leader_other = {
-         text = "\"Ah, you are here again, %p.  Allow me to determine your readiness...\"",
+         text = "\"啊,你又来了,%p.让我判断一下你准备好了没有...\"",
       },
       locate_first = {
-         synopsis = "[This is %i.  There are bats nearby.  Beware the wumpus!]",
+         synopsis = "[这就是%i.附近有蝙蝠.小心狮头象!]",
          output = "text",
-         text = [[This must be %i.
+         text = [[这一定是%i.
 
-You are in a cave built of many different rooms, all interconnected
-by tunnels.  Your quest is to find and shoot the evil wumpus that
-resides elsewhere in the cave without running into any bottomless
-pits or using up your limited supply of arrows.  Good luck.
+你在一个由许多不同房间组成的洞穴里,这些房间
+通过隧道相互连接.你的任务是找到并射击
+居住在洞穴别处的邪恶狮头象,同时不要掉进任何
+无底坑或用完你有限的箭矢.祝你好运.
 
-You are in room 9 of the cave.  There are tunnels to rooms
-5, 8, and 10.
-*rustle* *rustle* (must be bats nearby.)
-*sniff* (I can smell the evil wumpus nearby!)]],
+你在洞穴的9号房间.有隧道通往
+5,8和10号房间.
+*沙沙* *沙沙*（附近一定有蝙蝠.）
+*嗅*（我能闻到附近邪恶狮头象的气味!）]],
       },
       locate_next = {
-         synopsis = "[You are in %i.  There are pits.  There are bats nearby.]",
+         synopsis = "[你在%i里.有坑.附近有蝙蝠.]",
          output = "text",
-         text = [[Once again, you descend into %i.
+         text = [[又一次,你下到%i.
 
-*whoosh* (I feel a draft from some pits.)
-*rustle* *rustle* (must be bats nearby.)]],
+*呼嗖*（我感觉到了来自某些坑的沙沙声.）
+*沙沙* *沙沙*（附近一定有蝙蝠.）]],
       },
       nemesis_first = {
-         synopsis = "[You have come to recover %o, but I shall keep %oh and you shall die.]",
+         synopsis = "[你来取回%o,但我会留着%oh,你会死.]",
          output = "text",
-         text = [["So, %c.  %lC has sent you to recover %o.
+         text = [["那么,%c.%lC派你来取回%o.
 
-"Well, I shall keep that bauble.  It pleases me.  You, %c, shall die."]],
+\"好吧,我会留着那个小玩意儿.它让我高兴.你,%c,会死.\"]],
       },
       nemesis_next = {
-         text = "\"Back again, eh?  Well, a mere %r is no threat to me!  Die, %c!\"",
+         text = "\"又回来了,嗯?好吧,区区%r对我没有威胁!去死吧,%c!\"",
       },
       nemesis_other = {
-         text = "\"You haven't learned your lesson, %c.  You can't kill me!  You shall die now.\"",
+         text = "\"你还没学到教训,%c.你杀不了我!你现在会死.\"",
       },
       nemesis_wantsit = {
-         text = [["I shall have %o from you, %r.  Then I shall
-kill you."]],
+         text = [["我会从你那里拿回%o,%r.然后我会
+杀了你.\"]],
       },
       nexttime = {
-         text = "Once again, you stand before %H.",
+         text = "又一次,你站在%H面前.",
       },
       offeredit = {
-         synopsis = "[You have succeeded.  Take %o with you as you go to find the Amulet.]",
+         synopsis = "[你成功了.带着%o去寻找护身符.]",
          output = "text",
-         text = [["%pC!  You have succeeded!  I feared it was not possible!
+         text = [["%pC!你成功了!我担心这是不可能的!
 
-"You have returned with %o!
+\"你带着%o回来了!
 
-"I fear, now, that the Centaurs will regroup and plot yet another raid.
-This will take some time, but if you can recover the Amulet of Yendor
-for %d before that happens, we will be eternally safe.
+\"我担心,现在,半人马会重新集结并策划另一次突袭.
+这会花费一些时间,但如果你能在那之前为%d找到
+岩德的护身符,我们将永远安全.
 
-"Take %o with you.  It will aid in your quest for
-the Amulet."]],
+\"带上%o.它会帮助你在寻找
+护身符的任务中.\"]],
       },
       offeredit2 = {
-         synopsis = "[You are the keeper of %o now.  Go and find the Amulet.]",
+         synopsis = "[你现在是%o的守护者了.去找护身符.]",
          output = "text",
-         text = [[%l flexes %o reverently.
+         text = [[%l虔诚地弯了弯%o.
 
-"With this wondrous bow, one need never run out of arrows.
-You are its keeper now, and the time has come to resume your
-search for the Amulet.  %Z await your return
-through the magic portal that brought you here."]],
+\"有了这把神奇的弓,人们永远不需要用完箭矢.
+你现在是它的守护者,是时候继续寻找
+护身符了.%Z正等待你通过
+带你来到这里的魔法传送门返回.\"]],
       },
       othertime = {
-         text = [[You have the oddest feeling that this may be the last time you
-are to enter %H.]],
+         text = [[你有一种最奇怪的感觉,这可能是你最后一次
+进入%H.]],
       },
       posthanks = {
-         text = [["Welcome, %p.  How have you fared on your quest for the Amulet
-of Yendor?"]],
+         text = [["欢迎,%p.你寻找岩德护身符的任务进展如何?\"]],
       },
    },
    Rog = {
       assignquest = {
-         synopsis = "[Get %o from %n and bring it to %l.]",
+         synopsis = "[从%n那里拿到%o并带给%l.]",
          output = "text",
-         text = [["Will everyone not going to retrieve %o from that
-jerk, %n, take one step backwards.  Good choice,
-%p, because I was going to send you anyway.  My other %gp
-are too valuable to me.
+         text = [["所有不去从那个混蛋%n那里取回%o的人,
+后退一步.好选择,%p,因为我反正打算派你去.我的其他%gp
+对我来说太宝贵了.
 
-"Here's the deal.  I want %o, %n
-has %o.  You are going to get %o
-and bring it back to me.  So simple an assignment even you can understand
-it."]],
+\"交易是这样的.我想要%o,%n
+有%o.你要去拿到%o
+并带回给我.这么简单的任务,连你都能理解.\"]],
       },
       badalign = {
-         synopsis = "[Come back when you are really %a.]",
+         synopsis = "[等你真正%a了再回来.]",
          output = "text",
-         text = [["Maybe I should chain you to my perch here for a while.  Perhaps watching
-real %a men at work will bring some sense back to you.  I don't
-think I could stand the sight of you for that long though.  Come back
-when you can be trusted to act properly."]],
+         text = [["也许我应该把你在这里的观察点上锁一阵子.也许看着
+真正的%a男人工作会让你恢复些理智.但我恐怕
+无法忍受看你那么久.等你能够被信任去
+正确行事了再回来.\"]],
       },
       badlevel = {
-         synopsis = "[%rA is not adequately trained to handle this job.]",
+         synopsis = "[%rA没有受过足够的训练来处理这项工作.]",
          output = "text",
-         text = [["In the time that you've been gone you've only been able to master the
-arts of %ra?  I've trained ten times again as many %Rp
-in that time.  Maybe I should send one of them, no?  Where would that
-leave you, %p?  Oh yeah, I remember, I was going to kill you!"]],
+         text = [["在你离开的这段时间里,你只掌握了
+%ra的技艺?我在那段时间里又训练了十倍的%Rp.
+也许我应该派他们中的一个去,嗯?那会让你
+怎么样,%p?哦,对了,我记得,我打算杀了你!\"]],
       },
       discourage = {
-         "\"May I suggest a compromise.  Are you interested in gold or gems?\"",
-         "\"Please don't force me to kill you.\"",
-         "\"Grim times are upon us all.  Will you not see reason?\"",
-         "\"I knew %l, and you're no %lt, thankfully.\"",
-         "\"It is a shame that we are not meeting under more pleasant circumstances.\"",
-         "\"I was once like you are now, %p.  Believe in me -- our way is better.\"",
-         "\"Stay with me, and I will make you %os guardian.\"",
-         "\"When you return, with or without %o, %l will have you killed.\"",
-         "\"Do not be fooled; I am prepared to kill to defend %o.\"",
-         "\"I can reunite you with the Twain.  Oh, the stories you can swap.\"",
+         "\"我可以建议一个妥协方案.你对黄金或宝石感兴趣吗?\"",
+         "\"请不要逼我杀了你.\"",
+         "\"我们都面临严峻的时代.难道你不讲道理吗?\"",
+         "\"我认识%l,你不是%l,谢天谢地.\"",
+         "\"真遗憾我们没有在更愉快的环境下见面.\"",
+         "\"我曾经和你一样,%p.相信我--我们的方式更好.\"",
+         "\"留在我身边,我会让你成为%o的守护者.\"",
+         "\"当你回来时,无论带不带%o,%l都会杀了你.\"",
+         "\"别被骗了,我准备杀死任何胆敢来抢%o的人.\"",
+         "\"我可以让你和Twain重聚.哦,你们可以交流多少故事啊.\"",
       },
       encourage = {
-         "\"You don't seem to understand, %o isn't here so neither should you be!\"",
-         "\"May %d curse you with lead fingers.  Get going!\"",
-         "\"We don't have all year.  GET GOING!\"",
-         "\"How would you like a scar necklace?  I'm just the jeweler to do it!\"",
-         "\"Lazy S.O.B.  Maybe I should call up someone else...\"",
-         "\"Maybe I should open your skull and see if my instructions are inside?\"",
-         "\"This is not a task you can complete in the afterlife, you know.\"",
-         "\"Inside every living person is a dead person trying to get out, and I have your key!\"",
-         "\"We're almost out of hell-hound chow, so why don't you just get moving!\"",
-         "\"You know, %o isn't going to come when you whistle.  You must get it yourself.\"",
+         "\"你似乎不明白,%o不在这里,所以你也不应该在这里!\"",
+         "\"愿%d诅咒你手指迟钝.快走吧!\"",
+         "\"我们没有一整年时间.快走吧!\"",
+         "\"你想要一条伤疤项链吗?我就是那个能做出来的珠宝商!\"",
+         "\"懒鬼.也许我应该叫别人来...\"",
+         "\"也许我应该打开你的头盖骨,看看我的指示是不是在里面?\"",
+         "\"这不是一个你能在来世完成的任务,你知道的.\"",
+         "\"每一个活着的人里面都有一个想出来的死人,而我持有你的钥匙!\"",
+         "\"我们的地狱猎犬饲料快用完了,所以你为什么不动身呢!\"",
+         "\"你知道,%o不会因为你吹口哨就过来.你必须自己去拿.\"",
       },
       firsttime = {
-         synopsis = "[You are in Ransmannsby, where you trained.  Find %l.]",
+         synopsis = "[你在Ransmannsby,你受训的地方.找到%l.]",
          output = "text",
-         text = [[Unexpectedly, you find yourself back in Ransmannsby, where you trained to
-be a thief.  Quickly you make the guild sign, hoping that you AND word
-of your arrival reach %ls den.]],
+         text = [[出乎意料地,你发现自己回到了Ransmannsby,你受训成为
+小偷的地方.你迅速做出公会手势,希望你的到来
+和你到达%l的的消息能同时传到.]],
       },
       goal_first = {
-         synopsis = "[You sense %o.]",
+         synopsis = "[你感知到%o.]",
          output = "text",
-         text = [[You feel a great swelling up of courage, sensing the presence of
-%o.  Or is it fear?]],
+         text = [[你感觉到一阵巨大的勇气涌动,感知到
+%o的存在.或者是恐惧?]],
       },
       goal_next = {
-         text = "The hairs on the back of your neck whisper -- it's fear.",
+         text = "你脖子后面的头发低声说--那是恐惧.",
       },
       gotit = {
-         synopsis = "[You pick up %o and know that %l should not have it.]",
+         synopsis = "[你拿起%o,知道%l不应该拥有它.]",
          output = "text",
-         text = [[As you pick up %o, the hairs on the back of your
-neck fall out.  At once you realize why %n was
-willing to die to keep it out of %ls hands.  Somehow
-you know that you must do likewise.]],
+         text = [[当你拿起%o时,你脖子后面的头发
+都掉了.你立刻明白了为什么%n
+宁愿死也不愿让%l得到它.不知怎的
+你知道你也必须这样做.]],
       },
       guardtalk_after = {
-         "\"I was sure wrong about Lady Tyvefelle's house; I barely got away with my life and lost my lock pick in the process.\"",
-         "\"You're back?  Even the Twain don't come back anymore.\"",
-         "\"Can you spare an old cutpurse a zorkmid for some grog?\"",
-         "\"Fritz tried to join the other side, and now he's hell-hound chow.\"",
-         "\"Be careful what you steal, I hear the boss has perfected turning rocks into worthless pieces of glass.\"",
+         "\"我完全猜错了Tyvefelle夫人的房子;我差点丢了性命,还弄丢了我的撬锁工具.\"",
+         "\"你回来了?连Twain都不再回来了.\"",
+         "\"你能施舍一个老扒手一个zorkmid买点水酒吗?\"",
+         "\"Fritz试图加入另一边,现在他成了地狱猎犬的饲料.\"",
+         "\"小心你偷的东西,我听说那个头目已经完善了把石头变成不值钱的玻璃片的技术.\"",
       },
       guardtalk_before = {
-         "\"I hear that Lady Tyvefelle's household is lightly guarded.\"",
-         "\"You're back?  Even the Twain don't come back anymore.\"",
-         "\"Can you spare an old cutpurse a zorkmid for some grog?\"",
-         "\"Fritz tried to join the other side, and now he's hell-hound chow.\"",
-         "\"Be careful what you steal, I hear the boss has perfected turning rocks into worthless pieces of glass.\"",
+         "\"我听说Tyvefelle夫人的房子守卫很松懈.\"",
+         "\"你回来了?连Twain都不再回来了.\"",
+         "\"你能施舍一个老扒手一个zorkmid买点水酒吗?\"",
+         "\"Fritz试图加入另一边,现在他成了地狱猎犬的饲料.\"",
+         "\"小心你偷的东西,我听说boss已经完善了把石头变成不值钱的玻璃片的技术.\"",
       },
       hasamulet = {
-         synopsis = "[Take the Amulet to the Astral Plane and find %ds temple.]",
+         synopsis = "[把护身符带到星界,找到%d的神殿.]",
          output = "text",
-         text = [["I see that with your abilities, and my brains, we could rule this world.
+         text = [["我看,以你的能力和我的头脑,我们可以统治这个世界.
 
-"All that we would need to be all-powerful is for you to take that little
-trinket you've got there up to the Astral Plane.  From there, %d will
-show you what to do with it.  Once that's done, we will be invincible!"]],
+\"我们要想变得全能,所需要做的就是让你把那个
+小饰品带到星界去.从那里,%d会
+告诉你该怎么做.一旦完成,我们将无敌!\"]],
       },
       killed_nemesis = {
-         synopsis = "[Before dying, %n tells you to use the %o wisely.]",
+         synopsis = "[死前,%n告诉你明智地使用%o.]",
          output = "text",
-         text = [["I know what you are thinking, %p.  It is not too late for you
-to use %o wisely.  For the sake of your guild
-%sp, do what is right."
+         text = [[\"我知道你在想什么,%p.现在还不算太晚,你可以
+明智地使用%o.为了你的行会
+%sP,做正确的事.\"
 
-You sit and wait for death to come for %n, and then you
-brace yourself for your next meeting with %l!]],
+你坐着等待死亡降临到%n身上,然后
+你准备好与%l的下一次会面!]],
       },
       leader_first = {
-         synopsis = "[You owe back dues to your guild.  You can pay them off if you're up to the job.]",
+         synopsis = "[你欠公会的会费.如果你能胜任这份工作,你可以还清.]",
          output = "text",
-         text = [["Well, look who it is boys -- %p has come home.  You seem to have
-fallen behind in your dues.  I should kill you as an example to these
-other worthless cutpurses, but I have a better plan.  If you are ready
-maybe you could work off your back dues by performing a little job for
-me.  Let us just see if you are ready..."]],
+         text = [["瞧瞧这是谁,伙计们--%p回家了.你似乎
+拖欠了会费.我应该杀了你,作为对其他
+这些不值钱的扒手的警示,但我有一个更好的计划.如果你准备好了
+也许你可以通过为我做一点小工作来还清你拖欠的会费.
+让我们看看你是否准备好了...\"]],
       },
       leader_last = {
-         synopsis = "[You must go.]",
+         synopsis = "[你必须走.]",
          output = "text",
-         text = [["Well %gp, it looks like our friend has forgotten who is the boss
-around here.  Our friend seems to think that %rp have been put in
-charge.  Wrong.  DEAD WRONG!"
+         text = [["好吧,%gp,看来我们的朋友忘了这里谁是
+老板.我们的朋友似乎以为%rp已经
+掌权了.错了.大错特错!\"
 
-Your sudden shift in surroundings prevents you from hearing the end
-of %ls curse.]],
+你周围环境的突然变化使你无法听到%l
+诅咒的结尾.]],
       },
       leader_next = {
-         synopsis = "[Are you stupid or are you ready?]",
+         synopsis = "[你是蠢还是准备好了?]",
          output = "text",
-         text = [["Well, I didn't expect to see you back.  It shows that you are either stupid,
-or you are finally ready to accept my offer.  Let us hope for your sake it
-isn't stupidity that brings you back."]],
+         text = [["好吧,我没想到你会回来.这说明你要么蠢,
+要么你终于准备好接受我的提议了.为了你好,让我们希望
+不是愚蠢让你回来的.\"]],
       },
       leader_other = {
-         text = [["Did you perhaps mistake me for some other %lt?  You must
-think me as stupid as your behavior.  I warn you not to try my patience."]],
+         text = [["你莫非把我当成了别的%l?你一定
+认为我和你的行为一样蠢.我警告你别考验我的耐心.\"]],
       },
       locate_first = {
-         text = "Those damn little hairs tell you that you are nearer to %o.",
+         text = "那些该死的小毛发告诉你,你离%o更近了.",
       },
       locate_next = {
-         text = "Not wanting to face %l without having stolen %o, you continue.",
+         text = "不想没偷到%o就去面对%l,你继续前进.",
       },
       nemesis_first = {
-         text = "\"Ah!  You must be %ls ... er, `hero'.  A pleasure to meet you.\"",
+         text = "\"啊!你一定就是%l的...嗯,\'英雄\'.很高兴见到你.\"",
       },
       nemesis_next = {
-         text = "\"We meet again.  Please reconsider your actions.\"",
+         text = "\"我们又见面了.请重新考虑你的行为.\"",
       },
       nemesis_other = {
-         synopsis = "[You cannot trust %l.]",
+         synopsis = "[你不能信任%l.]",
          output = "text",
-         text = [["Surely, %p, you have learned that you cannot trust any bargains
-that %l has made.  I can show you how to continue on
-your quest without having to run into him again."]],
+         text = [["当然,%p,你一定已经知道你不能信任%l
+所做的任何交易.我可以告诉你如何继续
+你的任务,而不必再遇到他.\"]],
       },
       nemesis_wantsit = {
-         synopsis = "[%lC should not have %o.]",
+         synopsis = "[%lC不应该拥有%o.]",
          output = "text",
-         text = [["Please, think for a moment about what you are doing.  Do you truly
-believe that %d would want %l to have
-%o?"]],
+         text = [["拜托,想想你在做什么.你真的
+相信%d会希望%l拥有
+%o吗?\"]],
       },
       nexttime = {
-         text = [[Once again, you find yourself back in Ransmannsby.  Fond memories are
-replaced by fear, knowing that %l is waiting for you.]],
+         text = [[又一次,你发现自己回到了Ransmannsby.美好的回忆被
+恐惧所取代,你知道%l在等着你.]],
       },
       offeredit = {
-         synopsis = "[Take %o with you and go.]",
+         synopsis = "[带上%o走吧.]",
          output = "text",
-         text = [["Well, I'll be damned.  You got it.  I am proud of you, a fine %r
-you've turned out to be.
+         text = [["好吧,我该死.你拿到了.我为你感到骄傲,你真是个优秀的%r.
 
-"While you were gone I got to thinking, you and %o
-together could bring me more treasure than either of you apart, so why don't
-you take it with you.  All I ask is a cut of whatever loot you come by.
-That is a better deal than I offered %n.
+\"你不在的时候我开始想,你和%o
+在一起能给我带来比你们分开更多的财宝,所以你为什么不
+带着它呢.我所要求的只是你弄到的任何赃物中的一份分成.
+这比我给%n的出价更好.
 
-"But, you see what happened to %n when he refused.
-Don't make me find another to send after you this time."]],
+\"但是,你看到%n拒绝时发生了什么.
+别让我这次再找别人去追你.\"]],
       },
       offeredit2 = {
-         synopsis = "[Take %o and acquire the Amulet.]",
+         synopsis = "[带上%o去弄到护身符.]",
          output = "text",
-         text = [[%lC seems tempted to swap %o for
-the mundane one you detect in his pocket, but noticing your alertness,
-evidently chickens out.
+         text = [[%lC似乎想把%o和他口袋里
+你发现的那个普通货交换,但注意到你的警惕,
+显然退缩了.
 
-"Go filch the Amulet before someone else beats you to it.
-%Z are back the way you came, through the magic portal."]],
+\"去偷护身符吧,免得有人在你之前拿到.
+%Z就在你来的路上,穿过魔法传送门.\"]],
       },
       othertime = {
-         text = [[You rub your hands through your hair, hoping that the little ones on
-the back of your neck stay down, and prepare yourself for your meeting
-with %l.]],
+         text = [[你用手捋过头发,希望脖子后面的小东西
+保持安静,并准备好与%l
+会面.]],
       },
       posthanks = {
-         synopsis = "[How about trading %o for something?]",
+         synopsis = "[用%o换点东西怎么样?]",
          output = "text",
-         text = [["Quite the little thief, aren't we, %p.  Can I interest you in a
-swap for %o?  Look around, anything in the keep
-is yours for the asking."]],
+         text = [["真是个小偷,%p.我对用%o
+换点东西感兴趣吗?四处看看,里面放的任何东西
+你想要就拿去.\"]],
       },
    },
    Sam = {
       assignquest = {
-         synopsis = "[You must enter %i, then regain %o from %n.]",
+         synopsis = "[你必须进入%i,然后从%n那里取回%o.]",
          output = "text",
-         text = [["Domo %p-san, indeed you are ready.  I can now tell you what
-it is that I require of you.
+         text = [["どうも,%p桑,你确实准备好了.我现在可以告诉你
+我需要你做什么.
 
-"The daimyo, %n, has betrayed us.  He has stolen from us
-%o and taken it to his donjon deep within
-%i.
+\"大名%n背叛了我们.他从我们这里偷走了
+%o,并把它带到了他位于%i
+深处的天守阁.
 
-"If I cannot show the emperor %o when he comes
-for the festival he will know that I have failed in my duty, and
-request that I commit seppuku.
+\"如果我不能在天皇来参加祭典时向他展示%o,
+他就会知道我没有尽职,并
+要求我切腹.
 
-"You must gain entrance to %i and retrieve the
-emperor's property.  Be quick!  The emperor will be here for the
-cha-no-you in 5 sticks.
+\"你必须进入%i,取回
+天皇的财产.快点!天皇会在5柱香的时间后到这里参加
+茶会.
 
-"Wakarimasu ka?"]],
+\"Wakarimasuka?\"]],
       },
       badalign = {
-         synopsis = "[When you can think %a and act %a then return.]",
+         synopsis = "[等你能想%a并做%a时再回来.]",
          output = "text",
-         text = [["%p-san, you would do better to join the kyokaku.
+         text = [["%p桑,你最好成为一个侠客.
 
-"You have skills, but until you can call upon the bushido to know when and
-how to use them you are not samurai.  When you can think %a and
-act %a then return."]],
+\"你有技能,但除非你有武士道而且知道何时以及
+如何使用它们,否则你就不是武士.等你能想%a并
+做%a时再回来.\"]],
       },
       badlevel = {
-         synopsis = "[\"I require %Ra to defeat %n.  Return when you are ready.\"]",
+         synopsis = "[\"我需要%Ra来击败%n.等你准备好了再回来.\"]",
          output = "text",
-         text = [["%p-san, you have learned well and honored your family.
-I require the skills of %Ra in order to defeat %n.
-Go and seek out teachers.  Learn what they have learned.  When you
-are ready, return to me."]],
+         text = [["%p桑,你学得很好,为你的家族赢得了荣誉.
+我需要%Ra的技能来击败%n.
+去寻找老师吧.学习他们所学的东西.当你
+准备好了,回到我身边.\"]],
       },
       discourage = {
-         "\"Ahh, I finally meet the daimyo of the kyokaku!\"",
-         "\"There is no honor for me in your death.\"",
-         "\"You know that I cannot resash my swords until they have killed.\"",
-         "\"Your presence only compounds the dishonor of %l in not coming %liself.\"",
-         "\"I will make tea with your hair and serve it to %l.\"",
-         "\"Your fear shows in your eyes, coward!\"",
-         "\"I have not heard of you, %p-san; has your life been that unworthy?\"",
-         "\"If you will not obey me, you will die.\"",
-         "\"Kneel now and make the two cuts of honor.  I will tell your %sp of your honorable death.\"",
-         "\"Your master was a poor teacher.  You will pay for his mistakes in your teaching.\"",
+         "\"啊,我终于见到了侠客的大名!\"",
+         "\"杀死你对我来说没有荣誉.\"",
+         "\"你知道我的剑不杀人就不能回鞘.\"",
+         "\"你的出现只会加重%l不亲自来的耻辱.\"",
+         "\"我会用你的头发泡茶,然后端给%l.\"",
+         "\"你的恐惧从眼中可见,懦夫!\"",
+         "\"我没听说过你,%p桑;你的生活就那么一文不值吗?\"",
+         "\"如果你不顺从我,你就会死.\"",
+         "\"现在跪下,完成光荣的两刀.我会告诉你的%sp你死得很光荣.\"",
+         "\"你的师匠是个糟糕的老师.你将为他教学中的错误付出代价.\"",
       },
       encourage = {
-         "\"To defeat %n you must overcome the seven emotions: hate, adoration, joy, anxiety, anger, grief, and fear.\"",
-         "\"Remember your honor is my honor, you perform in my name.\"",
-         "\"I will go to the temple and burn incense for your safe return.\"",
-         "\"Sayonara.\"",
-         "\"There can be honor in defeat, but no gain.\"",
-         "\"Your kami must be strong in order to succeed.\"",
-         "\"You are indeed a worthy %R, but now you must be a worthy samurai.\"",
-         "\"If you fail, %n will be like a tai-fun on the land.\"",
-         "\"If you are truly %a, %d will listen.\"",
-         "\"Sharpen your swords and your wits for the task before you.\"",
+         "\"要击败%n,你必须克服七种情绪:喜,怒,哀,乐,爱,恶,欲.\"",
+         "\"记住你的荣誉就是我的荣誉,你以我的名义行事.\"",
+         "\"我会去寺庙为你平安归来烧香.\"",
+         "\"さようなら.\"",
+         "\"失败中也能有荣誉,但无所得.\"",
+         "\"你的神明必须强大才能成功.\"",
+         "\"你确实是一个值得尊敬的%R,但现在你必须成为一个值得尊敬的巫师.\"",
+         "\"如果你失败了,%n就会像台风一样席卷大地.\"",
+         "\"如果你真的%a,%d会倾听.\"",
+         "\"磨利你的剑和你的智慧,迎接你面前的任务.\"",
       },
       firsttime = {
-         synopsis = "[The banner of %n flies above town.  What has happened to %l?]",
+         synopsis = "[%n的旗帜飘扬在城镇上空.%l发生了什么?]",
          output = "text",
-         text = [[Even before your senses adjust, you recognize the kami of
-%H.
+         text = [[甚至在你的感官调整好之前,你就认出了%H的神明.
 
-You %x the standard of your teki, %n, flying above
-the town.  How could such a thing have happened?  Why are ninja
-wandering freely; where are the samurai of your daimyo, %l?
+你%x到你的宿敌%n的旗帜飘扬在
+城镇上空.这样的事情怎么可能发生?为什么忍者
+自由游荡;你的大名%l的武士在哪里?
 
-You quickly say a prayer to Izanagi and Izanami and walk towards
-town.]],
+你迅速向伊邪那岐和伊邪那美祈祷,然后走向
+城镇.]],
       },
       goal_alt = {
-         text = "As you arrive once again at the home of %n.",
+         text = "当你再次到达%n的家时.",
       },
       goal_first = {
-         synopsis = "[You feel the taunts %n, but after offering a prayer to %d, you proceed.]",
+         synopsis = "[你感觉到%n的嘲讽,但向%d祈祷后,你继续前进.]",
          output = "text",
-         text = [[In your mind, you hear the taunts of %n.
+         text = [[在你的脑海中,你听到%n的嘲讽.
 
-You become like the rice plant and bend to the ground, offering a
-prayer to %d.  But when the wind has passed, you stand
-proudly again.  Putting your kami in the hands of fate, you advance.]],
+你像稻谷一样弯下腰,向%d
+祈祷.但当风过后,你再次
+挺立.把你的神交给命运之手,你前进.]],
       },
       goal_next = {
-         text = [[As you arrive once again at the home of %n, your thoughts
-turn only to %o.]],
+         text = [[当你再次到达%n的家时,你的思绪
+只转向%o.]],
       },
       gotit = {
-         synopsis = "[You feel the power of %o and are humbled.]",
+         synopsis = "[你感受到%o的力量,并感到谦卑.]",
          output = "text",
-         text = [[As you pick up %o, you feel the strength of its karma.
-You realize at once why so many good samurai had to die to defend it.
-You are humbled knowing that you hold one of the artifacts of the
-sun goddess.]],
+         text = [[当你拿起%o时,你感觉到它的业力.
+你立刻明白了为什么那么多优秀的武士必须为保卫它而牺牲.
+你感到谦卑,知道你手中握有太阳女神的
+众多神器之一.]],
       },
       guardtalk_after = {
-         "\"Come, join us in celebrating with some sake.\"",
-         "\"Ikaga desu ka?\"",
-         "\"You have brought our clan and %l much honor.\"",
-         "\"Please %r, sit for a while and tell us how you overcame the Ninja.\"",
-         "\"%lC still lives!  You have saved us from becoming ronin.\"",
+         "\"来吧,和我们一起喝烧酒庆祝.\"",
+         "\"いかがですか?\"",
+         "\"你为我们的氏族和%l带来了极大的荣誉.\"",
+         "\"拜托%r,坐一会儿,告诉我们你是如何战胜Ninja的.\"",
+         "\"%lC还活着!你拯救了我们,使我们免于成为ronin.\"",
       },
       guardtalk_before = {
-         "\"To succeed, you must walk like a butterfly on the wind.\"",
-         "\"Ikaga desu ka?\"",
-         "\"I fear for The Land of The Gods.\"",
-         "\"%nC has hired the Ninja -- be careful.\"",
-         "\"If %o is not returned, we will all be ronin.\"",
+         "\"要成功,你必须像风中的蝴蝶一样行走.\"",
+         "\"いかがですか?\"",
+         "\"我为高天原感到担忧.\"",
+         "\"%nC雇佣了忍者--小心.\"",
+         "\"如果%o没有归还,我们都会成为浪人.\"",
       },
       hasamulet = {
-         synopsis = "[Take the Amulet to the Astral Plane to finish your task.]",
+         synopsis = "[把护身符带到星界去完成你的任务.]",
          output = "text",
-         text = [["Ah, %p-sama.  You have wasted your efforts returning home.
-Now that you are in possession of the Amulet, you are honor-bound to
-finish the quest you have undertaken.  There will be plenty of time
-for saki and stories when you have finished.
+         text = [["啊,%pさま.你回家是浪费了精力.
+既然你拥有了护身符,你就有荣誉义务去
+完成你已经开始的任务.等你完成后
+会有足够的时间喝烧酒和讲故事.
 
-"Go now, and may our prayers be a wind at your back."]],
+\"现在走吧,愿我们的祈祷成为你背上的风.\"]],
       },
       killed_nemesis = {
-         synopsis = "[%nC dies without honor.]",
+         synopsis = "[%nC死时没有荣誉.]",
          output = "text",
-         text = [[Your healing skills tell you that %ns wounds are mortal.
+         text = [[你的治疗技能告诉你%n的伤口是致命的.
 
-You know that the bushido tells you to finish him and let his kami
-die with honor, but the thought of so many samurai dead due to this
-man's dishonor prevents you from giving the final blow.
+你知道武士道告诉你结束他的生命,让他的神
+带着荣誉死去,但想到这么多武士因这个
+人的耻辱而死,你无法给出最后一击.
 
-You order that his unwashed head be given to the crows and his body
-thrown into the sea.]],
+你命令把他未洗的头颅扔给乌鸦,把
+他的尸体扔进海里.]],
       },
       leader_first = {
-         synopsis = "[%lC needs someone to lead %lj samurai against %n.  Are you ready?]",
+         synopsis = "[%lC需要有人领导%lj武士对抗%n.你准备好了吗?]",
          output = "text",
-         text = [["Ah, %p-san, it is good to see you again.  I need someone who can
-lead my samurai against %n.  If you are ready, you will be
-that person."]],
+         text = [["啊,%p桑,很高兴再次见到你.我需要一个能
+领导我的武士对抗%n的人.如果你准备好了,你就会是
+那个人.\"]],
       },
       leader_last = {
-         synopsis = "[Leave and do not come back.]",
+         synopsis = "[离开,不要再回来.]",
          output = "text",
-         text = [["You are no longer my samurai, %p.
+         text = [["你不再是我的武士了,%p.
 
-"Hara-kiri is denied.  You are ordered to shave your head and then to
-become a monk.  Your fief and family are forfeit.  Wakarimasu ka?"]],
+\"你的切腹被拒绝.你被命令剃光头发,然后
+成为一名僧侣.你的封地和家族被没收.わかりますか?\"]],
       },
       leader_next = {
-         text = [["Once again, %p-san, you kneel before me.  Are you yet capable of
-being my vassal?"]],
+         text = [["又一次,%p桑,你跪在我面前.你还有能力
+做我的附庸吗?\"]],
       },
       leader_other = {
-         synopsis = "[Are you truly a samurai?]",
+         synopsis = "[你真的是武士吗?]",
          output = "text",
-         text = [["You begin to test my matsu, %p-san.
-If you cannot determine what I want in a samurai, how can I rely on you
-to figure out what I need from a samurai?"]],
+         text = [["你开始考验我的耐心了,%p桑.
+如果你不能判断我想要一个武士具备什么,我怎么能指望你
+想出一个武士需要什么呢?\"]],
       },
       locate_first = {
-         text = [[You instinctively reach for your swords.  You do not recognize the
-lay of this land, but you know that your teki are everywhere.]],
+         text = [[你本能地伸手去拿你的剑.你不认识
+这片土地的布局,但你知道你的敌人无处不在.]],
       },
       locate_next = {
-         text = [[Thankful that your %sp at %H cannot see
-your fear, you prepare again to advance.]],
+         text = [[庆幸你%H的%sp看不到
+你的恐惧,你再次准备前进.]],
       },
       nemesis_first = {
-         text = [["Ah, so it is to be you, %p-san.  I offer you seppuku.
-I will be your second if you wish."]],
+         text = [["啊,所以是你,%p桑.我提议你切腹.
+如果你愿意,我愿意做你的介错.\"]],
       },
       nemesis_next = {
-         text = [["I have offered you the honorable exit.  Now I will have your
-head to send unwashed to %l."]],
+         text = [["我已经向你提供了体面的退出方式.现在我会
+把你的头不洗就送给%l.\"]],
       },
       nemesis_other = {
-         text = "\"After I have dispatched you, I will curse your kami.\"",
+         text = "\"在我把你打发走之后,我会诅咒你的神.\"",
       },
       nemesis_wantsit = {
-         text = [["You have fought my samurai; surely you must know that you
-will not be able to take %o back to
-%H."]],
+         text = [["你和我的武士战斗过;你一定知道
+你不可能把%o带回
+%H.\"]],
       },
       nexttime = {
-         text = "Once again, you are back at %H.",
+         text = "又一次,你回到了%H.",
       },
       offeredit = {
-         synopsis = "[The emperor wants you to take %o and recover the Amulet.]",
+         synopsis = "[天皇希望你带上%o去找回护身符.]",
          output = "text",
-         text = [[As you bow before %l, he welcomes you:
+         text = [[当你向%l鞠躬时,他欢迎你:
 
-    "You have brought your family great honor, %p-sama.
+    \"你为你的家族带来了巨大的荣誉,%pさま.
 
-    "While you have been gone the emperor's advisors have discovered in
-    the ancient texts that the karma of the samurai who seeks to recover
-    the Amulet and the karma of %o are joined
-    as the seasons join to make a year.
+    \"你不在的时候,天皇的大纳言在古代
+    文献中发现,寻找
+    护身符的武士的业和%o的业是联系在一起的,
+    就像四季结合成一年一样.
 
-    "Because you have shown such fidelity, the emperor requests
-    that you take leave of other obligations and continue on the
-    road that fate has set your feet upon.  I would consider it
-    an honor if you would allow me to watch your household until
-    you return with the Amulet."
+    \"因为你表现出了如此忠诚,天皇请求
+    你放下其他义务,继续走在
+    命运为你铺设的道路上.如果你能允许我
+    在你带着护身符回来之前照看你的家庭,
+    我将感到荣幸.\"
 
-With that, %l bows, and places his sword atop
-%o.]],
+说完,%l鞠躬,并把他的剑放在
+%o上面.]],
       },
       offeredit2 = {
-         synopsis = "[Take %o, return to %Z, and recover the Amulet.]",
+         synopsis = "[带上%o,回到%Z,找回护身符.]",
          output = "text",
-         text = [[%l holds %o tightly for a moment, then returns
-his gaze to you.
+         text = [[%l紧紧地握着%o片刻,然后把目光
+转回你身上.
 
-"The time is ripe to recover the Amulet.  Return to %Z
-through the magic portal that transported you here so that you may
-achieve the destiny which awaits you."]],
+\"时机已到,可以找回护身符了.通过
+将你传送到这里的魔法传送门回到%Z,
+以便你能实现等待你的命运.\"]],
       },
       othertime = {
-         synopsis = "[%HC is threatened by %n.]",
+         synopsis = "[%HC受到%n的威胁.]",
          output = "text",
-         text = [[You are back at %H.
+         text = [[你回到了%H.
 
-Instantly you sense a subtle change in your karma.  You seem to know that
-if you do not succeed in your quest, %n will have destroyed
-the kami of %H before you return again.]],
+你立刻感觉到你的业力发生了微妙的变化.你似乎知道
+如果你不完成任务,%n就会在你再次回来之前
+摧毁%H的神.]],
       },
       posthanks = {
-         text = "%lC bows.  \"%p-sama, tell us of your search for the Amulet.\"",
+         text = "%lC鞠躬.\"%pさま,告诉我们你寻找护身符的进展.\"",
       },
    },
    Tou = {
       assignquest = {
-         synopsis = "[Enter %i and recover %o from %n.]",
+         synopsis = "[进入%i并从%n那里取回%o.]",
          output = "text",
-         text = [["You have indeed proven yourself a worthy %c, %p.
+         text = [["你确实已经证明了自己是一个值得尊敬的%c,%p.
 
-"But now your kinfolk and I must ask you to put aside your travels and
-help us in our time of need.  After you left us we elected a new mayor,
-%n.  He proved to be a most heinous and vile creature.
+\"但现在,你的亲属和我必须请求你放下你的旅行,
+帮助我们度过难关.你离开后,我们选出了一位新市长,
+%n.他证明了自己是一个最令人发指和邪恶的生物.
 
-"Soon after taking office he absconded with %o
-and fled town, leaving behind his henchmen to rule over us.  In order
-for us to regain control of our town, you must enter %i
-and recover %o.
+\"上任后不久,他就带着%o
+潜逃出镇,留下他的爪牙统治我们.为了
+我们能够重新控制我们的城镇,你必须进入%i
+并取回%o.
 
-"Do not be distracted on your quest.  If you do not return quickly I fear
-that all will be lost.  Let us both pray now that %d will guide you
-and keep you safe."]],
+\"不要在任务中分心.如果你不尽快回来,我担心
+一切都会失去.现在让我们一起祈祷,愿%d指引你
+并保护你的安全.\"]],
       },
       badalign = {
-         synopsis = "[You are not sufficiently %a.  Return when you are.]",
+         synopsis = "[你不够%a.等你够格了再回来.]",
          output = "text",
-         text = [["It would be an affront to %d to have one not true to the
-%a path undertake her bidding.
+         text = [["让一个不忠于%a道路的人去承担她的
+使命,这将是对%d的侮辱.
 
-"You must not return to us until you have purified yourself of these
-bad influences on your actions.  Remember, only by following the %a
-path can you hope to overcome the obstacles you will face."]],
+\"你必须回到我们身边,直到你清除了这些对你行为的
+不良影响.记住,只有遵循%a的道路,
+你才能希望克服你将面临的障碍.\"]],
       },
       badlevel = {
-         synopsis = "[Return when you are %Ra.]",
+         synopsis = "[等你成为%Ra后再回来.]",
          output = "text",
-         text = [["There is still too much that you have to learn before you can undertake
-the next step.  Return to us as a proven %R, and perhaps then
-you will be ready.
+         text = [["你还有很多东西要学,才能承担
+下一步.作为proven %R回到我们身边,也许到那时
+你就会准备好了.
 
-"Go back now, and may the teachings of %d serve you well."]],
+\"回去吧,愿%d的教导对你有所助益.\"]],
       },
       discourage = {
-         "\"I defeated %l and I will defeat you, %p.\"",
-         "\"Where is %d now!  You must realize no one can help you here.\"",
-         "\"Beg for mercy now and I may be lenient on you.\"",
-         "\"If you were not so %a, you might have stood a chance.\"",
-         "\"Vengeance is mine at last, %p.\"",
-         "\"I only wish that %l had a more worthy %r to send against me.\"",
-         "\"With %o in my possession you cannot hope to defeat me.\"",
-         "\"%nC has never been defeated, NEVER!\"",
-         "\"Are you truly the best %H has to send against me?  I pity %l.\"",
-         "\"How do you spell %p?  I want to ensure the marker on your grave is correct as a warning to your %sp.\"",
+         "\"我打败了%l,我也会打败你,%p.\"",
+         "\"%d现在在哪里!你必须意识到这里没人能帮你.\"",
+         "\"现在求饶吧,我也许会对你宽容点.\"",
+         "\"如果你不那么%a,你也许还有机会.\"",
+         "\"复仇终于属于我了,%p.\"",
+         "\"我只希望%l能派个更有价值的%r来对付我.\"",
+         "\"有了%o在我手中,你别想打败我.\"",
+         "\"%nC从未被击败过,从未!\"",
+         "\"你真的是%H能派来对付我的最好的人吗?我可怜%l.\"",
+         "\"你怎么拼写%p?我想确保你墓碑上的标记是正确的,作为对你%sp的警告.\"",
       },
       encourage = {
-         "\"Do not be fooled by the false promises of %n.\"",
-         "\"To enter %i you must pass many traps.\"",
-         "\"If you do not return with %o, your quest will be in vain.\"",
-         "\"Do not be afraid to call upon %d if you truly need help.\"",
-         "\"If you do not destroy %n, he will follow you back here!\"",
-         "\"Take %o from %n and you may be able to defeat him.\"",
-         "\"You must hurry, %p!\"",
-         "\"You are like %Sa to me, %p.  Do not let me down.\"",
-         "\"If you are %a at all times you may succeed, %p.\"",
-         "\"Let all who meet you on your journey know that you are on a quest for %l and grant safe passage.\"",
+         "\"不要被%n的虚假承诺愚弄.\"",
+         "\"要进入%i,你必须经过许多陷阱.\"",
+         "\"如果你不带%o回来,你的任务就白费了.\"",
+         "\"如果你真的需要帮助,不要害怕呼唤%d.\"",
+         "\"如果你不摧毁%n,他会跟着你回到这里!\"",
+         "\"从%n那里拿走%o,你也许就能打败他.\"",
+         "\"你必须快点,%p!\"",
+         "\"你对我来说就像%Sa,%p.不要让我失望.\"",
+         "\"如果你始终保持%a,你也许能成功,%p.\"",
+         "\"让你旅途中遇到的每个人都知道你在为%l执行任务,并给予安全通行.\"",
       },
       firsttime = {
-         synopsis = "[You find yourself back at %H, but the quiet is ominous.]",
+         synopsis = "[你发现自己回到了%H,但寂静令人不安.]",
          output = "text",
-         text = [[You breathe a sigh of relief as you find yourself back in the familiar
-surroundings of %H.
+         text = [[当你发现自己回到%H熟悉的环境中时,
+你松了口气.
 
-You quickly notice that things do not appear the way they did when you
-left.  The town is dark and quiet.  There are no sounds coming from
-behind the town walls, and no campfires burning in the fields.  As a
-matter of fact, you do not %x any movement in the fields at all, and
-the crops seem as though they have been untended for many weeks.]],
+你很快注意到,事情看起来不像你离开时的样子.
+小镇黑暗而安静.镇墙后面没有声音传出,
+田野里也没有篝火在燃烧.事实上,你根本
+%x不到田野里有任何动静,庄稼似乎已经
+好几周没人照料了.]],
       },
       goal_alt = {
-         text = "You have returned to %ns lair.",
+         text = "你已经回到了%n的巢穴.",
       },
       goal_first = {
-         text = "You sense the presence of %o.",
+         text = "你感觉到%o的存在.",
       },
       goal_next = {
-         text = [[You gain confidence, knowing that you may soon be united with
-%o.]],
+         text = [[你获得信心,知道你可能很快就会与
+%o团聚.]],
       },
       gotit = {
-         synopsis = "[You pick up %o and feel relief.  Return it to %l.]",
+         synopsis = "[你拿起%o感到解脱.把它还给%l.]",
          output = "text",
-         text = [[As you pick up %o, you feel a great
-weight has been lifted from your shoulders.  Your only thoughts are
-to quickly return to %H and find %l.]],
+         text = [[当你拿起%o时,你感觉到一个巨大的
+负担已经从你的肩膀上卸下.你唯一的想法是
+赶快回到%H并找到%l.]],
       },
       guardtalk_after = {
-         "\"Gehennom on 5 zorkmids a day -- more like 500 a day if you ask me.\"",
-         "\"Do you know where I could find some nice postcards of The Gnomish Mines?\"",
-         "\"Have you tried the weird toilets?\"",
-         "\"If you stick around, I'll show you the pictures from my latest trip.\"",
-         "\"Did you bring me back any souvenirs?\"",
+         "\"每天5zorkmid在地狱--如果你问我,更像是每天500.\"",
+         "\"你知道哪里可以找到侏儒矿坑的好明信片吗?\"",
+         "\"你试过奇怪的厕所吗?\"",
+         "\"如果你留下来,我会给你看我最近旅行的照片.\"",
+         "\"你给我带纪念品了吗?\"",
       },
       guardtalk_before = {
-         "\"Gehennom on 5 zorkmids a day -- more like 500 a day if you ask me.\"",
-         "\"Do you know where I could find some nice postcards of The Gnomish Mines?\"",
-         "\"Have you tried the weird toilets?\"",
-         "\"Don't stay at the Inn, I hear the food is terrible and it has rats.\"",
-         "\"They told me that this was the off season!\"",
+         "\"每天5zorkmid在地狱--如果你问我,更像是每天500.\"",
+         "\"你知道哪里可以找到侏儒矿坑的好明信片吗?\"",
+         "\"你试过奇怪的厕所吗?\"",
+         "\"别住在客栈,我听说食物很糟糕而且有老鼠.\"",
+         "\"他们告诉我这是淡季!\"",
       },
       hasamulet = {
-         synopsis = "[You have the Amulet.  Take it to the Astral Plane to finish your task.]",
+         synopsis = "[你有了护身符.把它带到星界去完成你的任务.]",
          output = "text",
-         text = [["Stand back and let me look at you, %p.
-Now that you have recovered the Amulet of Yendor, I'm afraid living
-out your days in %H would seem pretty tame.
+         text = [["退后,让我看看你,%p.
+既然你已经找回了岩德的护身符,恐怕在%H
+度过余生会显得很平淡.
 
-"You have come too far to stop now, for there are still more tasks that
-our oral history foretells for you.  Forever more, though, your name shall
-be spoken by the %gP with awe.  You are truly an inspiration to your
-%sp!"]],
+\"你已经走了太远,不能现在停下来,因为我们的口述历史
+还预言了更多任务.然而,从今以后,你的名字将永远
+被%gP们怀着敬畏念诵.你真正成为了是你的%sp
+的鼓舞!\"]],
       },
       killed_nemesis = {
-         synopsis = "[%nC curses at you as %nh dies.]",
+         synopsis = "[%nC在你%nh死时诅咒你.]",
          output = "text",
-         text = [[You turn in the direction of %n.  As his earthly body begins
-to vanish before your eyes, you hear him curse:
+         text = [[你转向%n的方向.当%nh的肉身身体开始
+在你眼前消失时,你听到他诅咒道:
 
-    "You shall never be rid of me, %p!
-    I will find you where ever you go and regain what is rightly mine."]],
+    \"你永远摆脱不了我,%p!
+    无论你走到哪里,我都会找到你,夺回真正属于我的东西.\"]],
       },
       leader_first = {
-         synopsis = "[Someone must defeat %n.  Are your ready?]",
+         synopsis = "[必须有人打败%n.你准备好了吗?]",
          output = "text",
-         text = [["Is it really you, %p!  I had given up hope for your return.
-As you can %x, we are desperately in need of your talents.  Someone must
-defeat %n if our town is to become what it once was.
+         text = [["真是你吗,%p!我对你的归来已经不抱希望了.
+正如你所%x,我们急需你的才能.必须有人
+打败%n,我们的城镇才能恢复原貌.
 
-"Let me see if you are ready to be that someone."]],
+\"让我看看你是否准备好成为那个人.\"]],
       },
       leader_last = {
-         synopsis = "[Leave %H and never return.]",
+         synopsis = "[离开%H,永远不要回来.]",
          output = "text",
-         text = [["It is too late, %p.  You are not even worthy to die amongst us.
-Leave %H and never return."]],
+         text = [["太迟了,%p.你甚至不配死在我们中间.
+离开%H,永远不要回来.\"]],
       },
       leader_next = {
-         text = "\"Things are getting worse, %p.  I hope that this time you are ready.\"",
+         text = "\"情况越来越糟,%p.我希望这次你准备好了.\"",
       },
       leader_other = {
-         text = "\"I hope that for the sake of %H you have prepared yourself this time.\"",
+         text = "\"为了%H的利益,我希望你这次已经准备好了.\"",
       },
       locate_first = {
-         synopsis = "[You %x the handiwork of %ns henchlings.]",
+         synopsis = "[你%x到%n的爪牙们的手艺.]",
          output = "text",
-         text = [[Only your faith in %d keeps you from trembling.  You %x
-the handiwork of %ns henchlings everywhere.]],
+         text = [[只有你对%d的信仰让你不至于发抖.你%x到
+%n的爪牙的手艺无处不在.]],
       },
       locate_next = {
-         text = "You know that this time you must find and destroy %n.",
+         text = "你知道这次必须找到并摧毁%n.",
       },
       nemesis_first = {
-         synopsis = "[%rA will not defeat me.]",
+         synopsis = "[%rA不会打败我.]",
          output = "text",
-         text = [["So, %p, %l thinks that you can wrest
-%o from me!
+         text = [["那么,%p,%l认为你可以从
+我手中夺取%o!
 
-"It only proves how desperate he has become that he sends %ra to
-try to defeat me.  When this day is over, I will have you enslaved
-in the mines where you will rue the day that you ever entered
-%i."]],
+\"这只能证明他已经绝望到了极点,竟然派%ra来
+试图打败我.今天结束后,我会让你在
+矿井里当奴隶,在那里你会后悔进入
+%i的那一天.\"]],
       },
       nemesis_next = {
-         text = [["I let you live the last time because it gave me pleasure.
-This time I will destroy you, %p."]],
+         text = [["上次我让你活下来是因为它给了我快乐.
+这次我会摧毁你,%p.\"]],
       },
       nemesis_other = {
-         synopsis = "[Run away or you will suffer severely.]",
+         synopsis = "[快跑,否则你会受到严重折磨.]",
          output = "text",
-         text = [["These meetings come to bore me.  You disturb my workings with
-%o.
+         text = [["这些会面开始让我厌烦.你干扰了我用
+%o的工作.
 
-"If you do not run away now, I will inflict so much suffering on you that
-%l will feel guilty for ever having sent his %S to me!"]],
+\"如果你现在不跑开,我会让你遭受如此多的痛苦,以至于
+%l会因为曾经把他的%S送到我这里而感到内疚!\"]],
       },
       nemesis_wantsit = {
-         synopsis = "[\"Return %o to me and we will rule %H.\"]",
+         synopsis = "[\"把%o还给我,我们将统治%H.\"]",
          output = "text",
-         text = [["You fool.  You do not know how to call upon the powers of
-%o.
+         text = [["你这个傻瓜.你不知道如何调用
+%o的力量.
 
-"Return it to me and I will teach you how to use it, and together we
-will rule %H.  But do so now, as my patience grows thin."]],
+\"把它还给我,我会教你如何使用它,我们一起
+将统治%H.但现在就做,因为我的耐心正在消逝.\"]],
       },
       nexttime = {
-         text = "Once again, you are back at %H.",
+         text = "又一次,你回到了%H.",
       },
       offeredit = {
-         synopsis = "[Take %o and with %ds guidance, recover the Amulet.]",
+         synopsis = "[带上%o,在%d的指引下,找回护身符.]",
          output = "text",
-         text = [[As %l detects the presence of %o,
-he almost smiles for the first time in many a full moon.
+         text = [[当%l察觉到%o的存在时,
+他几乎第一次露出了多个月来的微笑.
 
-As he looks up from %o he says:
+当他从%o上抬起头时,他说道:
 
-    "You have recovered %o.  You are its
-    owner now, but not its master.  Let it work with you as you continue
-    your journey.  With its help, and %d to guide you on the
-    %a path, you may yet recover the Amulet of Yendor."]],
+    \"你已经找回了%o.你现在是它的
+    拥有者,但不是它的主人.让它与你合作,继续
+    你的旅程.在它的帮助下,以及%d在%a道路上
+    指引你,你也许还能找回岩德的护身符.\"]],
       },
       offeredit2 = {
-         synopsis = "[Keep %o and return to %Z through the portal.]",
+         synopsis = "[保留%o,通过传送门回到%Z.]",
          output = "text",
-         text = [["%oC is yours now.  %Z
-await your return through the magic portal that brought you here."]],
+         text = [["%oC现在是你的了.%Z
+正等待你通过带你来到这里的魔法传送门返回.\"]],
       },
       othertime = {
-         text = [[You are back at %H.
-Things appear to have become so bad that you fear that soon
-%H will not be here to return to.]],
+         text = [[你回到了%H.
+情况似乎变得如此糟糕,以至于你担心
+%H很快就会不复存在.]],
       },
       posthanks = {
-         text = [["I could not be more proud than if you were my own %S, %p!
-Tell me of your adventures in quest of the Amulet of Yendor."]],
+         text = [["我为你感到再骄傲不过了,就好像你是我自己的%S一样,%p!
+告诉我你寻找岩德护身符的冒险经历.\"]],
       },
    },
    Val = {
       assignquest = {
-         synopsis = "[Find %i; defeat %n; return with %o.]",
+         synopsis = "[找到%i;击败%n;带着%o回来.]",
          output = "text",
-         text = [["It is not clear, %p, for my sight is limited without our relic.
-But it is now likely that you can defeat %n, and recover
+         text = [["我不清楚,%p,因为没有了我们的圣物,我的视野有限.
+但现在你很可能可以击败%n,并找回
 %o.
 
-"A short time ago, %n and his minions attacked this place.  They
-opened the huge volcanic vents you %x about the hill, and attacked.  I knew
-that this was to come to pass, and had asked %d for a group of %gP
-to help defend this place.  The few you %x here are the mightiest of
-Valhalla's own, and are all that are left of one hundred %d sent.
+\"不久前,%n和他的仆从袭击了这里.他们打开了
+你%x到的山丘周围巨大的火山口,然后发动了攻击.我知道
+这会到来,并已经向%d祈求一队%gP
+来帮助保卫这个地方.你%x到的少数人是
+英灵殿最强大的战士,是%d派来的一百人中的
+幸存者.
 
-"Despite the great and glorious battle we fought, %n managed at
-last to steal %o.  This has upset the balance of the universe,
-and unless %oh is returned into my care, %n may start Ragnarok.
+\"尽管我们打了伟大而光荣的仗,%n最终还是设法
+偷走了%o.这打破了宇宙的平衡,
+除非%oh归还到我的手中,否则%n可能会引发诸神黄昏.
 
-"You must find the entrance to %i.  Travel downward
-from there and you will find %ns lair.  Defeat him and
-return %o to me."]],
+\"你必须找到通往%i的入口.从那里
+向下走,你会找到%n的巢穴.打败他,
+并把%o还给我.\"]],
       },
       badalign = {
-         synopsis = "[You have strayed from the %a path.  Return after you purify yourself.]",
+         synopsis = "[你已经偏离了%a之路.等你净化自己后再回来.]",
          output = "text",
-         text = [["NO!  This is terrible.  I see you becoming an ally of %n, and
-leading his armies in the final great battles.  This must not come to
-pass!  You have strayed from the %a path.  You must purge yourself,
-and return here only when you have regained a state of purity."]],
+         text = [["不!这太糟糕了.我看到你正成为%n的盟友,
+并在最后的伟大战斗中领导他的军队.这绝不能
+发生!你已经偏离了%a之路.你必须净化自己,
+只有当你恢复了纯洁状态后才能回到这里.\"]],
       },
       badlevel = {
-         synopsis = "[Come back when you are %Ra.]",
+         synopsis = "[等你成为%Ra后再回来.]",
          output = "text",
-         text = [["I see you and %n fighting, %p.  But you are not prepared and
-shall die at %ns hand if you proceed.  No.  This will not do.
-Go back out into the world, and grow more experienced at the ways of war.
-Only when you have returned %Ra will you be able to defeat %n."]],
+         text = [["我看到你和%n在战斗,%p.但你还没有准备好,
+如果你继续,就会死在%n手中.不.这样不行.
+回到外面的世界去,在战争之道上增长经验.
+只有当你作为%Ra回来之后,你才能打败%n.\"]],
       },
       discourage = {
-         "\"I am your death, %c.\"",
-         "\"You cannot prevail, %r.  I have foreseen your every move.\"",
-         "\"With you out of the way, Valhalla will be mine for the taking.\"",
-         "\"I killed scores of %ds best when I took %o. Do you really think that one %c can stand against me?\"",
-         "\"Who bears the souls of %cP to Valhalla, %r?\"",
-         "\"No, %d cannot help you here.\"",
-         "\"Some instrument of %d you are, %p.  You are a weakling!\"",
-         "\"Never have I seen %ca so clumsy in battle.\"",
-         "\"You die now, little %s.\"",
-         "\"Your body I destroy now, your soul when my hordes overrun Valhalla!\"",
+         "\"我是你的死神,%c.\"",
+         "\"你无法获胜,%r.我预见了你的每一步.\"",
+         "\"除掉了你,英灵殿就是我的囊中之物.\"",
+         "\"我夺取%o时杀死了成群的%d最优秀的战士.你真的认为区区%c能对抗我吗?\"",
+         "\"是谁将%cP的灵魂带到英灵殿,%r?\"",
+         "\"不,%d在这里帮不了你.\"",
+         "\"你是%d的什么工具,%p.你是个弱者!\"",
+         "\"我从未见过%ca在战斗中如此笨拙.\"",
+         "\"你现在死吧,小%s.\"",
+         "\"我现在摧毁你的身体,等我的部落攻占英灵殿时再摧毁你的灵魂!\"",
       },
       encourage = {
-         "\"Go with the blessings of %d.\"",
-         "\"Call upon %d when you are in need.\"",
-         "\"Use %o if you can.  It will protect you.\"",
-         "\"Magical cold is very effective against %n.\"",
-         "\"To face %n, you will need to be immune to fire.\"",
-         "\"May %d strengthen your sword-arm.\"",
-         "\"Trust in %d.  He will not desert you.\"",
-         "\"It becomes more likely that Ragnarok will come with every passing moment. You must hurry, %p.\"",
-         "\"If %n can master %o, he will be powerful enough to face %d far earlier than is fated.  This must not be!\"",
-         "\"Remember your training, %p.  You can succeed.\"",
+         "\"带着%d的祝福去吧.\"",
+         "\"当你需要的时候呼唤%d.\"",
+         "\"如果可以的话,使用%o.它会保护你.\"",
+         "\"魔法寒冷对%n非常有效.\"",
+         "\"要面对%n,你需要对火焰免疫.\"",
+         "\"愿%d强化你的持剑手臂.\"",
+         "\"相信%d.他不会抛弃你.\"",
+         "\"随着每一刻的流逝,诸神黄昏越来越可能到来.你必须快点,%p.\"",
+         "\"如果%n能掌控%o,他将强大到足以比命运预定的更早面对%d.这绝不能发生!\"",
+         "\"记住你的训练,%p.你能成功.\"",
       },
       firsttime = {
-         synopsis = "[You arrive below %H.  Something is wrong; there is lava present.]",
+         synopsis = "[你到达%H的下方.有些不对劲;这里有熔岩.]",
          output = "text",
-         text = [[You materialize at the base of a snowy hill.  Atop the hill sits
-a place you know well, %H.  You immediately realize
-that something here is very wrong!
+         text = [[你显现在一个积雪山丘的底部.山丘顶部坐落着
+你熟悉的地方,%H.你立刻意识到
+这里出了大问题!
 
-In places, the snow and ice have been melted into steaming pools of
-water.  Fumaroles and pools of bubbling lava surround the hill.
-The stench of sulphur is carried through the air, and you %x creatures
-that should not be able to live in this environment moving towards you.]],
+有些地方的雪和冰融化成冒着热气的
+水池.冒烟的喷气孔和冒泡的熔岩池环绕着山丘.
+空气中弥漫着硫磺的恶臭,你%x到不应该
+在这种环境中生存的生物向你移动.]],
       },
       goal_first = {
-         synopsis = "[This is the lair of %n.]",
+         synopsis = "[这是%n的巢穴.]",
          output = "text",
-         text = [[Through clouds of sulphurous gasses, you %x a rock palisade
-surrounded with a moat of bubbling lava.  You remember the description
-from something that %l said.  This is the lair of %n.]],
+         text = [[透过硫磺气体的云层,你%x到一个岩石栅栏,
+周围环绕着一条冒着泡的熔岩护城河.你记得%l
+说过的话中的描述.这就是%n的巢穴.]],
       },
       goal_next = {
-         text = "Once again, you stand in sight of %ns lair.",
+         text = "又一次,你站在%n巢穴的视线内.",
       },
       gotit = {
-         synopsis = "[You must return %o to %l.]",
+         synopsis = "[你必须把%o还给%l.]",
          output = "text",
-         text = [[As you pick up %o, your mind is suddenly filled with images,
-and you perceive all of the possibilities of each potential choice you
-could make.  As you begin to control and channel your thoughts, you
-realize that you must return %o to %l immediately.]],
+         text = [[当你拿起%o时,你的脑海中突然充满了图像,
+你感知到了每个潜在选择的所有可能性.当你开始
+控制和引导你的思绪时,你意识到
+必须立即把%o还给%l.]],
       },
       guardtalk_after = {
-         "\"Hail, and well met, brave %c.\"",
-         "\"May %d guide your steps, %p.\"",
-         "\"%lC told us you had succeeded!\"",
-         "\"You recovered %o just in time, %p.\"",
-         "\"Hail %d, for delivering %o back to us.\"",
+         "\"万岁,幸会,勇敢的%c.\"",
+         "\"愿%d指引你的脚步,%p.\"",
+         "\"%lC告诉我们你成功了!\"",
+         "\"你及时找回了%o,%p.\"",
+         "\"赞美%d,因为他把%o归还给了我们.\"",
       },
       guardtalk_before = {
-         "\"Hail, and well met, brave %c.\"",
-         "\"May %d guide your steps, %p.\"",
-         "\"%lC weakens.  Without %o, her foresight is dim.\"",
-         "\"You must hurry, %p, else Ragnarok may well come.\"",
-         "\"I would deal with this foul %n myself, but %d forbids it.\"",
+         "\"万岁,幸会,勇敢的%c.\"",
+         "\"愿%d指引你的脚步,%p.\"",
+         "\"%lC在变弱.没有了%o,她的远见是模糊的.\"",
+         "\"你必须快点,%p,否则诸神黄昏很可能会来.\"",
+         "\"我会亲自对付这个该死的%n,但%d禁止这样做.\"",
       },
       hasamulet = {
-         synopsis = "[Take the Amulet to %ds temple on the Astral Plane and offer it.]",
+         synopsis = "[把护身符带到星界%d的神殿并献上它.]",
          output = "text",
-         text = [["Excellent, %p.  I see you have recovered the Amulet!
+         text = [["太好了,%p.我看到你找回了护身符!
 
-"You must take the Amulet to the Great Temple of %d, on the Astral
-Plane.  There you must offer the Amulet to %d.
+\"你必须把护身符带到星界位面的%d大神殿.
+在那里,你必须把护身符献给%d.
 
-"Go now, my %S.  I cannot tell you your fate, as the power of the
-Amulet interferes with mine.  I hope for your success."]],
+\"现在走吧,我的%S.我无法告诉你你的命运,因为
+护身符的力量干扰了我的力量.我祝愿你成功.\"]],
       },
       killed_nemesis = {
-         synopsis = "[%nC dies.]",
+         synopsis = "[%nC死了.]",
          output = "text",
-         text = [[A look of surprise and horror appears on %ns face.
+         text = [[%n的脸上出现了惊讶和恐惧的神色.
 
-    "No!!!  %o has lied to me!  I have been misled!"
+    \"不!!!%o骗了我!我被误导了!\"
 
-Suddenly, %n grasps his head and screams in agony, then dies.]],
+突然,%n抓住自己的头,痛苦地尖叫着,然后死了.]],
       },
       leader_first = {
-         synopsis = "[We need your aid.  Are you ready?]",
+         synopsis = "[我们需要你的帮助.你准备好了吗?]",
          output = "text",
-         text = [["Ah, %p, my %S.  You have returned to %H
-at last.  We are in dire need of your aid, but I must determine if you
-are yet ready for such an undertaking.
+         text = [["啊,%p,我的%S.你终于回到%H
+了.我们急需你的帮助,但我必须确定你是否
+已经准备好承担这样的任务.
 
-"Let me read your fate..."]],
+\"让我读出你的命运...\"]],
       },
       leader_last = {
-         synopsis = "[\"Begone from my presence and never return.\"]",
+         synopsis = "[\"离开我的视线,永远不要回来.\"]",
          output = "text",
-         text = [["No, %p.  Your fate is sealed.  I must cast about for another
-champion.  Begone from my presence, and never return.  Know this, that
-you shall never succeed in this life, and Valhalla is denied to you."]],
+         text = [["不,%p.你的命运已定.我必须另寻
+勇士.离开我的视线,永远不要回来.要知道,
+你这辈子永远不会成功,英灵殿也向你关闭.\"]],
       },
       leader_next = {
-         text = [["Let me read the future for you now, %p, perhaps you have managed to
-change it enough..."]],
+         text = [["现在让我为你读出未来,%p,也许你已经设法
+改变了它足够...\"]],
       },
       leader_other = {
-         text = [["Again, I shall read your fate, my %S.  Let us both hope that you have
-made changes to become ready for this task..."]],
+         text = [["我将再次读出你的命运,我的%S.让我们都希望你已经
+做出了改变,准备好了这个任务...\"]],
       },
       locate_first = {
-         synopsis = "[This is the entrance to %i.]",
+         synopsis = "[这是通往%i的入口.]",
          output = "text",
-         text = [[The ice and snow gives way to a valley floor.  You %x ahead of you
-a huge round hill surrounded by pools of lava.  This then is the entrance
-to %i.  It looks like you're not going to get in without
-a fight though.]],
+         text = [[冰雪让位给一片谷底.你%x到前方
+一个巨大的圆形山丘,被熔岩池包围.那么这就是通往
+%i的入口.看起来你若不战斗是进不去的.]],
       },
       locate_next = {
-         text = "Once again, you stand before the entrance to %i.",
+         text = "又一次,你站在通往%i的入口前.",
       },
       nemesis_first = {
-         synopsis = "[\"%oC has shown me that I must kill you.\"]",
+         synopsis = "[\"%oC告诉我必须杀了你.\"]",
          output = "text",
-         text = [["So!  %lC has finally sent %ca to challenge me!
+         text = [["那么!%lC终于派了%ca来挑战我!
 
-"I thought that mastering %o would enable me to challenge
-%d, but it has shown me that first I must kill you!  So come, little
-%s.  Once I defeat you, I can at last begin the final battle with %d."]],
+\"我以为掌控%o能让我挑战
+%d,但它告诉我,首先我必须杀了你!所以来吧,小
+%s.一旦我打败你,我终于可以开始与%d的最终战斗.\"]],
       },
       nemesis_next = {
-         text = "\"Again you challenge me, %r.  Good.  I will kill you now.\"",
+         text = "\"你又来挑战我,%r.很好.我现在就杀了你.\"",
       },
       nemesis_other = {
-         text = "\"Have you not learned yet?  You cannot defeat %n!\"",
+         text = "\"你还没学会吗?你无法打败%n!\"",
       },
       nemesis_wantsit = {
-         text = "\"I will kill you, %c, and wrest %o from your mangled hands.\"",
+         text = "\"我会杀了你,%c,并从你残缺的手中夺走%o.\"",
       },
       nexttime = {
-         text = "Once again, you are near the abode of %l.",
+         text = "又一次,你靠近%l的住所.",
       },
       offeredit = {
-         synopsis = "[Take %o.  Search for the Amulet.]",
+         synopsis = "[带上%o.寻找护身符.]",
          output = "text",
-         text = [[As you approach, %l rises and touches %o.
+         text = [[当你走近时,%l站起来,触摸%o.
 
-"You may take %o with you, %p.  I have removed from
-it the power to foretell the future, for that power no mortal should
-have.  Its other abilities, however, you have at your disposal.
+\"你可以带上%o,%p.我已经从中移除了
+预测未来的力量,因为那种力量不应由凡人拥有.
+然而,它的其他能力,你可以使用.
 
-"You must now begin in %ds name to search for the Amulet of Yendor.
-May your steps be guided by %d, my %S."]],
+\"你现在必须以%d的名义开始寻找岩德的护身符.
+愿%d指引你的脚步,我的%S.\"]],
       },
       offeredit2 = {
-         synopsis = "[You are %os keeper now.  Return through the portal and find the Amulet.]",
+         synopsis = "[你现在是%o的守护者了.通过传送门返回,找到护身符.]",
          output = "text",
-         text = [["Careful, %p!  %oC might break, and that would be
-a tragic loss.  You are its keeper now, and the time has come to
-resume your search for the Amulet.  %Z await your
-return through the magic portal that brought you here."]],
+         text = [["小心,%p!%oC可能会碎,那将是
+一个悲剧性的损失.你现在是它的守护者,是时候
+继续寻找护身符了.%Z正等待你
+通过带你来到这里的魔法传送门返回.\"]],
       },
       othertime = {
-         text = [[Again you materialize near %ls abode.  You have a nagging feeling
-that this may be the last time you come here.]],
+         text = [[你再次显现在%l的住所附近.你有一种唠叨的感觉,
+这可能是你最后一次来这里了.]],
       },
       posthanks = {
-         text = [["Greetings, %p.  I have not been able to pay as much attention to
-your search for the Amulet as I have wished.  How do you fare?"]],
+         text = [["你好,%p.我一直没能像我希望的那样
+多关注你寻找护身符的任务.你过得怎么样?\"]],
       },
    },
    Wiz = {
       assignquest = {
-         synopsis = "[Travel to %i; overcome %n; return with %o.]",
+         synopsis = "[前往%i;击败%n;带着%o回来.]",
          output = "text",
-         text = [["Yes, %p, you truly are ready for this dire task.  Listen,
-carefully, for what I tell you now will be of vital importance.
+         text = [["是的,%p,你真正准备好了迎接这个可怕的任务.仔细
+听,因为我现在告诉你的将至关重要.
 
-"Since you left us to hone your skills in the world, we unexpectedly came
-under attack by the forces of %n.  As you know, we thought
-%n had perished at the end of the last age, but, alas, this was
-not the case.
+\"自从你离开我们去世上磨练技能以来,我们出乎意料地
+遭到了%n势力的攻击.正如你所知,我们以为
+%n在上个时代结束时已经死了,但是,唉,事实并非如此.
 
-"%nC sent an army of abominations against us.  Among them was a
-minion, mindless and ensorcelled, and thus, in the confusion, it was
-able to penetrate our defenses.  Alas, this creature has stolen
-%o and I fear has delivered %oh to %n.
+\"%nC派了一支可憎之物军队攻击我们.其中有一个
+仆从,没有灵魂,被魔法控制,因此,在混乱中,它得以
+穿透我们的防御.唉,这个生物偷走了
+%o,我担心已经把它交给了%n.
 
-"Over the years, I had woven most of my power into this amulet, and thus,
-without it, I have but a shadow of my former power, and I fear that I
-shall soon perish.
+\"多年来,我把大部分力量都编织进了这个护身符,因此,
+没有了它,我只剩下昔日力量的一个影子,我担心
+我很快就会死去.
 
-"You must travel to %i, and within its dungeons,
-find and overcome %n, and return %o to me.
+\"你必须前往%i,并在其地牢中,
+找到并击败%n,然后把%o还给我.
 
-"Go now, with %d, and complete this quest before it is too late."]],
+\"现在带着%d走吧,趁还来得及,完成这个任务.\"]],
       },
       badalign = {
-         synopsis = "[Go; come back when you are worthy of %d.]",
+         synopsis = "[走吧;等你配得上%d了再回来.]",
          output = "text",
-         text = [["You amaze me, %p!  How many times did I tell you that the way of a mage
-is an exacting one.  One must use the world with care, lest one leave it
-in ruins and simplify the task of %n.
+         text = [["你让我惊讶,%p!我告诉过你多少次,法师之道
+是一条苛刻的道路.一个人必须小心使用世界,以免
+留下废墟,给%n的任务简化.
 
-"You must go back and show your worthiness.  Do not return until you are
-truly ready for this quest.  May %d guide you in this task."]],
+\"你必须回去证明你的价值.在你真正准备好
+这个任务之前不要回来.愿%d在这个任务中指引你.\"]],
       },
       badlevel = {
-         synopsis = "[Go; return when you are %Ra.]",
+         synopsis = "[走吧;等你成为%Ra后再回来.]",
          output = "text",
-         text = [["Alas, %p, you have not yet shown your proficiency as a worthy
-spellcaster.  As %ra, you would surely be overcome in the challenge
-ahead.  Go, now, expand your horizons, and return when you have attained
-renown as %Ra."]],
+         text = [["唉,%p,你还没有证明你作为称职
+施法者的本领.作为%ra,你肯定会在
+前方的挑战中被击败.现在走吧,拓宽你的视野,等你
+作为%Ra获得了声望后再回来.\"]],
       },
       discourage = {
-         "\"Your puny powers are no match for me, fool!\"",
-         "\"When you are defeated, your torment will last for a thousand years.\"",
-         "\"After your downfall, %p, I shall devour %l for dessert!\"",
-         "\"Are you ready yet to beg for mercy?  I could be lenient...\"",
-         "\"Your soul shall join the enslaved multitude I command!\"",
-         "\"Your lack of will is evident, and you shall die as a result.\"",
-         "\"Your faith in %d is for naught!  Come, submit to me now!\"",
-         "\"A mere %r is nothing compared to my skill!\"",
-         "\"So, you are the best hope of %l?  How droll.\"",
-         "\"Feel my power, %c!  My victory is imminent!\"",
+         "\"你可怜的力量不是我的对手,傻瓜!\"",
+         "\"当你被击败后,你的折磨将持续一千年.\"",
+         "\"在你失败之后,%p,我会把%l当甜点吃掉!\"",
+         "\"你准备好求饶了吗?我可以宽容一点...\"",
+         "\"你的灵魂将加入我指挥的众多受奴役者!\"",
+         "\"你缺乏意志是显而易见的,你会因此而死.\"",
+         "\"你对%d的信仰是徒劳的!来吧,现在顺从我!\"",
+         "\"区区%r与我的技能相比不值一提!\"",
+         "\"那么,你就是%l最大的希望?多么可笑.\"",
+         "\"感受我的力量,%c!我的胜利就在眼前!\"",
       },
       encourage = {
-         "\"Beware, for %n is immune to most magical attacks.\"",
-         "\"To enter %i you must pass many traps.\"",
-         "\"%nC may be vulnerable to physical attacks.\"",
-         "\"%d will come to your aid when you call.\"",
-         "\"You must utterly destroy %n.  He will pursue you otherwise.\"",
-         "\"%oC is a mighty artifact.  With it you can destroy %n.\"",
-         "\"Go forth with the blessings of %d.\"",
-         "\"I will have my %gP watch for your return.\"",
-         "\"Feel free to take any items in that chest that might aid you.\"",
-         "\"You will know when %o is near.  Proceed with care!\"",
+         "\"小心,%n对大多数魔法攻击免疫.\"",
+         "\"要进入%i,你必须经过许多陷阱.\"",
+         "\"%nC可能容易受到物理攻击.\"",
+         "\"当你呼唤时,%d会来帮助你.\"",
+         "\"你必须彻底摧毁%n.否则他会追杀你.\"",
+         "\"%oC是一件强大的神器.有了它你可以摧毁%n.\"",
+         "\"带着%d的祝福前进吧.\"",
+         "\"我会让我的%gP们留意你的归来.\"",
+         "\"随意拿那个箱子里任何可能帮助你的物品.\"",
+         "\"当%o靠近时你会知道.小心行事!\"",
       },
       firsttime = {
-         synopsis = "[You have arrived at %ls tower but something is very wrong.]",
+         synopsis = "[你已经到达%l的塔,但有些非常不对劲.]",
          output = "text",
-         text = [[You are suddenly in familiar surroundings.  You notice what appears to
-be a large, squat stone structure nearby.  Wait!  That looks like the
-tower of your former teacher, %l.
+         text = [[你突然置身于熟悉的环境中.你注意到附近似乎有一个
+大型,矮胖的石头结构.等等!那看起来像你以前的老师%l
+的塔.
 
-However, things are not the same as when you were last here.  Mists and
-areas of unexplained darkness surround the tower.  There is movement in
-the shadows.
+然而,事情和你上次来这里时不一样了.塔的周围
+笼罩着迷雾和无法解释的黑暗区域.阴影中有
+动静.
 
-Your teacher would never allow such unaesthetic forms to surround the
-tower...  unless something were dreadfully wrong!]],
+你的老师绝不会允许这样不美观的形式围绕
+塔... 除非有什么非常糟糕的事情发生了!]],
       },
       goal_alt = {
-         text = "You have returned to %ns lair.",
+         text = "你已经回到了%n的巢穴.",
       },
       goal_first = {
-         text = "You feel your mentor's presence; perhaps %o is nearby.",
+         text = "你感觉到你的导师的存在;也许%o就在附近.",
       },
       goal_next = {
-         text = "The aura of %o tingles at the edge of your perception.",
+         text = "%o的光晕在你的感知边缘刺痛.",
       },
       gotit = {
-         synopsis = "[You feel %os power and know you should return %oh to %l.]",
+         synopsis = "[你感觉到%o的力量,知道你应该把%oh还给%l.]",
          output = "text",
-         text = [[As you touch %o, its comforting power infuses you
-with new energy.  You feel as if you can detect others' thoughts flowing
-through it.  Although you yearn to wear %o and
-attack the Wizard of Yendor, you know you must return it to its rightful
-owner, %l.]],
+         text = [[当你触摸%o时,它令人舒适的力量为你注入
+新的能量.你感觉仿佛可以通过它感知到他人的思想
+流动.尽管你渴望戴着%o去
+攻击岩德的巫师,但你知道必须把它归还给真正的
+主人%l.]],
       },
       guardtalk_after = {
-         "\"I have some eye of newt to trade, do you have a spare blind-worm's sting?\"",
-         "\"The magic portal now seems like it will remain stable for quite some time.\"",
-         "\"Have you noticed how much stronger %l is since %o was recovered?\"",
-         "\"Thank %d!  We weren't positive you would defeat %n.\"",
-         "\"I, too, will venture into the world, because %n was but one of many evils to be vanquished.\"",
+         "\"我有一些蝾螈眼可以交易,你有多余的盲蛇的毒刺吗?\"",
+         "\"现在魔法传送门似乎会稳定相当长一段时间.\"",
+         "\"你有没有注意到自从%o被找回后,%l变得多强?\"",
+         "\"感谢%d!我们不确定你能打败%n.\"",
+         "\"我也将进入世界,因为%n只是需要被征服的众多邪恶之一.\"",
       },
       guardtalk_before = {
-         "\"Would you happen to have some eye of newt in that overstuffed pack, %s?\"",
-         "\"Ah, the spell to create the magic portal worked.  Outstanding!\"",
-         "\"Hurry!  %lC may not survive that casting of the portal spell!\"",
-         "\"The spells of %n were just too powerful for us to withstand.\"",
-         "\"I, too, will venture into the world, because %n is but one of many evils to be vanquished.\"",
+         "\"你那个塞得满满的背包里碰巧有眼球吗,%s?\"",
+         "\"啊,创造魔法传送门的法术成功了.太棒了!\"",
+         "\"快点!%lC可能撑不过那个传送门法术的施放!\"",
+         "\"%n的法术对我们来说太强大了,我们无法抵挡.\"",
+         "\"我也将进入世界,因为%n只是需要被征服的众多邪恶之一.\"",
       },
       hasamulet = {
-         synopsis = "[Take the Amulet to %ds altar on the Astral Plane.]",
+         synopsis = "[把护身符带到星界%d的祭坛上.]",
          output = "text",
-         text = [["Congratulations, %p.  I always knew that if anyone could succeed
-in defeating the Wizard of Yendor and his minions, it would be you.
+         text = [["恭喜,%p.我一直认为,如果有人能成功
+击败岩德的巫师和他的仆从,那一定是你.
 
-"Go now, and take the Amulet to the Astral Plane.  Once there, present
-the Amulet on the altar of %d.  Along the way you shall pass through
-the four Elemental Planes.  These planes are like nothing you have ever
-experienced before, so be prepared!
+\"现在走吧,把护身符带到星界位面.到了那里,
+把护身符呈现在%d的祭坛上.沿途你会穿过
+四个元素位面.这些位面与你以往经历过的
+任何东西都不同,所以做好准备!
 
-"For this you were born, %s!  I am very proud of you."]],
+\"你生来就是为了这个,%s!我为你感到非常骄傲.\"]],
       },
       killed_nemesis = {
-         synopsis = "[%nC curses you as %nh dies.]",
+         synopsis = "[%nC在你%nh死时诅咒你.]",
          output = "text",
-         text = [[%nC, whose body begins to shrivel up, croaks out:
+         text = [[%nC,他的身体开始萎缩,用沙哑的声音说:
 
-    "I shall haunt your progress until the end of time.  A thousand
-    curses on you and %l."
+    "我会纠缠你的征途直到时间尽头.一千个
+    诅咒落在你和%l身上."
 
-Then, the body bursts into a cloud of choking dust, and blows away.]],
+然后,身体爆成一团令人窒息的灰尘,吹走了.]]
       },
       leader_first = {
-         synopsis = "[You have come a long way, but are you ready for the task I require?]",
+         synopsis = "[你走了很远的路,但你准备好接受我要求的任务了吗?]",
          output = "text",
-         text = [["Come closer, %p, for my voice falters in my old age.
-Yes, I see that you have come a long way since you went out into the
-world, leaving the safe confines of this tower.  However, I must first
-determine if you have all of the skills required to take on the task
-I require of you."]],
+         text = [["靠近点,%p,因为我的声音在晚年变得虚弱.
+是的,我看到自从你离开这座塔的安全范围进入世界以来,
+你已经走了很远.然而,我必须首先确定你是否拥有
+承担我要求的任务所需的所有技能.\"]],
       },
       leader_last = {
-         synopsis = "[\"Get out of here!\"]",
+         synopsis = "[\"滚出去!\"]",
          output = "text",
-         text = [["You fool, %p!  Why did I waste all of those years teaching you
-the esoteric arts?  Get out of here!  I shall find another."]],
+         text = [["你这个傻瓜,%p!我为什么要浪费那些年教你
+那些深奥的arts?滚出去!我会另找别人.\"]],
       },
       leader_next = {
-         text = "\"Well, %p, you have returned.  Perhaps you are now ready...\"",
+         text = "\"好吧,%p,你回来了.也许你现在准备好了...\"",
       },
       leader_other = {
-         text = [["This is getting tedious, %p, but perseverance is a sign of a true mage.
-I certainly hope that you are truly ready this time!"]],
+         text = [["这变得很麻烦,%p,但毅力是真正的魔法师的标志.
+我确实希望你这次真正准备好了!\"]],
       },
       locate_first = {
-         text = "Wisps of fog swirl nearby.  You feel that %ns lair is close.",
+         text = "附近有模糊的雾.你感觉%n的巢穴很近了.",
       },
       locate_next = {
-         text = "You believe that you may once again invade %i.",
+         text = "你相信你可能会再次入侵%i.",
       },
       nemesis_first = {
-         synopsis = "[\"Your destruction should make for good sport.\"]",
+         synopsis = "[\"你的毁灭应该能带来好的娱乐.\"]",
          output = "text",
-         text = [["Ah, I recognize you, %p.  So, %l has sent you to steal
-%o from me, hmmm?  Well, %lh is a fool to send such
-a mental weakling against me.
+         text = [["啊,我认出你了,%p.那么,%l派你来从
+我这里偷%o,嗯?嗯,%lh是个傻瓜,竟然派这样一个
+多愁善感的弱者来对付我.
 
-"Your destruction, however, should make for good sport.  In the end, you
-shall beg me to kill you!"]],
+\"然而,你的毁灭应该能带来好的娱乐.到最后,你会
+求我杀了你!\"]],
       },
       nemesis_next = {
-         synopsis = "[\"Your soul shall soon be mine to command.\"]",
+         synopsis = "[\"你的灵魂很快就会归我指挥.\"]",
          output = "text",
-         text = [["How nice of you to return, %p!  I enjoyed our last meeting.  Are you
-still hungry for more pain?
+         text = [["你能回来真是太好了,%p!我很享受我们上次的会面.你还
+渴望更多痛苦吗?
 
-"Come!  Your soul, like %o, shall soon be mine to command."]],
+\"来吧!你的灵魂,就像%o一样,很快就会归我指挥.\"]],
       },
       nemesis_other = {
-         text = [["I'm sure that your perseverance shall be the subject of innumerable
-ballads, but you shall not be around to hear them, I fear!"]],
+         text = [["我确信你的毅力将成为无数
+歌谣的主题,但恐怕你无法活着听到它们了!\"]],
       },
       nemesis_wantsit = {
-         text = [["Thief!  %oC belongs to me, now.  I shall feed
-your living flesh to my minions."]],
+         text = [["贼!%oC现在属于我了.我会把你的
+活肉喂给我的仆从.\"]],
       },
       nexttime = {
-         text = "Once again, you are back at %H.",
+         text = "又一次,你回到了%H.",
       },
       offeredit = {
-         synopsis = "[Take %o with you in your quest for the Amulet.]",
+         synopsis = "[在你寻找护身符的任务中带上%o.]",
          output = "text",
-         text = [[%lC notices %o in your possession,
-beams at you and says:
+         text = [[%lC注意到你手中的%o,
+对你微笑并说道:
 
-    "I knew you could defeat %n and retrieve
-    %o.  We shall never forget this
-    brave service.
+    \"我就知道你能打败%n并取回
+    %o.我们永远不会忘记这
+    勇敢的服务.
 
-    "Take %oh with you in your quest for the Amulet of Yendor.
-    I can sense that it has attuned %oiself to you already.
+    \"在你寻找岩德护身符的任务中带上%oh.
+    我能感觉到%o%oiself已经同你调谐.
 
-    "May %d guide you in your quest, and keep you from harm."]],
+    \"愿%d在你任务中指引你,并保护你免受伤害.\"]],
       },
       offeredit2 = {
-         synopsis = "[Keep %o, return through the portal to %Z; find the other Amulet.]",
+         synopsis = "[保留%o,通过传送门回到%Z;找到另一个护身符.]",
          output = "text",
-         text = [["You are the keeper of %o now.  It is time to
-recover the /other/ Amulet.  %Z await your return through
-the magic portal which brought you here."]],
+         text = [["你现在是%o的守护者了.是时候
+去取回 /另一个/ 护身符了.%Z正等待你通过
+带你来到这里的魔法传送门返回.\"]],
       },
       othertime = {
-         text = [[You are back at %H.
-You have an odd feeling this may be the last time you ever come here.]],
+         text = [[你回到了%H.
+你有一种奇怪的感觉,这可能是你最后一次来这里.]],
       },
       posthanks = {
-         text = [["Come near, my %S, and share your adventures with me.
-So, have you succeeded in your quest for the Amulet of Yendor?"]],
+         text = [["靠近点,我的%S,和我分享你的冒险经历.
+那么,你寻找岩德护身符的任务成功了吗?\"]],
       },
    },
 }

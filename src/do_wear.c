@@ -2458,8 +2458,8 @@ doputon(void)
     if (uleft && uright && uamul && ublindf
         && uarm && uarmu && uarmc && uarmh && uarms && uarmg && uarmf) {
         /* 'P' message doesn't mention armor */
-        Your("你的%s%s已经满了，而且你已经戴了护身符和%s。",
-             humanoid(gy.youmonst.data) ? "指环" : "",
+        Your("你的%s%s已经满了而且你已经戴了护身符%s.",
+             humanoid(gy.youmonst.data) ? "和戒指" : "",
              fingers_or_gloves(FALSE),
              (ublindf->otyp == LENSES) ? "一副眼镜" : "一条眼罩");
         return ECMD_OK;

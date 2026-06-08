@@ -20,7 +20,12 @@
 #endif
 
 #ifdef TEXT_TOMBSTONE
-staticfn void center(int, char *);
+staticfn int rip_utf8_decode(const char *, unsigned long *);
+staticfn int rip_codepoint_width(unsigned long);
+staticfn size_t rip_fit_bytes(const char *, int, int *);
+staticfn void rip_copy_fit(char *, size_t, const char *, int);
+staticfn void rip_next_line(const char **, char *, size_t, int);
+staticfn void center(int, const char *);
 
 #ifndef NH320_DEDICATION
 /* A normal tombstone for end of game display. */
@@ -72,21 +77,215 @@ static const char *const rip_txt[] = {
 #define DEATH_LINE 8 /* *char[] line # for death description */
 #define YEAR_LINE 12 /* *char[] line # for year */
 
-staticfn void
-center(int line, char *text)
+staticfn int
+rip_utf8_decode(const char *s, unsigned long *ucp)
 {
-    char *ip, *op;
-    ip = text;
-    op = &gr.rip[line][STONE_LINE_CENT - ((strlen(text) + 1) >> 1)];
-    while (*ip)
-        *op++ = *ip++;
+    const unsigned char *u = (const unsigned char *) s;
+    unsigned long cp, mincp;
+    int i, len;
+
+    if (!u[0]) {
+        *ucp = 0L;
+        return 0;
+    }
+    if (u[0] < 0x80) {
+        *ucp = (unsigned long) u[0];
+        return 1;
+    } else if ((u[0] & 0xE0) == 0xC0) {
+        len = 2;
+        cp = (unsigned long) (u[0] & 0x1F);
+        mincp = 0x80L;
+    } else if ((u[0] & 0xF0) == 0xE0) {
+        len = 3;
+        cp = (unsigned long) (u[0] & 0x0F);
+        mincp = 0x800L;
+    } else if ((u[0] & 0xF8) == 0xF0) {
+        len = 4;
+        cp = (unsigned long) (u[0] & 0x07);
+        mincp = 0x10000L;
+    } else {
+        *ucp = (unsigned long) u[0];
+        return 1;
+    }
+
+    for (i = 1; i < len; ++i) {
+        if (!u[i] || (u[i] & 0xC0) != 0x80) {
+            *ucp = (unsigned long) u[0];
+            return 1;
+        }
+        cp = (cp << 6) | (unsigned long) (u[i] & 0x3F);
+    }
+    if (cp < mincp || (cp >= 0xD800L && cp <= 0xDFFFL)
+        || cp > 0x10FFFFL) {
+        *ucp = (unsigned long) u[0];
+        return 1;
+    }
+    *ucp = cp;
+    return len;
+}
+
+staticfn int
+rip_codepoint_width(unsigned long cp)
+{
+    if (cp == 0L)
+        return 0;
+    if (cp < 0x20L || (cp >= 0x7FL && cp < 0xA0L))
+        return 0;
+    if ((cp >= 0x1100L && cp <= 0x115FL)
+        || (cp >= 0x2E80L && cp <= 0xA4CFL)
+        || (cp >= 0xAC00L && cp <= 0xD7A3L)
+        || (cp >= 0xF900L && cp <= 0xFAFFL)
+        || (cp >= 0xFE10L && cp <= 0xFE19L)
+        || (cp >= 0xFE30L && cp <= 0xFE6FL)
+        || (cp >= 0xFF00L && cp <= 0xFF60L)
+        || (cp >= 0xFFE0L && cp <= 0xFFE6L)
+        || (cp >= 0x1F300L && cp <= 0x1FAFFL))
+        return 2;
+    return 1;
+}
+
+staticfn size_t
+rip_fit_bytes(const char *text, int maxwidth, int *widthp)
+{
+    const char *p = text;
+    unsigned long cp = 0L;
+    int width = 0, len, chwidth;
+
+    while (*p) {
+        len = rip_utf8_decode(p, &cp);
+        if (len <= 0)
+            break;
+        chwidth = rip_codepoint_width(cp);
+        if (width + chwidth > maxwidth)
+            break;
+        width += chwidth;
+        p += len;
+    }
+    if (widthp)
+        *widthp = width;
+    return (size_t) (p - text);
+}
+
+staticfn void
+rip_copy_fit(char *dst, size_t dstsz, const char *src, int maxwidth)
+{
+    size_t bytes;
+
+    if (!dstsz)
+        return;
+    bytes = rip_fit_bytes(src, maxwidth, (int *) 0);
+    if (bytes >= dstsz)
+        bytes = dstsz - 1;
+    (void) memcpy((genericptr_t) dst, (genericptr_t) src, bytes);
+    dst[bytes] = '\0';
+}
+
+staticfn void
+rip_next_line(const char **textp, char *out, size_t outsz, int maxwidth)
+{
+    const char *start, *p, *end, *next, *last_space, *last_space_next;
+    unsigned long cp;
+    int width, len, chwidth;
+    size_t bytes;
+
+    start = *textp;
+    while (*start == ' ')
+        ++start;
+    p = start;
+    end = next = p;
+    last_space = last_space_next = (const char *) 0;
+    width = 0;
+
+    while (*p) {
+        len = rip_utf8_decode(p, &cp);
+        if (len <= 0)
+            break;
+        if (cp == '\n') {
+            end = p;
+            next = p + len;
+            break;
+        }
+        chwidth = rip_codepoint_width(cp);
+        if (width + chwidth > maxwidth)
+            break;
+        if (cp == ' ') {
+            last_space = p;
+            last_space_next = p + len;
+        }
+        width += chwidth;
+        p += len;
+        end = next = p;
+    }
+
+    if (*p && cp != '\n' && last_space && last_space > start) {
+        end = last_space;
+        next = last_space_next;
+    } else if (p == start && *p) {
+        len = rip_utf8_decode(p, &cp);
+        if (len <= 0)
+            len = 1;
+        end = next = p + len;
+    }
+
+    bytes = (size_t) (end - start);
+    if (!outsz) {
+        *textp = next;
+        return;
+    }
+    if (bytes >= outsz)
+        bytes = outsz - 1;
+    (void) memcpy((genericptr_t) out, (genericptr_t) start, bytes);
+    out[bytes] = '\0';
+    while (*next == ' ')
+        ++next;
+    *textp = next;
+}
+
+staticfn void
+center(int line, const char *text)
+{
+    char *oldline, *newline, *op;
+    const char *suffix;
+    size_t prefix_len, text_bytes, suffix_len, new_len;
+    int text_start, text_end, text_width, leftpad, rightpad;
+
+    text_start = STONE_LINE_CENT - ((STONE_LINE_LEN + 1) >> 1);
+    text_end = text_start + STONE_LINE_LEN;
+    oldline = gr.rip[line];
+    if ((int) strlen(oldline) < text_end)
+        return;
+
+    text_bytes = rip_fit_bytes(text, STONE_LINE_LEN, &text_width);
+    leftpad = (STONE_LINE_LEN - text_width) / 2;
+    rightpad = STONE_LINE_LEN - text_width - leftpad;
+
+    prefix_len = (size_t) text_start;
+    suffix = oldline + text_end;
+    suffix_len = strlen(suffix);
+    new_len = prefix_len + (size_t) leftpad + text_bytes
+              + (size_t) rightpad + suffix_len;
+
+    newline = (char *) alloc(new_len + 1);
+    op = newline;
+    (void) memcpy((genericptr_t) op, (genericptr_t) oldline, prefix_len);
+    op += prefix_len;
+    (void) memset((genericptr_t) op, ' ', (size_t) leftpad);
+    op += leftpad;
+    (void) memcpy((genericptr_t) op, (genericptr_t) text, text_bytes);
+    op += text_bytes;
+    (void) memset((genericptr_t) op, ' ', (size_t) rightpad);
+    op += rightpad;
+    (void) memcpy((genericptr_t) op, (genericptr_t) suffix, suffix_len + 1);
+
+    free((genericptr_t) oldline);
+    gr.rip[line] = newline;
 }
 
 void
 genl_outrip(winid tmpwin, int how, time_t when)
 {
     char **dp;
-    char *dpx;
+    const char *dpx;
     char buf[BUFSZ];
     int x;
     int line, year;
@@ -98,7 +297,7 @@ genl_outrip(winid tmpwin, int how, time_t when)
     dp[x] = (char *) 0;
 
     /* Put name on stone */
-    Sprintf(buf, "%.*s", (int) STONE_LINE_LEN, svp.plname);
+    rip_copy_fit(buf, sizeof buf, svp.plname, STONE_LINE_LEN);
     center(NAME_LINE, buf);
 
     /* Put $ on stone */
@@ -114,24 +313,10 @@ genl_outrip(winid tmpwin, int how, time_t when)
 
     /* Put death type on stone */
     for (line = DEATH_LINE, dpx = buf; line < YEAR_LINE; line++) {
-        char tmpchar;
-        int i, i0 = (int) strlen(dpx);
+        char linebuf[BUFSZ];
 
-        if (i0 > STONE_LINE_LEN) {
-            for (i = STONE_LINE_LEN; (i > 0) && (i0 > STONE_LINE_LEN); --i)
-                if (dpx[i] == ' ')
-                    i0 = i;
-            if (!i)
-                i0 = STONE_LINE_LEN;
-        }
-        tmpchar = dpx[i0];
-        dpx[i0] = 0;
-        center(line, dpx);
-        if (tmpchar != ' ') {
-            dpx[i0] = tmpchar;
-            dpx = &dpx[i0];
-        } else
-            dpx = &dpx[i0 + 1];
+        rip_next_line(&dpx, linebuf, sizeof linebuf, STONE_LINE_LEN);
+        center(line, linebuf);
     }
 
     /* Put year on stone */

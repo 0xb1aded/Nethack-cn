@@ -614,9 +614,7 @@ const char *
 ordin(int n)               /* note: should be non-negative */
 {
     int dd = n % 10;
-
-    return (dd == 0 || dd > 3 || (n % 100) / 10 == 1) ? "th"
-               : (dd == 1) ? "st" : (dd == 2) ? "nd" : "rd";
+    return ""; /*危险*/
 }
 
 DISABLE_WARNING_FORMAT_NONLITERAL  /* one compiler complains about

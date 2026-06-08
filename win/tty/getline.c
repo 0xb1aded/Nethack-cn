@@ -25,6 +25,13 @@ extern int extcmd_via_menu(void); /* cmd.c */
 
 extern char erase_char, kill_char; /* from appropriate tty.c file */
 
+#ifdef WIN32CON
+static int getlin_utf8_len(unsigned char);
+static boolean getlin_utf8_cont(unsigned char);
+static char *getlin_utf8_prev(char *, char *);
+static boolean getlin_has_utf8(const char *);
+#endif
+
 /*
  * Read a line closed with '\n' into the array char bufp[BUFSZ].
  * (The '\n' is not stored. The string is closed with a '\0'.)
@@ -39,6 +46,49 @@ tty_getlin(const char *query, char *bufp)
     hooked_tty_getlin(query, bufp, (getlin_hook_proc) 0);
 }
 
+#ifdef WIN32CON
+static int
+getlin_utf8_len(unsigned char c)
+{
+    if ((c & 0x80) == 0)
+        return 1;
+    if ((c & 0xe0) == 0xc0)
+        return 2;
+    if ((c & 0xf0) == 0xe0)
+        return 3;
+    if ((c & 0xf8) == 0xf0)
+        return 4;
+    return 1;
+}
+
+static boolean
+getlin_utf8_cont(unsigned char c)
+{
+    return (boolean) ((c & 0xc0) == 0x80);
+}
+
+static char *
+getlin_utf8_prev(char *start, char *pos)
+{
+    char *prev = pos - 1;
+
+    while (prev > start && getlin_utf8_cont((unsigned char) *prev))
+        --prev;
+    return prev;
+}
+
+static boolean
+getlin_has_utf8(const char *s)
+{
+    while (*s) {
+        if ((unsigned char) *s & 0x80)
+            return TRUE;
+        ++s;
+    }
+    return FALSE;
+}
+#endif
+
 static void
 hooked_tty_getlin(
     const char *query,
@@ -47,9 +97,11 @@ hooked_tty_getlin(
 {
     char *obufp = bufp;
     int c;
+    int old_in_getlin = program_state.in_getlin;
     struct WinDesc *cw = wins[WIN_MESSAGE];
     boolean doprev = FALSE;
 
+    program_state.in_getlin = 1;
     if (ttyDisplay->toplin == TOPLINE_NEED_MORE && !(cw->flags & WIN_STOP))
         more();
     cw->flags &= ~WIN_STOP;
@@ -145,6 +197,20 @@ hooked_tty_getlin(
                 char *i;
 
 #endif /* NEWAUTOCOMP */
+#ifdef WIN32CON
+                char *prev = getlin_utf8_prev(obufp, bufp);
+
+                if (bufp - prev > 1) {
+                    bufp = prev;
+                    *bufp = 0;
+                    tty_clear_nhwindow(WIN_MESSAGE);
+                    cw->maxcol = cw->maxrow;
+                    addtopl(query);
+                    addtopl(" ");
+                    addtopl(obufp);
+                    continue;
+                }
+#endif
                 bufp--;
 #ifndef NEWAUTOCOMP
                 putsyms("\b \b"); /* putsym converts \b */
@@ -171,10 +237,30 @@ hooked_tty_getlin(
             char *i = eos(bufp);
 
 #endif /* NEWAUTOCOMP */
+#ifdef WIN32CON
+            char *insertp = bufp;
+            int ulen = getlin_utf8_len((unsigned char) c), ucnt = 1;
+
+            *bufp = (char) c;
+            bufp[1] = 0;
+            bufp++;
+            while (ucnt < ulen
+                   && (bufp - obufp < BUFSZ - 1 && bufp - obufp < COLNO)) {
+                c = pgetchar();
+                if (!getlin_utf8_cont((unsigned char) c))
+                    break;
+                *bufp = (char) c;
+                bufp[1] = 0;
+                bufp++;
+                ucnt++;
+            }
+            putsyms(insertp);
+#else
             *bufp = c;
             bufp[1] = 0;
             putsyms(bufp);
             bufp++;
+#endif
             if (hook && (*hook)(obufp)) {
                 putsyms(bufp);
 #ifndef NEWAUTOCOMP
@@ -195,6 +281,18 @@ hooked_tty_getlin(
             }
         } else if (c == kill_char || c == '\177') { /* Robert Viduya */
             /* this test last - @ might be the kill_char */
+#ifdef WIN32CON
+            if (getlin_has_utf8(obufp)) {
+                obufp[0] = '\0';
+                bufp = obufp;
+                tty_clear_nhwindow(WIN_MESSAGE);
+                cw->maxcol = cw->maxrow;
+                addtopl(query);
+                addtopl(" ");
+                addtopl(obufp);
+                continue;
+            }
+#endif
 #ifndef NEWAUTOCOMP
             while (bufp != obufp) {
                 bufp--;
@@ -213,6 +311,7 @@ hooked_tty_getlin(
     ttyDisplay->toplin = TOPLINE_NON_EMPTY;
     ttyDisplay->inread--;
     clear_nhwindow(WIN_MESSAGE); /* clean up after ourselves */
+    program_state.in_getlin = old_in_getlin;
 
     if (suppress_history) {
         /* prevent next message from pushing current query+answer into

@@ -67,7 +67,7 @@
       <AdditionalIncludeDirectories>$(IncDir);$(SysWindDir);$(SysShareDir);$(LuaDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32CON;DLB;MSWIN_GRAPHICS;HAS_STDINT_H;HAS_INTTYPES_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard_C Condition="'$(DefaultPlatformToolset)'!='v142'">stdclatest</LanguageStandard_C>
-      <AdditionalOptions>/w45262 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/w45262 /utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(ToolsDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>

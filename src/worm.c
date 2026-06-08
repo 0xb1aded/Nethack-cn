@@ -438,10 +438,10 @@ cutworm(struct monst *worm, coordxy x, coordxy y,
         place_worm_seg(worm, x, y); /* place the "head" segment back */
         if (svc.context.mon_moving) {
             if (canspotmon(worm))
-                pline("%s 部分尾巴被切断了.",
+                pline("%s的部分尾巴被切断了.",
                       s_suffix(mon_nam(worm)));
         } else
-            You("切断了%s 的部分尾巴.", mon_nam(worm));
+            You("切断了%s的部分尾巴.", mon_nam(worm));
         toss_wsegs(new_tail, TRUE);
         if (worm->mhp > 1)
             worm->mhp /= 2;
@@ -471,9 +471,9 @@ cutworm(struct monst *worm, coordxy x, coordxy y,
     place_wsegs(new_worm, worm);
 
     if (svc.context.mon_moving)
-        pline("%s 被切成两半.", Monnam(worm));
+        pline("%s被切成了两半.", Monnam(worm));
     else
-        You("把%s 切成两半.", mon_nam(worm));
+        You("把%s切成了两半.", mon_nam(worm));
 }
 
 /*

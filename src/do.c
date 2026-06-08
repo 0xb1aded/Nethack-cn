@@ -193,8 +193,8 @@ flooreffects(
             if (*verb && (cansee(x, y) || distu(x, y) == 0))
                 pline("%s巨石%s%s进坑里.",
                       Blind ? "一块" : "那块",
-                      mtmp ? "" : "和你一起",
-                      vtense((const char *) 0, verb));
+                      mtmp ? "" : "和你一起"), /*修改语序:vtense((const char *) 0, verb),*/
+                      vtense((const char *) 0, verb); /*修改语序:mtmp ? "" : "和你一起");*/
             if (mtmp) {
                 if (!passes_walls(mtmp->data) && !throws_rocks(mtmp->data)) {
                     /* dieroll was rnd(20); 1: maximum chance to hit
@@ -239,13 +239,13 @@ flooreffects(
         if (*verb) {
             if (Blind && u_at(x, y)) {
                 Soundeffect(se_crashing_boulder, 100);
-                You_hear("脚下传来一声巨响！");
+                You_hear("脚下传来一声巨响!");
             } else if (!Blind && cansee(x, y)) {
                 pline_The("巨石%s%s。",
                           (ttyp == TRAPDOOR && !tseen) ? "触发并 " : "",
                           (ttyp == TRAPDOOR) ? "堵住了活板门"
                           : (ttyp == HOLE) ? "堵住了洞"
-                            : "填满了坑");
+                            : "填上了坑");
             } else {
                 Soundeffect(se_boulder_drop, 100);
                 You_hear("一个巨石%s.", verb);

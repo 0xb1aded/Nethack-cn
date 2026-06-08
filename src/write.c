@@ -88,28 +88,28 @@ dowrite(struct obj *pen)
         You("需要有手才能写!");
         return ECMD_OK;
     } else if (Glib) {
-        pline("%s从你的%s上。", Tobjnam(pen, "滑落"),
+        pline("%s从你的%s上滑落.", Tobjnam(pen, ""),
               fingers_or_gloves(FALSE));
         dropx(pen);
         return ECMD_TIME;
     }
 
     /* get paper to write on */
-    paper = getobj("write on", write_ok, GETOBJ_NOFLAGS);
+    paper = getobj("写在什么上", write_ok, GETOBJ_NOFLAGS);
     if (!paper)
         return ECMD_CANCEL;
     /* can't write on a novel (unless/until it's been converted into a blank
        spellbook), but we want messages saying so to avoid "spellbook" */
-    typeword = (paper->otyp == SPE_NOVEL) ? "book"
-               : (paper->oclass == SPBOOK_CLASS) ? "spellbook"
-                 : "scroll";
+    typeword = (paper->otyp == SPE_NOVEL) ? "书"
+               : (paper->oclass == SPBOOK_CLASS) ? "魔法书"
+                 : "卷轴";
     if (Blind) {
         if (!paper->dknown) {
-            You("不知道那个%s是否空白。", typeword);
+            You("不知道那个%s是否空白.", typeword);
             return ECMD_OK;
         } else if (paper->oclass == SPBOOK_CLASS) {
             /* can't write a magic book while blind */
-            pline("%s不能创作盲文.",
+            pline("%s不能写盲文.",
                   upstart(ysimple_name(pen)));
             return ECMD_OK;
         }
@@ -216,35 +216,35 @@ dowrite(struct obj *pen)
         boolean fanfic = !rn2(3), tearup = !rn2(3);
 
         if (!fanfic) {
-            You("%s写伟大的耶诺瑞安小说，但%s灵感。",
+            You("%s写伟大的岩德利亚人小说，但%s.",
                 !tearup ? "准备" : "尝试",
-                !Hallucination ? "缺乏" : "有太多");
+                !Hallucination ? "缺乏灵感" : "灵感太多了写不下");
         } else {
-            You("%s创作出真正%s的同人小说。",
+            You("%s创作出真正%s的同人小说.",
                 !tearup ? "开始" : "",
                 !Hallucination ? "糟糕的" : "精彩的");
         }
         if (!tearup) {
-            You("放弃这个想法。");
+            You("放弃这个想法.");
         } else {
-            You("把它撕碎。");
+            You("把它撕碎.");
             useup(paper);
         }
         return ECMD_TIME;
     } else if (i == SPE_BOOK_OF_THE_DEAD) {
-        pline("没有单单一个冒险家就能写那个.");
+        pline("哪怕是一个会写那个的冒险家都没有.");
         return ECMD_TIME;
     } else if (by_descr && paper->oclass == SPBOOK_CLASS
                && !objects[i].oc_name_known) {
         /* can't write unknown spellbooks by description */
-        pline("不幸的是你没有足够的知识来继续.");
+        pline("不幸的是，你没有足够的知识以继续.");
         return ECMD_TIME;
     }
 
     /* KMH, conduct */
     if (!u.uconduct.literate++)
         livelog_printf(LL_CONDUCT,
-                       "became literate by writing %s", an(typeword));
+                       "因写%s而脱离文盲", an(typeword));
 
     new_obj = mksobj(i, FALSE, FALSE);
     new_obj->bknown = (paper->bknown && pen->bknown);
@@ -255,7 +255,7 @@ dowrite(struct obj *pen)
     /* see if there's enough ink */
     basecost = cost(new_obj);
     if (pen->spe < basecost / 2) {
-        Your("魔笔太干了来写那个!");
+        Your("魔笔太干了，写不了!");
         obfree(new_obj, (struct obj *) 0);
         return ECMD_TIME;
     }
@@ -271,10 +271,10 @@ dowrite(struct obj *pen)
         Your("魔笔干了!");
         /* scrolls disappear, spellbooks don't */
         if (paper->oclass == SPBOOK_CLASS) {
-            pline_The("魔法书未完成且你写的消退了.");
+            pline_The("魔法书没写完，而且你写的字消失了.");
             update_inventory(); /* pen charges */
         } else {
-            pline_The("卷轴现在没用了并消失了!");
+            pline_The("卷轴现在已经没用了，然后消失了!");
             useup(paper);
         }
         obfree(new_obj, (struct obj *) 0);
@@ -319,19 +319,19 @@ dowrite(struct obj *pen)
         && rnl(((Role_if(PM_WIZARD) && paper->oclass != SPBOOK_CLASS)
                 || spell_knowledge == spe_GoingStale)
                ? 5 : 15)) {
-        You("%s去写那个.", by_descr ? "失败了" : "不知道如何");
+        You("%s那个.", by_descr ? "没能成功写出" : "不知道怎么写");
         /* scrolls disappear, spellbooks don't */
         if (paper->oclass == SPBOOK_CLASS) {
             You(
-      "写上你最好的字:  \" 我的日记\", 但它很快消退了.");
+      "写上你最好的字:\"我的日记\",但它很快消退了.");
             update_inventory(); /* pen charges */
         } else {
             if (by_descr) {
                 Strcpy(namebuf, OBJ_DESCR(objects[new_obj->otyp]));
                 wipeout_text(namebuf, (6 + MAXULEV - u.ulevel) / 6, 0);
             } else
-                Sprintf(namebuf, "%s 到此一游!", svp.plname);
-            You("写上 \" %s\"  然后卷轴消失了.", namebuf);
+                Sprintf(namebuf, "%s到此一游!", svp.plname);
+            You("写上\"%s\",然后卷轴消失了.", namebuf);
             useup(paper);
         }
         obfree(new_obj, (struct obj *) 0);
@@ -345,7 +345,7 @@ dowrite(struct obj *pen)
            have passed the write-an-unknown scroll test
            above we can still fail this one, so it's doubly
            hard to write an unknown scroll while blind */
-        You("无法正确地写卷轴然后它消失了.");
+        You("无法正确地写卷轴,然后它消失了.");
         useup(paper);
         obfree(new_obj, (struct obj *) 0);
         return ECMD_TIME;
@@ -357,7 +357,7 @@ dowrite(struct obj *pen)
     /* success */
     if (new_obj->oclass == SPBOOK_CLASS) {
         /* acknowledge the change in the object's description... */
-        pline_The("魔法书奇怪地扭曲, 然后变为%s.",
+        pline_The("魔法书奇怪地扭曲,然后变%s.",
                   new_book_description(new_obj->otyp, namebuf));
     }
     new_obj->blessed = (curseval > 0);
@@ -377,8 +377,8 @@ dowrite(struct obj *pen)
     if (objects[new_obj->otyp].oc_name_known || by_descr)
         observe_object(new_obj);
 
-    new_obj = hold_another_object(new_obj, "Oops!  %s out of your grasp!",
-                                  The(aobjnam(new_obj, "slip")),
+    new_obj = hold_another_object(new_obj, "哦不!%s出了你的手中!",
+                                  The(aobjnam(new_obj, "滑落")),
                                   (const char *) 0);
     nhUse(new_obj); /* try to avoid complaint about dead assignment */
     return ECMD_TIME;
@@ -397,12 +397,12 @@ new_book_description(int booktype, char *outbuf)
     /* subset of description strings from objects.c; if it grows
        much, we may need to add a new flag field to objects[] instead */
     static const char *const compositions[] = {
-        "parchment",
-        "vellum",
-        "cloth",
+        "羊皮纸",
+        "牛皮纸",
+        "布",
 #if 0
-        "canvas", "hardcover", /* not used */
-        "papyrus", /* not applicable--can't be produced via writing */
+        "平装", "精装", /* not used */
+        "莎草纸", /* not applicable--can't be produced via writing */
 #endif /*0*/
         0
     };
@@ -413,7 +413,7 @@ new_book_description(int booktype, char *outbuf)
         if (!strcmpi(descr, *comp_p))
             break;
 
-    Sprintf(outbuf, "%s%s", *comp_p ? "合成 " : "", descr);
+    Sprintf(outbuf, "%s%s", *comp_p ? "成" : "", descr);
     return outbuf;
 }
 

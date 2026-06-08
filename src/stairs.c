@@ -195,8 +195,8 @@ stairs_description(
     const char *stairs, *updown;
 
     tolev = sway->tolev;
-    stairs = sway->isladder ? "ladder" : stcase ? "staircase" : "stairs";
-    updown = sway->up ? "up" : "down";
+    stairs = sway->isladder ? "梯子" : stcase ? "楼梯" : "台阶";
+    updown = sway->up ? "向上" : "向下";
 
     if (!known_branch_stairs(sway)) {
         /* ordinary stairs or branch stairs to not-yet-visited branch */
@@ -206,28 +206,28 @@ stairs_description(
                                     || single_level_branch(&tolev)); /* knox */
             int to_dlev = specialdepth ? dunlev(&tolev) : depth(&tolev);
 
-            Sprintf(eos(outbuf), " 到第 %d 层", to_dlev);
+            Sprintf(eos(outbuf), " 到第%d层", to_dlev);
         }
     } else if (u.uz.dnum == 0 && u.uz.dlevel == 1 && sway->up) {
         /* stairs up from level one are a special case; they are marked
            as having been traversed because the hero obviously started
            the game by coming down them, but the remote side varies
            depending on whether the Amulet is being carried */
-        Sprintf(outbuf, "%s%s %s %s",
-                !u.uhave.amulet ? "" : "分支 ",
-                stairs, updown,
-                !u.uhave.amulet ? "离开地牢"
+        Sprintf(outbuf, "%s的%s的%s%s",
+                !u.uhave.amulet ? "离开地牢" : "分支",
+                updown, stairs, /*修改语序:siatrs, updown*/
+                !u.uhave.amulet ? ""
                 /* minimize our expectations about what comes next */
                 : (on_level(&tolev, &earth_level)
                    || on_level(&tolev, &air_level)
                    || on_level(&tolev, &fire_level)
                    || on_level(&tolev, &water_level))
-                  ? "通往元素位面"
-                  : "前往终局");
+                  ? "(通往元素位面)"
+                  : "(前往终局)");
     } else {
         /* known branch stairs; tacking on destination level is too verbose */
-        Sprintf(outbuf, "分支 %s %s 到 %s",
-                stairs, updown, svd.dungeons[tolev.dnum].dname);
+        Sprintf(outbuf, "分支%s%s(前往%s)",
+                updown, stairs, svd.dungeons[tolev.dnum].dname); /*修改语序:stairs, updown, svd.dungeons[tolev.dnum].dname);*/
         /* dungeons[].dname is capitalized; undo that for "The <Branch>" */
         (void) strsubst(outbuf, "The ", "the ");
     }

@@ -51,7 +51,7 @@ ldrname(void)
 {
     int i = gu.urole.ldrnum;
 
-    Sprintf(gn.nambuf, "%s%s", type_is_pname(&mons[i]) ? "" : "the ",
+    Sprintf(gn.nambuf, "%s%s", type_is_pname(&mons[i]) ? "" : "",
             mons[i].pmnames[NEUTRAL]);
     return gn.nambuf;
 }
@@ -125,7 +125,7 @@ neminame(void)
 {
     int i = gu.urole.neminum;
 
-    Sprintf(gn.nambuf, "%s%s", type_is_pname(&mons[i]) ? "" : "那个",
+    Sprintf(gn.nambuf, "%s%s", type_is_pname(&mons[i]) ? "" : "",
             mons[i].pmnames[NEUTRAL]);
     return gn.nambuf;
 }
@@ -213,9 +213,9 @@ qtext_pronoun(
     if (who == 'o'
         && (strstri(gc.cvt_buf, "Eyes ")
             || strcmpi(gc.cvt_buf, makesingular(gc.cvt_buf)))) {
-        pnoun = (lwhich == 'h') ? "they"
-                : (lwhich == 'i') ? "them"
-                : (lwhich == 'j') ? "their" : "?";
+        pnoun = (lwhich == 'h') ? "他们"
+                : (lwhich == 'i') ? "他们"
+                : (lwhich == 'j') ? "他们" : "?";
     } else {
         godgend = (who == 'd') ? svq.quest_status.godgend
             : (who == 'l') ? svq.quest_status.ldrgend
@@ -252,10 +252,10 @@ convert_arg(char c)
         str = rank_of(MIN_QUEST_LEVEL, Role_switch, flags.female);
         break;
     case 's':
-        str = (flags.female) ? "sister" : "brother";
+        str = (flags.female) ? "姐姐" : "哥哥";
         break;
     case 'S':
-        str = (flags.female) ? "daughter" : "son";
+        str = (flags.female) ? "女儿" : "儿子";
         break;
     case 'l':
         str = ldrname();
@@ -300,16 +300,16 @@ convert_arg(char c)
         str = align_gname(A_LAWFUL);
         break;
     case 'C':
-        str = "chaotic";
+        str = "混乱";
         break;
     case 'N':
-        str = "neutral";
+        str = "中立";
         break;
     case 'L':
-        str = "lawful";
+        str = "守序";
         break;
     case 'x':
-        str = Blind ? "sense" : "see";
+        str = Blind ? "感受" : "看";
         break;
     case 'Z':
         str = svd.dungeons[0].dname;
@@ -392,7 +392,7 @@ convert_line(char *in_line, char *out_line)
                 /* strip any "the" prefix */
                 case 't':
                     if (!strncmpi(gc.cvt_buf, "the ", 4)) {
-                        Strcat(cc, &gc.cvt_buf[4]);
+                        Strcat(cc, &gc.cvt_buf[4]); /*危险:其实没改*/
                         cc += strlen(cc);
                         continue; /* for */
                     }

@@ -155,6 +155,16 @@ artiname(int artinum)
     return artilist[artinum].name;
 }
 
+
+const char *
+artiename(int artinum)
+{
+    if (artinum <= 0 || artinum > NROFARTIFACTS)
+        return "";
+    return artilist[artinum].name; /*待写:return artilist[artinum].name;(artifact.h)*/
+}
+
+
 /*
    Make an artifact.  If a specific alignment is specified, then an object of
    the appropriate alignment is created from scratch, or 0 is returned if
@@ -327,6 +337,33 @@ dispose_of_orig_obj(struct obj *obj)
  */
 const char *
 artifact_name(
+    const char *name, /* string from player that might be an artifact name */
+    short *otyp_p,    /* secondary output */
+    boolean fuzzy)    /* whether to allow extra or omitted spaces or dashes */
+{
+    const struct artifact *a;
+    const char *aname;
+
+    if (!strncmpi(name, "the ", 4))
+        name += 4;
+
+    for (a = artilist + 1; a->otyp; a++) {
+        aname = a->name;
+        if (!strncmpi(aname, "the ", 4))
+            aname += 4;
+        if (!fuzzy ? !strcmpi(name, aname)
+                   : fuzzymatch(name, aname, " -", TRUE)) {
+            if (otyp_p)
+                *otyp_p = a->otyp;
+            return a->name;
+        }
+    }
+
+    return (char *) 0;
+}
+
+const char *
+artifact_ename( /*待写:同artiename*/
     const char *name, /* string from player that might be an artifact name */
     short *otyp_p,    /* secondary output */
     boolean fuzzy)    /* whether to allow extra or omitted spaces or dashes */

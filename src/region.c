@@ -458,7 +458,7 @@ run_regions(void)
     }
 
     if (gg.gas_cloud_diss_within) {
-        pline_The("你周围的毒气云消散了。");
+        pline_The("你周围的毒气云消散了.");
         /* normally won't see additional dissipation when within */
         /* FIXME? this assumes that additional dissipation is close by */
         if (u.xray_range <= 1)
@@ -466,8 +466,8 @@ run_regions(void)
         gg.gas_cloud_diss_within = FALSE;
     }
     if (gg.gas_cloud_diss_seen) {
-        You_see("%s毒气云%s消散。",
-                (gg.gas_cloud_diss_seen == 1) ? "一团" : "一些",
+        You_see("%s毒气云%s消散了.",
+                (gg.gas_cloud_diss_seen == 1) ? "一团" : "几团",
                 plur(gg.gas_cloud_diss_seen));
         gg.gas_cloud_diss_seen = 0;
     }
@@ -685,7 +685,7 @@ visible_region_summary(winid win)
 
         if (!hdr_done++) {
             putstr(win, 0, "");
-            putstr(win, 0, "Visible regions");
+            putstr(win, 0, "可见区域");
         }
         /*
          * TODO? sort the regions by time-to-live or by bounding box.
@@ -699,7 +699,7 @@ visible_region_summary(winid win)
         Sprintf(buf, "%5ld", reg->ttl + 1L);
         damg = reg->arg.a_int;
         if (damg)
-            Sprintf(typbuf, "毒气 (%d)", damg);
+            Sprintf(typbuf, "毒气(%d)", damg);
         else
             Strcpy(typbuf, "蒸汽");
         Sprintf(eos(buf), "%s%-16s", fldsep, typbuf);
@@ -1111,22 +1111,22 @@ inside_gas_cloud(genericptr_t p1, genericptr_t p2)
         if (m_poisongas_ok(&gy.youmonst) == M_POISONGAS_OK)
             return FALSE;
         if (!Blind) {
-            Your("%s 刺痛.", makeplural(body_part(EYE)));
+            Your("的%s正在刺痛.", makeplural(body_part(EYE)));
             make_blinded(1L, FALSE);
         }
         if (!Poison_resistance) {
-            pline("%s 在烧你的 %s!", Something,
+            pline("%s在烧你的%s!", Something,
                   makeplural(body_part(LUNG)));
-            You("咳嗽并咳出了血!");
+            You("咳了一下并吐出血来!");
             wake_nearto(u.ux, u.uy, 2);
             dam = Maybe_Half_Phys(rnd(dam) + 5);
             if (Half_gas_damage) /* worn towel */
                 dam = (dam + 1) / 2;
-            losehp(dam, "gas cloud", KILLED_BY_AN);
+            losehp(dam, "毒气云", KILLED_BY_AN);
             monstunseesu(M_SEEN_POISON);
             return FALSE;
         } else {
-            You("咳嗽!");
+            You("咳了一下!");
             wake_nearto(u.ux, u.uy, 2);
             monstseesu(M_SEEN_POISON);
             return FALSE;
@@ -1138,7 +1138,7 @@ inside_gas_cloud(genericptr_t p1, genericptr_t p2)
             if (!is_silent(mtmp->data)) {
                 if (cansee(mtmp->mx, mtmp->my)
                     || (distu(mtmp->mx, mtmp->my) < 8))
-                    pline("%s 咳嗽!", Monnam(mtmp));
+                    pline("%s咳了一下!", Monnam(mtmp));
                 wake_nearto(mtmp->mx, mtmp->my, 2);
             }
             if (heros_fault(reg))
@@ -1154,7 +1154,7 @@ inside_gas_cloud(genericptr_t p1, genericptr_t p2)
                 if (heros_fault(reg))
                     killed(mtmp);
                 else
-                    monkilled(mtmp, "gas cloud", AD_DRST);
+                    monkilled(mtmp, "毒气云", AD_DRST);
                 if (DEADMONSTER(mtmp)) { /* not lifesaved */
                     return TRUE;
                 }
@@ -1195,7 +1195,7 @@ make_gas_cloud(
     add_region(cloud);
 
     if (!gi.in_mklev && !inside_cloud && is_hero_inside_gas_cloud()) {
-        You("你被一团%s包围！",
+        You("你被一团%s包围!",
             /* FIXME: "steam" is wrong if this cloud is just the trail of
                a fog cloud's movement; changing to "vapor" would handle
                that but seems a step backward when it really is steam */
@@ -1390,7 +1390,7 @@ region_safety(void)
         if (region_danger()) {
             set_itimeout(&HMagical_breathing, (long) (d(4, 4) + 4));
             /* not already Breathless or wouldn't be in region danger */
-            You_feel("能够呼吸了。");
+            You_feel("能够呼吸了.");
         }
     } else if (r) {
         remove_region(r);

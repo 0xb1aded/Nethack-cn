@@ -123,7 +123,7 @@
         SIZ(200, 50, MS_SILENT, MZ_LARGE), MR_POISON, MR_POISON,
         M1_ANIMAL | M1_NOHANDS | M1_POIS | M1_CARNIVORE, M2_HOSTILE, 0,
         6, CLR_BLACK, GIANT_BEETLE),
-    MON(NAM("queen bee"), NAM("蜂王"), S_ANT,
+    MON(NAM("queen bee"), NAM("蜂后"), S_ANT,
         LVL(9, 24, -4, 0, 0), (G_GENO | G_NOGEN),
         A(ATTK(AT_STNG, AD_DRST, 1, 8),
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
@@ -2746,7 +2746,7 @@
     /* aligned priests always have the epri extension attached;
        individual instantiations should always have either ispriest
        or isminion set; role monster priests are separate (below) */
-    MON(NAMS("priest", "priestess", "aligned cleric"), NAMS("牧师", "女牧师", "阵营牧师"), S_HUMAN,
+    MON(NAMS("priest", "priestess", "aligned cleric"), NAMS("男牧师", "女牧师", "阵营牧师"), S_HUMAN,
         LVL(12, 12, 10, 50, 0), G_NOGEN,
         A(ATTK(AT_WEAP, AD_PHYS, 4, 10), ATTK(AT_KICK, AD_PHYS, 1, 4),
           ATTK(AT_MAGC, AD_CLRC, 0, 0), NO_ATTK, NO_ATTK, NO_ATTK),
@@ -2757,7 +2757,7 @@
         15, CLR_WHITE, ALIGNED_CLERIC),
     /* high priests always have epri and always have ispriest set;
        they are flagged as unique even through they aren't */
-    MON(NAMS("high priest", "high priestess", "high cleric"), NAMS("高级祭司", "高级女祭司", "高级祭司"), S_HUMAN,
+    MON(NAMS("high priest", "high priestess", "high cleric"), NAMS("高级男祭司", "高级女祭司", "高级祭司"), S_HUMAN,
         LVL(25, 15, 7, 70, 0), (G_NOGEN | G_UNIQ),
         A(ATTK(AT_WEAP, AD_PHYS, 4, 10), ATTK(AT_KICK, AD_PHYS, 2, 8),
           ATTK(AT_MAGC, AD_CLRC, 2, 8), ATTK(AT_MAGC, AD_CLRC, 2, 8),
@@ -2868,7 +2868,7 @@
         M3_INFRAVISIBLE,
         22, HI_LORD, CROESUS),
 #ifdef CHARON
-    MON(NAM("Charon"), NAM("卡隆"), S_HUMAN,
+    MON(NAM("Charon"), NAM("喀戎"), S_HUMAN,
         LVL(76, 18, -5, 120, 0), (G_HELL | G_NOCORPSE | G_NOGEN | G_UNIQ),
         A(ATTK(AT_WEAP, AD_PHYS, 1, 8), ATTK(AT_TUCH, AD_PLYS, 1, 8),
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
@@ -3358,7 +3358,7 @@
         M1_HUMANOID | M1_OMNIVORE,
         M2_NOPOLY | M2_HUMAN | M2_STRONG | M2_COLLECT, M3_INFRAVISIBLE,
         12, HI_DOMESTIC, BARBARIAN),
-    MON(NAMS("caveman", "cavewoman", "cave dweller"), NAMS("穴居人", "女穴居人", "穴居人"), S_HUMAN,
+    MON(NAMS("caveman", "cavewoman", "cave dweller"), NAMS("男穴居人", "女穴居人", "穴居人"), S_HUMAN,
         LVL(10, 12, 10, 0, 1), G_NOGEN,
         A(ATTK(AT_WEAP, AD_PHYS, 2, 4),
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
@@ -3393,7 +3393,7 @@
         M3_INFRAVISIBLE,
         11, HI_DOMESTIC, MONK),
     /* monster priests are separate monsters (above; "aligned cleric") */
-    MON(NAMS("priest", "priestess", "cleric"), NAMS("牧师", "女牧师", "牧师"), S_HUMAN,
+    MON(NAMS("priest", "priestess", "cleric"), NAMS("男祭司", "女祭司", "祭司"), S_HUMAN,
         LVL(10, 12, 10, 2, 0), G_NOGEN,
         A(ATTK(AT_WEAP, AD_PHYS, 1, 6), ATTK(AT_MAGC, AD_CLRC, 0, 0),
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
