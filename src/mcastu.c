@@ -329,7 +329,7 @@ touch_of_death(struct monst *mtmp)
     /* if we get here, we know that hero isn't magic resistant and isn't
        poly'd into an undead or demon */
     You_feel("被吸干了...");
-    (void) death_inflicted_by(kbuf, "the touch of death", mtmp);
+    (void) death_inflicted_by(kbuf, "死亡之触", mtmp);
 
     if (Upolyd) {
         u.mh = 0;
@@ -360,7 +360,7 @@ death_inflicted_by(
     const char *deathreason, /* cause of death */
     struct monst *mtmp)      /* monster who caused it */
 {
-    Strcpy(outbuf, ""); /*危险:Strcpy(outbuf, deathreason);*/
+    Strcpy(outbuf, deathreason); /*修改语序:Sprintf(eos(outbuf), "%s", deathreason);*/
     if (mtmp) {
         struct permonst *mptr = mtmp->data,
             *champtr = (ismnum(mtmp->cham)) ? &mons[mtmp->cham] : mptr;
@@ -373,10 +373,10 @@ death_inflicted_by(
            can't cast spells */
         if (!type_is_pname(champtr) && !the_unique_pm(mptr))
             realnm = an(realnm);
-        Sprintf(eos(outbuf), "%s", ",由"); /*修改语序:Sprintf(eos(outbuf), ",由%s%s导致",*/
-        if (champtr != mptr){ /*修改语序:the_unique_pm(mptr) ? "" : "", realnm);*/
-            Sprintf(eos(outbuf), "模仿成%s的", an(fakenm));}/*修改语序:if (champtr != mptr)*/
-        Sprintf(eos(outbuf), "%s%s导致", the_unique_pm(mptr) ? "" : "", realnm); /*修改语序:Sprintf(eos(outbuf), "(模仿成%s)", an(fakenm));*/ Sprintf(eos(outbuf), "%s", deathreason); /*危险:原来没有*/
+        Sprintf(eos(outbuf), ", 由%s", realnm); /*修改语序:Sprintf(eos(outbuf), "%s%s导致", the_unique_pm(mptr) ? "" : "", realnm);*/
+        if (champtr != mptr)
+            Sprintf(eos(outbuf), "(模仿成%s)", an(fakenm)); /*修改语序:Sprintf(eos(outbuf), "模仿成%s的", an(fakenm));*/
+        Strcat(outbuf, "造成");
     }
     return outbuf;
 }
@@ -479,7 +479,7 @@ mcast_weaken_you(struct monst *mtmp, int dmg)
         if (Half_spell_damage)
             dmg = (dmg + 1) / 2;
         losestr(rnd(dmg),
-                death_inflicted_by(kbuf, "strength loss", mtmp),
+                death_inflicted_by(kbuf, "力量流失", mtmp),
                 KILLED_BY);
         svk.killer.name[0] = '\0'; /* not killed if we get here... */
         monstunseesu(M_SEEN_MAGR);
