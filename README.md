@@ -33,6 +33,8 @@ English README：[README_en.md](README_en.md)
 
 [讨论怪物简中译名](https://github.com/StackC00ki3/Nethack-cn/discussions/4)
 
+[讨论通用译名](https://github.com/StackC00ki3/Nethack-cn/discussions/7)
+
 #### 代码规范
 
 如果要修改语序（变量在字符串中出现的顺序），请在行最后添加注释：/*修改语序:(修改前的代码)*/
