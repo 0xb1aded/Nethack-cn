@@ -917,17 +917,17 @@ arti_light_description(struct obj *obj)
 {
     switch (arti_light_radius(obj)) {
     case 4:
-        return "radiantly"; /* blessed gold dragon scale mail */
+        return "辉煌"; /* blessed gold dragon scale mail */
     case 3:
-        return "brilliantly"; /* blessed artifact, uncursed gold DSM */
+        return "灿烂"; /* blessed artifact, uncursed gold DSM */
     case 2:
-        return "brightly"; /* uncursed artifact, cursed gold DSM */
+        return "明亮"; /* uncursed artifact, cursed gold DSM */
     case 1:
-        return "dimly"; /* cursed artifact, embedded scales */
+        return "依稀"; /* cursed artifact, embedded scales */
     default:
         break;
     }
-    return "strangely";
+    return "奇异";
 }
 
 /* the #lightsources command */
@@ -942,7 +942,7 @@ wiz_light_sources(void)
     if (win == WIN_ERR)
         return ECMD_OK;
 
-    Sprintf(buf, "移动光源：英雄 @ (%2d,%2d)", u.ux, u.uy);
+    Sprintf(buf, "Mobile light sources: hero @ (%2d,%2d)", u.ux, u.uy);
     putstr(win, 0, buf);
     putstr(win, 0, "");
 
@@ -953,12 +953,12 @@ wiz_light_sources(void)
             Sprintf(buf, "  %2d,%2d   %2d   0x%04x  %s  %s", ls->x, ls->y,
                     ls->range, ls->flags,
                     (ls->type == LS_OBJECT
-                       ? "物体"
+                       ? "obj"
                        : ls->type == LS_MONSTER
                           ? (mon_is_local(ls->id.a_monst)
-                             ? "怪物"
+                             ? "mon"
                              : (ls->id.a_monst == &gy.youmonst)
-                                ? "玩家"
+                                ? "you"
                                 /* migrating monster */
                                 : "<m>")
                           : "???"),
