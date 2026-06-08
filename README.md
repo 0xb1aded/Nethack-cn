@@ -102,7 +102,7 @@ English README：[README_en.md](README_en.md)
 - [ ] iactions.c
 - [ ] insight.c
 - [ ] invent.c
-- [ ] isaac64.c
+- [x] isaac64.c
 - [ ] light.c
 - [ ] lock.c
 - [ ] mail.c
@@ -125,8 +125,8 @@ English README：[README_en.md](README_en.md)
 - [ ] mthrowu.c
 - [ ] muse.c
 - [ ] music.c
-- [ ] nhlobj.c
-- [ ] nhlsel.c
+- [x] nhlobj.c
+- [x] nhlsel.c
 - [x] nhlua.c
 - [ ] nhmd4.c
 - [ ] objects.c
@@ -310,4 +310,4 @@ English README：[README_en.md](README_en.md)
 
 功能: 寻找适合obj_ok行为的所有物品供玩家选择（若没有则默认展示所有物品）。
 
-**处理方案**: 这个\*word对字符串不敏感。它会问你："你想要"+传入的\*word+"?"（汉语的这个地方填的词可能是离合的，如：“写在什么上”）。
+**处理方案**: 这个\*word对字符串不敏感。它会问你："你想要"+传入的\*word+"?"（汉语的这个地方填的词可能是离合的，如：“写在什么上面”）。注意此处填写的词应该保证去掉“什么”后仍通顺。“你想要**写在**什么**上**”和“你想要**写在**什么**上面**”都是合理的，但是“你没有可以**写在上**的东西”就不如“你没有可以**写在上面**的东西”通顺。

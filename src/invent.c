@@ -1910,7 +1910,9 @@ getobj(
     *ap = '\0';
 
     if (suggested == 0 && !forceprompt && !allownone) {
-        You("没有%s可以%s的东西.", inaccess ? "别的" : "", strsubst(word, "什么", ""));
+        char wordbuf[BUFSZ]; /*危险*/
+        Strcpy(wordbuf, word);
+        You("没有%s可以%s的东西.", inaccess ? "别的" : "", strsubst(wordbuf, "什么", ""));
         return (struct obj *) 0;
     }
     for (;;) {
