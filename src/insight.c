@@ -930,7 +930,7 @@ one_characteristic(int mode, int final, int attrindx)
             /* paren_pfx = ", "; */
         }
         if (acurrent != abase || abase != apeak || interesting_alimit)
-            Strcat(valubuf, " (左");
+            Strcat(valubuf, ")");
     }
     enl_msg(subjbuf, "is ", "was ", valubuf, "");
 }
@@ -3285,7 +3285,7 @@ mstatusline(struct monst *mtmp)
             if (!mtmp->isminion)
                 Sprintf(eos(info), "; 饥饿度 %ld; 叼取值 %d",
                         EDOG(mtmp)->hungrytime, EDOG(mtmp)->apport);
-            Strcat(info, " (左");
+            Strcat(info, ")");
         }
     } else if (mtmp->mpeaceful)
         Strcat(info, ", 和平的");

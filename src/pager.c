@@ -1604,7 +1604,7 @@ do_screen_description(
             if (*(*firstmatch)) {
                 Sprintf(temp_buf, " (%s", *firstmatch);
                 (void) add_quoted_engraving(cc.x, cc.y, temp_buf, FALSE);
-                Strcat(temp_buf, " (左");
+                Strcat(temp_buf, ")");
                 (void) strncat(out_str, temp_buf,
                                BUFSZ - strlen(out_str) - 1);
                 found = 1; /* we have something to look up */
