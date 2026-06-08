@@ -722,7 +722,7 @@ doconsult(struct monst *oracl)
         return ECMD_OK;
     case 'y':
         if (umoney < (long) minor_cost) {
-            You("你没有足够的金币来支付这个!");
+            You("没有足够的金币来支付这个!");
             return ECMD_OK;
         }
         u_pay = minor_cost;

@@ -1611,7 +1611,7 @@ dospinweb(void)
     }
     ttmp = maketrap(x, y, WEB);
     if (ttmp) {
-        You("你吐出一张网.");
+        You("吐出一张网.");
         ttmp->madeby_u = 1;
         feeltrap(ttmp);
         if (*in_rooms(x, y, SHOPBASE))

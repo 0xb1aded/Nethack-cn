@@ -2635,7 +2635,7 @@ dozap(void)
     }
     if (check_capacity((char *) 0))
         return ECMD_OK;
-    obj = getobj("挥舞什么魔杖", zap_ok, GETOBJ_NOFLAGS);
+    obj = getobj("挥舞什么", zap_ok, GETOBJ_NOFLAGS); /*待写:离合*/
     if (!obj)
         return ECMD_CANCEL;
 
@@ -4642,7 +4642,7 @@ burn_floor_objects(
                 cnt += delquan;
                 if (give_feedback) {
                     if (delquan > 1L)
-                        pline("%ld%s在燃烧.", delquan, buf2);
+                        pline("%ld %s在燃烧.", delquan, buf2);
                     else
                         pline("%s在燃烧.", An(buf1));
                 }

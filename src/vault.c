@@ -1215,7 +1215,7 @@ paygd(boolean silently)
 
     if (u.uinvault) {
         if (!silently)
-            Your("%ld%s进入了魔力的记忆金库.",
+            Your("%ld %s进入了魔力的记忆金库.",
                  umoney, currency(umoney));
         gdx = u.ux;
         gdy = u.uy;

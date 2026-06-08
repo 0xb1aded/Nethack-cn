@@ -607,8 +607,8 @@ u_left_shop(char *leavestring, boolean newlev)
         boolean not_upset = !eshkp->surcharge;
         if (!Deaf && !muteshk(shkp)) {
             SetVoice(shkp, 0, 80, 0);
-            verbalize(not_upset ? "%s!请先付款再离开."
-                                : "%s!离开前先付款!",
+            verbalize(not_upset ? "%s! 请先付款再离开."
+                                : "%s! 离开前先付款!",
                       svp.plname);
         } else {
             pline("%s%s你需要先付款再离开%s",
@@ -655,7 +655,7 @@ credit_report(struct monst *shkp, int idx, boolean silent)
             amt = credit_snap[NOW][2] - credit_snap[BEFORE][2];
         }
         if (amt)
-            Your("%s%ld%s.", msg, amt, currency(amt));
+            Your("%s%ld %s.", msg, amt, currency(amt));
 
     }
 }
@@ -693,7 +693,7 @@ rob_shop(struct monst *shkp)
     rouse_shk(shkp, TRUE);
     total = (addupbill(shkp) + eshkp->debit);
     if (eshkp->credit >= total) {
-        Your("%ld%s的信用补上了.",
+        Your("%ld %s的信用补上了.",
              eshkp->credit, currency(eshkp->credit));
         total = 0L; /* credit gets cleared by setpaid() */
     } else {
@@ -706,8 +706,8 @@ rob_shop(struct monst *shkp)
 
     /* by this point, we know an actual robbery has taken place */
     eshkp->robbed += total;
-    You("偷走了价值%ld%s的商品.", total, currency(total));
-    livelog_printf(LL_ACHIEVE, "从%s的%s偷走了价值%ld%s的商品",
+    You("偷走了价值%ld %s的商品.", total, currency(total));
+    livelog_printf(LL_ACHIEVE, "从%s的%s偷走了价值%ld %s的商品",
                    s_suffix(shkname(shkp)), shtypes[eshkp->shoptype - SHOPBASE].name, /*修改语序total, currency(total), s_suffix(shkname(shkp)),*/
                    total, currency(total)); /*修改语序:shtypes[eshkp->shoptype - SHOPBASE].name);*/
 
@@ -802,7 +802,7 @@ u_entered_shop(char *enterstring)
             SetVoice(shkp, 0, 80, 0);
             verbalize("不欢迎隐形顾客!");
         } else {
-            pline("%s站得笔直, 就好像%s知道你在那里.",
+            pline("%s站得笔直,就好像%s知道你在那里.",
                   Shknam(shkp), noit_mhe(shkp));
         }
         return;
@@ -813,17 +813,17 @@ u_entered_shop(char *enterstring)
     if (ANGRY(shkp)) {
         if (!Deaf && !muteshk(shkp)) {
             SetVoice(shkp, 0, 80, 0);
-            verbalize("所以, %s, 你还敢回到%s的%s?!", svp.plname,
+            verbalize("所以,%s,你还敢回到%s的%s?!", svp.plname,
                       s_suffix(shkname(shkp)), shtypes[rt - SHOPBASE].name);
         } else {
-            pline("你回到%s的%s时, %s看起来%s!",
+            pline("你回到%s的%s时,%s看起来%s!",
                   noit_mhis(shkp), shtypes[rt - SHOPBASE].name, /*修改语序:Shknam(shkp), ROLL_FROM(angrytexts),*/
                   Shknam(shkp), ROLL_FROM(angrytexts)); /*修改语序:noit_mhis(shkp), shtypes[rt - SHOPBASE].name);*/
         }
     } else if (eshkp->surcharge) {
         if (!Deaf && !muteshk(shkp)) {
             SetVoice(shkp, 0, 80, 0);
-            verbalize("又回来了, %s? 我一直盯着你呢%s.",
+            verbalize("又回来了,%s? 我一直盯着你呢%s.",
                       svp.plname, mbodypart(shkp, EYE) ? "" : ""); /*危险:svp.plname, mbodypart(shkp, EYE));*/
         } else {
             pline_The("%s的%s的气氛似乎不太友好.",
@@ -841,7 +841,7 @@ u_entered_shop(char *enterstring)
     } else {
         if (!Deaf && !muteshk(shkp)) {
             set_voice(shkp, 0, 80, 0);
-            verbalize("%s,%s!欢迎%s来到%s的%s!", Hello(shkp), svp.plname,
+            verbalize("%s,%s! 欢迎%s来到%s的%s!", Hello(shkp), svp.plname,
                       eshkp->visitct++ ? "再次" : "",
                       s_suffix(shkname(shkp)), shtypes[rt - SHOPBASE].name);
         } else {
@@ -933,7 +933,7 @@ pick_pick(struct obj *obj)
         if (svm.moves != pickmovetime) {
             if (!Deaf && !muteshk(shkp)) {
                 SetVoice(shkp, 0, 80, 0);
-                verbalize("你个狡猾的%s!快带着那把镐子滚出去!",
+                verbalize("你个狡猾的%s! 快带着那把镐子滚出去!",
                       cad(FALSE));
             } else {
                 pline("%s%s你的镐子!",
@@ -1022,13 +1022,13 @@ shopper_financial_report(void)
                 continue;
             eshkp = ESHK(shkp);
             if ((amt = eshkp->credit) != 0)
-                You("在%s的%s有%ld%s信用.", s_suffix(shkname(shkp)), shtypes[eshkp->shoptype - SHOPBASE].name, /*修改语序:You("有%ld%s信用在%s的%s.", amt, currency(amt),*/
+                You("在%s的%s有%ld %s信用.", s_suffix(shkname(shkp)), shtypes[eshkp->shoptype - SHOPBASE].name, /*修改语序:You("有%ld %s信用在%s的%s.", amt, currency(amt),*/
                     amt, /*修改语序:s_suffix(shkname(shkp)),*/
                     currency(amt)); /*修改语序:shtypes[eshkp->shoptype - SHOPBASE].name);*/
             else if (shkp == this_shkp)
                 You("在这里没有信用.");
             if ((amt = shop_debt(eshkp)) != 0)
-                You("欠%s%ld%s.", shkname(shkp), amt, currency(amt));
+                You("欠%s%ld %s.", shkname(shkp), amt, currency(amt));
             else if (shkp == this_shkp)
                 You("在这里没有欠钱.");
         }
@@ -1879,7 +1879,7 @@ dopay(void)
                 pline("但是你有些金币藏起来了.");
         } else {
             if (umoney > ltmp) {
-                You("按照%s的要求给了%s%ld%s.", /*修改语序:You("给%s%ld%s%s所要求的.",*/
+                You("按照%s的要求给了%s%ld %s.", /*修改语序:You("给%s%ld %s%s所要求的.",*/
                     shkname(shkp), noit_mhe(shkp), ltmp, plur(ltmp)); /*修改语序:shkname(shkp), ltmp, plur(ltmp), noit_mhe(shkp));*/
                 pay(ltmp, shkp);
             } else {
@@ -1967,7 +1967,7 @@ dopay(void)
         } else {
             Sprintf(sbuf, "因你使用过商品,");
         }
-        Snprintf(sbuf, sizeof sbuf, "你需支付%s%ld%s.", shkname(shkp), dtmp,
+        Snprintf(sbuf, sizeof sbuf, "你需支付%s%ld %s.", shkname(shkp), dtmp,
                 currency(dtmp)); /*修改语序:移到if(loan)前面*/
         pline1(sbuf);
         if (umoney + eshkp->credit < dtmp) {
@@ -2074,7 +2074,7 @@ pay_billed_items(
                         we can deduce that it is ibill[0] */
                      || ibill[0].usedup == UndisclosedContainer);
     if ((umoney + eshkp->credit) < cheapest_item(ibillct, ibill)) {
-        You("你没有足够的金币来购买%s%s物品%s.",
+        You("没有足够的金币来购买%s%s物品%s.",
             more_than_one ? "任何" : "", (ebillct > 1) ? "你挑选的" : "账单上的", /*修改语序:more_than_one ? "任何" : "", plur(more_than_one ? 2 : 1),*/
             plur(more_than_one ? 2 : 1)); /*修改语序:(ebillct > 1) ? "你挑选的" : "账单上的");*/
         if (stashed_gold)
@@ -2268,7 +2268,7 @@ dopayobj(
          *  'a' to buy the rest without asking, 'q' to just stop.
          */
 
-        Sprintf(qsfx, "%ld%s.支付吗?", ltmp, currency(ltmp));
+        Sprintf(qsfx, "%ld %s. 支付吗?", ltmp, currency(ltmp));
         (void) safe_qbuf(qbuf, (char *) 0, qsfx, obj,
                          (quan == 1L) ? Doname2 : doname, ansimpleoname,
                          (quan == 1L) ? "那个" : "那些");
@@ -2657,7 +2657,7 @@ inherits(
             money2mon(shkp, loss);
             disp.botl = TRUE;
             if (!silently)
-                pline("%s%s%s欠%s的%ld%s.", Shknam(shkp), /*修改语序:pline("%s%s%ld%s%s欠%s的.", Shknam(shkp),*/
+                pline("%s%s%s欠%s的%ld %s.", Shknam(shkp), /*修改语序:pline("%s%s%ld %s%s欠%s的.", Shknam(shkp),*/
                       takes, strncmp(eshkp->customer, svp.plname, PL_NSIZ) ? "" /*修改语序:strncmp(eshkp->customer, svp.plname, PL_NSIZ) ? ""*/
                         : "你", noit_mhim(shkp), /*修改语序:takes, loss, currency(loss),*/
                       loss, /*修改语序:  : "你",*/
@@ -3133,7 +3133,7 @@ special_stock(
             } else {
                 if (!Deaf && !muteshk(shkp)) {
                     SetVoice(shkp, 0, 80, 0);
-                    verbalize("我不会进这种货.把它拿走!");
+                    verbalize("我不会进这种货. 把它拿走!");
                 } else {
                     pline("%s摇了摇%s的%s拒绝.",
                           Shknam(shkp), noit_mhis(shkp),
@@ -3563,7 +3563,7 @@ addtobill(
             return;
         }
         if (!ininv) {
-            pline("%s%s花费%ld%s.",  (obj->quan > 1L) ? "每个" : "", The(xname(obj)), ltmp, /*修改语序:pline("%s花费%ld%s%s.", The(xname(obj)), ltmp,*/
+            pline("%s%s花费%ld %s.",  (obj->quan > 1L) ? "每个" : "", The(xname(obj)), ltmp, /*修改语序:pline("%s花费%ld %s%s.", The(xname(obj)), ltmp,*/
                   currency(ltmp)); /*修改语序:currency(ltmp), (obj->quan > 1L) ? "每个" : "");*/
         } else {
             long save_quan = obj->quan;
@@ -3578,7 +3578,7 @@ addtobill(
             }
             obj->quan = 1L; /* fool xname() into giving singular */
             set_voice(shkp, 0, 80, 0);
-            pline("%s需要为%s%s%s支付%ld%s.\"", buf, (save_quan > 1L) ? "每个"
+            pline("%s需要为%s%s%s支付%ld %s.\"", buf, (save_quan > 1L) ? "每个"
                                    : (contentscount && !obj->unpaid)
                                        ? "这个"
                                        : "这个",
@@ -3590,7 +3590,7 @@ addtobill(
     } else if (!silent) {
         if (ltmp) {
             set_voice(shkp, 0, 80, 0);
-            pline_The("%s%s%s%s的标价为%ld%s.",
+            pline_The("%s%s%s%s的标价为%ld %s.",
                       (obj->quan > 1L) ? "每个" : "", (contentscount && !obj->unpaid) ? "" : "", /*修改语序:(contentscount && !obj->unpaid) ? "" : "",*/
                       the(xname(obj)),
                       (contentscount && obj->unpaid) ? and_its_contents : the_contents_of, /*危险:(contentscount && obj->unpaid) ? and_its_contents : "",*/
@@ -3836,7 +3836,7 @@ stolen_value(
 
             if (credit_use) {
                 if (ESHK(shkp)->credit) {
-                    You("剩余%ld%s信用.", ESHK(shkp)->credit,
+                    You("剩余%ld %s信用.", ESHK(shkp)->credit,
                         currency(ESHK(shkp)->credit));
                     return value;
                 } else if (!value) {
@@ -3852,7 +3852,7 @@ stolen_value(
             else if (obj->oclass != COIN_CLASS)
                 Sprintf(eos(buf), "为了购买它%s",
                         (obj->quan > 1L) ? "们" : "");
-            Sprintf(buf, "%s,你需支付%s%ld%s", still, shkname(shkp), /*修改语序:3848*/
+            Sprintf(buf, "%s,你需支付%s%ld %s", still, shkname(shkp), /*修改语序:3848*/
                     value, currency(value));
 
             You("%s!", buf); /* "You owe <shk> N zorkmids for it!" */
@@ -3903,10 +3903,10 @@ donate_gold(
             Your("负债已还清.");
         }
         if (eshkp->credit == delta)
-            You("已%s存储%ld%s信用.",
+            You("已%s存储%ld %s信用.",
                 !selling ? "重新" : "", delta, currency(delta));
         else
-            pline("%ld%s已添加%s你的信用中;现在总计为%ld%s.",
+            pline("%ld %s已添加%s你的信用中;现在总计为%ld %s.",
                   delta, currency(delta), !selling ? "回" : "到",
                   eshkp->credit, currency(eshkp->credit));
     }
@@ -4055,7 +4055,7 @@ sellobj(
             c = gs.sell_response = 'y';
         } else if (gs.sell_response != 'n') {
             pline("%s现在不能付给你.", Shknam(shkp));
-            Sprintf(qbuf, "你能否接受存储%ld%s的信用作为", tmpcr,
+            Sprintf(qbuf, "你能否接受存储%ld %s的信用作为", tmpcr,
                     currency(tmpcr));
             record_price_quote(obj->otyp, tmpcr / obj->quan, FALSE);
             c = ynaq(safe_qbuf(qbuf, qbuf, "的报酬?", obj, doname, thesimpleoname,
@@ -4137,7 +4137,7 @@ sellobj(
                when container's contents are unknown, plural "items"
                should be used to not give away information.
              */
-            Sprintf(qbuf, "%s出价%s%ld金币%s购买%s%s ",
+            Sprintf(qbuf, "%s出价%s%ld金币%s购买%s%s",
                     Shknam(shkp), short_funds ? "仅" : "", offer,
                     plur(offer),
                     (cltmp && !ltmp)
@@ -4145,7 +4145,7 @@ sellobj(
                         : "",
                     obj->unpaid ? "该" : "你的");
             one = !ltmp ? (yourc == 1L) : (obj->quan == 1L && !cltmp);
-            Sprintf(qsfx, "%s.卖出%s?",
+            Sprintf(qsfx, "%s. 卖出%s?",
                     (cltmp && ltmp)
                         ? (only_partially_your_contents
                                ? ((yourc == 1L) ? " 及其部分内容物"
@@ -4907,7 +4907,7 @@ shk_move(struct monst *shkp)
             if (strncmp(eshkp->customer, svp.plname, PL_NSIZ)) {
                 if (!Deaf && !muteshk(shkp)) {
                     SetVoice(shkp, 0, 80, 0);
-                    verbalize("%s,%s!我正等着%s来呢.", Hello(shkp),
+                    verbalize("%s,%s! 我正等着%s来呢.", Hello(shkp),
                               svp.plname, eshkp->customer);
                 }
                 eshkp->following = 0;
@@ -4916,7 +4916,7 @@ shk_move(struct monst *shkp)
             if (svm.moves > gf.followmsg + 4) {
                 if (!Deaf && !muteshk(shkp)) {
                     SetVoice(shkp, 0, 80, 0);
-                    verbalize("%s,%s!你是不是忘了付钱了?",
+                    verbalize("%s,%s! 你是不是忘了付钱了?",
                               Hello(shkp), svp.plname);
                 } else {
                     pline("%s掌心朝上,伸出了%s的%s.",
@@ -5304,7 +5304,7 @@ pay_for_damage(const char *dmgstr, boolean cant_mollify)
 
     if (Invis)
         Your("隐形可骗不过%s!", shkname(shkp));
-    Sprintf(qbuf, "%s你造成了价值%ld%s的损失!%s是否赔偿?",
+    Sprintf(qbuf, "%s你造成了价值%ld %s的损失! %s是否赔偿?",
             !animal ? cad(TRUE) : "", cost_of_damage,
             currency(cost_of_damage), !animal ? "\"" : "");
     if (y_n(qbuf) != 'n') {
@@ -5335,7 +5335,7 @@ pay_for_damage(const char *dmgstr, boolean cant_mollify)
         if (!animal) {
             if (!Deaf && !muteshk(shkp)) {
                 SetVoice(shkp, 0, 80, 0);
-                verbalize("哦,对!这是你应赔的!");
+                verbalize("哦,对! 这是你应赔的!");
             } else {
                 pline("%s把%s的%s伸向了你的%s!",
                       Shknam(shkp), noit_mhis(shkp),
@@ -5439,7 +5439,7 @@ price_quote(struct obj *first_obj)
             Strcpy(price, "免费");
             contentsonly = FALSE;
         } else {
-            Sprintf(price, "%s%ld%s", (otmp->quan) > 1L ? " 每个" : "", cost, /*修改语序:Sprintf(price, "%ld%s%s", cost, currency(cost),*/
+            Sprintf(price, "%s%ld %s", (otmp->quan) > 1L ? " 每个" : "", cost, /*修改语序:Sprintf(price, "%ld %s%s", cost, currency(cost),*/
                     currency(cost)); /*修改语序:(otmp->quan) > 1L ? " 每个" : "");*/
         }
         Sprintf(buf, "%s%s,%s", contentsonly ? the_contents_of : "",
@@ -5459,7 +5459,7 @@ price_quote(struct obj *first_obj)
             Sprintf(buf, "%s%s", contentsonly ? the_contents_of : "",
                     doname(first_obj));
             SetVoice(shkp, 0, 80, 0);
-            verbalize("%s,价格%s%ld%s%s", upstart(buf), (first_obj->quan > 1L) ? "每个" : "", cost, /*修改语序:verbalize("%s,价格%s%ld%s%s", upstart(buf), cost,*/
+            verbalize("%s,价格%s%ld %s%s", upstart(buf), (first_obj->quan > 1L) ? "每个" : "", cost, /*修改语序:verbalize("%s,价格%s%ld %s%s", upstart(buf), cost,*/
                       currency(cost), /*修改语序:currency(cost), (first_obj->quan > 1L) ? "each" : "",*/
                       contentsonly ? "." : shk_embellish(first_obj, cost));
         }
@@ -5510,14 +5510,14 @@ DISABLE_WARNING_FORMAT_NONLITERAL
 /* First 4 supplied by Ronen and Tamar, remainder by development team */
 static const char *Izchak_speaks[] = {
     "%s说:'那些大型商场总是让我头疼.'",
-    "%s说:'慢点.冷静思考.'",
+    "%s说:'慢点. 冷静思考.'",
     "%s说:'你需要一步一步来.'",
     "%s说:'我不喜欢软咖啡...来杯哥伦比亚特选.'",
     "%s说让DevTeam在任何事情上达成一致都很困难.",
     "%s说他注意到任何虔诚侍奉神明的人都过上了好日子.",
     "%s说:'不要试图偷我的东西--我上面有人!'",
     "%s说:'将来你很可能会需要这家店里的东西.'",
-    "%s认为“死亡谷”是一扇门户."
+    "%s认为死亡谷是一扇门户."
 };
 
 void
@@ -5549,14 +5549,14 @@ shk_chat(struct monst *shkp)
         if (strncmp(eshk->customer, svp.plname, PL_NSIZ)) {
             if (!Deaf && !muteshk(shkp)) {
                 SetVoice(shkp, 0, 80, 0);
-                verbalize("%s,%s!我正在等着%s来呢.",
+                verbalize("%s,%s! 我正在等着%s来呢.",
                       Hello(shkp), svp.plname, eshk->customer);
             }
             eshk->following = 0;
         } else {
             if (!Deaf && !muteshk(shkp)) {
                 SetVoice(shkp, 0, 80, 0);
-                verbalize("%s,%s!你是不是忘了付钱了?",
+                verbalize("%s,%s! 你是不是忘了付钱了?",
                           Hello(shkp), svp.plname);
             } else {
                 pline("%s拍了拍你的%s.",
@@ -5566,17 +5566,17 @@ shk_chat(struct monst *shkp)
     } else if (eshk->billct) {
         long total = addupbill(shkp) + eshk->debit;
 
-        pline("%s%s你的账单总计%ld%s.",
+        pline("%s%s你的账单总计%ld %s.",
               Shknam(shkp),
               (!Deaf && !muteshk(shkp)) ? "说" : "表明",
               total, currency(total));
     } else if (eshk->debit) {
-        pline("%s%s你欠%s%ld%s.",
+        pline("%s%s你欠%s%ld %s.",
               Shknam(shkp),
               (!Deaf && !muteshk(shkp)) ? "提醒你" : "表明",
               noit_mhim(shkp), eshk->debit, currency(eshk->debit));
     } else if (eshk->credit) {
-        pline("%s鼓励你用你存储的%ld%s的信用付款.",
+        pline("%s鼓励你用你存储的%ld %s的信用付款.",
               Shknam(shkp), eshk->credit, currency(eshk->credit));
     } else if (eshk->robbed) {
         pline("%s%s.",
@@ -5706,25 +5706,25 @@ check_unpaid_usage(struct obj *otmp, boolean altusage)
 
     arg1 = arg2 = "";
     if (otmp->oclass == SPBOOK_CLASS) {
-        fmt = "%s你欠%s%ld%s.";
-        Sprintf(buf, "这不是免费的图书馆,%s!  ", cad(FALSE));
+        fmt = "%s你欠%s%ld %s.";
+        Sprintf(buf, "这不是免费的图书馆,%s! ", cad(FALSE));
         arg1 = rn2(2) ? buf : "";
         arg2 = ESHK(shkp)->debit > 0L ? "额外" : "";
     } else if (otmp->otyp == POT_OIL) {
-        fmt = "%s%s你需支付%ld%s(岩德利亚燃油税).";
+        fmt = "%s%s你需支付%ld %s(岩德利亚燃油税).";
     } else if (altusage && (otmp->otyp == BAG_OF_TRICKS
                             || otmp->otyp == HORN_OF_PLENTY)) {
-        fmt = "%s%s倒出内容物者需支付%ld%s.";
+        fmt = "%s%s倒出内容物者需支付%ld %s.";
         if (!rn2(3))
-            arg1 = "哇哦!";
+            arg1 = "哇哦! ";
         if (!rn2(3))
-            arg1 = "小心!";
+            arg1 = "小心! ";
     } else {
-        fmt = "%s%s使用费,%ld%s.";
+        fmt = "%s%s使用费,%ld %s.";
         if (!rn2(3))
-            arg1 = "嘿!";
+            arg1 = "嘿! ";
         if (!rn2(3))
-            arg2 = "咳咳.";
+            arg2 = "咳咳. ";
     }
 
     if (!Deaf && !muteshk(shkp)) {
@@ -5767,7 +5767,7 @@ costly_gold(
     if (eshkp->credit >= amount) {
         if (!silent) {
             if (eshkp->credit > amount)
-                Your("信用减少了%ld%s.", amount, currency(amount));
+                Your("信用减少了%ld %s.", amount, currency(amount));
             else
                 Your("信用被抹除了.");
         }
@@ -5778,9 +5778,9 @@ costly_gold(
             if (eshkp->credit)
                 Your("你的信用被抹除了.");
             if (eshkp->debit)
-                Your("欠款增加了%ld%s.", delta, currency(delta));
+                Your("欠款增加了%ld %s.", delta, currency(delta));
             else
-                You("欠%s%ld%s.", shkname(shkp), delta, currency(delta));
+                You("欠%s%ld %s.", shkname(shkp), delta, currency(delta));
         }
         eshkp->debit += delta;
         eshkp->loan += delta;
@@ -5936,7 +5936,7 @@ cad(
 
         /* alternate usage adds a leading double quote and trailing
            exclamation point plus sentence separating spaces */
-        Sprintf(cadbuf, "\"%s!", res);
+        Sprintf(cadbuf, "\"%s! ", res);
         cadbuf[1] = highc(cadbuf[1]);
         res = cadbuf;
     }
@@ -6061,11 +6061,11 @@ globby_bill_fixup(struct obj *obj_absorber, struct obj *obj_absorbed)
                     Your("你的负债还清了.");
                 }
                 if (eshkp->credit == delta)
-                    pline_The("%s存储了%ld%s的信用.",
+                    pline_The("%s存储了%ld %s的信用.",
                               obj_typename(obj_absorbed->otyp),
                               delta, currency(delta));
                 else
-                    pline_The("%s增加了%ld%s%s%ld%s.",
+                    pline_The("%s增加了%ld %s%s%ld %s.",
                               obj_typename(obj_absorbed->otyp),
                               delta, currency(delta),
                               "信用;现在总共有",
@@ -6086,7 +6086,7 @@ globby_bill_fixup(struct obj *obj_absorber, struct obj *obj_absorbed)
         amount = bp->price;
         bill_dummy_object(obj_absorbed);
         SetVoice(shkp, 0, 80, 0);
-        verbalize("你%s把我的%s和你的%s布丁团混合到了一起,需支付%ld%s%s", /*修改语序:verbalize("You owe me %ld %s for my %s that you %s with your%s",*/
+        verbalize("你%s把我的%s和你的%s布丁团混合到了一起,你要赔我%ld %s%s", /*修改语序:verbalize("You owe me %ld %s for my %s that you %s with your%s",*/
                   ANGRY(shkp) ? "居然敢" : "刚", obj_typename(obj_absorbed->otyp), /*修改语序:amount, currency(amount), obj_typename(obj_absorbed->otyp),*/
                   ANGRY(shkp) ? "恶心的" : "", /*修改语序:ANGRY(shkp) ? "had the audacity to mix" : "just mixed",*/
                   amount, currency(amount), ANGRY(shkp) ? "!" : "."); /*修改语序:ANGRY(shkp) ? " stinking batch!" : "s.");*/
@@ -6109,7 +6109,7 @@ use_unpaid_trapobj(struct obj *otmp, coordxy x, coordxy y)
 
             if (shkp && !muteshk(shkp)) {
                 SetVoice(shkp, 0, 80, 0);
-                verbalize("你触发的,你付钱!");
+                verbalize("你触发的,你赔钱!");
             }
         }
         bill_dummy_object(otmp);
