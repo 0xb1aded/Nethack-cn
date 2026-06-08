@@ -1447,7 +1447,7 @@ trapeffect_sqky_board(
                     Soundeffect(tsnds[trap->tnote], 50);
                 }
                 pline_mon(mtmp,
-                      "%s下的板子大声地嘎吱作响出%s.",
+                      "%s下面的板子大声地嘎吱作响出%s.",
                       mon_nam(mtmp), trapnote(trap, FALSE));
                 seetrap(trap);
             } else if (!mindless(mtmp->data)) {
@@ -1466,7 +1466,7 @@ trapeffect_sqky_board(
                                 ? 40 : 20));
             }
             You_hear("%s有嘎吱作响的%s.", (mdistu(mtmp) <= range * range) /*修改语序:You_hear("%s嘎吱作响出%s.", trapnote(trap, FALSE),*/
-                        ? "附近" : "远处"),/*修改语序:(mdistu(mtmp) <= range * range)*/
+                        ? "附近" : "远处"), /*修改语序:(mdistu(mtmp) <= range * range)*/
                         trapnote(trap, FALSE); /*修改语序:? "附近" : "远处");*/
         }
         /* wake up nearby monsters */

@@ -258,6 +258,14 @@ English README：[README_en.md](README_en.md)
 
 **处理方案**: 直接返回 `s`
 
+##### ing_suffix(const char \*s)
+
+位置: [hacklib.c](src/hacklib.c)
+
+功能: 给字符串加 `"s"` 后缀
+
+**处理方案**: 直接返回 `s`
+
 ##### vtense(const char \*subj, const char \*verb)
 
 位置: [objnam.c](src/objnam.c)
