@@ -1394,7 +1394,7 @@ locomotion(const struct permonst *ptr, const char *def)
 const char *
 stagger(const struct permonst *ptr, const char *def)
 {
-    int locoindx = 0; /*危险:int locoindx = (*def != highc(*def)) ? 2 : 3;*/
+    int locoindx = 2;
 
     return (is_floater(ptr) ? levitate[locoindx]
             : (is_flyer(ptr) && ptr->msize <= MZ_SMALL) ? flys[locoindx]
