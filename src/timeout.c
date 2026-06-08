@@ -224,8 +224,8 @@ vomiting_dialogue(void)
         break;
     case 8:
         txt = vomiting_texts[2];
-        if (strstri(txt, " think") && Stunned)
-            txt = strsubst(strcpy(buf, txt), "can't seem to ", "can't ");
+        if (strstri(txt, "好像") && Stunned)
+            txt = strsubst(strcpy(buf, txt), "好像", "");
         break;
     case 5:
         txt = vomiting_texts[3];
