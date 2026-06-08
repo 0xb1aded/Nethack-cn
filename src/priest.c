@@ -317,7 +317,7 @@ priestname(
     /* for high priest(ess), "high" (or "grand" for poohbah) will be inserted
        [this was done near the end but we want 'what' to be updated sooner] */
     if (mon->ispriest || aligned_priest || high_priest)
-        what = do_hallu ? "自命不凡d" : mon->female ? "祭司" : "祭司";
+        what = do_hallu ? "大人物" : mon->female ? "祭司" : "祭司";
 
     *pname = '\0';
     if (article != ARTICLE_NONE && (!do_hallu || !bogon_is_pname(whatcode))) {

@@ -244,6 +244,16 @@ static void shrink_dlvl(int);
 static void status_sanity_check(void);
 #endif /* NH_DEVEL_STATUS */
 #endif
+#ifdef WIN32CON
+static int utf8_char_len(unsigned char);
+static boolean utf8_continuation(unsigned char);
+static char *utf8_prev_char(char *, char *);
+static boolean decode_utf8_char(const char *, wchar_t *, int *, int *);
+static int utf8_char_cols(const char *, int *);
+static int utf8_text_cols(const char *);
+static void hpbar_format_title(char *, size_t, const char *, int);
+static char *hpbar_split_at_cols(char *, int);
+#endif
 #ifdef ENHANCED_SYMBOLS
 void g_pututf8(uint8 *utf8str);
 #endif
@@ -656,6 +666,9 @@ tty_askname(void)
 {
     static const char who_are_you[] = "Who are you? ";
     int c, ct, tryct = 0;
+#ifdef WIN32CON
+    int old_in_getlin;
+#endif
 
 #ifdef SELECTSAVED
     if (iflags.wc2_selectsaved && !iflags.renameinprogress)
@@ -672,6 +685,10 @@ tty_askname(void)
 #endif /* SELECTSAVED */
 
     tty_putstr(BASE_WINDOW, 0, "");
+#ifdef WIN32CON
+    old_in_getlin = program_state.in_getlin;
+    program_state.in_getlin = 1;
+#endif
     do {
         if (++tryct > 1) {
             if (tryct > 10)
@@ -701,10 +718,26 @@ tty_askname(void)
             /* some people get confused when their erase char is not ^H */
             if (c == '\b' || c == '\177') {
                 if (ct) {
-                    ct--;
 #ifdef WIN32CON
-                    ttyDisplay->curx--;
-#endif
+                    char *prev = utf8_prev_char(svp.plname, &svp.plname[ct]);
+                    wchar_t wch;
+                    int charwidth = 1, srclen = 0;
+
+                    if (prev < &svp.plname[ct]
+                        && decode_utf8_char(prev, &wch, &srclen, &charwidth)
+                        && prev + srclen == &svp.plname[ct])
+                        ct = (int) (prev - svp.plname);
+                    else
+                        --ct;
+                    svp.plname[ct] = '\0';
+                    while (charwidth-- > 0) {
+                        ttyDisplay->curx--;
+                        backsp(); /* \b is visible on NT */
+                        (void) putchar(' ');
+                        backsp();
+                    }
+#else
+                    ct--;
 #if defined(MICRO) || defined(WIN32CON)
 #if defined(WIN32CON) || defined(MSDOS)
                     backsp(); /* \b is visible on NT */
@@ -717,6 +750,7 @@ tty_askname(void)
                     (void) putchar('\b');
                     (void) putchar(' ');
                     (void) putchar('\b');
+#endif
 #endif
                 }
                 continue;
@@ -731,6 +765,36 @@ tty_askname(void)
                     c = '_';
 #endif
             if (ct < (int) (sizeof svp.plname) - 1) {
+#ifdef WIN32CON
+                if ((unsigned char) c & 0x80) {
+                    char utf8buf[5];
+                    wchar_t wch;
+                    int ulen = utf8_char_len((unsigned char) c);
+                    int ucnt = 1, srclen = 0, charwidth = 1;
+
+                    utf8buf[0] = (char) c;
+                    while (ucnt < ulen) {
+                        c = tty_nhgetch();
+                        if (!utf8_continuation((unsigned char) c))
+                            break;
+                        utf8buf[ucnt++] = (char) c;
+                    }
+                    utf8buf[ucnt] = '\0';
+                    if (ucnt == ulen
+                        && ct + ucnt < (int) sizeof svp.plname
+                        && decode_utf8_char(utf8buf, &wch, &srclen,
+                                            &charwidth)) {
+                        (void) memcpy(&svp.plname[ct], utf8buf, ucnt);
+                        ct += ucnt;
+                        svp.plname[ct] = '\0';
+                        (void) putchar((int) wch);
+                        ttyDisplay->curx += charwidth;
+                    } else {
+                        tty_nhbell();
+                    }
+                    continue;
+                }
+#endif
 #if defined(MICRO)
 #if defined(MSDOS)
                 if (iflags.grmode) {
@@ -749,6 +813,9 @@ tty_askname(void)
         }
         svp.plname[ct] = 0;
     } while (ct == 0);
+#ifdef WIN32CON
+    program_state.in_getlin = old_in_getlin;
+#endif
 
     /* move to next line to simulate echo of user's <return> */
     tty_curs(BASE_WINDOW, 1, wins[BASE_WINDOW]->cury + 1);
@@ -1363,6 +1430,22 @@ utf8_char_len(unsigned char ch)
 }
 
 static boolean
+utf8_continuation(unsigned char ch)
+{
+    return (boolean) ((ch & 0xC0) == 0x80);
+}
+
+static char *
+utf8_prev_char(char *start, char *pos)
+{
+    char *prev = pos - 1;
+
+    while (prev > start && utf8_continuation((unsigned char) *prev))
+        --prev;
+    return prev;
+}
+
+static boolean
 decode_utf8_char(const char *src, wchar_t *wch, int *srclen, int *charwidth)
 {
     int i, len, wlen;
@@ -1387,6 +1470,75 @@ decode_utf8_char(const char *src, wchar_t *wch, int *srclen, int *charwidth)
     if (charwidth)
         *charwidth = (*wch > 0xff) ? 2 : 1;
     return TRUE;
+}
+
+static int
+utf8_char_cols(const char *src, int *srclen)
+{
+    wchar_t wch;
+    int len = 1, width = 1;
+
+    if (src && ((unsigned char) src[0] & 0x80)
+        && decode_utf8_char(src, &wch, &len, &width)) {
+        if (srclen)
+            *srclen = len;
+        return width;
+    }
+    if (srclen)
+        *srclen = 1;
+    return 1;
+}
+
+static int
+utf8_text_cols(const char *src)
+{
+    int cols = 0, len;
+
+    while (src && *src) {
+        cols += utf8_char_cols(src, &len);
+        src += len;
+    }
+    return cols;
+}
+
+static void
+hpbar_format_title(char *dst, size_t dstsz, const char *src, int width)
+{
+    char *dp = dst, *end = dst + dstsz - 1;
+    int cols = 0, len, charwidth;
+
+    while (src && *src && cols < width && dp < end) {
+        charwidth = utf8_char_cols(src, &len);
+        if (cols + charwidth > width || dp + len > end)
+            break;
+        (void) memcpy(dp, src, len);
+        dp += len;
+        src += len;
+        cols += charwidth;
+    }
+    while (cols < width && dp < end) {
+        *dp++ = ' ';
+        ++cols;
+    }
+    *dp = '\0';
+}
+
+static char *
+hpbar_split_at_cols(char *src, int cols)
+{
+    int used = 0, len, charwidth;
+    char *p = src;
+
+    if (cols <= 0)
+        return src;
+    while (*p) {
+        charwidth = utf8_char_cols(p, &len);
+        if (used + charwidth >= cols)
+            return p + len;
+        used += charwidth;
+        p += len;
+    }
+    return p;
 }
 #endif
 
@@ -4631,6 +4783,11 @@ tty_status_update(
                             || fldidx == fieldorder[1][0]
                             || fldidx == fieldorder[2][0]))
             ++fmt; /* skip leading space for first field on line */
+#ifdef WIN32CON
+        if (fldidx == BL_TITLE && iflags.wc2_hitpointbar)
+            hpbar_format_title(status_vals[fldidx], MAXCO, text, 30);
+        else
+#endif
         Sprintf(status_vals[fldidx], fmt, text);
         tty_status[NOW][fldidx].idx = fldidx;
         tty_status[NOW][fldidx].color = (color & 0x00FF);
@@ -5273,20 +5430,26 @@ render_status(void)
                      */
                     /* hitpointbar using hp percent calculation */
                     int bar_len, bar_pos = 0;
-                    char bar[30 + 1], *bar2 = (char *) 0, savedch = '\0';
+                    char bar[MAXCO], *bar2 = (char *) 0, savedch = '\0';
                     boolean twoparts = (hpbar_percent < 100);
 
                     /* force exactly 30 characters, padded with spaces
                        if shorter or truncated if longer */
+#ifdef WIN32CON
+                    hpbar_format_title(bar, sizeof bar, text, 30);
+                    if (strcmp(status_vals[BL_TITLE], bar))
+                        Strcpy(status_vals[BL_TITLE], bar);
+#else
                     if (strlen(text) != 30) {
                         Sprintf(bar, "%-30.30s", text);
                         Strcpy(status_vals[BL_TITLE], bar);
                     } else {
                         Strcpy(bar, text);
                     }
+#endif
                     if (hpbar_crit_hp)
                         repad_with_dashes(bar);
-                    bar_len = (int) strlen(bar); /* always 30 */
+                    bar_len = 30; /* display columns */
                     /*tlth = bar_len + 2; // not needed within this 'if'*/
                     attrmask = 0; /* for the second part only case: dead */
                     /* when at full HP, the whole title will be highlighted;
@@ -5299,7 +5462,11 @@ render_status(void)
                             bar_pos = 1;
                         if (bar_pos >= bar_len && hpbar_percent < 100)
                             bar_pos = bar_len - 1;
+#ifdef WIN32CON
+                        bar2 = hpbar_split_at_cols(bar, bar_pos);
+#else
                         bar2 = &bar[bar_pos];
+#endif
                         savedch = *bar2;
                         *bar2 = '\0';
                     }
@@ -5311,7 +5478,11 @@ render_status(void)
                         if (iflags.hilite_delta && coloridx != NO_COLOR)
                             term_start_color(coloridx);
                         tty_putstatusfield(bar, x, y);
+#ifdef WIN32CON
+                        x += utf8_text_cols(bar);
+#else
                         x += (int) strlen(bar);
+#endif
                         if (iflags.hilite_delta && coloridx != NO_COLOR)
                             term_end_color();
                         End_Attr(attrmask);
@@ -5321,7 +5492,11 @@ render_status(void)
                             term_start_attr(ATR_BLINK);
                         *bar2 = savedch;
                         tty_putstatusfield(bar2, x, y);
+#ifdef WIN32CON
+                        x += utf8_text_cols(bar2);
+#else
                         x += (int) strlen(bar2);
+#endif
                         if ((attrmask & HL_BLINK) != 0)
                             term_end_attr(ATR_BLINK);
                     }

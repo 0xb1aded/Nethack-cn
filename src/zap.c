@@ -4563,9 +4563,9 @@ zhitu(
         struct obj *otmp = gc.current_wand;
         /* fire horn and frost horn get handled as wands by caller */
         const char *verb = (abstyp < 10) /* wand */
-                           ? ((otmp && otmp->oclass == TOOL_CLASS) ? "玩弄出"
+                           ? ((otmp && otmp->oclass == TOOL_CLASS) ? "吹奏出"
                               : "发射出")
-                           : (abstyp < 20) ? "释放出"
+                           : (abstyp < 20) ? "喷吐出"
                              : (abstyp < 30) ? "吟唱出"
                                : "想象出"; /* should never happen */
 

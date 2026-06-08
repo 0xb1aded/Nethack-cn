@@ -16,8 +16,12 @@ English README：[README_en.md](README_en.md)
 - [x] 使用 deepseek-v4-flash 完成初步 AI 翻译
 - [x] 怪物翻译
 - [x] 物品翻译
+- [x] 跨平台前端：**[直接启动浏览器版](https://stackc00ki3.github.io/nethack-3d/)** 仓库：[nethack-3d](https://github.com/StackC00ki3/nethack-3d)
+- [x] 安卓版：**[点我下载apk](https://github.com/StackC00ki3/ANetHack-cn/releases)** 仓库：[Anethack-cn](https://github.com/StackC00ki3/ANetHack-cn)
+- [x] 中文输入
 - [ ] 许愿机制
 - [ ] 灭绝机制
+- [ ] 跨层传送机制
 
 ### 翻译标准化
 
@@ -25,207 +29,23 @@ English README：[README_en.md](README_en.md)
 
 [怪物简中译名标准（monsters.h）](doc/monsters_translation_standard_zh_cn.md)
 
+[通用简中翻译标准（谓词、体词、死因、声音、技能等）](doc/common_translation_standard_zh_cn.md)
+
 **当前译名标准仍需要更多玩家参与讨论和校对，欢迎在以下讨论中提出意见：**
 
 [讨论物品简中译名](https://github.com/StackC00ki3/Nethack-cn/discussions/3)
 
 [讨论怪物简中译名](https://github.com/StackC00ki3/Nethack-cn/discussions/4)
 
-#### 谓词
-
-|英文|中文|
-|----|----|
-|bounce|反弹|
-|reflect|反射|
-|hit(结果)|击中|
-|shine|照耀|
-|better(恢复)|好些了|
-|much better|好多了|
-|shine|照耀<sup>[2](#note2)</sup>|
-|glow|发/散发|
-|violently glow|爆发|
-|shatter|粉碎|
-|wobble|摇晃|
-|flutter|扑腾|
-|stagger|踉跄|
-|slither|蠕动|
-|falter|蹒跚|
-|flop|扑腾|
-|ooze|滑动|
-|tremble|颤抖|
-|wiggle|扭动|
-|pulsate|震动（注意不同于“振动”）|
-|crawl|爬行|
-|bash|猛击|
-|lash|抽打|
-|smite|重击|
-|hit(攻击动作)|打|
-|sear(银质物品对恶魔)|烧灼|
-|crush(攻击)|挤压|
-|queasy|反胃|
-|sick(如果没有致病)|不适|
-|squeak|嘎吱作响|
-|sluggish|呆滞|
-|lethargic|疲惫|
-|gallop|疾驰|
-|(being worn)|(穿戴中)|
-|(alternate weapon; not wielded)|(副武器;未装备)|
-|(on left hand)|(在左手上)|
-|(on right hand)|(在右手上)|
-|tingle|颤动|
-|itch|发痒|
-|twitch|抽搐|
-|transform|转变|
-|polymorph|变形|
-|open,closed(门)|打开的,关上的|
-|loot|搜刮|
-|tip(把箱子里的东西都倒出来)|倒空|
-|swallow|吞咽|
-|engulf|吞没|
-|hold|抓住|
-|unencumbered|无负载|
-|burdened|轻度负重|
-|stressed|中度负重|
-|strained|高度负重|
-|overtaxed|严重超重|
-|overloaded|极其超重|
-|lunge|突进/刺|
-|ooze|渗|
-|gulp|吸住|
-|adhere|叮住|
-|grab|抓住|
-
-#### 体词
-
-|英文|中文|
-|----|----|
-|form(变形)|形态|
-|quantum mechanic(怪物)|量子技工<sup>[2](#note2)</sup>|
-|thou, thee, thy, thine|汝，汝，尔，尔<sup>[3](#note3)</sup>|
-|arrow, bolt|箭<sup>[4](#note4)</sup>|
-|barb|倒刺|
-|debris(空气元素)|碎片|
-|flash|闪光|
-|aura|光晕|
-|light|光线|
-|anti-magic field|反魔法力场|
-|spike(陷阱里的)|尖刺|
-|sleep resistance|睡眠抗性|
-|warning|警觉|
-|infravision|红外视觉|
-|slow digestion|减慢消化|
-|protection from shape changers|变形怪防护|
-|fixed abilities|属性维持|
-|shape changers|变形怪|
-|iron bars|铁栅栏|
-|gunyoki|兵粮<sup>[5](#note5)</sup>|
-|chasm|裂口|
-|medallion|吊坠|
-|vapor|蒸汽|
-|steam|水汽|
-|displaced image|幻影|
-
-#### 死因
-
-|英文|中文|
-|----|----|
-|shattered potion|药水冻裂|
-|boiling potion|药水沸腾|
-|exploding potion|药水爆炸|
-|burning scroll|卷轴燃烧|
-|boiling potion|魔杖爆炸|
-|burning book|书燃烧|
-|exploding wand|魔杖爆炸|
-|wielding %s bare-handed|徒手手持%s|
-|falling off %s|从%s身上跌落|
-|stolen|偷窃|
-|expire|消散|
-
-#### 声音
-
-|英文|中文|
-|----|----|
-|cracking sound|破裂声|
-|tipping sound|撕裂声|
-|crumbling sound|碎裂声|
-|clank|当啷声|
-|crackling|劈啪声|
-|hissing|嘶嘶声|
-|cough|咳嗽声|
-|click|咔哒声|
-|rumbling|隆隆声|
-|slow drip|滴答声|
-|gurgling|咕噜声|
-|clatter|哐当声|
-|snicker-snack|咔嚓|
-|slurping|啜饮声|
-
-#### 感叹词/拟声词
-
-|英文|中文|
-|----|----|
-|Wait!|等等!|
-|Ouch!|哎呦!|
-|Splat!|啪!|
-|Splash!|哗啦!|
-|Burrrrp!|嗝!|
-|KAABLAMM!|轰隆!|
-|Kaablamm!|轰!|
-|Click!|咔哒!|
-|Thump!|砰!|
-|Bummer!|真倒霉!|
-|Phew|呼!|
-|Whoops...|哎呀...|
-|KABOOM!|嘭!|
-|Egads!|天哪!|
-|Ulch!|呃!|
-|Ooph!|呼!|
-|Crash!|哗啦!|
-|Boing!|咚!|
-|Yecch!|噫!|
-
-#### 技能
-
-|英文|中文|
-|----|----|
-|no skill|无技能|
-|bare hands|徒手|
-|two weapon combat|双持|
-|riding|骑乘|
-|polearms|长棍|
-|saber|军刀|
-|hammer|锤子|
-|whip|鞭子|
-|attack spells|攻击法术|
-|healing spells|治疗法术|
-|divination spells|预测法术|
-|enchantment spells|附魔法术|
-|clerical spells|神圣法术|
-|escape spells|逃脱法术|
-|matter spells|物质法术|
-|bare handed combat|徒手格斗|
-|martial arts|武术|
-|Unskilled（熟练度）|无技能|
-|Basic|基本|
-|Skilled|熟练|
-|Expert|专家|
-|Master|大师|
-|Grand Master|宗师|
-|Unknown|未知|
-
-<a id="note1">1</a> 见[鱼佬的解释](https://github.com/SunnyYuer/NetHack-cn/wiki#shine-shining)。
-
-<a id="note2">2</a> 根据[Wiki](https://nethackwiki.com/wiki/Quantum_mechanic#Origin)，这是一个对quantum mechanics（单数，“量子力学”）错误逆构词导致的双关，且从[贴图](https://nethackwiki.com/wiki/File:Quantum_mechanic.png)和游戏内信息可以推断出quantum mechanic显然是人形生物，不应翻译为“量子力学”。
-
-<a id="note3">4</a> 含有这种人称代词或shalt(shall 2nd sg)、art(be 2nd sg)、-est(2nd sg)、-eth(3rd sg)等的句子当译为文言。  
-<del>也不一定是文言吧，或者像[浅文理和合本](https://www.bible.com/bible/1577/)那样的浅近文言？</del>不行，还是不够高语域。
-拉丁语我打算保留一个原句再加一个翻译。
-
-<a id="note4">4</a> bolt只有crossbow bolt（弩箭）一种，和arrow没有最小对立。
-
-<a id="note4">5</a> 日语没有gunyoki这个词，[游戏内百科全书](https://nethackwiki.com/wiki/Food_ration#Encyclopedia_entry)里写的实际上是[出阵三献](https://kotobank.jp/word/%E5%87%BA%E9%99%A3-528945#w-1173980)，但这三样[一份](https://amakoya.com/sankonnogi/)的[热量](https://nethackwiki.com/wiki/NetHack_units#Calculation)嘛……
+[讨论通用译名](https://github.com/StackC00ki3/Nethack-cn/discussions/7)
 
 #### 代码规范
+
+翻译时请去除所有英文单词间的空格，仅在遇到数字时用空格分割，例如：“这里有 %ld 金币。”
+
+翻译时标点符号请使用半角符号即英文标点符号
+
+在遇到逗号时请在逗号后加一个空格
 
 如果要修改语序（变量在字符串中出现的顺序），请在行最后添加注释：/*修改语序:(修改前的代码)*/
 
@@ -288,19 +108,19 @@ English README：[README_en.md](README_en.md)
 - [ ] mail.c
 - [ ] makemon.c
 - [ ] mcastu.c
-- [x] mdlib.c
+- [ ] mdlib.c
 - [ ] mhitm.c
 - [ ] mhitu.c
 - [ ] minion.c
 - [ ] mklev.c
-- [x] mkmap.c (无需翻译)
+- [ ] mkmap.c
 - [ ] mkmaze.c
 - [ ] mkobj.c
-- [x] mkroom.c (无需翻译)
+- [ ] mkroom.c
 - [ ] mon.c
 - [ ] mondata.c
 - [ ] monmove.c
-- [x] monst.c (无需翻译)
+- [ ] monst.c
 - [ ] mplayer.c
 - [ ] mthrowu.c
 - [ ] muse.c
@@ -308,8 +128,8 @@ English README：[README_en.md](README_en.md)
 - [ ] nhlobj.c
 - [ ] nhlsel.c
 - [x] nhlua.c
-- [x] nhmd4.c (无需翻译)
-- [x] objects.c (无需翻译)
+- [ ] nhmd4.c
+- [ ] objects.c
 - [ ] objnam.c
 - [ ] options.c
 - [ ] o_init.c
@@ -372,16 +192,15 @@ English README：[README_en.md](README_en.md)
 
 ##### 文本文件(主要的几个，还有好多)
 
-- [ ] data.base (百科全书内容)
-- [ ] bogusmon.txt (幻觉怪物)
-- [ ] dungeon.lua (分支名称)
-- [ ] engrave.txt (地上生成的随机刻字)
-- [ ] epitaph.txt (墓志铭(很有意思))
-- [ ] oracles.txt (神谕)
-- [ ] rumors.fal (幸运饼干)
-- [ ] rumors.tru (幸运饼干)
-- [ ] tribute (碟形世界)
-- [ ] quest.lua (任务文本)
+- [ ] bogusmon.txt
+- [ ] dungeon.lua
+- [ ] engrave.txt
+- [ ] epitaph.txt
+- [ ] oracles.txt
+- [ ] rumors.fal
+- [ ] rumors.tru
+- [ ] tribute
+- [ ] quest.lua
 
 ### 技术细节
 
@@ -484,11 +303,3 @@ English README：[README_en.md](README_en.md)
 功能: 寻找适合obj_ok行为的所有物品供玩家选择（若没有则默认展示所有物品）。
 
 **处理方案**: 这个\*word对字符串不敏感。它会问你："你想要"+传入的\*word+"?"（汉语的这个地方填的词可能是离合的，如：“写在什么上”）。
-
-##### monverbself(struct monst \*mon, char \*monnamtext, const char \*verb, const char \*othertext)
-
-位置: [do_name.c](src/do_name.c)
-
-功能: 输出"\<The monster\> \<verb\> \<othertext\> \<him/her/it\>self."
-
-**处理方案**: 改为"\<怪物\>对\<他/她/它\>自己\<动词\>\<其他文本\>"

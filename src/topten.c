@@ -1065,8 +1065,10 @@ outentry(int rank, struct toptenentry *t1, boolean so)
             bp = linebuf + hppos - 1;
         /* special case: if about to wrap in the middle of maximum
            dungeon depth reached, wrap in front of it instead */
-        if (bp > linebuf + 5 && !strncmp(bp - 5, " [max", 5)) /*待写:if (bp > linebuf + 4 && !strncmp(bp - 4, " [上限", 4))*/
-            bp -= 5;
+        if (bp > linebuf + (int) (sizeof " [上限" - 1)
+            && !strncmp(bp - (sizeof " [上限" - 1), " [上限",
+                        sizeof " [上限" - 1))
+            bp -= (sizeof " [上限" - 1);
         if (*bp != ' ')
             Strcpy(linebuf3, bp);
         else

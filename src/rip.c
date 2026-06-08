@@ -1,4 +1,4 @@
-/* NetHack 5.0  rip.c   $NHDT-Date: 1597967808 2020/08/20 23:56:48 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.33 $ */
+/* NetHack 5.0	rip.c	$NHDT-Date: 1597967808 2020/08/20 23:56:48 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.33 $ */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /*-Copyright (c) Robert Patrick Rankin, 2017. */
 /* NetHack may be freely redistributed.  See license for details. */
@@ -20,7 +20,12 @@
 #endif
 
 #ifdef TEXT_TOMBSTONE
-staticfn void center(int, char *);
+staticfn int rip_utf8_decode(const char *, unsigned long *);
+staticfn int rip_codepoint_width(unsigned long);
+staticfn size_t rip_fit_bytes(const char *, int, int *);
+staticfn void rip_copy_fit(char *, size_t, const char *, int);
+staticfn void rip_next_line(const char **, char *, size_t, int);
+staticfn void center(int, const char *);
 
 #ifndef NH320_DEDICATION
 /* A normal tombstone for end of game display. */
@@ -72,91 +77,219 @@ static const char *const rip_txt[] = {
 #define DEATH_LINE 8 /* *char[] line # for death description */
 #define YEAR_LINE 12 /* *char[] line # for year */
 
-
-/* 优化后的汉字和拉丁字母统计逻辑（移除了对边框 '|' 的依赖） */
-int howmanykanji(char *s)
+staticfn int
+rip_utf8_decode(const char *s, unsigned long *ucp)
 {
-    int i = 0, kanji = 0;
-    while(s[i] != '\0')
-    {
-        /* 简单判断 UTF-8 多字节字符的起点 */
-        if (s[i] < 0)
-        {
-            kanji++;
-            i += 3; /* UTF-8 中文占用 3 字节 */
-        }
-        else 
-        {
-            i++;
-        }
+    const unsigned char *u = (const unsigned char *) s;
+    unsigned long cp, mincp;
+    int i, len;
+
+    if (!u[0]) {
+        *ucp = 0L;
+        return 0;
     }
-    return kanji;
+    if (u[0] < 0x80) {
+        *ucp = (unsigned long) u[0];
+        return 1;
+    } else if ((u[0] & 0xE0) == 0xC0) {
+        len = 2;
+        cp = (unsigned long) (u[0] & 0x1F);
+        mincp = 0x80L;
+    } else if ((u[0] & 0xF0) == 0xE0) {
+        len = 3;
+        cp = (unsigned long) (u[0] & 0x0F);
+        mincp = 0x800L;
+    } else if ((u[0] & 0xF8) == 0xF0) {
+        len = 4;
+        cp = (unsigned long) (u[0] & 0x07);
+        mincp = 0x10000L;
+    } else {
+        *ucp = (unsigned long) u[0];
+        return 1;
+    }
+
+    for (i = 1; i < len; ++i) {
+        if (!u[i] || (u[i] & 0xC0) != 0x80) {
+            *ucp = (unsigned long) u[0];
+            return 1;
+        }
+        cp = (cp << 6) | (unsigned long) (u[i] & 0x3F);
+    }
+    if (cp < mincp || (cp >= 0xD800L && cp <= 0xDFFFL)
+        || cp > 0x10FFFFL) {
+        *ucp = (unsigned long) u[0];
+        return 1;
+    }
+    *ucp = cp;
+    return len;
 }
 
-int howmanyromaji(char *s)
+staticfn int
+rip_codepoint_width(unsigned long cp)
 {
-    int i = 0, romaji = 0;
-    while(s[i] != '\0')
-    {
-        if (s[i] < 0)
-        {
-            i += 3; 
-        }
-        else 
-        {
-            romaji++;
-            i++;
-        }
-    }
-    return romaji;
+    if (cp == 0L)
+        return 0;
+    if (cp < 0x20L || (cp >= 0x7FL && cp < 0xA0L))
+        return 0;
+    if ((cp >= 0x1100L && cp <= 0x115FL)
+        || (cp >= 0x2E80L && cp <= 0xA4CFL)
+        || (cp >= 0xAC00L && cp <= 0xD7A3L)
+        || (cp >= 0xF900L && cp <= 0xFAFFL)
+        || (cp >= 0xFE10L && cp <= 0xFE19L)
+        || (cp >= 0xFE30L && cp <= 0xFE6FL)
+        || (cp >= 0xFF00L && cp <= 0xFF60L)
+        || (cp >= 0xFFE0L && cp <= 0xFFE6L)
+        || (cp >= 0x1F300L && cp <= 0x1FAFFL))
+        return 2;
+    return 1;
 }
 
+staticfn size_t
+rip_fit_bytes(const char *text, int maxwidth, int *widthp)
+{
+    const char *p = text;
+    unsigned long cp = 0L;
+    int width = 0, len, chwidth;
 
-/* 彻底重构的 center 函数：使用 Sprintf 重新拼装，杜绝越界并实现完美对齐 */
+    while (*p) {
+        len = rip_utf8_decode(p, &cp);
+        if (len <= 0)
+            break;
+        chwidth = rip_codepoint_width(cp);
+        if (width + chwidth > maxwidth)
+            break;
+        width += chwidth;
+        p += len;
+    }
+    if (widthp)
+        *widthp = width;
+    return (size_t) (p - text);
+}
+
 staticfn void
-center(int line, char *text)
+rip_copy_fit(char *dst, size_t dstsz, const char *src, int maxwidth)
 {
-    char buf[BUFSZ];
-    int visual_len, left_pad, right_pad;
-    int max_width = 18; /* 墓碑内部左右 '|' 之间的总宽度 */
+    size_t bytes;
 
-    /* 1. 计算文本的视觉宽度 (中文算作2宽度，西文算作1) */
-    visual_len = howmanyromaji(text) + 2 * howmanykanji(text);
-
-    /* 2. 处理超长文本，防止宽度超出破坏对齐 */
-    if (visual_len > max_width) {
-        visual_len = max_width; 
-    }
-
-    /* 3. 计算左右需要补充的空格数以实现居中 */
-    left_pad = (max_width - visual_len) / 2;
-    right_pad = max_width - visual_len - left_pad;
-
-    /* 4. 动态组装字符串：
-     * "                  |" 长度为19 (18个缩进空格 + 1个左边框)
-     * %*s: C语言动态填充 left_pad 个空格
-     * %s:  插入文本内容 (不受底层字节数影响，终端自适应渲染)
-     * %*s: C语言动态填充 right_pad 个空格
-     * |:   最后加上右边框
-     */
-    Sprintf(buf, "                  |%*s%s%*s|", 
-            left_pad, "", text, right_pad, "");
-
-    /* 5. 释放原有的行内存，重新分配新内存并赋值，彻底杜绝越界闪退 */
-    free((genericptr_t) gr.rip[line]);
-    gr.rip[line] = dupstr(buf);
+    if (!dstsz)
+        return;
+    bytes = rip_fit_bytes(src, maxwidth, (int *) 0);
+    if (bytes >= dstsz)
+        bytes = dstsz - 1;
+    (void) memcpy((genericptr_t) dst, (genericptr_t) src, bytes);
+    dst[bytes] = '\0';
 }
 
+staticfn void
+rip_next_line(const char **textp, char *out, size_t outsz, int maxwidth)
+{
+    const char *start, *p, *end, *next, *last_space, *last_space_next;
+    unsigned long cp;
+    int width, len, chwidth;
+    size_t bytes;
+
+    start = *textp;
+    while (*start == ' ')
+        ++start;
+    p = start;
+    end = next = p;
+    last_space = last_space_next = (const char *) 0;
+    width = 0;
+
+    while (*p) {
+        len = rip_utf8_decode(p, &cp);
+        if (len <= 0)
+            break;
+        if (cp == '\n') {
+            end = p;
+            next = p + len;
+            break;
+        }
+        chwidth = rip_codepoint_width(cp);
+        if (width + chwidth > maxwidth)
+            break;
+        if (cp == ' ') {
+            last_space = p;
+            last_space_next = p + len;
+        }
+        width += chwidth;
+        p += len;
+        end = next = p;
+    }
+
+    if (*p && cp != '\n' && last_space && last_space > start) {
+        end = last_space;
+        next = last_space_next;
+    } else if (p == start && *p) {
+        len = rip_utf8_decode(p, &cp);
+        if (len <= 0)
+            len = 1;
+        end = next = p + len;
+    }
+
+    bytes = (size_t) (end - start);
+    if (!outsz) {
+        *textp = next;
+        return;
+    }
+    if (bytes >= outsz)
+        bytes = outsz - 1;
+    (void) memcpy((genericptr_t) out, (genericptr_t) start, bytes);
+    out[bytes] = '\0';
+    while (*next == ' ')
+        ++next;
+    *textp = next;
+}
+
+staticfn void
+center(int line, const char *text)
+{
+    char *oldline, *newline, *op;
+    const char *suffix;
+    size_t prefix_len, text_bytes, suffix_len, new_len;
+    int text_start, text_end, text_width, leftpad, rightpad;
+
+    text_start = STONE_LINE_CENT - ((STONE_LINE_LEN + 1) >> 1);
+    text_end = text_start + STONE_LINE_LEN;
+    oldline = gr.rip[line];
+    if ((int) strlen(oldline) < text_end)
+        return;
+
+    text_bytes = rip_fit_bytes(text, STONE_LINE_LEN, &text_width);
+    leftpad = (STONE_LINE_LEN - text_width) / 2;
+    rightpad = STONE_LINE_LEN - text_width - leftpad;
+
+    prefix_len = (size_t) text_start;
+    suffix = oldline + text_end;
+    suffix_len = strlen(suffix);
+    new_len = prefix_len + (size_t) leftpad + text_bytes
+              + (size_t) rightpad + suffix_len;
+
+    newline = (char *) alloc(new_len + 1);
+    op = newline;
+    (void) memcpy((genericptr_t) op, (genericptr_t) oldline, prefix_len);
+    op += prefix_len;
+    (void) memset((genericptr_t) op, ' ', (size_t) leftpad);
+    op += leftpad;
+    (void) memcpy((genericptr_t) op, (genericptr_t) text, text_bytes);
+    op += text_bytes;
+    (void) memset((genericptr_t) op, ' ', (size_t) rightpad);
+    op += rightpad;
+    (void) memcpy((genericptr_t) op, (genericptr_t) suffix, suffix_len + 1);
+
+    free((genericptr_t) oldline);
+    gr.rip[line] = newline;
+}
 
 void
 genl_outrip(winid tmpwin, int how, time_t when)
 {
     char **dp;
+    const char *dpx;
     char buf[BUFSZ];
     int x;
-    int line;
+    int line, year;
     long cash;
-    int year;
 
     gr.rip = dp = (char **) alloc(sizeof(rip_txt));
     for (x = 0; rip_txt[x]; ++x)
@@ -164,39 +297,56 @@ genl_outrip(winid tmpwin, int how, time_t when)
     dp[x] = (char *) 0;
 
     /* Put name on stone */
-    Sprintf(buf, "%.*s", (int) STONE_LINE_LEN, svp.plname);
+    rip_copy_fit(buf, sizeof buf, svp.plname, STONE_LINE_LEN);
     center(NAME_LINE, buf);
 
     /* Put $ on stone */
     cash = max(gd.done_money, 0L);
-    
-    /* arbitrary upper limit; */
-    if (cash > 99999999L)
-        cash = 99999999L;
-    Sprintf(buf, "%ld Au", cash);
+    /* arbitrary upper limit; practical upper limit is quite a bit less */
+    if (cash > 999999999L)
+        cash = 999999999L;
+    Sprintf(buf, "%ld 金币", cash);
     center(GOLD_LINE, buf);
 
-    /* Put type of death on stone */
+    /* Put together death description */
     formatkiller(buf, sizeof buf, how, FALSE);
-    center(DEATH_LINE, buf);
+
+    /* Put death type on stone */
+    for (line = DEATH_LINE, dpx = buf; line < YEAR_LINE; line++) {
+        char linebuf[BUFSZ];
+
+        rip_next_line(&dpx, linebuf, sizeof linebuf, STONE_LINE_LEN);
+        center(line, linebuf);
+    }
 
     /* Put year on stone */
-    year = (when > 0L) ? (int)(((when) / 31556926L) + 1970L) : 1970;
+    year = (int) ((yyyymmdd(when) / 10000L) % 10000L);
     Sprintf(buf, "%4d", year);
     center(YEAR_LINE, buf);
 
-    /* Display the generated tombstone array to the window */
-    putstr(tmpwin, 0, "");
-    for (line = 0; dp[line]; line++) {
-        putstr(tmpwin, 0, dp[line]);
-    }
-    putstr(tmpwin, 0, "");
+#ifdef DUMPLOG
+    if (tmpwin == 0)
+        dump_forward_putstr(0, 0, "Game over:", TRUE);
+    else
+#endif
+        putstr(tmpwin, 0, "");
 
-    /* Free all dynamically allocated memory to prevent memory leaks */
-    for (line = 0; dp[line]; line++) {
-        free((genericptr_t) dp[line]);
+    for (; *dp; dp++)
+        putstr(tmpwin, 0, *dp);
+
+    putstr(tmpwin, 0, "");
+#ifdef DUMPLOG
+    if (tmpwin != 0)
+#endif
+        putstr(tmpwin, 0, "");
+
+    for (x = 0; rip_txt[x]; x++) {
+        free((genericptr_t) gr.rip[x]);
     }
-    free((genericptr_t) dp);
+    free((genericptr_t) gr.rip);
     gr.rip = 0;
 }
+
 #endif /* TEXT_TOMBSTONE */
+
+/*rip.c*/

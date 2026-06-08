@@ -1,4 +1,4 @@
-/* NetHack 5.0  getline.c   $NHDT-Date: 1701285885 2023/11/29 19:24:45 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.59 $ */
+/* NetHack 5.0	getline.c	$NHDT-Date: 1701285885 2023/11/29 19:24:45 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.59 $ */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /*-Copyright (c) Michael Allison, 2006. */
 /* NetHack may be freely redistributed.  See license for details. */
@@ -25,6 +25,13 @@ extern int extcmd_via_menu(void); /* cmd.c */
 
 extern char erase_char, kill_char; /* from appropriate tty.c file */
 
+#ifdef WIN32CON
+static int getlin_utf8_len(unsigned char);
+static boolean getlin_utf8_cont(unsigned char);
+static char *getlin_utf8_prev(char *, char *);
+static boolean getlin_has_utf8(const char *);
+#endif
+
 /*
  * Read a line closed with '\n' into the array char bufp[BUFSZ].
  * (The '\n' is not stored. The string is closed with a '\0'.)
@@ -39,6 +46,49 @@ tty_getlin(const char *query, char *bufp)
     hooked_tty_getlin(query, bufp, (getlin_hook_proc) 0);
 }
 
+#ifdef WIN32CON
+static int
+getlin_utf8_len(unsigned char c)
+{
+    if ((c & 0x80) == 0)
+        return 1;
+    if ((c & 0xe0) == 0xc0)
+        return 2;
+    if ((c & 0xf0) == 0xe0)
+        return 3;
+    if ((c & 0xf8) == 0xf0)
+        return 4;
+    return 1;
+}
+
+static boolean
+getlin_utf8_cont(unsigned char c)
+{
+    return (boolean) ((c & 0xc0) == 0x80);
+}
+
+static char *
+getlin_utf8_prev(char *start, char *pos)
+{
+    char *prev = pos - 1;
+
+    while (prev > start && getlin_utf8_cont((unsigned char) *prev))
+        --prev;
+    return prev;
+}
+
+static boolean
+getlin_has_utf8(const char *s)
+{
+    while (*s) {
+        if ((unsigned char) *s & 0x80)
+            return TRUE;
+        ++s;
+    }
+    return FALSE;
+}
+#endif
+
 static void
 hooked_tty_getlin(
     const char *query,
@@ -47,12 +97,11 @@ hooked_tty_getlin(
 {
     char *obufp = bufp;
     int c;
+    int old_in_getlin = program_state.in_getlin;
     struct WinDesc *cw = wins[WIN_MESSAGE];
     boolean doprev = FALSE;
-    char utf8_buffer[5];   /* 扩容至 5，确保容纳 4 字节 UTF-8 + '\0' */
-    int utf8_needed = 0;   /* 还需要的UTF-8续字节数 */
-    int utf8_count = 0;    /* 已收集的UTF-8字节数 */
 
+    program_state.in_getlin = 1;
     if (ttyDisplay->toplin == TOPLINE_NEED_MORE && !(cw->flags & WIN_STOP))
         more();
     cw->flags &= ~WIN_STOP;
@@ -85,82 +134,6 @@ hooked_tty_getlin(
         term_curs_set(1);
         c = pgetchar();
         term_curs_set(0);
-
-        /* 处理UTF-8多字节字符序列 */
-        if (utf8_needed > 0) {
-            /* 已在接收多字节字符，期望收到续字节 (10xxxxxx) */
-            if ((c & 0xC0) == 0x80) {
-                /* 有效的UTF-8续字节 */
-                utf8_buffer[utf8_count++] = c;
-                utf8_needed--;
-                if (utf8_needed == 0) {
-                    /* 完整的UTF-8字符已收到，添加到输入缓冲 */
-                    if (bufp - obufp < BUFSZ - utf8_count - 1 
-                        && bufp - obufp < COLNO) {
-                        
-#ifdef NEWAUTOCOMP
-                        char *i_comp = eos(bufp); /* 记录当前末尾用于补全失败时擦除 */
-#endif
-                        utf8_buffer[utf8_count] = '\0';
-                        
-                        /* 修复 1：使用 memcpy 拷贝，并无条件追加 \0 截断字符串 */
-                        (void) memcpy(bufp, utf8_buffer, utf8_count);
-                        bufp[utf8_count] = '\0';
-
-                        /* 仅安全打印这一个多字节字符本身 */
-                        putsyms(utf8_buffer); 
-                        bufp += utf8_count;
-
-                        /* 同步原版的补全状态机 */
-                        if (hook && (*hook)(obufp)) {
-                            putsyms(bufp);
-#ifndef NEWAUTOCOMP
-                            bufp = eos(bufp);
-#else  /* NEWAUTOCOMP */
-                            {
-                                char *curr;
-                                for (curr = bufp; *curr; ++curr)
-                                    putsyms("\b");
-                            }
-#endif /* NEWAUTOCOMP */
-                        }
-#ifdef NEWAUTOCOMP
-                        else if (i_comp > bufp) {
-                            char *s_comp = i_comp;
-                            /* 若未触发新的补全，擦除历史残余补全字符 */
-                            for (; i_comp > bufp; --i_comp)
-                                putsyms(" ");
-                            for (; s_comp > bufp; --s_comp)
-                                putsyms("\b");
-                        }
-#endif /* NEWAUTOCOMP */
-                    }
-                }
-                continue;  /* 阻止续字节掉进下面的 process_char */
-            } else {
-                /* 期望的续字节没有收到，丢弃不完整的UTF-8字符 */
-                utf8_needed = 0;
-                utf8_count = 0;
-                goto process_char;
-            }
-        } else if ((c & 0x80) != 0 && c != '\033' && c != EOF) {
-            /* 检测UTF-8首字节 (非ASCII字符) */
-            if ((c & 0xE0) == 0xC0) {
-                utf8_needed = 1;
-            } else if ((c & 0xF0) == 0xE0) {
-                utf8_needed = 2;
-            } else if ((c & 0xF8) == 0xF0) {
-                utf8_needed = 3;
-            }
-            
-            if (utf8_needed > 0) {
-                utf8_buffer[0] = c;
-                utf8_count = 1;
-                continue;  /* 等待续字节 */
-            }
-        }
-
-    process_char:
         if (c == '\033' || c == EOF) {
             if (c == EOF)
                 iflags.term_gone = 1;
@@ -182,19 +155,23 @@ hooked_tty_getlin(
             ttyDisplay->intr--;
             *bufp = 0;
         }
-        if (c == C('p')) { 
+        if (c == C('p')) { /* ctrl-P, doesn't honor rebinding #prevmsg cmd */
             int sav = ttyDisplay->inread;
 
             ttyDisplay->inread = 0;
             if (iflags.prevmsg_window == 's'
                 || (iflags.prevmsg_window == 'c' && !doprev)) {
+                /* msg_window:single, or msg_window:combination while it's
+                   behaving like msg_window:single */
                 if (!doprev)
-                    (void) tty_doprev_message(); 
+                    (void) tty_doprev_message(); /* need two initially */
                 (void) tty_doprev_message();
                 ttyDisplay->inread = sav;
                 doprev = TRUE;
                 continue;
             } else {
+                /* msg_window:full or reverse, or msg_window:combination while
+                   it's behaving like msg_window:full */
                 (void) tty_doprev_message();
                 ttyDisplay->inread = sav;
                 doprev = FALSE;
@@ -218,29 +195,27 @@ hooked_tty_getlin(
             if (bufp != obufp) {
 #ifdef NEWAUTOCOMP
                 char *i;
+
 #endif /* NEWAUTOCOMP */
-                char *old_bufp = bufp;
-                int bytes_deleted;
-                int display_width;
-                int d;
+#ifdef WIN32CON
+                char *prev = getlin_utf8_prev(obufp, bufp);
 
+                if (bufp - prev > 1) {
+                    bufp = prev;
+                    *bufp = 0;
+                    tty_clear_nhwindow(WIN_MESSAGE);
+                    cw->maxcol = cw->maxrow;
+                    addtopl(query);
+                    addtopl(" ");
+                    addtopl(obufp);
+                    continue;
+                }
+#endif
                 bufp--;
-                /* 向后扫描找到UTF-8字符的起点 */
-                while (bufp > obufp && (*bufp & 0xC0) == 0x80) {
-                    bufp--;
-                }
-                
-                bytes_deleted = (int)(old_bufp - bufp);
-                display_width = (bytes_deleted > 1) ? 2 : 1;
-
 #ifndef NEWAUTOCOMP
-                for (d = 0; d < display_width; d++) {
-                    putsyms("\b \b");
-                }
+                putsyms("\b \b"); /* putsym converts \b */
 #else                             /* NEWAUTOCOMP */
-                for (d = 0; d < display_width; d++) {
-                    putsyms("\b");
-                }
+                putsyms("\b");
                 for (i = bufp; *i; ++i)
                     putsyms(" ");
                 for (; i > bufp; --i)
@@ -254,42 +229,70 @@ hooked_tty_getlin(
             *bufp = 0;
 #endif /* not NEWAUTOCOMP */
             break;
-        } else if (((' ' <= (unsigned char) c && c != '\177') || ((unsigned char) c >= 0x80))
+        } else if (' ' <= (unsigned char) c && c != '\177'
+                   /* avoid isprint() - some people don't have it
+                      ' ' is not always a printing char */
                    && (bufp - obufp < BUFSZ - 1 && bufp - obufp < COLNO)) {
 #ifdef NEWAUTOCOMP
             char *i = eos(bufp);
-#endif /* NEWAUTOCOMP */
-            *bufp = c;
-            
-            /* 修复 2：无条件写入 \0，确保 hook 能拿到正确的前缀 */
-            bufp[1] = 0;
 
-            /* 仅打印当前输入的一个英文字符，防止破坏后续缓存 */
-            {
-                char chbuf[2];
-                chbuf[0] = c;
-                chbuf[1] = '\0';
-                putsyms(chbuf);
-            }
+#endif /* NEWAUTOCOMP */
+#ifdef WIN32CON
+            char *insertp = bufp;
+            int ulen = getlin_utf8_len((unsigned char) c), ucnt = 1;
+
+            *bufp = (char) c;
+            bufp[1] = 0;
             bufp++;
-            
+            while (ucnt < ulen
+                   && (bufp - obufp < BUFSZ - 1 && bufp - obufp < COLNO)) {
+                c = pgetchar();
+                if (!getlin_utf8_cont((unsigned char) c))
+                    break;
+                *bufp = (char) c;
+                bufp[1] = 0;
+                bufp++;
+                ucnt++;
+            }
+            putsyms(insertp);
+#else
+            *bufp = c;
+            bufp[1] = 0;
+            putsyms(bufp);
+            bufp++;
+#endif
             if (hook && (*hook)(obufp)) {
                 putsyms(bufp);
 #ifndef NEWAUTOCOMP
                 bufp = eos(bufp);
 #else  /* NEWAUTOCOMP */
+                /* pointer and cursor left where they were */
                 for (i = bufp; *i; ++i)
                     putsyms("\b");
             } else if (i > bufp) {
                 char *s = i;
 
+                /* erase rest of prior guess */
                 for (; i > bufp; --i)
                     putsyms(" ");
                 for (; s > bufp; --s)
                     putsyms("\b");
 #endif /* NEWAUTOCOMP */
             }
-        } else if (c == kill_char || c == '\177') { 
+        } else if (c == kill_char || c == '\177') { /* Robert Viduya */
+            /* this test last - @ might be the kill_char */
+#ifdef WIN32CON
+            if (getlin_has_utf8(obufp)) {
+                obufp[0] = '\0';
+                bufp = obufp;
+                tty_clear_nhwindow(WIN_MESSAGE);
+                cw->maxcol = cw->maxrow;
+                addtopl(query);
+                addtopl(" ");
+                addtopl(obufp);
+                continue;
+            }
+#endif
 #ifndef NEWAUTOCOMP
             while (bufp != obufp) {
                 bufp--;
@@ -307,12 +310,16 @@ hooked_tty_getlin(
     }
     ttyDisplay->toplin = TOPLINE_NON_EMPTY;
     ttyDisplay->inread--;
-    clear_nhwindow(WIN_MESSAGE); 
+    clear_nhwindow(WIN_MESSAGE); /* clean up after ourselves */
+    program_state.in_getlin = old_in_getlin;
 
     if (suppress_history) {
+        /* prevent next message from pushing current query+answer into
+           tty message history */
         *gt.toplines = '\0';
 #ifdef DUMPLOG_CORE
     } else {
+        /* needed because we've bypassed pline() */
         dumplogmsg(gt.toplines);
 #endif
     }

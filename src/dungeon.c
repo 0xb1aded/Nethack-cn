@@ -1783,7 +1783,7 @@ surface(coordxy x, coordxy y)
     else if (IS_DOOR(levtyp))
         return "门口"; /* even for closed door */
     else if (IS_ROOM(levtyp) && !Is_earthlevel(&u.uz))
-        return "地面";
+        return "地板";
     else
         return "地";
 }
