@@ -976,7 +976,7 @@ hmon_hitmon_weapon_melee(
                                    50 + 15 * (greatest_erosion(obj)
                                               - greatest_erosion(monwep)),
                                    100))) {
-        static const char from_your_blow[] = " from the force of your blow!"; /*危险:static const char from_your_blow[] = " from the force of your blow!";*/
+        static const char from_your_blow[] = "因你这一击碎裂了!"; /*危险:static const char from_your_blow[] = " from the force of your blow!";*/
         char buf[BUFSZ];
         /*
          * 2.5% chance of shattering defender's weapon when
@@ -994,14 +994,14 @@ hmon_hitmon_weapon_melee(
             /* Yobjnam2(X,"shatter") yields "Shk's X shatters" if X is owned
                by a shop or "Mon's X shatters" if X is carried by a monster
                (or "{Your|The} X shatters" if {carried by hero|last resort})*/
-            Strcpy(buf, Yobjnam2(monwep, "因你这一击碎裂了!"));
+            Strcpy(buf, Yobjnam2(monwep, from_your_blow));
         else /* hero is blind or can't see invisible mon */
             /* construct "Its weapon shatters"; not an exact replacement
                for Yobjnam2() if an unseen mon other than the shopkeeper
                is wielding a shop-owned weapon; telepathy or extended
                monster detection will name mon but not its weapon */
             Sprintf(buf, "%s的武器%s%s", s_suffix(Monnam(mon)),
-                    plur(monwep->quan), otense(monwep, "因你这一击碎裂了!"));
+                    plur(monwep->quan), otense(monwep, from_your_blow));
         /*冗余:buf[sizeof buf - sizeof from_your_blow] = '\0';/ /*Francium-223:写的什么傻逼代码？？？*/
         pline("%s", buf); /*修改语序:pline("%s%s", buf, from_your_blow);*/
         m_useupall(mon, monwep);
