@@ -517,7 +517,7 @@ call_kops(struct monst *shkp, boolean nearshop)
 
     Soundeffect(se_alarm, 80);
     if (!Deaf)
-        pline("An alarm sounds!");
+        pline("警报响起了!");
 
     nokops = ((svm.mvitals[PM_KEYSTONE_KOP].mvflags & G_GONE)
               && (svm.mvitals[PM_KOP_SERGEANT].mvflags & G_GONE)
@@ -802,7 +802,7 @@ u_entered_shop(char *enterstring)
             SetVoice(shkp, 0, 80, 0);
             verbalize("不欢迎隐形顾客!");
         } else {
-            pline("%s站得笔直,就好像%s知道你在那里.",
+            pline("%s站得笔直, 就好像%s知道你在那里.",
                   Shknam(shkp), noit_mhe(shkp));
         }
         return;
@@ -813,17 +813,17 @@ u_entered_shop(char *enterstring)
     if (ANGRY(shkp)) {
         if (!Deaf && !muteshk(shkp)) {
             SetVoice(shkp, 0, 80, 0);
-            verbalize("所以,%s,你还敢回到%s的%s?!", svp.plname,
+            verbalize("所以, %s, 你还敢回到%s的%s?!", svp.plname,
                       s_suffix(shkname(shkp)), shtypes[rt - SHOPBASE].name);
         } else {
-            pline("你回到%s的%s时,%s看起来%s!",
+            pline("你回到%s的%s时, %s看起来%s!",
                   noit_mhis(shkp), shtypes[rt - SHOPBASE].name, /*修改语序:Shknam(shkp), ROLL_FROM(angrytexts),*/
                   Shknam(shkp), ROLL_FROM(angrytexts)); /*修改语序:noit_mhis(shkp), shtypes[rt - SHOPBASE].name);*/
         }
     } else if (eshkp->surcharge) {
         if (!Deaf && !muteshk(shkp)) {
             SetVoice(shkp, 0, 80, 0);
-            verbalize("又回来了,%s?我一直盯着你呢%s.",
+            verbalize("又回来了, %s? 我一直盯着你呢%s.",
                       svp.plname, mbodypart(shkp, EYE) ? "" : ""); /*危险:svp.plname, mbodypart(shkp, EYE));*/
         } else {
             pline_The("%s的%s的气氛似乎不太友好.",
