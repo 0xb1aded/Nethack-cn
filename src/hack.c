@@ -448,7 +448,7 @@ moverock_core(coordxy sx, coordxy sy)
             }
 
             if (revive_nasty(rx, ry,
-                             "你感觉到另一边有动静。")) {
+                             "你感觉到另一边有动静.")) {
                 return -1;
             }
 
@@ -1862,7 +1862,7 @@ handle_tip(int tip)
             pline("(提示:使用#enhance命令来提升它们.)");
             break;
         case TIP_SWIM:
-            pline("(提示:如果你真的想进去,请使用'%s'前缀.）",
+            pline("(提示:如果你真的想进去,请使用'%s'前缀.)",
                   visctrl(cmd_from_func(do_reqmenu)));
             break;
         case TIP_UNTRAP_MON:
@@ -2316,7 +2316,7 @@ domove_fight_empty(coordxy x, coordxy y)
         }
 
  futile:
-        You("%s%s%s。",
+        You("%s%s%s.",
             !(boulder || solid) ? "" : !explo ? "无害地 " : "徒劳地 ",
             explo ? "爆炸攻击" : "攻击", buf);
 
@@ -3810,7 +3810,7 @@ pickup_checks(void)
                 hliquid("水"));
             return 0;
         } else if (!Underwater) {
-            You("甚至看不到底部,更别说捡起什么了。"); /*危险:You_cant、something*/
+            You("甚至看不到底部,更别说捡起什么了."); /*危险:You_cant、something*/
             return 0;
         }
     }
@@ -3842,7 +3842,7 @@ pickup_checks(void)
         else if (lev->typ == STAIRS)
             pline_The("楼梯被牢牢固定住了.");
         else
-            There("这里没有什么可捡起的。");
+            There("没有什么可捡起的.");
         return 0;
     }
     traphere = t_at(u.ux, u.uy);
