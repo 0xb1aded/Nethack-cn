@@ -1466,8 +1466,8 @@ trapeffect_sqky_board(
                                 ? 40 : 20));
             }
             You_hear("%s有嘎吱作响的%s.", (mdistu(mtmp) <= range * range) /*修改语序:You_hear("%s嘎吱作响出%s.", trapnote(trap, FALSE),*/
-                        ? "附近" : "远处"), /*修改语序:(mdistu(mtmp) <= range * range)*/
-                        trapnote(trap, FALSE); /*修改语序:? "附近" : "远处");*/
+                        ? "附近" : "远处", /*修改语序:(mdistu(mtmp) <= range * range)*/
+                        trapnote(trap, FALSE)); /*修改语序:? "附近" : "远处");*/
         }
         /* wake up nearby monsters */
         wake_nearto(mtmp->mx, mtmp->my, 40);
