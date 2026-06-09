@@ -421,6 +421,12 @@
 |donate|捐献|
 |atheism|无神论|
 
+## 其他
+
+|英文|中文|
+|----|----|
+|under you|在你下面(不能是脚下，因为你可能没有脚LOL)|
+
 <a id="note1">1</a> 见[鱼佬的解释](https://github.com/SunnyYuer/NetHack-cn/wiki#shine-shining)。
 
 <a id="note2">2</a> 根据[Wiki](https://nethackwiki.com/wiki/Quantum_mechanic#Origin)，这是一个对quantum mechanics（单数，“量子力学”）错误逆构词导致的双关，且从[贴图](https://nethackwiki.com/wiki/File:Quantum_mechanic.png)和游戏内信息可以推断出quantum mechanic显然是人形生物，不应翻译为“量子力学”。

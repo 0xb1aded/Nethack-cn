@@ -163,7 +163,7 @@
     PCHAR( 63, '^',  S_teleportation_trap, "传送陷阱", CLR_MAGENTA)
     PCHAR( 64, '^',  S_level_teleporter, "层级传送器", CLR_MAGENTA)
     PCHAR( 65, '^',  S_magic_portal, "魔法传送门", CLR_BRIGHT_MAGENTA)
-    PCHAR( 66, '"',  S_web, "蛛网", CLR_GRAY)
+    PCHAR( 66, '"',  S_web, "蜘蛛网", CLR_GRAY)
     PCHAR( 67, '^',  S_statue_trap, "雕像陷阱", CLR_GRAY)
     PCHAR( 68, '^',  S_magic_trap, "魔法陷阱", HI_ZAP)
     PCHAR2(69, '^',  S_anti_magic_trap, "anti magic trap", "反魔法力场",

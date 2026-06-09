@@ -2748,8 +2748,8 @@ set_vanq_order(boolean for_vanq)
                                             : MENU_ITEMFLAGS_NONE);
     }
     Sprintf(buf, "%s的排序顺序",
-            for_vanq ? "已击杀怪物计数（含灭绝类型）"
-                     : "已灭绝怪物类型（含击杀计数）");
+            for_vanq ? "已击杀怪物计数(含灭绝类型)"
+                     : "已灭绝怪物类型(含击杀计数)");
     end_menu(tmpwin, buf);
 
     n = select_menu(tmpwin, PICK_ONE, &selected);

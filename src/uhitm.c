@@ -3350,7 +3350,7 @@ mhitm_ad_wrap(
                 if (m_slips_free(mdef, mattk)) {
                     mhm->damage = 0;
                 } else {
-                    You("%s在%s%s!", /*修改语序:You("你%s在%s身上!",*/
+                    You("%s在%s%s!", /*修改语序:You("%s在%s身上!",*/
                         coil ? "盘绕" : "扭动", mon_nam(mdef), coil ? "身上" : "身边"); /*修改语序:coil ? "盘绕" : "扭动", mon_nam(mdef));*/
                     set_ustuck(mdef);
                 }

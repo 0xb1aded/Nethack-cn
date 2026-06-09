@@ -98,11 +98,11 @@ English README：[README_en.md](README_en.md)
 - [ ] getpos.c
 - [ ] glyphs.c
 - [ ] hack.c
-- [ ] hacklib.c
+- [x] hacklib.c (无需翻译)
 - [ ] iactions.c
 - [ ] insight.c
 - [ ] invent.c
-- [x] isaac64.c
+- [x] isaac64.c (无需翻译)
 - [ ] light.c
 - [ ] lock.c
 - [ ] mail.c
@@ -125,9 +125,9 @@ English README：[README_en.md](README_en.md)
 - [ ] mthrowu.c
 - [ ] muse.c
 - [ ] music.c
-- [x] nhlobj.c
-- [x] nhlsel.c
-- [x] nhlua.c
+- [x] nhlobj.c (无需翻译)
+- [x] nhlsel.c (无需翻译)
+- [x] nhlua.c (无需翻译)
 - [ ] nhmd4.c
 - [ ] objects.c
 - [ ] objnam.c

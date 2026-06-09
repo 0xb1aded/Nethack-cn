@@ -972,7 +972,7 @@ outentry(int rank, struct toptenentry *t1, boolean so)
         Strcat(linebuf, " ");
     if (!strncmp("escaped", t1->death, 7)) {
         Sprintf(eos(linebuf), "逃离了地牢 %s[最高等级 %d]",
-                !strncmp("（", t1->death + 7, 2) ? t1->death + 7 + 2 : "",
+                !strncmp("(", t1->death + 7, 2) ? t1->death + 7 + 2 : "",
                 t1->maxlvl);
         /* fixup for closing paren in "escaped... with...Amulet)[max..." */
         if ((bp = strchr(linebuf, ')')) != 0)

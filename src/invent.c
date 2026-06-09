@@ -2260,7 +2260,7 @@ ggetobj(const char *word, int (*fn)(OBJ_P), int mx,
     ilets[iletct] = '\0';
 
     for (;;) {
-        Sprintf(qbuf, "你想要什么类型的物品来%s？[%s]",
+        Sprintf(qbuf, "你想要%s? [%s]",
                 word, ilets);
         getlin(qbuf, buf);
         if (buf[0] == '\033')
@@ -2718,7 +2718,7 @@ identify_pack(
     int n, unid_cnt = count_unidentified(gi.invent);
 
     if (!unid_cnt) {
-        You("已经识别了你物品栏中的%s物品。",
+        You("已经识别了你物品栏中的%s物品.",
             !learning_id ? "所有" : "所有其他");
     } else if (!id_limit || id_limit >= unid_cnt) {
         /* identify everything */
@@ -2942,7 +2942,7 @@ xprname(
         /* ordinary inventory display or pickup message */
         if (use_invlet)
             let = obj->invlet;
-        Strcpy(suffix, dot ? "。" : "");
+        Strcpy(suffix, dot ? "." : "");
     }
     sfxlen = (int) strlen(suffix);
     if (txtlen > BUFSZ - 1 - (4 + sfxlen)) /* 4: "c - " prefix */
@@ -4142,7 +4142,7 @@ look_here(
         Sprintf(fbuf, "%s%s里面", s_suffix(mon_nam(mtmp)),
                 mbodypart(mtmp, STOMACH));
         /* Skip "Contents of " by using fbuf index 12 */
-        You("你%s%s%s有什么.", Blind ? "尝试" : "环顾四周",
+        You("%s%s%s有什么.", Blind ? "尝试" : "环顾四周",
             verb, &fbuf[0]);
         otmp = mtmp->minvent;
         if (otmp) {
@@ -4189,7 +4189,7 @@ look_here(
 
         if (dfeature && (!strncmp(dfeature, "altar ", 6)) || !strncmp(dfeature, "祭坛", strlen("祭坛"))) {
             /* don't say "altar" twice, dfeature has more info */
-            You("你试图感觉这里有什么.");
+            You("试图感觉这里有什么.");
         } else if (SURFACE_AT(u.ux, u.uy) == ICE) {
             /* using describe_decor() to handle ice is simpler than
                replicating it in the conditional message construction */
@@ -4197,7 +4197,7 @@ look_here(
                 force_decor(FALSE);
             /* plain "ice" if blind and levitating, otherwise "solid ice" &c;
               "There is [thin ]ice here.  You try to feel what is on it." */
-            You("你试图感觉这上面有什么.");
+            You("试图感觉这上面有什么.");
             skip_dfeature = TRUE; /* ice already described */
         } else {
             boolean cant_reach = !can_reach_floor(TRUE);
@@ -4264,7 +4264,7 @@ look_here(
             pline1(fbuf);
         read_engr_at(u.ux, u.uy); /* Eric Backus */
         if (obj_cnt == 1 && otmp->quan == 1L)
-            There("有%s物品。", picked_some ? "另一个" : "一个");
+            There("有%s物品.", picked_some ? "另一个" : "一个");
         else
             There("有%s%s物品.",
                   (obj_cnt == 2) ? "两个"
@@ -4539,7 +4539,7 @@ doprgold(void)
     } else {
         long total = umoney + hmoney;
         if (total)
-            You("你总共携带了%ld %s.", total, currency(total));
+            You("总共携带了%ld %s.", total, currency(total));
         else
             You("没有钱.");
     }

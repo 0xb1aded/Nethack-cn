@@ -303,7 +303,7 @@ do_pit(coordxy x, coordxy y, unsigned tu_pit)
         }
         if (Levitation || Flying || is_clinger(gy.youmonst.data)) {
             if (!tu_pit) { /* no pit here previously */
-                pline("一条裂口出现在你脚下!");
+                pline("一条裂口出现在你下面!");
                 You("没有掉进去!");
             }
         } else if (!tu_pit || !u.utrap || u.utraptype != TT_PIT) {
@@ -313,7 +313,7 @@ do_pit(coordxy x, coordxy y, unsigned tu_pit)
             set_utrap(rn1(6, 2), TT_PIT);
             losehp(Maybe_Half_Phys(rnd(6)),
                    "掉入裂口", NO_KILLER_PREFIX);
-            selftouch("掉下去的你");
+            selftouch("掉下去时,你");
         } else if (u.utrap && u.utraptype == TT_PIT) {
             boolean keepfooting =
                     (!(Fumbling && rn2(5))

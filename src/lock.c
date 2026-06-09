@@ -613,7 +613,7 @@ pick_lock(
             }
             /* credit cards are only good for unlocking */
             if (picktyp == CREDIT_CARD && !(door->doormask & D_LOCKED)) {
-                You_cant("不能用信用卡锁门。");
+                You_cant("不能用信用卡锁门.");
                 return PICKLOCK_LEARNED_SOMETHING;
             }
 

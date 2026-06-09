@@ -1434,7 +1434,7 @@ hit_bars(
         /* breakage makes its own noises */
         if (obj_type == POT_ACID) {
             if (cansee(barsx, barsy) && !nodissolve) {
-                pline_The("铁栏杆溶解了!");
+                pline_The("铁栅栏溶解了!");
             } else {
                 Soundeffect(se_angry_snakes, 100);
                 You_hear(Hallucination ? "蛇生气了!"

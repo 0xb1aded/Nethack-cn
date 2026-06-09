@@ -3324,11 +3324,11 @@ zap_updown(struct obj *obj) /* wand or spell, nonnull */
             } else if (striking && ttmp->ttyp == TRAPDOOR) {
                 /* striking transforms trapdoor into hole */
                 if (Blind && !ttmp->tseen) {
-                    pline("%s在你的脚下粉碎了.", Something);
+                    pline("%s在你的下面粉碎了.", Something);
                 } else if (!ttmp->tseen) { /* => !Blind */
-                    pline("你脚下有一个陷阱门;它粉碎了.");
+                    pline("你下面有一个陷阱门;它粉碎了.");
                 } else {
-                    pline("你脚下的陷阱门粉碎了.");
+                    pline("你下面的陷阱门粉碎了.");
                     disclose = TRUE;
                 }
                 ttmp->ttyp = HOLE;
@@ -3345,7 +3345,7 @@ zap_updown(struct obj *obj) /* wand or spell, nonnull */
                 } else {
                     ttmp->tseen = 1;
                     newsym(x, y);
-                    pline("一个陷阱门出现在你脚下.");
+                    pline("一个陷阱门出现在你下面.");
                     disclose = TRUE;
                 }
                 /* hadn't fallen down hole; won't fall now */

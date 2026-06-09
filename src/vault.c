@@ -817,7 +817,7 @@ gd_pick_corridor_gold(struct monst *grd, int goldx, int goldy)
         pline("%s%s捡起了%s金币.", Some_Monnam(grd),
               (grd->mpeaceful && EGD(grd)->warncnt > 5)
                  ? "平静下来然后" : "",
-              under_u ? "你脚下的" : "");
+              under_u ? "你下面的" : "");
     }
 
     /* if guard was moved to get the gold, move him back */

@@ -623,12 +623,12 @@ fall_through(
         feeltrap(t);
         if (!Sokoban && !(ftflags & TOOKPLUNGE)) {
             if (t->ttyp == TRAPDOOR)
-                pline("一个陷阱门在你的脚下打开了!");
+                pline("一个陷阱门在你的下面打开了!");
             else
-                pline("你的脚下有一个大洞!");
+                pline("你的下面有一个大洞!");
         }
     } else
-        pline_The("%s在你的脚下打开了!", surface(u.ux, u.uy));
+        pline_The("%s在你的下面打开了!", surface(u.ux, u.uy));
 
     if (Sokoban && Can_fall_thru(&u.uz)) {
         ; /* KMH -- You can't escape the Sokoban level traps */
@@ -649,7 +649,7 @@ fall_through(
         impact_drop((struct obj *) 0, u.ux, u.uy, 0);
         if (!td) {
             display_nhwindow(WIN_MESSAGE, FALSE);
-            pline_The("你下方的开口关闭了.");
+            pline_The("你下面的开口关闭了.");
         }
         return;
     }
@@ -1429,7 +1429,7 @@ trapeffect_sqky_board(
             if (IndexOk(trap->tnote, tsnds)) {
                 Soundeffect(tsnds[trap->tnote], 50);
             }
-            pline("你脚下的板子%s%s%s.",
+            pline("你下面的板子%s%s%s.",
                   Deaf ? "" : "大声地", /*修改语序:Deaf ? "振动" : "嘎吱作响 ",*/
                   Deaf ? "在振动" : "嘎吱作响出", /*修改语序:Deaf ? "" : trapnote(trap, FALSE),*/
                   Deaf ? "" : trapnote(trap, FALSE)); /*修改语序:Deaf ? "" : " 大声地");*/
@@ -1745,7 +1745,7 @@ trapeffect_fire_trap(
 
         if (in_sight)
             pline_mon(mtmp,
-                 "%s从%s脚下的%s中喷出!", tower_of_flame,
+                 "%s从%s下面的%s中喷出!", tower_of_flame,
                   mon_nam(mtmp), surface(mtmp->mx, mtmp->my)); /*修改语序:surface(mtmp->mx, mtmp->my), mon_nam(mtmp));*/
         else if (see_it) { /* evidently `mtmp' is invisible */
             set_msg_xy(mtmp->mx, mtmp->my);
@@ -1852,10 +1852,10 @@ trapeffect_pit(
         feeltrap(trap);
         if (!Sokoban && is_clinger(gy.youmonst.data) && !plunged) {
             if (already_known) {
-                You_see("%s%s坑在你下方.", a_your[trap->madeby_u],
+                You_see("%s%s坑在你下面.", a_your[trap->madeby_u],
                         ttype == SPIKED_PIT ? "有刺的" : "");
             } else {
-                pline("%s%s坑在你下方打开了!", A_Your[trap->madeby_u],
+                pline("%s%s坑在你下面打开了!", A_Your[trap->madeby_u],
                       ttype == SPIKED_PIT ? "有刺的" : "");
                 You("没有掉进去!");
             }
@@ -2549,7 +2549,7 @@ trapeffect_landmine(
             if (!already_seen && rn2(3))
                 return Trap_Effect_Finished;
             feeltrap(trap);
-            pline("%s你脚下的土堆里有%s.",
+            pline("%s你下面的土堆里有%s.",
                   already_seen ? "" : "你发现",
                   trap->madeby_u ? "你的地雷的触发器" : "一个触发器");
             if (already_seen && rn2(3))
@@ -2610,7 +2610,7 @@ trapeffect_landmine(
 
             if (in_sight && !already_seen) {
                 pline_mon(mtmp,
-                     "%s脚下的土堆里有一个触发器.",
+                     "%s下面的土堆里有一个触发器.",
                       mon_nam(mtmp));
                 seetrap(trap);
             }
@@ -5681,8 +5681,8 @@ try_lift(
     boolean stuff) /* False: monster w/o minvent; True: w/ minvent */
 {
     if (calc_capacity(xtra_wt) >= HVY_ENCUMBER) {
-        pline("%s%s,你搬不起来.", Monnam(mtmp),
-              stuff ? "携带了太多的东西" : "太重了");
+        pline("你%s%s搬不起来.", Monnam(mtmp),
+              stuff ? "携带的物品太多" : "太重了");
         if (!ttmp->madeby_u && !mtmp->mpeaceful && mtmp->mcanmove
             && !mindless(mtmp->data) && mtmp->data->mlet != S_HUMAN
             && rnl(10) < 3) {
