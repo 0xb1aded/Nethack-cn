@@ -454,8 +454,8 @@ itemactions(struct obj *otmp)
             assert(uwep != NULL);
             Sprintf(eos(buf), "用你装备的%s", simpleonames(uwep));
         }
-        Strcat(buf, "%s%s", shoot ? "射击" : "投掷", /*危险:Sprintf*/
-                (otmp->quan > 1L) ? "其中之一" : "这个");
+        Strcat(buf, shoot ? "射击" : "投掷");/*危险:Sprintf*/
+        Strcat(buf, (otmp->quan > 1L) ? "其中之一" : "这个");
         ia_addmenu(win, IA_FIRE_OBJ, 'f', buf);
     }
 
