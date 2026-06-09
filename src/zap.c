@@ -2524,7 +2524,7 @@ zappable(struct obj *wand)
 void
 do_enlightenment_effect(void)
 {
-    You_feel("有自知之明……");
+    You_feel("有自知之明...");
     display_nhwindow(WIN_MESSAGE, FALSE);
     enlightenment(MAGICENLIGHTENMENT, ENL_GAMEINPROGRESS);
     pline_The("感觉消失了.");

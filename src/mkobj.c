@@ -3850,7 +3850,7 @@ pudding_merge_message(struct obj *otmp, struct obj *otmp2)
         }
     } else {
         Soundeffect(se_faint_sloshing, 25);
-        You_hear("轻微的晃动声.");
+        You_hear("轻微的搅动声.");
     }
 }
 
