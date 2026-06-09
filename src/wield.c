@@ -611,7 +611,7 @@ doquiver_core(const char *verb) /* "ready" or "fire" */
     } else if (newquiver == uswapwep) {
         if (uswapwep->quan > 1L && inv_cnt(FALSE) < invlet_basic
             && splittable(uswapwep)) {
-            Sprintf(qbuf, "%s%ld个%s. 将它们中的%ld个准备好?",
+            Sprintf(qbuf, "%s%ld个%s. 将它们中的%ld个准备?",
                     u.twoweap ? "你正以副手手持"
                               : "你的备用武器是",
                     uswapwep->quan, simpleonames(uswapwep),

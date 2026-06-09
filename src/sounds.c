@@ -736,7 +736,7 @@ domonnoise(struct monst *mtmp)
         } else {
             /* approximation of GEICO's advertising slogan (it actually
                concludes with "save you 15% or more on car insurance.") */
-            Sprintf(verbuf, "原价都是100多,200多,300多的次元包,通通%s!",
+            Sprintf(verbuf, "原价都是100多,200多,300多的次元包,通通20 %s!",
                     currency(20L)); /* "zorkmids" */
             verbl_msg = verbuf;
         }

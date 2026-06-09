@@ -4039,7 +4039,7 @@ sellobj(
         || (Is_candle(obj)
             && obj->age < 20L * (long) objects[obj->otyp].oc_cost)) {
         pline("%s似乎对%s不感兴趣.", Shknam(shkp),
-              cgold ? "其余的" : "此");
+              cgold ? "其余的" : "这个");
         if (container)
             dropped_container(obj, shkp, FALSE);
         obj->no_charge = 1;

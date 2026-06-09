@@ -1363,11 +1363,11 @@ weapon_insight(int final)
             if (twoskl < sklvl) {
                 /* twoskil won't be restricted so sklvl is at least basic */
                 Sprintf(pfx, "你的%s技能", skill_name(wtype));
-                Sprintf(sfx, "因使用双武器而%s", twobuf);
+                Sprintf(sfx, "因使用双持而%s", twobuf);
                 also = also_;
             } else if (twoskl > sklvl) {
                 /* sklvl might be restricted */
-                Strcpy(pfx, "你的双武器技能");
+                Strcpy(pfx, "你的双持技能");
                 Strcpy(sfx, "止于");
                 if (sklvl > P_ISRESTRICTED)
                     Sprintf(eos(sfx), "%s", sklvlbuf);
@@ -1396,11 +1396,11 @@ weapon_insight(int final)
                 if (twoskl < sklvl2) {
                     /* twoskil is at least unskilled, sklvl2 at least basic */
                     Sprintf(pfx, "你的%s技能", sknambuf2);
-                    Sprintf(sfx, " %s因使用双武器而%s",
+                    Sprintf(sfx, " %s因使用双持而%s",
                             also, twobuf);
                 } else if (twoskl > sklvl2) {
                     /* sklvl2 might be restricted */
-                    Strcpy(pfx, "你的双武器技能");
+                    Strcpy(pfx, "你的双持技能");
                     Sprintf(sfx, " %s止于", also2);
                     if (sklvl2 > P_ISRESTRICTED)
                         Sprintf(eos(sfx), "%s", sklvlbuf2);
@@ -1458,7 +1458,7 @@ weapon_insight(int final)
                         a2 ? skill_name(wtype2) : "",
                         ((a1 && a2 && ab) ? ",和"
                          : (a2 && ab) ? also_wik_ : ""),
-                        ab ? "双武器" : "");
+                        ab ? "双持" : "");
                 enl_msg(You_, "可以增强", "还可以增强", sfx, "");
             }
         } /* two-weapon */
