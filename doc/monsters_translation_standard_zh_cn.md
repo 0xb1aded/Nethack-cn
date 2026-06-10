@@ -639,7 +639,7 @@
 | * | * | * | * | Geryon | 格殷永 |  |
 | * | * | * | * | Dispater | 迪斯帕特 |  |
 | * | * | * | * | Baalzebub | 别西卜 |  |
-| * | * | * | * | Asmodeus | 阿斯蒙蒂斯 |  |
+| * | * | * | * | Asmodeus | 阿斯莫德 |  |
 | * | * | * | * | Demogorgon | 狄摩高根 |  |
 | * | * | * | * | Death | 死亡 |  |
 | * | * | * | * | Pestilence | 瘟疫 |  |

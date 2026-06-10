@@ -3117,7 +3117,7 @@
             | M2_PRINCE | M2_MALE,
         M3_WANTSAMUL | M3_WAITFORU | M3_INFRAVISIBLE | M3_INFRAVISION,
         45, HI_LORD, BAALZEBUB),
-    MON(NAM("Asmodeus"), NAM("阿斯蒙蒂斯"), S_DEMON,
+    MON(NAM("Asmodeus"), NAM("阿斯莫德"), S_DEMON,
         LVL(105, 12, -7, 90, 20), (G_HELL | G_NOCORPSE | G_NOGEN | G_UNIQ),
         A(ATTK(AT_CLAW, AD_PHYS, 4, 4), ATTK(AT_MAGC, AD_COLD, 6, 6),
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
