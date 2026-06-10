@@ -13,14 +13,14 @@
 | * | * | * | * | soldier ant | 兵蚁 |  |
 | * | * | * | * | fire ant | 火蚁 |  |
 | * | * | * | * | giant beetle | 巨型甲虫 |  |
-| * | * | * | * | queen bee | 蜂王 |  |
+| * | * | * | * | queen bee | 蜂后 |  |
 
 #### 斑点怪类 (S_BLOB)
 
 | 男性英文名 | 男性中文名 | 女性英文名 | 女性中文名 | 中性英文名 | 中性中文名 | 备注 |
 | --- | --- | --- | --- | --- | --- | --- |
-| * | * | * | * | acid blob | 酸滴 |  |
-| * | * | * | * | quivering blob | 颤抖的斑点 |  |
+| * | * | * | * | acid blob | 酸性团怪 |  |
+| * | * | * | * | quivering blob | 颤动团怪 |  |
 | * | * | * | * | gelatinous cube | 黏胶立方怪 |  |
 
 #### 鸡蛇类 (S_COCKATRICE)
@@ -37,7 +37,7 @@
 | --- | --- | --- | --- | --- | --- | --- |
 | * | * | * | * | jackal | 豺狼 |  |
 | * | * | * | * | fox | 狐狸 |  |
-| * | * | * | * | coyote | 土狼 |  |
+| * | * | * | * | coyote | 郊狼 |  |
 | * | * | * | * | werejackal | 豺狼人 |  |
 | * | * | * | * | little dog | 小狗 |  |
 | * | * | * | * | dingo | 澳洲野狗 |  |
@@ -73,7 +73,7 @@
 | * | * | * | * | panther | 黑豹 |  |
 | * | * | * | * | large cat | 大猫 |  |
 | * | * | * | * | tiger | 老虎 |  |
-| * | * | * | * | displacer beast | 幻影兽 | 5.0.0 新增 |
+| * | * | * | * | displacer beast | 移位兽 | 5.0.0 新增 |
 
 #### 小鬼类 (S_GREMLIN)
 
@@ -110,9 +110,9 @@
 
 | 男性英文名 | 男性中文名 | 女性英文名 | 女性中文名 | 中性英文名 | 中性中文名 | 备注 |
 | --- | --- | --- | --- | --- | --- | --- |
-| * | * | * | * | blue jelly | 蓝色果冻 |  |
-| * | * | * | * | spotted jelly | 珍珠果冻 |  |
-| * | * | * | * | ochre jelly | 赭冻怪 |  |
+| * | * | * | * | blue jelly | 蓝色凝胶怪 |  |
+| * | * | * | * | spotted jelly | 斑点凝胶怪 |  |
+| * | * | * | * | ochre jelly | 赭色凝胶怪 |  |
 
 #### 狗头人类 (S_KOBOLD)
 
@@ -162,9 +162,9 @@
 
 | 男性英文名 | 男性中文名 | 女性英文名 | 女性中文名 | 中性英文名 | 中性中文名 | 备注 |
 | --- | --- | --- | --- | --- | --- | --- |
-| * | * | * | * | rock piercer | 岩石锥子 |  |
-| * | * | * | * | iron piercer | 铁锥子 |  |
-| * | * | * | * | glass piercer | 玻璃锥子 |  |
+| * | * | * | * | rock piercer | 岩石锥怪 |  |
+| * | * | * | * | iron piercer | 铁锥怪 |  |
+| * | * | * | * | glass piercer | 玻璃锥怪 |  |
 
 #### 四足兽类 (S_QUADRUPED)
 
@@ -175,7 +175,7 @@
 | * | * | * | * | leocrotta | 狼狗 |  |
 | * | * | * | * | wumpus | 狮头象 |  |
 | * | * | * | * | titanothere | 雷兽 |  |
-| * | * | * | * | baluchitherium | 俾路支兽 |  |
+| * | * | * | * | baluchitherium | 巨犀 |  |
 | * | * | * | * | mastodon | 乳齿象 |  |
 
 #### 啮齿类 (S_RODENT)
@@ -197,14 +197,14 @@
 | * | * | * | * | centipede | 蜈蚣 |  |
 | * | * | * | * | giant spider | 巨型蜘蛛 |  |
 | * | * | * | * | scorpion | 蝎子 |  |
-| * | * | * | * | Scorpius | 蝎弩 |  |
+| * | * | * | * | Scorpius | 天蝎 |  |
 
 #### 伏击怪类 (S_TRAPPER)
 
 | 男性英文名 | 男性中文名 | 女性英文名 | 女性中文名 | 中性英文名 | 中性中文名 | 备注 |
 | --- | --- | --- | --- | --- | --- | --- |
-| * | * | * | * | lurker above | 潜伏者 |  |
-| * | * | * | * | trapper | 捕兽者 |  |
+| * | * | * | * | lurker above | 蛰伏怪 |  |
+| * | * | * | * | trapper | 诱陷者 |  |
 
 #### 独角兽与马类 (S_UNICORN)
 
@@ -262,10 +262,10 @@
 | 男性英文名 | 男性中文名 | 女性英文名 | 女性中文名 | 中性英文名 | 中性中文名 | 备注 |
 | --- | --- | --- | --- | --- | --- | --- |
 | * | * | * | * | couatl | 羽蛇 |  |
-| * | * | * | * | Aleax | 亚历克斯 |  |
+| * | * | * | * | Aleax | 神罚化身 |  |
 | * | * | * | * | Angel | 天使 |  |
 | * | * | * | * | ki-rin | 麒麟 |  |
-| * | * | * | * | Archon | 执政官 |  |
+| * | * | * | * | Archon | 亚空天族 |  |
 
 #### 蝙蝠与鸟类 (S_BAT)
 
@@ -309,7 +309,7 @@
 | * | * | * | * | green dragon | 绿龙 |  |
 | * | * | * | * | yellow dragon | 黄龙 |  |
 | * | * | * | * | Chromatic Dragon | 彩色龙 |  |
-| * | * | * | * | Ixoth | 恶龙 |  |
+| * | * | * | * | Ixoth | 恶龙埃索斯 |  |
 
 #### 元素类 (S_ELEMENTAL)
 
@@ -356,13 +356,13 @@
 | * | * | * | * | titan | 提坦 |  |
 | * | * | * | * | minotaur | 弥诺陶洛斯 |  |
 | * | * | * | * | Cyclops | 独眼巨人 |  |
-| * | * | * | * | Lord Surtur | 叙尔特领主 |  |
+| * | * | * | * | Lord Surtur | 苏尔特领主 |  |
 
 #### 颊脖龙类 (S_JABBERWOCK)
 
 | 男性英文名 | 男性中文名 | 女性英文名 | 女性中文名 | 中性英文名 | 中性中文名 | 备注 |
 | --- | --- | --- | --- | --- | --- | --- |
-| * | * | * | * | jabberwock | 颊脖龙 |  |
+| * | * | * | * | jabberwock | 炸脖龙 |  |
 
 #### 吉斯通警察类 (S_KOP)
 
@@ -379,7 +379,7 @@
 | --- | --- | --- | --- | --- | --- | --- |
 | * | * | * | * | lich | 巫妖 |  |
 | * | * | * | * | demilich | 半巫妖 |  |
-| * | * | * | * | master lich | 巫妖大师 |  |
+| * | * | * | * | master lich | 高阶巫妖 |  |
 | * | * | * | * | arch-lich | 大巫妖 |  |
 
 #### 木乃伊类 (S_MUMMY)
@@ -420,24 +420,24 @@
 
 | 男性英文名 | 男性中文名 | 女性英文名 | 女性中文名 | 中性英文名 | 中性中文名 | 备注 |
 | --- | --- | --- | --- | --- | --- | --- |
-| * | * | * | * | gray ooze | 灰色软泥 |  |
-| * | * | * | * | brown pudding | 棕色布丁 |  |
+| * | * | * | * | gray ooze | 灰泥怪 |  |
+| * | * | * | * | brown pudding | 棕布丁 |  |
 | * | * | * | * | green slime | 绿色黏液 |  |
-| * | * | * | * | black pudding | 黑色布丁 |  |
+| * | * | * | * | black pudding | 黑布丁 |  |
 
 #### 量子怪类 (S_QUANTMECH)
 
 | 男性英文名 | 男性中文名 | 女性英文名 | 女性中文名 | 中性英文名 | 中性中文名 | 备注 |
 | --- | --- | --- | --- | --- | --- | --- |
-| * | * | * | * | quantum mechanic | 量子力学 |  |
+| * | * | * | * | quantum mechanic | 量子工程师 |  |
 | * | * | * | * | genetic engineer | 基因工程师 | 5.0.0 新增 |
 
 #### 锈怪类 (S_RUSTMONST)
 
 | 男性英文名 | 男性中文名 | 女性英文名 | 女性中文名 | 中性英文名 | 中性中文名 | 备注 |
 | --- | --- | --- | --- | --- | --- | --- |
-| * | * | * | * | rust monster | 锈怪 |  |
-| * | * | * | * | disenchanter | 解魔怪 |  |
+| * | * | * | * | rust monster | 锈蚀怪 |  |
+| * | * | * | * | disenchanter | 祛魔怪 |  |
 
 #### 蛇类 (S_SNAKE)
 
@@ -458,7 +458,7 @@
 | * | * | * | * | ice troll | 冰巨魔 |  |
 | * | * | * | * | rock troll | 岩石巨魔 |  |
 | * | * | * | * | water troll | 水巨魔 |  |
-| * | * | * | * | Olog-hai | 欧罗海 |  |
+| * | * | * | * | Olog-hai | 奥洛格 |  |
 
 #### 土巨怪类 (S_UMBER)
 
@@ -539,7 +539,7 @@
 | * | * | * | * | werejackal | 豺狼人 |  |
 | * | * | * | * | werewolf | 狼人 |  |
 | * | * | * | * | elf | 精灵 |  |
-| * | * | * | * | Woodland-elf | 伍德兰精灵 |  |
+| * | * | * | * | Woodland-elf | 林地精灵 |  |
 | * | * | * | * | Green-elf | 绿精灵 |  |
 | * | * | * | * | Grey-elf | 灰精灵 |  |
 | elf-lord | 精灵领主 | elf-lady | 精灵女领主 | elf-noble | 精灵贵族 | 5.0.0 新增：elf-lady，elf-noble |
@@ -549,8 +549,8 @@
 | * | * | * | * | guard | 警卫 |  |
 | * | * | * | * | prisoner | 囚犯 |  |
 | * | * | * | * | Oracle | 神谕 |  |
-| priest | 牧师 | priestess | 女牧师 | aligned cleric | 阵营牧师 | 5.0.0 新增：aligned cleric |
-| high priest | 高级祭司 | high priestess | 高级女祭司 | high cleric | 高级祭司 | 5.0.0 新增：high priestess，high cleric |
+| priest | 男牧师 | priestess | 女牧师 | aligned cleric | 阵营牧师 | 5.0.0 新增：aligned cleric |
+| high priest | 高级男祭司 | high priestess | 高级女祭司 | high cleric | 高级祭司 | 5.0.0 新增：high priestess，high cleric |
 | * | * | * | * | soldier | 士兵 |  |
 | * | * | * | * | sergeant | 中士 |  |
 | * | * | * | * | nurse | 护士 |  |
@@ -561,14 +561,14 @@
 | * | * | * | * | Medusa | 美杜莎 |  |
 | * | * | * | * | Wizard of Yendor | 岩德巫师 |  |
 | * | * | * | * | Croesus | 克罗伊斯 |  |
-| * | * | * | * | Charon | 卡隆 |  |
+| * | * | * | * | Charon | 卡戎 |  |
 | * | * | * | * | archeologist | 考古学家 |  |
 | * | * | * | * | barbarian | 野蛮人 |  |
-| caveman | 穴居人 | cavewoman | 女穴居人 | cave dweller | 穴居人 | 5.0.0 新增：cave dweller |
+| caveman | 男穴居人 | cavewoman | 女穴居人 | cave dweller | 穴居人 | 5.0.0 新增：cave dweller |
 | * | * | * | * | healer | 医生 |  |
 | * | * | * | * | knight | 骑士 |  |
 | * | * | * | * | monk | 僧侣 |  |
-| priest | 牧师 | priestess | 女牧师 | cleric | 牧师 | 5.0.0 新增：cleric |
+| priest | 男祭司 | priestess | 女祭司 | cleric | 祭司 | 5.0.0 新增：cleric |
 | * | * | * | * | ranger | 游侠 |  |
 | * | * | * | * | rogue | 盗贼 |  |
 | * | * | * | * | samurai | 武士 |  |
@@ -584,10 +584,10 @@
 | * | * | * | * | Arch Priest | 大祭司 |  |
 | * | * | * | * | Orion | 俄里翁 |  |
 | * | * | * | * | Master of Thieves | 盗贼大师 |  |
-| * | * | * | * | Lord Sato | 萨托领主 |  |
+| * | * | * | * | Lord Sato | 佐藤领主 |  |
 | * | * | * | * | Twoflower | 双花 |  |
-| * | * | * | * | Norn | 诺恩 |  |
-| * | * | * | * | Neferet the Green | 绿衣娜菲利特 |  |
+| * | * | * | * | Norn | 诺伦 |  |
+| * | * | * | * | Neferet the Green | 绿肤娜菲利特 |  |
 | * | * | * | * | Thoth Amon | 图特阿蒙 |  |
 | * | * | * | * | Master Kaen | 凯恩大师 |  |
 | * | * | * | * | Master Assassin | 刺客大师 |  |
@@ -621,9 +621,9 @@
 | --- | --- | --- | --- | --- | --- | --- |
 | * | * | * | * | water demon | 水妖 |  |
 | incubus | 梦魇 | succubus | 魅魔 | amorous demon | 多情的恶魔 | 5.0.0 新增：amorous demon |
-| * | * | * | * | horned devil | 有角的魔鬼 |  |
-| * | * | * | * | erinys | 伊里逆丝 |  |
-| * | * | * | * | barbed devil | 哈玛魔 |  |
+| * | * | * | * | horned devil | 角魔 |  |
+| * | * | * | * | erinys | 厄里倪厄斯 |  |
+| * | * | * | * | barbed devil | 猬魔 |  |
 | * | * | * | * | marilith | 六臂蛇魔 |  |
 | * | * | * | * | vrock | 弗洛魔 |  |
 | * | * | * | * | hezrou | 狂战魔 |  |
@@ -631,22 +631,22 @@
 | * | * | * | * | ice devil | 冰魔 |  |
 | * | * | * | * | nalfeshnee | 判魂魔 |  |
 | * | * | * | * | pit fiend | 深渊恶魔 |  |
-| * | * | * | * | sandestin | 桑德斯廷 |  |
+| * | * | * | * | sandestin | 沙魔 |  |
 | * | * | * | * | balrog | 炎魔 |  |
-| * | * | * | * | Juiblex | 朱比烈斯 |  |
-| * | * | * | * | Yeenoghu | 伊诺胡 |  |
+| * | * | * | * | Juiblex | 朱庇莱克斯 |  |
+| * | * | * | * | Yeenoghu | 耶诺古 |  |
 | * | * | * | * | Orcus | 奥迦斯 |  |
-| * | * | * | * | Geryon | 吉里昂 |  |
+| * | * | * | * | Geryon | 格殷永 |  |
 | * | * | * | * | Dispater | 迪斯帕特 |  |
-| * | * | * | * | Baalzebub | 巴力西卜 |  |
-| * | * | * | * | Asmodeus | 阿斯莫德 |  |
+| * | * | * | * | Baalzebub | 别西卜 |  |
+| * | * | * | * | Asmodeus | 阿斯蒙蒂斯 |  |
 | * | * | * | * | Demogorgon | 狄摩高根 |  |
 | * | * | * | * | Death | 死亡 |  |
 | * | * | * | * | Pestilence | 瘟疫 |  |
 | * | * | * | * | Famine | 饥荒 |  |
-| * | * | * | * | mail daemon | 邮件幽灵程序 |  |
+| * | * | * | * | mail daemon | 传信小鬼 |  |
 | * | * | * | * | djinni | 灯神 |  |
-| * | * | * | * | Minion of Huhetotl | 修堤库特里的奴才 |  |
+| * | * | * | * | Minion of Huhetotl | 休特奥特尔的爪牙 |  |
 | * | * | * | * | Nalzok | 纳宗魔 |  |
 
 #### 海怪类 (S_EEL)
