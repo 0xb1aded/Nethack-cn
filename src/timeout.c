@@ -1118,7 +1118,7 @@ hatch_egg(anything *arg, long timeout)
             if (yours) {
                 pline("%s%s%s像\"%s%s\"",
                       siblings ? "它们的" : "它的",
-                      ing_suffix(cry_sound(mon)) ? "" : "",
+                      cry_sound(mon), /*危险:ing_suffix(cry_sound(mon))*/
                       (is_silent(mon->data) || Deaf) ? "似乎" : "听起来",
                       flags.female ? "妈妈" : "爸爸", egg->spe ? "." : "?");
             } else if (mon->data->mlet == S_DRAGON && !Deaf) {

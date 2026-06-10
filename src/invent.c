@@ -1701,7 +1701,7 @@ mime_action(const char *word)
     } else
         bp = buf;
 
-    You("假装在%s%s%s%s%s某物.", ing_suffix(bp),
+    You("假装在%s%s%s%s%s某物.", bp, /*危险:You("假装在%s%s%s%s%s某物.", ing_suffix(bp),*/
         pfx ? "" : "", pfx ? pfx : "", sfx ? "" : "", sfx ? sfx : "");
 }
 

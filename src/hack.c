@@ -1910,7 +1910,7 @@ swim_move_danger(coordxy x, coordxy y)
                 return FALSE;
             } else if (ParanoidSwim || liquid_wall) {
                 You("避免%s入%s.",
-                    ing_suffix(u_locomotion("踏")),
+                    u_locomotion("踏"), /*危险:ing_suffix(u_locomotion("踏")),*/
                     waterbody_name(x, y));
                 (void) handle_tip(TIP_SWIM);
                 return TRUE;
