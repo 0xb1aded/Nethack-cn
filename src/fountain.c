@@ -521,7 +521,7 @@ dipfountain(struct obj *obj)
                             delobj(otmp);
                     }
                 }
-                You("你的一些金币掉进了喷泉!");
+                You("的一些金币掉进了喷泉!");
                 CLEAR_FOUNTAIN_LOOTED(u.ux, u.uy);
                 exercise(A_WIS, FALSE);
             }
@@ -650,7 +650,7 @@ drinksink(void)
         break;
     case 5:
         if (!(levl[u.ux][u.uy].looted & S_LRING)) {
-            You("你在水槽里发现了一枚戒指!");
+            You("在水槽里发现了一枚戒指!");
             (void) mkobj_at(RING_CLASS, u.ux, u.uy, TRUE);
             levl[u.ux][u.uy].looted |= S_LRING;
             exercise(A_WIS, TRUE);
@@ -737,7 +737,7 @@ dipsink(struct obj *obj)
     }
 
     /* at this point the object must be a potion */
-    You("你把%s%s倒进了下水道.", (obj->quan > 1L ? "其中的一瓶" : ""),
+    You("把%s%s倒进了下水道.", (obj->quan > 1L ? "其中的一瓶" : ""),
         the(xname(obj)));
     switch (obj->otyp) {
     case POT_POLYMORPH:

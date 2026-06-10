@@ -398,7 +398,7 @@ moverock_core(coordxy sx, coordxy sy)
                 sokoban_guilt();
                 res = 0; /* move to <sx,sy> */
             } else if (could_move_onto_boulder(sx, sy)) {
-                You("你%s过了那块巨石.",
+                You("%s过了那块巨石.",
                     Flying ? "飞" : "挤");
                 sokoban_guilt();
                 res = 0; /* move to <sx,sy> */
@@ -669,7 +669,7 @@ still_chewing(coordxy x, coordxy y)
     } else if (lev->typ == IRONBARS
                && metallivorous(gy.youmonst.data) && u.uhunger > 1500) {
         /* finishing eating via 'morehungry()' doesn't handle choking */
-        You("你太饱了,无法啃食铁栅栏.");
+        You("太饱了,无法啃食铁栅栏.");
         nomul(0);
         return 1;
     } else if (!svc.context.digging.chew
@@ -2081,7 +2081,7 @@ domove_fight_web(coordxy x, coordxy y)
 
         /* hit has succeeded */
         } else {
-            You("你%s了蜘蛛网.", uwep ? "切穿" : "击穿");
+            You("%s了蜘蛛网.", uwep ? "切穿" : "击穿");
             /* doesn't break "never hit with a wielded weapon" conduct */
             use_skill(wtype, 1);
         }
@@ -2601,7 +2601,7 @@ move_out_of_bounds(coordxy x, coordxy y)
                 else if (isok(u.ux, y))
                     dy = 0;
             }
-            You("你已经尽可能地往%s走了.",
+            You("已经尽可能地往%s走了.",
                 directionname(xytodir(dx, dy)));
         }
         nomul(0);
@@ -3688,7 +3688,7 @@ check_special_room(boolean newlev)
 
                 pline("快%s! 快%s!", run, run);
             } else
-                You("你有一种莫名其妙的感觉...");
+                You("有一种莫名其妙的感觉...");
             break;
         case BEEHIVE:
             You("进入了一个巨型蜂巢!");
