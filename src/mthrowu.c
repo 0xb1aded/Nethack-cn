@@ -22,7 +22,7 @@ staticfn void return_from_mtoss(struct monst *, struct obj *, boolean);
  * Keep consistent with breath weapons in zap.c, and AD_* in monattk.h.
  */
 static NEARDATA const char *breathwep[] = {
-    "碎片", "火焰", "冰霜", "睡眠气体", "瓦解射线",
+    "碎片", "火焰", "冰霜", "睡眠气体", "分解射线",
     "闪电", "毒气", "酸", "strange breath #8",
     "strange breath #9"
 };

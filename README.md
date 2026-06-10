@@ -92,8 +92,8 @@ English README：[README_en.md](README_en.md)
 - [ ] engrave.c
 - [ ] exper.c
 - [ ] explode.c
-- [ ] extralev.c
-- [ ] files.c
+- [x] extralev.c (无需翻译)
+- [x] files.c (无需翻译)
 - [ ] fountain.c
 - [ ] getpos.c
 - [ ] glyphs.c
