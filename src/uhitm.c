@@ -545,7 +545,7 @@ do_attack(struct monst *mtmp)
                 You("开始用你%s的%s%s怪物.",
                     uarmg ? "戴手套" : "裸露", /*修改语序:ing_suffix(Role_if(PM_MONK) ? "猛击" : "打击")*/
                     makeplural(body_part(HAND)), /* Del Lamb */ /*修改语序:uarmg ? "gloved" : "bare"*/
-                    ing_suffix(Role_if(PM_MONK) ? "猛击" : "打击")); /*修改语序:makeplural(body_part(HAND))*/
+                    Role_if(PM_MONK) ? "猛击" : "打击"); /*修改语序:makeplural(body_part(HAND))*/ /*危险:ing_suffix(Role_if(PM_MONK) ? "猛击" : "打击"));*/
         }
     }
     exercise(A_STR, TRUE); /* you're exercising muscles */

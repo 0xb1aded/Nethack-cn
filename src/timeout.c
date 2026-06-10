@@ -334,7 +334,7 @@ sickness_dialogue(void)
         if (Hallucination && strstri(buf, "你已濒临")) {
             /* youmonst: for Hallucination, mhe()'s mon argument isn't used */
             Strcpy(pronounbuf, mhe(&gy.youmonst));
-            Sprintf(eos(buf), "  %s%s邀请你进来.",
+            Sprintf(eos(buf), "%s%s邀请你进来.",
                     /* upstart() modifies its argument but vtense() doesn't
                        care whether or not that has already happened */
                     upstart(pronounbuf), vtense(pronounbuf, "正在"));
@@ -506,7 +506,7 @@ slimed_to_death(struct kinfo *kptr)
         Strcpy(slimebuf, "绿色黏液已经被灭绝了...");
         if (iflags.last_msg == PLNMSG_OK_DONT_DIE)
             /* follows "OK, so you don't die." and arg is second sentence */
-            urgent_pline("好的.%s", upstart(slimebuf));
+            urgent_pline("好的. %s", upstart(slimebuf));
         else
             /* follows "The medallion crumbles to dust." */
             urgent_pline("不幸的是,%s", slimebuf);
@@ -1118,7 +1118,7 @@ hatch_egg(anything *arg, long timeout)
             if (yours) {
                 pline("%s%s%s像\"%s%s\"",
                       siblings ? "它们的" : "它的",
-                      ing_suffix(cry_sound(mon)),
+                      cry_sound(mon), /*危险:ing_suffix(cry_sound(mon))*/
                       (is_silent(mon->data) || Deaf) ? "似乎" : "听起来",
                       flags.female ? "妈妈" : "爸爸", egg->spe ? "." : "?");
             } else if (mon->data->mlet == S_DRAGON && !Deaf) {
@@ -1248,7 +1248,7 @@ slip_or_trip(void)
         if (Hallucination) {
             what = strcpy(buf, what);
             buf[0] = highc(buf[0]);
-            pline("天哪!%s咬了%s你的%s!", what,
+            pline("天哪! %s咬了%s你的%s!", what,
                   (!otmp || otmp->quan == 1L) ? "" : "", body_part(FOOT));
         } else {
             You("被%s绊倒.", what);
@@ -1282,7 +1282,7 @@ slip_or_trip(void)
             && ((saddle = which_armor(u.usteed, W_SADDLE)) == 0
                 || !saddle->cursed)
             && (!ice_only || !rn2(3))) {
-            You("你失去了平衡.");
+            You("失去了平衡.");
             dismount_steed(DISMOUNT_FELL);
         } else if (!rn2(10 + ACURR(A_DEX))) {
             /* Maybe slip in a random direction.  This takes place after
@@ -1494,7 +1494,7 @@ burn_object(anything *arg, long timeout)
                     switch (obj->where) {
                     case OBJ_INVENT:
                     case OBJ_MINVENT:
-                        pline("%s看起来要熄灭了.", Yname2(obj));
+                        pline("%s看上去要熄灭了.", Yname2(obj));
                         break;
                     case OBJ_FLOOR:
                         You_see("%s快要熄灭了.", an(xname(obj)));
@@ -1878,7 +1878,7 @@ do_storms(void)
         /* Inside a cloud during a thunderstorm is deafening. */
         /* Even if already deaf, we sense the thunder's vibrations. */
         Soundeffect(se_kaboom_boom_boom, 80);
-        pline("嘭!!!嘭!!嘭!!");
+        pline("嘭!!! 嘭!! 嘭!!");
         incr_itimeout(&HDeaf, rn1(20, 30));
         disp.botl = TRUE;
         if (!u.uinvulnerable) {
