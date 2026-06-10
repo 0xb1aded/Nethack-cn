@@ -2169,7 +2169,7 @@ extern void tutorial(boolean);
 
 #if !defined(MAKEDEFS_C) && !defined(MDLIB_C) && !defined(CPPREGEX_C)
 
-/* ### consoletty.c ### */
+/* ### consoletty.c  ### */
 
 #ifdef WIN32
 extern void get_scr_size(void);
@@ -2182,6 +2182,9 @@ void console_g_putch(int in_ch);
 extern void set_output_mode(int);
 extern void synch_cursor(void);
 extern void nethack_enter_consoletty(void);
+/* body in consoletty.c and mhmain.c */
+extern int get_approx_display_cols(void);
+extern int get_approx_display_rows(void);
 extern void consoletty_exit(void);
 extern int set_keyhandling_via_option(void);
 #ifdef ENHANCED_SYMBOLS
