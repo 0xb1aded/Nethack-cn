@@ -227,7 +227,7 @@ losexp(
         u.ulevel -= 1;
         /* remove intrinsic abilities */
         adjabil(u.ulevel + 1, u.ulevel);
-        livelog_printf(LL_MINORAC, "lost experience level %d", u.ulevel + 1);
+        livelog_printf(LL_MINORAC, "从%d级掉下", u.ulevel + 1);
         SoundAchievement(0, sa2_xpleveldown, 0);
     } else { /* u.ulevel==1 */
         if (drainer) {
@@ -242,7 +242,7 @@ losexp(
                a blessed potion of restore ability to restore lost levels */
             return;
         u.uexp = 0;
-        livelog_printf(LL_MINORAC, "lost all experience");
+        livelog_printf(LL_MINORAC, "失去了所有经验");
     }
     assert(u.ulevel >= 0 && u.ulevel < MAXULEV); /* valid array index */
 
@@ -347,7 +347,7 @@ pluslvl(
             u.uexp = newuexp(u.ulevel);
         }
         ++u.ulevel;
-        pline("恭喜%s等级%d.",
+        pline("恭喜%s%d级.",
               (u.ulevelmax < u.ulevel) ? "升为" : "回到",
               u.ulevel);
         if (u.ulevelmax < u.ulevel)
@@ -363,8 +363,8 @@ pluslvl(
            hasn't changed or hero just regained a lost level and the rank
            achievement doesn't get repeated) */
         if (count_achievements() == old_ach_cnt)
-            livelog_printf(LL_MINORAC, "%sgained experience level %d",
-                           (u.ulevel <= u.ulevelpeak) ? "re" : "", u.ulevel);
+            livelog_printf(LL_MINORAC, "%s%d级",
+                           (u.ulevel <= u.ulevelpeak) ? "回到" : "升为", u.ulevel);
         if (u.ulevel > u.ulevelpeak)
             u.ulevelpeak = u.ulevel;
     }
