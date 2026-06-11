@@ -8,10 +8,7 @@
 extern const char *const hu_stat[]; /* defined in eat.c */
 
 /* also used in insight.c */
-const char *const enc_stat[] = {
-    "",         "Burdened",  "Stressed",
-    "Strained", "Overtaxed", "Overloaded"
-};
+const char *const enc_stat[] = { "", "负重", "吃力", "受压", "高压", "超载" };
 
 staticfn const char *rank(void);
 staticfn void bot_via_windowport(void);
@@ -61,6 +58,7 @@ do_statusline1(void)
     Sprintf(nb = eos(newbot1), " ");
 
     if (Upolyd) {
+        /* 冗余: 大小写操作在中文语境下失效，考虑直接删除
         char mbot[BUFSZ];
         int k = 0;
 
@@ -71,7 +69,9 @@ do_statusline1(void)
                 mbot[k] += 'A' - 'a';
             k++;
         }
-        Strcpy(nb = eos(nb), mbot);
+        Strcpy(nb = eos(nb), mbot); */
+        // 若删除上注释块中逻辑，下语句是其替代逻辑
+        Strcpy(nb = eos(nb), pmname(&mons[u.umonnum], Ugender));
     } else {
         Strcpy(nb = eos(nb), rank());
     }
@@ -87,9 +87,9 @@ do_statusline1(void)
             ACURR(A_DEX), ACURR(A_CON), ACURR(A_INT), ACURR(A_WIS),
             ACURR(A_CHA));
     Sprintf(nb = eos(nb), "%s",
-            (u.ualign.type == A_CHAOTIC) ? "  混乱"
+            (u.ualign.type == A_CHAOTIC) ? "  混沌"
               : (u.ualign.type == A_NEUTRAL) ? "  中立"
-                : "  守序");
+                : "  秩序");
 #ifdef SCORE_ON_BOTL
     if (flags.showscore)
         Sprintf(nb = eos(nb), " S:%ld", botl_score());
@@ -146,6 +146,7 @@ do_statusline2(void)
     hln = strlen(hlth);
 
     /* experience */
+    // 疑问: 是否需要翻译？生命骰？
     if (Upolyd)
         Sprintf(expr, "HD:%d", mons[u.umonnum].mlevel);
     else if (flags.showexp)
@@ -156,7 +157,7 @@ do_statusline2(void)
 
     /* time/move counter */
     if (flags.time)
-        Sprintf(tmmv, " 回:%ld", svm.moves);
+        Sprintf(tmmv, " 回合:%ld", svm.moves);
     else
         tmmv[0] = '\0';
     tln = strlen(tmmv);
@@ -171,38 +172,38 @@ do_statusline2(void)
      * unusual for more than one of them to apply at a time.]
      */
     if (Stoned)
-        Strcpy(nb = eos(nb), "  石化");
+        Strcpy(nb = eos(nb), " 石化");
     if (Slimed)
-        Strcpy(nb = eos(nb), "  污秽");
+        Strcpy(nb = eos(nb), " 粘液化"); // 此处原文: Slime
     if (Strangled)
-        Strcpy(nb = eos(nb), "  束缚");
+        Strcpy(nb = eos(nb), " 窒息");
     if (Sick) {
         if (u.usick_type & SICK_VOMITABLE)
-            Strcpy(nb = eos(nb), "  食物中毒");
+            Strcpy(nb = eos(nb), " 食物中毒");
         if (u.usick_type & SICK_NONVOMITABLE)
-            Strcpy(nb = eos(nb), "  生病");
+            Strcpy(nb = eos(nb), " 不治之症"); // 此处原文: TermIll=Terminal Illness
     }
     if (u.uhs != NOT_HUNGRY)
         Sprintf(nb = eos(nb), " %s", hu_stat[u.uhs]);
     if ((cap = near_capacity()) > UNENCUMBERED)
         Sprintf(nb = eos(nb), " %s", enc_stat[cap]);
     if (Blind)
-        Strcpy(nb = eos(nb), "  失明");
+        Strcpy(nb = eos(nb), " 失明");
     if (Deaf)
-        Strcpy(nb = eos(nb), "  耳聋");
+        Strcpy(nb = eos(nb), " 失聪");
     if (Stunned)
-        Strcpy(nb = eos(nb), "  眩晕");
+        Strcpy(nb = eos(nb), " 定身");
     if (Confusion)
-        Strcpy(nb = eos(nb), "  混乱");
+        Strcpy(nb = eos(nb), " 混乱");
     if (Hallucination)
-        Strcpy(nb = eos(nb), "  幻觉");
+        Strcpy(nb = eos(nb), " 幻觉");
     /* levitation and flying are mutually exclusive; riding is not */
     if (Levitation)
-        Strcpy(nb = eos(nb), "  飘浮");
+        Strcpy(nb = eos(nb), " 悬浮");
     if (Flying)
-        Strcpy(nb = eos(nb), "  飞行");
+        Strcpy(nb = eos(nb), " 飞行");
     if (u.usteed)
-        Strcpy(nb = eos(nb), "  乘骑");
+        Strcpy(nb = eos(nb), " 骑乘");
     cln = strlen(cond);
 
     /* version on status line, with leading space */
@@ -354,7 +355,7 @@ rank_of(int lev, short monnum, boolean female)
         return role->name.f;
     else if (role->name.m)
         return role->name.m;
-    return "Player";
+    return "玩家"; // 原文: Player，是否会出戏？冒险者？
 }
 
 staticfn const char *
@@ -455,7 +456,7 @@ describe_level(
         /* [3.6.2: this used to be "Astral Plane" or generic "End Game"] */
         (void) endgamelevelname(buf, depth(&u.uz));
         if (!addbranch)
-            (void) strsubst(buf, "Plane of ", ""); /* just keep <element> */
+            (void) strsubst(buf, "位面", ""); /* just keep <element> */
         addbranch = FALSE;
     } else {
         /* ports with more room may expand this one */
@@ -468,7 +469,8 @@ describe_level(
     }
     if (addbranch) {
         Sprintf(eos(buf), ", %s", svd.dungeons[u.uz.dnum].dname);
-        (void) strsubst(buf, "The ", "the ");
+        /* 冗余: 大小写操作在中文语境下失效，考虑直接删除
+        (void) strsubst(buf, "The ", "the "); */
     }
     if (addspace)
         Strcat(buf, " ");
@@ -486,17 +488,17 @@ weapon_status(char *outbuf)
     if (!uwep) {
         /* no weapon; gloves imply hands; humanoid also implies hands;
            otherwise make no assumptions */
-        res = uarmg ? "Empty-hnd" /* empty handed means "gloves only" */
-              : humanoid(gy.youmonst.data) ? "Bare-hnds" /* bare hands */
-                : "No-weapon";
+        res = uarmg ? "空手" /* empty handed means "gloves only" */
+              : humanoid(gy.youmonst.data) ? "徒手" /* bare hands */
+                : "无武器";
     } else if (u.twoweap) {
         /* two-weaponing implies hands and a weapon or wep-tool
            (not other odd stuff) in each hand */
-        res = "Dual-weps";
+        res = "双持";
         /* note: dual wielding two lances doesn't produce double joust */
         if (u.usteed && (weapon_type(uwep) == P_LANCE
                          || weapon_type(uswapwep) == P_LANCE))
-            res = "Dual+joust"; /* lance behaves specially when mounted */
+            res = "双持+长戟"; /* lance behaves specially when mounted */
     } else {
         /* report most weapons by their skill class (so a katana will be
            described as a long sword, for instance; mattock and hook are
@@ -506,44 +508,50 @@ weapon_status(char *outbuf)
 
         if (u.usteed && skill == P_LANCE) {
             /* lance behaves specially when hero is mounted */
-            res = "joust";
+            res = "长戟";
         } else if (uwep->otyp == AKLYS) {
             /* aklys behaves specially when thrown while wielded, so
                give it a distinct name instead of skill name of "club";
                [maybe FIXME?] for the time being
                use real name even if 'obj' is undiscovered "thonged club" */
-            res = "aklys";
+            res = "链棒";
         } else if (is_sword(uwep)) {
             /* simplify short short/broad sword/long sword/two-handed sword
                (similar to messages when dropped due to slippery fingers) */
-            res = "sword";
+            res = "剑";
         } else {
             /* shorten several */
             switch (skill) {
             case P_QUARTERSTAFF:
-                res = "staff";
+                res = "棍棒";
                 break;
             case P_MORNING_STAR:
-                res = "mrng-star"; /* still pretty long */
+                res = "流星锤";
                 break;
             case P_POLEARMS:
-                res = "pole";
+                res = "长棍";
                 break;
             case P_UNICORN_HORN:
-                res = "unihorn";
+                res = "独角兽的角";
                 break;
             default:
                 res = weapon_descr(uwep);
                 /* [should this be moved into weapon_descr()?] */
-                if (!strcmpi(res, "food") && uwep->otyp == CREAM_PIE)
-                    res = "pie";
+                // 修改: 对中文使用 strcmpi 没有额外好处，更换为了 strcmp
+                if (strcmp(res, "食物") == 0 && uwep->otyp == CREAM_PIE)
+                    res = "派";
                 break;
             }
         }
 
-        if ((uwep->oclass == WEAPON_CLASS || is_weptool(uwep))
-            && bimanual(uwep) && *res != '2' && strncmpi(res, "two", 3))
-            Strcat(outbuf, "双手-");
+        // 疑问: 此处的判断推测是为了给未来更多以"two-handed *"
+        // 命名的武器准备的，将其简写为"2H-*"更省地方。因为"two-handed
+        // sword"在前面的判断中会被简写为"sword"，而它是目前唯一以此
+        // 开头的武器，所以目前不做任何事。
+        // 暂定屏蔽处理，因为中文的“双手*”没必要简写。
+        // if ((uwep->oclass == WEAPON_CLASS || is_weptool(uwep))
+        //     && bimanual(uwep) && *res != '2' && strncmpi(res, "two", 3))
+        //     Strcat(outbuf, "双手-");
         Strcpy(p = eos(outbuf), res), res = outbuf;
         *p = highc(*p);
         /* avoid embedded spaces since its designed to appear as part
@@ -565,13 +573,13 @@ armor_status(char *armbuf)
      * At present it just reports the "no armor" case.
      */
     if (n == 0) { /* no armor */
-        Strcpy(armbuf, "裸体");
+        Strcpy(armbuf, "无防具");
     } else if (n == 1) { /* just one piece; spell it out */
         Strcpy(armbuf, uarmg ? "手套"
                        : uarmc ? "斗篷"
                          : uarm  ? "盔甲"
                            : uarmu ? "衬衫"
-                             : uarmh ? helm_simple_name(uarmh) /* hat|helm */
+                             : uarmh ? helm_simple_name(uarmh) /* 帽子|头盔 */
                                : uarmf ? "靴子"
                                  : uarms ? "盾牌"
                                    : ""); /* not possible */
@@ -581,21 +589,36 @@ armor_status(char *armbuf)
         /* gloves first since this is expected to follow weapon_status();
            cloak next since it tends to provide the most protection
            aside from raw AC */
+
+        // 修改: 各部位防具的中文简写，期待更准确的简称。
+        // 常用汉字占3字节，若需改为生僻字，第二维度需扩充
+        static const char ARMOR_S[][4] = {
+            "甲", "盾", "头", "手", "靴", "披", "衫",
+        };
+
+#define arms2p(armor_idx)                   \
+    do {                                    \
+        Strcpy(p, ARMOR_S[armor_idx]);      \
+        p += sizeof ARMOR_S[armor_idx] - 1; \
+    } while (0)
+
         if (uarmg)
-            *p++ = 'G'; /* gloves */
+            arms2p(ARM_GLOVES); /* gloves */
         if (uarmc)
-            *p++ = 'C'; /* cloak */
+            arms2p(ARM_CLOAK); /* cloak */
         if (uarm)
-            *p++ = 'A'; /* suit but 's' is for shield */
+            arms2p(ARM_SUIT); /* suit but 's' is for shield */
         if (uarmu)
-            *p++ = 'U'; /* underwear? => shirt */
+            arms2p(ARM_SHIRT); /* underwear? => shirt */
         if (uarmh)
-            *p++ = 'H'; /* hat/helm */
+            arms2p(ARM_HELM); /* hat/helm */
         if (uarmf)
-            *p++ = 'B'; /* footwear => boots */
+            arms2p(ARM_BOOTS); /* footwear => boots */
         if (uarms)
-            *p++ = 'S'; /* shield */
+            arms2p(ARM_SHIELD); /* shield */
         *p = '\0';
+
+#undef arms2p
     }
     /*
      * Add a hint about MC by appending a plus sign if that's augmented.
@@ -703,7 +726,7 @@ staticfn void status_hilites_viewall(void);
 static struct istat_s initblstats[MAXBLSTATS] = {
     INIT_BLSTAT("title", "%s", ANY_STR, MAXVALWIDTH, BL_TITLE),
     INIT_BLSTAT("strength", " St:%s", ANY_INT, 10, BL_STR),
-    INIT_BLSTAT("dexterity", " Dx:%s", ANY_INT,  10, BL_DX),
+    INIT_BLSTAT("dexterity", " Dx:%s", ANY_INT, 10, BL_DX),
     INIT_BLSTAT("constitution", " Co:%s", ANY_INT, 10, BL_CO),
     INIT_BLSTAT("intelligence", " In:%s", ANY_INT, 10, BL_IN),
     INIT_BLSTAT("wisdom", " Wi:%s", ANY_INT, 10, BL_WI),
@@ -733,7 +756,8 @@ static struct istat_s initblstats[MAXBLSTATS] = {
     /* weapon and armor are constructed strings with no particular numeric
        equivalent */
     INIT_BLSTAT("weapon", " %s", ANY_STR, 20, BL_WEAPON),
-    INIT_BLSTAT("armor", " %s", ANY_STR, 20, BL_ARMOR),
+    INIT_BLSTAT("armor", " %s", ANY_STR,
+                32 /* 修改: 此处扩大了缓冲区以装载汉字 */, BL_ARMOR),
     /* terrain is tracked by a number but designating it as type 'int'
        isn't useful; using type 'string' allows highlighting based on text
        matching which is potentially useful */
@@ -999,11 +1023,12 @@ bot_via_windowport(void)
     }
     Strcpy(nb = eos(nb), " ");
     Strcpy(nb = eos(nb), titl);
-    if (Upolyd) { /* when poly'd, capitalize monster name */
-        for (i = 0; nb[i]; i++)
-            if (i == 0 || nb[i - 1] == ' ')
-                nb[i] = highc(nb[i]);
-    }
+    // 冗余: 大小写操作在中文语境下失效，考虑直接删除
+    // if (Upolyd) { /* when poly'd, capitalize monster name */
+    //     for (i = 0; nb[i]; i++)
+    //         if (i == 0 || nb[i - 1] == ' ')
+    //             nb[i] = highc(nb[i]);
+    // }
     Sprintf(gb.blstats[idx][BL_TITLE].val, "%-30s", buf);
     gv.valset[BL_TITLE] = TRUE; /* indicate val already set */
 

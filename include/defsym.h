@@ -471,7 +471,7 @@
     OBJCLASS( 5,  '"', AMULET, S_amulet, "amulets", "amulet")
     OBJCLASS( 6,  '(', TOOL,   S_tool, "tools",
                                        "useful item (pick-axe, key, lamp...)")
-    OBJCLASS( 7,  '%', FOOD,   S_food, "food", "piece of food")
+    OBJCLASS( 7,  '%', FOOD,   S_food, "食物", "食物")
     OBJCLASS( 8,  '!', POTION, S_potion, "potions", "potion")
     OBJCLASS( 9,  '?', SCROLL, S_scroll, "scrolls", "scroll")
     OBJCLASS(10,  '+', SPBOOK, S_book, "spellbooks", "spellbook")

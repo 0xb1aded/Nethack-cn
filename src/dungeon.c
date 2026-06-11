@@ -3417,16 +3417,16 @@ endgamelevelname(char *outbuf, int indx)
         Strcpy(outbuf, "星界");
         break;
     case -4:
-        planename = "Water";
+        planename = "水";
         break;
     case -3:
-        planename = "Fire";
+        planename = "火";
         break;
     case -2:
-        planename = "Air";
+        planename = "风";
         break;
     case -1:
-        planename = "Earth";
+        planename = "地";
         break;
     }
     if (planename)
