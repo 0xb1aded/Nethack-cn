@@ -3,399 +3,406 @@
 # NetHack may be freely redistributed.  See license for details.
 # Epitaphs for random headstones
 #
-#
-Rest in peace
+# 注:拉丁语的墓志铭应当在下面加一行翻译,最好是从中国古代文学中找到的对应的句子.
+逝者安息
 R.I.P.
-Rest In Pieces
-Note -- there are NO valuable items in this grave
-1994-1995. The Longest-Lived Hacker Ever
-The Grave of the Unknown Hacker
-We weren't sure who this was, but we buried him here anyway
-Sparky -- he was a very good dog
-Beware of Electric Third Rail
-Made in Taiwan
-Og friend. Og good dude. Og died. Og now food.
-Beetlejuice Beetlejuice Beetlejuice
-Look out below!
-Please don't dig me up.  I'm perfectly happy down here. -- Resident
-Postman, please note forwarding address: Gehennom, Asmodeus's Fortress, fifth lemure on the left
-Mary had a little lamb/Its fleece was white as snow/When Mary was in trouble/The lamb was first to go
-Be careful, or this could happen to you!
-Soon you'll join this fellow in hell! -- the Wizard of Yendor
-Caution! This grave contains toxic waste
+碎碎平安
+注意 -- 这个坟墓里面没有任何值钱的东西
+1994-1995. 史上活得最久的Hacker
+无名Hacker之墓
+我们不知道他是谁,反正就把他埋这儿了
+Sparky -- 它曾是一条壕沟
+小心带店的第三条铁轨
+台湾制造
+奥格朋友. 奥格好. 奥格死了. 奥格现在是食物.
+阴间贼王 阴间贼王 阴间贼王
+当心脚下!
+不要把我挖出来. 我在下面非常开心. -- 住户
+邮递员,请注意收件地址: 地狱,阿斯莫德的堡垒,从左数第五个劣魔
+玛丽有只小羊羔/羊毛白得像雪飘/当玛丽遇到大麻烦/羊羔第一个挨千刀
+小心点,否则这就是你的下场!
+很快你就会和这家伙一块下地狱! -- 岩德巫师
+警告! 此墓内含有剧毒废弃物
 Sum quod eris
-Here lies an Atheist, all dressed up and no place to go
-Here lies Ezekiel, age 102.  The good die young.
-Here lies my wife: Here let her lie! Now she's at rest and so am I.
-Here lies Johnny Yeast.  Pardon me for not rising.
-He always lied while on the earth and now he's lying in it
-I made an ash of myself
-Soon ripe.  Soon rotten.  Soon gone.  But not forgotten.
-Here lies the body of Jonathan Blake.  Stepped on the gas instead of the brake.
-Go away!
-Alas fair Death, 'twas missed in life - some peace and quiet from my wife
-Applaud, my friends, the comedy is finished.
-At last... a nice long sleep.
+这里躺着无神论者,盛装打扮却无处可去
+这里躺着以西结,享年102岁. 好人不长命.
+这里躺着我老婆: 就让它躺着吧! 她安宁了我也清净.
+这里躺着老曲. 原谅我并不能发酵.
+生前说话尽是谎,现在他在泥里躺.
+我整个都搞砸了
+转眼成熟. 转眼腐烂. 转眼消逝. 但不会被遗忘.
+这里躺着徐志坚,油门当刹上西天.
+滚开!
+公平的死神啊,生前我竟未能得见 - 那本该来自妻子的片刻安宁与宁静
+鼓掌吧,朋友们. 喜剧结束了
+终于... 能睡个好觉了.
 Audi Partem Alteram
-Basil, assaulted by bears
+#待写
+罗勒,遭熊袭击而死
 Burninated
-Confusion will be my epitaph
-Do not open until Christmas
-Don't be daft, they couldn't hit an elephant at this dist-
-Don't forget to stop and smell the roses
-Don't let this happen to you!
+困惑将是我的墓志铭
+圣诞节前请勿开启
+别傻了,这么远他们连头大象都打-
+别忘了停下脚步,闻闻玫瑰的芬芳
+不要让这种事发生在你身上!
 Dulce et decorum est pro patria mori
+身既死兮神以灵,子魂魄兮为鬼雄
 Et in Arcadia ego
-Fatty and skinny went to bed.  Fatty rolled over and skinny was dead.  Skinny Smith 1983-2000.
-Finally I am becoming stupider no more
-Follow me to hell
-...for famous men have the whole earth as their memorial
-Game over, man.  Game over.
-Go away!  I'm trying to take a nap in here!  Bloody adventurers...
-Gone fishin'
-Good night, sweet prince: And flights of angels sing thee to thy rest!
-Go Team Ant!
-He farmed his way here
-Here lies a programmer.  Killed by a fatal error.
-Here lies Bob - decided to try an acid blob
-Here lies Dudley, killed by another %&#@#& newt.
-Here lies Gregg, choked on an egg
-Here lies Lies.  It's True.
-Here lies The Lady's maid, died of a Vorpal Blade
-Here lies the left foot of Jack, killed by a land mine.  Let us know if you find any more of him
-He waited too long
-I'd rather be sailing
-If a man's deeds do not outlive him, of what value is a mark in stone?
-I'm gonna make it!
-I took both pills!
-I will survive!
-Killed by a black dragon -- This grave is empty
-Let me out of here!
-Lookin' good, Medusa.
-Mrs. Smith, choked on an apple.  She left behind grieving husband, daughter, and granddaughter.
-Nobody believed her when she said her feet were killing her
-No!  I don't want to see my damn conduct!
-One corpse, sans head
-On the whole, I'd rather be in Minetown
-On vacation
-Oops.
-Out to Lunch
-SOLD
+有生必有死,早终非命促
+胖子瘦子同床睡,胖子翻身瘦子睡. 瘦子史密斯 1983-2000.
+终于不会变得更蠢了
+跟我下地狱
+...因为名人的纪念碑是整个世界
+游戏结束了,哥们. 游戏结束了.
+滚开! 我正想在这里打个盹! 该死的冒险者...
+钓鱼去了
+晚安,甜美的王子: 愿众天使唱着你的安眠之曲!
+蚂蚁队加油!
+他一路刷怪刷到这儿
+这里躺着程旭源. 致命错误赴黄泉.
+这里躺着杨青梅 - 试吃酸团小命没
+这里躺着达力,又被一只%&#@#&的蝾螈干掉了.
+这里躺着张铁蛋,一口噎死吞鸡蛋
+这里躺着的是谎言. 这是真的.
+这里躺着刘飞燕,一击命丧斩首剑
+这里埋着被地雷炸飞的杰克的左脚. 如果你找到了其他部位,请联系我们
+他等了太久
+我宁愿去航海
+假令仆伏法受诛,若九牛亡一毛,与蝼蚁何以异?
+我能做到!
+我把两粒药丸都吃了!
+我会活下去的!
+被黑龙杀死 -- 这里面是空的
+放我出去!
+美杜莎,你看起来真不错.
+史密斯女士,被一个苹果噎死. 留下了悲痛的丈夫,女儿,孙女.
+当她说她的脚疼得要命时,没有人相信
+不! 我不要看我那该死的挑战记录!
+一具尸体,没有头
+总的来说,我宁愿在矿洞镇
+度假中
+哎呀.
+外出吃午饭
+*已售出*
 Someone set us up the bomb!
-Take my stuff, I don't need it anymore
-Taking a year dead for tax reasons
-The reports of my demise are completely accurate
-(This space for sale)
-This was actually just a pit, but since there was a corpse, we filled it
-This way to the crypt
+把我的东西拿走吧,我不需要了
+为了避税,决定死一年
+关于我死亡的报道是完全准确的
+(广告位招租)
+这本来只是个坑,但既然有具尸体,我们就把它填了
+去地穴往这边走
 Tu quoque, Brute?
-VACANCY
-Welcome!
-Wish you were here!
-Yea, it got me too
-You should see the other guy
-...and they made me engrave my own headstone too!
-...but the blood has stopped pumping and I am left to decay...
-<Expletive Deleted>
-A masochist is never satisfied.
-Ach, 'twas a wee monster in the loch
-Adapt.  Enjoy.  Survive.
-Adventure, hah!  Excitement, hah!
-After all, what are friends for...
-After this, nothing will shock me
-After three days, fish and guests stink
-Age and treachery will always overcome youth and skill
-Ageing is not so bad.  The real killer is when you stop.
-Ain't I a stinker?
-Algernon
-All else failed...
-All hail RNG
-All right, we'll call it a draw!
-All's well that ends well
-Alone at last!
-Always attack a floating eye from behind!
-Am I having fun yet?
-And I can still crawl, I'm not dead yet!
-And all I wanted was a free lunch
-And all of the signs were right there on your face
-And don't give me that innocent look either!
-And everyone died.  Boo hoo hoo.
-And here I go again...
-And nobody cares until somebody famous dies...
-And so it ends?
-And so... it begins.
-And sometimes the bear eats you.
-And then 'e nailed me 'ead to the floor!
-And they said it couldn't be done!
-And what do I look like?  The living?
-And yes, it was ALL his fault!
-And you said it was pretty here...
-Another lost soul
-Any day above ground is a good day!
-Any more of this and I'll die of a stroke before I'm 30.
-Anybody seen my head?
-Anyone for deathmatch?
-Anything for a change.
-Anything that kills you makes you ... well, dead
-Anything worth doing is worth overdoing.
-Are unicorns supposedly peaceful if you're a virgin?  Hah!
-Are we all being disintegrated, or is it just me?
-At least I'm good at something
-Attempted suicide
+吾儿,亦有汝焉?
+*空缺*
+欢迎!
+真希望你也在这里!
+是啊,我也中招了
+你应该看看另一个家伙
+...他们居然还要我自己写墓志铭!
+...但血液已停止流动,我只能任由自己腐烂...
+<脏话已删除>
+受虐狂永远不会满足.
+哎呀,原来是湖里有个小怪物
+适应. 享受. 生存.
+冒险,哈! 刺激,哈!
+毕竟,朋友是拿来做什么的...
+经历过这些,没有什么能吓到我了
+过了三天,鱼和客人都会发臭
+岁月与诡计终将战胜青春与才能
+变老其实没那么糟. 真正致命的是停下脚步.
+我难道不是个讨厌鬼吗?
+阿尔吉侬
+一切备用方案都失败了...
+伟大的RNG万岁
+好吧,我们就算打平了!
+结局好一切都好
+终于一个人了!
+永远记得从后面攻击浮眼!
+我现在开心了吗?
+我还能爬,我还没死!
+我所有想要的只有一顿免费的午餐
+所有的迹象都直接卸载了你的脸上
+也别给我装出一副无辜的样子!
+然后大家都死了. 呜呼哀哉.
+我又回来了...
+除非名人死了,否则根本没人关心...
+这就结束了?
+于是... 开始了.
+有时候,是你被熊吃了.
+然后他把我的头钉在了地板上!
+他们还说这是不可能办到的!
+那我看起来想什么? 活人吗?
+是的,全都是他的错!
+你还说这里很美...
+另一个迷失的灵魂
+只要还在地面上,每一天都是好日子!
+再这样下去,我不到30岁就会中风而死.
+有谁看到了我的头了吗?
+有人要来跟我死斗吗?
+为了改变,什么都行.
+任何杀死你的都会让你... 呃,死掉
+一不做,二不休.
+据说独角兽对处女很温顺吗? 哈!
+是我们都被分解了,还是只有我一个?
+至少我还擅长某方面
+企图自杀
 Auri sacra fames
+不见人,徒见金
 Auribus teneo lupum
-Be prepared
-Beauty survives
-Been Here.  Now Gone.  Had a Good Time.
-Been through Hell, eh?  What did you bring me?
-Beg your pardon, didn't recognize you, I've changed a lot.
-Being dead builds character
-Beloved daughter, a treasure, buried here.
-Best friends come and go....  Mine just die.
-Better be dead than a fat slave
-Better luck next time
-Beware of Discordians bearing answers
-Beware the ...
-Bloody Hell...
-Bloody barbarians!
-Blown upward out of sight: He sought the leak by candlelight
-Brains... Brains... Fresh human brains...
-Buried the cat.  Took an hour.  Damn thing kept fighting.
-But I disarmed the trap!
-CONNECT 1964 - NO CARRIER 1994
-Call me if you need my phone number!
-Can YOU fly?
-Can you believe that thing is STILL moving?
-Can you come up with some better ending for this?
-Can you feel anything when I do this?
-Can you give me mouth to mouth, you just took my breath away.
-Can't I just have a LITTLE peril?
-Can't eat, can't sleep, had to bury the husband here.
-Can't you hit me?!
-Chaos, panic and disorder.  My work here is done.
-Check enclosed.
-Check this out!  It's my brain!
-Chivalry is only reasonably dead
-Coffin for sale.  Lifetime guarantee.
-Come Monday, I'll be all right.
-Come and see the violence inherent in the system
-Come back here!  I'll bite your bloody knees off!
-Commodore Business Machines, Inc.  Died for our sins.
-Complain to one who can help you
-Confess my sins to god?  Which one?
-Confusion will be my epitaph
-Cooties?  Ain't no cooties on me!
-Could somebody get this noose off me?
-Could you check again?  My name MUST be there.
-Could you please take a breath mint?
-Couldn't I be sedated for this?
-Courage is looking at your setbacks with serenity
-Cover me, I'm going in!
-Crash course in brain surgery
-Cross my fingers for me.
-Curse god and die
-Cut to fit
-De'Ath
-Dead Again?  Pardon me for not getting it right the first time!
-Dead and loving every moment!
-Dear wife of mine.  Died of a broken heart, after I took it out of her.
-Don't tread on me!
-Dragon? What dragon?
-Drawn and quartered
-Either I'm dead or my watch has stopped.
-Eliza -- Was I really alive, or did I just think I was?
-Elvis
-Enter not into the path of the wicked
-Eris?  I don't need Eris
-Eternal Damnation, Come and stay a long while!
-Even The Dead pay taxes (and they aren't Grateful).
-Even a tomb stone will say good things when you're down!
-Ever notice that live is evil backwards?
-Every day is starting to look like Monday
-Every day, in every way, I am getting better and better.
-Every survival kit should include a sense of humor
+人亦有言,进退维谷
+时刻准备着
+美丽永存
+来了. 走了. 曾有一段美好时光.
+去过地狱了,是吧? 你给我带了什么回来?
+请见谅,没认出你来,我的变化太大了.
+死亡能磨练性格
+我亲爱的女儿,我的宝藏,埋在这里.
+最好的朋友来来去去... 我的则都死了.
+宁死也不做肥胖的奴隶
+下次好运
+小心带着答案的混乱信仰者
+当心那个...
+真他妈见鬼...
+该死的野蛮人!
+被炸飞出视线之外: 他竟然拿着蜡烛找燃气泄漏点
+大脑... 大脑... 新鲜的人类大脑...
+埋了那只猫. 花了一个小时. 那该死的一直在反抗.
+可是我已经把那个陷阱解除了啊!
+连接成功 1964 - 断线 1994
+如果你需要我的电话号码,请打给我!
+你会*飞*吗?
+你敢信那玩意*还*在动吗?
+你能想出个更好的结局吗?
+我这样做的时候,你有感觉吗?
+你能给我做个人工呼吸吗?你刚才让我窒息了.
+我就不能有*一点点*危险吗?
+吃不下,睡不着,只好把丈夫埋这儿了.
+你打不到我吗?!
+混沌,恐慌和无序. 我在这里的工作完成了.
+内附支票.
+快看! 这是我的脑子!
+骑士精神死得还算有理
+出售棺材. 终身保修.
+等到星期一,我就会好起来的.
+快来看看这个体系中固有的暴力
+给我回来! 我要咬断你该死的膝盖!
+Commodore Business Machines, Inc. 因我们的罪孽而死.
+找能帮你的人抱怨去吧
+向神忏悔罪恶? 向哪个神?
+虱子? 我身上才没有虱子!
+谁能帮我把这绞索解开?
+你能确认一下吗? 我的名字肯定在名单上.
+你能吃颗薄荷糖吗?
+就不能给我打点镇静剂吗?
+勇气就是平静面对你的挫折
+给我掩护,我要进去了!
+脑部手术速成班
+帮我把手指交叉好以便祈祷吧.
+诅咒神,然后死去
+削足适履
+死'神
+又死一次? 原谅我第一次没死对!
+死了,而且享受着死去的每一刻!
+我的爱妻. 死于心碎,在我把它掏出来之后.
+别踩我!
+龙? 什么龙?
+五马分尸
+要么是我死了,要么是我的表停了.
+Eliza -- 我是真的活着,还是仅仅我以为我或者?
+猫王
+不可行恶人的路
+厄里斯? 我不需要厄里斯
+永恒的诅咒,来吧,久留吧!
+连死人也要交税 (而且他们还不感恩).
+当你倒下时,墓碑也会给你说好话!
+注意到没? live反过来就是evil.
+每一天在开始看起来都像是星期一
+每一天,在每一方面,我都在变得更好.
+每个应急包都应该包含一点幽默感
 Evil I did dwell;  lewd did I live
 Ex post fucto
-Excellent day to have a rotten day.
-Excuse me for not standing up.
-Experience isn't everything.  First, you've got to survive.
-First shalt thou pull out the Holy Pin
-For a Breath, I Tarry...
-For recreational use only.
-For sale: One soul, slightly used.  Asking for 3 wishes.
-For some moments in life, there are no words.
-Forget Disney World, I'm going to Hell!
-Forget about the dog, Beware of my wife.
+事后法-克
+今天真是个糟糕透顶的日子.
+原谅我站不起来.
+经验并非一切. 你得先活下来才行.
+首先你需要拔出神圣手榴弹上的圣针
+此刻,我气息逗留...
+仅供娱乐.
+出售: 一个灵魂,略有使用痕迹. 售价三个愿望.
+生命中的有些时刻,无言以对
+别提迪士尼世界了,我要下地狱!
+别管那条狗,小心我老婆.
 Funeral - Real fun.
-Gawd, it's depressing in here, isn't it?
-Genuine Exploding Gravestone.  (c)Acme Gravestones Inc.
-Get back here!  I'm not finished yet...
-Go ahead, I dare you to!
-Go ahead, it's either you or him.
-Goldilocks -- This casket is just right
-Gone But Not Forgotten
-Gone Underground For Good
-Gone away owin' more than he could pay.
-Gone, but not forgiven
-Got a life.  Didn't know what to do with it.
-Grave?  But I was cremated!
-Greetings from Hell - Wish you were here.
-HELP! It's dark in here....  Oh, my eyes are closed - sorry
-Ha! I NEVER pay income tax!
-Have you come to raise the dead?
-Having a good time can be deadly.
-Having a great time.  Where am I exactly??
-He died of the flux.
-He died today....  May we rest in peace!
-He got the upside, I got the downside.
-He lost his face when he was beheaded.
-He missed me first.
-He's not dead, he just smells that way.
-Help! I've fallen and I can't get up!
-Help, I can't wake up!
-Here lies Pinocchio
-Here lies the body of John Round.  Lost at sea and never found.
-Here there be dragons
-Hey, I didn't write this stuff!
+天哪,这儿真让人郁闷,对吧?
+真正的爆炸墓碑. (c)Acme Gravestones Inc.
+给我回来! 我还没说完呢...
+来啊,我借你几个胆!
+上啊,不是你死就是他亡.
+金发姑娘 -- 这口棺材正合适
+逝者已矣,但未被遗忘
+永远长眠地下
+一走了之,欠下还不起的债.
+走了,但未被原谅
+有一条命. 不知道该怎么处理它.
+坟墓?但我被火化了啊!
+来自地狱的问候 - 真希望你也在这里.
+救命! 这里好黑... 哦,是我闭着眼睛 - 抱歉
+哈! 我*从来没*交过所得税!
+你是来唤醒死者的吗?
+玩得太开心可是要命的.
+玩得很开心. 我现在在哪里??
+他死于痢疾.
+他今天死了... 愿我们安息!
+他占了上风,我在下.
+他的头被砍下来时脸都丢光了.
+是他先没打中我的.
+他没死,只是闻起来像死了.
+救命!我在下面起不来了!
+救命,我醒不过来了!
+这里躺着匹诺曹
+这里躺着刘国洋. 葬身大海骨未藏.
+龙出没
+嘿,这玩意不是我写的!
 Hodie mihi, cras tibi
-Hold my calls
-Home Sweet Hell
-Humpty Dumpty, a Bad Egg.  He was pushed off the wall.
-I KNEW this would happen if I lived long enough.
-I TOLD you I was sick!
-I ain't broke but I am badly bent.
-I ain't old.  I'm chronologically advantaged.
-I am NOT a vampire.  I just like to bite..nibble, really!
-I am here.  Wish you were fine.
-I am not dead yet, but watch for further reports.
-I believe them bones are me.
-I broke his brain.
-I can feel it.  My mind.  It's going.  I can feel it.
-I can't go to Hell.  They're afraid I'm gonna take over!
-I can't go to hell, they don't want me.
-I didn't believe in reincarnation the last time, either.
-I didn't mean it when I said 'Bite me'
-I died laughing
-I disbelieved in reincarnation in my last life, too.
-I hacked myself to death
-I have all the time in the world
+后之视今,亦犹今之视昔
+别把电话转给我
+家,甜蜜的家
+蛋头先生,大坏蛋. 被推下墙摔个稀巴烂.
+我*就知道*活久了肯定有这种事.
+我*告诉*你我生病了!
+我虽然没破产,但确实身陷困境.
+我还没老. 我只是在年龄上占了点优势.
+我*不是*吸血鬼. 我就是喜欢咬...其实就是啃几口!
+我在这里.希望你一切安好.
+我还没死,但请留意后续报道.
+我相信那些骨头就是我.
+我摧毁了他的大脑.
+我能感觉到. 我的意识. 它正在消散. 我能感觉到.
+我不能下地狱.他们怕我会接管那里!
+我不能去地狱,他们不想要我.
+上辈子我也不信轮回.
+我说"咬我啊"的时候不是认真的.
+我笑死了.
+上辈子我也不信轮回.
+我把自己砍死了.
+我有的是时间.
 #"reached Mine's End": not necessarily true; sounds like "reached my end"
-I have reached Mine's End
-I knew I'd find a use for this gravestone!
-I know my mind.  And it's around here someplace.
-I lied!  I'll never be alright!
-I like it better in the dark.
-I like to be here when I can.
-I may rise but I refuse to shine.
-I never get any either.
-I said hit HIM with the fireball, not me!
-I told you I would never say goodbye.
-I used to be amusing.  Now I'm just disgusting.
-I used up all my sick days, so now I'm calling in dead.
-I was killed by <illegible scrawl>
-I was somebody.  Who, is no business of yours.
-I will not go quietly.
-I'd give you a piece of my mind... but I can't find it.
-I'd rather be breathing
-I'll be back!
-I'll be mellow when I'm dead.  For now, let's PARTY!
-I'm doing this only for tax purposes.
-I'm not afraid of Death!  What's he gonna do? Kill me?
-I'm not getting enough money, so I'm not going to engrave anything useful here.
-I'm not saying anything.
-I'm weeth stupeed --->
-If you thought you had problems...
-Ignorance kills daily.
-Ignore me... I'm just here for my looks!
-Ilene Toofar -- Fell off a cliff
-Is that all?
-Is there life before Death?
-Is this a joke, or a grave matter?
-It happens sometimes.  People just explode.
-It must be Thursday.  I never could get the hang of Thursdays.
-It wasn't a fair fight
-It wasn't so easy.
-It's Loot, Pillage and THEN Burn...
-Just doing my job here
-Killed by diarrhea of mouth and constipation of brain.
-Let her RIP
-Let it be; I am dead.
-Let's play Hide the Corpse
-Life is NOT a dream
-Madge Ination -- It wasn't all in my head
-Meet me in Heaven
-Move on, there's nothing to see here.
-Mr. Flintstone -- Yabba-dabba-done
-My heart is not in this
-No one ever died from it
-No, you want room 12A, next door.
-Nope.  No trap on that chest.  I swear.
-Not again!
-Not every soil can bear all things
-Now I have a life
-Now I lay thee down to sleep... wanna join me?
-OK, here is a question: Where ARE your tanlines?
+我到头了. 矿洞的.
+我就知道这块墓碑会有用的!
+我了解我自己的心. 它就在这附近.
+我撒谎了! 我永远都不会好起来的!
+我更喜欢待在黑暗里.
+只要能待在这里,我就喜欢待在这里.
+我或许会升起,但我拒绝发光.
+我从来也没得到过任何东西.
+我都说了用火球打*他*,不是打我!
+我跟你说过,我绝不会说再见.
+我以前挺有趣的.现在却让人恶心.
+我的病假都用光了,所以现在我假装死了.
+我是被<无法辨认的涂鸦>杀死的
+我曾经是个了不起的人.是谁,与你无关.
+我绝不会默默离开.
+本想痛骂你一顿...但我连自己的心都找不到了.
+我宁愿活着呼吸
+我还会回来的!
+等我死了再温和吧.现在,先狂欢吧!
+我这么做纯粹是为了报税.
+我不怕死神!他能怎样?杀了我吗?
+我拿不到足够的钱,所以这里就不刻点有用的东西了.
+我什么都不说.
+我真是蠢透了 --->
+如果你以为自己有麻烦...
+无知每天都在夺命.
+别理我...我来这儿就为了长得好看!
+陆华 -- 坠崖而死
+就这些?
+死前有生命吗?
+这是个玩笑,还是件严肃的事?
+这种事偶尔会发生.人有时就是会爆炸.
+今天肯定是星期四. 我从来没.
+这可不是一场公平的较量
+不是那么简单.
+先掠夺,洗劫,*然后*烧毁...
+我只是在尽职尽责罢了
+死于口若悬河,脑子却像便秘一样.
+愿她安息吧
+随它去吧; 我已经死了.
+我们来玩捉鬼游戏吧
+人生*不是*一场梦
+李想 -- 这东西不在我脑子里
+天堂见
+继续走吧,这里没什么好看的.
+摩登原始人 -- Yabba-dabba-done
+我心不在焉
+从来没人因此死过.
+不,你要的是隔壁的12A房.
+不,那个箱子上没有陷阱. 我发誓.
+别再来了!
+并非所有土壤都能孕育万物.
+现在我有了自己的生活.
+现在我让你安睡... 要一起吗?
+好吧,有个问题: 你的晒痕到底去哪儿了?
 Obesa Cantavit
-Oh! An untimely death.
-Oh, by the way, how was my funeral?
-"Oh, honey... I missed you!" she said, and fired again.
-Ok, so the light does go off.  Now let me out of here.
-One stone brain
-Ooh! Somebody STOP me!
-Oops!
-Out for the night.  Leave a message.
-Ow!  Do that again!
-Pardon my dust.
-Part of me still works.
-Please, not in front of those orcs!
-Prepare to meet me in Heaven
-R2D2 -- Rest, Tin Piece
-Relax.  Nothing ever happens on the first level.
+乱曰: 已矣哉!
+哦! 一场不期而至的死亡.
+哦,对了,我的葬礼办得怎么样?
+"哦,亲爱的...我好想你!"她说着,又开了一枪.
+好吧,看来灯确实熄灭了.现在让我出去.
+一个石头脑袋
+噢! 快来*拦住*我啊!
+哎呀!
+今晚不在家. 请留言
+哦! 再做一遍啊!
+请原谅这里的尘土飞扬.
+我还有一部分在运作.
+求求你,别在那些兽人面前!
+准备在天堂与我相会吧
+R2D2——安息吧,铁皮小家伙
+放松点.第一关从来不会发生什么事.
 Res omnia mea culpa est
-Rest In Pieces
-Rest, rest, perturbed spirit.
+#待写
+安息吧,安息吧,不安的灵魂.
 Rip Torn
-She always said her feet were killing her but nobody believed her.
-She died of a chest cold.
-So let it be written, so let it be done!
-So then I says, How do I know you're the real angel of death?
-Some patients insist on dying.
-Some people have it dead easy, don't they?
-Some things are better left buried.
-Sure, trust me, I'm a lawyer...
-Thank God I wore my corset, because I think my sides have split.
-That is all
-The Gods DO have a sense of humor: I'm living proof!
-The frog's dead.  He Kermitted suicide.
-This dungeon is a pushover
-This elevator doesn't go to Heaven
-This gravestone is shareware.  To register, please send me 10 zorkmids
-This gravestone provided by The Yendorian Grave Services Inc.
-This is not an important part of my life.
-This one's on me.
-This side up
-Tim Burr -- Smashed by a tree
-Tone it down a bit, I'm trying to get some rest here.
-Virtually Alive
-We Will Meet Again.
-Weep not, he is at rest
-Welcome to Dante's.  What level please?
-Well, at least they listened to my sermon...
-Went to be an angel.
-What are you doing over there?
-What are you smiling at?
-What can you say, Death's got appeal...!
-What health care?
-What pit?
-When the gods want to punish you, they answer your prayers.
-Where e'er you be let your wind go free.  Keeping it in was the death of me!
-Where's my refund?
-Will let you know for sure in a day or two...
-Wizards are wimps
-Worms at work, do not disturb!
-Would you mind moving a bit?  I'm short of breath down here.
-Would you quit being evil over my shoulder?
-Ya really had me going baby, but now I'm gone.
-Yes Dear, just a few more minutes...
-You said it wasn't poisonous!
-You set my heart aflame.  You gave me heartburn.
+她死于一场胸腔感冒.
+就这么写吧,就这么办吧!
+于是我问: "我怎么知道你就是真正的死神?"
+有些病人非死不可.
+有些人死得真轻松,不是吗?
+有些事还是埋在心底为好.
+当然,相信我,我是律师...
+谢天谢地我穿了束身衣,因为我觉得我的腰侧都要裂开了.
+以上
+众神*确实*有幽默感: 我就是活着的证据!
+这只青蛙死了. 它把自己呱了.
+这个地牢简直是小菜一碟
+这电梯可不会通往天堂
+这块墓碑是共享软件.如需注册,请向我发送10 zorkmid
+这块墓碑由岩德利亚殡葬服务有限公司提供
+这并不是我生命中重要的一部分.
+这顿我请.
+正面朝上
+林森——被树砸中了
+声音小点,我正想休息一下.
+虚拟永生
+我们还会再见的.
+别哭,他安息了
+欢迎光临但丁餐厅. 请问您要哪一层?
+嗯,至少他们听了我那番说教...
+去当天使了.
+你在那边干什么?
+你在笑什么?
+还能说什么呢,死亡确实有它的魅力...!
+什么医疗保健?
+什么深坑?
+当神明想要惩罚你时,他们会回应你的祈祷.
+无论去往何方,都任你的风自由飞翔. 因为将它束缚,便是我的死.
+我的退款呢?
+一两天内肯定会通知你...
+巫师都是软蛋.
+蠕虫正在工作,请勿打扰!
+能稍微挪一下吗?我在这儿喘不过气来.
+能不能别在我背后搞那些邪恶的把戏?
+宝贝,你真让我信以为真,但现在我走了.
+好的亲爱的,再等几分钟...
+你说了那个没有毒!
+你把我的心点燃了. 你让我的胃灼热.
