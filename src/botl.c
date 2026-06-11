@@ -89,7 +89,7 @@ do_statusline1(void)
     Sprintf(nb = eos(nb), "%s",
             (u.ualign.type == A_CHAOTIC) ? "  混乱"
               : (u.ualign.type == A_NEUTRAL) ? "  中立"
-                : "  守序");
+                : "  秩序");
 #ifdef SCORE_ON_BOTL
     if (flags.showscore)
         Sprintf(nb = eos(nb), " S:%ld", botl_score());

@@ -697,7 +697,7 @@ const struct Gender genders[] = {
 
 /* Table of all alignments */
 const struct Align aligns[] = {
-    { "守序", "守序", "守", ROLE_LAWFUL, A_LAWFUL },
+    { "秩序", "秩序", "秩", ROLE_LAWFUL, A_LAWFUL },
     { "中立", "中立", "中", ROLE_NEUTRAL, A_NEUTRAL },
     { "混沌", "混沌", "混", ROLE_CHAOTIC, A_CHAOTIC },
     { "邪恶", "无阵营", "无", 0, A_NONE }

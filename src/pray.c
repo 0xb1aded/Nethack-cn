@@ -1925,7 +1925,7 @@ eval_offering(struct obj *otmp, aligntyp altaralign)
              */
             pline("这样的行为对%s是一种侮辱!",
                   (unicalign == A_CHAOTIC) ? "混沌"
-                     : unicalign ? "守序" : "中立");
+                     : unicalign ? "秩序" : "中立");
             (void) adjattrib(A_WIS, -1, TRUE);
             return -1;
         } else if (u.ualign.type == altaralign) {

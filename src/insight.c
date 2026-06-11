@@ -3193,7 +3193,7 @@ align_str(aligntyp alignment)
     case A_NEUTRAL:
         return "中立";
     case A_LAWFUL:
-        return "守序";
+        return "秩序";
     case A_NONE:
         return "无阵营";
     }
