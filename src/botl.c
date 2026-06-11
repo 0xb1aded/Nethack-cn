@@ -8,7 +8,12 @@
 extern const char *const hu_stat[]; /* defined in eat.c */
 
 /* also used in insight.c */
-const char *const enc_stat[] = { "", "负重", "吃力", "受压", "高压", "超载" };
+const char *const enc_stat[] = {
+    "", "Burdened", "Stressed", "Strained", "Overtaxed", "Overloaded",
+};
+const char *const enc_stat_ui[] = {
+    "", "负重", "吃力", "受压", "高压", "超载",
+};
 
 staticfn const char *rank(void);
 staticfn void bot_via_windowport(void);
@@ -186,7 +191,7 @@ do_statusline2(void)
     if (u.uhs != NOT_HUNGRY)
         Sprintf(nb = eos(nb), " %s", hu_stat[u.uhs]);
     if ((cap = near_capacity()) > UNENCUMBERED)
-        Sprintf(nb = eos(nb), " %s", enc_stat[cap]);
+        Sprintf(nb = eos(nb), " %s", enc_stat_ui[cap]);
     if (Blind)
         Strcpy(nb = eos(nb), " 失明");
     if (Deaf)
@@ -607,13 +612,13 @@ armor_status(char *armbuf)
         if (uarmc)
             arms2p(ARM_CLOAK); /* cloak */
         if (uarm)
-            arms2p(ARM_SUIT); /* suit but 's' is for shield */
+            arms2p(ARM_SUIT); /* suit */
         if (uarmu)
-            arms2p(ARM_SHIRT); /* underwear? => shirt */
+            arms2p(ARM_SHIRT); /* shirt */
         if (uarmh)
             arms2p(ARM_HELM); /* hat/helm */
         if (uarmf)
-            arms2p(ARM_BOOTS); /* footwear => boots */
+            arms2p(ARM_BOOTS); /* boots */
         if (uarms)
             arms2p(ARM_SHIELD); /* shield */
         *p = '\0';
@@ -1131,7 +1136,7 @@ bot_via_windowport(void)
     cap = near_capacity();
     gb.blstats[idx][BL_CAP].a.a_int = cap;
     Strcpy(gb.blstats[idx][BL_CAP].val,
-           (cap > UNENCUMBERED) ? enc_stat[cap] : "");
+           (cap > UNENCUMBERED) ? enc_stat_ui[cap] : "");
     gv.valset[BL_CAP] = TRUE;
 
     /* Version; unchanging unless player toggles 'showvers' option or
@@ -2928,7 +2933,7 @@ parse_status_hl2(char (*s)[QBUFSZ], boolean from_configfile)
                    && is_fld_arrayvalues(s[sidx], enc_stat,
                                          SLT_ENCUMBER, OVERLOADED + 1,
                                          &kidx)) {
-            txt = enc_stat[kidx];
+            txt = enc_stat_ui[kidx];
             txtval = TRUE;
         } else if (fld == BL_ALIGN
                    && is_fld_arrayvalues(s[sidx], aligntxt, 0, 3, &kidx)) {
@@ -4158,14 +4163,14 @@ status_hilite_menu_add(int origfld)
                 initblstats[fld].fldname);
         if (fld == BL_CAP) {
             int rv = query_arrayvalue(qry_buf,
-                                      enc_stat,
+                                      enc_stat_ui,
                                       SLT_ENCUMBER, OVERLOADED + 1);
 
             if (rv < SLT_ENCUMBER)
                 goto choose_behavior;
 
             hilite.rel = TXT_VALUE;
-            Strcpy(hilite.textmatch, enc_stat[rv]);
+            Strcpy(hilite.textmatch, enc_stat_ui[rv]);
         } else if (fld == BL_ALIGN) {
             static const char *const aligntxt[] = {
                 "chaotic", "neutral", "lawful"
