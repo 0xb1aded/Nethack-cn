@@ -4440,7 +4440,7 @@ mhitm_ad_legs(
     } else if (mdef == &gy.youmonst) {
         /* mhitu */
         long side = rn2(2) ? RIGHT_SIDE : LEFT_SIDE;
-        const char *sidestr = (side == RIGHT_SIDE) ? "right" : "left",
+        const char *sidestr = (side == RIGHT_SIDE) ? "右" : "左",
                    *Monst_name = Monnam(magr), *leg = body_part(LEG);
 
         /* This case is too obvious to ignore, but Nethack is not in
