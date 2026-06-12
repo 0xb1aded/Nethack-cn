@@ -1071,6 +1071,7 @@ curs_HPbar(
 /* conditions[] is used primarily for parsing hilite_status rules, but
    we can use it for condition names and mask bits, avoiding duplication */
 extern const struct conditions_t conditions[]; /* botl.c */
+extern const char *const conditions_ui[];      /* botl.c, Chinese display */
 extern int cond_idx[CONDITION_COUNT];
 
 DISABLE_WARNING_FORMAT_NONLITERAL
@@ -1100,8 +1101,8 @@ curs_stat_conds(
             ci = cond_idx[i];
             bitmsk = conditions[ci].mask;
             if (curses_condition_bits & bitmsk) {
-                Strcpy(condnam, conditions[ci].text[0]);
-                Strcat(strcat(condbuf, " "), upstart(condnam));
+                Strcpy(condnam, conditions_ui[ci]);
+                Strcat(strcat(condbuf, " "), condnam);
 #ifdef STATUS_HILITES
                 if (nohilite && *nohilite
                     && (condcolor(bitmsk, curses_colormasks) != NO_COLOR
@@ -1133,9 +1134,9 @@ curs_stat_conds(
             bitmsk = conditions[ci].mask;
             if (cond_bits & bitmsk) {
                 if (!vert_fmt)
-                    Strcpy(condnam, conditions[ci].text[0]);
+                    Strcpy(condnam, conditions_ui[ci]);
                 else
-                    Sprintf(condnam, vert_fmt, conditions[ci].text[0]);
+                    Sprintf(condnam, vert_fmt, conditions_ui[ci]);
                 cndlen = 1 + (int) strlen(condnam); /* count leading space */
                 if (!do_vert) {
                     getyx(win, cy, cx);
@@ -1167,7 +1168,7 @@ curs_stat_conds(
 #endif /* STATUS_HILITES */
 
                 /* output the condition name */
-                waddstr(win, upstart(condnam));
+                waddstr(win, condnam);
 
 #ifdef STATUS_HILITES
                 if (iflags.hilite_delta) {

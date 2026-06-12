@@ -850,8 +850,8 @@ const struct conditions_t conditions[] = {
     { 20, BL_MASK_HOLDING,   bl_holding,   { "UHold",    "UHld",  "UHd" } },
 };
 
-// 新增: 用于显示 `conditions[]` 中的内容
-static const char *const conditions_ui_text[] = {
+/* 用于窗口端口显示条件名，索引与 conditions[] 对齐 */
+const char *const conditions_ui[] = {
     "徒手",     /* Bare */
     "失明",     /* Blind */
     "忙碌",     /* Busy */
@@ -922,7 +922,7 @@ struct condtests_t condtests[CONDITION_COUNT] = {
 };
 
 // 新增: 用于显示 `condtests[]` 中的内容，主要是 `cond_menu()`
-static const char *const *const condtests_useroption_ui = conditions_ui_text;
+static const char *const *const condtests_ui = conditions_ui;
 
 /* condition indexing */
 int cond_idx[CONDITION_COUNT] = { 0 };
@@ -1541,7 +1541,7 @@ cond_menu(void)
         add_menu_heading(tmpwin, mbuf);
         for (i = 0; i < SIZE(condtests); i++) {
             idx = sequence[i];
-            Sprintf(mbuf, "条件_%-14s", condtests_useroption_ui[idx]);
+            Sprintf(mbuf, "条件_%-14s", condtests_ui[idx]);
             any = cg.zeroany;
             any.a_int = idx + 2; /* avoid zero and the sort change pick */
             condtests[idx].choice = FALSE;
@@ -3252,7 +3252,7 @@ query_conditions(void)
         any = cg.zeroany;
         any.a_ulong = conditions[i].mask;
         add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE,
-                 clr, conditions_ui_text[i], MENU_ITEMFLAGS_NONE);
+                 clr, conditions_ui[i], MENU_ITEMFLAGS_NONE);
     }
 
     end_menu(tmpwin, "选择状态条件");
@@ -3287,7 +3287,7 @@ conditionbitmask2str(unsigned long ul)
     for (i = 0; i < SIZE(conditions); i++)
         if ((conditions[i].mask & ul) != 0UL) {
             Sprintf(eos(buf), "%s%s", (first) ? "" : "+",
-                    conditions_ui_text[i]);
+                    conditions_ui[i]);
             first = FALSE;
         }
 

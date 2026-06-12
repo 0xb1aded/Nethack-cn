@@ -144,6 +144,7 @@ struct conditions_t {
     const char *text[3];
 };
 extern const struct conditions_t conditions[CONDITION_COUNT];
+extern const char *const conditions_ui[CONDITION_COUNT];
 
 struct condtests_t {
     enum blconditions c;
