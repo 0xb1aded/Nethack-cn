@@ -305,7 +305,7 @@ rider_corpse_revival(struct obj *obj, boolean remotely)
     if (!obj || obj->otyp != CORPSE || !is_rider(&mons[obj->corpsenm]))
         return FALSE;
 
-    pline("在你%s尸体的时候,它突然移动了...",
+    pline("在你%s尸体的时候, 它突然移动了...",
           remotely ? "试图拿起" : "触碰");
     (void) revive_corpse(obj);
     exercise(A_WIS, FALSE);
@@ -1435,7 +1435,7 @@ query_category(
         char tmpbuf[BUFSZ];
 
         if (num_justpicked == 1)
-            Sprintf(tmpbuf, "刚刚捡起:%s",
+            Sprintf(tmpbuf, "刚刚捡起: %s",
                     doname(find_justpicked(olist)));
         else
             Strcpy(tmpbuf, "你刚刚捡起的物品");
@@ -1696,7 +1696,7 @@ carry_count(struct obj *obj,            /* object to pick up... */
         prefx2 = (obj->quan == 1L) ? "" : "一个都";
         suffx = "来了";
     }
-    There("%s%s%s,但%s%s%s不%s%s.", otense(obj, "有"), obj_nambuf, where,
+    There("%s%s%s, 但%s%s%s不%s%s.", otense(obj, "有"), obj_nambuf, where,
           prefx1, prefx2, verb, verb2, suffx);
 
     /* *wt_after = iw; */
@@ -1731,7 +1731,7 @@ lift_object(
            [this was using simpleonames(obj) for shortest description, but
            that's suboptimal for loadstones because it omits user-assigned
            type name which is something of interest for gray stones] */
-        You("携带了太多的东西,不能再拾取%s%s.",
+        You("携带了太多的东西, 不能再拾取%s%s.",
             (obj->quan == 1L) ? "另一个" : "更多的", xname(obj));
         return -1;
     }
@@ -1854,7 +1854,7 @@ pickup_object(
         } else if (!obj->spe && !obj->cursed) {
             obj->spe = 1;
         } else {
-            pline_The("当你%s起来卷轴时,%s%s%s为了尘土", telekinesis ? "升" : "捡", /*修改语序:pline_The("卷轴%s%s为了尘土当你%s起来%s时.", plur(obj->quan),*/
+            pline_The("当你%s起卷轴时, %s%s%s为了尘土", telekinesis ? "升" : "捡", /*修改语序:pline_The("卷轴%s%s为了尘土当你%s起来%s时.", plur(obj->quan),*/
                       (obj->quan == 1L) ? "它" : "它们", plur(obj->quan), /*修改语序:otense(obj, "化"), telekinesis ? "升" : "捡",*/
                       otense(obj, "化")); /*修改语序:(obj->quan == 1L) ? "它" : "它们");*/
             trycall(obj);
@@ -1883,7 +1883,7 @@ pickup_object(
 
     if (uwep && uwep == obj)
         gm.mrg_to_wielded = TRUE;
-    pickup_prinv(obj, count, "lifting");
+    pickup_prinv(obj, count, "升起"); /*危险:可能吧*/
     if (obj->ghostly)
         fix_ghostly_obj(obj);
     gm.mrg_to_wielded = FALSE;
@@ -2061,10 +2061,10 @@ able_to_loot(
             hliquid(is_lava(x, y) ? "熔岩" : "水"));
         return FALSE;
     } else if (nolimbs(gy.youmonst.data)) {
-        pline("你没有四肢,无法%s到任何东西.", verb);
+        pline("你没有四肢, 无法%s到任何东西.", verb);
         return FALSE;
     } else if (looting && !freehand()) {
-        pline("没有空余的%s,你不能搜刮任何东西.",
+        pline("没有空余的%s, 你不能搜刮任何东西.",
               body_part(HAND));
         return FALSE;
     }
@@ -2109,7 +2109,7 @@ do_loot_cont(
         if (cobj->lknown)
             pline("%s是锁着的.", The(xname(cobj)));
         else
-            pline("呃,%s原来是锁着的.", the(xname(cobj)));
+            pline("呃, %s原来是锁着的.", the(xname(cobj)));
         cobj->lknown = 1;
 
         if (flags.autounlock) {
@@ -2206,7 +2206,7 @@ doloot_core(void)
         if (rn2(6) && reverse_loot())
             return ECMD_TIME;
         if (rn2(2)) {
-            pline("你正处于混乱中,找不到任何东西来搜刮.");
+            pline("你正处于混乱中, 找不到任何东西来搜刮.");
             return ECMD_TIME; /* costs a turn */
         }             /* else fallthrough to normal looting */
     }
@@ -2289,7 +2289,7 @@ doloot_core(void)
                 c = 'y';
         }
     } else if (IS_GRAVE(levl[cc.x][cc.y].typ)) {
-        You("要先把坟墓挖了,才能搜刮它...");
+        You("要先把坟墓挖了, 才能搜刮它...");
     }
 
     /*
@@ -2328,7 +2328,7 @@ doloot_core(void)
         if (!looted_mon) {
             if (!underfoot && container_at(cc.x, cc.y, FALSE)) {
                 if (mtmp) {
-                    You_cant("掠夺%s的任何东西,因为有%s挡路.",
+                    You_cant("掠夺%s的任何东西, 因为有%s挡路.",
                              prev_inquiry ? "别处" : "那里", mon_nam(mtmp));
                     return (timepassed ? ECMD_TIME : ECMD_OK);
                 } else {
@@ -2387,7 +2387,7 @@ reverse_loot(void)
         dropx(goldob);
         /* the dropped gold might have fallen to lower level */
         if (g_at(x, y))
-            pline("好,现在这儿有战利品了.");
+            pline("好, 现在这儿有战利品了.");
     } else {
         /* find original coffers chest if present, otherwise use nearest */
         otmp = 0;
@@ -2450,7 +2450,7 @@ loot_mon(struct monst *mtmp, int *passed_info, boolean *prev_loot)
                          SUPPRESS_SADDLE, FALSE));
         if ((c = yn_function(qbuf, ynqchars, 'n', TRUE)) == 'y') {
             if (nolimbs(gy.youmonst.data)) {
-                You("没有四肢,无法做那个."); /* not body_part(HAND) */
+                You("没有四肢, 无法做那个."); /* not body_part(HAND) */
                 return 0;
             }
             if (otmp->cursed) {
@@ -2662,7 +2662,7 @@ in_container(struct obj *obj)
         livelog_printf(LL_ACHIEVE, "炸掉了%s的次元袋", uhis());
         /* explicitly mention what item is triggering the explosion */
         urgent_pline(
-              "你刚把%s放进去,就被场魔法爆炸击中!",
+              "你刚把%s放进去, 就被一场魔法爆炸击中!",
                      doname(obj));
         /* did not actually insert obj yet */
         if (was_unpaid)
@@ -2916,15 +2916,15 @@ explain_container_prompt(boolean more_containers)
     static const char *const explaintext[] = {
         "容器操作:",
         "",
-        " : -- 查看:查看其内容物",
-        " o -- 拿出:把物品拿出来",
-        " i -- 放入:把物品放进去",
-        " b -- 同时:先拿出来,再放进去",
-        " r -- 反向:先放进去,再拿出来",
-        " s -- 藏入:把一个物品藏进去", "",
-        " n -- 下一个:移动到下一个选择的容器",
-        " q -- 推出:结束",
-        " ? -- 帮助:显示改文本.",
+        " : -- 查看: 查看其内容物",
+        " o -- 拿出: 把物品拿出来",
+        " i -- 放入: 把物品放进去",
+        " b -- 同时: 先拿出来, 再放进去",
+        " r -- 反向: 先放进去, 再拿出来",
+        " s -- 藏入: 把一个物品藏进去", "",
+        " n -- 下一个: 移动到下一个选择的容器",
+        " q -- 推出: 结束",
+        " ? -- 帮助: 显示该文本.",
         "", 0
     };
     const char *const *txtpp;
@@ -3437,13 +3437,13 @@ in_or_out_menu(
     }
     if (outokay) {
         any.a_int = 4; /* 'b' */
-        Sprintf(buf, "%s拿出来,再放进去", inokay ? "先 " : "");
+        Sprintf(buf, "%s拿出来, 再放进去", inokay ? "先 " : "");
         add_menu(win, &nul_glyphinfo, &any, menuselector[any.a_int], 0,
                  ATR_NONE, clr, buf, MENU_ITEMFLAGS_NONE);
     }
     if (inokay) {
         any.a_int = 5; /* 'r' */
-        Sprintf(buf, "%s先放进去,再拿出来",
+        Sprintf(buf, "%s先放进去, 再拿出来",
                 outokay ? "反过来;" : "");
         add_menu(win, &nul_glyphinfo, &any, menuselector[any.a_int], 0,
                  ATR_NONE, clr, buf, MENU_ITEMFLAGS_NONE);
@@ -3607,7 +3607,7 @@ dotip(void)
                     nobj = cobj->nexthere;
                     if (!Is_container(cobj))
                         continue;
-                    c = ynq(safe_qbuf(qbuf, "这里有", ",把它倒空?",
+                    c = ynq(safe_qbuf(qbuf, "这里有", ", 把它倒空?",
                                       cobj,
                                       doname, ansimpleoname, "容器"));
                     if (c == 'q')
@@ -3654,9 +3654,9 @@ dotip(void)
     if (spillage) {
         buf[0] = '\0';
         if (is_pool(u.ux, u.uy))
-            Sprintf(buf, ",然后%s了", vtense(spillage, "逐渐消散"));
+            Sprintf(buf, ", 然后%s了", vtense(spillage, "逐渐消散"));
         else if (is_lava(u.ux, u.uy))
-            Sprintf(buf, ",然后%s掉了",
+            Sprintf(buf, ", 然后%s掉了",
                     vtense(spillage, "立即燃烧"));
         pline("一些%s%s到了%s上%s.", spillage,
               vtense(spillage, "洒落"), surface(u.ux, u.uy), buf);
@@ -3782,8 +3782,8 @@ tipcontainer(struct obj *box) /* or bag */
                                    uhis());
                     /* explicitly mention what item is triggering explosion */
                     urgent_pline(
-                   "你刚把%s%s进去,就被一场魔法爆炸击中!",
-                                 doname(otmp), otense(otmp, "倒空"));
+                   "你刚把%s%s进去, 就被一场魔法爆炸击中!",
+                                 doname(otmp), otense(otmp, "倒"));
 
                     /* if putting one bag of holding into another, first
                        blow up the one going in, then (below) blow up the

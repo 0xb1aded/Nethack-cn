@@ -123,9 +123,9 @@ charm_snakes(int distance)
                 if (!could_see_mon)
                     You("注意到%s正随着音乐摇摆.", a_monnam(mtmp));
                 else
-                    pline("%s站着不动,然后随着音乐摇摆%s.",
+                    pline("%s站着不动, 然后随着音乐摇摆%s.",
                           Monnam(mtmp),
-                          was_peaceful ? "" : ",现在看上去更安静了");
+                          was_peaceful ? "" : ", 现在看上去更安静了");
             }
         }
     }
@@ -151,7 +151,7 @@ calm_nymphs(int distance)
             mtmp->mstrategy &= ~STRAT_WAITMASK;
             if (canseemon(mtmp))
                 pline(
-                    "%s欢乐地听着音乐,然后看上去更安静了.",
+                    "%s欢乐地听着音乐, 然后看上去更安静了.",
                       Monnam(mtmp));
         }
     }
@@ -233,7 +233,7 @@ do_pit(coordxy x, coordxy y, unsigned tu_pit)
     mtmp = m_at(x, y); /* (redundant?) */
     if ((otmp = sobj_at(BOULDER, x, y)) != 0) {
         if (cansee(x, y))
-            pline("嘭!巨石掉进了%s裂口!",
+            pline("嘭! 巨石掉进了%s裂口!",
                   u_at(x, y) ? "你下面的" : "");
         if (mtmp)
             mtmp->mtrapped = 0;
@@ -313,7 +313,7 @@ do_pit(coordxy x, coordxy y, unsigned tu_pit)
             set_utrap(rn1(6, 2), TT_PIT);
             losehp(Maybe_Half_Phys(rnd(6)),
                    "掉入裂口", NO_KILLER_PREFIX);
-            selftouch("掉下去时,你");
+            selftouch("掉下去时, 你");
         } else if (u.utrap && u.utraptype == TT_PIT) {
             boolean keepfooting =
                     (!(Fumbling && rn2(5))
@@ -488,7 +488,7 @@ generic_lvl_desc(void)
     else if (In_V_tower(&u.uz))
         return "塔";
     else
-        return "dung地牢eon";
+        return "地牢";
 }
 
 static const char *beats[] = {
@@ -638,7 +638,7 @@ do_improvisation(struct obj *instr)
         break;
     case TOOLED_HORN: /* Awaken or scare monsters */
         if (!Deaf)
-            You("发出一个可怕,阴沉%s的声音.",
+            You("发出一个可怕, 阴沉%s的声音.",
                 same_old_song ? "却又熟悉的" : "");
         else
             You("吹响号角.");
@@ -692,7 +692,7 @@ do_improvisation(struct obj *instr)
            mundane is flagged */
         consume_obj_charge(instr, TRUE);
 
-        You("发出一个巨大的,雷鸣般的轰鸣!");
+        You("发出一个巨大的, 雷鸣般的轰鸣!");
         Hero_playnotes(obj_to_instr(&itmp), "C", 100);
         pline_The("整个%s都在摇晃!", generic_lvl_desc());
         do_earthquake((u.ulevel - 1) / 3 + 1);
@@ -870,7 +870,7 @@ do_play_instrument(struct obj *instr)
                     if (gears) {
                         Soundeffect(se_tumbler_click, 50);
                         Soundeffect(se_gear_turn, 50);
-                        You_hear("%d个锁芯%s咔嗒作响,%d个齿轮%s转动.",
+                        You_hear("%d个锁芯%s咔嗒作响, %d个齿轮%s转动.",
                                  tumblers, plur(tumblers), gears,
                                  plur(gears));
                     } else {

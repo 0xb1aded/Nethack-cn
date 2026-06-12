@@ -169,9 +169,9 @@ cursed_book(struct obj *bp)
     case 6:
         if (Antimagic) {
             shieldeff(u.ux, u.uy);
-            pline_The("书释放出了%s,但你安然无恙!", explodes);
+            pline_The("书释放出了%s, 但你安然无恙!", explodes);
         } else {
-            pline("你打开这本书,它把%s释放到了你的%s上!", explodes,
+            pline("你打开这本书, 它把%s释放到了你的%s上!", explodes,
                   body_part(FACE));
             dmg = 2 * rnd(10) + 5;
             losehp(Maybe_Half_Phys(dmg), "爆炸符文", KILLED_BY_AN);
@@ -193,7 +193,7 @@ confused_book(struct obj *spellbook)
     if (!rn2(3) && spellbook->otyp != SPE_BOOK_OF_THE_DEAD) {
         spellbook->in_use = TRUE; /* in case called from learn() */
         pline(
-         "你正处于混乱中,很难控制你的行动.");
+         "你正处于混乱中, 很难控制你的行动.");
         display_nhwindow(WIN_MESSAGE, FALSE);
         You("不小心把书撕碎了.");
         trycall(spellbook);
@@ -431,7 +431,7 @@ learn(void)
                 /* first is always 'a', so no need to mention the letter */
                 You("学会了%s.", splname);
             else
-                You("将%s添加到你的魔法列表中,快捷键为'%c'.",
+                You("将%s添加到你的魔法列表中, 快捷键为'%c'.",
                     splname, spellet(i));
         }
     }
@@ -688,7 +688,7 @@ rejectcasting(void)
 {
     /* rejections which take place before selecting a particular spell */
     if (Stunned) {
-        You("身体不稳,不能施放法术.");
+        You("身体不稳, 不能施放法术.");
         return TRUE;
     } else if (!can_chant(&gy.youmonst)) {
         You("不能念咒.");
@@ -1160,7 +1160,7 @@ cast_protection(void)
                                    : (rmtyp == CLOUD) ? "你周围的云"
                                      : IS_TREE(rmtyp) ? "你周围的植被"
                                        : IS_STWALL(rmtyp) ? "你周围的石头"
-                                         : "air");
+                                         : "空气");
                 pline_The("%s开始发出微弱的暗淡%s色.",
                           atmosphere, an(hgolden));
             }
@@ -1269,7 +1269,7 @@ spelleffects_check(int spell, int *res, int *energy)
     }
 
     if (u.uhunger <= 10 && spellid(spell) != SPE_DETECT_FOOD) {
-        You("太饿了,不能施展那个魔法.");
+        You("太饿了, 不能施展那个魔法.");
         *res = ECMD_OK;
         return TRUE;
     } else if (ACURR(A_STR) < 4 && spellid(spell) != SPE_RESTORE_ABILITY) {
@@ -1277,7 +1277,7 @@ spelleffects_check(int spell, int *res, int *energy)
         *res = ECMD_OK;
         return TRUE;
     } else if (check_capacity(
-                "因为负担过重,你的注意力开始涣散.")) {
+                "因为负担过重, 你的注意力开始涣散.")) {
         *res = ECMD_TIME;
         return TRUE;
     }
@@ -1855,11 +1855,11 @@ enum spl_sort_types {
 static const char *const spl_sortchoices[NUM_SPELL_SORTBY] = {
     "按快捷键顺序",
     "按字母顺序", /*危险:还用我说吗，，，*/
-    "按等级,从低到高",
-    "按等级,从高到低",
-    "按法术种类,每组内按字母排序",
-    "按法术种类,每组内从低到高",
-    "按法术种类,每组内从高到低",
+    "按等级, 从低到高",
+    "按等级, 从高到低",
+    "按法术种类, 每组内按字母排序",
+    "按法术种类, 每组内从低到高",
+    "按法术种类, 每组内从高到低",
     "保持当前排序",
     /* a menu choice rather than a sort choice */
     "在当前排序中重新分配快捷键",
@@ -2304,7 +2304,7 @@ spellretention(int idx, char * outbuf)
 
     if (turnsleft < 1L) {
         /* spell has expired; hero can't successfully cast it anymore */
-        Strcpy(outbuf, "(已遗忘)");
+        Strcpy(outbuf, " (已遗忘)");
     } else if (turnsleft >= (long) KEEN) {
         /* full retention, first turn or immediately after reading book */
         Strcpy(outbuf, "100%");

@@ -355,7 +355,7 @@ itemactions(struct obj *otmp)
         struct obj *o = carrying(CANDELABRUM_OF_INVOCATION);
 
         if (o && o->spe < 7)
-            Sprintf(buf, "把%s连接到你的烛台上,或%s%s", s,
+            Sprintf(buf, "把%s连接到你的烛台上, 或%s%s", s,
                     !otmp->lamplit ? "点亮" : "熄灭", /* [lowercase] */
                     multiple ? "它们" : "它");
         else
@@ -423,7 +423,7 @@ itemactions(struct obj *otmp)
                 (otmp->quan > 1L) ? "这些罐头之一" : "这个罐头"); /*修改语序:? "用你的开罐器" : "");*/
         ia_addmenu(win, IA_EAT_OBJ, 'e', buf);
     } else if (is_edible(otmp)) {
-        Sprintf(buf, "吃 %s", (otmp->quan > 1L) ? "其中一个" : "这个");
+        Sprintf(buf, "吃%s", (otmp->quan > 1L) ? "其中一个" : "这个");
         ia_addmenu(win, IA_EAT_OBJ, 'e', buf);
     }
 
@@ -572,7 +572,7 @@ itemactions(struct obj *otmp)
          *  volley count and that could randomly yield 1 here and 2..N
          *  while throwing or vice versa.
          */
-        Sprintf(buf, "%s %s%s", shoot ? "射击" : "投掷",
+        Sprintf(buf, "%s%s%s", shoot ? "射击" : "投掷",
                 (otmp->quan == 1L) ? "这个物品"
                 : (otmp->otyp == GOLD_PIECE) ? "它们"
                   : "其中之一",

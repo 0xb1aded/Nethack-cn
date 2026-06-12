@@ -147,7 +147,7 @@ static const struct paranoia_opts {
        if any entry or alias beginning with 'n' gets added, aside from "none",
        the parsing to accept "nofoo" to mean "!foo" will need fixing */
     { PARANOID_CONFIRM, "Confirm", 1, "Paranoia", 2, /*危险:这里就别翻了吧……*/
-      "设为\"yes\"会在即将行动时弹出确认问题,设为\"no\"则不会" },
+      "设为\"yes\"会在即将行动时弹出确认问题, 设为\"no\"则不会" },
     { PARANOID_QUIT, "quit", 1, "explore", 2,
       "输入yes或y以确认退出游戏(自杀)或进入探索模式" },
     { PARANOID_DIE, "die", 1, "death", 2,
@@ -182,25 +182,25 @@ static const struct paranoia_opts {
 };
 
 static NEARDATA const char *menutype[][3] = { /* 'menustyle' settings */
-    { "traditional",   "[先询问物品种类,然后用",
+    { "traditional",   "[先询问物品种类, 然后用",
                 "y/n确认每个物品]" },
-    { "combination",   "[先询问物品种类,然后用",
+    { "combination",   "[先询问物品种类, 然后用",
                 "菜单选择种类内的物品]" },
-    { "full",   "[用菜单选择种类,然后用",
+    { "full",   "[用菜单选择种类, 然后用",
                 "另一个菜单选择物品]" },
-    { "partial",   "[跳过种类筛选;总是用菜",
+    { "partial",   "[跳过种类筛选; 总是用菜",
                 "单选择所有可用物品]" }
 };
 #if PREV_MSGS /* tty supports all four settings, curses just final two */
 static NEARDATA const char *msgwind[][3] = { /* 'msg_window' settings */
-    { "single",     "[一次只显示一条信息,后",
+    { "single",     "[一次只显示一条信息, 后",
                 "出的先显示]" },
     { "combination",   "[连续按下^P时对前两个使",
-                "用'单',然后用'full']" },
-    { "full",   "[显示所有可用信息,旧的",
-                "在前,新的在后]" },
-    { "reversed",   "[显示所有可用信息,新的",
-                "在前,旧的在后]" }
+                "用'单', 然后用'full']" },
+    { "full",   "[显示所有可用信息, 旧的",
+                "在前, 新的在后]" },
+    { "reversed",   "[显示所有可用信息, 新的",
+                "在前, 旧的在后]" }
 };
 #endif
 /* autounlock settings */
@@ -224,19 +224,19 @@ static NEARDATA const char *sortltype[] = {
    entries 5 and 6 are 1|4 and 2|4 (tty only) */
 static NEARDATA const char *perminv_modes[][3] = {
   /*0*/ { "none",      "off",        "无永久物品栏窗口" },
-  /*1*/ { "all" ,      "on",         "完整物品栏,除了金币" },
-  /*2*/ { "full",      "gold",       "完整物品栏,包括金币" },
+  /*1*/ { "all" ,      "on",         "完整物品栏, 除了金币" },
+  /*2*/ { "full",      "gold",       "完整物品栏, 包括金币" },
   /*3*/ { NULL,        NULL,         NULL },
   /*4*/ { NULL,        NULL,         NULL },
 #ifdef TTY_PERM_INVENT
-  /*5*/ { "on+grid",   "all+grid",   "完整物品栏,包括未使用的字母,除了金币" },
-  /*6*/ { "gold+grid", "full+grid",  "完整物品栏,包括未使用的字母," },
+  /*5*/ { "on+grid",   "all+grid",   "完整物品栏, 包括未使用的字母,除了金币" },
+  /*6*/ { "gold+grid", "full+grid",  "完整物品栏, 包括未使用的字母," },
 #else
   /*5*/ { NULL,        NULL,         NULL },
   /*6*/ { NULL,        NULL,         NULL },
 #endif
   /*7*/ { NULL,        NULL,         NULL },
-  /*8*/ { "in-use",    "inuse-only", "子集:当前正在使用的项目" },
+  /*8*/ { "in-use",    "inuse-only", "子集: 当前正在使用的项目" },
 };
 
 struct objsymopt {
@@ -275,8 +275,8 @@ static const struct objsymopt objsymvals[] = {
     { 1, "headers",      "在菜单标题行中显示对象符号" },
     { 2, "entries",      "在单个菜单条目中显示对象符号" },
     { 3, "both",         "在标题行和菜单条目中显示对象符号" },
-    { 4, "conditional",  "若未显示标题行,则在菜单条目中显示对象符号" },
-    { 5, "one-or-other", "在标题行中显示对象符号;若无标题行,则在菜单条目中显示" },
+    { 4, "conditional",  "若未显示标题行, 则在菜单条目中显示对象符号" },
+    { 5, "one-or-other", "在标题行中显示对象符号; 若无标题行, 则在菜单条目中显示" },
 };
 
 /*
@@ -452,16 +452,16 @@ ask_do_tutorial(void)
             any.a_char = 'y';
             add_menu(win, &nul_glyphinfo, &any, any.a_char, 0,
                      ATR_NONE, NO_COLOR,
-                     "是的,进行教程", MENU_ITEMFLAGS_NONE);
+                     "是的, 进行教程", MENU_ITEMFLAGS_NONE);
             any.a_char = 'n';
             add_menu(win, &nul_glyphinfo, &any, any.a_char, 0,
                      ATR_NONE, NO_COLOR,
-                     "不,直接开始游戏.", MENU_ITEMFLAGS_NONE);
+                     "不, 直接开始游戏.", MENU_ITEMFLAGS_NONE);
 
             add_menu_str(win, "");
             add_menu_str(win, buf);
             if (pass++) /* we'll get here after <space> or <return> */
-                add_menu_str(win, "(请选择'y'或者'n'.)");
+                add_menu_str(win, "(请选择'y'或者'n'. )");
 
             end_menu(win, "你想要进入教程吗?");
 
@@ -1885,8 +1885,8 @@ optfn_hilite_status(
 #ifdef STATUS_HILITES
         if (req == get_val)
             Strcpy(opts, count_status_hilites()
-                     ? "(参见下面的\"状态高亮规则\")"
-                     : "(无)");
+                     ? " (参见下面的\"状态高亮规则\")"
+                     : " (无)");
 #endif
         return optn_ok;
     }
@@ -2426,11 +2426,11 @@ optfn_mouse_support(
     }
     if (req == get_val) {
 #ifdef WIN32
-#define MOUSEFIX1 ",关闭QuickEdit"
-#define MOUSEFIX2 ",QuickEdit不变"
+#define MOUSEFIX1 ", 关闭QuickEdit"
+#define MOUSEFIX2 ", QuickEdit不变"
 #else
-#define MOUSEFIX1 ",调整O/S"
-#define MOUSEFIX2 ",O/S不变"
+#define MOUSEFIX1 ", 调整O/S"
+#define MOUSEFIX2 ", O/S不变"
 #endif
         static const char *const mousemodes[][2] = {
             { "0=off", "" },
@@ -2621,10 +2621,10 @@ optfn_number_pad(
     }
     if (req == get_val || req == get_cnf_val) {
         static const char *const numpadmodes[] = {
-            "0=off", "1=on", "2=on,MSDOS兼容",
-            "3=on,手机式布局",
-            "4=on,手机式布局,MSDOS兼容",
-            "-1=off,y轴和z轴翻转", /*[5]*/
+            "0=off", "1=on", "2=on, MSDOS兼容",
+            "3=on, 手机式布局",
+            "4=on, 手机式布局, MSDOS兼容",
+            "-1=off, y轴和z轴翻转", /*[5]*/
         };
         int indx = gc.Cmd.num_pad
                        ? (gc.Cmd.phone_layout ? (gc.Cmd.pcHack_compat ? 4 : 3)
@@ -4001,7 +4001,7 @@ optfn_sortvanquished(
         (void) set_vanq_order(TRUE); /* insight.c */
         pline("'%s'%s\"%s:%s\".", optname,
               (flags.vanq_sortmode == prev_sortmode)
-                 ? "未改变,仍为"
+                 ? "未改变, 仍为"
                  : "已更改为",
               vanqorders[flags.vanq_sortmode][0],
               vanqorders[flags.vanq_sortmode][1]);
@@ -4512,7 +4512,7 @@ optfn_versinfo(
         /* return handler_versinfo(); */
         (void) handler_versinfo();
         pline("'%s'%s%u.", optname,
-              (flags.versinfo == vi) ? "未改变,仍为" : "已更改为",
+              (flags.versinfo == vi) ? "未改变, 仍为" : "已更改为",
               flags.versinfo);
     } else if (req == get_val) {
         char vbuf[QBUFSZ];
@@ -4836,9 +4836,9 @@ optfn_windowborders(
                 : (iflags.wc2_windowborders == 1) ? "1=开启"
                   : (iflags.wc2_windowborders == 2) ? "2=自动"
                     : (iflags.wc2_windowborders == 3)
-                      ? "3=开启,永久清单除外关闭"
+                      ? "3=开启, 永久清单除外关闭"
                       : (iflags.wc2_windowborders == 4)
-                        ? "4=自动,永久清单除外关闭"
+                        ? "4=自动, 永久清单除外关闭"
                         : defopt);
         return optn_ok;
     }
@@ -5577,7 +5577,7 @@ handler_menustyle(void)
     destroy_nhwindow(tmpwin);
     chngd = (flags.menu_style != old_menu_style);
     if (chngd || flags.verbose)
-        pline("'menustyle'%s\"%s\".", chngd ? "已更改为" : "未改变,仍为",
+        pline("'menustyle'%s\"%s\".", chngd ? "已更改为" : "未改变, 仍为",
               menutype[(int) flags.menu_style][0]);
     return optn_ok;
 }
@@ -5666,7 +5666,7 @@ handler_autounlock(int optidx)
     if ((chngd || flags.verbose) && give_opt_msg) {
         optfn_autounlock(optidx, get_val, FALSE, buf, (char *) NULL);
         pline("'%s'%s'%s'.", optname,
-              chngd ? "已更改为" : "未改变,仍为", buf);
+              chngd ? "已更改为" : "未改变, 仍为", buf);
     }
     return res;
 }
@@ -5725,40 +5725,40 @@ handler_disclose(void)
             any.a_char = DISCLOSE_NO_WITHOUT_PROMPT;
             add_menu(tmpwin, &nul_glyphinfo, &any, 0,
                      any.a_char, ATR_NONE, clr,
-                     "绝不披露,无需提示",
+                     "绝不披露, 无需提示",
                      (c == any.a_char) ? MENU_ITEMFLAGS_SELECTED
                                        : MENU_ITEMFLAGS_NONE);
             any.a_char = DISCLOSE_YES_WITHOUT_PROMPT;
             add_menu(tmpwin, &nul_glyphinfo, &any, 0,
                      any.a_char, ATR_NONE, clr,
-                     "总是披露,无需提示",
+                     "总是披露, 无需提示",
                      (c == any.a_char) ? MENU_ITEMFLAGS_SELECTED
                                        : MENU_ITEMFLAGS_NONE);
             if (*disclosure_names[i] == 'v' || *disclosure_names[i] == 'g') {
                 any.a_char = DISCLOSE_SPECIAL_WITHOUT_PROMPT; /* '#' */
                 add_menu(tmpwin, &nul_glyphinfo, &any, 0,
                          any.a_char, ATR_NONE, clr,
-                         "总是披露,从菜单中选择排序顺序",
+                         "总是披露, 从菜单中选择排序顺序",
                          (c == any.a_char) ? MENU_ITEMFLAGS_SELECTED
                                            : MENU_ITEMFLAGS_NONE);
             }
             any.a_char = DISCLOSE_PROMPT_DEFAULT_NO;
             add_menu(tmpwin, &nul_glyphinfo, &any, 0,
                      any.a_char, ATR_NONE, clr,
-                     "提示,默认答案为\"否\"",
+                     "提示, 默认答案为\"否\"",
                      (c == any.a_char) ? MENU_ITEMFLAGS_SELECTED
                                        : MENU_ITEMFLAGS_NONE);
             any.a_char = DISCLOSE_PROMPT_DEFAULT_YES;
             add_menu(tmpwin, &nul_glyphinfo, &any, 0,
                      any.a_char, ATR_NONE, clr,
-                     "提示,默认答案为\"是\"",
+                     "提示, 默认答案为\"是\"",
                      (c == any.a_char) ? MENU_ITEMFLAGS_SELECTED
                                        : MENU_ITEMFLAGS_NONE);
             if (*disclosure_names[i] == 'v' || *disclosure_names[i] == 'g') {
                 any.a_char = DISCLOSE_PROMPT_DEFAULT_SPECIAL; /* '?' */
                 add_menu(tmpwin, &nul_glyphinfo, &any, 0,
                          any.a_char, ATR_NONE, clr,
-                "提示,默认答案为\"询问\"以请求排序菜单",
+                "提示, 默认答案为\"询问\"以请求排序菜单",
                          (c == any.a_char) ? MENU_ITEMFLAGS_SELECTED
                                            : MENU_ITEMFLAGS_NONE);
             }
@@ -5880,7 +5880,7 @@ handler_msg_window(void)
             (void) optfn_msg_window(opt_msg_window, get_val,
                                     FALSE, buf, empty_optstr);
             pline("'msg_window' %.20s \"%.20s\".",
-                  chngd ? "已更改为" : "未改变,仍为", buf);
+                  chngd ? "已更改为" : "未改变, 仍为", buf);
         }
     } else
 #endif /* PREV_MSGS (for tty or curses) */
@@ -5896,10 +5896,10 @@ handler_number_pad(void)
     anything any;
     int i;
     static const char *const npchoices[] = {
-        " 0(关闭)", " 1(开启)", " 2(开启,MSDOS兼容)",
-        " 3(开启,手机布局数字式)",
-        " 4(开启,手机布局,MSDOS兼容)",
-        "-1(关闭,用'z'向坐上移动,用'y'挥舞魔杖)"
+        " 0(关闭)", " 1(开启)", " 2(开启, MSDOS兼容)",
+        " 3(开启, 手机布局数字式)",
+        " 4(开启, 手机布局, MSDOS兼容)",
+        "-1(关闭, 用'z'向坐上移动, 用'y'挥舞魔杖)"
     };
     menu_item *mode_pick = (menu_item *) 0;
     int clr = NO_COLOR;
@@ -6045,7 +6045,7 @@ handler_perminv_mode(void)
                  buf, (i == old_pi) ? MENU_ITEMFLAGS_SELECTED
                                     : MENU_ITEMFLAGS_NONE);
     }
-    end_menu(tmpwin, "选择永久背包模式:");
+    end_menu(tmpwin, "选择永久物品栏模式:");
     n = select_menu(tmpwin, PICK_ONE, &pi_pick);
     destroy_nhwindow(tmpwin);
     if (n > 0) {
@@ -6059,7 +6059,7 @@ handler_perminv_mode(void)
         buf[0] = '\0';
         (void) optfn_perminv_mode(opt_perm_invent, get_val, FALSE, buf, NULL);
         pline("'perminv_mode' %s '%s' (%s).",
-              (new_pi != old_pi) ? "已更改为" : "未改变,仍为",
+              (new_pi != old_pi) ? "已更改为" : "未改变, 仍为",
               perminv_modes[new_pi][0], buf);
         if (new_pi != InvOptNone && !old_perm_invent)
             iflags.perm_invent = can_set_perm_invent();
@@ -6244,19 +6244,19 @@ handler_whatis_coord(void)
              (gpc == GPCOORDS_NONE)
                 ? MENU_ITEMFLAGS_SELECTED : MENU_ITEMFLAGS_NONE);
     add_menu_str(tmpwin, "");
-    Sprintf(buf, "地图:左上角:<%d,%d>,右下角:<%d,%d>%s",
+    Sprintf(buf, "地图: 左上角: <%d,%d>, 右下角: <%d,%d>%s",
             1, 0, COLNO - 1, ROWNO - 1,
             flags.verbose ? ";第0列未使用,超出左边缘" : "");
     add_menu_str(tmpwin, buf);
     if (strcmp(windowprocs.name, "tty")) /* only show for non-tty */
         add_menu_str(tmpwin,
-      "屏幕:行位置已偏移,以适应终端接口对顶部行(第一行)的使用");
+      "屏幕: 行位置已偏移, 以适应终端接口对顶部行(第一行)的使用");
 #if COLNO == 80
-#define COL80ARG flags.verbose ? ";第0列未使用" : ""
+#define COL80ARG flags.verbose ? "; 第0列未使用" : ""
 #else
 #define COL80ARG ""
 #endif
-    Sprintf(buf, "屏幕:左上角:[%02d,%02d],右下角:[%d,%d]%s",
+    Sprintf(buf, "屏幕: 左上角: [%02d,%02d], 右下角: [%d,%d]%s",
             0 + 2, 1, ROWNO - 1 + 2, COLNO - 1, COL80ARG);
 #undef COL80ARG
     add_menu_str(tmpwin, buf);
@@ -6371,7 +6371,7 @@ handler_autopickup_exception(void)
             ape = ga.apelist;
             any = cg.zeroany;
             add_menu_heading(tmpwin,
-                             "总是捡起'<';从不捡起'>'");
+                             "总是捡起'<'; 从不捡起'>'");
             for (i = 0; i < numapes && ape; i++) {
                 any.a_void = (opt_idx == 1) ? 0 : ape;
                 /* length of pattern plus quotes (plus '<'/'>') is
@@ -6626,11 +6626,11 @@ handler_windowborders(void)
     menu_item *mode_pick = (menu_item *) 0;
     int clr = NO_COLOR;
     static const char *const windowborders_text[] = {
-        "关闭,从不显示边框",
-        "开启,始终显示边框",
-        "自动,若显示区域至少为 (24+2)x(80+2),则开启",
-        "开启,除非 perm_invent 强制关闭",
-        "自动,除非 perm_invent 强制关闭"
+        "关闭, 从不显示边框",
+        "开启, 始终显示边框",
+        "自动, 若显示区域至少为 (24+2)x(80+2), 则开启",
+        "开启, 除非 perm_invent 强制关闭",
+        "自动, 除非 perm_invent 强制关闭"
     };
 
     tmpwin = create_nhwindow(NHW_MENU);
@@ -8789,10 +8789,10 @@ doset(void) /* changing options via menu by Per Liboriussen */
     if (!skiphelp) {
         /* help text surrounding '?' choice should have exactly one NULL */
         static const char *const helptext[] = {
-            "如需简要了解其工作原理,请输入'?'以选择",
-            "下一个菜单选项,然后按回车或<return>键.",
+            "如需简要了解其工作原理, 请输入'?'以选择",
+            "下一个菜单选项, 然后按回车或<return>键.",
             NULL, /* actual '?' menu entry gets inserted here */
-            ("[若要隐藏此菜单帮助,请关闭'cmdassist'"
+            ("[若要隐藏此菜单帮助, 请关闭'cmdassist'"
              "选项.]"),
             "",
         };
@@ -9076,8 +9076,8 @@ show_menu_controls(winid win, boolean dolist)
     static const struct xtra_cntrls hardcoded[] = {
         { "Return", "接受当前选择并关闭菜单" },
         { "回车",  "同Return" },
-        { "空格",  "如果不在最后一页,翻到下一页;" },
-        { "     ",  "如果在最后一页,同Return" },
+        { "空格",  "如果不在最后一页, 翻到下一页;" },
+        { "     ",  "如果在最后一页, 同Return" },
         { "Esc", "取消任何选择并关闭菜单" },
         { (char *) 0, (char *) 0}
     };
@@ -9160,7 +9160,7 @@ show_menu_controls(winid win, boolean dolist)
         putstr(win, 0, "");
         Sprintf(buf, mc_fmt, "搜索",
                 visctrl(get_menu_cmd_key(MENU_SEARCH)),
-                "提取目标字符串,并将所有匹配项反转");
+                "提取目标字符串, 并将所有匹配项反转");
         putstr(win, 0, buf);
         /* separator before hardcoded */
         putstr(win, 0, "");
@@ -9261,16 +9261,16 @@ dotogglepickup(void)
     flags.pickup = !flags.pickup;
     if (flags.pickup) {
         oc_to_str(flags.pickup_types, ocl);
-        Sprintf(buf, "开,拾取%s物品%s", ocl[0] ? ocl : "所有",
+        Sprintf(buf, "开, 拾取%s物品%s", ocl[0] ? ocl : "所有",
                 (ga.apelist)
                     ? ((count_apes() == 1)
-                           ? ",有一个例外"
-                           : ",有一些例外")
+                           ? ", 有一个例外"
+                           : ", 有一些例外")
                     : "");
     } else {
         Strcpy(buf, "关");
     }
-    pline("自动拾取:%s.", buf);
+    pline("自动拾取: %s.", buf);
     return ECMD_OK;
 }
 

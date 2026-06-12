@@ -179,7 +179,7 @@ breakchestlock(struct obj *box, boolean destroyit)
                 peaceful_shk = costly && (boolean) shkp->mpeaceful;
         long loss = 0L;
 
-        pline("事实上,你完全破坏了%s.", the(xname(box)));
+        pline("事实上, 你完全破坏了%s.", the(xname(box)));
         /* Put the contents on ground at the hero's feet. */
         while ((otmp = box->cobj) != 0) {
             obj_extract_self(otmp);
@@ -206,7 +206,7 @@ breakchestlock(struct obj *box, boolean destroyit)
         if (costly)
             loss += stolen_value(box, u.ux, u.uy, peaceful_shk, TRUE);
         if (loss)
-            You("因物品被毁,你需支付%ld %s.", loss, currency(loss));
+            You("因物品被毁, 你需支付%ld %s.", loss, currency(loss));
         delobj(box);
     }
 }
@@ -378,7 +378,7 @@ pick_lock(
 
     /* check whether we're resuming an interrupted previous attempt */
     if (gx.xlock.usedtime && picktyp == gx.xlock.picktyp) {
-        static char no_longer[] = "不幸的是,你不再能%s%s了.";
+        static char no_longer[] = "不幸的是, 你不再能%s%s了.";
 
         if (nohands(gy.youmonst.data)) {
             const char *what = (picktyp == LOCK_PICK) ? "开锁器" : "钥匙";
@@ -562,7 +562,7 @@ pick_lock(
             if (picktyp == CREDIT_CARD
                 && (mtmp->isshk || mtmp->data == &mons[PM_ORACLE])) {
                 SetVoice(mtmp, 0, 80, 0);
-                verbalize("无抵押,无担保,无问题.");
+                verbalize("无抵押, 无担保, 无问题.");
             } else {
                 pline("我觉得%s不会喜欢那样.",
                       mon_nam(mtmp));
@@ -721,7 +721,7 @@ doforce(void)
                    since we're about to set lknown, there's no need to
                    remember and then reset its current value */
                 otmp->lknown = 0;
-                There("有%s,但是它的锁已经%s.",
+                There("有%s, 但是它的锁已经%s.",
                       doname(otmp), otmp->obroken ? "坏了" : "开了");
                 otmp->lknown = 1;
                 continue;
@@ -1139,7 +1139,7 @@ doorlock(struct obj *otmp, coordxy x, coordxy y)
 
             /* Can't have real locking in Rogue, so just hide doorway */
             if (vis) {
-                pline("%s涌现在更古老,更原始的门口.",
+                pline("%s涌现在更古老, 更原始的门口.",
                       dustcloud);
             } else {
                 Soundeffect(se_swoosh, 25);
@@ -1163,7 +1163,7 @@ doorlock(struct obj *otmp, coordxy x, coordxy y)
         /* & trap doors, but is it ever OK for anything else? */
         if (t_at(x, y)) {
             /* maketrap() clears doormask, so it should be NODOOR */
-            pline("%s涌现在门口,但是%s.", dustcloud,
+            pline("%s涌现在门口, 但是%s.", dustcloud,
                   quickly_dissipates);
             return FALSE;
         }
@@ -1173,14 +1173,14 @@ doorlock(struct obj *otmp, coordxy x, coordxy y)
             msg = "门锁上了!";
             break;
         case D_ISOPEN:
-            msg = "门啪的一声关上,并锁上了!";
+            msg = "门啪的一声关上, 并锁上了!";
             break;
         case D_BROKEN:
-            msg = "坏掉的门重组,然后锁上了!";
+            msg = "坏掉的门重组, 然后锁上了!";
             break;
         case D_NODOOR:
             msg =
-               "一团尘土腾空而起,聚合成一扇门";
+               "一团尘土腾空而起, 聚合成一扇门!";
             break;
         default:
             res = FALSE;

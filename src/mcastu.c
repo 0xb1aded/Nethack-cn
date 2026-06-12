@@ -66,7 +66,7 @@ cursetxt(struct monst *mtmp, boolean undirected)
         const char *point_msg; /* spellcasting monsters are impolite */
 
         if (undirected)
-            point_msg = "了一圈,然后咒骂";
+            point_msg = "了一圈, 然后咒骂";
         else if ((Invis && !perceives(mtmp->data)
                   && (mtmp->mux != u.ux || mtmp->muy != u.uy))
                  || is_obj_mappear(&gy.youmonst, STRANGE_OBJECT)
@@ -75,7 +75,7 @@ cursetxt(struct monst *mtmp, boolean undirected)
         else if (Displaced && (mtmp->mux != u.ux || mtmp->muy != u.uy))
             point_msg = "着你的幻影咒骂";
         else
-            point_msg = "向你,然后咒骂";
+            point_msg = "向你, 然后咒骂";
 
         pline_mon(mtmp, "%s指%s.", Monnam(mtmp), point_msg);
     } else if ((!(svm.moves % 4) || !rn2(4))) {
@@ -388,7 +388,7 @@ death_inflicted_by(
 staticfn void
 mcast_death_touch(struct monst *mtmp)
 {
-    pline("哦不,%s在使用死亡之指!", mhe(mtmp));
+    pline("哦不, %s在使用死亡之触!", mhe(mtmp));
     if (nonliving(gy.youmonst.data) || is_demon(gy.youmonst.data)) {
         You("看起来并不比之前死得更彻底.");
     } else if (!Antimagic && rn2(mtmp->m_lev) > 12) {
@@ -403,7 +403,7 @@ mcast_death_touch(struct monst *mtmp)
             shieldeff(u.ux, u.uy);
             monstseesu(M_SEEN_MAGR);
         }
-        pline("算你走运,你对它免疫!");
+        pline("算你走运, 你对它免疫!");
     }
 }
 
@@ -426,7 +426,7 @@ mcast_summon_mons(struct monst *mtmp)
         ; /* nothing was created? */
     } else if (mtmp->iswiz) {
         SetVoice(mtmp, 0, 80, 0);
-        verbalize("干掉那个贼,我的宠物%s!", count == 1 ? "" : "们");
+        verbalize("干掉那个贼, 我的宠物%s!", count == 1 ? "" : "们");
     } else {
         boolean one = (count == 1);
         const char *mappear = one ? "一个怪物"
@@ -693,10 +693,10 @@ mcast_insects(struct monst *mtmp)
                                            : whatbuf;
             if (!Deaf) {
                 Soundeffect(se_someone_summoning, 100);
-                You_hear("有人在召唤什么东西,然后%s%s了.", arg,
+                You_hear("有人在召唤什么东西, 然后%s%s了.", arg,
                          vtense(arg, "出现"));
             } else {
-                pline("%s %s.", upstart(arg), vtense(arg, "出现"));
+                pline("%s%s.", upstart(arg), vtense(arg, "出现"));
             }
         }
 

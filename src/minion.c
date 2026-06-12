@@ -298,7 +298,7 @@ demon_talk(struct monst *mtmp)
     }
     if (gy.youmonst.data->mlet == S_DEMON) { /* Won't blackmail their own. */
         if (!Deaf)
-            pline("%s说:\"狩猎好运,%s.\"", Amonnam(mtmp),
+            pline("%s说: \"狩猎好运, %s. \"", Amonnam(mtmp),
                   flags.female ? "姐妹" : "兄弟");
         else if (canseemon(mtmp))
             pline("%s说了什么.", Amonnam(mtmp));
@@ -334,11 +334,11 @@ demon_talk(struct monst *mtmp)
         offer = 0L;
         if (!Deaf &&
             ((offer = bribe(mtmp, "你会出多少钱?")) >= demand)) {
-            pline("%s消失了,嘲笑着怯懦的凡人.",
+            pline("%s消失了, 嘲笑着怯懦的凡人.",
                   Amonnam(mtmp));
         } else if (offer > 0L
                    && (long) rnd(5 * ACURR(A_CHA)) > (demand - offer)) {
-            pline("%s凶狠地瞪了你一眼,随即消失了.",
+            pline("%s凶狠地瞪了你一眼, 随即消失了.",
                   Amonnam(mtmp));
         } else {
             pline("%s生气了...", Amonnam(mtmp));
@@ -371,7 +371,7 @@ bribe(struct monst *mtmp, const char *prompt)
     /*Michael Paddon -- fix for negative offer to monster*/
     /*JAR880815 - */
     if (offer < 0L) {
-        You("试图欺骗%s,但做得很笨拙.", mon_nam(mtmp));
+        You("试图欺骗%s, 但做得很笨拙.", mon_nam(mtmp));
         return 0L;
     } else if (offer == 0L) {
         You("拒绝了.");
@@ -476,7 +476,7 @@ lose_guardian_angel(
             if (!Deaf) {
                 pline("%s指责你说:", Monnam(mon));
                 SetVoice(mon, 0, 80, 0);
-                verbalize("既然你想要冲突,那就多来点吧!");
+                verbalize("既然你想要冲突, 那就多来点吧!");
             } else {
                 pline("%s消失了!", Monnam(mon));
             }
@@ -509,7 +509,7 @@ gain_guardian_angel(void)
         else
             You_feel("到轰鸣的声音:");
         SetVoice((struct monst *) 0, 0, 80, voice_deity);
-        verbalize("汝既启衅,衅必归汝!");
+        verbalize("汝既启衅, 衅必归汝!");
         /* send in some hostile angels instead */
         lose_guardian_angel((struct monst *) 0);
     } else if (u.ualign.record > 8) { /* fervent */

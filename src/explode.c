@@ -323,7 +323,7 @@ explode(
             adtyp = AD_FIRE;
             break;
         case 2:
-            adstr = "ball of cold";
+            adstr = "冰球";
             adtyp = AD_COLD;
             break;
         case 4:

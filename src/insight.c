@@ -433,7 +433,7 @@ enlightenment(
 
         if (!flags.bones) {
             /* mention not saving bones iff hero just died */
-            Sprintf(buf, "已禁用加载%s骨头关卡",
+            Sprintf(buf, "已禁用加载%s遗骨层",
                     (final == ENL_GAMEOVERDEAD) ? "和存储" : "");
             you_have_X(buf);
         } else if (!u.uroleplay.numbones) {
@@ -518,10 +518,10 @@ background_enlightenment(int unused_mode UNUSED, int final)
         Strcpy(buf, "实际上"); /* "You are actually a ..." */
     if (!strcmpi(rank_titl, role_titl)) {
         /* omit role when rank title matches it */
-        Sprintf(eos(buf), "是一位%s,等级%d的%s%s", an(rank_titl), u.ulevel,
+        Sprintf(eos(buf), "是一位%s, 等级%d的%s%s", an(rank_titl), u.ulevel,
                 tmpbuf, gu.urace.noun);
     } else {
-        Sprintf(eos(buf), "是一位%s,等级%d的%s%s%s", an(rank_titl), u.ulevel,
+        Sprintf(eos(buf), "是一位%s, 等级%d的%s%s%s", an(rank_titl), u.ulevel,
                 tmpbuf, gu.urace.adj, role_titl);
     }
     you_are(buf, "");
@@ -529,7 +529,7 @@ background_enlightenment(int unused_mode UNUSED, int final)
     /* report alignment (bypass you_are() in order to omit ending period);
        adverb is used to distinguish between temporary change (helm of opp.
        alignment), permanent change (one-time conversion), and original */
-    Sprintf(buf, "%s%s%s阵营,%s肩负着%s的使命",
+    Sprintf(buf, "%s%s%s阵营, %s肩负着%s的使命",
             You_, !final ? "属于" : "曾属于",
             align_str(u.ualign.type),
             /* helm of opposite alignment (might hide conversion) */
@@ -701,7 +701,7 @@ background_enlightenment(int unused_mode UNUSED, int final)
         if (ulvl < 30 && (final || wizard)) {
             long nxtlvl = newuexp(ulvl), delta = nxtlvl - u.uexp;
 
-            Sprintf(eos(buf), ",%s需要%ld%s%s等级%d",
+            Sprintf(eos(buf), ", %s需要%ld%s%s等级%d",
                     (u.uexp > 0) ? "还" : "", delta, /*修改语序:delta, (u.uexp > 0) ? "还" : "",*/
                     /* present tense=="needed", past tense=="were needed" */
                     !final ? "" : (delta == 1L) ? "" : "",
@@ -810,12 +810,12 @@ basics_enlightenment(int mode UNUSED, int final)
             Strcat(buf, ",但在商店内暂时禁用");
         } else {
             oc_to_str(flags.pickup_types, ocl);
-            Sprintf(eos(buf), ",拾取%s%s%s", *ocl ? "'" : "",
+            Sprintf(eos(buf), ", 拾取%s%s%s", *ocl ? "'" : "",
                     *ocl ? ocl : "所有类型", *ocl ? "'" : "");
             if (flags.pickup_thrown && *ocl)
                 Strcat(buf, "以及投掷"); /* show when not 'all types' */
             if (ga.apelist)
-                Strcat(buf, ",有例外");
+                Strcat(buf, ", 有例外");
         }
     } else
         Strcpy(buf, "关闭");
@@ -1013,7 +1013,7 @@ status_enlightenment(int mode, int final)
         if (final && (Slimed & I_SPECIAL))
             enlght_out(" 你正在变成黏液.");
         else
-            you_are("正在变成石头", "");
+            you_are("正在变成黏液", "");
     }
     if (Strangled) {
         if (u.uburied) {
@@ -1233,7 +1233,7 @@ status_enlightenment(int mode, int final)
         }
         if (wizard)
             Sprintf(eos(buf), " <%d>", inv_weight());
-        Sprintf(eos(buf), ";移动%s%s%s", !final ? "" : "曾", adj,
+        Sprintf(eos(buf), "; 移动%s%s%s", !final ? "" : "曾", adj,
                 (cap < OVERLOADED) ? "减慢" : "");
         you_are(buf, "");
     } else {
@@ -1401,7 +1401,7 @@ weapon_insight(int final)
                 } else if (twoskl > sklvl2) {
                     /* sklvl2 might be restricted */
                     Strcpy(pfx, "你的双持技能");
-                    Sprintf(sfx, " %s止于", also2);
+                    Sprintf(sfx, "%s止于", also2);
                     if (sklvl2 > P_ISRESTRICTED)
                         Sprintf(eos(sfx), "%s", sklvlbuf2);
                     else
@@ -1490,7 +1490,7 @@ attributes_enlightenment(
     int final)
 {
     static NEARDATA const char
-        if_surroundings_permitted[] = ",如果环境允许的话";
+        if_surroundings_permitted[] = ", 如果环境允许的话";
     int ltmp, armpro, warnspecies;
     char buf[BUFSZ];
 
@@ -1616,7 +1616,7 @@ attributes_enlightenment(
         you_are("有千里眼", from_what(CLAIRVOYANT));
     } else if ((HClairvoyant || EClairvoyant) && BClairvoyant) {
         Strcpy(buf, from_what(-CLAIRVOYANT));
-        (void) strsubst(buf, ",因为", ",如果没有");
+        (void) strsubst(buf, ",因为", ", 如果没有");
         enl_msg(You_, "能", "本能", "有千里眼", buf);
     }
     if (Infravision)
@@ -1671,7 +1671,7 @@ attributes_enlightenment(
         you_are("正在潜行", from_what(STEALTH));
     } else if (BStealth && (HStealth || EStealth)) {
         Sprintf(buf, "潜行%s",
-                (BStealth == FROMOUTSIDE) ? ",如果不在骑乘" : "");
+                (BStealth == FROMOUTSIDE) ? ", 如果不在骑乘" : "");
         enl_msg(You_, "可以获得", "本可以获得", buf, "");
     }
     if (Aggravate_monster)
@@ -1700,7 +1700,7 @@ attributes_enlightenment(
                     terrain = (save_BLev & FROMOUTSIDE) != 0L;
 
             Sprintf(buf, "%s%s%s",
-                    trapped ? ",如果未被陷阱困住" : "",
+                    trapped ? ", 如果未被陷阱困住" : "",
                     (trapped && terrain) ? ",并且" : "",
                     terrain ? if_surroundings_permitted : "");
             enl_msg(You_, "可以漂浮", "曾可以漂浮", buf, "");
@@ -1720,17 +1720,17 @@ attributes_enlightenment(
                        "weren't" and "permitted" are adequate so the
                        extra complexity to handle that isn't worth it */
                     Levitation
-                       ? ",如果你不在漂浮"
+                       ? ", 如果你不在漂浮"
                        : (save_BFly == I_SPECIAL)
                           /* this is an oversimplification; being trapped
                              might also be blocking levitation so flight
                              would still be blocked after escaping trap */
-                          ? ",如果未被陷阱困住"
+                          ? ", 如果未被陷阱困住"
                           : (save_BFly == FROMOUTSIDE)
                              ? if_surroundings_permitted
                              /* two or more of levitation, surroundings,
                                 and being trapped in the floor */
-                             : ",如果条件允许的话",
+                             : ", 如果条件允许的话",
                     "");
         }
         BFlying = save_BFly;
@@ -1743,7 +1743,7 @@ attributes_enlightenment(
         if (has_lid && !u.uinwater) {
             you_can("可以贴到天花板上", "");
         } else {
-            Sprintf(buf, "到天花板上,如果%s%s%s",
+            Sprintf(buf, "到天花板上, 如果%s%s%s",
                     !has_lid ? "有天花板" : "",
                     (!has_lid && u.uinwater) ? "并且" : "",
                     u.uinwater ? (Underwater ? "你没有在水下"
@@ -1824,7 +1824,7 @@ attributes_enlightenment(
         *cast_adj = '\0';
         if (suit) /* omit "wearing" to shorten the text */
             Sprintf(cast_adj, "受金属盔甲妨碍%s",
-                    robe ? ",会被你的长袍缓解" : "");
+                    robe ? ", 会被你的长袍缓解" : "");
         else if (robe)
             Strcpy(cast_adj, "因穿着法袍而增强");
 
@@ -1849,7 +1849,7 @@ attributes_enlightenment(
         if (what) {
             Sprintf(buf, "%s会周期性%s", !final ? "" : "曾", what);
             /* omit from_what(UNCHANGING); too verbose */
-            enl_msg(You_, buf, buf, ",如果没有锁定到当前形态",
+            enl_msg(You_, buf, buf, ", 如果没有锁定到当前形态",
                     "");
         }
     } else if (Polymorph) {
@@ -3289,7 +3289,7 @@ mstatusline(struct monst *mtmp)
             Strcat(info, ")");
         }
     } else if (mtmp->mpeaceful)
-        Strcat(info, ",和平的");
+        Strcat(info, ", 和平的");
 
     if (mtmp->data == &mons[PM_LONG_WORM]) {
         int segndx, nsegs = count_wsegs(mtmp);
@@ -3298,21 +3298,21 @@ mstatusline(struct monst *mtmp)
            the worm's segments, but we count it as such when presenting
            worm feedback to the player */
         if (!nsegs) {
-            Strcat(info, ",单节");
+            Strcat(info, ", 单节");
         } else {
             ++nsegs; /* include head in the segment count */
             segndx = wseg_at(mtmp, gb.bhitpos.x, gb.bhitpos.y);
-            Sprintf(eos(info), ",%d节的%d%s",
+            Sprintf(eos(info), ", %d节的%d%s",
                     nsegs, segndx, ordin(segndx));
         }
     }
     if (ismnum(mtmp->cham) && mtmp->data != &mons[mtmp->cham])
         /* don't reveal the innate form (chameleon, vampire, &c),
            just expose the fact that this current form isn't it */
-        Strcat(info, ",变形怪");
+        Strcat(info, ", 变形怪");
     /* pets eating mimic corpses mimic while eating, so this comes first */
     if (mtmp->meating)
-        Strcat(info, ",在吃");
+        Strcat(info, ", 在吃");
     /* a stethoscope exposes mimic before getting here so this
        won't be relevant for it, but wand of probing doesn't */
     if (mtmp->mundetected || mtmp->m_ap_type
@@ -3321,55 +3321,55 @@ mstatusline(struct monst *mtmp)
                        MHID_PREFIX | MHID_ARTICLE | MHID_ALTMON | MHID_REGION,
                             eos(info));
     if (mtmp->mcan)
-        Strcat(info, ",被取消");
+        Strcat(info, ", 被取消");
     if (mtmp->mconf)
-        Strcat(info, ",混乱");
+        Strcat(info, ", 混乱");
     if (mtmp->mblinded || !mtmp->mcansee)
-        Strcat(info, ",看不见");
+        Strcat(info, ", 看不见");
     if (mtmp->mstun)
-        Strcat(info, ",被定身");
+        Strcat(info, ", 被定身");
     if (mtmp->msleeping)
-        Strcat(info, ",睡着");
+        Strcat(info, ", 睡着");
 #if 0 /* unfortunately mfrozen covers temporary sleep and being busy
        * (donning armor, for instance) as well as paralysis */
     else if (mtmp->mfrozen)
         Strcat(info, ", paralyzed");
 #else
     else if (mtmp->mfrozen || !mtmp->mcanmove)
-        Strcat(info, ",不能移动");
+        Strcat(info, ", 不能移动");
 #endif
     /* [arbitrary reason why it isn't moving] */
     else if ((mtmp->mstrategy & STRAT_WAITMASK) != 0)
-        Strcat(info, ",沉思");
+        Strcat(info, ", 沉思");
     if (mtmp->mflee)
-        Strcat(info, ",害怕");
+        Strcat(info, ", 害怕");
     if (mtmp->mtrapped)
-        Strcat(info, ",被困");
+        Strcat(info, ", 被困");
     if (mtmp->mspeed)
-        Strcat(info, (mtmp->mspeed == MFAST) ? ",快速"
-                      : (mtmp->mspeed == MSLOW) ? ",缓慢"
-                         : ",[? 速度]");
+        Strcat(info, (mtmp->mspeed == MFAST) ? ", 快速"
+                      : (mtmp->mspeed == MSLOW) ? ", 缓慢"
+                         : ", [? 速度]");
     if (mtmp->minvis)
-        Strcat(info, ",隐形");
+        Strcat(info, ", 隐形");
     if (mtmp == u.ustuck) {
         struct permonst *pm = u.ustuck->data;
 
         /* being swallowed/engulfed takes priority over sticks(youmonst);
            this used to have that backwards and checked sticks() first */
         Strcat(info, u.uswallow ? (digests(pm)
-                                   ? ",正在消化你"
+                                   ? ", 正在消化你"
                                    /* note: the "swallowing you" case won't
                                       happen because all animal engulfers
                                       either digest their victims (purple
                                       worm) or enfold them (trappers and
                                       lurkers above) */
                                    : (is_animal(pm) && !enfolds(pm))
-                                     ? ",正在吞下你"
-                                     : ",正在吞噬你")
+                                     ? ", 正在吞下你"
+                                     : ", 正在吞噬你")
                      /* !u.uswallow; if both youmonst and ustuck are holders,
                         youmonst wins */
-                     : (!sticks(gy.youmonst.data) ? ",正在抓住你"
-                                                 : ",被你抓住"));
+                     : (!sticks(gy.youmonst.data) ? ", 正在抓住你"
+                                                 : ", 被你抓住"));
     }
     if (mtmp == u.usteed) {
         Strcat(info, ",带着你");
@@ -3382,18 +3382,18 @@ mstatusline(struct monst *mtmp)
 
             if (legs == BOTH_SIDES)
                 what = makeplural(what);
-            Sprintf(eos(info), ",%s受伤了", what);
+            Sprintf(eos(info), ", %s受伤了", what);
         }
     }
     if (mtmp->mleashed)
-        Strcat(info, ",被拴住");
+        Strcat(info, ", 被拴住");
 
     /* avoid "Status of the invisible newt ..., invisible" */
     /* and unlike a normal mon_nam, use "saddled" even if it has a name */
     Strcpy(monnambuf, x_monnam(mtmp, ARTICLE_YOUR, (char *) 0,
                                (SUPPRESS_IT | SUPPRESS_INVISIBLE), FALSE));
 
-    pline("%s的状态(%s,%s): Lvl %d  HP %d(%d)  AC %d%s.",
+    pline("%s的状态(%s, %s): Lvl %d  HP %d(%d)  AC %d%s.",
           monnambuf, align_str(alignment), size_str(mtmp->data->msize),
           mtmp->m_lev, mtmp->mhp, mtmp->mhpmax, find_mac(mtmp), info);
 }
@@ -3418,21 +3418,21 @@ ustatusline(void)
         }
     }
     if (Stoned)
-        Strcat(info, ",正在石化");
+        Strcat(info, ", 正在石化");
     if (Slimed)
-        Strcat(info, ",正在黏液化");
+        Strcat(info, ", 正在黏液化");
     if (Strangled)
-        Strcat(info, ",被窒息");
+        Strcat(info, ", 被窒息");
     if (Vomiting)
-        Strcat(info, ",呕吐"); /* !"nauseous" */
+        Strcat(info, ", 呕吐"); /* !"nauseous" */
     if (Confusion)
-        Strcat(info, ",混乱");
+        Strcat(info, ", 混乱");
     if (Blind) {
-        Strcat(info, ",失明");
+        Strcat(info, ", 失明");
         if (u.ucreamed) {
             if ((long) u.ucreamed < BlindedTimeout || Blindfolded
                 || !haseyes(gy.youmonst.data))
-                Strcat(info, ",满身都是");
+                Strcat(info, ", 满身都是");
             Strcat(info, "黏糊糊的东西");
         } /* note: "goop" == "glop"; variation is intentional */
     }
@@ -3449,28 +3449,28 @@ ustatusline(void)
             what = makeplural(what);
         /* when it's just one leg, ^X reports which, left or right;
            ustatusline() doesn't, in order to keep the output a bit shorter */
-        Sprintf(eos(info), ",%s受伤了", what);
+        Sprintf(eos(info), ", %s受伤了", what);
     }
     if (Glib)
-        Sprintf(eos(info), ",油腻的%s", fingers_or_gloves(TRUE));
+        Sprintf(eos(info), ", 油腻的%s", fingers_or_gloves(TRUE));
     if (u.utrap)
-        Strcat(info, ",被困");
+        Strcat(info, ", 被困");
     if (Fast)
-        Strcat(info, Very_fast ? ",非常快" : ",快");
+        Strcat(info, Very_fast ? ", 非常快" : ", 快");
     if (u.uundetected)
-        Strcat(info, ",潜行");
+        Strcat(info, ", 潜行");
     else if (U_AP_TYPE != M_AP_NOTHING)
-        Strcat(info, ",伪装");
+        Strcat(info, ", 伪装");
     if (Invis)
-        Strcat(info, ",隐身");
+        Strcat(info, ", 隐身");
     if (u.ustuck) {
         if (u.uswallow)
-            Strcat(info, digests(u.ustuck->data) ? ",正在被...消化"
-                                                 : ",被...吞噬");
+            Strcat(info, digests(u.ustuck->data) ? ", 消化于" /*待写:你觉得我知道怎么写吗？消化于？*/
+                                                 : ", 被吞噬于");
         else if (!sticks(gy.youmonst.data))
-            Strcat(info, ",被抓住于");
+            Strcat(info, ", 被抓住于");
         else
-            Strcat(info, ",抓住着");
+            Strcat(info, ", 抓住着");
         /* FIXME? a_monnam() uses x_monnam() which has a special case that
            forces "the" instead of "a" when formatting u.ustuck while hero
            is swallowed; we don't really want that here but it isn't worth
@@ -3480,7 +3480,7 @@ ustatusline(void)
     if (!u.uswallow
         && (reg = visible_region_at(u.ux, u.uy)) != 0
         && (ln = strlen(info)) < sizeof info)
-        Snprintf(eos(info), sizeof info - ln, ",在一片%s云中",
+        Snprintf(eos(info), sizeof info - ln, ", 在一片%s云中",
                  reg_damg(reg) ? "毒气" : "蒸汽");
 
     pline("%s的状态(%s): Lvl %d  HP %d(%d)  AC %d%s.", svp.plname,

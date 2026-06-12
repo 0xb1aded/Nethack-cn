@@ -80,15 +80,15 @@ stealgold(struct monst *mtmp)
             what = makeplural(mbodypart(who, FOOT));
         } else {
             who = &gy.youmonst;
-            whose = "your";
+            whose = "你的";
             what = makeplural(body_part(FOOT));
         }
         /* [ avoid "between your rear regions" :-] */
         if (slithy(who->data))
-            what = "coils";
+            what = "外围";
         /* reduce "rear hooves/claws" to "hooves/claws" */
-        if (!strncmp(what, "rear ", 5))
-            what += 5;
+        if (!strncmp(what, "rear ", 5)){what += 5;}
+        /*待写:rear怎么写？*/
         pline("%s迅速从%s%s%s抢走了一些金币!", Monnam(mtmp),
               whose, what, (Levitation || Flying) ? "下" : "间"); /*修改语序:(Levitation || Flying) ? "下" : "间", whose, what);*/
         if (!ygold || !rn2(5)) {
@@ -313,11 +313,11 @@ worn_item_removal(
         (void) strsubst(objbuf, article, (obj == uchain) ? "the " : "your ");
     }
     /* these ought to be guarded against matching user-supplied name */
-    (void) strsubst(objbuf, "(穿戴中)", ""); /*危险:(void) strsubst(objbuf, " (being worn)", "");*/
-    (void) strsubst(objbuf, "(副武器;未装备)", ""); /*危险:(void) strsubst(objbuf, " (alternate weapon; not wielded)", "");*/
+    (void) strsubst(objbuf, " (穿戴中)", ""); /*危险:(void) strsubst(objbuf, " (being worn)", "");*/
+    (void) strsubst(objbuf, " (副武器; 未装备)", ""); /*危险:(void) strsubst(objbuf, " (alternate weapon; not wielded)", "");*/
     /* convert "ring (on left hand)" to "ring (from left hand)" */
-    if ((p = strstri(objbuf, "(在")) /*危险:if ((p = strstri(objbuf, " (on "))*/
-        && (!strncmp(p + 2, "左", 1) || !strncmp(p + 2, "右", 1))) /*危险:&& (!strncmp(p + 5, "left ", 5) || !strncmp(p + 5, "right ", 6)))*/
+    if ((p = strstri(objbuf, " (在")) /*危险:if ((p = strstri(objbuf, " (on "))*/
+        && (!strncmp(p + 2, "左", strlen("左")) || !strncmp(p + 2, "右", strlen("右")))) /*危险:&& (!strncmp(p + 5, "left ", 5) || !strncmp(p + 5, "right ", 6)))*/
         (void) strsubst(p + 1, "在", "从"); /*危险:(void) strsubst(p + 2, "on", "from");*/
 
     /* slightly iffy for alternate weapon that isn't actively dual-wielded,
@@ -389,12 +389,12 @@ steal(struct monst *mtmp, char *objnambuf)
             pline("%s取下了你没有的脚镣.", Monnambuf);
             (void) openholdingtrap(&gy.youmonst, &dummy);
         } else if (Blind) {
-            pline("有人想要偷你的东西,但是发现你一无所有.");
+            pline("有人想要偷你的东西, 但是发现你一无所有.");
         } else if (inv_cnt(TRUE) > inv_cnt(FALSE)) {
-            pline("%s想要偷你的东西,但对金子不感兴趣.",
+            pline("%s想要偷你的东西, 但对金子不感兴趣.",
                   Monnambuf);
         } else {
-            pline("%s想要偷你的东西,但是发现你一无所有.",
+            pline("%s想要偷你的东西, 但是发现你一无所有.",
                   Monnambuf);
         }
         return 1; /* let her flee */
@@ -537,7 +537,7 @@ steal(struct monst *mtmp, char *objnambuf)
                                      : "开始脱下",
                                  armor_simple_name(otmp));
                 else
-                    urgent_pline("%s魅惑着你,%s你的%s.",
+                    urgent_pline("%s魅惑着你, %s你的%s.",
                                  !seen ? "她" : Adjmonnam(mtmp, "漂亮的"),
                                  curssv ? "帮你脱下了"
                                  : !slowly ? "你脱下了"

@@ -183,10 +183,10 @@ watch_on_duty(struct monst *mtmp)
             && (levl[x][y].doormask & D_LOCKED)) {
             if (couldsee(mtmp->mx, mtmp->my)) {
                 if (levl[x][y].looted & D_WARNED) {
-                    mon_yells(mtmp, "站住,小偷! 你被捕了!");
+                    mon_yells(mtmp, "站住, 小偷! 你被捕了!");
                     (void) angry_guards(!!Deaf);
                 } else {
-                    mon_yells(mtmp, "嘿,别再翘那个锁了!");
+                    mon_yells(mtmp, "嘿, 别再翘那个锁了!");
                     levl[x][y].looted |= D_WARNED;
                 }
                 stop_occupation();
@@ -511,7 +511,7 @@ monflee(
                           Monnam(mtmp), lsrc);
                 } else {
                     SetVoice(mtmp, 0, 80, 0);
-                    verbalize("Bright light!");
+                    verbalize("闪亮的光!");
                 }
             } else {
                 pline_mon(mtmp, "%s转头逃跑了.", Monnam(mtmp));

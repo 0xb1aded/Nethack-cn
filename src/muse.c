@@ -83,11 +83,11 @@ precheck(struct monst *mon, struct obj *obj)
                 } else {
                     if (vis) {
                         pline(
-                            "当%s打开瓶子,一个巨大的%s浮现了!",
+                            "当%s打开瓶子, 一个巨大的%s浮现了!",
                               mon_nam(mon),
                               Hallucination ? rndmonnam(NULL)
                                             : (const char *) "鬼魂");
-                        pline("%s被吓得要死,"
+                        pline("%s被吓得要死, "
                               "无法移动.",
                               Monnam(mon));
                     }
@@ -109,7 +109,7 @@ precheck(struct monst *mon, struct obj *obj)
                     pline1(empty);
             } else {
                 if (vis)
-                    pline_mon(mtmp, "在一团烟雾中,%s出现了!", a_monnam(mtmp));
+                    pline_mon(mtmp, "在一团烟雾中, %s出现了!", a_monnam(mtmp));
                 pline("%s在说话.", vis ? Monnam(mtmp) : Something);
                 /* I suspect few players will be upset that monsters */
                 /* can't wish for wands of death here.... */
@@ -135,7 +135,7 @@ precheck(struct monst *mon, struct obj *obj)
         /* 3.6.1: no Deaf filter; 'if' message doesn't warrant it, 'else'
            message doesn't need it since You_hear() has one of its own */
         if (vis) {
-            pline_mon(mon, "%s挥舞%s,然后它突然爆炸!", Monnam(mon),
+            pline_mon(mon, "%s挥舞%s, 然后它突然爆炸!", Monnam(mon),
                   an(xname(obj)));
         } else {
             /* same near/far threshold as mzapwand() */
@@ -285,7 +285,7 @@ mreadmsg(struct monst *mtmp, struct obj *otmp)
             flash_mon(mtmp);
     }
     if (mtmp->mconf) /* (note: won't get if not seen and hero can't hear) */
-        pline("混乱中,%s念错了咒语...",
+        pline("混乱中, %s念错了咒语...",
               vismon ? mon_nam(mtmp) : mhe(mtmp));
 }
 
@@ -1073,7 +1073,7 @@ use_defensive(struct monst *mtmp)
         if (Inhell && mon_has_amulet(mtmp) && !rn2(4)
             && (dunlev(&u.uz) < dunlevs_in_dungeon(&u.uz) - 3)) {
             if (vismon)
-                pline("当%s爬上楼梯时,一股神秘的力量"
+                pline("当%s爬上楼梯时, 一股神秘的力量"
                       "一时环绕着%s...",
                       mon_nam(mtmp), mhim(mtmp));
             /* simpler than for the player; this will usually be
@@ -2410,7 +2410,7 @@ use_misc(struct monst *mtmp)
                 if (on_level(&tolevel, &u.uz))
                     goto skipmsg;
                 if (vismon) {
-                    pline_mon(mtmp, "%s升起来,穿过了%s!",
+                    pline_mon(mtmp, "%s升起来, 穿过了%s!",
                               Monnam(mtmp),
                               ceiling(mtmp->mx, mtmp->my));
                     trycall(otmp);
@@ -2630,7 +2630,7 @@ RESTORE_WARNINGS
 staticfn void
 you_aggravate(struct monst *mtmp)
 {
-    pline("出于某种原因,%s的存在被你知道了.",
+    pline("出于某种原因, %s的存在被你知道了.",
           s_suffix(noit_mon_nam(mtmp)));
     cls();
 #ifdef CLIPPING
@@ -2643,7 +2643,7 @@ you_aggravate(struct monst *mtmp)
     docrt();
     if (unconscious()) {
         gm.multi = -1;
-        gn.nomovemsg = "你感到很恼火,猛然清醒过来了.";
+        gn.nomovemsg = "你感到很恼火, 猛然清醒过来了.";
     }
     newsym(mtmp->mx, mtmp->my);
     if (!canspotmon(mtmp))
@@ -2956,7 +2956,7 @@ mon_consume_unstone(
     }
     if (stoning && vis) {
         if (Hallucination)
-            pline("真可惜--%s竟然毁了一件未来的艺术品!",
+            pline("真可惜 -- %s竟然毁了一件未来的艺术品!",
                   mon_nam(mon));
         else
             pline_mon(mon, "%s看上去更能动了!", Monnam(mon));
@@ -3151,7 +3151,7 @@ muse_unslime(
         mreadmsg(mon, obj);
         if (mon->mconf) {
             if (cansee(mon->mx, mon->my))
-                pline("哦,多么漂亮的火!");
+                pline("哦, 多么漂亮的火!");
             if (vis)
                 trycall(obj);
             m_useup(mon, obj); /* after trycall() */

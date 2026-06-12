@@ -1046,14 +1046,14 @@ wet_a_towel(
     if (newspe > obj->spe) {
         if (verbose) {
             const char *wetness = (newspe < 3)
-                                     ? (!obj->spe ? "damp" : "湿")
-                                     : (!obj->spe ? "wet" : "干");
+                                     ? (!obj->spe ? "湿" : "得更湿")
+                                     : (!obj->spe ? "干" : "得更干");
 
             if (carried(obj))
-                pline("%s变得更%s了.", Yobjnam2(obj, (const char *) 0),
+                pline("%s变%s了.", Yobjnam2(obj, (const char *) 0),
                       wetness);
             else if (mcarried(obj) && canseemon(obj->ocarry))
-                pline("%s的%s变得更%s了.", s_suffix(Monnam(obj->ocarry)),
+                pline("%s的%s变%s了.", s_suffix(Monnam(obj->ocarry)),
                       xname(obj), wetness);
         }
     }

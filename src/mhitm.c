@@ -345,7 +345,7 @@ mattackm(
                 else if (mdef->m_id == gl.last_hider)
                     You("注意到%s.", mon_nam(mdef));
                 else
-                    pline("突然,你注意到%s.", a_monnam(mdef));
+                    pline("突然, 你注意到%s.", a_monnam(mdef));
             }
         }
     }
@@ -510,7 +510,7 @@ mattackm(
         case AT_ENGL:
             if (mdef->data == &mons[PM_SHADE]) { /* no silver teeth... */
                 if (gv.vis)
-                    pline("%s试图吞没%s,但是没有用.",
+                    pline("%s试图吞没%s, 但是没有用.",
                           s_suffix(Monnam(magr)), mon_nam(mdef));
                 strike = 0;
                 break;
@@ -631,7 +631,7 @@ failed_grab(
             /* unsolid grab misses are actually somewhat iffy--how come
                ordinary attacks don't also pass right through? */
             pline("%.99s%s试图%s%.99s!", magrnam, verb,
-                  !tailmiss ? ",直接穿过了" : ",但没有抓住",
+                  !tailmiss ? ", 直接穿过了" : ", 但没有抓住",
                   mdefnam);
         }
         return TRUE;
@@ -1121,7 +1121,7 @@ mdamagem(
 int
 mon_poly(struct monst *magr, struct monst *mdef, int dmg)
 {
-    static const char freaky[] = "经历了一次怪异的变形,";
+    static const char freaky[] = "经历了一次怪异的变形, ";
     struct permonst *oldform = mdef->data;
 
     if (mdef == &gy.youmonst) {

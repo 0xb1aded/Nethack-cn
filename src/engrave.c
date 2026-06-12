@@ -394,7 +394,7 @@ read_engr_at(coordxy x, coordxy y)
                      && strchr(".!?", et[elen - 1]))) {
                 endpunct = ".";
             }
-            You("%s:\"%s\"%s", (Blind) ? "摸到上面的字" : "读到", et,
+            You("%s: \"%s\"%s", (Blind) ? "摸到上面的字" : "读到", et,
                 endpunct);
             Strcpy(ep->engr_txt[remembered_text], ep->engr_txt[actual_text]);
             ep->eread = 1;
@@ -702,7 +702,7 @@ doengrave_sfx_item_WAN(struct _doengrave_ctx *de)
                         : (svl.level.locations[u.ux][u.uy].typ
                           == DRAWBRIDGE_DOWN)
                            ? "木屑从桥上飞起."
-                           : "碎石从地面飞起,");
+                           : "碎石从地面飞起.");
         break;
         /* type = BURN wands */
     case WAN_FIRE:
@@ -775,7 +775,7 @@ doengrave_sfx_item(struct _doengrave_ctx *de)
     case FOOD_CLASS:
     case SCROLL_CLASS:
     case SPBOOK_CLASS:
-        pline("%s会%s.的", Yname2(de->otmp),
+        pline("%s会%s的.", Yname2(de->otmp),
               de->frosted ? "结上霜" : "弄脏");
         de->ptext = FALSE;
         break;
@@ -812,7 +812,7 @@ doengrave_sfx_item(struct _doengrave_ctx *de)
                     de->zapwand = TRUE;
                 /* empty wand just doesn't write */
                 else
-                    pline_The("魔杖磨损过度,无法刻字.");
+                    pline_The("魔杖磨损过度, 无法刻字.");
             }
         }
         break;
@@ -827,7 +827,7 @@ doengrave_sfx_item(struct _doengrave_ctx *de)
                 pline("%s只能划%s.",
                       Yname2(de->otmp), surface(u.ux, u.uy));
             else if ((int) de->otmp->spe <= -3)
-                pline("%s太钝,无法刻字.",
+                pline("%s太钝, 无法刻字.",
                       Yobjnam2(de->otmp, "是"));
             else
                 de->type = ENGRAVE;
@@ -837,7 +837,7 @@ doengrave_sfx_item(struct _doengrave_ctx *de)
     case TOOL_CLASS:
         if (de->otmp == ublindf) {
             pline(
-                "用那个刻字挺难的,你不觉得吗?");
+                "用那个刻字挺难的, 你不觉得吗?");
             de->ret = ECMD_FAIL;
             return FALSE;
         }
@@ -1077,7 +1077,7 @@ doengrave(void)
         tmp_ep = engr_at(u.ux, u.uy);
         if (!Blind) {
             if (tmp_ep != 0) {
-                pline_The("现在刻字是:\"%s\".", de->buf);
+                pline_The("现在刻字是: \"%s\".", de->buf);
                 tmp_ep->eread = 1;
                 tmp_ep->erevealed = 1;
                 de->disprefresh = TRUE;

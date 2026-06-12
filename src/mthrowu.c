@@ -520,7 +520,7 @@ ucatchgem(
         } else {
             You("看在%s好意的份上还是接受了礼物.",
                 mon_s_name);
-            (void) hold_another_object(gem, "抓住了,但是掉下了%s.",
+            (void) hold_another_object(gem, "抓住了, 但是掉下了%s.",
                                        gem_xname, "你抓住:");
         }
         return TRUE;
@@ -542,7 +542,7 @@ u_catch_thrown_obj(struct obj *otmp)
         char buf[BUFSZ];
 
         Snprintf(buf, BUFSZ, "你抓住了%s!", simpleonames(otmp));
-        (void) hold_another_object(otmp, "抓住了,但是掉下了%s.",
+        (void) hold_another_object(otmp, "抓住了, 但是掉下了%s.",
                                    simpleonames(otmp), buf);
         return TRUE;
     }
@@ -624,7 +624,7 @@ m_throw(
             if (is_ammo(singleobj))
                 pline("%s没有发射!", Monnam(mon));
             else
-                pline("当%s投掷时,%s了!", mon_nam(mon), /*修改语序:pline("%s了当%s投掷时!", Tobjnam(singleobj, "滑落"),*/
+                pline("当%s投掷时, %s了!", mon_nam(mon), /*修改语序:pline("%s了当%s投掷时!", Tobjnam(singleobj, "滑落"),*/
                       Tobjnam(singleobj, "滑落")); /*修改语序:mon_nam(mon));*/
         }
         dx = rn2(3) - 1;
@@ -902,7 +902,7 @@ return_from_mtoss(
             dmg = rn2(2);
             if (!dmg) {
                 if (canseemon(magr)) {
-                    pline("%s到了%s附近,落在%s的%s%s.",
+                    pline("%s到了%s附近, 落在%s的%s%s.",
                           Tobjnam(otmp, "飞回"), mon_nam(magr),
                           mhis(magr), makeplural(mbodypart(magr, FOOT)), 
                           mlevitating ? "下" : "上"); /*修改语序:自己看原文*/
@@ -912,7 +912,7 @@ return_from_mtoss(
             } else {
                 dmg += rnd(3);
                 if (canseemon(magr)) {
-                    pline("%s向%s飞回,击中了%s%s!",
+                    pline("%s向%s飞回, 击中了%s%s!",
                           Tobjnam(otmp, "飞"), mon_nam(magr),
                           mhis(magr), body_part(ARM));
                 } else if (!Deaf) {

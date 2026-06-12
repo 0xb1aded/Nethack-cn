@@ -206,7 +206,7 @@ stairs_description(
                                     || single_level_branch(&tolev)); /* knox */
             int to_dlev = specialdepth ? dunlev(&tolev) : depth(&tolev);
 
-            Sprintf(eos(outbuf), "(到第%d层)", to_dlev);
+            Sprintf(eos(outbuf), " (到第%d层)", to_dlev);
         }
     } else if (u.uz.dnum == 0 && u.uz.dlevel == 1 && sway->up) {
         /* stairs up from level one are a special case; they are marked
@@ -222,11 +222,11 @@ stairs_description(
                    || on_level(&tolev, &air_level)
                    || on_level(&tolev, &fire_level)
                    || on_level(&tolev, &water_level))
-                  ? "(通往元素位面)"
-                  : "(前往终局)");
+                  ? " (通往元素位面)"
+                  : " (前往终局)");
     } else {
         /* known branch stairs; tacking on destination level is too verbose */
-        Sprintf(outbuf, "分支%s%s(前往%s)",
+        Sprintf(outbuf, "分支%s%s (前往%s)",
                 updown, stairs, svd.dungeons[tolev.dnum].dname); /*修改语序:stairs, updown, svd.dungeons[tolev.dnum].dname);*/
         /* dungeons[].dname is capitalized; undo that for "The <Branch>" */
         (void) strsubst(outbuf, "The ", "the ");

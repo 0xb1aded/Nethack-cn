@@ -173,14 +173,14 @@ getpos_help(boolean force, const char *goal)
     winid tmpwin = create_nhwindow(NHW_MENU);
 
     Sprintf(sbuf,
-            "使用'%s','%s','%s','%s'将光标移动到%s.", /* hjkl */
+            "使用'%s', '%s', '%s', '%s'将光标移动到%s.", /* hjkl */
             visctrl(cmd_from_func(do_move_west)),
             visctrl(cmd_from_func(do_move_south)),
             visctrl(cmd_from_func(do_move_north)),
             visctrl(cmd_from_func(do_move_east)), goal);
     putstr(tmpwin, 0, sbuf);
     Sprintf(sbuf,
-            "使用'%s','%s','%s','%s'快速移动光标,%s.",
+            "使用'%s', '%s', '%s', '%s'快速移动光标,%s.",
             visctrl(cmd_from_func(do_run_west)),
             visctrl(cmd_from_func(do_run_south)),
             visctrl(cmd_from_func(do_run_north)),
@@ -258,8 +258,8 @@ getpos_help(boolean force, const char *goal)
         if (iflags.cmdassist) { /* assisting the '/' command, I suppose... */
             Sprintf(sbuf,
                     (iflags.getpos_coords == GPCOORDS_NONE)
-        ? "(设置'whatis_coord'选项以包含'%s'文本中的坐标.)"
-        : "(重置'whatis_coord'选项以忽略'%s'文本中的坐标.)",
+        ? "(设置'whatis_coord'选项以包含'%s'文本中的坐标. )"
+        : "(重置'whatis_coord'选项以忽略'%s'文本中的坐标. )",
                     visctrl(gc.Cmd.spkeys[NHKF_GETPOS_AUTODESC]));
         }
  skip_non_mons:
@@ -300,7 +300,7 @@ getpos_help(boolean force, const char *goal)
         }
     }
     if (!force)
-        putstr(tmpwin, 0, "如果你做完了,请按下空格或Esc键.");
+        putstr(tmpwin, 0, "如果你做完了, 请按下空格或Esc键.");
     putstr(tmpwin, 0, "");
     display_nhwindow(tmpwin, TRUE);
     destroy_nhwindow(tmpwin);
@@ -567,7 +567,7 @@ dxdy_to_dist_descr(coordxy dx, coordxy dy, boolean fulldir)
     } else {
         static const char *const dirnames[4][2] = {
             { "n", "北" },
-            { "s", "男" },
+            { "s", "南" },
             { "w", "西" },
             { "e", "东" } };
         buf[0] = '\0';
@@ -991,7 +991,7 @@ getpos(coord *ccp, boolean force, const char *goal)
             pline("%s菜单去显示可能存在的%s目标.",
                   iflags.getloc_usemenu ? "使用" : "不使用",
                   iflags.getloc_usemenu
-                      ? "'m|M','o|O','d|D'和'x|X'" : "");
+                      ? "'m|M', 'o|O', 'd|D'和'x|X'" : "");
             msg_given = TRUE;
             goto nxtc;
         } else if (c == gc.Cmd.spkeys[NHKF_GETPOS_SELF]) {
@@ -1120,13 +1120,13 @@ getpos(coord *ccp, boolean force, const char *goal)
                     if (!force)
                         Strcpy(note, "已中止");
                     else /* hjkl */
-                        Sprintf(note, "使用'%s','%s','%s','%s'或'%s'",
+                        Sprintf(note, "使用'%s', '%s', '%s', '%s'或'%s'",
                                 visctrl(cmd_from_func(do_move_west)),
                                 visctrl(cmd_from_func(do_move_south)),
                                 visctrl(cmd_from_func(do_move_north)),
                                 visctrl(cmd_from_func(do_move_east)),
                                 visctrl(gc.Cmd.spkeys[NHKF_GETPOS_PICK]));
-                    pline("未知方向:'%s'(%s).", visctrl((char) c),
+                    pline("未知方向: '%s'(%s).", visctrl((char) c),
                           note);
                     msg_given = TRUE;
                 } /* k => matching */

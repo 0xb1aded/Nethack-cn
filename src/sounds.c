@@ -35,7 +35,7 @@ throne_mon_sound(struct monst *mtmp)
         static const char *const throne_msg[4] = {
             "宫廷谈话的腔调.",
             "权杖敲击的阴沉声音.",
-            "有人在喊\"砍了%s的头!\"",
+            "有人在喊\"砍了%s的头! \"",
             "贝如希尔王的猫!",
         };
         int which = rn2(3) + (Hallucination ? 1 : 0);
@@ -190,7 +190,7 @@ oracle_sound(struct monst *mtmp)
             "一阵怪风.",     /* Jupiter at Dodona */
             "痉挛般的狂言.", /* Apollo at Delphi */
             "蛇打鼾的声音.",     /* AEsculapius at Epidaurus */
-            "有人喊道:\"土拨鼠不要再来了!\"",
+            "有人喊道: \"土拨鼠不要再来了! \"",
             "一声巨响!" /* both rec.humor.oracle */
         };
         You_hear1(ora_msg[rn2(3) + hallu * 2]);
@@ -736,7 +736,7 @@ domonnoise(struct monst *mtmp)
         } else {
             /* approximation of GEICO's advertising slogan (it actually
                concludes with "save you 15% or more on car insurance.") */
-            Sprintf(verbuf, "原价都是100多,200多,300多的次元包,通通20 %s!",
+            Sprintf(verbuf, "原价都是100多, 200多, 300多的次元包, 通通20 %s!",
                     currency(20L)); /* "zorkmids" */
             verbl_msg = verbuf;
         }
@@ -758,41 +758,41 @@ domonnoise(struct monst *mtmp)
 
         if (mtmp->mtame) {
             if (kindred) {
-                Sprintf(verbuf, "%s好,主人%s",
+                Sprintf(verbuf, "%s好, 主人%s",
                         isnight ? "晚上" : "早上",
                         isnight ? "!" : ". 我们为什么不休息呢?");
                 verbl_msg = verbuf;
             } else {
                 Sprintf(verbuf, "%s%s",
-                        nightchild ? "夜之子," : "",
+                        nightchild ? "夜之子, " : "",
                         midnight()
                          ? "我再也无法忍受这种渴望了!"
                          : isnight
-                          ? "求你了,满足我这日益增长的渴望吧!"
+                          ? "求你了, 满足我这日益增长的渴望吧!"
                           : "我发现我有点疲倦了.");
                 verbl_msg = verbuf;
             }
         } else if (mtmp->mpeaceful) {
             if (kindred && isnight) {
-                Sprintf(verbuf, "好的,饲养人%s!",
+                Sprintf(verbuf, "好的, 饲养人%s!",
                         flags.female ? "姐姐" : "哥哥");
                 verbl_msg = verbuf;
             } else if (nightchild && isnight) {
                 Sprintf(verbuf, "很高兴听到你的声音,夜之子!");
                 verbl_msg = verbuf;
             } else
-                verbl_msg = "我只喝...药水.";
+                verbl_msg = "我只喝... 药水.";
         } else {
             static const char *const vampmsg[] = {
                 /* These first two (0 and 1) are specially handled below */
                 "我要喝你的%s!",
-                "我要%s死,绝不姑息!",
+                "我要%s死, 绝不姑息!",
                 /* other famous vampire quotes can follow here if desired */
             };
             int vampindex;
 
             if (kindred) {
-                verbl_msg = "这是我的地盘,"
+                verbl_msg = "这是我的地盘, "
                             "你竟敢在这里游荡!";
             } else if (gy.youmonst.data == &mons[PM_SILVER_DRAGON]
                        || gy.youmonst.data == &mons[PM_BABY_SILVER_DRAGON]) {
@@ -822,7 +822,7 @@ domonnoise(struct monst *mtmp)
     }
     case MS_WERE:
         if (flags.moonphase == FULL_MOON && (night() ^ !rn2(13))) {
-            pline("%s向后仰起%s的头,发出一声令人毛骨悚然的%s!",
+            pline("%s向后仰起%s的头, 发出一声令人毛骨悚然的%s!",
                   Monnam(mtmp), mhis(mtmp),
                   (ptr == &mons[PM_HUMAN_WERERAT]) ? "尖叫" : "嚎叫");
             Soundeffect((ptr == &mons[PM_HUMAN_WERERAT]) ? se_scream
@@ -1014,7 +1014,7 @@ domonnoise(struct monst *mtmp)
                 pline_msg = "抱怨吃的全是羊肉.";
                 break;
             default:
-                pline_msg = "大喊:\"菲,菲,福,福!\"然后放声大笑.";
+                pline_msg = "大喊: \"菲, 菲, 福, 福! \"然后放声大笑.";
                 wake_nearto(mtmp->mx, mtmp->my, 7 * 7);
                 break;
             }
@@ -1071,10 +1071,10 @@ domonnoise(struct monst *mtmp)
                          Collect underpants       ?          Profit
                    and they never verbalize step 2 so we don't either */
                 verbl_msg = (gnomeplan == 1)
-                            ? "第一阶段,收集内裤."
-                            : "第三阶段,暴富!";
+                            ? "第一阶段, 收集内裤."
+                            : "第三阶段, 暴富!";
             } else {
-                verbl_msg = "进地牢的很多,"
+                verbl_msg = "进地牢的很多, "
                             "但回到阳光照耀的大地上去的很少.";
             }
         } else
@@ -1117,7 +1117,7 @@ domonnoise(struct monst *mtmp)
             swval = ((poly_gender() == 0) ? rn2(3) : 0);
         switch (swval) {
         case 2:
-            verbl_msg = "你好啊,水手.";
+            verbl_msg = "你好啊, 水手.";
             break;
         case 1:
             pline_msg = "向你示好.";
@@ -1129,11 +1129,11 @@ domonnoise(struct monst *mtmp)
     case MS_ARREST:
         if (mtmp->mpeaceful) {
             SetVoice(mtmp, 0, 80, 0);
-            verbalize("如实陈述,%s.", flags.female ? "女士" : "先生");
+            verbalize("如实陈述, %s.", flags.female ? "女士" : "先生");
         } else {
             static const char *const arrest_msg[3] = {
                 "你所说的每一句话都将作为呈堂证供.",
-                "你被逮捕了!", "奉法律之名,站住!",
+                "你被逮捕了!", "奉法律之名, 站住!",
             };
             verbl_msg = arrest_msg[rn2(3)];
         }
@@ -1160,21 +1160,21 @@ domonnoise(struct monst *mtmp)
     case MS_NURSE:
         verbl_msg_mcan = "我讨厌这个工作!";
         if (uwep && (uwep->oclass == WEAPON_CLASS || is_weptool(uwep)))
-            verbl_msg = "把武器放下,别伤到人!";
+            verbl_msg = "把武器放下, 别伤到人!";
         else if (uarmc || uarm || uarmh || uarms || uarmg || uarmf)
             verbl_msg = Role_if(PM_HEALER)
-                            ? "大夫,如果你不配合的话我就帮不了你."
-                            : "请脱光衣服,以便我检查你的身体.";
+                            ? "大夫, 如果你不配合的话我就帮不了你."
+                            : "请脱光衣服, 以便我检查你的身体.";
         else if (uarmu)
             verbl_msg = "请脱下你的上衣.";
         else
-            verbl_msg = "放松,一点都不疼的.";
+            verbl_msg = "放松, 一点都不疼的.";
         break;
     case MS_GUARD:
         if (money_cnt(gi.invent))
-            verbl_msg = "把钱放下,跟着我.";
+            verbl_msg = "把钱放下, 跟着我.";
         else
-            verbl_msg = ",跟着我.";
+            verbl_msg = "跟着我.";
         break;
     case MS_SOLDIER: {
         static const char
@@ -1184,7 +1184,7 @@ domonnoise(struct monst *mtmp)
             *const soldier_pax_msg[3] = {
                 "这里的工资也太低了吧!",
                 "这饭连兽人都吃不下!",
-                "我的脚好痛,整天都得站着!",
+                "我的脚好痛, 整天都得站着!",
             };
         verbl_msg = mtmp->mpeaceful ? soldier_pax_msg[rn2(3)]
                                     : soldier_foe_msg[rn2(3)];
@@ -1199,7 +1199,7 @@ domonnoise(struct monst *mtmp)
         if (ms_Death && !svc.context.tribute.Deathnotice
             && (book = u_have_novel()) != 0) {
             if ((tribtitle = noveltitle(&book->novelidx)) != 0) {
-                Sprintf(verbuf, "啊,原来你有一本\"%s\".", tribtitle);
+                Sprintf(verbuf, "啊, 原来你有一本\"%s\".", tribtitle);
                 /* no Death featured in these two, so exclude them */
                 if (strcmpi(tribtitle, "Snuff")
                     && strcmpi(tribtitle, "The Wee Free Men")) /*危险:先别动。do_name.c 1591*/
@@ -1214,7 +1214,7 @@ domonnoise(struct monst *mtmp)
         } else if (ms_Death && !rn2(10)) {
             pline_msg = "正忙着读\"睡魔\"第8期.";
         } else
-            verbl_msg = "你以为你是谁啊,战争?";
+            verbl_msg = "你以为你是谁啊, 战争?";
         break;
     } /* case MS_RIDER */
     } /* switch */
@@ -1261,7 +1261,7 @@ dochat(void)
     struct obj *otmp;
 
     if (is_silent(gy.youmonst.data)) {
-        pline("身为%s,你无法说话.",
+        pline("身为%s, 你无法说话.",
               an(pmname(gy.youmonst.data, flags.female ? FEMALE : MALE)));
         return ECMD_OK;
     }
@@ -1289,7 +1289,7 @@ dochat(void)
         return ECMD_TIME;
     }
 
-    if (!getdir("和谁说话?(选择方向)")) {
+    if (!getdir("和谁说话? (选择方向)")) {
         /* decided not to chat */
         return ECMD_CANCEL;
     }
@@ -1399,7 +1399,7 @@ dochat(void)
                     ? "你失聪了"
                     : "你没有耳朵";
 
-        pline("%s,所以你听不见任何%s%s的声音.",
+        pline("%s, 所以你听不见任何%s%s的声音.",
               xresponse, /*修改语序:canspotmon(mtmp) ? "来自" : "",*/
               canspotmon(mtmp) ? "来自" : "", /*修改语序:canspotmon(mtmp) ? mon_nam(mtmp) : "",*/
               canspotmon(mtmp) ? mon_nam(mtmp) : ""); /*修改语序:xresponse);*/
@@ -1438,7 +1438,7 @@ tiphat(void)
         return res; /* if learned of curse, use a move */
 
     /* might choose a position, but dealing with direct lines is simpler */
-    if (!getdir("对谁?(选择方向)")) /* bail on ESC */
+    if (!getdir("对谁? (选择方向)")) /* bail on ESC */
         return res; /* iffy; now know it's not cursed for sure (since we got
                      * past prior test) but might have already known that */
     res = 1; /* physical action is going to take place */

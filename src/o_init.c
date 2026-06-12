@@ -599,8 +599,8 @@ sortloot_descr(int otyp, char *outbuf)
 static const char disco_order_let[] = "osca";
 static const char *const disco_orders_descr[] = {
     "按种类内的发现顺序",
-    "战利品排序(按职业分类,并包含部分子职业分组)",
-    "先按种类,再按字母顺序",
+    "战利品排序(按职业分类, 并包含部分子职业分组)",
+    "先按种类, 再按字母顺序",
     "直接按字母顺序",
     (char *) 0
 };
@@ -637,7 +637,7 @@ choose_disco_sort(
         add_menu_str(tmpwin,
                      "注:按完整字母顺序排序和按类内字母顺序");
         add_menu_str(tmpwin,
-                     "  排序在单类检索中是等效的,但在将来进");
+                     "  排序在单类检索中是等效的, 但在将来进");
         add_menu_str(tmpwin,
                     "  行全部检索时会产生影响.");
     }
@@ -785,7 +785,7 @@ dodiscovered(void) /* free after Robert Viduya */
     sortindx = strchr(disco_order_let, flags.discosort) - disco_order_let;
 
     tmpwin = create_nhwindow(NHW_TEXT);
-    Sprintf(buf, "发现物,%s", disco_orders_descr[sortindx]);
+    Sprintf(buf, "发现物, %s", disco_orders_descr[sortindx]);
     putstr(tmpwin, 0, buf);
     putstr(tmpwin, 0, "");
 

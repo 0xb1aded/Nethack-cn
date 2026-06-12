@@ -31,7 +31,7 @@ staticfn void newman(void);
 staticfn void polysense(void);
 
 static const char no_longer_petrify_resistant[] =
-    "你不再免疫石化,然后你";
+    "你不再免疫石化, 然后你";
 
 /* update the gy.youmonst.data structure pointer and intrinsics */
 void
@@ -423,7 +423,7 @@ newman(void)
         } else {
  dead:      /* we come directly here if experience level went to 0 or less */
             urgent_pline(
-                     "你的新形态看上去健康状况不那么好,难以存活.");
+                     "你的新形态看上去健康状况不那么好, 难以存活.");
             svk.killer.format = KILLED_BY_AN;
             Strcpy(svk.killer.name, "不成功的变形");
             done(DIED);
@@ -452,7 +452,7 @@ newman(void)
         livelog_newform(TRUE, oldgend, newgend);
 
     if (Slimed) {
-        Your("身体变形了,但你身上仍然有黏液.");
+        Your("身体变形了, 但你身上仍然有黏液.");
         make_slimed(10L, (const char *) 0);
     }
 
@@ -645,7 +645,7 @@ polyself(int psflags)
                     /* tricky phrasing; dragon scale mail is singular, dragon
                        scales are plural (note: we don't use "set of scales",
                        which usually overrides the distinction, here) */
-                    Your("在融合的时候,%s恢复成了鳞!", buf);
+                    Your("在融合的时候, %s恢复成了鳞!", buf);
                     /* uarm->spe enchantment remains unchanged;
                        re-converting scales to mail poses risk
                        of evaporation due to over enchanting */
@@ -750,7 +750,7 @@ polymon(int mntmp)
     /* KMH, conduct */
     if (!u.uconduct.polyselfs++)
         livelog_printf(LL_CONDUCT,
-                       "第一次变形,变成了%s",
+                       "第一次变形, 变成了%s",
                        an(pmname(&mons[mntmp], flags.female ? FEMALE : MALE)));
 
     /* exercise used to be at the very end but only Wis was affected
@@ -1211,9 +1211,9 @@ break_armor(void)
             /* mummy wrapping adapts to small and very big sizes */
             && (otmp->otyp != MUMMY_WRAPPING || !WrappingAllowed(uptr))) {
             if (is_whirly(uptr))
-                Your("%s失去肉体支撑,掉到了地上!", cloak_simple_name(otmp));
+                Your("%s失去肉体支撑, 掉到了地上!", cloak_simple_name(otmp));
             else
-                You("的体型太小,从你的%s中缩出!", cloak_simple_name(otmp));
+                You("的体型太小, 从你的%s中缩出!", cloak_simple_name(otmp));
             (void) Cloak_off();
             dropp(otmp);
         }
@@ -1221,7 +1221,7 @@ break_armor(void)
             if (is_whirly(uptr))
                 You("渗出了你的衬衫!");
             else
-                You("变得太小,从你的衬衫中缩出!");
+                You("变得太小, 从你的衬衫中缩出!");
             setworn((struct obj *) 0, otmp->owornmask & W_ARMU);
             dropp(otmp);
         }
@@ -1397,7 +1397,7 @@ rehumanize(void)
     if (u.uhp < 1) {
         /* can only happen if some bit of code reduces u.uhp
            instead of u.mh while poly'd */
-        Your("旧形态不够健康,难以存活.");
+        Your("旧形态不够健康, 难以存活.");
         Sprintf(svk.killer.name, "恢复到不健康的%s形态",
                 gu.urace.adj);
         svk.killer.format = KILLED_BY;
@@ -1554,7 +1554,7 @@ dospinweb(void)
         switch (ttmp->ttyp) {
         case PIT:
         case SPIKED_PIT:
-            You("织了一张网,盖住了坑.");
+            You("织了一张网, 盖住了坑.");
             deltrap(ttmp);
             bury_objs(x, y);
             newsym(x, y);
@@ -1800,7 +1800,7 @@ dohide(void)
        such critters aren't offered the option of hiding via #monster */
     if (gy.youmonst.data->mlet == S_EEL && !is_pool(u.ux, u.uy)) {
         if (IS_FOUNTAIN(levl[u.ux][u.uy].typ))
-            pline_The("喷泉不够深,藏不进去.");
+            pline_The("喷泉不够深, 藏不进去.");
         else
             There("没有%s可以藏进去.", hliquid("水"));
         u.uundetected = 0;
@@ -1897,7 +1897,7 @@ domindblast(void)
     int dmg;
 
     if (u.uen < 10) {
-        You("集中注意力,但你的能量不足以保持这么做.");
+        You("集中注意力, 但你的能量不足以保持这么做.");
         return ECMD_OK;
     }
     u.uen -= 10;
@@ -2182,7 +2182,7 @@ ugolemeffects(int damtype, int dam)
         if (u.mh > u.mhmax)
             u.mh = u.mhmax;
         disp.botl = TRUE;
-        pline("奇怪的是,你感觉比以前好了.");
+        pline("奇怪的是, 你感觉比以前好了.");
         exercise(A_STR, TRUE);
     }
 }

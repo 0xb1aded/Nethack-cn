@@ -325,7 +325,7 @@ priestname(
             article = ARTICLE_THE;
         if (article == ARTICLE_THE) {
             Strcpy(pname, "这个");
-        } else if (!strcmp(what, "Angel")) {
+        } else if (!strcmp(what, "Angel") || !strcmp(what, "天使")) { /*危险:Angel*/
             /* bypass just_an(); it would yield "" due to treating capital A
                as indicating a personal name */
             Strcpy(pname, "一个");
@@ -351,7 +351,7 @@ priestname(
         if (high_priest)
             Strcat(pname, do_hallu ? "大" : "高");
     } else {
-        if (mon->mtame && !strcmpi(what, "Angel"))
+        if (mon->mtame && !strcmpi(what, "Angel") || !strcmp(what, "天使"))
             Strcat(pname, "高级");
     }
 
@@ -449,7 +449,7 @@ intemple(int roomno)
         if (sanctum && Is_sanctum(&u.uz)) {
             if (priest->mpeaceful) {
                 /* first time inside */
-                msg1 = "异教徒,你已闯入摩洛的圣所!";
+                msg1 = "异教徒, 你已闯入摩洛的圣所!";
                 msg2 = "去死吧!";
                 priest->mpeaceful = 0;
                 /* became angry voluntarily; no penalty for attacking him */
@@ -459,7 +459,7 @@ intemple(int roomno)
                 msg1 = "你的出现玷污了这个地方!";
             }
         } else if (svm.moves >= epri_p->enter_time) {
-            Sprintf(buf, "朝圣者,你正踏入一个%s!",
+            Sprintf(buf, "朝圣者, 你正踏入一个%s!",
                     !shrined ? "被亵渎的地方" : "圣地");
             msg1 = buf;
         }
@@ -529,7 +529,7 @@ intemple(int roomno)
             mtmp->mpeaceful = 0;
             set_malign(mtmp);
             if (flags.verbose)
-                You("害怕得要死,无法移动.");
+                You("害怕得要死, 无法移动.");
             nomul(-3);
             gm.multi_reason = "被幽灵惊吓";
             gn.nomovemsg = "你重新镇定下来.";
@@ -585,7 +585,7 @@ priest_talk(struct monst *priest)
         static const char *const cranky_msg[3] = {
             "汝欲语? 来吾与汝一二!",
             "语乎? 吾所欲语者止此耳.",
-            "求道者,予欲无言."
+            "求道者, 予欲无言."
         };
 
         if (helpless(priest)) {
@@ -605,7 +605,7 @@ priest_talk(struct monst *priest)
         && !has_shrine(priest)) {
         SetVoice(priest, 0, 80, 0);
         verbalize(
-              "速去! 汝之在此,实污此圣地矣.");
+              "速去! 汝之在此, 实污此圣地矣. ");
         priest->mpeaceful = 0;
         return;
     }
@@ -653,7 +653,7 @@ priest_talk(struct monst *priest)
                   Monnam(priest));
         if ((offer = bribe(priest, buf)) == 0) {
             SetVoice(priest, 0, 80, 0);
-            verbalize("汝当愧于次!");
+            verbalize("汝当愧于此!");
             if (coaligned)
                 adjalign(-1);
             if (cheapskate) ++*cheapskate;
@@ -664,7 +664,7 @@ priest_talk(struct monst *priest)
                 if (cheapskate) ++*cheapskate;
             } else {
                 SetVoice(priest, 0, 80, 0);
-                verbalize("汝有所助,吾实感之.");
+                verbalize("汝有所助, 吾实感之.");
                 /* give player some token */
                 exercise(A_WIS, TRUE);
             }
@@ -699,13 +699,13 @@ priest_talk(struct monst *priest)
             }
             SetVoice(priest, 0, 80, 0);
             if (u.ublessed > orig_ublessed) {
-                verbalize("汝之敬也,有酬报之.");
+                verbalize("汝之敬也, 有酬报之.");
             } else {
-                verbalize("汝施无私,中心藏之.");
+                verbalize("汝施无私, 中心藏之.");
             }
         } else {
             SetVoice(priest, 0, 80, 0);
-            verbalize("汝施无私,中心藏之.");
+            verbalize("汝施无私, 中心藏之.");
             /* money_cnt check is preserved for futureproofing but probably
                can't fail in the current code */
             if (money_cnt(gi.invent) < (offer * 2L) && coaligned) {
@@ -849,15 +849,15 @@ ghod_hitsu(struct monst *priest)
 
     switch (rn2(3)) {
     case 0:
-        pline("%s愤怒地咆哮: \"汝将受苦!\"",
+        pline("%s愤怒地咆哮: \"汝将受苦! \"",
               a_gname_at(ax, ay));
         break;
     case 1:
-        pline("%s声音洪亮: \"汝焉敢伤吾仆!\"",
+        pline("%s声音洪亮: \"汝焉敢伤吾仆! \"",
               s_suffix(a_gname_at(ax, ay)));
         break;
     default:
-        pline("%s怒吼: \"汝污吾庙矣!\"",
+        pline("%s怒吼: \"汝污吾庙矣! \"",
               a_gname_at(ax, ay));
         break;
     }

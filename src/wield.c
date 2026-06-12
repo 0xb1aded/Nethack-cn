@@ -262,7 +262,7 @@ ready_weapon(struct obj *wep)
 
             if ((this_shkp = shop_keeper(inside_shop(u.ux, u.uy)))
                 != (struct monst *) 0) {
-                pline("%s说:\"小心点,别弄坏我的%s!\"",
+                pline("%s说: \"小心点,别弄坏我的%s! \"",
                       shkname(this_shkp), xname(wep));
             }
         }
@@ -952,7 +952,7 @@ chwepon(struct obj *otmp, int amount)
         multiple = (uwep->quan > 1L);
         /* order: message, transformation, shop handling */
         Your("%s%s变得锋利多了.", simpleonames(uwep),
-             multiple ? "熔化到一起," : "");
+             multiple ? "熔化到一起, " : "");
         uwep->otyp = CRYSKNIFE;
         uwep->oerodeproof = 0;
         if (multiple) {
@@ -973,7 +973,7 @@ chwepon(struct obj *otmp, int amount)
         multiple = (uwep->quan > 1L);
         /* order matters: message, shop handling, transformation */
         Your("%s%s变得钝多了.", simpleonames(uwep),
-             multiple ? "熔化到一起," : "");
+             multiple ? "熔化到一起, " : "");
         costly_alteration(uwep, COST_DEGRD); /* DECHNT? other? */
         uwep->otyp = WORM_TOOTH;
         uwep->oerodeproof = 0;
@@ -992,14 +992,14 @@ chwepon(struct obj *otmp, int amount)
         wepname = ONAME(uwep);
     if (amount < 0 && uwep->oartifact && restrict_name(uwep, wepname)) {
         if (!Blind)
-            pline("%s %s.", Yobjnam2(uwep, "微微发光"), color);
+            pline("%s%s.", Yobjnam2(uwep, "微微发光"), color);
         return 1;
     }
     /* there is a (soft) upper and lower limit to uwep->spe */
     if (((uwep->spe > 5 && amount >= 0) || (uwep->spe < -5 && amount < 0))
         && rn2(3)) {
         if (!Blind)
-            pline("%s一会%s色的光芒,然后%s了.",
+            pline("%s一会%s色的光芒, 然后%s了.",
                   Yobjnam2(uwep, "爆发出"), color,
                   otense(uwep, "蒸发"));
         else

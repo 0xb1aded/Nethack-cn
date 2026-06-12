@@ -162,7 +162,7 @@ is_pure(boolean talk)
         } else if (u.ualignbase[A_CURRENT] != original_alignment) {
             You("改变了阵营.");
         } else if (u.ualign.record < MIN_QUEST_ALIGN) {
-            You("当前为%d,但要求为%d.", u.ualign.record,
+            You("当前为%d, 但要求为%d.", u.ualign.record,
                 MIN_QUEST_ALIGN);
             if (yn_function("adjust?", (char *) 0, 'y', TRUE) == 'y')
                 u.ualign.record = MIN_QUEST_ALIGN;
@@ -241,9 +241,9 @@ finish_quest(struct obj *obj) /* quest artifact or thrown unique item or faux
             qt_pager("hasamulet");
         } else if (obj->otyp == FAKE_AMULET_OF_YENDOR) {
             verbalize(
-      "很遗憾,这不过一个真正的岩德护身符的仿制品罢了.");
+      "很遗憾, 这不过一个真正的岩德护身符的仿制品罢了.");
         } else {
-            verbalize("啊,看来你找到了%s.", the(xname(obj)));
+            verbalize("啊, 看来你找到了%s.", the(xname(obj)));
         }
         return;
     }
@@ -361,7 +361,7 @@ chat_with_leader(struct monst *mtmp)
                matters most for Home 1 that has stairs down which aren't
                easily found */
             livelog_printf(LL_ACHIEVE,
-                     "%s已授予你资格,可继续深入完成该任务",
+                     "%s已授予你资格, 可继续深入完成该任务",
                            noit_mon_nam(mtmp));
         }
     }

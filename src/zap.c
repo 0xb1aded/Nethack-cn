@@ -165,7 +165,7 @@ bhitm(struct monst *mtmp, struct obj *otmp)
     boolean dbldam = Role_if(PM_KNIGHT) && u.uhave.questart;
     boolean skilled_spell, helpful_gesture = FALSE;
     int dmg, otyp = otmp->otyp; /* otmp is not NULL */
-    const char *zap_type_text = "spell";
+    const char *zap_type_text = "魔法";
     struct obj *obj;
     boolean disguised_mimic = (mtmp->data->mlet == S_MIMIC
                                && M_AP_TYPE(mtmp) != M_AP_NOTHING);
@@ -1627,7 +1627,7 @@ create_polymon(struct obj *obj, int okind)
     polyuse(obj, okind, (int) mons[pm_index].cwt);
 
     if (mtmp && cansee(mtmp->mx, mtmp->my)) {
-        pline("一些%s融合到一起,%s从堆积中起身!", material,
+        pline("一些%s融合到一起, %s从堆积中起身!", material,
               a_monnam(mtmp));
     }
 }
@@ -3039,7 +3039,7 @@ lightdamage(
             dmg = 10 + rnd(dmg - 10);
         if (dmg > 20)
             dmg = 20;
-        pline("哦,被那束光伤到了%c", (dmg > 2 || u.mh <= 5) ? '!' : '.');
+        pline("哦, 被那束光伤到了%c", (dmg > 2 || u.mh <= 5) ? '!' : '.');
         /* [composing killer/reason is superfluous here; if fatal, cause
            of death will always be "killed while stuck in creature form"] */
         if (obj->oclass == SCROLL_CLASS || obj->oclass == SPBOOK_CLASS)
@@ -3326,7 +3326,7 @@ zap_updown(struct obj *obj) /* wand or spell, nonnull */
                 if (Blind && !ttmp->tseen) {
                     pline("%s在你的下面粉碎了.", Something);
                 } else if (!ttmp->tseen) { /* => !Blind */
-                    pline("你下面有一个陷阱门;它粉碎了.");
+                    pline("你下面有一个陷阱门; 它粉碎了.");
                 } else {
                     pline("你下面的陷阱门粉碎了.");
                     disclose = TRUE;
@@ -4968,7 +4968,7 @@ dobuzz(
                         (void) ureflects("但%s从你的%s表面反射了出去!",
                                          "它");
                     } else
-                        pline("由于某种原因,你未受影响.");
+                        pline("由于某种原因, 你未受影响.");
                     monstseesu(M_SEEN_REFL);
                     dx = -dx;
                     dy = -dy;
@@ -5044,7 +5044,7 @@ melt_ice(coordxy x, coordxy y, const char *msg)
     struct monst *mtmp;
 
     if (!msg)
-        msg = "冰层噼啪作响,然后融化了.";
+        msg = "冰层噼啪作响, 然后融化了.";
     if (lev->typ == DRAWBRIDGE_UP || lev->typ == DRAWBRIDGE_DOWN) {
         lev->drawbridgemask &= ~DB_ICE; /* revert to DB_MOAT */
     } else { /* lev->typ == ICE */
@@ -5350,7 +5350,7 @@ zap_over_floor(
                 break;
             if ((lev->wall_info & W_NONDIGGABLE) != 0) {
                 if (see_it)
-                    Norep("%s%s了一些,但仍保持完好.",
+                    Norep("%s%s了一些, 但仍保持完好.",
                           defsyms[S_bars].explanation,
                           (damgtype == ZT_ACID) ? "腐蚀" : "融化");
                 /* but nothing actually happens... */
@@ -5748,7 +5748,7 @@ item_what(int dmgtyp)
             what = simpleonames((xtrinsic & W_AMUL) ? uamul : ublindf);
         } else if (xtrinsic & W_RING) {
             if ((xtrinsic & W_RING) == W_RING) /* both */
-                what = "rings";
+                what = "戒指";
             else
                 what = simpleonames((xtrinsic & W_RINGL) ? uleft : uright);
         } else if (xtrinsic & W_WEP) {
@@ -5829,7 +5829,7 @@ maybe_destroy_item(
         if (obj->otyp == SPE_BOOK_OF_THE_DEAD) {
             skip = 1;
             if (u_carry ? !Blind : vis) {
-                pline("%s发出奇怪的%s光,但依然完好无损.",
+                pline("%s发出奇怪的%s光, 但依然完好无损.",
                       The(u_carry ? xname(obj) : distant_name(obj, xname)),
                       hcolor("暗红色"));
             }
@@ -6168,15 +6168,15 @@ wishcmdassist(int triesleft)
         wishinfo[] = {
   "许愿详情:",
   "",
-  "输入物品的名称,例如\"potion of monster detection\",",
-  "\"scroll labeled README\",\"elven mithril-coat\"或",
-  "\"Grimtooth\"(不带引号).",
+  "输入物品的名称,例如\"potion of monster detection\", ",
+  "\"scroll labeled README\", \"elven mithril-coat\"或",
+  "\"Grimtooth\"(不带引号). ",
   "",
-  "对于成堆出现的物品类型,可以指定复数名称,例如\"potions ",
-  "of healing\",或指定数量,例如\"1000 gold pieces\",尽",
+  "对于成堆出现的物品类型, 可以指定复数名称, 例如\"potions ",
+  "of healing\", 或指定数量, 例如\"1000 gold pieces\",尽",
   "管这么大的愿望可能无法实现.",
   "",
-  "也可以指定各种修饰词来修改物品属性,例如\"解除诅咒\",\"防",
+  "也可以指定各种修饰词来修改物品属性, 例如\"解除诅咒\", \"防",
   "锈\"或\"+1\".",
   "查看物品栏时显示的大多数修饰词均可指定.",
   "",
@@ -6385,7 +6385,7 @@ makewish(void)
 
     /* wisharti conduct handled in readobjnam() */
     maybe_LL_arti = ((oldwisharti < u.uconduct.wisharti) ? LL_ARTIFACT : 0L);
-    Snprintf(wish, sizeof wish, "\"%s\",实际获得\"%s\"", bufcpy, doname(otmp));
+    Snprintf(wish, sizeof wish, "\"%s\", 实际获得\"%s\"", bufcpy, doname(otmp));
     /* KMH, conduct */
     if (!u.uconduct.wishes++)
         livelog_printf((LL_CONDUCT | LL_WISH | maybe_LL_arti),

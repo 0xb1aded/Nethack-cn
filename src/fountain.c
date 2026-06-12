@@ -55,7 +55,7 @@ dowatersnakes(void)
                 (void) mintrap(mtmp, NO_TRAP_FLAGS);
     } else {
         Soundeffect(se_furious_bubbling, 20);
-        pline_The("喷泉狂暴地冒了一会泡,然后平静下来.");
+        pline_The("喷泉狂暴地冒了一会泡, 然后平静下来.");
     }
 }
 
@@ -76,7 +76,7 @@ dowaterdemon(void)
             /* Give those on low levels a (slightly) better chance of survival
              */
             if (rnd(100) > (80 + level_difficulty())) {
-                pline("为了感激你把%s解放,%s决定满足你一个愿望!",
+                pline("为了感激你把%s解放, %s决定满足你一个愿望!",
                       mhis(mtmp), mhe(mtmp));
                 /* give a wish and discard the monster (mtmp set to null) */
                 mongrantswish(&mtmp);
@@ -85,7 +85,7 @@ dowaterdemon(void)
         }
     } else {
         Soundeffect(se_furious_bubbling, 20);
-        pline_The("喷泉狂暴地冒了一会泡,然后平静下来.");
+        pline_The("喷泉狂暴地冒了一会泡, 然后平静下来.");
     }
 }
 
@@ -108,7 +108,7 @@ dowaternymph(void)
     } else if (!Blind) {
         Soundeffect(se_bubble_rising, 50);
         Soundeffect(se_loud_pop, 50);
-        pline("一个大气泡上升到表面,然后破了.");
+        pline("一个大气泡上升到表面, 然后破了.");
     } else {
         Soundeffect(se_loud_pop, 50);
         You_hear("啪的一声.");
@@ -182,7 +182,7 @@ watchman_warn_fountain(struct monst *mtmp)
         && mtmp->mpeaceful) {
         if (!Deaf) {
             pline("%s喊道:", Amonnam(mtmp));
-            verbalize("嘿,别再用那个喷泉了!");
+            verbalize("嘿, 别再用那个喷泉了!");
         } else {
             pline("%s诚挚地%s%s的%s!",
                   Amonnam(mtmp),
@@ -668,7 +668,7 @@ drinksink(void)
             pline("");
         break;
     case 8:
-        pline("呕,这%s味道糟透了.", hliquid("水"));
+        pline("呕, 这%s味道糟透了.", hliquid("水"));
         more_experienced(1, 0);
         newexplevel();
         break;
@@ -694,12 +694,12 @@ drinksink(void)
         You_hear("从下水道中传来的断断续续的歌声...");
         break;
     case 13:
-        pline("呃,好臭!");
+        pline("呃, 好臭!");
         create_gas_cloud(u.ux, u.uy, 1, 4);
         break;
     case 19:
         if (Hallucination) {
-            pline("从浑浊的排水管里,一只手伸了上来... --哎呀--");
+            pline("从浑浊的排水管里, 一只手伸了上来... --哎呀--");
             break;
         }
         FALLTHROUGH;

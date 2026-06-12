@@ -2194,7 +2194,7 @@ doname_base(
                    so add 'lit' separately from 'slippery' rather than via
                    'else if' after uarmg+Glib */
                 if (!Blind && obj->lamplit && artifact_light(obj))
-                    ConcatF1(bp, 1, ",发出%s的光芒)", arti_light_description(obj));
+                    ConcatF1(bp, 1, ", 发出%s的光芒)", arti_light_description(obj));
             }
         }
         FALLTHROUGH;
@@ -2441,7 +2441,7 @@ doname_base(
 
         /* separately formatted suffix avoids need for ConcatF3() */
         Sprintf(pricebuf, "%ld %s", quotedprice, currency(quotedprice));
-        ConcatF2(bp, 0, " (%s,%s)",
+        ConcatF2(bp, 0, " (%s, %s)",
                  obj->unpaid ? "未付款" : "内容物", pricebuf);
 
         record_price_quote(obj->otyp, quotedprice / obj->quan, TRUE);
@@ -2453,7 +2453,7 @@ doname_base(
             char pricebuf[40];
 
             Sprintf(pricebuf, "%ld %s", price, currency(price));
-            ConcatF2(bp, 0, " (%s,%s)",
+            ConcatF2(bp, 0, " (%s, %s)",
                      nochrg ? "内容物" : "出售", pricebuf);
         } else if (nochrg > 0) {
             Concat(bp, 0, " (免费)");
@@ -6659,7 +6659,7 @@ wizterrainwish(struct _readobjnam_data *d)
             dbterrainmesg("Floor", x, y);
             madeterrain = TRUE;
         } else {
-            pline("此处不允许房间,地板或地面.");
+            pline("此处不允许房间, 地板或地面.");
             badterrain = TRUE;
         }
     }
@@ -7426,6 +7426,11 @@ readobjnam_postparse1(struct _readobjnam_data *d)
         /* note: if 'name' is too long, oname() will truncate it */
         d->name = d->p + strlen(",名为");
     }
+    if ((d->p = strstri(d->bp, ", 名为")) != 0) {
+        *d->p = 0;
+        /* note: if 'name' is too long, oname() will truncate it */
+        d->name = d->p + strlen(", 名为");
+    }
     if ((d->p = strstri(d->bp, " called ")) != 0) {
         *d->p = 0;
         /* note: if 'un' is too long, obj lookup just won't match anything */
@@ -7456,6 +7461,19 @@ readobjnam_postparse1(struct _readobjnam_data *d)
         *d->p = 0;
         /* note: if 'un' is too long, obj lookup just won't match anything */
         d->un = d->p + strlen(",被称为");
+        /* "helmet called telepathy" is not "helmet" (a specific type)
+         * "shield called reflection" is not "shield" (a general type)
+         */
+        for (i = 0; i < SIZE(o_ranges); i++)
+            if (!strcmpi(d->bp, o_ranges[i].name)) {
+                d->oclass = o_ranges[i].oclass;
+                return 1; /*goto srch;*/
+            }
+    }
+    if ((d->p = strstri(d->bp, ", 被称为")) != 0) {
+        *d->p = 0;
+        /* note: if 'un' is too long, obj lookup just won't match anything */
+        d->un = d->p + strlen(", 被称为");
         /* "helmet called telepathy" is not "helmet" (a specific type)
          * "shield called reflection" is not "shield" (a general type)
          */
@@ -7508,6 +7526,18 @@ readobjnam_postparse1(struct _readobjnam_data *d)
     if ((d->p = strstri(d->bp, ",标签为")) != 0) {
         *d->p = 0;
         d->dn = d->p + strlen(",标签为");
+    }
+    if ((d->p = strstri(d->bp, ", 写着")) != 0) {
+        *d->p = 0;
+        d->dn = d->p + strlen(", 写着");
+    }
+    if ((d->p = strstri(d->bp, ", 上面写着")) != 0) {
+        *d->p = 0;
+        d->dn = d->p + strlen(", 上面写着");
+    }
+    if ((d->p = strstri(d->bp, ", 标签为")) != 0) {
+        *d->p = 0;
+        d->dn = d->p + strlen(", 标签为");
     }
     if ((d->p = strstri(d->bp, " of spinach")) != 0) {
         *d->p = 0;

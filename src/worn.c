@@ -1244,10 +1244,10 @@ mon_break_armor(struct monst *mon, boolean polyspot)
             && (otmp->otyp != MUMMY_WRAPPING || !WrappingAllowed(mdat))) {
             if (vis) {
                 if (is_whirly(mon->data))
-                    pline_mon(mon, "%s的%s失去肉体支撑,掉到了地上!",
+                    pline_mon(mon, "%s的%s失去肉体支撑, 掉到了地上!",
                               s_suffix(Monnam(mon)), cloak_simple_name(otmp));
                 else
-                    pline_mon(mon, "%s的体型太小,从%s%s中缩出!",
+                    pline_mon(mon, "%s的体型太小, 从%s%s中缩出!",
                               Monnam(mon), ppronoun,
                               cloak_simple_name(otmp));
             }

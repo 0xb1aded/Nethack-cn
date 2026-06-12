@@ -809,7 +809,7 @@ costly_alteration(struct obj *obj, int alter_type)
         if (shkp) {
             SetVoice(shkp, 0, 80, 0);
         }
-        verbalize("你把%s%s%s的,你赔我%s的钱!",
+        verbalize("你把%s%s%s的, 你赔我%s的钱!",
                   those, simpleonames(obj), calteration_verbs[alter_type], /*危险,修改语序:alteration_verbs[alter_type], those, simpleonames(obj),*/
                   them);
         bill_dummy_object(obj);
@@ -821,7 +821,7 @@ costly_alteration(struct obj *obj, int alter_type)
             if (shkp) {
                 SetVoice(shkp, 0, 80, 0);
             }
-            verbalize("你把%s%s的,你赔我%s的钱!",
+            verbalize("你把%s%s的, 你赔我%s的钱!",
                       those, calteration_verbs[alter_type], them); /*危险,修改语序:alteration_verbs[alter_type], those, them);*/
             bill_dummy_object(obj);
         } else {

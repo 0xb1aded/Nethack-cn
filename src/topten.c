@@ -95,7 +95,7 @@ formatkiller(
 {
     static NEARDATA const char *const killed_by_prefix[] = {
         /* DIED, CHOKING, POISONING, STARVING, */
-        "死于", "噎死于", "中毒于", "死因:",
+        "死于", "噎死于", "中毒于", "死于",
         /* DROWNING, BURNING, DISSOLVED, CRUSHING, */
         "淹死于", "烧死于", "溶解于", "压死于",
         /* STONING, TURNED_SLIME, GENOCIDED, */
@@ -152,11 +152,11 @@ formatkiller(
     if (incl_helpless && gm.multi < 0) {
         /* X <= siz: 'sizeof "string"' includes 1 for '\0' terminator */
         if (gm.multi_reason
-            && strlen(gm.multi_reason) + sizeof ",在时" <= siz)
-            Sprintf(buf, ",在%s时", gm.multi_reason);
+            && strlen(gm.multi_reason) + sizeof ", 在时" <= siz)
+            Sprintf(buf, ", 在%s时", gm.multi_reason);
         /* either gm.multi_reason wasn't specified or wouldn't fit */
-        else if (sizeof ",无力回天" <= siz)
-            Strcpy(buf, ",无力回天");
+        else if (sizeof ", 无力回天" <= siz)
+            Strcpy(buf, ", 无力回天");
         /* else extra death info won't fit, so leave it out */
     }
 }
@@ -729,7 +729,7 @@ topten(int how, time_t when)
 
                 topten_print("");
                 Sprintf(pbuf,
-             "因为你开启了%s模式,所以不会进入分数排名.",
+             "因为你开启了%s模式, 所以不会进入分数排名.",
                         wizard ? "巫师" : "探索");
                 topten_print(pbuf);
             }
@@ -833,7 +833,7 @@ topten(int how, time_t when)
                     char pbuf[BUFSZ];
 
                     Sprintf(pbuf,
-                            "在前%d名的榜单中,你达到了排行榜第%d名.",
+                            "在前%d名的榜单中, 你达到了排行榜第%d名.",
                             rank0, sysopt.entrymax); /*危险: 移除复数s后缀*/
                     topten_print(pbuf);
                 }
@@ -983,20 +983,20 @@ outentry(int rank, struct toptenentry *t1, boolean so)
                 (t1->plgend[0] == 'F') ? "" : "");
         second_line = FALSE;
     } else {
-        if (!strncmp(t1->death, "quit", 4)) { /*待写:if (!cnstrncmp(t1->death, "退出", 2))*/
+        if (!strncmp(t1->death, "quit", 4) || !cnstrcmp(t1->death, "退出")) { /*待写:if (!cnstrncmp(t1->death, "退出", 2))*/
             Strcat(linebuf, "退出");
             second_line = FALSE;
-        } else if (!strncmp(t1->death, "died of st", 10)) { /*待写:} else if (!cnstrncmp(t1->death, "死于饥", 3)) {*/
+        } else if (!strncmp(t1->death, "died of st", 10) || !cnstrcmp(t1->death, "饿死") || !cnstrcmp(t1->death, "死于饥饿")) { /*待写:} else if (!cnstrncmp(t1->death, "死于饥", 3)) {*/
             Strcat(linebuf, "饿死");
             second_line = FALSE;
-        } else if (!strncmp(t1->death, "choked", 6)) { /*待写:} else if (!cnstrncmp(t1->death, "噎死于", 3)) {*/
+        } else if (!strncmp(t1->death, "choked", 6) || !cnstrcmp(t1->death, "噎死于")) { /*待写:} else if (!cnstrncmp(t1->death, "噎死于", 3)) {*/
             Sprintf(eos(linebuf), "噎死于%s食物",
                     (t1->plgend[0] == 'F') ? "其" : "其");
-        } else if (!strncmp(t1->death, "poisoned", 8)) { /*待写:} else if (!cnstrncmp(t1->death, "毒死于", 3)) {*/
+        } else if (!strncmp(t1->death, "poisoned", 8) || !cnstrcmp(t1->death, "中毒于")) { /*待写:} else if (!cnstrncmp(t1->death, "毒死于", 3)) {*/
             Strcat(linebuf, "被毒死");
-        } else if (!strncmp(t1->death, "crushed", 7)) { /*待写:} else if (!strncmp(t1->death, "压死于", 3)) {*/
+        } else if (!strncmp(t1->death, "crushed", 7) || !cnstrcmp(t1->death, "压死于")) { /*待写:} else if (!strncmp(t1->death, "压死于", 3)) {*/
             Strcat(linebuf, "被挤压至死");
-        } else if (!strncmp(t1->death, "petrified by ", 13)) { /*待写:} else if (!strncmp(t1->death, "石化于", 3)) {*/
+        } else if (!strncmp(t1->death, "petrified by ", 13) || !cnstrcmp(t1->death, "石化于")) { /*待写:} else if (!strncmp(t1->death, "石化于", 3)) {*/
             Strcat(linebuf, "被石化");
         } else
             Strcat(linebuf, "死");
@@ -1035,7 +1035,7 @@ outentry(int rank, struct toptenentry *t1, boolean so)
         }
 
         /* kludge for "quit while already on Charon's boat" */
-        if (!strncmp(t1->death, "quit ", 5))
+        if (!strncmp(t1->death, "quit ", 5) || cnstrcmp(t1->death, "退出", 5))
             Strcat(linebuf, t1->death + 4);
     }
     Strcat(linebuf, ".");
