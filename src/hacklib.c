@@ -905,6 +905,44 @@ unicodeval_to_utf8str(int uval, uint8 *buffer, size_t bufsz)
     return 1;
 }
 
+/* Get the byte len and estimate display width of a well-formed UTF-8 char.
+ * (Simple implementation) */
+void
+utf8char_info(const char *p_char, uint8 *char_len, uint8 *char_width)
+{
+    uchar c = (uchar) *p_char;
+
+    if (char_len) {
+        if (c < 0x80)
+            *char_len = 1;
+        else if (c < 0xE0)
+            *char_len = 2;
+        else if (c < 0xF0)
+            *char_len = 3;
+        else
+            *char_len = 4;
+    }
+
+    if (char_width) {
+        *char_width = (c < 0xE0) ? 1 : 2;
+    }
+}
+
+/* Estimate the display column width of a UTF-8 string. (Simple
+ * implementation) */
+size_t
+utf8str_width(const char *str)
+{
+    size_t width = 0;
+    while (*str) {
+        uint8 clen = 0, cw = 0;
+        utf8char_info(str, &clen, &cw);
+        str += clen;
+        width += cw;
+    }
+    return width;
+}
+
 int
 case_insensitive_comp(const char *s1, const char *s2)
 {
