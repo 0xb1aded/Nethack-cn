@@ -467,7 +467,7 @@ describe_level(
         /* ports with more room may expand this one */
         if (!addbranch)
             Sprintf(buf, "%s:%-2d", /* "Dlvl:n" (grep fodder) */
-                    In_tutorial(&u.uz) ? "教程" : "地牢层", depth(&u.uz));
+                    In_tutorial(&u.uz) ? "教程" : "地牢", depth(&u.uz));
         else
             Sprintf(buf, "%d层", depth(&u.uz));
         ret = 0;
@@ -598,7 +598,7 @@ armor_status(char *armbuf)
         // 修改: 各部位防具的中文简写，期待更准确的简称。
         // 常用汉字占3字节，若需改为生僻字，第二维度需扩充
         static const char ARMOR_S[][4] = {
-            "甲", "盾", "头", "手", "靴", "披", "衫",
+            "甲", "盾", "头", "手", "脚", "披", "衫",
         };
 
 #define arms2p(armor_idx)                   \
@@ -730,27 +730,30 @@ staticfn void status_hilites_viewall(void);
  */
 static struct istat_s initblstats[MAXBLSTATS] = {
     INIT_BLSTAT("title", "%s", ANY_STR, MAXVALWIDTH, BL_TITLE),
-    INIT_BLSTAT("strength", " St:%s", ANY_INT, 10, BL_STR),
-    INIT_BLSTAT("dexterity", " Dx:%s", ANY_INT, 10, BL_DX),
-    INIT_BLSTAT("constitution", " Co:%s", ANY_INT, 10, BL_CO),
-    INIT_BLSTAT("intelligence", " In:%s", ANY_INT, 10, BL_IN),
-    INIT_BLSTAT("wisdom", " Wi:%s", ANY_INT, 10, BL_WI),
-    INIT_BLSTAT("charisma", " Ch:%s", ANY_INT, 10, BL_CH),
+    INIT_BLSTAT("strength", " 力:%s", ANY_INT, 10, BL_STR),
+    INIT_BLSTAT("dexterity", " 敏:%s", ANY_INT, 10, BL_DX),
+    INIT_BLSTAT("constitution", " 体:%s", ANY_INT, 10, BL_CO),
+    INIT_BLSTAT("intelligence", " 智:%s", ANY_INT, 10, BL_IN),
+    INIT_BLSTAT("wisdom", " 感:%s", ANY_INT, 10, BL_WI),
+    INIT_BLSTAT("charisma", " 魅:%s", ANY_INT, 10, BL_CH),
     INIT_BLSTAT("alignment", " %s", ANY_STR, 20, BL_ALIGN),
     INIT_BLSTAT("score", " S:%s", ANY_LONG, 30, BL_SCORE),
     INIT_BLSTAT("carrying-capacity", " %s", ANY_INT, 20, BL_CAP),
     INIT_BLSTAT("gold", " %s", ANY_LONG, 40, BL_GOLD),
-    INIT_BLSTATP("power", " Pw:%s", ANY_INT, 10, BL_ENEMAX, BL_ENE),
+    INIT_BLSTATP("power", " 能量:%s", ANY_INT, 10, BL_ENEMAX, BL_ENE),
     INIT_BLSTAT("power-max", "(%s)", ANY_INT, 10, BL_ENEMAX),
-    INIT_BLSTATP("experience-level", " Xp:%s", ANY_INT, 10, BL_EXP, BL_XP),
-    INIT_BLSTAT("armor-class", " AC:%s", ANY_INT, 10, BL_AC),
-    INIT_BLSTAT("HD", " HD:%s", ANY_INT, 10, BL_HD),
-    INIT_BLSTAT("time", " T:%s", ANY_LONG, 30, BL_TIME),
+    INIT_BLSTATP("experience-level", " 等级:%s", ANY_INT, 10,
+                 BL_EXP, BL_XP),
+    INIT_BLSTAT("armor-class", " 护甲:%s", ANY_INT, 10, BL_AC),
+    INIT_BLSTAT("HD", " 生命骰:%s", ANY_INT, 10, BL_HD),
+    INIT_BLSTAT("time", " 回合:%s", ANY_LONG, 30, BL_TIME),
     /* hunger used to be 'ANY_UINT'; see note below in bot_via_windowport() */
     INIT_BLSTAT("hunger", " %s", ANY_INT, 20, BL_HUNGER),
-    INIT_BLSTATP("hitpoints", " HP:%s", ANY_INT, 10, BL_HPMAX, BL_HP),
+    INIT_BLSTATP("hitpoints", " 生命:%s", ANY_INT, 10, BL_HPMAX,
+                 BL_HP),
     INIT_BLSTAT("hitpoints-max", "(%s)", ANY_INT, 10, BL_HPMAX),
-    INIT_BLSTAT("dungeon-level", "%s", ANY_STR, MAXVALWIDTH, BL_LEVELDESC),
+    INIT_BLSTAT("dungeon-level", "%s", ANY_STR, MAXVALWIDTH,
+                BL_LEVELDESC),
     INIT_BLSTATP("experience", "/%s", ANY_LONG, 30, BL_EXP, BL_EXP),
     INIT_BLSTAT("condition", "%s", ANY_MASK32, 0, BL_CONDITION),
     /* optional; once set it doesn't change unless 'showvers' option is
