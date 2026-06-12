@@ -1035,7 +1035,7 @@ outentry(int rank, struct toptenentry *t1, boolean so)
         }
 
         /* kludge for "quit while already on Charon's boat" */
-        if (!strncmp(t1->death, "quit ", 5) || cnstrcmp(t1->death, "退出", 5))
+        if (!strncmp(t1->death, "quit ", 5) || !cnstrcmp(t1->death, "退出"))
             Strcat(linebuf, t1->death + 4);
     }
     Strcat(linebuf, ".");
