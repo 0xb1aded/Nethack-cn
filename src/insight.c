@@ -38,7 +38,8 @@ staticfn int num_gone(int, int *);
 staticfn char *size_str(int);
 staticfn void item_resistance_message(int, const char *, int);
 
-extern const char *const hu_stat[];  /* hunger status from eat.c */
+extern const char *const hu_stat[];     /* hunger status from eat.c */
+extern const char *const hu_stat_ui[];   /* hunger status display */
 extern const char *const enc_stat[]; /* encumbrance status from botl.c */
 
 static const char You_[] = "You ", are[] = "are ", were[] = "were ",
@@ -1192,7 +1193,7 @@ status_enlightenment(int mode, int final)
             enl_msg(You_, "hunger", "hungered", " rapidly",
                     from_what(HUNGER));
     }
-    Strcpy(buf, hu_stat[u.uhs]); /* hunger status; omitted if "normal" */
+    Strcpy(buf, hu_stat_ui[u.uhs]); /* hunger status; omitted if "normal" */
     mungspaces(buf);             /* strip trailing spaces */
     /* status line doesn't show hunger when state is "not hungry", we do;
        needed for wizard mode's reveal of u.uhunger but add it for everyone */

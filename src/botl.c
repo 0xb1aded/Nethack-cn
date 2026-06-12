@@ -5,7 +5,8 @@
 
 #include "hack.h"
 
-extern const char *const hu_stat[]; /* defined in eat.c */
+extern const char *const hu_stat[];    /* defined in eat.c */
+extern const char *const hu_stat_ui[]; /* defined in eat.c */
 
 /* also used in insight.c */
 const char *const enc_stat[] = {
@@ -189,7 +190,7 @@ do_statusline2(void)
             Strcpy(nb = eos(nb), " 不治之症"); // 此处原文: TermIll=Terminal Illness
     }
     if (u.uhs != NOT_HUNGRY)
-        Sprintf(nb = eos(nb), " %s", hu_stat[u.uhs]);
+        Sprintf(nb = eos(nb), " %s", hu_stat_ui[u.uhs]);
     if ((cap = near_capacity()) > UNENCUMBERED)
         Sprintf(nb = eos(nb), " %s", enc_stat_ui[cap]);
     if (Blind)
@@ -807,6 +808,11 @@ static const struct condmap condition_aliases[] = {
                         | BL_MASK_HOLDING },
 };
 
+// 新增: 用于显示 `condition_aliases[]` 中的内容
+static const char *const condition_aliases_ui[] = {
+    "窒息", "全部", "大麻烦", "小麻烦", "移动", "可选状态",
+};
+
 #endif /* STATUS_HILITES */
 
 /* condition names and their abbreviations are used by windowport code */
@@ -842,6 +848,40 @@ const struct conditions_t conditions[] = {
     { 20, BL_MASK_UNCONSC,   bl_unconsc,   { "Out",      "Out",   "KO"  } },
     { 20, BL_MASK_WOUNDEDL,  bl_woundedl,  { "WLegs",    "Leg",   "Lg"  } },
     { 20, BL_MASK_HOLDING,   bl_holding,   { "UHold",    "UHld",  "UHd" } },
+};
+
+// 新增: 用于显示 `conditions[]` 中的内容
+static const char *const conditions_ui_text[] = {
+    "徒手",     /* Bare */
+    "失明",     /* Blind */
+    "忙碌",     /* Busy */
+    "混乱",     /* Conf */
+    "失聪",     /* Deaf */
+    "触铁",     /* Iron, 一个尚未实现的机制，精灵触铁会受伤。惧铁？ */
+    "飞行",     /* Fly */
+    "食物中毒", /* FoodPois */
+    "发光",     /* Glow, 发/散发？ */
+    "擒抱",     /* Grab */
+    "幻觉",     /* Hallu */
+    "被持",     /* Held */
+    "冻结",     /* Icy */
+    "深处熔岩", /* InLava */
+    "悬浮",     /* Lev */
+    "麻痹",     /* Parlyz */
+    "骑乘",     /* Ride */
+    "睡眠",     /* Zzz */
+    "粘液化",   /* Slime */
+    "手滑",     /* Slip, 对于部分怪物可能不是“手”？ */
+    "石化",     /* Stone */
+    "窒息",     /* Strngl */
+    "定身",     /* Stun */
+    "水下",     /* Submrg */
+    "不治之症", /* TermIll */
+    "束缚",     /* Teth */
+    "陷阱",     /* Trap */
+    "昏迷",     /* Out */
+    "腿伤",     /* WLegs, 对于部分怪物可能不是“腿”？ */
+    "紧握",     /* UHold */
 };
 
 /* [perhaps these should all be opt_out with default of 'in';
@@ -880,6 +920,10 @@ struct condtests_t condtests[CONDITION_COUNT] = {
     { bl_woundedl,  "woundedlegs", opt_in,  FALSE, FALSE, FALSE },
     { bl_holding,   "holding",     opt_in,  FALSE, FALSE, FALSE },
 };
+
+// 新增: 用于显示 `condtests[]` 中的内容，主要是 `cond_menu()`
+static const char *const *const condtests_useroption_ui = conditions_ui_text;
+
 /* condition indexing */
 int cond_idx[CONDITION_COUNT] = { 0 };
 
@@ -945,6 +989,59 @@ const char *terrain_descr[] = {
        "Submerged",     /* under water */
        "Sea",           /* moat terrain on Medusa's level: "shallow sea" */
        "WaterWall",     /* water that extends to the ceiling */
+};
+
+static const char c_Wall_ui[] = "墙";
+
+/* 用于状态栏显示，索引与 terrain_descr[] 对齐 */
+static const char *const terrain_descr_ui[] = {
+    "石头",     /* stone */
+    c_Wall_ui,  /* vwall */
+    c_Wall_ui,  /* hwall */
+    c_Wall_ui,  /* tlcorner */
+    c_Wall_ui,  /* trcorner */
+    c_Wall_ui,  /* blcorner */
+    c_Wall_ui,  /* brcorner */
+    c_Wall_ui,  /* crosswall */
+    c_Wall_ui,  /* tuwall */
+    c_Wall_ui,  /* tdwall */
+    c_Wall_ui,  /* tlwall */
+    c_Wall_ui,  /* trwall */
+    "吊闸",     /* portcullis */
+    "树",       /* tree */
+    c_Wall_ui,  /* sdoor */
+    "石头",     /* scorr */
+    "水池",     /* pool */
+    "护城河",   /* moat */
+    "水",       /* water */
+    "(空隙)",   /* drawbridge_up */
+    "熔岩",     /* lava */
+    "熔岩墙",   /* LavaWall */
+    "铁栅栏",   /* ironbars */
+    "门口",     /* doorway */
+    "走廊",     /* corridor */
+    "房间",     /* room */
+    "楼梯",     /* stairs */
+    "梯子",     /* ladder */
+    "喷泉",     /* fountain */
+    "王座",     /* throne */
+    "水槽",     /* sink */
+    "坟墓",     /* grave */
+    "祭坛",     /* altar */
+    "冰",       /* ice */
+    "吊桥",     /* bridge */
+    "空气",     /* air */
+    "云",       /* cloud */
+    "",         /* MAX_TYPE */
+    c_Wall_ui,  /* MATCH_WALL */
+    "地板",     /* floor */
+    "地",       /* ground */
+    "敞开的门", /* open door */
+    "关上的门", /* shut door */
+    "沼泽",     /* swamp */
+    "水下",     /* submerged */
+    "海",       /* sea */
+    "水墙",     /* WaterWall */
 };
 
 /* cache-related */
@@ -1021,12 +1118,12 @@ bot_via_windowport(void)
     Strcpy(nb = buf, svp.plname);
     nb[0] = highc(nb[0]);
     titl = !Upolyd ? rank() : pmname(&mons[u.umonnum], Ugender);
-    i = (int) (strlen(buf) + sizeof " the " + strlen(titl) - sizeof "");
+    i = (int) (strlen(buf) + sizeof " " + strlen(titl) - sizeof "");
     /* if "Name the Rank/monster" is too long, we truncate the name but
        always keep at least BOTL_NSIZ characters of it; when hitpointbar is
        enabled, anything beyond 30 (long monster name) will be truncated */
     if (i > 30) {
-        i = 30 - (int) (sizeof " the " + strlen(titl) - sizeof "");
+        i = 30 - (int) (sizeof " " + strlen(titl) - sizeof "");
         nb[max(i, BOTL_NSIZ)] = '\0';
     }
     Strcpy(nb = eos(nb), " ");
@@ -1132,7 +1229,7 @@ bot_via_windowport(void)
        not need ANY_UINT handling at all */
     gb.blstats[idx][BL_HUNGER].a.a_int = (int) u.uhs;
     Strcpy(gb.blstats[idx][BL_HUNGER].val,
-           (u.uhs != NOT_HUNGRY) ? hu_stat[u.uhs] : "");
+           (u.uhs != NOT_HUNGRY) ? hu_stat_ui[u.uhs] : "");
     gv.valset[BL_HUNGER] = TRUE;
 
     /* Carrying capacity */
@@ -1249,8 +1346,8 @@ bot_via_windowport(void)
         }
         if (condtests[bl_parlyz].enabled
             && cache_multi_reason && !cache_avail[1]) {
-                cache_reslt[1] = (!strncmp(cache_multi_reason, "paralyzed", 9)
-                                 || !strncmp(cache_multi_reason, "frozen", 6));
+                cache_reslt[1] = (!strncmp(cache_multi_reason, "麻痹", 6)
+                                 || !strncmp(cache_multi_reason, "冻结", 6));
                 cache_avail[1] = TRUE;
         }
         if (cache_avail[0] && cache_reslt[0]) {
@@ -1296,7 +1393,7 @@ bot_via_windowport(void)
             classify_terrain();
         i = iflags.terrain_typ;
         if (gb.blstats[idx][BL_TERRAIN].a.a_int != i) {
-            Strcpy(gb.blstats[idx][BL_TERRAIN].val, terrain_descr[i]);
+            Strcpy(gb.blstats[idx][BL_TERRAIN].val, terrain_descr_ui[i]);
             gb.blstats[idx][BL_TERRAIN].a.a_int = i;
         }
     } else {
@@ -1444,7 +1541,7 @@ cond_menu(void)
         add_menu_heading(tmpwin, mbuf);
         for (i = 0; i < SIZE(condtests); i++) {
             idx = sequence[i];
-            Sprintf(mbuf, "条件_%-14s", condtests[idx].useroption);
+            Sprintf(mbuf, "条件_%-14s", condtests_useroption_ui[idx]);
             any = cg.zeroany;
             any.a_int = idx + 2; /* avoid zero and the sort change pick */
             condtests[idx].choice = FALSE;
@@ -2945,7 +3042,7 @@ parse_status_hl2(char (*s)[QBUFSZ], boolean from_configfile)
         } else if (fld == BL_HUNGER
                    && is_fld_arrayvalues(s[sidx], hutxt,
                                          SATIATED, STARVED + 1, &kidx)) {
-            txt = hu_stat[kidx];   /* store hu_stat[] val, not hutxt[] */
+            txt = hu_stat_ui[kidx];   /* store hu_stat_ui[] val, not hutxt[] */
             txtval = TRUE;
         } else if (!strcmpi(s[sidx], "changed")) {
             changed = TRUE;
@@ -3155,7 +3252,7 @@ query_conditions(void)
         any = cg.zeroany;
         any.a_ulong = conditions[i].mask;
         add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE,
-                 clr, conditions[i].text[0], MENU_ITEMFLAGS_NONE);
+                 clr, conditions_ui_text[i], MENU_ITEMFLAGS_NONE);
     }
 
     end_menu(tmpwin, "选择状态条件");
@@ -3185,12 +3282,12 @@ conditionbitmask2str(unsigned long ul)
 
     for (i = 1; i < SIZE(condition_aliases); i++)
         if (condition_aliases[i].bitmask == ul)
-            alias = condition_aliases[i].id;
+            alias = condition_aliases_ui[i];
 
     for (i = 0; i < SIZE(conditions); i++)
         if ((conditions[i].mask & ul) != 0UL) {
             Sprintf(eos(buf), "%s%s", (first) ? "" : "+",
-                    conditions[i].text[0]);
+                    conditions_ui_text[i]);
             first = FALSE;
         }
 
@@ -4188,8 +4285,8 @@ status_hilite_menu_add(int origfld)
             Strcpy(hilite.textmatch, aligntxt[rv]);
         } else if (fld == BL_HUNGER) {
             static const char *const hutxt[] = {
-                "Satiated", (char *) 0, "Hungry", "Weak",
-                "Fainting", "Fainted", "Starved"
+                "吃饱", (char *) 0, "饥饿", "虚弱",
+                "晕厥", "昏倒", "饿死"
             };
             int rv = query_arrayvalue(qry_buf, hutxt, SATIATED, STARVED + 1);
 

@@ -118,7 +118,7 @@ dynamic_multi_reason(struct monst *mon, const char *verb, boolean by_gaze)
     p = eos(p);
     Sprintf(p, "被%s%s%s", !by_gaze ? who : s_suffix(who), /*危险.修改语序:Sprintf(p, "%s by %s%s", verb,*/
             !by_gaze ? "" : "的注视", /*修改语序:!by_gaze ? who : s_suffix(who),*/
-            (!strcmp(verb, "paralyzed")) ? "麻痹" : ((!strcmp(verb, "frozen")) ? "定住" : "")); /*修改语序:!by_gaze ? "" : " gaze");*/
+            (!strcmp(verb, "paralyzed")) ? "麻痹" : ((!strcmp(verb, "frozen")) ? "冻结" : "")); /*修改语序:!by_gaze ? "" : " gaze");*/
     gm.multi_reason = p;
 }
 

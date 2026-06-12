@@ -71,6 +71,9 @@ const char *const hu_stat[] = {
     "Satiated", "        ", "Hungry  ", "Weak    ",
     "Fainting", "Fainted ", "Starved "
 };
+const char *const hu_stat_ui[] = {
+    "饱腹", "", "饥饿", "虚弱", "晕厥", "昏倒", "饿死",
+};
 
 static const struct victual_info zero_victual = { 0 };
 
