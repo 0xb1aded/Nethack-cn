@@ -197,7 +197,7 @@ do_statusline2(void)
     if (Deaf)
         Strcpy(nb = eos(nb), " 失聪");
     if (Stunned)
-        Strcpy(nb = eos(nb), " 定身");
+        Strcpy(nb = eos(nb), " 眩晕");
     if (Confusion)
         Strcpy(nb = eos(nb), " 混乱");
     if (Hallucination)

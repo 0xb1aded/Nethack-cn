@@ -1227,7 +1227,7 @@ unturn_you(void)
     (void) unturn_dead(&gy.youmonst); /* hit carried corpses and eggs */
 
     if (is_undead(gy.youmonst.data)) {
-        You_feel("恐惧并且%s晕眩.", Stunned ? "更加" : "");
+        You_feel("恐惧并且%s眩晕.", Stunned ? "更加" : "");
         make_stunned((HStun & TIMEOUT) + (long) rnd(30), FALSE);
     } else {
         You("因恐惧而战栗.");

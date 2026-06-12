@@ -1669,7 +1669,7 @@ gazemu(struct monst *mtmp, struct attack *mattk)
 {
     static const char *const reactions[] = {
         "混乱",              /* [0] */
-        "定住",               /* [1] */
+        "眩晕",               /* [1] */
         "迷惑",   "目眩",  /* [2,3] */
         "发红", "发肿", /* [4,5] */
         "疲倦",                 /* [6] */

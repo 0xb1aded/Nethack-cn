@@ -33,7 +33,7 @@ static const struct propname {
     { SLIMED, "变成黏液" },
     { STRANGLED, "窒息" },
     { SICK, "濒死" },
-    { STUNNED, "定身" },
+    { STUNNED, "眩晕" },
     { CONFUSION, "混乱" },
     { HALLUC, "幻觉" },
     { BLINDED, "失明" },

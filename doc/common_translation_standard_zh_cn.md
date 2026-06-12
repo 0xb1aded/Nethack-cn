@@ -161,7 +161,7 @@
 |becoming slime|变成黏液|
 |strangling|窒息|
 |fatally sick|濒死|
-|stunned|定身|
+|stunned|眩晕|
 |confused|混乱|
 |hallucinating|幻觉|
 |blinded|失明|

@@ -1051,7 +1051,7 @@ status_enlightenment(int mode, int final)
     if (Vomiting)
         you_are("正呕吐", "");
     if (Stunned)
-        you_are("正被定身", "");
+        you_are("正被眩晕", "");
     if (Confusion)
         you_are("正处于混乱中", "");
     if (Hallucination)
