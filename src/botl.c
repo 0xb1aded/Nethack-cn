@@ -84,8 +84,8 @@ do_statusline1(void)
 
     Sprintf(nb = eos(nb), "  ");
     i = gm.mrank_sz + 15;
-    j = (int) ((nb + 2) - newbot1); /* strlen(newbot1) but less computation */
-    if ((i - j) > 0)
+    j = (int) utf8str_width(newbot1);
+    if (i > j)
         Sprintf(nb = eos(nb), "%*s", i - j, " "); /* pad with spaces */
 
     Sprintf(nb = eos(nb), "力:%s  敏:%-1d  体:%-1d  智:%-1d  感:%-1d  魅:%-1d",
@@ -137,7 +137,7 @@ do_statusline2(void)
             (iflags.in_dumplog || iflags.invis_goldsym) ? "$"
               : encglyph(objnum_to_glyph(GOLD_PIECE)),
             min(money, 999999L));
-    dln = strlen(dloc);
+    dln = utf8str_width(dloc);
     /* '$' encoded as \GXXXXNNNN is 9 chars longer than display will need */
     dx = strstri(dloc, "\\G") ? 9 : 0;
 
@@ -149,7 +149,7 @@ do_statusline2(void)
     Sprintf(hlth, "生命:%d(%d) 能量:%d(%d) 护甲:%-2d",
             min(hp, 9999), min(hpmax, 9999),
             min(u.uen, 9999), min(u.uenmax, 9999), u.uac);
-    hln = strlen(hlth);
+    hln = utf8str_width(hlth);
 
     /* experience */
     // 疑问: 是否需要翻译？生命骰？
@@ -159,14 +159,14 @@ do_statusline2(void)
         Sprintf(expr, "经验:%d/%-1ld", u.ulevel, u.uexp);
     else
         Sprintf(expr, "等级:%d", u.ulevel);
-    xln = strlen(expr);
+    xln = utf8str_width(expr);
 
     /* time/move counter */
     if (flags.time)
         Sprintf(tmmv, " 回合:%ld", svm.moves);
     else
         tmmv[0] = '\0';
-    tln = strlen(tmmv);
+    tln = utf8str_width(tmmv);
 
     /* status conditions; worst ones first */
     cond[0] = '\0'; /* once non-empty, cond will have a leading space */
@@ -210,14 +210,14 @@ do_statusline2(void)
         Strcpy(nb = eos(nb), " 飞行");
     if (u.usteed)
         Strcpy(nb = eos(nb), " 骑乘");
-    cln = strlen(cond);
+    cln = utf8str_width(cond);
 
     /* version on status line, with leading space */
     if (flags.showvers)
         (void) status_version(vers, sizeof vers, TRUE);
     else
         vers[0] = '\0';
-    vrn = strlen(vers);
+    vrn = utf8str_width(vers);
 
     /*
      * Put the pieces together.  If they all fit, keep the traditional
@@ -412,9 +412,9 @@ max_rank_sz(void)
     size_t r, maxr = 0;
 
     for (i = 0; i < 9; i++) {
-        if (gu.urole.rank[i].m && (r = strlen(gu.urole.rank[i].m)) > maxr)
+        if (gu.urole.rank[i].m && (r = utf8str_width(gu.urole.rank[i].m)) > maxr)
             maxr = r;
-        if (gu.urole.rank[i].f && (r = strlen(gu.urole.rank[i].f)) > maxr)
+        if (gu.urole.rank[i].f && (r = utf8str_width(gu.urole.rank[i].f)) > maxr)
             maxr = r;
     }
     gm.mrank_sz = (int) maxr;
@@ -1118,23 +1118,28 @@ bot_via_windowport(void)
     Strcpy(nb = buf, svp.plname);
     nb[0] = highc(nb[0]);
     titl = !Upolyd ? rank() : pmname(&mons[u.umonnum], Ugender);
-    i = (int) (strlen(buf) + sizeof " " + strlen(titl) - sizeof "");
-    /* if "Name the Rank/monster" is too long, we truncate the name but
-       always keep at least BOTL_NSIZ characters of it; when hitpointbar is
-       enabled, anything beyond 30 (long monster name) will be truncated */
+    i = (int) (utf8str_width(buf) + utf8str_width(titl) + 1);
+    // 修改: 原始逻辑为如果名称列过长则截断，但至少保证 BOTL_NSIZ 个字节
+    // 现修改为列宽超过该阈值则截断，至少保证 BOTL_NSIZ 的列宽
     if (i > 30) {
-        i = 30 - (int) (sizeof " " + strlen(titl) - sizeof "");
-        nb[max(i, BOTL_NSIZ)] = '\0';
+        int free_cols = 30 - (1 + (int) utf8str_width(titl));
+        size_t col = 0, pos = 0;
+        while (buf[pos]) {
+            uint8 clen = 0, cw = 0;
+            utf8char_info(buf +pos,&clen,&cw);
+            if (col + cw > (size_t) free_cols && col >= BOTL_NSIZ)
+                break;
+            col += cw;
+            pos += clen;
+        }
+        buf[pos] = '\0';
     }
     Strcpy(nb = eos(nb), " ");
     Strcpy(nb = eos(nb), titl);
-    // 冗余: 大小写操作在中文语境下失效，考虑直接删除
-    // if (Upolyd) { /* when poly'd, capitalize monster name */
-    //     for (i = 0; nb[i]; i++)
-    //         if (i == 0 || nb[i - 1] == ' ')
-    //             nb[i] = highc(nb[i]);
-    // }
-    Sprintf(gb.blstats[idx][BL_TITLE].val, "%-30s", buf);
+    i = (int) utf8str_width(buf);
+    if (i < 30)
+        Sprintf(eos(buf), "%*s", 30 - i, "");
+    Sprintf(gb.blstats[idx][BL_TITLE].val, "%s", buf);
     gv.valset[BL_TITLE] = TRUE; /* indicate val already set */
 
     /* Strength */
@@ -1541,7 +1546,11 @@ cond_menu(void)
         add_menu_heading(tmpwin, mbuf);
         for (i = 0; i < SIZE(condtests); i++) {
             idx = sequence[i];
-            Sprintf(mbuf, "条件_%-14s", condtests_ui[idx]);
+            // 修改: 无法直接通过 format 限制 UTF-8
+            // 字符串的显示列数，所以手动计算
+            Sprintf(mbuf, "条件_%s%*s", condtests_ui[idx],
+                    14 - (int) utf8str_width(condtests_ui[idx]) > 0
+                    ? 14 - (int) utf8str_width(condtests_ui[idx]) : 0, "");
             any = cg.zeroany;
             any.a_int = idx + 2; /* avoid zero and the sort change pick */
             condtests[idx].choice = FALSE;
@@ -1841,7 +1850,8 @@ status_initialize(
                                    : TRUE;
 
         fieldname = initblstats[i].fldname;
-        fieldfmt = (fld == BL_TITLE && iflags.wc2_hitpointbar) ? "%-30.30s"
+        // 修改: 无法直接通过 format 限制 UTF-8 字符串的显示列数，所以手动计算
+        fieldfmt = (fld == BL_TITLE && iflags.wc2_hitpointbar) ? "%s"
                    : initblstats[i].fldfmt;
         status_enablefield(fld, fieldname, fieldfmt, fldenabl);
     }
