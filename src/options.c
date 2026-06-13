@@ -6116,7 +6116,7 @@ handler_pickup_types(void)
     char buf[BUFSZ];
 
     /* parseoptions will prompt for the list of types */
-    (void) parseoptions(strcpy(buf, "拾取类型"), FALSE, FALSE);
+    (void) parseoptions(strcpy(buf, "pickup_types"), FALSE, FALSE);
     return optn_ok;
 }
 
