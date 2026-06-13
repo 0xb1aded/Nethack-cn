@@ -599,7 +599,9 @@ armor_status(char *armbuf)
         // 修改: 各部位防具的中文简写，期待更准确的简称。
         // 常用汉字占3字节，若需改为生僻字，第二维度需扩充
         static const char ARMOR_S[][4] = {
-            "甲", "盾", "头", "手", "脚", "披", "衫",
+            [ARM_SUIT] = "甲",   [ARM_SHIELD] = "盾", [ARM_HELM] = "头",
+            [ARM_GLOVES] = "手", [ARM_BOOTS] = "脚",  [ARM_CLOAK] = "披",
+            [ARM_SHIRT] = "衫",
         };
 
 #define arms2p(armor_idx)                   \
@@ -777,35 +779,22 @@ static struct istat_s initblstats[MAXBLSTATS] = {
 #undef INIT_BLSTAT
 #undef INIT_THRESH
 
-/* 用于 UI 显示的 `initblstats[].fldname` */
+// 新增: 用于 UI 显示的 `initblstats[].fldname`，使用 `initblstats[].fld` 索引
 static const char *const fldname_ui[MAXBLSTATS] = {
-    "头衔",     /* BL_TITLE */
-    "力量",     /* BL_STR */
-    "敏捷",     /* BL_DX */
-    "体质",     /* BL_CO */
-    "智力",     /* BL_IN */
-    "感知",     /* BL_WI */
-    "魅力",     /* BL_CH */
-    "阵营",     /* BL_ALIGN */
-    "分数",     /* BL_SCORE */
-    "负重能力", /* BL_CAP */
-    "金币",     /* BL_GOLD */
-    "能量",     /* BL_ENE */
-    "最大能量", /* BL_ENEMAX */
-    "等级",     /* BL_XP */
-    "护甲等级", /* BL_AC */
-    "生命骰",   /* BL_HD */
-    "回合数",   /* BL_TIME */
-    "饥饿度",   /* BL_HUNGER */
-    "生命",     /* BL_HP */
-    "最大生命", /* BL_HPMAX */
-    "层数",     /* BL_LEVELDESC */
-    "经验",     /* BL_EXP */
-    "状态",     /* BL_CONDITION */
-    "版本",     /* BL_VERS */
-    "武器",     /* BL_WEAPON */
-    "防具",     /* BL_ARMOR */
-    "地形",     /* BL_TERRAIN */
+    [BL_TITLE] = "头衔",      [BL_STR] = "力量",
+    [BL_DX] = "敏捷",         [BL_CO] = "体质",
+    [BL_IN] = "智力",         [BL_WI] = "感知",
+    [BL_CH] = "魅力",         [BL_ALIGN] = "阵营",
+    [BL_SCORE] = "分数",      [BL_CAP] = "负重能力",
+    [BL_GOLD] = "金币",       [BL_ENE] = "能量",
+    [BL_ENEMAX] = "最大能量", [BL_XP] = "等级",
+    [BL_AC] = "护甲等级",     [BL_HD] = "生命骰",
+    [BL_TIME] = "回合数",     [BL_HUNGER] = "饥饿度",
+    [BL_HP] = "生命",         [BL_HPMAX] = "最大生命",
+    [BL_LEVELDESC] = "层数",  [BL_EXP] = "经验",
+    [BL_CONDITION] = "状态",  [BL_VERS] = "版本",
+    [BL_WEAPON] = "武器",     [BL_ARMOR] = "防具",
+    [BL_TERRAIN] = "地形",
 };
 
 #ifdef STATUS_HILITES
@@ -881,38 +870,26 @@ const struct conditions_t conditions[] = {
     { 20, BL_MASK_HOLDING,   bl_holding,   { "UHold",    "UHld",  "UHd" } },
 };
 
-/* 用于窗口端口显示条件名，索引与 conditions[] 对齐 */
+// 新增: 用于 UI 显示的 `conditions[]`
 const char *const conditions_ui[] = {
-    "徒手",     /* Bare */
-    "失明",     /* Blind */
-    "忙碌",     /* Busy */
-    "混乱",     /* Conf */
-    "失聪",     /* Deaf */
-    "触铁",     /* Iron, 一个尚未实现的机制，精灵触铁会受伤。惧铁？ */
-    "飞行",     /* Fly */
-    "食物中毒", /* FoodPois */
-    "发光",     /* Glow, 发/散发？ */
-    "擒抱",     /* Grab */
-    "幻觉",     /* Hallu */
-    "被持",     /* Held */
-    "冻结",     /* Icy */
-    "深处熔岩", /* InLava */
-    "悬浮",     /* Lev */
-    "麻痹",     /* Parlyz */
-    "骑乘",     /* Ride */
-    "睡眠",     /* Zzz */
-    "粘液化",   /* Slime */
-    "手滑",     /* Slip, 对于部分怪物可能不是“手”？ */
-    "石化",     /* Stone */
-    "窒息",     /* Strngl */
-    "眩晕",     /* Stun */
-    "水下",     /* Submrg */
-    "不治之症", /* TermIll */
-    "束缚",     /* Teth */
-    "陷阱",     /* Trap */
-    "昏迷",     /* Out */
-    "腿伤",     /* WLegs, 对于部分怪物可能不是“腿”？ */
-    "紧握",     /* UHold */
+    [bl_bareh] = "徒手",       [bl_blind] = "失明",
+    [bl_busy] = "忙碌",        [bl_conf] = "混乱",
+    [bl_deaf] = "失聪",
+    [bl_elf_iron] = "触铁", // 一个尚未实现的机制，精灵触铁会受伤。惧铁？
+    [bl_fly] = "飞行",         [bl_foodpois] = "食物中毒",
+    [bl_glowhands] = "发光", // 发/散发？
+    [bl_grab] = "擒抱",        [bl_hallu] = "幻觉",
+    [bl_held] = "被持",        [bl_icy] = "冻结",
+    [bl_inlava] = "深处熔岩",  [bl_lev] = "悬浮",
+    [bl_parlyz] = "麻痹",      [bl_ride] = "骑乘",
+    [bl_sleeping] = "睡眠",    [bl_slime] = "粘液化",
+    [bl_slippery] = "手滑", // 对于部分怪物可能不是“手”？
+    [bl_stone] = "石化",       [bl_strngl] = "窒息",
+    [bl_stun] = "眩晕",        [bl_submerged] = "水下",
+    [bl_termill] = "不治之症", [bl_tethered] = "束缚",
+    [bl_trapped] = "陷阱",     [bl_unconsc] = "昏迷",
+    [bl_woundedl] = "腿伤", // 对于部分怪物可能不是“腿”？
+    [bl_holding] = "紧握",
 };
 
 /* [perhaps these should all be opt_out with default of 'in';
@@ -1024,55 +1001,55 @@ const char *terrain_descr[] = {
 
 static const char c_Wall_ui[] = "墙";
 
-/* 用于状态栏显示，索引与 terrain_descr[] 对齐 */
+// 新增: 用于 UI 显示的 `terrain_descr[]`
 static const char *const terrain_descr_ui[] = {
-    "石头",     /* stone */
-    c_Wall_ui,  /* vwall */
-    c_Wall_ui,  /* hwall */
-    c_Wall_ui,  /* tlcorner */
-    c_Wall_ui,  /* trcorner */
-    c_Wall_ui,  /* blcorner */
-    c_Wall_ui,  /* brcorner */
-    c_Wall_ui,  /* crosswall */
-    c_Wall_ui,  /* tuwall */
-    c_Wall_ui,  /* tdwall */
-    c_Wall_ui,  /* tlwall */
-    c_Wall_ui,  /* trwall */
-    "吊闸",     /* portcullis */
-    "树",       /* tree */
-    c_Wall_ui,  /* sdoor */
-    "石头",     /* scorr */
-    "水池",     /* pool */
-    "护城河",   /* moat */
-    "水",       /* water */
-    "(空隙)",   /* drawbridge_up */
-    "熔岩",     /* lava */
-    "熔岩墙",   /* LavaWall */
-    "铁栅栏",   /* ironbars */
-    "门口",     /* doorway */
-    "走廊",     /* corridor */
-    "房间",     /* room */
-    "楼梯",     /* stairs */
-    "梯子",     /* ladder */
-    "喷泉",     /* fountain */
-    "王座",     /* throne */
-    "水槽",     /* sink */
-    "坟墓",     /* grave */
-    "祭坛",     /* altar */
-    "冰",       /* ice */
-    "吊桥",     /* bridge */
-    "空气",     /* air */
-    "云",       /* cloud */
-    "",         /* MAX_TYPE */
-    c_Wall_ui,  /* MATCH_WALL */
-    "地板",     /* floor */
-    "地",       /* ground */
-    "敞开的门", /* open door */
-    "关上的门", /* shut door */
-    "沼泽",     /* swamp */
-    "水下",     /* submerged */
-    "海",       /* sea */
-    "水墙",     /* WaterWall */
+    [STONE] = "石头",
+    [VWALL] = c_Wall_ui,
+    [HWALL] = c_Wall_ui,
+    [TLCORNER] = c_Wall_ui,
+    [TRCORNER] = c_Wall_ui,
+    [BLCORNER] = c_Wall_ui,
+    [BRCORNER] = c_Wall_ui,
+    [CROSSWALL] = c_Wall_ui,
+    [TUWALL] = c_Wall_ui,
+    [TDWALL] = c_Wall_ui,
+    [TLWALL] = c_Wall_ui,
+    [TRWALL] = c_Wall_ui,
+    [DBWALL] = "吊闸",
+    [TREE] = "树",
+    [SDOOR] = c_Wall_ui,
+    [SCORR] = "石头",
+    [POOL] = "池水",
+    [MOAT] = "护城河",
+    [WATER] = "水",
+    [DRAWBRIDGE_UP] = "(空隙)",
+    [LAVAPOOL] = "熔岩",
+    [LAVAWALL] = "熔岩墙",
+    [IRONBARS] = "栅栏",
+    [DOOR] = "门口",
+    [CORR] = "走廊",
+    [ROOM] = "房间",
+    [STAIRS] = "楼梯",
+    [LADDER] = "梯子",
+    [FOUNTAIN] = "喷泉",
+    [THRONE] = "王座",
+    [SINK] = "水槽",
+    [GRAVE] = "坟墓",
+    [ALTAR] = "祭坛",
+    [ICE] = "冰",
+    [DRAWBRIDGE_DOWN] = "吊桥",
+    [AIR] = "空气",
+    [CLOUD] = "云",
+    [MAX_TYPE] = "",
+    [MATCH_WALL] = c_Wall_ui,
+    [xFLOOR] = "地板",
+    [xGROUND] = "地",
+    [xOPENDOOR] = "打开的门",
+    [xSHUTDOOR] = "关上的门",
+    [xSWAMP] = "沼泽",
+    [xSUBMERGED] = "水下",
+    [xSEA] = "海",
+    [xWATERWALL] = "水墙",
 };
 
 /* cache-related */
@@ -1880,7 +1857,7 @@ status_initialize(
                                  : (fld == BL_TERRAIN) ? flags.terrainstatus
                                    : TRUE;
 
-        fieldname = fldname_ui[i];
+        fieldname = fldname_ui[fld];
         // 修改: 无法直接通过 format 限制 UTF-8 字符串的显示列数，所以手动计算
         fieldfmt = (fld == BL_TITLE && iflags.wc2_hitpointbar) ? "%s"
                    : initblstats[i].fldfmt;
