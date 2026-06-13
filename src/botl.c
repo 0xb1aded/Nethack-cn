@@ -1521,7 +1521,7 @@ boolean
 cond_menu(void)
 {
     static const char *const menutitle[2] = {
-        "按字母排序", "按优先级排序"
+        "按字母排序", "按开启状态排序"
     };
     int i, res, idx = 0;
     int sequence[CONDITION_COUNT];
@@ -1552,13 +1552,13 @@ cond_menu(void)
         add_menu(tmpwin, &nul_glyphinfo, &any, 'S', 0, ATR_NONE,
                  clr, mbuf, MENU_ITEMFLAGS_SKIPINVERT);
         any = cg.zeroany;
-        Sprintf(mbuf, "排序 %s", menutitle[gc.condmenu_sortorder]);
+        Sprintf(mbuf, "顺序 %s", menutitle[gc.condmenu_sortorder]);
         add_menu_heading(tmpwin, mbuf);
         for (i = 0; i < SIZE(condtests); i++) {
             idx = sequence[i];
             // 修改: 无法直接通过 format 限制 UTF-8
             // 字符串的显示列数，所以手动计算
-            Sprintf(mbuf, "条件: %s%*s", condtests_ui[idx],
+            Sprintf(mbuf, "%s%*s", condtests_ui[idx],
                     14 - (int) utf8str_width(condtests_ui[idx]) > 0
                     ? 14 - (int) utf8str_width(condtests_ui[idx]) : 0, "");
             any = cg.zeroany;
@@ -3849,7 +3849,7 @@ status_hilite_menu_choose_field(void)
                  clr, fldname_ui[i], MENU_ITEMFLAGS_NONE);
     }
 
-    end_menu(tmpwin, "选择一个高亮字段：");
+    end_menu(tmpwin, "选择一个高亮字段: ");
 
     res = select_menu(tmpwin, PICK_ONE, &picks);
     destroy_nhwindow(tmpwin);
@@ -3900,7 +3900,7 @@ status_hilite_menu_choose_behavior(int fld)
     if (fld != BL_CONDITION && fld != BL_VERS) {
         any = cg.zeroany;
         any.a_int = onlybeh = BL_TH_UPDOWN;
-        Sprintf(buf, "%s 值变化", fldname_ui[fld]);
+        Sprintf(buf, "%s 的值变化", fldname_ui[fld]);
         add_menu(tmpwin, &nul_glyphinfo, &any, 'c', 0, ATR_NONE,
                  clr, buf, MENU_ITEMFLAGS_NONE);
         nopts++;
@@ -3911,7 +3911,7 @@ status_hilite_menu_choose_behavior(int fld)
         any = cg.zeroany;
         any.a_int = onlybeh = BL_TH_VAL_ABSOLUTE;
         add_menu(tmpwin, &nul_glyphinfo, &any, 'n', 0, ATR_NONE,
-                 clr, "数字阈值", MENU_ITEMFLAGS_NONE);
+                 clr, "数值阈值", MENU_ITEMFLAGS_NONE);
         nopts++;
     }
 
@@ -3983,7 +3983,7 @@ status_hilite_menu_choose_updownboth(
     if (ltok) {
         if (str)
             Sprintf(buf, "%s 于 %s",
-                    (fld == BL_AC) ? "更好(更低)" : "更少", str);
+                    (fld == BL_AC) ? "更好 (更低)" : "更少", str);
         else
             Sprintf(buf, "数值下降");
         any = cg.zeroany;
@@ -3993,7 +3993,7 @@ status_hilite_menu_choose_updownboth(
 
         if (str) {
             Sprintf(buf, "%s或%s",
-                    str, (fld == BL_AC) ? "更好（更低）" : "更少");
+                    str, (fld == BL_AC) ? "更好 (更低)" : "更少");
             any = cg.zeroany;
             any.a_int = 10 + LE_VALUE;
             add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE,
@@ -4013,7 +4013,7 @@ status_hilite_menu_choose_updownboth(
     if (gtok) {
         if (str) {
             Sprintf(buf, "%s 或 %s",
-                    str, (fld == BL_AC) ? "更差（更高）" : "更多");
+                    str, (fld == BL_AC) ? "更差 (更高)" : "更多");
             any = cg.zeroany;
             any.a_int = 10 + GE_VALUE;
             add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE,
@@ -4022,9 +4022,9 @@ status_hilite_menu_choose_updownboth(
 
         if (str)
             Sprintf(buf, "%s 比 %s",
-                    (fld == BL_AC) ? "更差（更高）" : "更多", str);
+                    (fld == BL_AC) ? "更差 (更高)" : "更多", str);
         else
-            Sprintf(buf, "值上升");
+            Sprintf(buf, "数值上升");
         any = cg.zeroany;
         any.a_int = 10 + GT_VALUE;
         add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE, clr,
@@ -4105,7 +4105,7 @@ status_hilite_menu_add(int origfld)
 
         lt_gt_eq = NO_LTEQGT; /* not set up yet */
         inbuf[0] = '\0';
-        Sprintf(buf, "输入 %s值（%s 阈值）：",
+        Sprintf(buf, "输入 %s值 (%s 阈值): ",
                 percent ? "百分比 " : "",
                 fldname_ui[fld]);
         getlin(buf, inbuf);
@@ -4312,7 +4312,7 @@ status_hilite_menu_add(int origfld)
             Strcpy(hilite.textmatch, aligntxt[rv]);
         } else if (fld == BL_HUNGER) {
             static const char *const hutxt[] = {
-                "吃饱", (char *) 0, "饥饿", "虚弱",
+                "饱腹", (char *) 0, "饥饿", "虚弱",
                 "晕厥", "昏倒", "饿死"
             };
             int rv = query_arrayvalue(qry_buf, hutxt, SATIATED, STARVED + 1);
@@ -4540,8 +4540,9 @@ status_hilite_menu_fld(int fld)
             if (hlstr->fld == fld) {
                 any = cg.zeroany;
                 any.a_int = hlstr->id;
-                add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE,
-                         clr, hlstr->str, MENU_ITEMFLAGS_NONE);
+                add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE, clr,
+                         status_hilite2str(hlstr->hl, TRUE),
+                         MENU_ITEMFLAGS_NONE);
             }
             hlstr = hlstr->next;
         }
