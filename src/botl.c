@@ -2706,8 +2706,8 @@ get_hilite(
             case BL_TH_TEXTMATCH: /* ANY_STR */
                 txtstr = gb.blstats[idx][fldidx].val;
                 if (fldidx == BL_TITLE)
-                    /* "<name> the <rank-title>", skip past "<name> the " */
-                    txtstr += strlen(svp.plname) + sizeof " the " - sizeof "";
+                    // 修改: 中文不再遵循 <plname> the <rank> 模式
+                    txtstr += strlen(svp.plname) + 1;
                 if (hl->rel == TXT_VALUE && hl->textmatch[0]) {
                     if (fuzzymatch(hl->textmatch, txtstr, "\" -_", TRUE)) {
                         rule = hl;
@@ -2986,6 +2986,7 @@ staticfn boolean
 parse_status_hl2(char (*s)[QBUFSZ], boolean from_configfile)
 {
     static const char *const aligntxt[] = { "chaotic", "neutral", "lawful" };
+    static const char *const align_ui[] = { "混沌", "中立", "秩序" };
     /* hu_stat[] from eat.c has trailing spaces which foul up comparisons;
        for the "not hungry" case, there's no text hence no way to highlight */
     static const char *const hutxt[] = {
@@ -3079,7 +3080,7 @@ parse_status_hl2(char (*s)[QBUFSZ], boolean from_configfile)
             txtval = TRUE;
         } else if (fld == BL_ALIGN
                    && is_fld_arrayvalues(s[sidx], aligntxt, 0, 3, &kidx)) {
-            txt = aligntxt[kidx];
+            txt = align_ui[kidx];
             txtval = TRUE;
         } else if (fld == BL_HUNGER
                    && is_fld_arrayvalues(s[sidx], hutxt,
