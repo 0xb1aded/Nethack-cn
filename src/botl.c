@@ -680,7 +680,8 @@ staticfn int query_arrayvalue(const char *, const char *const *, int, int);
 staticfn void status_hilite_add_threshold(int, struct hilite_s *);
 staticfn boolean parse_status_hl2(char (*)[QBUFSZ], boolean);
 staticfn unsigned long query_conditions(void);
-staticfn char *conditionbitmask2str(unsigned long);
+// 修改: 增加了一个布尔参数用于调整输出模式是英文(用于内部)还是中文(用于显示)
+staticfn char *conditionbitmask2str(unsigned long, boolean);
 staticfn unsigned long match_str2conditionbitmask(const char *);
 staticfn unsigned long str2conditionbitmask(char *);
 staticfn boolean parse_condition(char (*)[QBUFSZ], int);
@@ -691,7 +692,8 @@ staticfn void status_hilite_linestr_done(void);
 staticfn int status_hilite_linestr_countfield(int);
 staticfn void status_hilite_linestr_gather_conditions(void);
 staticfn void status_hilite_linestr_gather(void);
-staticfn char *status_hilite2str(struct hilite_s *);
+// 修改: 增加了一个布尔参数用于调整输出模式是英文(用于内部)还是中文(用于显示)
+staticfn char *status_hilite2str(struct hilite_s *, boolean);
 staticfn int status_hilite_menu_choose_field(void);
 staticfn int status_hilite_menu_choose_behavior(int);
 staticfn int status_hilite_menu_choose_updownboth(int, const char *, boolean,
@@ -3288,7 +3290,7 @@ query_conditions(void)
 }
 
 staticfn char *
-conditionbitmask2str(unsigned long ul)
+conditionbitmask2str(unsigned long ul, boolean for_ui)
 {
     static char buf[BUFSZ];
     int i;
@@ -3302,12 +3304,14 @@ conditionbitmask2str(unsigned long ul)
 
     for (i = 1; i < SIZE(condition_aliases); i++)
         if (condition_aliases[i].bitmask == ul)
-            alias = condition_aliases_ui[i];
+            alias = for_ui ? condition_aliases_ui[i]
+                           : condition_aliases[i].id;
 
     for (i = 0; i < SIZE(conditions); i++)
         if ((conditions[i].mask & ul) != 0UL) {
             Sprintf(eos(buf), "%s%s", (first) ? "" : "+",
-                    conditions_ui[i]);
+                    for_ui ? conditions_ui[i]
+                           : conditions[i].text[0]);
             first = FALSE;
         }
 
@@ -3709,7 +3713,7 @@ status_hilite_linestr_gather_conditions(void)
                 if (tmpattr)
                     Sprintf(eos(clrbuf), "&%s", tmpattr);
                 Snprintf(condbuf, sizeof(condbuf), "condition/%s/%s",
-                         conditionbitmask2str(cond_maps[i].bm), clrbuf);
+                         conditionbitmask2str(cond_maps[i].bm, FALSE), clrbuf);
                 status_hilite_linestr_add(BL_CONDITION, 0,
                                           cond_maps[i].bm, condbuf);
             }
@@ -3727,7 +3731,7 @@ status_hilite_linestr_gather(void)
     for (i = 0; i < MAXBLSTATS; i++) {
         hl = gb.blstats[0][i].thresholds;
         while (hl) {
-            status_hilite_linestr_add(i, hl, 0UL, status_hilite2str(hl));
+            status_hilite_linestr_add(i, hl, 0UL, status_hilite2str(hl, FALSE));
             hl = hl->next;
         }
     }
@@ -3737,7 +3741,7 @@ status_hilite_linestr_gather(void)
 
 
 staticfn char *
-status_hilite2str(struct hilite_s *hl)
+status_hilite2str(struct hilite_s *hl, boolean for_ui)
 {
     static char buf[BUFSZ];
     int clr = NO_COLOR, attr = ATR_NONE;
@@ -3768,11 +3772,11 @@ status_hilite2str(struct hilite_s *hl)
         break;
     case BL_TH_UPDOWN:
         if (hl->rel == LT_VALUE)
-            Sprintf(behavebuf, "下降");
+            Sprintf(behavebuf, for_ui ? "下降" : "down");
         else if (hl->rel == GT_VALUE)
-            Sprintf(behavebuf, "上升");
+            Sprintf(behavebuf, for_ui ? "上升" : "up");
         else if (hl->rel == EQ_VALUE)
-            Sprintf(behavebuf, "变化");
+            Sprintf(behavebuf, for_ui ? "变化" : "changed");
         else
             impossible("hl->behavior=updown, rel error");
         break;
@@ -3790,15 +3794,16 @@ status_hilite2str(struct hilite_s *hl)
         break;
     case BL_TH_CONDITION:
         if (hl->rel == EQ_VALUE)
-            Sprintf(behavebuf, "%s", conditionbitmask2str(hl->value.a_ulong));
+            Sprintf(behavebuf, "%s",
+                    conditionbitmask2str(hl->value.a_ulong, for_ui));
         else
             impossible("hl->behavior=condition, rel error");
         break;
     case BL_TH_ALWAYS_HILITE:
-        Sprintf(behavebuf, "总是");
+        Sprintf(behavebuf, for_ui ? "总是" : "always");
         break;
     case BL_TH_CRITICALHP:
-        Sprintf(behavebuf, "临界生命");
+        Sprintf(behavebuf, for_ui ? "临界生命" : "criticalhp");
         break;
     case BL_TH_NONE:
         break;
@@ -3812,7 +3817,9 @@ status_hilite2str(struct hilite_s *hl)
         if ((tmpattr = hlattr2attrname(attr, attrbuf, BUFSZ)) != 0)
             Sprintf(eos(clrbuf), "&%s", tmpattr);
     }
-    Snprintf(buf, sizeof(buf), "%s/%s/%s", fldname_ui[hl->fld],
+    Snprintf(buf, sizeof(buf), "%s/%s/%s",
+             for_ui ? fldname_ui[hl->fld]
+                    : initblstats[hl->fld].fldname,
              behavebuf, clrbuf);
 
     return buf;
@@ -4268,10 +4275,10 @@ status_hilite_menu_add(int origfld)
         }
         Snprintf(colorqry, sizeof(colorqry),
                 "Choose a color for conditions %s:",
-                conditionbitmask2str(cond));
+                conditionbitmask2str(cond, TRUE));
         Snprintf(attrqry, sizeof(attrqry),
                 "Choose attribute for conditions %s:",
-                conditionbitmask2str(cond));
+                conditionbitmask2str(cond, TRUE));
     } else if (behavior == BL_TH_TEXTMATCH) {
         char qry_buf[BUFSZ];
 
@@ -4423,7 +4430,7 @@ status_hilite_menu_add(int origfld)
         if (tmpattr)
             Sprintf(eos(clrbuf), "&%s", tmpattr);
         pline("已添加高亮条件/%s/%s",
-              conditionbitmask2str(cond), clrbuf);
+              conditionbitmask2str(cond, TRUE), clrbuf);
     } else {
         char *p, *q;
 
@@ -4436,8 +4443,7 @@ status_hilite_menu_add(int origfld)
             *p = '\0'; /* chop off " or female-rank" */
             /* new rule for male-rank */
             status_hilite_add_threshold(fld, &hilite);
-            pline("已添加高亮 %s", status_hilite2str(&hilite));
-            /* transfer female-rank to start of hilite.textmatch buffer */
+            pline("已添加高亮 %s", status_hilite2str(&hilite, TRUE));
             p += sizeof " or " - sizeof "";
             q = hilite.textmatch;
             while ((*q++ = *p++) != '\0')
@@ -4445,7 +4451,7 @@ status_hilite_menu_add(int origfld)
             /* proceed with normal addition of new rule */
         }
         status_hilite_add_threshold(fld, &hilite);
-        pline("已添加高亮 %s", status_hilite2str(&hilite));
+        pline("已添加高亮 %s", status_hilite2str(&hilite, TRUE));
     }
     reset_status_hilites();
     return TRUE;
@@ -4612,9 +4618,18 @@ status_hilites_viewall(void)
     datawin = create_nhwindow(NHW_TEXT);
 
     while (hlstr) {
-        Sprintf(buf, "选项=高亮状态： %.*s",
-                (int) (BUFSZ - sizeof "选项=高亮状态： " - 1),
-                hlstr->str);
+        if (hlstr->hl) {
+            Snprintf(buf, sizeof(buf), "选项=高亮状态： %s",
+                     status_hilite2str(hlstr->hl, TRUE));
+        } else if (hlstr->fld == BL_CONDITION && hlstr->mask) {
+            char *last_slash = strrchr(hlstr->str, '/');
+            const char *color = last_slash ? last_slash + 1 : "";
+            Snprintf(buf, sizeof(buf), "选项=高亮状态： condition/%s/%s",
+                     conditionbitmask2str(hlstr->mask, TRUE), color);
+        } else {
+            hlstr = hlstr->next;
+            continue;
+        }
         putstr(datawin, 0, buf);
         hlstr = hlstr->next;
     }
