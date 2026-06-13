@@ -198,7 +198,7 @@ do_statusline2(void)
     if (Deaf)
         Strcpy(nb = eos(nb), " 失聪");
     if (Stunned)
-        Strcpy(nb = eos(nb), " 定身");
+        Strcpy(nb = eos(nb), " 眩晕");
     if (Confusion)
         Strcpy(nb = eos(nb), " 混乱");
     if (Hallucination)
@@ -777,6 +777,37 @@ static struct istat_s initblstats[MAXBLSTATS] = {
 #undef INIT_BLSTAT
 #undef INIT_THRESH
 
+/* 用于 UI 显示的 `initblstats[].fldname` */
+static const char *const fldname_ui[MAXBLSTATS] = {
+    "头衔",     /* BL_TITLE */
+    "力量",     /* BL_STR */
+    "敏捷",     /* BL_DX */
+    "体质",     /* BL_CO */
+    "智力",     /* BL_IN */
+    "感知",     /* BL_WI */
+    "魅力",     /* BL_CH */
+    "阵营",     /* BL_ALIGN */
+    "分数",     /* BL_SCORE */
+    "负重能力", /* BL_CAP */
+    "金币",     /* BL_GOLD */
+    "能量",     /* BL_ENE */
+    "最大能量", /* BL_ENEMAX */
+    "等级",     /* BL_XP */
+    "护甲等级", /* BL_AC */
+    "生命骰",   /* BL_HD */
+    "回合数",   /* BL_TIME */
+    "饥饿度",   /* BL_HUNGER */
+    "生命",     /* BL_HP */
+    "最大生命", /* BL_HPMAX */
+    "层数",     /* BL_LEVELDESC */
+    "经验",     /* BL_EXP */
+    "状态",     /* BL_CONDITION */
+    "版本",     /* BL_VERS */
+    "武器",     /* BL_WEAPON */
+    "防具",     /* BL_ARMOR */
+    "地形",     /* BL_TERRAIN */
+};
+
 #ifdef STATUS_HILITES
 
 static const struct condmap condition_aliases[] = {
@@ -874,7 +905,7 @@ const char *const conditions_ui[] = {
     "手滑",     /* Slip, 对于部分怪物可能不是“手”？ */
     "石化",     /* Stone */
     "窒息",     /* Strngl */
-    "定身",     /* Stun */
+    "眩晕",     /* Stun */
     "水下",     /* Submrg */
     "不治之症", /* TermIll */
     "束缚",     /* Teth */
@@ -1511,7 +1542,7 @@ boolean
 cond_menu(void)
 {
     static const char *const menutitle[2] = {
-        "alphabetically", "by ranking"
+        "按字母排序", "按优先级排序"
     };
     int i, res, idx = 0;
     int sequence[CONDITION_COUNT];
@@ -1536,7 +1567,7 @@ cond_menu(void)
 
         any = cg.zeroany;
         any.a_int = 1;
-        Sprintf(mbuf, "将排序顺序从\"%s\"改为\"%s\"",
+        Sprintf(mbuf, "将顺序从\"%s\"改为\"%s\"",
                 menutitle[gc.condmenu_sortorder],
                 menutitle[1 - gc.condmenu_sortorder]);
         add_menu(tmpwin, &nul_glyphinfo, &any, 'S', 0, ATR_NONE,
@@ -1548,7 +1579,7 @@ cond_menu(void)
             idx = sequence[i];
             // 修改: 无法直接通过 format 限制 UTF-8
             // 字符串的显示列数，所以手动计算
-            Sprintf(mbuf, "条件_%s%*s", condtests_ui[idx],
+            Sprintf(mbuf, "条件: %s%*s", condtests_ui[idx],
                     14 - (int) utf8str_width(condtests_ui[idx]) > 0
                     ? 14 - (int) utf8str_width(condtests_ui[idx]) : 0, "");
             any = cg.zeroany;
@@ -1849,7 +1880,7 @@ status_initialize(
                                  : (fld == BL_TERRAIN) ? flags.terrainstatus
                                    : TRUE;
 
-        fieldname = initblstats[i].fldname;
+        fieldname = fldname_ui[i];
         // 修改: 无法直接通过 format 限制 UTF-8 字符串的显示列数，所以手动计算
         fieldfmt = (fld == BL_TITLE && iflags.wc2_hitpointbar) ? "%s"
                    : initblstats[i].fldfmt;
@@ -2354,7 +2385,8 @@ static const struct fieldid_t {
 /* format arguments */
 static const char threshold_value[] = "hilite_status threshold ",
                   is_out_of_range[] = " is out of range";
-
+static const char threshold_value_ui[] = "高亮阈值",
+                  is_out_of_range_ui[] = "超出范围";
 
 /* field name to bottom line index */
 staticfn enum statusfields
@@ -3788,7 +3820,7 @@ status_hilite2str(struct hilite_s *hl)
         Sprintf(behavebuf, "总是");
         break;
     case BL_TH_CRITICALHP:
-        Sprintf(behavebuf, "临界HP");
+        Sprintf(behavebuf, "临界生命");
         break;
     case BL_TH_NONE:
         break;
@@ -3802,7 +3834,7 @@ status_hilite2str(struct hilite_s *hl)
         if ((tmpattr = hlattr2attrname(attr, attrbuf, BUFSZ)) != 0)
             Sprintf(eos(clrbuf), "&%s", tmpattr);
     }
-    Snprintf(buf, sizeof(buf), "%s/%s/%s", initblstats[hl->fld].fldname,
+    Snprintf(buf, sizeof(buf), "%s/%s/%s", fldname_ui[hl->fld],
              behavebuf, clrbuf);
 
     return buf;
@@ -3829,7 +3861,7 @@ status_hilite_menu_choose_field(void)
         any = cg.zeroany;
         any.a_int = (i + 1);
         add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE,
-                 clr, initblstats[i].fldname, MENU_ITEMFLAGS_NONE);
+                 clr, fldname_ui[i], MENU_ITEMFLAGS_NONE);
     }
 
     end_menu(tmpwin, "选择一个高亮字段：");
@@ -3866,7 +3898,7 @@ status_hilite_menu_choose_behavior(int fld)
     if (fld != BL_CONDITION) {
         any = cg.zeroany;
         any.a_int = onlybeh = BL_TH_ALWAYS_HILITE;
-        Sprintf(buf, "总是高亮 %s", initblstats[fld].fldname);
+        Sprintf(buf, "总是高亮 %s", fldname_ui[fld]);
         add_menu(tmpwin, &nul_glyphinfo, &any, 'a', 0, ATR_NONE,
                  clr, buf, MENU_ITEMFLAGS_NONE);
         nopts++;
@@ -3883,7 +3915,7 @@ status_hilite_menu_choose_behavior(int fld)
     if (fld != BL_CONDITION && fld != BL_VERS) {
         any = cg.zeroany;
         any.a_int = onlybeh = BL_TH_UPDOWN;
-        Sprintf(buf, "%s 值变化", initblstats[fld].fldname);
+        Sprintf(buf, "%s 值变化", fldname_ui[fld]);
         add_menu(tmpwin, &nul_glyphinfo, &any, 'c', 0, ATR_NONE,
                  clr, buf, MENU_ITEMFLAGS_NONE);
         nopts++;
@@ -3910,7 +3942,7 @@ status_hilite_menu_choose_behavior(int fld)
         any = cg.zeroany;
         any.a_int = onlybeh = BL_TH_CRITICALHP;
         Sprintf(buf,  "高亮显示临界低的 %s",
-                initblstats[fld].fldname);
+                fldname_ui[fld]);
         add_menu(tmpwin, &nul_glyphinfo, &any, 'C', 0, ATR_NONE,
                  clr, buf, MENU_ITEMFLAGS_NONE);
         nopts++;
@@ -3920,14 +3952,14 @@ status_hilite_menu_choose_behavior(int fld)
         || fld == BL_CAP || fld == BL_HUNGER) {
         any = cg.zeroany;
         any.a_int = onlybeh = BL_TH_TEXTMATCH;
-        Sprintf(buf, "%s 文本匹配", initblstats[fld].fldname);
+        Sprintf(buf, "%s 文本匹配", fldname_ui[fld]);
         add_menu(tmpwin, &nul_glyphinfo, &any, 't', 0, ATR_NONE,
                  clr, buf, MENU_ITEMFLAGS_NONE);
         nopts++;
     }
 
     Sprintf(buf, "选择 %s 字段高亮行为：",
-            initblstats[fld].fldname);
+            fldname_ui[fld]);
     end_menu(tmpwin, buf);
 
     if (nopts > 1) {
@@ -4013,7 +4045,7 @@ status_hilite_menu_choose_updownboth(
         add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE, clr,
                  buf, MENU_ITEMFLAGS_NONE);
     }
-    Sprintf(buf, "选择字段 %s 的值:", initblstats[fld].fldname);
+    Sprintf(buf, "选择字段 %s 的值:", fldname_ui[fld]);
     end_menu(tmpwin, buf);
 
     res = select_menu(tmpwin, PICK_ONE, &picks);
@@ -4090,7 +4122,7 @@ status_hilite_menu_add(int origfld)
         inbuf[0] = '\0';
         Sprintf(buf, "输入 %s值（%s 阈值）：",
                 percent ? "百分比 " : "",
-                initblstats[fld].fldname);
+                fldname_ui[fld]);
         getlin(buf, inbuf);
         if (inbuf[0] == '\0' || inbuf[0] == '\033')
             goto choose_behavior;
@@ -4152,7 +4184,7 @@ status_hilite_menu_add(int origfld)
             val = aval.a_int;
             if (initblstats[fld].idxmax == -1) {
                 pline("字段 '%s' 不支持百分比数值。",
-                      initblstats[fld].fldname);
+                      fldname_ui[fld]);
                 behavior = BL_TH_VAL_ABSOLUTE;
                 goto choose_value;
             }
@@ -4177,14 +4209,14 @@ status_hilite_menu_add(int origfld)
                    && (aval.a_int < ((fld == BL_AC) ? -128
                                      : (lt_gt_eq == GT_VALUE) ? -1
                                        : (lt_gt_eq == LT_VALUE) ? 1 : 0))) {
-            pline("%s'%s%d'%s", threshold_value,
-                  op, aval.a_int, is_out_of_range);
+            pline("%s'%s%d'%s", threshold_value_ui,
+                  op, aval.a_int, is_out_of_range_ui);
             goto choose_value;
         } else if (dt == ANY_LONG
                    && (aval.a_long < ((lt_gt_eq == GT_VALUE) ? -1L
                                       : (lt_gt_eq == LT_VALUE) ? 1L : 0L))) {
-            pline("%s'%s%ld'%s", threshold_value,
-                  op, aval.a_long, is_out_of_range);
+            pline("%s'%s%ld'%s", threshold_value_ui,
+                  op, aval.a_long, is_out_of_range_ui);
             goto choose_value;
         }
 
@@ -4201,7 +4233,7 @@ status_hilite_menu_add(int origfld)
         }
 
         Sprintf(colorqry, "选择当%s是%s%s%s时的颜色:",
-                initblstats[fld].fldname,
+                fldname_ui[fld],
                 (lt_gt_eq == LT_VALUE) ? "小于 "
                   : (lt_gt_eq == GT_VALUE) ? "大于 "
                     : "",
@@ -4210,7 +4242,7 @@ status_hilite_menu_add(int origfld)
                   : (lt_gt_eq == GE_VALUE) ? " 或更多"
                     : "");
         Sprintf(attrqry, "选择当%s是%s%s%s时的属性：",
-                initblstats[fld].fldname,
+                fldname_ui[fld],
                 (lt_gt_eq == LT_VALUE) ? "小于 "
                   : (lt_gt_eq == GT_VALUE) ? "大于 "
                     : "",
@@ -4239,12 +4271,12 @@ status_hilite_menu_add(int origfld)
             lt_gt_eq = EQ_VALUE;
         }
         Sprintf(colorqry, "为当 %s %s 时选择一种颜色：",
-                initblstats[fld].fldname,
+                fldname_ui[fld],
                 (lt_gt_eq == EQ_VALUE) ? "改变"
                   : (lt_gt_eq == LT_VALUE) ? "减少"
                     : "增加");
         Sprintf(attrqry, "选择属性，当%s %s时：",
-                initblstats[fld].fldname,
+                fldname_ui[fld],
                 (lt_gt_eq == EQ_VALUE) ? "变化"
                   : (lt_gt_eq == LT_VALUE) ? "减少"
                     : "增加");
@@ -4270,7 +4302,7 @@ status_hilite_menu_add(int origfld)
                  || fld == BL_ALIGN
                  || fld == BL_HUNGER
                  || fld == BL_TITLE) ? "选择" : "输入",
-                initblstats[fld].fldname);
+                fldname_ui[fld]);
         if (fld == BL_CAP) {
             int rv = query_arrayvalue(qry_buf,
                                       enc_stat_ui,
@@ -4283,7 +4315,7 @@ status_hilite_menu_add(int origfld)
             Strcpy(hilite.textmatch, enc_stat_ui[rv]);
         } else if (fld == BL_ALIGN) {
             static const char *const aligntxt[] = {
-                "chaotic", "neutral", "lawful"
+                "混沌", "中立", "秩序"
             };
             int rv = query_arrayvalue(qry_buf,
                                       aligntxt, 0, 2 + 1);
@@ -4360,14 +4392,14 @@ status_hilite_menu_add(int origfld)
                 return FALSE;
         }
         Sprintf(colorqry, "当 %s 为 '%s' 时选择一种颜色：",
-                initblstats[fld].fldname, hilite.textmatch);
+                fldname_ui[fld], hilite.textmatch);
         Sprintf(attrqry, "当 %s 为 '%s' 时选择属性：",
-                initblstats[fld].fldname, hilite.textmatch);
+                fldname_ui[fld], hilite.textmatch);
     } else if (behavior == BL_TH_ALWAYS_HILITE) {
         Sprintf(colorqry, "选择一个颜色以始终高亮 %s:",
-                initblstats[fld].fldname);
+                fldname_ui[fld]);
         Sprintf(attrqry, "选择总是高亮%s的属性：",
-                initblstats[fld].fldname);
+                fldname_ui[fld]);
     }
 
  choose_color:
@@ -4530,7 +4562,7 @@ status_hilite_menu_fld(int fld)
             hlstr = hlstr->next;
         }
     } else {
-        Sprintf(buf, "当前没有为 %s 设置高亮显示", initblstats[fld].fldname);
+        Sprintf(buf, "当前没有为 %s 设置高亮显示", fldname_ui[fld]);
         add_menu_str(tmpwin, buf);
     }
 
@@ -4560,7 +4592,7 @@ status_hilite_menu_fld(int fld)
                  clr, "添加新的高亮", MENU_ITEMFLAGS_NONE);
     }
 
-    Sprintf(buf, "当前 %s 高亮：", initblstats[fld].fldname);
+    Sprintf(buf, "当前 %s 高亮：", fldname_ui[fld]);
     end_menu(tmpwin, buf);
 
     acted = FALSE;
@@ -4679,7 +4711,7 @@ status_hilite_menu(void)
 #endif
         any = cg.zeroany;
         any.a_int = fld + 1;
-        Sprintf(buf, "%-18s", initblstats[i].fldname);
+        Sprintf(buf, "%-18s", fldname_ui[i]);
         if (count)
             Sprintf(eos(buf), " (已定义 %d)", count);
         add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE,

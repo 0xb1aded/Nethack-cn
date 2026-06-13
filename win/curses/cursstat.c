@@ -1235,19 +1235,14 @@ curs_vert_status_vals(int win_width)
             /* classify type of field (labeled or not) and make some fixups */
             switch ((enum statusfields) fldidx) {
             case BL_XP:
-                 /* "experience-level : N" is too long and becomes misleading
-                    if value is shown as 'N/experience-points' */
-                lbl = "experience";
+                lbl = "经验";
                 break;
             case BL_LEVELDESC:
-                /* "dungeon-level" is redundant when value is "Dlvl-N" */
-                lbl = "location";
+                lbl = "位置";
                 break;
             case BL_HD:
-                /* "HD" is too oscure; 0 actually means 1d4 (so about 1/2);
-                   "hit-dice" is obscure too but doesn't stand out as such */
-                lbl = (!strcmp(text, "1") || !strcmp(text, "0")) ? "hit-die"
-                      : "hit-dice";
+                // 修改: 中文无单复数区分
+                lbl = "生命骰";
                 break;
             case BL_ALIGN:
                 /* don't want sprintf(": %s") below inserting second space */
