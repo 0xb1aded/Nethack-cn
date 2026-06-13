@@ -113,8 +113,7 @@ static const struct {
                 { '1', "|" },
                 { '6', "o" },
                 { '7', "/" },
-                { '8', "3o" }
-                };
+                { '8', "3o" } };
 
 /* degrade some of the characters in a string */
 void
