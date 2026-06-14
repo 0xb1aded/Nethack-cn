@@ -2965,11 +2965,11 @@ staticfn boolean
 parse_status_hl2(char (*s)[QBUFSZ], boolean from_configfile)
 {
     static const char *const aligntxt[] = { "chaotic", "neutral", "lawful" };
-    static const char *const align_ui[] = { "混沌", "中立", "秩序" };
+    static const char *const aligntxt_ui[] = { "混沌", "中立", "秩序" };
     /* hu_stat[] from eat.c has trailing spaces which foul up comparisons;
        for the "not hungry" case, there's no text hence no way to highlight */
     static const char *const hutxt[] = {
-        "Satiated", "", "Hungry", "Weak", "Fainting", "Fainted", "Starved"
+        "Satiated", "", "Hungry", "Weak", "Fainting", "Fainted", "Starved",
     };
     char *tmp, *how;
     int sidx = 0, i = -1, dt = ANY_INVALID;
@@ -3059,7 +3059,7 @@ parse_status_hl2(char (*s)[QBUFSZ], boolean from_configfile)
             txtval = TRUE;
         } else if (fld == BL_ALIGN
                    && is_fld_arrayvalues(s[sidx], aligntxt, 0, 3, &kidx)) {
-            txt = align_ui[kidx];
+            txt = aligntxt_ui[kidx];
             txtval = TRUE;
         } else if (fld == BL_HUNGER
                    && is_fld_arrayvalues(s[sidx], hutxt,
@@ -3787,9 +3787,61 @@ status_hilite2str(struct hilite_s *hl, boolean for_ui)
             impossible("hl->behavior=absolute, rel error");
         break;
     case BL_TH_TEXTMATCH:
-        if (hl->rel == TXT_VALUE && hl->textmatch[0])
-            Sprintf(behavebuf, "%s", hl->textmatch);
-        else
+        // 修改: 分流写 UI 和写配置，以兼容原版配置文件
+        // if (hl->rel == TXT_VALUE && hl->textmatch[0])
+        //     Sprintf(behavebuf, "%s", hl->textmatch);
+        // else
+        if (hl->rel == TXT_VALUE && hl->textmatch[0]) {
+            if (!for_ui) {
+                switch (hl->fld) {
+                case BL_CAP: {
+                    int i = SLT_ENCUMBER;
+                    for (; i <= OVERLOADED; i++)
+                        if (strcmp(hl->textmatch, enc_stat_ui[i]) == 0)
+                            break;
+                    if (i <= OVERLOADED)
+                        Sprintf(behavebuf, "%s", enc_stat[i]);
+                    break;
+                }
+                case BL_ALIGN: {
+                    static const char *const aligntxt[] = {
+                        "chaotic",
+                        "neutral",
+                        "lawful",
+                    };
+                    static const char *const aligntxt_ui[] = {
+                        "混沌",
+                        "中立",
+                        "秩序",
+                    };
+                    int i = 0;
+                    for (; i < 3; i++)
+                        if (strcmp(hl->textmatch, aligntxt_ui[i]) == 0)
+                            break;
+                    if (i < 3)
+                        Sprintf(behavebuf, "%s", aligntxt[i]);
+                    break;
+                }
+                case BL_HUNGER: {
+                    char tmp[BUFSZ];
+                    int i = SATIATED;
+                    for (; i <= STARVED; i++)
+                        if (strcmp(hl->textmatch, hu_stat_ui[i]) == 0)
+                            break;
+                    if (i <= STARVED) {
+                        Strcpy(tmp, hu_stat[i]);
+                        trimspaces(tmp);
+                        Sprintf(behavebuf, "%s", tmp);
+                    }
+                    break;
+                }
+                default:
+                    break;
+                }
+            }
+            if (!behavebuf[0])
+                Sprintf(behavebuf, "%s", hl->textmatch);
+        } else
             impossible("hl->behavior=textmatch, rel or textmatch error");
         break;
     case BL_TH_CONDITION:
@@ -3943,7 +3995,7 @@ status_hilite_menu_choose_behavior(int fld)
         nopts++;
     }
 
-    Sprintf(buf, "选择 %s 字段高亮行为：",
+    Sprintf(buf, "选择 %s 字段高亮行为: ",
             fldname_ui[fld]);
     end_menu(tmpwin, buf);
 
@@ -4226,7 +4278,7 @@ status_hilite_menu_add(int origfld)
                 (lt_gt_eq == LE_VALUE) ? " 或更少"
                   : (lt_gt_eq == GE_VALUE) ? " 或更多"
                     : "");
-        Sprintf(attrqry, "选择当%s是%s%s%s时的属性：",
+        Sprintf(attrqry, "选择当%s是%s%s%s时的属性: ",
                 fldname_ui[fld],
                 (lt_gt_eq == LT_VALUE) ? "小于 "
                   : (lt_gt_eq == GT_VALUE) ? "大于 "
@@ -4255,12 +4307,12 @@ status_hilite_menu_add(int origfld)
                single choice, skip it altogether and just use 'changed' */
             lt_gt_eq = EQ_VALUE;
         }
-        Sprintf(colorqry, "为当 %s %s 时选择一种颜色：",
+        Sprintf(colorqry, "为当 %s %s 时选择一种颜色: ",
                 fldname_ui[fld],
                 (lt_gt_eq == EQ_VALUE) ? "改变"
                   : (lt_gt_eq == LT_VALUE) ? "减少"
                     : "增加");
-        Sprintf(attrqry, "选择属性，当%s %s时：",
+        Sprintf(attrqry, "选择属性，当%s %s时: ",
                 fldname_ui[fld],
                 (lt_gt_eq == EQ_VALUE) ? "变化"
                   : (lt_gt_eq == LT_VALUE) ? "减少"
@@ -4299,29 +4351,27 @@ status_hilite_menu_add(int origfld)
             hilite.rel = TXT_VALUE;
             Strcpy(hilite.textmatch, enc_stat_ui[rv]);
         } else if (fld == BL_ALIGN) {
-            static const char *const aligntxt[] = {
+            static const char *const aligntxt_ui[] = {
                 "混沌", "中立", "秩序"
             };
-            int rv = query_arrayvalue(qry_buf,
-                                      aligntxt, 0, 2 + 1);
+            int rv = query_arrayvalue(qry_buf, aligntxt_ui, 0, 2 + 1);
 
             if (rv < 0)
                 goto choose_behavior;
 
             hilite.rel = TXT_VALUE;
-            Strcpy(hilite.textmatch, aligntxt[rv]);
+            Strcpy(hilite.textmatch, aligntxt_ui[rv]);
         } else if (fld == BL_HUNGER) {
-            static const char *const hutxt[] = {
-                "饱腹", (char *) 0, "饥饿", "虚弱",
-                "晕厥", "昏倒", "饿死"
+            static const char *const hutxt_ui[] = {
+                "饱腹", (char *) 0, "饥饿", "虚弱", "晕厥", "昏倒", "饿死",
             };
-            int rv = query_arrayvalue(qry_buf, hutxt, SATIATED, STARVED + 1);
+            int rv = query_arrayvalue(qry_buf, hutxt_ui, SATIATED, STARVED + 1);
 
             if (rv < SATIATED)
                 goto choose_behavior;
 
             hilite.rel = TXT_VALUE;
-            Strcpy(hilite.textmatch, hutxt[rv]);
+            Strcpy(hilite.textmatch, hu_stat_ui[rv]);
         } else if (fld == BL_TITLE) {
             const char *rolelist[3 * 9 + 1];
             char mbuf[MAXVALWIDTH], fbuf[MAXVALWIDTH], obuf[MAXVALWIDTH];
@@ -4351,7 +4401,7 @@ status_hilite_menu_add(int origfld)
                         rolelist[j++] = dupstr(obuf);
                 }
             }
-            rolelist[j++] = dupstr("\"none of the above (polymorphed)\"");
+            rolelist[j++] = dupstr("\"以上都不是 (已变形)\"");
 
             rv = query_arrayvalue(qry_buf, rolelist, 0, j);
             if (rv >= 0) {
@@ -4376,14 +4426,14 @@ status_hilite_menu_add(int origfld)
             else
                 return FALSE;
         }
-        Sprintf(colorqry, "当 %s 为 '%s' 时选择一种颜色：",
+        Sprintf(colorqry, "当 %s 为 '%s' 时选择一种颜色: ",
                 fldname_ui[fld], hilite.textmatch);
-        Sprintf(attrqry, "当 %s 为 '%s' 时选择属性：",
+        Sprintf(attrqry, "当 %s 为 '%s' 时选择属性: ",
                 fldname_ui[fld], hilite.textmatch);
     } else if (behavior == BL_TH_ALWAYS_HILITE) {
-        Sprintf(colorqry, "选择一个颜色以始终高亮 %s:",
+        Sprintf(colorqry, "选择一个颜色以始终高亮 %s: ",
                 fldname_ui[fld]);
-        Sprintf(attrqry, "选择总是高亮%s的属性：",
+        Sprintf(attrqry, "选择总是高亮%s的属性: ",
                 fldname_ui[fld]);
     }
 
@@ -4577,7 +4627,7 @@ status_hilite_menu_fld(int fld)
                  clr, "添加新的高亮", MENU_ITEMFLAGS_NONE);
     }
 
-    Sprintf(buf, "当前 %s 高亮：", fldname_ui[fld]);
+    Sprintf(buf, "当前 %s 高亮: ", fldname_ui[fld]);
     end_menu(tmpwin, buf);
 
     acted = FALSE;
@@ -4620,12 +4670,12 @@ status_hilites_viewall(void)
 
     while (hlstr) {
         if (hlstr->hl) {
-            Snprintf(buf, sizeof(buf), "选项=高亮状态： %s",
+            Snprintf(buf, sizeof(buf), "选项=高亮状态: %s",
                      status_hilite2str(hlstr->hl, TRUE));
         } else if (hlstr->fld == BL_CONDITION && hlstr->mask) {
             char *last_slash = strrchr(hlstr->str, '/');
             const char *color = last_slash ? last_slash + 1 : "";
-            Snprintf(buf, sizeof(buf), "选项=高亮状态： condition/%s/%s",
+            Snprintf(buf, sizeof(buf), "选项=高亮状态: condition/%s/%s",
                      conditionbitmask2str(hlstr->mask, TRUE), color);
         } else {
             hlstr = hlstr->next;
@@ -4712,7 +4762,7 @@ status_hilite_menu(void)
                  clr, buf, MENU_ITEMFLAGS_NONE);
     }
 
-    end_menu(tmpwin, "状态高亮：");
+    end_menu(tmpwin, "状态高亮: ");
     if ((res = select_menu(tmpwin, PICK_ONE, &picks)) > 0) {
         fld = picks->item.a_int - 1;
         if (fld < 0) {
