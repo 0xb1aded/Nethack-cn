@@ -2600,22 +2600,22 @@ show_gamelog(int final)
 /* the two uppercase choices are implemented but suppressed from menu.
    also used in options.c */
 const char *const vanqorders[NUM_VANQ_ORDER_MODES][3] = {
-    { "t", "traditional: by monster level",
-           "traditional: by monster level, by internal monster index" },
-    { "d", "by monster difficulty rating",
-           "by monster difficulty rating, by internal monster index" },
-    { "a", "alphabetically, unique monsters separate",
-           "alphabetically, first unique monsters, then others" },
-    { "A", "alphabetically, unique monsters intermixed",
-           "alphabetically, unique monsters and others intermixed" },
-    { "C", "by monster class, high to low level in class",
-           "by monster class, high to low level within class" },
-    { "c", "by monster class, low to high level in class",
-           "by monster class, low to high level within class" },
-    { "n", "by count, high to low",
-           "by count, high to low, by internal index within tied count" },
-    { "z", "by count, low to high",
-           "by count, low to high, by internal index within tied count" },
+    { "t", "怪物等级排序",
+           "怪物等级排序, 然后按怪物内部编号" },
+    { "d", "怪物难度水平排序",
+           "怪物难度水平排序, 然后按怪物内部编号" },
+    { "a", "字母排序, 分开独特怪物",
+           "字母排序, 先独特怪物, 再其他" },
+    { "A", "字母排序, 混入独特怪物",
+           "字母排序, 混入独特怪物和其他" },
+    { "C", "怪物种类排序, 种类内等级从高到低",
+           "怪物种类排序, 种类内等级从高到低" },
+    { "c", "怪物等级排序, 等级内种类从高到低",
+           "怪物等级排序, 等级内种类从高到低" },
+    { "n", "击杀数排序, 从高到低",
+           "击杀数排序, 从高到低, 然后按怪物内部编号" },
+    { "z", "击杀数排序, 从低到高",
+           "击杀数排序, 从低到高, 然后按怪物内部编号" },
 };
 
 staticfn int QSORTCALLBACK
