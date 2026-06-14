@@ -2776,6 +2776,10 @@ docontact(void)
     putstr(cwin, 0, "如需了解有关NetHack的更多信息, 或报告错误,");
     Sprintf(buf, "请访问我们的网站\"%s\".", DEVTEAM_URL);
     putstr(cwin, 0, buf);
+    putstr(cwin, 0, "");
+    putstr(cwin, 0, "(译者注: 中文版请访问");
+    Sprintf(buf, "\"https://github.com/StackC00ki3/Nethack-cn\". )");
+    putstr(cwin, 0, buf);
     display_nhwindow(cwin, FALSE);
     destroy_nhwindow(cwin);
 }
