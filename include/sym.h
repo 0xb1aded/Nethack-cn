@@ -51,6 +51,7 @@ enum symset_handling_types {
 
 struct symdef {
     uchar sym;
+    const char *bexplanation; // english explanation
     const char *explanation;
     uchar color;
 };

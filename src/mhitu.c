@@ -38,28 +38,28 @@ hitmsg(struct monst *mtmp, struct attack *mattk)
         && !mtmp->mcan && !mtmp->mspec_used) {
         pline_mon(mtmp, "%s%s%s.", Monst_name,
               (compat == 2) ? "迷人地" : "魅惑地", /*修改语序:!Blind ? "对你微笑" : !Deaf ? "对你说话" : "碰到了你",*/
-              !Blind ? "向你微笑" : !Deaf ? "对你说话" : "碰到了你"); /*修改语序:(compat == 2) ? "生动地" : "魅惑地");*/
+              !Blind ? "向你微笑" : !Deaf ? "对你说话" : "触摸你"); /*修改语序:(compat == 2) ? "生动地" : "魅惑地");*/
     } else {
         switch (mattk->aatyp) {
         case AT_BITE:
-            verb = "咬你";
+            verb = "咬了你一口";
             break;
         case AT_KICK:
             if (thick_skinned(gy.youmonst.data))
                 punct = ".";
-            verb = "踢你";
+            verb = "踢了你一下";
             break;
         case AT_STNG:
-            verb = "叮你";
+            verb = "叮了你一口";
             break;
         case AT_BUTT:
-            verb = "头槌你";
+            verb = "撞了你一下";
             break;
         case AT_TUCH:
-            verb = "碰到了你";
+            verb = "碰了你一下!";
             break;
         case AT_TENT:
-            verb = "的触手在吸你的脑袋";
+            verb = "的触手吸食了一口你的脑袋";
             Monst_name = s_suffix(Monst_name);
             break;
         case AT_EXPL:
@@ -67,7 +67,7 @@ hitmsg(struct monst *mtmp, struct attack *mattk)
             verb = "爆炸了";
             break;
         default:
-            verb = "攻击你";
+            verb = "打了你一下";
         }
         /* if a monster hits more than once with similar attack, say so */
         again = (mtmp->m_id == gh.hitmsg_mid
@@ -93,8 +93,8 @@ missmu(struct monst *mtmp, boolean nearmiss, struct attack *mattk)
     if (could_seduce(mtmp, &gy.youmonst, mattk) && !mtmp->mcan)
         pline_mon(mtmp, "%s假装友好.", Monnam(mtmp));
     else
-        pline_mon(mtmp, "%s%s击中!", Monnam(mtmp),
-                  (nearmiss && flags.verbose) ? "差点" : "没有");
+        pline_mon(mtmp, "%s%s没打中!", Monnam(mtmp),
+                  (nearmiss && flags.verbose) ? "恰好" : "");
 
     stop_occupation();
 }
@@ -133,10 +133,10 @@ mswings(
     boolean bash)       /* True: polearm used at too close range */
 {
     if (flags.verbose && !Blind && mon_visible(mtmp)) {
-        pline_mon(mtmp, "%s%s%s%的s%s.", Monnam(mtmp),
+        pline_mon(mtmp, "%s%s%s%s%s.", Monnam(mtmp),
                   mswings_verb(otemp, bash),
                   mhis(mtmp), /*修改语序:(otemp->quan > 1L) ? "之一" : "",*/
-                  xname(otemp), (otemp->quan > 1L) ? "之一" : ""); /*修改语序:mhis(mtmp), xname(otemp));*/
+                  (otemp->quan > 1L) ? "一个" : "", xname(otemp)); /*修改语序:mhis(mtmp), xname(otemp));*/
     }
 }
 
@@ -152,9 +152,9 @@ mpoisons_subj(
            it's better than "sting" when not a stinging attack... */
         return (!mwep || !mwep->opoisoned) ? "攻击" : "武器";
     } else {
-        return (mattk->aatyp == AT_TUCH) ? "身体"
-                  : (mattk->aatyp == AT_GAZE) ? "注视"
-                       : (mattk->aatyp == AT_BITE) ? "牙" : "口器";
+        return (mattk->aatyp == AT_TUCH) ? "接触"
+                  : (mattk->aatyp == AT_GAZE) ? "凝视"
+                       : (mattk->aatyp == AT_BITE) ? "咬" : "叮";
     }
 }
 
@@ -164,7 +164,7 @@ u_slow_down(void)
 {
     HFast = 0L;
     if (!Fast)
-        You("的速度变慢了.");
+        You("慢了下来.");
     else /* speed boots */
         Your("迅捷感觉不那么自然了.");
     exercise(A_DEX, FALSE);
@@ -213,11 +213,11 @@ wildmiss(struct monst *mtmp, struct attack *mattk)
                                  : "挥";
 
         if (compat) {
-            pline("%s试图碰你但没有碰到!", Monst_name);
+            pline("%s试图碰你但没碰到!", Monst_name);
         } else {
             switch (rn2(3)) {
             case 0:
-                pline("%s到处乱%s但没有击中!", Monst_name, swings);
+                pline("%s到处乱%s但没打中!", Monst_name, swings);
                 break;
             case 1:
                 pline("%s攻击了你的身旁.", Monst_name);
@@ -240,7 +240,7 @@ wildmiss(struct monst *mtmp, struct attack *mattk)
                   (compat == 2) ? "迷人地" : "魅惑地",
                   Invis ? "隐形的" : "");
         else
-            pline("%s攻击你的%s幻影, 但没有击中你!",
+            pline("%s攻击了你的%s幻影而没有击中你!",
                   /* Note:  if you're both invisible and displaced, only
                    * monsters which see invisible will attack your displaced
                    * image, since the displaced image is also invisible. */

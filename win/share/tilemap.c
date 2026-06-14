@@ -274,8 +274,8 @@ tilename(int set, const int file_entry, int gend UNUSED)
         /* S_stone */
         for (cmap = S_stone; cmap <= S_stone; cmap++) {
             if (tilenum == file_entry) {
-                if (*defsyms[cmap].explanation) {
-                    return defsyms[cmap].explanation;
+                if (*defsyms[cmap].bexplanation) {
+                    return defsyms[cmap].bexplanation;
                 } else if (altlabels[cmap].tilelabel
                            && *altlabels[cmap].tilelabel) {
                     Sprintf(buf, "%s", altlabels[cmap].tilelabel);
@@ -318,8 +318,8 @@ tilename(int set, const int file_entry, int gend UNUSED)
         for (cmap = S_ndoor; cmap <= S_brdnladder; cmap++) {
             i = cmap - S_ndoor;  nhUse(i);
             if (tilenum == file_entry) {
-                if (*defsyms[cmap].explanation) {
-                    return defsyms[cmap].explanation;
+                if (*defsyms[cmap].bexplanation) {
+                    return defsyms[cmap].bexplanation;
                 } else if (altlabels[cmap].tilelabel
                            && *altlabels[cmap].tilelabel) {
                     Sprintf(buf, "%s", altlabels[cmap].tilelabel);
@@ -366,8 +366,8 @@ tilename(int set, const int file_entry, int gend UNUSED)
         for (cmap = S_grave; cmap < S_arrow_trap + MAXTCHARS; cmap++) {
             i = cmap - S_grave;  nhUse(i);
             if (tilenum == file_entry) {
-                if (*defsyms[cmap].explanation) {
-                    return defsyms[cmap].explanation;
+                if (*defsyms[cmap].bexplanation) {
+                    return defsyms[cmap].bexplanation;
                 } else if (altlabels[cmap].tilelabel
                            && *altlabels[cmap].tilelabel) {
                     Sprintf(buf, "%s", altlabels[cmap].tilelabel);
@@ -423,8 +423,8 @@ tilename(int set, const int file_entry, int gend UNUSED)
         for (cmap = S_digbeam; cmap <= S_goodpos; cmap++) {
             i = cmap - S_digbeam;  nhUse(i);
             if (tilenum == file_entry) {
-                if (*defsyms[cmap].explanation) {
-                    return defsyms[cmap].explanation;
+                if (*defsyms[cmap].bexplanation) {
+                    return defsyms[cmap].bexplanation;
                 } else if (altlabels[cmap].tilelabel
                            && *altlabels[cmap].tilelabel) {
                     Sprintf(buf, "%s", altlabels[cmap].tilelabel);
@@ -450,8 +450,8 @@ tilename(int set, const int file_entry, int gend UNUSED)
         for (cmap = S_sw_tl; cmap <= S_sw_br; cmap++) {
             i = cmap - S_sw_tl;
             if (tilenum + i == file_entry) {
-                if (*defsyms[cmap].explanation) {
-                    return defsyms[cmap].explanation;
+                if (*defsyms[cmap].bexplanation) {
+                    return defsyms[cmap].bexplanation;
                 } else if (altlabels[cmap].tilelabel
                            && *altlabels[cmap].tilelabel) {
                     Sprintf(buf, "%s", altlabels[cmap].tilelabel);

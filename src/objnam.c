@@ -2079,7 +2079,7 @@ doname_base(
         Strcpy(prefix, "");
     } else if (!fake_arti) {
         /* default prefix */
-        Strcpy(prefix, "1 ");
+        Strcpy(prefix, "");
     }
 
     /* "empty" goes at the beginning, but item count goes at the end */
@@ -2204,7 +2204,12 @@ doname_base(
             Strcat(prefix, "有毒的");
         add_erosion_words(obj, prefix);
         if (known) {
-            Sprintf(eos(prefix), "%+d ", obj->spe); /* sitoa(obj->spe)+" " */
+            char *prefix_end = eos(prefix);
+
+            if (prefix_end == prefix || prefix_end[-1] == ' ')
+                Sprintf(prefix_end, "%+d ", obj->spe);
+            else
+                Sprintf(prefix_end, " %+d ", obj->spe);
         }
         break;
     case TOOL_CLASS:
@@ -2282,7 +2287,12 @@ doname_base(
         if (obj->owornmask & W_RING) /* either left or right */
             ConcatF1(bp, 0,"%s上)", body_part(HAND));
         if (known && objects[obj->otyp].oc_charged) {
-            Sprintf(eos(prefix), "%+d ", obj->spe); /* sitoa(obj->spe)+" " */
+            char *prefix_end = eos(prefix);
+
+            if (prefix_end == prefix || prefix_end[-1] == ' ')
+                Sprintf(prefix_end, "%+d ", obj->spe);
+            else
+                Sprintf(prefix_end, " %+d ", obj->spe);
         }
         break;
     case FOOD_CLASS:
@@ -8616,7 +8626,10 @@ readobjnam_postparse2(struct _readobjnam_data *d)
         d->dn = d->actualn = d->bp;
         return 1; /*goto srch;*/
     } else if (!BSTRCMPI(d->bp, d->p - strlen("石头"), "石头") || !BSTRCMPI(d->bp, d->p - strlen("宝石"), "宝石")) {
-        d->p[!strcmpi(d->p-strlen("石头"), "石头") ? -strlen("石头") : -strlen("宝石")] = '\0';
+        size_t suffix_len = !strcmpi(d->p - strlen("石头"), "石头")
+                                ? strlen("石头") : strlen("宝石");
+
+        *(d->p - suffix_len) = '\0';
         d->oclass = GEM_CLASS;
         d->dn = d->actualn = d->bp;
         return 1; /*goto srch;*/

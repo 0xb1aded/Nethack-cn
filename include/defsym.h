@@ -1,4 +1,4 @@
-/* NetHack 5.0   defsym.h $NHDT-Date: 1725653007 2024/09/06 20:03:27 $ $NHDT-Branch: NetHack-3.7 $ $NHDT-Revision: 1.25 $ */
+﻿/* NetHack 5.0   defsym.h $NHDT-Date: 1725653007 2024/09/06 20:03:27 $ $NHDT-Branch: NetHack-3.7 $ $NHDT-Revision: 1.25 $ */
 /*      Copyright (c) 2016 by Pasi Kallinen              */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -40,138 +40,141 @@
     || defined(DUMP_ENUMS_PCHAR)
 
 /*
-   PCHAR(idx, ch, sym, desc, clr)
+   PCHAR(idx, ch, sym, bdesc, desc, clr)
        idx:     index used in enum
        ch:      character symbol
        sym:     symbol name for parsing purposes (also tile name)
+       bdesc:   original English description
        desc:    description
        clr:     color
 
-   PCHAR2(idx, ch, sym, tilenm, desc, clr)
+   PCHAR2(idx, ch, sym, tilenm, bdesc, desc, clr)
        idx:     index used in enum
        ch:      character symbol
        sym:     symbol name for parsing purposes
        tilenm:  if the name in the tile txt file differs from desc (below),
                 the name in the tile txt file can be specified here.
+       bdesc:   original English description
        desc:    description
        clr:     color
 */
 
 #if defined(PCHAR_S_ENUM)
 /* sym.h */
-#define PCHAR(idx, ch, sym, desc, clr) sym = idx,
+#define PCHAR(idx, ch, sym, bdesc, desc, clr) sym = idx,
 
 #elif defined(PCHAR_PARSE)
 /* symbols.c */
-#define PCHAR(idx, ch, sym, desc, clr) { SYM_PCHAR, sym, #sym },
+#define PCHAR(idx, ch, sym, bdesc, desc, clr) { SYM_PCHAR, sym, #sym },
 
 #elif defined(PCHAR_DRAWING)
 /* drawing.c */
-#define PCHAR(idx, ch, sym, desc, clr) { ch, desc, clr },
+#define PCHAR(idx, ch, sym, bdesc, desc, clr) { ch, bdesc, desc, clr },
 
 #elif defined(PCHAR_TILES)
 /* win/share/tilemap.c */
-#define PCHAR(idx, ch, sym, desc, clr) { sym, desc, desc },
-#define PCHAR2(idx, ch, sym, tilenm, desc, clr) { sym, tilenm, desc },
+#define PCHAR(idx, ch, sym, bdesc, desc, clr) { sym, bdesc, bdesc },
+#define PCHAR2(idx, ch, sym, tilenm, bdesc, desc, clr) { sym, tilenm, bdesc },
 
 #elif defined(DUMP_ENUMS_PCHAR)
 /* allmain.c */
-#define PCHAR(idx, ch, sym, desc, clr) { sym, #sym },
+#define PCHAR(idx, ch, sym, bdesc, desc, clr) { sym, #sym },
 #ifndef PCHAR2
-#define PCHAR2(idx, ch, sym, tilenm, desc, clr) { sym, #sym },
+#define PCHAR2(idx, ch, sym, tilenm, bdesc, desc, clr) { sym, #sym },
 #endif
 #endif
 
 /* PCHAR with extra arg */
 #ifndef PCHAR2
-#define PCHAR2(idx, ch, sym, tilenm, desc, clr) PCHAR(idx, ch, sym, desc, clr)
+#define PCHAR2(idx, ch, sym, tilenm, bdesc, desc, clr) \
+    PCHAR(idx, ch, sym, bdesc, desc, clr)
 #endif
 
-    PCHAR2( 0, ' ',  S_stone,  "dark part of a room", "石头",  NO_COLOR)
-    PCHAR2( 1, '|',  S_vwall,  "vertical wall", "墙壁",  CLR_GRAY)
-    PCHAR2( 2, '-',  S_hwall,  "horizontal wall", "墙壁",  CLR_GRAY)
-    PCHAR2( 3, '-',  S_tlcorn, "top left corner wall", "墙壁",  CLR_GRAY)
-    PCHAR2( 4, '-',  S_trcorn, "top right corner wall", "墙壁",  CLR_GRAY)
-    PCHAR2( 5, '-',  S_blcorn, "bottom left corner wall", "墙壁", CLR_GRAY)
-    PCHAR2( 6, '-',  S_brcorn, "bottom right corner wall", "墙壁", CLR_GRAY)
-    PCHAR2( 7, '-',  S_crwall, "cross wall", "墙壁", CLR_GRAY)
-    PCHAR2( 8, '-',  S_tuwall, "tuwall", "墙壁", CLR_GRAY)
-    PCHAR2( 9, '-',  S_tdwall, "tdwall", "墙壁", CLR_GRAY)
-    PCHAR2(10, '|',  S_tlwall, "tlwall", "墙壁", CLR_GRAY)
-    PCHAR2(11, '|',  S_trwall, "trwall", "墙壁", CLR_GRAY)
+    PCHAR2( 0, ' ',  S_stone,  "dark part of a room", "stone", "石头", NO_COLOR)
+    PCHAR2( 1, '|',  S_vwall,  "vertical wall", "wall", "墙壁", CLR_GRAY)
+    PCHAR2( 2, '-',  S_hwall,  "horizontal wall", "wall", "墙壁", CLR_GRAY)
+    PCHAR2( 3, '-',  S_tlcorn, "top left corner wall", "wall", "墙壁", CLR_GRAY)
+    PCHAR2( 4, '-',  S_trcorn, "top right corner wall", "wall", "墙壁", CLR_GRAY)
+    PCHAR2( 5, '-',  S_blcorn, "bottom left corner wall", "wall", "墙壁", CLR_GRAY)
+    PCHAR2( 6, '-',  S_brcorn, "bottom right corner wall", "wall", "墙壁", CLR_GRAY)
+    PCHAR2( 7, '-',  S_crwall, "cross wall", "wall", "墙壁", CLR_GRAY)
+    PCHAR2( 8, '-',  S_tuwall, "tuwall", "wall", "墙壁", CLR_GRAY)
+    PCHAR2( 9, '-',  S_tdwall, "tdwall", "wall", "墙壁", CLR_GRAY)
+    PCHAR2(10, '|',  S_tlwall, "tlwall", "wall", "墙壁", CLR_GRAY)
+    PCHAR2(11, '|',  S_trwall, "trwall", "wall", "墙壁", CLR_GRAY)
     /* start cmap A                                                      */
-    PCHAR2(12, '.',  S_ndoor,  "no door", "门口", CLR_GRAY)
-    PCHAR2(13, '-',  S_vodoor, "vertical open door", "打开的门", CLR_BROWN)
-    PCHAR2(14, '|',  S_hodoor, "horizontal open door", "打开的门", CLR_BROWN)
-    PCHAR2(15, '+',  S_vcdoor, "vertical open door", "关闭的门", CLR_BROWN)
-    PCHAR2(16, '+',  S_hcdoor, "horizontal open door", "关闭的门", CLR_BROWN)
-    PCHAR( 17, '#',  S_bars,   "铁栅栏", HI_METAL)
-    PCHAR( 18, '#',  S_tree,   "树木", CLR_GREEN)
-    PCHAR( 19, '.',  S_room,   "房间地板", CLR_GRAY)
-    PCHAR( 20, '.',  S_darkroom, "房间暗处", CLR_BLACK)
-    PCHAR2(21, '`',  S_engroom, "engraving in a room", "写字", CLR_BRIGHT_BLUE)
-    PCHAR2(22, '#',  S_corr,   "dark corridor", "走廊", CLR_GRAY)
-    PCHAR( 23, '#',  S_litcorr, "照亮的走廊", CLR_GRAY)
-    PCHAR2(24, '#',  S_engrcorr, "engraving in a corridor", "写字", CLR_BRIGHT_BLUE)
-    PCHAR2(25, '<',  S_upstair, "up stairs", "上行楼梯", CLR_GRAY)
-    PCHAR2(26, '>',  S_dnstair, "down stairs", "下行楼梯", CLR_GRAY)
-    PCHAR2(27, '<',  S_upladder, "up ladder", "上行梯子", CLR_BROWN)
-    PCHAR2(28, '>',  S_dnladder, "down ladder", "下行梯子", CLR_BROWN)
-    PCHAR( 29, '<',  S_brupstair, "分支上行楼梯", CLR_YELLOW)
-    PCHAR( 30, '>',  S_brdnstair, "分支下行楼梯", CLR_YELLOW)
-    PCHAR( 31, '<',  S_brupladder, "分支上行梯子", CLR_YELLOW)
-    PCHAR( 32, '>',  S_brdnladder, "分支下行梯子", CLR_YELLOW)
+    PCHAR2(12, '.',  S_ndoor,  "no door", "doorway", "门口", CLR_GRAY)
+    PCHAR2(13, '-',  S_vodoor, "vertical open door", "open door", "打开的门", CLR_BROWN)
+    PCHAR2(14, '|',  S_hodoor, "horizontal open door", "open door", "打开的门", CLR_BROWN)
+    PCHAR2(15, '+',  S_vcdoor, "vertical closed door", "closed door", "关闭的门", CLR_BROWN)
+    PCHAR2(16, '+',  S_hcdoor, "horizontal closed door", "closed door", "关闭的门", CLR_BROWN)
+    PCHAR( 17, '#',  S_bars,   "iron bars", "铁栅栏", HI_METAL)
+    PCHAR( 18, '#',  S_tree,   "tree", "树木", CLR_GREEN)
+    PCHAR( 19, '.',  S_room,   "floor of a room", "房间地板", CLR_GRAY)
+    PCHAR( 20, '.',  S_darkroom, "dark part of a room", "房间暗处", CLR_BLACK)
+    PCHAR2(21, '`',  S_engroom, "engraving in a room", "engraving", "写字", CLR_BRIGHT_BLUE)
+    PCHAR2(22, '#',  S_corr,   "dark corridor", "corridor", "走廊", CLR_GRAY)
+    PCHAR( 23, '#',  S_litcorr, "lit corridor", "照亮的走廊", CLR_GRAY)
+    PCHAR2(24, '#',  S_engrcorr, "engraving in a corridor", "engraving", "写字", CLR_BRIGHT_BLUE)
+    PCHAR2(25, '<',  S_upstair, "up stairs", "staircase up", "上行楼梯", CLR_GRAY)
+    PCHAR2(26, '>',  S_dnstair, "down stairs", "staircase down", "下行楼梯", CLR_GRAY)
+    PCHAR2(27, '<',  S_upladder, "up ladder", "ladder up", "上行梯子", CLR_BROWN)
+    PCHAR2(28, '>',  S_dnladder, "down ladder", "ladder down", "下行梯子", CLR_BROWN)
+    PCHAR( 29, '<',  S_brupstair, "branch staircase up", "分支上行楼梯", CLR_YELLOW)
+    PCHAR( 30, '>',  S_brdnstair, "branch staircase down", "分支下行楼梯", CLR_YELLOW)
+    PCHAR( 31, '<',  S_brupladder, "branch ladder up", "分支上行梯子", CLR_YELLOW)
+    PCHAR( 32, '>',  S_brdnladder, "branch ladder down", "分支下行梯子", CLR_YELLOW)
     /* end cmap A */
-    PCHAR( 33, '_',  S_altar,  "祭坛", CLR_GRAY)
+    PCHAR( 33, '_',  S_altar,  "altar", "祭坛", CLR_GRAY)
     /* start cmap B */
-    PCHAR( 34, '|',  S_grave,  "坟墓", CLR_WHITE)
-    PCHAR2(35, '\\', S_throne, "throne", "华丽的宝座", HI_GOLD)
-    PCHAR( 36, '{',  S_sink,   "水槽", CLR_WHITE)
-    PCHAR( 37, '{',  S_fountain, "喷泉", CLR_BRIGHT_BLUE)
+    PCHAR( 34, '|',  S_grave,  "grave", "坟墓", CLR_WHITE)
+    PCHAR2(35, '\\', S_throne, "throne", "opulent throne", "华丽的宝座", HI_GOLD)
+    PCHAR( 36, '{',  S_sink,   "sink", "水槽", CLR_WHITE)
+    PCHAR( 37, '{',  S_fountain, "fountain", "喷泉", CLR_BRIGHT_BLUE)
     /* the S_pool symbol is used for both POOL terrain and MOAT terrain */
-    PCHAR2(38, '}',  S_pool,   "pool", "水", CLR_BLUE)
-    PCHAR( 39, '.',  S_ice,    "冰", CLR_CYAN)
-    PCHAR( 40, '}',  S_lava,   "熔岩", CLR_RED)
-    PCHAR( 41, '}',  S_lavawall,  "熔岩墙", CLR_ORANGE)
-    PCHAR2(42, '.',  S_vodbridge, "vertical open drawbridge", "放下的吊桥", CLR_BROWN)
-    PCHAR2(43, '.',  S_hodbridge, "horizontal open drawbridge", "放下的吊桥", CLR_BROWN)
-    PCHAR2(44, '#',  S_vcdbridge, "vertical closed drawbridge", "升起的吊桥", CLR_BROWN)
-    PCHAR2(45, '#',  S_hcdbridge, "horizontal closed drawbridge", "升起的吊桥", CLR_BROWN)
-    PCHAR( 46, ' ',  S_air,    "空气", CLR_CYAN)
-    PCHAR( 47, '#',  S_cloud,  "云", CLR_GRAY)
+    PCHAR2(38, '}',  S_pool,   "pool", "water", "水", CLR_BLUE)
+    PCHAR( 39, '.',  S_ice,    "ice", "冰", CLR_CYAN)
+    PCHAR( 40, '}',  S_lava,   "molten lava", "熔岩", CLR_RED)
+    PCHAR( 41, '}',  S_lavawall,  "wall of lava", "熔岩墙", CLR_ORANGE)
+    PCHAR2(42, '.',  S_vodbridge, "vertical open drawbridge", "lowered drawbridge", "放下的吊桥", CLR_BROWN)
+    PCHAR2(43, '.',  S_hodbridge, "horizontal open drawbridge", "lowered drawbridge", "放下的吊桥", CLR_BROWN)
+    PCHAR2(44, '#',  S_vcdbridge, "vertical closed drawbridge", "raised drawbridge", "升起的吊桥", CLR_BROWN)
+    PCHAR2(45, '#',  S_hcdbridge, "horizontal closed drawbridge", "raised drawbridge", "升起的吊桥", CLR_BROWN)
+    PCHAR( 46, ' ',  S_air,    "air", "空气", CLR_CYAN)
+    PCHAR( 47, '#',  S_cloud,  "cloud", "云", CLR_GRAY)
     /* the S_water symbol is used for WATER terrain: wall of water in the
        dungeon and Plane of Water in the endgame */
-    PCHAR( 48, '}',  S_water,  "水", CLR_BRIGHT_BLUE)
+    PCHAR( 48, '}',  S_water,  "water", "水", CLR_BRIGHT_BLUE)
     /* end dungeon characters                                          */
     /*                                                                 */
     /* begin traps                                                     */
     /*                                                                 */
-    PCHAR( 49, '^',  S_arrow_trap, "箭矢陷阱", HI_METAL)
-    PCHAR( 50, '^',  S_dart_trap, "飞镖陷阱", HI_METAL)
-    PCHAR( 51, '^',  S_falling_rock_trap, "落石陷阱", CLR_GRAY)
-    PCHAR( 52, '^',  S_squeaky_board, "嘎吱作响的木板", CLR_BROWN)
-    PCHAR( 53, '^',  S_bear_trap, "捕兽夹", HI_METAL)
-    PCHAR( 54, '^',  S_land_mine, "地雷", CLR_RED)
-    PCHAR( 55, '^',  S_rolling_boulder_trap, "滚石陷阱", CLR_GRAY)
-    PCHAR( 56, '^',  S_sleeping_gas_trap, "催眠气体陷阱", HI_ZAP)
-    PCHAR( 57, '^',  S_rust_trap, "锈蚀陷阱", CLR_BLUE)
-    PCHAR( 58, '^',  S_fire_trap, "火焰陷阱", CLR_ORANGE)
-    PCHAR( 59, '^',  S_pit, "深坑", CLR_BLACK)
-    PCHAR( 60, '^',  S_spiked_pit, "有刺的坑", CLR_BLACK)
-    PCHAR( 61, '^',  S_hole, "洞穴", CLR_BROWN)
-    PCHAR( 62, '^',  S_trap_door, "陷阱门", CLR_BROWN)
-    PCHAR( 63, '^',  S_teleportation_trap, "传送陷阱", CLR_MAGENTA)
-    PCHAR( 64, '^',  S_level_teleporter, "层级传送器", CLR_MAGENTA)
-    PCHAR( 65, '^',  S_magic_portal, "魔法传送门", CLR_BRIGHT_MAGENTA)
-    PCHAR( 66, '"',  S_web, "蜘蛛网", CLR_GRAY)
-    PCHAR( 67, '^',  S_statue_trap, "雕像陷阱", CLR_GRAY)
-    PCHAR( 68, '^',  S_magic_trap, "魔法陷阱", HI_ZAP)
-    PCHAR2(69, '^',  S_anti_magic_trap, "anti magic trap", "反魔法力场",
+    PCHAR( 49, '^',  S_arrow_trap, "arrow trap", "箭矢陷阱", HI_METAL)
+    PCHAR( 50, '^',  S_dart_trap, "dart trap", "飞镖陷阱", HI_METAL)
+    PCHAR( 51, '^',  S_falling_rock_trap, "falling rock trap", "落石陷阱", CLR_GRAY)
+    PCHAR( 52, '^',  S_squeaky_board, "squeaky board", "嘎吱作响的木板", CLR_BROWN)
+    PCHAR( 53, '^',  S_bear_trap, "bear trap", "捕兽夹", HI_METAL)
+    PCHAR( 54, '^',  S_land_mine, "land mine", "地雷", CLR_RED)
+    PCHAR( 55, '^',  S_rolling_boulder_trap, "rolling boulder trap", "滚石陷阱", CLR_GRAY)
+    PCHAR( 56, '^',  S_sleeping_gas_trap, "sleeping gas trap", "催眠气体陷阱", HI_ZAP)
+    PCHAR( 57, '^',  S_rust_trap, "rust trap", "锈蚀陷阱", CLR_BLUE)
+    PCHAR( 58, '^',  S_fire_trap, "fire trap", "火焰陷阱", CLR_ORANGE)
+    PCHAR( 59, '^',  S_pit, "pit", "深坑", CLR_BLACK)
+    PCHAR( 60, '^',  S_spiked_pit, "spiked pit", "有刺的坑", CLR_BLACK)
+    PCHAR( 61, '^',  S_hole, "hole", "洞穴", CLR_BROWN)
+    PCHAR( 62, '^',  S_trap_door, "trap door", "陷阱门", CLR_BROWN)
+    PCHAR( 63, '^',  S_teleportation_trap, "teleportation trap", "传送陷阱", CLR_MAGENTA)
+    PCHAR( 64, '^',  S_level_teleporter, "level teleporter", "层级传送器", CLR_MAGENTA)
+    PCHAR( 65, '^',  S_magic_portal, "magic portal", "魔法传送门", CLR_BRIGHT_MAGENTA)
+    PCHAR( 66, '"',  S_web, "web", "蜘蛛网", CLR_GRAY)
+    PCHAR( 67, '^',  S_statue_trap, "statue trap", "雕像陷阱", CLR_GRAY)
+    PCHAR( 68, '^',  S_magic_trap, "magic trap", "魔法陷阱", HI_ZAP)
+    PCHAR2(69, '^',  S_anti_magic_trap, "anti magic trap", "anti-magic field", "反魔法力场",
                                         HI_ZAP)
-    PCHAR( 70, '^',  S_polymorph_trap, "变形陷阱", CLR_BRIGHT_GREEN)
-    PCHAR( 71, '~',  S_vibrating_square, "振动方块", CLR_MAGENTA)
-    PCHAR( 72, '^',  S_trapped_door, "带陷阱的门", CLR_ORANGE)
-    PCHAR( 73, '^',  S_trapped_chest, "带陷阱的箱子", CLR_ORANGE)
+    PCHAR( 70, '^',  S_polymorph_trap, "polymorph trap", "变形陷阱", CLR_BRIGHT_GREEN)
+    PCHAR( 71, '~',  S_vibrating_square, "vibrating square", "振动方块", CLR_MAGENTA)
+    PCHAR( 72, '^',  S_trapped_door, "trapped door", "带陷阱的门", CLR_ORANGE)
+    PCHAR( 73, '^',  S_trapped_chest, "trapped chest", "带陷阱的箱子", CLR_ORANGE)
     /* end traps                                                       */
     /* end cmap B */
     /*                                                                   */
@@ -179,24 +182,24 @@
     /*                                                                   */
     /* zap colors are changed by reset_glyphmap() to match type of beam */
     /*                                                                   */
-    PCHAR2(74, '|',  S_vbeam, "vertical beam", "", CLR_GRAY)
-    PCHAR2(75, '-',  S_hbeam, "horizontal beam", "", CLR_GRAY)
-    PCHAR2(76, '\\', S_lslant, "left slant beam", "", CLR_GRAY)
-    PCHAR2(77, '/',  S_rslant, "right slant beam", "", CLR_GRAY)
+    PCHAR2(74, '|',  S_vbeam, "vertical beam", "", "", CLR_GRAY)
+    PCHAR2(75, '-',  S_hbeam, "horizontal beam", "", "", CLR_GRAY)
+    PCHAR2(76, '\\', S_lslant, "left slant beam", "", "", CLR_GRAY)
+    PCHAR2(77, '/',  S_rslant, "right slant beam", "", "", CLR_GRAY)
     /* start cmap C */
-    PCHAR2(78, '*',  S_digbeam, "dig beam", "", CLR_WHITE)
-    PCHAR2(79, '!',  S_flashbeam, "flash beam", "", CLR_WHITE)
-    PCHAR2(80, ')',  S_boomleft, "boom left", "", HI_WOOD)
-    PCHAR2(81, '(',  S_boomright, "boom right", "", HI_WOOD)
+    PCHAR2(78, '*',  S_digbeam, "dig beam", "", "", CLR_WHITE)
+    PCHAR2(79, '!',  S_flashbeam, "flash beam", "", "", CLR_WHITE)
+    PCHAR2(80, ')',  S_boomleft, "boom left", "", "", HI_WOOD)
+    PCHAR2(81, '(',  S_boomright, "boom right", "", "", HI_WOOD)
     /* 4 magic shield symbols                                          */
-    PCHAR2(82, '0',  S_ss1, "shield1", "", HI_ZAP)
-    PCHAR2(83, '#',  S_ss2, "shield2", "", HI_ZAP)
-    PCHAR2(84, '@',  S_ss3, "shield3", "", HI_ZAP)
-    PCHAR2(85, '*',  S_ss4, "shield4", "", HI_ZAP)
-    PCHAR( 86, '#',  S_poisoncloud, "毒云", CLR_BRIGHT_GREEN)
+    PCHAR2(82, '0',  S_ss1, "shield1", "", "", HI_ZAP)
+    PCHAR2(83, '#',  S_ss2, "shield2", "", "", HI_ZAP)
+    PCHAR2(84, '@',  S_ss3, "shield3", "", "", HI_ZAP)
+    PCHAR2(85, '*',  S_ss4, "shield4", "", "", HI_ZAP)
+    PCHAR( 86, '#',  S_poisoncloud, "poison cloud", "毒云", CLR_BRIGHT_GREEN)
     /* for a time S_goodpos was a question mark, but dollar sign is the
        default keystroke for getpos() to toggle goodpos glyphs on or off */
-    PCHAR( 87, '$',  S_goodpos, "有效位置", HI_ZAP)
+    PCHAR( 87, '$',  S_goodpos, "valid position", "有效位置", HI_ZAP)
     /* end cmap C */
     /*                                                             */
     /* The 8 swallow symbols.  Do NOT separate.                    */
@@ -210,14 +213,14 @@
     /*      4 5 6                                                  */
     /*      7 8 9                                                  */
     /*                                                             */
-    PCHAR2(88, '/',  S_sw_tl, "swallow top left", "", CLR_GREEN)      /*1*/
-    PCHAR2(89, '-',  S_sw_tc, "swallow top center", "", CLR_GREEN)    /*2*/
-    PCHAR2(90, '\\', S_sw_tr, "swallow top right", "", CLR_GREEN)     /*3*/
-    PCHAR2(91, '|',  S_sw_ml, "swallow middle left", "", CLR_GREEN)   /*4*/
-    PCHAR2(92, '|',  S_sw_mr, "swallow middle right", "", CLR_GREEN)  /*6*/
-    PCHAR2(93, '\\', S_sw_bl, "swallow bottom left", "", CLR_GREEN)   /*7*/
-    PCHAR2(94, '-',  S_sw_bc, "swallow bottom center", "", CLR_GREEN) /*8*/
-    PCHAR2(95, '/',  S_sw_br, "swallow bottom right", "", CLR_GREEN)  /*9*/
+    PCHAR2(88, '/',  S_sw_tl, "swallow top left", "", "", CLR_GREEN)      /*1*/
+    PCHAR2(89, '-',  S_sw_tc, "swallow top center", "", "", CLR_GREEN)    /*2*/
+    PCHAR2(90, '\\', S_sw_tr, "swallow top right", "", "", CLR_GREEN)     /*3*/
+    PCHAR2(91, '|',  S_sw_ml, "swallow middle left", "", "", CLR_GREEN)   /*4*/
+    PCHAR2(92, '|',  S_sw_mr, "swallow middle right", "", "", CLR_GREEN)  /*6*/
+    PCHAR2(93, '\\', S_sw_bl, "swallow bottom left", "", "", CLR_GREEN)   /*7*/
+    PCHAR2(94, '-',  S_sw_bc, "swallow bottom center", "", "", CLR_GREEN) /*8*/
+    PCHAR2(95, '/',  S_sw_br, "swallow bottom right", "", "", CLR_GREEN)  /*9*/
     /*                                                             */
     /* explosion colors are changed by reset_glyphmap() to match   */
     /* the type of expl.                                           */
@@ -228,15 +231,15 @@
     /*      |@|                                                    */
     /*      \-/                                                    */
     /*                                                             */
-    PCHAR2(96, '/',  S_expl_tl, "explosion top left", "", CLR_ORANGE)
-    PCHAR2(97, '-',  S_expl_tc, "explosion top center", "", CLR_ORANGE)
-    PCHAR2(98, '\\', S_expl_tr, "explosion top right", "", CLR_ORANGE)
-    PCHAR2(99, '|',  S_expl_ml, "explosion middle left", "", CLR_ORANGE)
-    PCHAR2(100, ' ',  S_expl_mc, "explosion middle center", "", CLR_ORANGE)
-    PCHAR2(101, '|',  S_expl_mr, "explosion middle right", "", CLR_ORANGE)
-    PCHAR2(102, '\\', S_expl_bl, "explosion bottom left", "", CLR_ORANGE)
-    PCHAR2(103, '-', S_expl_bc, "explosion bottom center", "", CLR_ORANGE)
-    PCHAR2(104, '/', S_expl_br, "explosion bottom right", "", CLR_ORANGE)
+    PCHAR2(96, '/',  S_expl_tl, "explosion top left", "", "", CLR_ORANGE)
+    PCHAR2(97, '-',  S_expl_tc, "explosion top center", "", "", CLR_ORANGE)
+    PCHAR2(98, '\\', S_expl_tr, "explosion top right", "", "", CLR_ORANGE)
+    PCHAR2(99, '|',  S_expl_ml, "explosion middle left", "", "", CLR_ORANGE)
+    PCHAR2(100, ' ',  S_expl_mc, "explosion middle center", "", "", CLR_ORANGE)
+    PCHAR2(101, '|',  S_expl_mr, "explosion middle right", "", "", CLR_ORANGE)
+    PCHAR2(102, '\\', S_expl_bl, "explosion bottom left", "", "", CLR_ORANGE)
+    PCHAR2(103, '-', S_expl_bc, "explosion bottom center", "", "", CLR_ORANGE)
+    PCHAR2(104, '/', S_expl_br, "explosion bottom right", "", "", CLR_ORANGE)
 #undef PCHAR
 #undef PCHAR2
 #endif /* PCHAR_S_ENUM || PCHAR_PARSE || PCHAR_DRAWING || PCHAR_TILES

@@ -28,19 +28,6 @@ staticfn void interrupt_multi(const char *);
 #define USED_FOR_CRASHREPORT UNUSED
 #endif
 
-boolean
-any_visible_region_safe(void)
-{
-    /* 1. 如果正在忙于处理多步移动或动画，禁止视野重检测以防嵌套死锁 */
-    if (gm.multi != 0) return FALSE;
-    
-    /* 2. 增加一个简易的防抖动检查：如果刚刚才重算过视野，直接返回 false */
-    if (gv.vision_full_recalc) return FALSE;
-
-    /* 3. 真正执行视野检测 */
-    return any_visible_region();
-}
-
 /*ARGSUSED*/
 void
 early_init(int argc USED_FOR_CRASHREPORT, char *argv[] USED_FOR_CRASHREPORT)
@@ -477,7 +464,7 @@ moveloop_core(void)
                       due to being next to it while it's in a gas cloud
                       and then you moved away; it should no longer be seen
                       when that happens, even if it hasn't moved */
-                   || (svc.context.move && !gv.vision_full_recalc && any_visible_region())) { /* TODO: optimize this */
+                   || any_visible_region()) { /* TODO: optimize this */
             see_monsters();
         }
         if (gv.vision_full_recalc)
