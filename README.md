@@ -206,7 +206,7 @@ English README：[README_en.md](README_en.md)
 
 #### tty utf-8 支持
 
-发现最后输出使用函数 `getchar` 逐个字符输出，而 `getchar` 支持宽字节。
+发现最后输出使用函数 `putchar` 逐个字符输出，而 `putchar` 支持宽字节。
 
 于是调整输出逻辑：在当前指针指向的是 utf-8 内容时将整个字符串转为 `wchar_t *` 然后输出。
 
@@ -222,7 +222,7 @@ English README：[README_en.md](README_en.md)
 
 #### win32 utf-8 支持
 
-使用宏劫持 windows API 函数 `drawTextA`, `drawText`, `ListView_InsertColumn`。将它们替换成自定义的支持 utf8 的版本。
+使用宏劫持 windows API 函数 `drawTextA`, `drawText`, `ListView_InsertColumn`, `SetWindowText`。将它们替换成自定义的支持 utf8 的版本。
 
 #### 英语语法函数
 
