@@ -3035,7 +3035,7 @@ doddoremarm(void)
 
     add_valid_menu_class(0); /* reset */
     if (flags.menu_style != MENU_TRADITIONAL
-        || (result = ggetobj("take off", select_off, 0, FALSE,
+        || (result = ggetobj("脱下", select_off, 0, FALSE,
                              (unsigned *) 0)) < -1)
         (void) menu_remarm(result);
 
@@ -3113,7 +3113,7 @@ menu_remarm(int retry)
     } else if (flags.menu_style == MENU_COMBINATION) {
         unsigned ggofeedback = 0;
 
-        i = ggetobj("take off", select_off, 0, TRUE, &ggofeedback);
+        i = ggetobj("脱下", select_off, 0, TRUE, &ggofeedback);
         if (ggofeedback & ALL_FINISHED)
             return 0;
         all_worn_categories = (i == -2);

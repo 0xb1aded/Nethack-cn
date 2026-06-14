@@ -262,7 +262,7 @@ ready_weapon(struct obj *wep)
 
             if ((this_shkp = shop_keeper(inside_shop(u.ux, u.uy)))
                 != (struct monst *) 0) {
-                pline("%s说:\"小心点,别弄坏我的%s!\"",
+                pline("%s说: \"小心点,别弄坏我的%s! \"",
                       shkname(this_shkp), xname(wep));
             }
         }
@@ -410,7 +410,7 @@ dowield(void)
         /* offer to split stack if multiple are quivered */
         if (uquiver->quan > 1L && inv_cnt(FALSE) < invlet_basic
                                     && splittable(uquiver)) {
-            Sprintf(qbuf, "你已经准备好了%ld个%s.要手持其中一个吗?",
+            Sprintf(qbuf, "你已经准备好了%ld个%s. 要手持其中一个吗?",
                     uquiver->quan, simpleonames(uquiver));
             switch (ynq(qbuf)) {
             case 'q':
@@ -427,7 +427,7 @@ dowield(void)
         } else {
             boolean use_plural = (is_plural(uquiver) || pair_of(uquiver));
 
-            Sprintf(qbuf, "你已准备好%s.改为手持%s?",
+            Sprintf(qbuf, "你已准备好%s. 改为手持%s?",
                     !use_plural ? "它" : "它们",
                     !use_plural ? "它" : "它们");
         }
@@ -576,7 +576,7 @@ doquiver_core(const char *verb) /* "ready" or "fire" */
         /* offer to split stack if wielding more than 1 */
         if (uwep->quan > 1L && inv_cnt(FALSE) < invlet_basic
                                     && splittable(uwep)) {
-            Sprintf(qbuf, "你正拿着%ld个%s.将它们中的%ld个准备?",
+            Sprintf(qbuf, "你正拿着%ld个%s. 将它们中的%ld个准备?",
                     uwep->quan, simpleonames(uwep), uwep->quan - 1L);
             switch (ynq(qbuf)) {
             case 'q':
@@ -593,7 +593,7 @@ doquiver_core(const char *verb) /* "ready" or "fire" */
         } else {
             boolean use_plural = (is_plural(uwep) || pair_of(uwep));
 
-            Sprintf(qbuf, "你正拿着%s.替换为准备%s?",
+            Sprintf(qbuf, "你正拿着%s. 替换为准备%s?",
                     !use_plural ? "那个" : "那些",
                     !use_plural ? "它" : "它们");
         }
@@ -611,7 +611,7 @@ doquiver_core(const char *verb) /* "ready" or "fire" */
     } else if (newquiver == uswapwep) {
         if (uswapwep->quan > 1L && inv_cnt(FALSE) < invlet_basic
             && splittable(uswapwep)) {
-            Sprintf(qbuf, "%s%ld个%s.将它们中的%ld个准备好?",
+            Sprintf(qbuf, "%s%ld个%s. 将它们中的%ld个准备?",
                     u.twoweap ? "你正以副手手持"
                               : "你的备用武器是",
                     uswapwep->quan, simpleonames(uswapwep),
@@ -631,7 +631,7 @@ doquiver_core(const char *verb) /* "ready" or "fire" */
         } else {
             boolean use_plural = (is_plural(uswapwep) || pair_of(uswapwep));
 
-            Sprintf(qbuf, "%s你的%s武器.将%s准备好?",
+            Sprintf(qbuf, "%s你的%s武器. 将%s准备好?",
                     !use_plural ? "那是" : "那些是",
                     u.twoweap ? "副" : "备用",
                     !use_plural ? "它" : "它们");
@@ -952,7 +952,7 @@ chwepon(struct obj *otmp, int amount)
         multiple = (uwep->quan > 1L);
         /* order: message, transformation, shop handling */
         Your("%s%s变得锋利多了.", simpleonames(uwep),
-             multiple ? "熔化到一起," : "");
+             multiple ? "熔化到一起, " : "");
         uwep->otyp = CRYSKNIFE;
         uwep->oerodeproof = 0;
         if (multiple) {
@@ -973,7 +973,7 @@ chwepon(struct obj *otmp, int amount)
         multiple = (uwep->quan > 1L);
         /* order matters: message, shop handling, transformation */
         Your("%s%s变得钝多了.", simpleonames(uwep),
-             multiple ? "熔化到一起," : "");
+             multiple ? "熔化到一起, " : "");
         costly_alteration(uwep, COST_DEGRD); /* DECHNT? other? */
         uwep->otyp = WORM_TOOTH;
         uwep->oerodeproof = 0;
@@ -992,14 +992,14 @@ chwepon(struct obj *otmp, int amount)
         wepname = ONAME(uwep);
     if (amount < 0 && uwep->oartifact && restrict_name(uwep, wepname)) {
         if (!Blind)
-            pline("%s %s.", Yobjnam2(uwep, "微微发光"), color);
+            pline("%s%s.", Yobjnam2(uwep, "微微发光"), color);
         return 1;
     }
     /* there is a (soft) upper and lower limit to uwep->spe */
     if (((uwep->spe > 5 && amount >= 0) || (uwep->spe < -5 && amount < 0))
         && rn2(3)) {
         if (!Blind)
-            pline("%s一会%s色的光芒,然后%s了.",
+            pline("%s一会%s色的光芒, 然后%s了.",
                   Yobjnam2(uwep, "爆发出"), color,
                   otense(uwep, "蒸发"));
         else

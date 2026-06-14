@@ -1489,12 +1489,12 @@ makemon(
             }
             if (what) {
                 set_msg_xy(mtmp->mx, mtmp->my);
-                Norep("%s%s %s%s%c", what,
-                      exclaim ? " suddenly" : "",
+                Norep("%s%s%s%s%c", what,
+                      exclaim ? "突然" : "",
                       /* 'what' might be "gold pieces" so need plural verb */
-                      vtense(what, "appear"),
-                      next2u(x, y) ? " next to you"
-                      : (distu(x, y) <= (BOLT_LIM * BOLT_LIM)) ? " close by"
+                      vtense(what, "出现"),
+                      next2u(x, y) ? "在你身边"
+                      : (distu(x, y) <= (BOLT_LIM * BOLT_LIM)) ? "在附近"
                         : "",
                       exclaim ? '!' : '.');
             }
@@ -2124,7 +2124,7 @@ grow_up(struct monst *mtmp, struct monst *victim)
 
         if (svm.mvitals[newtype].mvflags & G_GENOD) { /* allow G_EXTINCT */
             if (canspotmon(mtmp))
-                pline("当%s成长为%s，%s%s！", mon_nam(mtmp),
+                pline("当%s长成%s时, %s%s!", mon_nam(mtmp),
                       an(pmname(ptr, Mgender(mtmp))), mhe(mtmp),
                       nonliving(ptr) ? "消失了" : "死了");
             set_mon_data(mtmp, ptr); /* keep svm.mvitals[] accurate */
@@ -2138,16 +2138,16 @@ grow_up(struct monst *mtmp, struct monst *victim)
              */
             Sprintf(buf, "%s%s",
                     /* deal with female gnome becoming a gnome lord */
-                    (mtmp->female && !fem) ? "雄性 "
+                    (mtmp->female && !fem) ? "雄性"
                         /* or a male gnome becoming a gnome lady
                            (can't happen with 3.6.0 mons[], but perhaps
                            slightly less sexist if prepared for it...) */
-                      : (fem && !mtmp->female) ? "雌性 " : "",
+                      : (fem && !mtmp->female) ? "雌性" : "",
                     pmname(ptr, fem));
-            pline_mon(mtmp, "%s %s %s.", YMonnam(mtmp),
-                      (fem != mtmp->female) ? "changes into"
-                                            : humanoid(ptr) ? "becomes"
-                                                            : "grows up into",
+            pline_mon(mtmp, "%s%s了%s.", YMonnam(mtmp),
+                      (fem != mtmp->female) ? "转变成"
+                                            : humanoid(ptr) ? "变成"
+                                                            : "长成",
                       an(buf));
         }
         set_mon_data(mtmp, ptr);
@@ -2562,7 +2562,7 @@ bagotricks(
         impossible("bad bag o' tricks");
     } else if (bag->spe < 1) {
         /* if tipping known empty bag, give normal empty container message */
-        pline1((tipping && bag->cknown) ? "It's empty." : nothing_happens);
+        pline1((tipping && bag->cknown) ? "它是空的." : nothing_happens);
         /* now known to be empty if sufficiently discovered */
         if (bag->dknown && objects[bag->otyp].oc_name_known) {
             bag->cknown = 1;

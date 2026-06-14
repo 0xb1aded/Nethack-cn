@@ -300,13 +300,13 @@ convert_arg(char c)
         str = align_gname(A_LAWFUL);
         break;
     case 'C':
-        str = "混乱";
+        str = "混沌";
         break;
     case 'N':
         str = "中立";
         break;
     case 'L':
-        str = "守序";
+        str = "秩序";
         break;
     case 'x':
         str = Blind ? "感受" : "看";

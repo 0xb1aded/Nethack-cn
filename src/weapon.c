@@ -1361,7 +1361,7 @@ enhance_weapon_skill(void)
            with "*" or "#" below */
         if (eventually_advance > 0 || maxxed_cnt > 0) {
             if (eventually_advance > 0) {
-                Sprintf(buf, "（标有\"*\"的技能%s可在%s时提升.）",
+                Sprintf(buf, "(标有\"*\"的技能%s可在%s时提升.)",
                         plur(eventually_advance),
                         (u.ulevel < MAXULEV)
                             ? "经验值更高时"

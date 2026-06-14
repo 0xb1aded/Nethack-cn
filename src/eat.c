@@ -1843,7 +1843,7 @@ rottenfood(struct obj *obj)
         disp.botl = TRUE;
         nomul(-duration);
         gm.multi_reason = "unconscious from rotten food";
-        gn.nomovemsg = "You are conscious again.";
+        gn.nomovemsg = "你恢复了知觉."; /*危险:见trap.c 6783*/
         ga.afternmv = Hear_again;
         return 1;
     }
@@ -3424,7 +3424,7 @@ newuhs(boolean incr)
                 disp.botl = TRUE;
                 nomul(-duration);
                 gm.multi_reason = "fainted from lack of food";
-                gn.nomovemsg = "You regain consciousness.";
+                gn.nomovemsg = "你恢复了意识."; /*危险:见trap.c 6783*/
                 ga.afternmv = unfaint;
                 newhs = FAINTED;
                 if (!Levitation)

@@ -33,7 +33,7 @@ static const struct propname {
     { SLIMED, "变成黏液" },
     { STRANGLED, "窒息" },
     { SICK, "濒死" },
-    { STUNNED, "定身" },
+    { STUNNED, "眩晕" },
     { CONFUSION, "混乱" },
     { HALLUC, "幻觉" },
     { BLINDED, "失明" },
@@ -509,7 +509,7 @@ slimed_to_death(struct kinfo *kptr)
             urgent_pline("好的. %s", upstart(slimebuf));
         else
             /* follows "The medallion crumbles to dust." */
-            urgent_pline("不幸的是,%s", slimebuf);
+            urgent_pline("不幸的是, %s", slimebuf);
         /* die again; no possibility of amulet this time */
         done(GENOCIDED); /* [should it be done_timeout(GENOCIDED, SLIMED)?] */
         /* could be life-saved again (only in explore or wizard mode)
@@ -1116,14 +1116,14 @@ hatch_egg(anything *arg, long timeout)
                 You_see("%s从你的背包里%s!", monnambuf,
                         locomotion(mon->data, "掉出来"));
             if (yours) {
-                pline("%s%s%s像\"%s%s\"",
+                pline("%s%s%s像\"%s%s \"",
                       siblings ? "它们的" : "它的",
                       cry_sound(mon), /*危险:ing_suffix(cry_sound(mon))*/
                       (is_silent(mon->data) || Deaf) ? "似乎" : "听起来",
                       flags.female ? "妈妈" : "爸爸", egg->spe ? "." : "?");
             } else if (mon->data->mlet == S_DRAGON && !Deaf) {
                 SetVoice(mon, 0, 80, 0);
-                verbalize("Gleep!"); /* Mything eggs :-) */
+                verbalize("咕噜!"); /* Mything eggs :-) */
             }
             break;
 

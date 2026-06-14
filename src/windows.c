@@ -324,7 +324,7 @@ choose_windows(const char *s)
             if ('-' == winchoices[i].procs->name[0])
                 continue;
             Sprintf(eos(buf), "%s%s",
-                    first ? "" : "， ", winchoices[i].procs->name);
+                    first ? "" : ", ", winchoices[i].procs->name);
             first = FALSE;
         }
         config_error_add("Window type %s not recognized.  Choices are:  %s",

@@ -856,7 +856,7 @@ scrolltele(struct obj *scroll)
     if (((Teleport_control || (scroll && scroll->blessed)) && !Stunned)
         || wizard) {
         if (unconscious()) {
-            pline("由于你处于昏迷状态,你不能控制你的传送.");
+            pline("由于你处于昏迷状态, 你不能控制你的传送.");
         } else {
             char whobuf[BUFSZ];
 
@@ -941,10 +941,10 @@ dotelecmd(void)
              * This ignores the fact that there is an experience level
              * (or poly-form) requirement which might make normal ^T fail.
              */
-            { 'n', "常规^T选择;无魔法,遵循一般限制" },
-            { 's', "通过魔法;没有传送内在属性" },
-            { 't', "尝试不掌握而使用^T;无魔法" },
-            { 'w', "调试模式;忽略限制" }, /* trad wizard mode */
+            { 'n', "常规^T选择; 无魔法, 遵循一般限制" },
+            { 's', "通过魔法; 没有传送内在属性" },
+            { 't', "尝试不掌握而使用^T; 无魔法" },
+            { 'w', "调试模式; 忽略限制" }, /* trad wizard mode */
         };
         menu_item *picks = (menu_item *) 0;
         anything any;
@@ -1027,7 +1027,7 @@ dotele(boolean break_the_rules) /* True: wizard mode ^T */
 
     if (trap) {
         if (trap->ttyp == LEVEL_TELEP && trap->tseen) {
-            if (y_n("这里有一个层间传送陷阱.触发它?") == 'y') {
+            if (y_n("这里有一个层间传送陷阱. 触发它?") == 'y') {
                 level_tele_trap(trap, FORCETRAP);
                 /* deliberate jumping will always take time even if it doesn't
                  * work */
@@ -1037,7 +1037,7 @@ dotele(boolean break_the_rules) /* True: wizard mode ^T */
         } else if (trap->ttyp == TELEP_TRAP) {
             trap_once = trap->once; /* trap may get deleted, save this */
             if (trap->once) {
-                pline("这是一个金库传送口,只能使用一次.");
+                pline("这是一个金库传送口, 只能使用一次.");
                 if (y_n("跳进去?") == 'n') {
                     trap = 0;
                 } else {
@@ -1063,7 +1063,7 @@ dotele(boolean break_the_rules) /* True: wizard mode ^T */
             /* casting isn't inhibited by being Stunned (...it ought to be) */
             castit = (knownsp >= spe_Fresh && !Confusion);
             if (!castit && !break_the_rules) {
-                You("你%s.", (!Teleportation ? ((knownsp != spe_Unknown)
+                You("%s.", (!Teleportation ? ((knownsp != spe_Unknown)
                                                     ? "无法施放那个法术"
                                                     : "不知道那个法术")
                                              : "无法随意传送"));
@@ -1104,9 +1104,9 @@ dotele(boolean break_the_rules) /* True: wizard mode ^T */
             cantdoit = "缺乏能量";
         }
         if (cantdoit) {
-            You("%s,无法%s.", cantdoit, castit ? "施放传送法术" : "进行传送");
+            You("%s, 无法%s.", cantdoit, castit ? "施放传送法术" : "进行传送");
             return 0;
-        } else if (check_capacity("因为负担过重,你的注意力开始涣散.")) {
+        } else if (check_capacity("因为负担过重, 你的注意力开始涣散.")) {
             return 1; /* this failure in spelleffects() also uses the move */
         }
 
@@ -1184,7 +1184,7 @@ level_tele(void)
             }
             if (++trycnt == 2) {
                 if (wizard)
-                    Strcat(qbuf, " [输入数字,名字,或?寻求帮助]");
+                    Strcat(qbuf, " [输入数字, 名字, 或?寻求帮助]");
                 else
                     Strcat(qbuf, " [输入数字或名字]");
             }
@@ -1236,9 +1236,9 @@ level_tele(void)
         if (newlev == 0) {
             if (trycnt >= 10)
                 goto random_levtport;
-            if (ynq("你将前往虚无.你确定吗?") != 'y')
+            if (ynq("你将前往虚无. 你确定吗?") != 'y')
                 return;
-            You("在痛苦中%s,你的身体开始扭曲...",
+            You("在痛苦中%s, 你的身体开始扭曲...",
                 is_silent(gy.youmonst.data) ? "翻滚" : "尖叫");
             display_nhwindow(WIN_MESSAGE, FALSE);
             You("终止了存在.");
@@ -1248,7 +1248,7 @@ level_tele(void)
             Strcpy(svk.killer.name, "自杀");
             done(DIED);
             pline("一股能量气体开始合并.");
-            Your("身体重新实体化%s.", gi.invent ? ",并拾起你所有的物品" : "");
+            Your("身体重新实体化%s.", gi.invent ? ", 并拾起你所有的物品" : "");
             return;
         }
 
@@ -1314,7 +1314,7 @@ level_tele(void)
         if (newlev <= -10) {
             You("升入了天堂.");
             SetVoice((struct monst *) 0, 0, 80, voice_deity);
-            verbalize("汝来甚早,然请入.");
+            verbalize("汝来甚早, 然请入.");
             svk.killer.format = NO_KILLER_PREFIX;
             Strcpy(svk.killer.name, "永久升入了天堂");
         } else if (newlev == -9) {
@@ -1331,7 +1331,7 @@ level_tele(void)
         } else if (Flying) {
             escape_by_flying = "飞回了地上";
         } else {
-            pline("不幸的是,你不会飞.");
+            pline("不幸的是, 你不会飞.");
             You("跌下几千英尺摔死了.");
             Sprintf(svk.killer.name, "%s传送出了地牢, 并坠落身亡", uhis());
             svk.killer.format = NO_KILLER_PREFIX;
@@ -1444,7 +1444,7 @@ domagicportal(struct trap *ttmp)
      * next level, and thus losing the game
      */
     if (In_endgame(&u.uz) && !u.uhave.amulet) {
-        You_feel("眩晕了片刻,但什么都没有发生...");
+        You_feel("眩晕了片刻, 但什么都没有发生...");
         return;
     }
 
@@ -1877,7 +1877,7 @@ control_mon_tele(
     if (!wizard || !iflags.mon_telecontrol)
         return FALSE;
 
-    pline("将%s传送到<%d,%d>哪里?", noit_mon_nam(mon), mon->mx, mon->my);
+    pline("将%s<%d,%d>传送到哪里?", noit_mon_nam(mon), mon->mx, mon->my);
     /* getpos '?' will show "Move the cursor to <where to teleport Foo>:" */
     Sprintf(tcbuf, "将%s传送到哪里", noit_mon_nam(mon));
     if (getpos(cc_p, FALSE, tcbuf) >= 0 && !u_at(cc_p->x, cc_p->y)) {
@@ -1885,7 +1885,7 @@ control_mon_tele(
                      : goodpos(cc_p->x, cc_p->y, mon, rlocflags))
             return TRUE;
         if (!iflags.debug_fuzzer) {
-            Sprintf(tcbuf, "<%d,%d>不可行;强制传送?", mon->mx, mon->my);
+            Sprintf(tcbuf, "<%d,%d>不可行; 强制传送?", mon->mx, mon->my);
             if (y_n(tcbuf) == 'y')
                 return TRUE;
         }
@@ -2037,7 +2037,7 @@ mlevel_tele_trap(struct monst *mtmp, struct trap *trap, boolean force_it,
         }
 
         if (in_sight) {
-            pline_mon(mtmp, "突然,%s%s.", mon_nam(mtmp),
+            pline_mon(mtmp, "突然, %s%s.", mon_nam(mtmp),
                       (tt == HOLE)       ? "掉进了一个洞里"
                       : (tt == TRAPDOOR) ? "掉进了一个陷阱门"
                                          : "消失在你视线之外");

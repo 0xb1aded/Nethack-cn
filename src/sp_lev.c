@@ -3822,7 +3822,7 @@ lspo_level_flags(lua_State *L)
         else {
             char buf[BUFSZ];
 
-            Sprintf(buf, "未知的关卡标志 %s", s);
+            Sprintf(buf, "Unknown level flag %s", s);
             nhl_error(L, buf);
         }
     }
@@ -5270,7 +5270,7 @@ get_table_intarray_entry(lua_State *L, int tableidx, int entrynum)
     } else {
         char buf[BUFSZ];
 
-        Sprintf(buf, "数组条目 #%i 是 %s，应为数字",
+        Sprintf(buf, "Array entry #%i is %s, expected number",
                 1, luaL_typename(L, -1));
         nhl_error(L, buf);
     }

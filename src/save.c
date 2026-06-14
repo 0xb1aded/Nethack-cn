@@ -338,7 +338,7 @@ tricked_fileremoved(NHFILE *nhfp, char *whynot)
 {
     if (!nhfp) {
         pline1(whynot);
-        pline("可能是被移走了 .");
+        pline("可能是被移走了.");
         Strcpy(svk.killer.name, whynot);
         done(TRICKED);
         return TRUE;

@@ -121,11 +121,11 @@ charm_snakes(int distance)
             newsym(mtmp->mx, mtmp->my);
             if (canseemon(mtmp)) {
                 if (!could_see_mon)
-                    You("注意到%s, 在随着音乐摇摆.", a_monnam(mtmp));
+                    You("注意到%s正随着音乐摇摆.", a_monnam(mtmp));
                 else
-                    pline("%s 站住不动, 然后随着音乐摇摆%s.",
+                    pline("%s站着不动, 然后随着音乐摇摆%s.",
                           Monnam(mtmp),
-                          was_peaceful ? "" : ", 现在似乎更安静了");
+                          was_peaceful ? "" : ", 现在看上去更安静了");
             }
         }
     }
@@ -151,7 +151,7 @@ calm_nymphs(int distance)
             mtmp->mstrategy &= ~STRAT_WAITMASK;
             if (canseemon(mtmp))
                 pline(
-                    "%s欢乐地听着音乐, 然后似乎更安静了.",
+                    "%s欢乐地听着音乐, 然后看上去更安静了.",
                       Monnam(mtmp));
         }
     }
@@ -180,8 +180,8 @@ awaken_soldiers(struct monst *bugler  /* monster that played instrument */)
             if (canseemon(mtmp))
                 pline("%s现在准备好战斗了!", Monnam(mtmp));
             else if (!Deaf)
-                Norep("%s the rattle of battle gear being readied.",
-                      "You hear");  /* Deaf-aware */
+                Norep("%s战甲准备就绪时发出的哐当声.",
+                      "你听见");  /* Deaf-aware */
         } else if ((distm = ((bugler == &gy.youmonst)
                                  ? mdistu(mtmp)
                                  : dist2(bugler->mx, bugler->my, mtmp->mx,
@@ -233,7 +233,7 @@ do_pit(coordxy x, coordxy y, unsigned tu_pit)
     mtmp = m_at(x, y); /* (redundant?) */
     if ((otmp = sobj_at(BOULDER, x, y)) != 0) {
         if (cansee(x, y))
-            pline("嘣! 巨石掉进了%s裂口!",
+            pline("嘭! 巨石掉进了%s裂口!",
                   u_at(x, y) ? "你下面的" : "");
         if (mtmp)
             mtmp->mtrapped = 0;
@@ -263,7 +263,7 @@ do_pit(coordxy x, coordxy y, unsigned tu_pit)
             mtmp->mtrapped = 1;
             if (!m_already_trapped) { /* suppress messages */
                 if (cansee(x, y)) {
-                    pline("%s 掉进了裂口!", Monnam(mtmp));
+                    pline("%s掉进了裂口!", Monnam(mtmp));
                 } else if (humanoid(mtmp->data)) {
                     Soundeffect(se_scream, 50);
                     You_hear("尖叫声!");
@@ -271,14 +271,14 @@ do_pit(coordxy x, coordxy y, unsigned tu_pit)
             }
             /* Falling is okay for falling down
                within a pit from jostling too */
-            mselftouch(mtmp, "Falling, ", TRUE);
+            mselftouch(mtmp, "掉下去的", TRUE);
             if (!DEADMONSTER(mtmp)) {
                 mtmp->mhp -= rnd(m_already_trapped ? 4 : 6);
                 if (DEADMONSTER(mtmp)) {
                     if (!cansee(x, y)) {
-                        pline("它被消灭了!");
+                        pline("它被摧毁了!");
                     } else {
-                        You("消灭了%s!",
+                        You("摧毁了%s!",
                             mtmp->mtame
                              ? x_monnam(mtmp, ARTICLE_THE, "可怜的",
                                         has_mgivenname(mtmp)
@@ -304,7 +304,7 @@ do_pit(coordxy x, coordxy y, unsigned tu_pit)
         if (Levitation || Flying || is_clinger(gy.youmonst.data)) {
             if (!tu_pit) { /* no pit here previously */
                 pline("一条裂口出现在你下面!");
-                You("你没有掉进去！");
+                You("没有掉进去!");
             }
         } else if (!tu_pit || !u.utrap || u.utraptype != TT_PIT) {
             /* no pit here previously, or you were
@@ -312,25 +312,25 @@ do_pit(coordxy x, coordxy y, unsigned tu_pit)
             You("掉进了裂口!");
             set_utrap(rn1(6, 2), TT_PIT);
             losehp(Maybe_Half_Phys(rnd(6)),
-                   "fell into a chasm", NO_KILLER_PREFIX);
-            selftouch("Falling, you");
+                   "掉入裂口", NO_KILLER_PREFIX);
+            selftouch("掉下去时, 你");
         } else if (u.utrap && u.utraptype == TT_PIT) {
             boolean keepfooting =
                     (!(Fumbling && rn2(5))
                      && (!(rnl(Role_if(PM_ARCHEOLOGIST) ? 3 : 9))
                          || ((ACURR(A_DEX) > 7) && rn2(5))));
 
-            You("你被猛烈地推搡着!");
+            You("被猛烈地推来推去!");
             set_utrap(rn1(6, 2), TT_PIT);
             losehp(Maybe_Half_Phys(rnd(keepfooting ? 2 : 4)),
-                   "hurt in a chasm", NO_KILLER_PREFIX);
+                   "裂口的磕碰", NO_KILLER_PREFIX);
             if (keepfooting)
                 exercise(A_DEX, TRUE);
             else
                 selftouch((Upolyd && (slithy(gy.youmonst.data)
                                     || nolimbs(gy.youmonst.data)))
-                          ? "Shaken, you"
-                          : "Falling down, you");
+                          ? "滑下去的你"
+                          : "掉下去的你");
         }
     } else {
         newsym(x, y);
@@ -343,7 +343,7 @@ do_pit(coordxy x, coordxy y, unsigned tu_pit)
 staticfn void
 do_earthquake(int force)
 {
-    static const char into_a_chasm[] = " into a chasm";
+    static const char into_a_chasm[] = "进了一个裂口";
     coordxy x, y;
     struct monst *mtmp;
     struct trap *trap_at_u = t_at(u.ux, u.uy);
@@ -372,11 +372,11 @@ do_earthquake(int force)
                     newsym(x, y);
                     if (ceiling_hider(mtmp->data)) {
                         if (cansee(x, y)) {
-                            pline("%s 从天花板被摆脱下来!",
+                            pline("%s被从天花板上甩了下来!",
                                   Amonnam(mtmp));
                         } else if (!is_flyer(mtmp->data)) {
                             Soundeffect(se_thump, 50);
-                            You_hear("砰的一声。");
+                            You_hear("砰的一声.");
                         }
                     }
                 }
@@ -408,12 +408,12 @@ do_earthquake(int force)
             switch (levl[x][y].typ) {
             case FOUNTAIN: /* make the fountain disappear */
                 if (cansee(x, y))
-                    pline_The("喷泉塌陷%s。", into_a_chasm);
+                    pline_The("喷泉塌陷%s.", into_a_chasm);
                 do_pit(x, y, tu_pit);
                 break;
             case SINK:
                 if (cansee(x, y))
-                    pline_The("厨房水槽掉%s。", into_a_chasm);
+                    pline_The("水槽掉%s.", into_a_chasm);
                 do_pit(x, y, tu_pit);
                 break;
             case ALTAR:
@@ -423,26 +423,26 @@ do_earthquake(int force)
                     break;
                 algn = Amask2align(amsk & AM_MASK);
                 if (cansee(x, y))
-                    pline_The("%s祭坛塌陷%s。",
+                    pline_The("%s祭坛塌陷%s.",
                               align_str(algn), into_a_chasm);
                 desecrate_altar(FALSE, algn);
                 do_pit(x, y, tu_pit);
                 break;
             case GRAVE:
                 if (cansee(x, y))
-                    pline_The("墓碑倒塌%s。", into_a_chasm);
+                    pline_The("墓碑倒塌%s.", into_a_chasm);
                 do_pit(x, y, tu_pit);
                 break;
             case THRONE:
                 if (cansee(x, y))
-                    pline_The("王座倒下%s。", into_a_chasm);
+                    pline_The("王座倒下%s.", into_a_chasm);
                 do_pit(x, y, tu_pit);
                 break;
             case SCORR:
                 levl[x][y].typ = CORR;
                 unblock_point(x, y);
                 if (cansee(x, y))
-                    pline("一条秘密通道被发现了。");
+                    pline("一条秘密通道被发现了.");
                 FALLTHROUGH;
                 /*FALLTHRU*/
             case CORR:
@@ -452,7 +452,7 @@ do_earthquake(int force)
             case SDOOR:
                 cvt_sdoor_to_door(&levl[x][y]); /* .typ = DOOR */
                 if (cansee(x, y))
-                    pline("一扇暗门被发现了。");
+                    pline("一扇暗门被发现了.");
                 FALLTHROUGH;
                 /*FALLTHRU*/
             case DOOR: /* make the door collapse */
@@ -478,22 +478,22 @@ staticfn const char *
 generic_lvl_desc(void)
 {
     if (Is_astralevel(&u.uz))
-        return "astral plane";
+        return "星界";
     else if (In_endgame(&u.uz))
-        return "plane";
+        return "位面";
     else if (Is_sanctum(&u.uz))
-        return "sanctum";
+        return "圣所";
     else if (In_sokoban(&u.uz))
-        return "puzzle";
+        return "迷宫";
     else if (In_V_tower(&u.uz))
-        return "tower";
+        return "塔";
     else
-        return "dungeon";
+        return "地牢";
 }
 
 static const char *beats[] = {
-    "stepper", "one drop", "slow two", "triple stroke roll",
-    "double shuffle", "half-time shuffle", "second line", "train"
+    "步进舞步", "单滴步", "慢二步", "三连击滚奏",
+    "双摇步", "半拍摇步", "第二线舞步", "火车步"
 };
 
 /*
@@ -589,9 +589,9 @@ do_improvisation(struct obj *instr)
     case MAGIC_FLUTE: /* Make monster fall asleep */
         consume_obj_charge(instr, TRUE);
 
-        You("%s产生%s%s音乐。", !Deaf ? "" : "似乎",
+        You("%s产生出了%s%s音乐.", !Deaf ? "" : "似乎",
             Hallucination ? "管乐的" : "柔和的",
-            same_old_song ? "" : "，熟悉的");
+            same_old_song ? "" : "熟悉的");
         Hero_playnotes(obj_to_instr(&itmp), improvisation, 50);
         put_monsters_to_sleep(u.ulevel * 5);
         exercise(A_DEX, TRUE);
@@ -599,10 +599,10 @@ do_improvisation(struct obj *instr)
     case WOODEN_FLUTE: /* May charm snakes */
         do_spec &= (rn2(ACURR(A_DEX)) + u.ulevel > 25);
         if (!Deaf)
-            pline("%s%s.", Tobjnam(instr, do_spec ? "吹奏颤音" : "吹响"),
+            pline("%s%s.", Tobjnam(instr, do_spec ? "吹奏出颤音" : "吹响了"),
                   same_old_song ? "一段熟悉的曲子" : "");
         else
-            You_feel("%s %s.", yname(instr), do_spec ? "颤音" : "嘟嘟声");
+            You_feel("%s%s.", yname(instr), do_spec ? "一阵颤音" : "嘟嘟声");
         Hero_playnotes(obj_to_instr(&itmp), improvisation, 50);
         if (do_spec)
             charm_snakes(u.ulevel * 3);
@@ -613,13 +613,13 @@ do_improvisation(struct obj *instr)
         consume_obj_charge(instr, TRUE);
 
         if (!getdir((char *) 0)) {
-            pline("%s.", Tobjnam(instr, "震动"));
+            pline("%s.", Tobjnam(instr, "在振动"));
             break;
         } else if (!u.dx && !u.dy && !u.dz) {
             if ((damage = zapyourself(instr, TRUE)) != 0) {
                 char buf[BUFSZ];
 
-                Sprintf(buf, "在%s自己身上使用魔力号角", uhim());
+                Sprintf(buf, "对%s自己使用魔法号角", uhim());
                 Hero_playnotes(obj_to_instr(&itmp), improvisation, 50);
                 losehp(damage, buf, KILLED_BY); /* fire or frost damage */
             }
@@ -628,7 +628,7 @@ do_improvisation(struct obj *instr)
                                                              : AD_FIRE);
 
             if (!Blind)
-                pline("一阵%s从号角中爆射而出！", flash_str(type, FALSE));
+                pline("一阵%s从号角中爆射而出!", flash_str(type, FALSE));
             Hero_playnotes(obj_to_instr(&itmp), improvisation, 50);
             gc.current_wand = instr;
             ubuzz(BZ_U_WAND(type), rn1(6, 6));
@@ -638,20 +638,20 @@ do_improvisation(struct obj *instr)
         break;
     case TOOLED_HORN: /* Awaken or scare monsters */
         if (!Deaf)
-            You("发出一个可怕、阴沉%s的声音。",
-                same_old_song ? "，却又熟悉的，" : "");
+            You("发出一个可怕, 阴沉%s的声音.",
+                same_old_song ? "却又熟悉的" : "");
         else
-            You("给号角吹气.");
+            You("吹响号角.");
         Hero_playnotes(obj_to_instr(&itmp), improvisation, 80);
         awaken_monsters(u.ulevel * 30);
         exercise(A_WIS, FALSE);
         break;
     case BUGLE: /* Awaken & attract soldiers */
         if (!Deaf)
-            You("发出一声%s响亮噪音从%s中。",
-                same_old_song ? "，熟悉的" : "", yname(instr));
+            You("用%s发出一声%s响亮噪音.",
+                yname(instr), same_old_song ? "熟悉的" : ""); /*修改语序:same_old_song ? "熟悉的" : "", yname(instr));*/
         else
-            You("给军号吹气.");
+            You("吹响军号.");
         Hero_playnotes(obj_to_instr(&itmp), improvisation, 80);
         awaken_soldiers(&gy.youmonst);
         exercise(A_WIS, FALSE);
@@ -660,7 +660,7 @@ do_improvisation(struct obj *instr)
         consume_obj_charge(instr, TRUE);
 
         if (!Deaf)
-            pline("%s非常迷人%s的音乐。",
+            pline("%s非常迷人%s的音乐.",
                   Tobjnam(instr, "奏出"),
                   same_old_song ? "且熟悉" : "");
         else
@@ -672,12 +672,12 @@ do_improvisation(struct obj *instr)
     case WOODEN_HARP: /* May calm Nymph */
         do_spec &= (rn2(ACURR(A_DEX)) + u.ulevel > 25);
         if (!Deaf)
-            pline("%s %s.", Yname2(instr),
+            pline("%s%s.", Yname2(instr),
                   (do_spec && same_old_song)
                   ? "奏出熟悉而轻快的旋律"
                   : (do_spec) ? "奏出轻快的旋律"
-                    : (same_old_song) ? "弹拨熟悉的曲调"
-                      : "弹拨");
+                    : (same_old_song) ? "弹拨出熟悉的曲调"
+                      : "弹拨出音乐");
         else
             You_feel("到舒缓的振动.");
         Hero_playnotes(obj_to_instr(&itmp), improvisation, 50);
@@ -692,7 +692,7 @@ do_improvisation(struct obj *instr)
            mundane is flagged */
         consume_obj_charge(instr, TRUE);
 
-        You("产生出一个巨大的, 雷鸣般的轰鸣!");
+        You("发出一个巨大的, 雷鸣般的轰鸣!");
         Hero_playnotes(obj_to_instr(&itmp), "C", 100);
         pline_The("整个%s都在摇晃!", generic_lvl_desc());
         do_earthquake((u.ulevel - 1) / 3 + 1);
@@ -703,18 +703,18 @@ do_improvisation(struct obj *instr)
     case LEATHER_DRUM: /* Awaken monsters */
         if (!mundane) {
             if (!Deaf) {
-                You("敲出了一阵%s震耳欲聋的声响！",
+                You("敲出了一阵%s震耳欲聋的声响!",
                     same_old_song ? "熟悉的" : "");
                 Hero_playnotes(obj_to_instr(&itmp), "CCC", 100);
                 incr_itimeout(&HDeaf, rn1(20, 30));
             } else {
-                You("敲鼓.");
+                You("敲响你的鼓.");
             }
             exercise(A_WIS, FALSE);
         } else {
             /* TODO maybe: sound effects for these riffs */
-            You("%s %s.",
-                rn2(2) ? "胡乱演奏" : rn2(2) ? "勉强演奏" : "成功演奏",
+            You("%s一段%s.",
+                rn2(2) ? "胡乱敲出" : rn2(2) ? "勉强敲出" : "成功敲出",
                 an(ROLL_FROM(beats)));
             Hero_playnotes(obj_to_instr(&itmp), improvisation, 50);
         }
@@ -770,12 +770,12 @@ do_play_instrument(struct obj *instr)
                 || instr->otyp == TOOLED_HORN || instr->otyp == FROST_HORN
                 || instr->otyp == FIRE_HORN || instr->otyp == BUGLE)
                && !can_blow(&gy.youmonst)) {
-        You("没有能力演奏 %s.", thesimpleoname(instr));
+        You("没有能力演奏%s.", thesimpleoname(instr));
         return ECMD_OK;
     }
     if (instr->otyp != LEATHER_DRUM && instr->otyp != DRUM_OF_EARTHQUAKE
         && !(Stunned || Confusion || Hallucination)) {
-        c = ynq("Improvise?");
+        c = ynq("即兴?");
         if (c == 'q')
             goto nevermind;
     }
@@ -784,13 +784,13 @@ do_play_instrument(struct obj *instr)
         return do_improvisation(instr) ? ECMD_TIME : ECMD_OK;
 
     if (u.uevent.uheard_tune == 2)
-        c = ynq("Play the passtune?");
+        c = ynq("演奏密律?");
     if (c == 'q') {
         goto nevermind;
     } else if (c == 'y') {
         Strcpy(buf, svt.tune);
     } else {
-        getlin("What tune are you playing? [5 notes, A-G]", buf);
+        getlin("你要演奏什么? [5个字母,A-G]", buf);
         (void) mungspaces(buf);
         if (*buf == '\033')
             goto nevermind;
@@ -803,7 +803,7 @@ do_play_instrument(struct obj *instr)
         }
     }
 
-    You(!Deaf ? "从%s发出奇怪的声音!"
+    You(!Deaf ? "用%s发出奇怪的声音!"
               : "能感觉到%s发出振动.", the(xname(instr)));
     Hero_playnotes(obj_to_instr(instr), buf, 50);
 
@@ -870,16 +870,16 @@ do_play_instrument(struct obj *instr)
                     if (gears) {
                         Soundeffect(se_tumbler_click, 50);
                         Soundeffect(se_gear_turn, 50);
-                        You_hear("%d个棘齿%s咔嗒作响，%d个齿轮%s转动。",
+                        You_hear("%d个锁芯%s咔嗒作响, %d个齿轮%s转动.",
                                  tumblers, plur(tumblers), gears,
                                  plur(gears));
                     } else {
                         Soundeffect(se_tumbler_click, 50);
-                        You_hear("%d 个锁芯%s 咔嗒一声。", tumblers,
+                        You_hear("%d个锁芯%s咔嗒作响.", tumblers,
                                  plur(tumblers));
                     }
                 } else if (gears) {
-                    You_hear("%d 个齿轮%s 转动。", gears, plur(gears));
+                    You_hear("%d个齿轮%s转动.", gears, plur(gears));
                     /* could only get `gears == 5' by playing five
                        correct notes followed by excess; otherwise,
                        tune would have matched above */
