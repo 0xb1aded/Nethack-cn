@@ -87,6 +87,7 @@ staticfn char *tunesuffix(mapseen *, char *, size_t) NONNULL NONNULLPTRS;
 #ifdef DEBUG
 staticfn void dumpit(void);
 
+static const char* cdungeonsnames[] = {"命运地牢", "地狱", "侏儒矿坑", "任务", "推箱子", "吕底俄斯堡", "弗拉德塔", "元素位面", "教程"};
 staticfn void
 dumpit(void)
 {
@@ -3417,16 +3418,16 @@ endgamelevelname(char *outbuf, int indx)
         Strcpy(outbuf, "星界");
         break;
     case -4:
-        planename = "Water";
+        planename = "水";
         break;
     case -3:
-        planename = "Fire";
+        planename = "火";
         break;
     case -2:
-        planename = "Air";
+        planename = "风";
         break;
     case -1:
-        planename = "Earth";
+        planename = "土";
         break;
     }
     if (planename)

@@ -1088,7 +1088,7 @@ minliquid_core(struct monst *mtmp)
             if (engulfing_u(mtmp)) {
                 /* This can happen after a purple worm plucks you off a
                    flying steed while you are over water. */
-                pline("%s沉进去时,%s冲了进去然后把你冲了出来.",
+                pline("%s沉进去时, %s冲了进去然后把你冲了出来.",
                       Monnam(mtmp), hliquid("水"));
             }
             if (svc.context.mon_moving)
@@ -2876,7 +2876,7 @@ lifesaved_monster(struct monst *mtmp)
         if (!surviver) {
             /* genocided monster can't be life-saved */
             if (cansee(mtmp->mx, mtmp->my))
-                pline("不幸的是,%s仍然被灭绝了...",
+                pline("不幸的是, %s仍然被灭绝了...",
                       mon_nam(mtmp));
             mtmp->mhp = 0;
         }
@@ -2910,7 +2910,7 @@ vamprises(struct monst *mtmp)
 
         /* construct a 'before' argument to pass to pline(); this used
            to construct a dynamic format string but that's overkill */
-        Snprintf(action, sizeof action, "%s%s%s起来,%s成了",
+        Snprintf(action, sizeof action, "%s%s%s起来, %s成了",
                  Unaware ? "你梦到" : "",
                  x_monnam(mtmp, ARTICLE_THE,
                           spec_mon ? (char *) 0 : "看上去已经死了的",
@@ -3022,11 +3022,11 @@ logdeadmon(struct monst *mtmp, int mndx)
             /* ", the <shoptype> proprietor" needs a trailing comma for
                the alternate phrasing "<shk>, shkdetails, has been killed"
                when hero isn't directly responsible */
-            Snprintf(shkdetail, sizeof shkdetail, ",%s%s%s",
+            Snprintf(shkdetail, sizeof shkdetail, ", %s%s%s",
                      shtypes[ESHK(mtmp)->shoptype - SHOPBASE].name,
                      /* in case shk name doesn't include Mr or Ms honorific */
                      mtmp->female ? "店主" : "店主",
-                     herodidit ? "" : ",");
+                     herodidit ? "" : ", ");
         } else if (mndx == PM_HIGH_CLERIC) {
             /* the high priest[ess] monster is not unique; we know that
                this is the first death for this particular high priest
@@ -3098,7 +3098,7 @@ mondead(struct monst *mtmp)
         return;
 
     if (be_sad)
-        You("一时感到难过,但很快就过去了.");
+        You("一时感到难过, 但很快就过去了.");
 
     if (mtmp->data == &mons[PM_STEAM_VORTEX])
         create_gas_cloud(mtmp->mx, mtmp->my, rn2(10) + 5, 0); /* harmless */
@@ -3561,7 +3561,7 @@ xkilled(
     }
 
     if (be_sad)
-        You("一时感到难过,但很快就过去了.");
+        You("一时感到难过, 但很快就过去了.");
 
     mdat = mtmp->data; /* note: mondead can change mtmp->data */
     mndx = monsndx(mdat);
@@ -3808,7 +3808,7 @@ vamp_stone(struct monst *mtmp)
                 mtmp->cham = mndx;
             if (canspotmon(mtmp)) {
                 pline_mon(mtmp,
-                      "%s从%s中起来,身手更加敏捷!",
+                      "%s从%s中起来, 身手更加敏捷!",
                       Amonnam(mtmp), surface(mtmp->mx, mtmp->my));
             }
             newsym(mtmp->mx, mtmp->my);
@@ -4192,7 +4192,7 @@ peacefuls_respond(struct monst *mtmp)
                                 Sprintf(buf, "%s倒吸一口气", Monnam(mon));
                                 needpunct = TRUE;
                             } else {
-                                Sprintf(buf, "%s喊道:\"%s\"",
+                                Sprintf(buf, "%s喊道: \"%s\"",
                                         Monnam(mon), gasp);
                             }
                             exclaimed = TRUE;
@@ -5882,7 +5882,7 @@ usmellmon(struct permonst *mdat)
                 msg_given = TRUE;
                 break;
             case S_UNICORN:
-                You("嗅到一%s气味,令你联想到马厩.",
+                You("嗅到一%s气味, 令你联想到马厩.",
                     (mndx == PM_PONY) ? "股" : "股强烈的");
                 msg_given = TRUE;
                 break;

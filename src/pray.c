@@ -628,7 +628,7 @@ god_zaps_you(aligntyp resp_god)
         if (Reflecting) {
             shieldeff(u.ux, u.uy);
             if (Blind)
-                pline("由于某种原因,你未受影响.");
+                pline("由于某种原因, 你未受影响.");
             else
                 (void) ureflects("%s从你的%s表面反射了出去.", "它");
             monstseesu(M_SEEN_REFL);
@@ -680,12 +680,12 @@ god_zaps_you(aligntyp resp_god)
         if (Is_astralevel(&u.uz) || Is_sanctum(&u.uz)) {
             /* one more try for high altars */
             SetVoice((struct monst *) 0, 0, 80, voice_deity);
-            verbalize("汝无脱吾怒,凡人!");
+            verbalize("汝无脱吾怒, 凡人!");
             summon_minion(resp_god, FALSE);
             summon_minion(resp_god, FALSE);
             summon_minion(resp_god, FALSE);
             SetVoice((struct monst *) 0, 0, 80, voice_deity);
-            verbalize("吾仆,灭%s!", uhim() ? "之" : "之");
+            verbalize("吾仆, 灭%s!", uhim() ? "之" : "之");
         }
     }
 }
@@ -731,7 +731,7 @@ angrygods(aligntyp resp_god)
     case 2:
     case 3:
         godvoice(resp_god, (char *) 0);
-        pline("\"汝%s,%s.\"",
+        pline("\"汝%s, %s. \"",
               (ugod_is_angry() && resp_god == u.ualign.type)
                   ? "离道矣"
                   : "甚傲慢",
@@ -766,7 +766,7 @@ angrygods(aligntyp resp_god)
                       ? "蔑"
                       : "召");
         /* [why isn't this using verbalize()?] */
-        pline("\"然死矣,%s!\"",
+        pline("\"然死矣, %s! \"",
               (gy.youmonst.data->mlet == S_HUMAN) ? "凡人" : "畜生");
         summon_minion(resp_god, FALSE);
         break;
@@ -862,7 +862,7 @@ gcrownu(void)
                 ? "夺命"
                 : "窃魂");
         SetVoice((struct monst *) 0, 0, 80, voice_deity);
-        verbalize("吾今择汝为我%s,以昭吾威!", what);
+        verbalize("吾今择汝为我%s, 以昭吾威!", what);
         livelog_printf(LL_DIVINEGIFT, "被%s选择为其荣耀%s",
                        u_gname(), what); /*修改语序:what, u_gname());*/
         break;
@@ -944,7 +944,7 @@ gcrownu(void)
     case A_CHAOTIC: {
         char swordbuf[BUFSZ];
 
-        Sprintf(swordbuf, "%s 剑", hcolor(NH_BLACK));
+        Sprintf(swordbuf, "%s剑", hcolor(NH_BLACK));
         if (class_gift != STRANGE_OBJECT) {
             ; /* already got bonus above */
         } else if (obj && in_hand) {
@@ -1045,7 +1045,7 @@ give_spell(void)
                 pline("%s的神圣知识充满了你的脑海! 法术'%c'.",
                       spe_name, spe_let);
             else
-                Your("关于法术'%c'的知识-%s已%s.",
+                Your("关于法术'%c'的知识 - %s已%s.",
                      spe_let, spe_name,
                      (spe_knowledge == spe_Forgotten) ? "恢复"
                                                       : "刷新");
@@ -1224,12 +1224,12 @@ pleased(aligntyp g_align)
                 if (u.uevent.uheard_tune < 1) {
                     godvoice(g_align, (char *) 0);
                     SetVoice((struct monst *) 0, 0, 80, voice_deity);
-                    verbalize("且听,%s!", is_human(gy.youmonst.data)
+                    verbalize("且听, %s!", is_human(gy.youmonst.data)
                                                ? "凡人"
                                                : "畜生");
                     SetVoice((struct monst *) 0, 0, 80, voice_deity);
                     verbalize(
-                       "欲入其城,当奏正音!");
+                       "欲入其城, 当奏正音!");
                     u.uevent.uheard_tune++;
                     break;
                 } else if (u.uevent.uheard_tune < 2) {
@@ -1309,10 +1309,10 @@ pleased(aligntyp g_align)
         }
         case 5: {
             static NEARDATA const char msg[] =
-                "\"是故吾锡汝%s!\"";
+                "\"是故吾锡汝%s! \"";
 
             godvoice(u.ualign.type,
-                     "汝进益可嘉,");
+                     "汝进益可嘉, ");
             if (!(HTelepat & INTRINSIC)) {
                 HTelepat |= FROMOUTSIDE;
                 pline(msg, "慧眼");
@@ -1334,7 +1334,7 @@ pleased(aligntyp g_align)
                 pline(msg, "护");
             }
             SetVoice((struct monst *) 0, 0, 80, voice_deity);
-            verbalize("其以吾名,善用之!");
+            verbalize("其以吾名, 善用之!");
             break;
         }
         case 7:
@@ -1402,7 +1402,7 @@ water_prayer(boolean bless_water)
             other = TRUE;
     }
     if (!Blind && changed) {
-        pline("%s药水%s落在祭坛上的片刻,发出了%s%s光芒.",
+        pline("%s药水%s落在祭坛上的片刻, 发出了%s%s光芒.",
               ((other && changed > 1L) ? "其中一些"
                                        : (other ? "其中一瓶" : "")),
               ((other || changed > 1L) ? "" : ""), (changed > 1L ? "" : ""),
@@ -1421,7 +1421,7 @@ godvoice(aligntyp g_align, const char *words)
     else
         words = "";
 
-    pline_The("%s的声音%s:%s%s%s", align_gname(g_align),
+    pline_The("%s的声音%s: %s%s%s", align_gname(g_align),
               ROLL_FROM(godvoices), quot, words, quot);
 }
 
@@ -1448,14 +1448,14 @@ consume_offering(struct obj *otmp)
     if (Hallucination)
         switch (rn2(3)) {
         case 0:
-            Your("祭品长出了翅膀和螺旋桨,并怒吼着离去了!");
+            Your("祭品长出了翅膀和螺旋桨, 并怒吼着离去了!");
             break;
         case 1:
-            Your("祭品开始膨胀,并越来越大,发出爆裂声!");
+            Your("祭品开始膨胀, 并越来越大, 发出爆裂声!");
             break;
         case 2:
             Your(
-     "祭品瓦解为一团跳舞的粒子云,并逐渐消失了!");
+     "祭品瓦解为一团跳舞的粒子云, 并逐渐消失了!");
             break;
         }
     else if (Blind && u.ualign.type == A_LAWFUL)
@@ -1515,7 +1515,7 @@ desecrate_altar(boolean highaltar, aligntyp altaralign)
     You_feel("你周围的气氛变得紧张...");
     pline("突然, 你意识到%s在注意你...",
           align_gname(altaralign));
-    Sprintf(gvbuf, "咄,凡人! 汝焉敢污吾%s!",
+    Sprintf(gvbuf, "咄, 凡人! 汝焉敢污吾%s!",
             highaltar ? "庙" : "圣坛");
     godvoice(altaralign, gvbuf);
     /* Throw everything we have at the player */
@@ -1545,9 +1545,9 @@ offer_real_amulet(struct obj *otmp, aligntyp altaralign)
         /* Moloch's high altar at the bottom of Gehennom. */
         if (u.ualign.record > -99)
             u.ualign.record = -99;
-        pline("一个看不见的唱诗班在歌唱,你沐浴在黑暗之中...");
+        pline("一个看不见的唱诗班在歌唱, 你沐浴在黑暗之中...");
         /*[apparently shrug/snarl can be sensed without being seen]*/
-        pline("%s耸了耸肩,仍旧保持着对%s的统治,", Moloch, u_gname());
+        pline("%s耸了耸肩, 仍旧保持着对%s的统治,", Moloch, u_gname());
         pline("然后残忍地扼杀了你的生命.");
         Sprintf(svk.killer.name, "%s的冷漠", s_suffix(Moloch));
         svk.killer.format = KILLED_BY;
@@ -1563,10 +1563,10 @@ offer_real_amulet(struct obj *otmp, aligntyp altaralign)
         /* And the opposing team picks you up and carries you off
            on their shoulders. */
         adjalign(-99);
-        pline("%s接受了你的礼物,然后获得了对%s的统治...",
+        pline("%s接受了你的礼物, 然后获得了对%s的统治...",
               a_gname(), u_gname());
         pline("%s在暴怒...", u_gname());
-        pline("幸运的是,%s准许你活着...", a_gname());
+        pline("幸运的是, %s准许你活着...", a_gname());
         pline(cloud_of_smoke, hcolor(NH_ORANGE));
         done(ESCAPED);
         /*NOTREACHED*/
@@ -1574,12 +1574,12 @@ offer_real_amulet(struct obj *otmp, aligntyp altaralign)
         /* You've won the game!  Feedback-wise, it's a bit of a let down. */
         u.uevent.ascended = 1;
         adjalign(10);
-        pline("一个看不见的唱诗班在歌唱,你沐浴在光辉之中...");
-        godvoice(altaralign, "凡人,汝克有成!");
+        pline("一个看不见的唱诗班在歌唱, 你沐浴在光辉之中...");
+        godvoice(altaralign, "凡人, 汝克有成! ");
         display_nhwindow(WIN_MESSAGE, FALSE);
         SetVoice((struct monst *) 0, 0, 80, voice_deity);
         verbalize(
-          "君子万年,介尔景福!");
+          "君子万年, 介尔景福!");
         You("升为%s半神...",
             flags.female ? "" : "");
         done(ASCENDED);
@@ -1618,7 +1618,7 @@ offer_fake_amulet(
     } else {
         /* don't you dare try to fool the gods */
         if (Deaf)
-            pline("哦,不."); /* didn't hear thunderclap */
+            pline("哦, 不."); /* didn't hear thunderclap */
         change_luck(-3);
         adjalign(-1);
         u.ugangr += 3;
@@ -1649,7 +1649,7 @@ offer_different_alignment_altar(
             u.ugangr += 3;
             adjalign(-5);
             pline("%s拒绝了你的祭品!", a_gname());
-            godvoice(altaralign, "受苦,异道者!");
+            godvoice(altaralign, "受苦, 异道者!");
             change_luck(-5);
             (void) adjattrib(A_WIS, -2, TRUE);
             if (!Inhell)
@@ -1728,7 +1728,7 @@ sacrifice_your_race(
         /* is equivalent to demon summoning */
         if (altaralign == A_CHAOTIC && u.ualign.type != A_CHAOTIC) {
             pline(
-            "血液淹没了祭坛,祭坛消失在%s云里!",
+            "血液淹没了祭坛, 祭坛消失在%s云里!",
                     an(hcolor(NH_BLACK)));
             levl[u.ux][u.uy].typ = ROOM;
             levl[u.ux][u.uy].altarmask = 0;
@@ -1810,7 +1810,7 @@ bestow_artifact(uchar max_giftvalue)
                             : Blind ? "一个物体"
                             : ansimpleoname(otmp)));
             if (!Blind)
-                Sprintf(eos(buf), "(名为%s)",
+                Sprintf(eos(buf), " (名为%s)",
                         bare_artifactname(otmp));
             at_your_feet(upstart(buf));
             dropy(otmp);
@@ -1862,7 +1862,7 @@ dosacrifice(void)
             (Levitation || Flying) ? "上空" : "上");
         return ECMD_OK;
     } else if (Confusion || Stunned) {
-        You("身体不稳,无法举行仪式.");
+        You("身体不稳, 无法举行仪式.");
         return ECMD_OK;
     }
     highaltar = (levl[u.ux][u.uy].altarmask & AM_SANCTUM);
@@ -1925,7 +1925,7 @@ eval_offering(struct obj *otmp, aligntyp altaralign)
              */
             pline("这样的行为对%s是一种侮辱!",
                   (unicalign == A_CHAOTIC) ? "混沌"
-                     : unicalign ? "守序" : "中立");
+                     : unicalign ? "秩序" : "中立");
             (void) adjattrib(A_WIS, -1, TRUE);
             return -1;
         } else if (u.ualign.type == altaralign) {
@@ -2078,7 +2078,7 @@ offer_corpse(struct obj *otmp, boolean highaltar, aligntyp altaralign)
                     change_luck(1);
             } else {
                 if (Hallucination)
-                    pline("总的来说,有一种炸洋葱的味道.");
+                    pline("总的来说, 有一种炸洋葱的味道.");
                 else
                     You("有一种和解的感觉.");
                 if ((int) u.uluck < 0)
@@ -2294,8 +2294,8 @@ prayer_done(void) /* M. Stephenson (1.0.3b) */
         /* praying while poly'd into an undead creature while non-chaotic */
         godvoice(alignment,
                  (alignment == A_LAWFUL)
-                    ? "何等贱物,焉敢召我?"
-                    : "无复行矣,自然之孽!");
+                    ? "何等贱物, 焉敢召我?"
+                    : "无复行矣, 自然之孽!");
         You_feel("你好像四分五裂了.");
         /* KMH -- Gods have mastery over unchanging */
         rehumanize();
@@ -2305,7 +2305,7 @@ prayer_done(void) /* M. Stephenson (1.0.3b) */
         return 1;
     }
     if (Inhell) {
-        pline("因为你在地狱,%s也无能为力.",
+        pline("因为你在地狱, %s也无能为力.",
               align_gname(alignment));
         /* haltingly aligned is least likely to anger */
         if (u.ualign.record <= 0 || rnl(u.ualign.record))
@@ -2359,7 +2359,7 @@ maybe_turn_mon_iter(struct monst *mtmp)
         mtmp->msleeping = 0;
         if (Confusion) {
             if (!turn_undead_msg_cnt++)
-                pline("不幸的是,你的声音结结巴巴.");
+                pline("不幸的是, 你的声音结结巴巴.");
             mtmp->mflee = 0;
             mtmp->mfrozen = 0;
             mtmp->mcanmove = 1;
@@ -2442,13 +2442,13 @@ doturn(void)
          && (is_demon(gy.youmonst.data)
              || is_undead(gy.youmonst.data) || is_vampshifter(&gy.youmonst)))
         || u.ugangr > 6) { /* "Die, mortal!" */
-        pline("不知何故,%s似乎无视了你.", Gname);
+        pline("不知何故, %s似乎无视了你.", Gname);
         aggravate();
         exercise(A_WIS, FALSE);
         return ECMD_TIME;
     }
     if (Inhell) {
-        pline("因为你在地狱,%s也无能为力.",
+        pline("因为你在地狱, %s也无能为力.",
               /* not actually calling upon Moloch but use alternate
                  phrasing anyway if hallucinatory feedback says it's him */
               Gname, !strcmp(Gname, Moloch) ? "不会" : "不能");
@@ -2660,11 +2660,11 @@ altar_wrath(coordxy x, coordxy y)
     } else {
         pline("%s%s%s:",
               align_gname(altaralign), /*修改语序:把神的名字从2挪到了1*/
-              !Deaf ? "的(莫非是"
+              !Deaf ? "(莫非是? )的"
                     : "说",
-              !Deaf ? "?)低语" : "(虽然耳聋,但是你好像能听见)");
+              !Deaf ? "低语" : "(虽然耳聋, 但是你好像能听见)");
         SetVoice((struct monst *) 0, 0, 80, voice_deity);
-        verbalize("汝当偿之,异道者!");
+        verbalize("汝当偿之, 异道者!");
         /* higher luck is more likely to be reduced; as it approaches -5
            the chance to lose another point drops down, eventually to 0 */
         if (Luck > -5 && rn2(Luck + 6))

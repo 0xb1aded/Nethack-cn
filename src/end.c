@@ -110,9 +110,12 @@ done2(void)
             u.usleep = 0;
         }
 
-        if (abandon_tutorial)
+        if (abandon_tutorial) {
+            /* mention_decor can be processed now */
+            rcfile_only_this_option(opt_mention_decor);
             schedule_goto(&u.ucamefrom, UTOTYPE_ATSTAIRS,
                           "Resuming regular play.", (char *) 0);
+        }
         return ECMD_OK;
     }
 
@@ -724,7 +727,7 @@ savelife(int how)
     if ((Sick & TIMEOUT) == 1L) {
         make_sick(0L, (char *) 0, FALSE, SICK_ALL);
     }
-    gn.nomovemsg = "You survived that attempt on your life.";
+    gn.nomovemsg = "你从死亡边缘活了回来.";
     svc.context.move = 0;
 
     gm.multi = -1; /* can't move again during the current turn */

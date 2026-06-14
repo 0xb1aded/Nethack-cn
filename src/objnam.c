@@ -2194,7 +2194,7 @@ doname_base(
                    so add 'lit' separately from 'slippery' rather than via
                    'else if' after uarmg+Glib */
                 if (!Blind && obj->lamplit && artifact_light(obj))
-                    ConcatF1(bp, 1, ",发出%s的光芒)", arti_light_description(obj));
+                    ConcatF1(bp, 1, ", 发出%s的光芒)", arti_light_description(obj));
             }
         }
         FALLTHROUGH;
@@ -2441,7 +2441,7 @@ doname_base(
 
         /* separately formatted suffix avoids need for ConcatF3() */
         Sprintf(pricebuf, "%ld %s", quotedprice, currency(quotedprice));
-        ConcatF2(bp, 0, " (%s,%s)",
+        ConcatF2(bp, 0, " (%s, %s)",
                  obj->unpaid ? "未付款" : "内容物", pricebuf);
 
         record_price_quote(obj->otyp, quotedprice / obj->quan, TRUE);
@@ -2453,7 +2453,7 @@ doname_base(
             char pricebuf[40];
 
             Sprintf(pricebuf, "%ld %s", price, currency(price));
-            ConcatF2(bp, 0, " (%s,%s)",
+            ConcatF2(bp, 0, " (%s, %s)",
                      nochrg ? "内容物" : "出售", pricebuf);
         } else if (nochrg > 0) {
             Concat(bp, 0, " (免费)");
@@ -5168,19 +5168,23 @@ static const struct monster_spellings {
     { "蜂后", PM_QUEEN_BEE, 0 },
     { "酸滴", PM_ACID_BLOB, 0 },
     { "酸性团块", PM_ACID_BLOB, 0 },
+    { "强酸团怪", PM_ACID_BLOB, 0 },
     { "酸块", PM_ACID_BLOB, 0 },
     { "颤抖的斑点", PM_QUIVERING_BLOB, 0 },
     { "颤抖斑点", PM_QUIVERING_BLOB, 0 },
     { "颤抖的团块", PM_QUIVERING_BLOB, 0 },
     { "颤抖团块", PM_QUIVERING_BLOB, 0 },
+    { "颤动团怪", PM_QUIVERING_BLOB, 0 },
     { "黏胶立方怪", PM_GELATINOUS_CUBE, 0 },
     { "黏胶立方", PM_GELATINOUS_CUBE, 0 },
+    { "凝胶方块", PM_GELATINOUS_CUBE, 0 },
     { "小鸡蛇", PM_CHICKATRICE, 0 },
     { "鸡蛇", PM_COCKATRICE, 0 },
     { "火鸡蛇", PM_PYROLISK, 0 },
     { "豺狼", PM_JACKAL, 0 },
     { "狐狸", PM_FOX, 0 },
     { "土狼", PM_COYOTE, 0 },
+    { "郊狼", PM_COYOTE, 0 },
     { "豺狼人", PM_WEREJACKAL, 0 },
     { "小狗", PM_LITTLE_DOG, 0 },
     { "澳洲野狗", PM_DINGO, 0 },
@@ -5241,6 +5245,7 @@ static const struct monster_spellings {
     { "夺心魔", PM_MIND_FLAYER, 0 },
     { "夺心魔大师", PM_MASTER_MIND_FLAYER, 0 },
     { "主宰夺心魔", PM_MASTER_MIND_FLAYER, 0 },
+    { "高阶夺心魔", PM_MASTER_MIND_FLAYER, 0 },
     { "灵魂", PM_MANES, 0 },
     { "幽魂", PM_MANES, 0 },
     { "雏形人", PM_HOMUNCULUS, 0 },
@@ -5265,8 +5270,11 @@ static const struct monster_spellings {
     { "狗头人萨满", PM_KOBOLD_SHAMAN, 0 },
     { "小矮妖", PM_LEPRECHAUN, 0 },
     { "小拟形怪", PM_SMALL_MIMIC, 0 },
+    { "小拟身怪", PM_SMALL_MIMIC, 0 },
     { "大拟形怪", PM_LARGE_MIMIC, 0 },
+    { "大拟身怪", PM_LARGE_MIMIC, 0 },
     { "巨型拟形怪", PM_GIANT_MIMIC, 0 },
+    { "巨型拟身怪", PM_GIANT_MIMIC, 0 },
     { "木仙女", PM_WOOD_NYMPH, 0 },
     { "水仙女", PM_WATER_NYMPH, 0 },
     { "山仙女", PM_MOUNTAIN_NYMPH, 0 },
@@ -5291,8 +5299,11 @@ static const struct monster_spellings {
     { "兽人萨满", PM_ORC_SHAMAN, 0 },
     { "兽人队长", PM_ORC_CAPTAIN, 0 },
     { "岩石锥子", PM_ROCK_PIERCER, 0 },
+    { "岩石锥怪", PM_ROCK_PIERCER, 0 },
     { "铁锥子", PM_IRON_PIERCER, 0 },
+    { "铁锥怪", PM_IRON_PIERCER, 0 },
     { "玻璃锥子", PM_GLASS_PIERCER, 0 },
+    { "玻璃锥怪", PM_GLASS_PIERCER, 0 },
     { "洛斯兽", PM_ROTHE, 0 },
     { "猛犸", PM_MUMAK, 0 },
     { "狼狗", PM_LEOCROTTA, 0 },
@@ -5449,6 +5460,8 @@ static const struct monster_spellings {
     { "丘陵巨人", PM_HILL_GIANT, 0 },
     { "火巨人", PM_FIRE_GIANT, 0 },
     { "火焰巨人", PM_FIRE_GIANT, 0 },
+    { "冰巨人", PM_FROST_GIANT, 0 },
+    { "雪巨人", PM_FROST_GIANT, 0 },
     { "霜巨人", PM_FROST_GIANT, 0 },
     { "冰霜巨人", PM_FROST_GIANT, 0 },
     { "双头巨人", PM_ETTIN, 0 },
@@ -5461,6 +5474,7 @@ static const struct monster_spellings {
     { "米诺陶", PM_MINOTAUR, 0 },
     { "牛头人", PM_MINOTAUR, 0 },
     { "颊脖龙", PM_JABBERWOCK, 0 },
+    { "炸脖龙", PM_JABBERWOCK, 0 },
     { "贾巴沃克", PM_JABBERWOCK, 0 },
     { "吉斯通警察", PM_KEYSTONE_KOP, 0 },
     { "吉斯通警司", PM_KOP_SERGEANT, 0 },
@@ -5470,6 +5484,7 @@ static const struct monster_spellings {
     { "半巫妖", PM_DEMILICH, 0 },
     { "巫妖大师", PM_MASTER_LICH, 0 },
     { "主宰巫妖", PM_MASTER_LICH, 0 },
+    { "高阶巫妖", PM_MASTER_LICH, 0 },
     { "大巫妖", PM_ARCH_LICH, 0 },
     { "狗头人木乃伊", PM_KOBOLD_MUMMY, 0 },
     { "侏儒木乃伊", PM_GNOME_MUMMY, 0 },
@@ -5671,6 +5686,7 @@ static const struct monster_spellings {
     { "有角魔鬼", PM_HORNED_DEVIL, 0 },
     { "有角的恶魔", PM_HORNED_DEVIL, 0 },
     { "有角恶魔", PM_HORNED_DEVIL, 0 },
+    { "角魔", PM_HORNED_DEVIL, 0 },
     { "伊里逆丝", PM_ERINYS, 0 },
     { "欲魔", PM_ERINYS, 0 },
     { "罪魔", PM_ERINYS, 0 },
@@ -5699,11 +5715,14 @@ static const struct monster_spellings {
     { "巴力西卜", PM_BAALZEBUB, 0 },
     { "别西卜", PM_BAALZEBUB, 0 },
     { "阿斯莫德", PM_ASMODEUS, 0 },
+    { "阿斯蒙蒂斯", PM_ASMODEUS, 0 },
     { "狄摩高根", PM_DEMOGORGON, 0 },
     { "死亡", PM_DEATH, 0 },
     { "瘟疫", PM_PESTILENCE, 0 },
     { "饥荒", PM_FAMINE, 0 },
     { "邮件幽灵程序", PM_MAIL_DAEMON, 0 },
+    { "邮件守护灵", PM_MAIL_DAEMON, 0 },
+    { "传信小鬼", PM_MAIL_DAEMON, 0 },
     { "灯神", PM_DJINNI, 0 },
     { "水母", PM_JELLYFISH, 0 },
     { "水虎鱼", PM_PIRANHA, 0 },
@@ -5731,7 +5750,7 @@ static const struct monster_spellings {
     { "野蛮人", PM_BARBARIAN, 0 },
     { "男穴居人", PM_CAVE_DWELLER, 2 },
     { "男穴居人", PM_CAVE_DWELLER, 1 },
-    { "女穴居人", PM_CAVE_DWELLER, 0 },
+    { "穴居人", PM_CAVE_DWELLER, 0 },
     { "医生", PM_HEALER, 0 },
     { "治疗师", PM_HEALER, 0 },
     { "骑士", PM_KNIGHT, 0 },
@@ -5758,16 +5777,22 @@ static const struct monster_spellings {
     { "萨托领主", PM_LORD_SATO, 0 },
     { "双花", PM_TWOFLOWER, 0 },
     { "诺恩", PM_NORN, 0 },
+    { "诺伦", PM_NORN, 0 },
     { "绿衣娜菲利特", PM_NEFERET_THE_GREEN, 0 },
+    { "绿肤娜菲利特", PM_NEFERET_THE_GREEN, 0 },
     { "修堤库特里的奴才", PM_MINION_OF_HUHETOTL, 0 },
+    { "修堤库特里的爪牙", PM_MINION_OF_HUHETOTL, 0 },
+    { "休特奥特尔的奴才", PM_MINION_OF_HUHETOTL, 0 },
     { "休特奥特尔的爪牙", PM_MINION_OF_HUHETOTL, 0 },
     { "图特阿蒙", PM_THOTH_AMON, 0 },
     { "彩色龙", PM_CHROMATIC_DRAGON, 0 },
     { "独眼巨人", PM_CYCLOPS, 0 },
     { "恶龙", PM_IXOTH, 0 },
+    { "恶龙埃索斯", PM_IXOTH, 0 },
     { "凯恩大师", PM_MASTER_KAEN, 0 },
     { "纳宗魔", PM_NALZOK, 0 },
     { "蝎弩", PM_SCORPIUS, 0 },
+    { "天蝎", PM_SCORPIUS, 0 },
     { "刺客大师", PM_MASTER_ASSASSIN, 0 },
     { "足利尊氏", PM_ASHIKAGA_TAKAUJI, 0 },
     { "叙尔特领主", PM_LORD_SURTUR, 0 },
@@ -5864,9 +5889,9 @@ static const struct ring_spellings {
     { "电击免疫", RIN_SHOCK_RESISTANCE },
     { "雷击免疫", RIN_SHOCK_RESISTANCE },
     { "自由行动", RIN_FREE_ACTION },
-    { "抗定身", RIN_FREE_ACTION },
-    { "防定身", RIN_FREE_ACTION },
-    { "定身抗性", RIN_FREE_ACTION },
+    { "抗眩晕", RIN_FREE_ACTION },
+    { "防眩晕", RIN_FREE_ACTION },
+    { "眩晕抗性", RIN_FREE_ACTION },
     { "慢消化", RIN_SLOW_DIGESTION },
     { "减慢消化", RIN_SLOW_DIGESTION },
     { "传送", RIN_TELEPORTATION },
@@ -6634,7 +6659,7 @@ wizterrainwish(struct _readobjnam_data *d)
             dbterrainmesg("Floor", x, y);
             madeterrain = TRUE;
         } else {
-            pline("此处不允许房间,地板或地面.");
+            pline("此处不允许房间, 地板或地面.");
             badterrain = TRUE;
         }
     }
@@ -7401,6 +7426,11 @@ readobjnam_postparse1(struct _readobjnam_data *d)
         /* note: if 'name' is too long, oname() will truncate it */
         d->name = d->p + strlen(",名为");
     }
+    if ((d->p = strstri(d->bp, ", 名为")) != 0) {
+        *d->p = 0;
+        /* note: if 'name' is too long, oname() will truncate it */
+        d->name = d->p + strlen(", 名为");
+    }
     if ((d->p = strstri(d->bp, " called ")) != 0) {
         *d->p = 0;
         /* note: if 'un' is too long, obj lookup just won't match anything */
@@ -7431,6 +7461,19 @@ readobjnam_postparse1(struct _readobjnam_data *d)
         *d->p = 0;
         /* note: if 'un' is too long, obj lookup just won't match anything */
         d->un = d->p + strlen(",被称为");
+        /* "helmet called telepathy" is not "helmet" (a specific type)
+         * "shield called reflection" is not "shield" (a general type)
+         */
+        for (i = 0; i < SIZE(o_ranges); i++)
+            if (!strcmpi(d->bp, o_ranges[i].name)) {
+                d->oclass = o_ranges[i].oclass;
+                return 1; /*goto srch;*/
+            }
+    }
+    if ((d->p = strstri(d->bp, ", 被称为")) != 0) {
+        *d->p = 0;
+        /* note: if 'un' is too long, obj lookup just won't match anything */
+        d->un = d->p + strlen(", 被称为");
         /* "helmet called telepathy" is not "helmet" (a specific type)
          * "shield called reflection" is not "shield" (a general type)
          */
@@ -7483,6 +7526,18 @@ readobjnam_postparse1(struct _readobjnam_data *d)
     if ((d->p = strstri(d->bp, ",标签为")) != 0) {
         *d->p = 0;
         d->dn = d->p + strlen(",标签为");
+    }
+    if ((d->p = strstri(d->bp, ", 写着")) != 0) {
+        *d->p = 0;
+        d->dn = d->p + strlen(", 写着");
+    }
+    if ((d->p = strstri(d->bp, ", 上面写着")) != 0) {
+        *d->p = 0;
+        d->dn = d->p + strlen(", 上面写着");
+    }
+    if ((d->p = strstri(d->bp, ", 标签为")) != 0) {
+        *d->p = 0;
+        d->dn = d->p + strlen(", 标签为");
     }
     if ((d->p = strstri(d->bp, " of spinach")) != 0) {
         *d->p = 0;
@@ -9700,7 +9755,7 @@ helm_simple_name(struct obj *helmet)
      *      fedora, cornuthaum, dunce cap       -> hat
      *      all other types of helmets          -> helm
      */
-    return !hard_helmet(helmet) ? "hat" : "helm";
+    return !hard_helmet(helmet) ? "帽子" : "头盔";
 }
 
 /* gloves vs gauntlets; depends upon discovery state */

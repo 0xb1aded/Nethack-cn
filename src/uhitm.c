@@ -528,7 +528,7 @@ do_attack(struct monst *mtmp)
         goto atk_done;
     }
 
-    if (check_capacity("你负担过重,无法战斗.")
+    if (check_capacity("你负担过重, 无法战斗.")
         /* consume extra nutrition during combat; maybe pass out */
         || overexertion())
         goto atk_done;
@@ -558,7 +558,7 @@ do_attack(struct monst *mtmp)
         && (m_move(mtmp, 0) == MMOVE_DIED /* it died */
             || mtmp->mx != u.ux + u.dx
             || mtmp->my != u.uy + u.dy)) { /* it moved */
-        You("完全没击中,向前踉跄了一步.");
+        You("完全没击中, 向前踉跄了一步.");
         return FALSE;
     }
 
@@ -902,7 +902,7 @@ hmon_hitmon_weapon_ranged(
         && rnl(4) == 4 - 1) {
         boolean more_than_1 = (obj->quan > 1L);
 
-        pline("当你击中%s时,%s%s破成了碎片.",
+        pline("当你击中%s时, %s%s破成了碎片.",
               mon_nam(mon), more_than_1 ? "其中一个" : "",
               yname(obj));
         if (!more_than_1)
@@ -2136,7 +2136,7 @@ demonpet(void)
     struct permonst *pm;
     struct monst *dtmp;
 
-    pline("地狱惊x...喜!");
+    pline("地狱惊x... 喜!");
     i = !rn2(6) ? ndemon(u.ualign.type) : NON_PM;
     pm = i != NON_PM ? &mons[i] : gy.youmonst.data;
     if ((dtmp = makemon(pm, u.ux, u.uy, NO_MM_FLAGS)) != 0)
@@ -2243,7 +2243,7 @@ steal_it(struct monst *mdef, struct attack *mattk)
             pline("%s脱下了%s的盔甲.", Monnam(mdef),
                   mhis(mdef));
         /* give the object to the character */
-        otmp = hold_another_object(otmp, "你抓住了%s,但是掉下了.",
+        otmp = hold_another_object(otmp, "你抓住了%s, 但是掉下了.",
                                    doname(otmp), "你偷走了:");
         /* might have dropped otmp, and it might have broken or left level */
         if (!otmp || otmp->where != OBJ_INVENT)
@@ -2481,7 +2481,7 @@ mhitm_ad_drli(
         hitmsg(magr, mattk);
         if (!rn2(3) && !Drain_resistance
             && !mhitm_mgc_atk_negated(magr, mdef, TRUE)){
-            losexp("life drainage");
+            losexp("生命吸取");
 
             /* unlike hitting with Stormbringer, wounded attacker doesn't
                heal any from the drained life */
@@ -2752,7 +2752,7 @@ mhitm_ad_acid(
         hitmsg(magr, mattk);
         if (!magr->mcan && !rn2(3))
             if (Acid_resistance) {
-                pline("你满身都是%s,但是看起来没有受到伤害.",
+                pline("你满身都是%s, 但是看起来没有受到伤害.",
                       hliquid("酸"));
                 monstseesu(M_SEEN_ACID);
                 mhm->damage = 0;
@@ -3350,7 +3350,7 @@ mhitm_ad_wrap(
                 if (m_slips_free(mdef, mattk)) {
                     mhm->damage = 0;
                 } else {
-                    You("%s在%s%s!", /*修改语序:You("你%s在%s身上!",*/
+                    You("%s在%s%s!", /*修改语序:You("%s在%s身上!",*/
                         coil ? "盘绕" : "扭动", mon_nam(mdef), coil ? "身上" : "身边"); /*修改语序:coil ? "盘绕" : "扭动", mon_nam(mdef));*/
                     set_ustuck(mdef);
                 }
@@ -4318,7 +4318,7 @@ mhitm_ad_heal(
             && !uarms && !uarmg && !uarmf && !uarmh) {
             boolean goaway = FALSE;
 
-            pline_mon(magr, "%s击中了! (你应该不介意吧.))",
+            pline_mon(magr, "%s击中了! (你应该不介意吧. )",
                       Monnam(magr));
             if (Upolyd) {
                 u.mh += rnd(7);
@@ -4370,7 +4370,7 @@ mhitm_ad_heal(
             if (Role_if(PM_HEALER)) {
                 if (!Deaf && !(svm.moves % 5)) {
                     SetVoice(magr, 0, 80, 0);
-                    verbalize("大夫,如果你不配合的话我就帮不了你.");
+                    verbalize("大夫, 如果你不配合的话我就帮不了你. ");
                 }
                 mhm->damage = 0;
             } else
@@ -4440,7 +4440,7 @@ mhitm_ad_legs(
     } else if (mdef == &gy.youmonst) {
         /* mhitu */
         long side = rn2(2) ? RIGHT_SIDE : LEFT_SIDE;
-        const char *sidestr = (side == RIGHT_SIDE) ? "right" : "left",
+        const char *sidestr = (side == RIGHT_SIDE) ? "右" : "左",
                    *Monst_name = Monnam(magr), *leg = body_part(LEG);
 
         /* This case is too obvious to ignore, but Nethack is not in
@@ -4512,10 +4512,10 @@ mhitm_ad_dgst(
             if (gv.vis && canseemon(magr))
                 pline_mon(magr, "%s%s!", Monnam(magr),
                       (pd == &mons[PM_FAMINE])
-                          ? "虚弱地打了个嗝,凋零至死"
+                          ? "虚弱地打了个嗝, 凋零至死"
                           : (pd == &mons[PM_PESTILENCE])
-                                ? "痉挛地咳了一声,随即解体"
-                                : "剧烈地吐了一地,当场死亡");
+                                ? "痉挛地咳了一声, 随即解体"
+                                : "剧烈地吐了一地, 当场死亡");
             mondied(magr);
             if (!DEADMONSTER(magr)) {
                 mhm->hitflags = M_ATTK_MISS; /* lifesaved */
@@ -4530,7 +4530,7 @@ mhitm_ad_dgst(
         if (flags.verbose && !Deaf) {
             /* Soundeffect? */
             SetVoice(magr, 0, 80, 0);
-            verbalize("嗝--!");
+            verbalize("嗝--! ");
         }
         wake_nearto(magr->mx, magr->my, 2 * 2); /* Burrrrp! */
         mhm->damage = mdef->mhp;
@@ -4645,7 +4645,7 @@ mhitm_ad_sedu(
                       type, but when defending, it remains as-is */
                    || dmgtype(gy.youmonst.data, AD_SSEX)) {
             pline_mon(magr, "%s%s.", Monnam(magr),
-                  Deaf ? "说了什么,但你听不到"
+                  Deaf ? "说了什么, 但你听不到"
                   : magr->minvent
                     ? "在吹嘘某位地牢探险家提供的战利品"
                   : "在感慨最近偷东西有多难");
@@ -4656,7 +4656,7 @@ mhitm_ad_sedu(
             return;
         } else if (magr->mcan) {
             if (!Blind)
-                pline("%s试图%s你,但你%s.",
+                pline("%s试图%s你, 但你%s.",
                       Adjmonnam(magr, "平庸的"),
                       flags.female ? "诱惑" : "魅惑",
                       flags.female ? "一尘不染" : "不感兴趣");
@@ -4990,7 +4990,7 @@ gulpum(struct monst *mdef, struct attack *mattk)
            vampire form now instead of dealing with that when it dies */
         if (is_vampshifter(mdef)
             && newcham(mdef, &mons[mdef->cham], NO_NC_FLAGS)) {
-            You("把它%s,然后%s了它.",
+            You("把它%s, 然后%s了它.",
                 u_digest ? "吞下" : u_enfold ? "裹住" : "吞没",
                 expel_verb);
             if (canspotmon(mdef)) {
@@ -5035,7 +5035,7 @@ gulpum(struct monst *mdef, struct attack *mattk)
             case AD_DGST:
                 /* eating a Rider or its corpse is fatal */
                 if (is_rider(pd)) {
-                    pline("不幸的是,消化它一点都会致命.");
+                    pline("不幸的是, 消化它一点都会致命.");
                     end_engulf();
                     Sprintf(svk.killer.name, "不明智地试图吃下%s",
                             pmname(pd, Mgender(mdef)));
@@ -5739,7 +5739,7 @@ hmonas(struct monst *mon)
                 pline("%s正在被%s%s.", Monnam(mon),
                       byhand ? "窒息" : "挤压",
                       /* extra feedback for non-breather being choked */
-                      unconcerned ? ",但看起来未受影响" : "");
+                      unconcerned ? ", 但看起来未受影响" : "");
                 if (silverhit && flags.verbose)
                     silver_sears(&gy.youmonst, mon, silverhit);
                 sum[i] = damageum(mon, mattk, specialdmg);

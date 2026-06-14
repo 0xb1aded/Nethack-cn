@@ -161,7 +161,7 @@
 |becoming slime|变成黏液|
 |strangling|窒息|
 |fatally sick|濒死|
-|stunned|定身|
+|stunned|眩晕|
 |confused|混乱|
 |hallucinating|幻觉|
 |blinded|失明|
@@ -420,6 +420,12 @@
 |donation|捐款|
 |donate|捐献|
 |atheism|无神论|
+
+## 其他
+
+|英文|中文|
+|----|----|
+|under you|在你下面(不能是脚下，因为你可能没有脚LOL)|
 
 <a id="note1">1</a> 见[鱼佬的解释](https://github.com/SunnyYuer/NetHack-cn/wiki#shine-shining)。
 

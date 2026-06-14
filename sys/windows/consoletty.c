@@ -2805,6 +2805,18 @@ void nethack_enter_consoletty(void)
     nhUse(apisuccess);
 }
 
+int
+get_approx_display_cols(void)
+{
+    return console.width;
+}
+
+int
+get_approx_display_rows(void)
+{
+    return console.height;
+}
+
 RESTORE_WARNING_CONDEXPR_IS_CONSTANT
 
 #endif /* TTY_GRAPHICS */

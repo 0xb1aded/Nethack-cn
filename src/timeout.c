@@ -33,7 +33,7 @@ static const struct propname {
     { SLIMED, "变成黏液" },
     { STRANGLED, "窒息" },
     { SICK, "濒死" },
-    { STUNNED, "定身" },
+    { STUNNED, "眩晕" },
     { CONFUSION, "混乱" },
     { HALLUC, "幻觉" },
     { BLINDED, "失明" },
@@ -334,7 +334,7 @@ sickness_dialogue(void)
         if (Hallucination && strstri(buf, "你已濒临")) {
             /* youmonst: for Hallucination, mhe()'s mon argument isn't used */
             Strcpy(pronounbuf, mhe(&gy.youmonst));
-            Sprintf(eos(buf), "  %s%s邀请你进来.",
+            Sprintf(eos(buf), "%s%s邀请你进来.",
                     /* upstart() modifies its argument but vtense() doesn't
                        care whether or not that has already happened */
                     upstart(pronounbuf), vtense(pronounbuf, "正在"));
@@ -506,10 +506,10 @@ slimed_to_death(struct kinfo *kptr)
         Strcpy(slimebuf, "绿色黏液已经被灭绝了...");
         if (iflags.last_msg == PLNMSG_OK_DONT_DIE)
             /* follows "OK, so you don't die." and arg is second sentence */
-            urgent_pline("好的.%s", upstart(slimebuf));
+            urgent_pline("好的. %s", upstart(slimebuf));
         else
             /* follows "The medallion crumbles to dust." */
-            urgent_pline("不幸的是,%s", slimebuf);
+            urgent_pline("不幸的是, %s", slimebuf);
         /* die again; no possibility of amulet this time */
         done(GENOCIDED); /* [should it be done_timeout(GENOCIDED, SLIMED)?] */
         /* could be life-saved again (only in explore or wizard mode)
@@ -1116,14 +1116,14 @@ hatch_egg(anything *arg, long timeout)
                 You_see("%s从你的背包里%s!", monnambuf,
                         locomotion(mon->data, "掉出来"));
             if (yours) {
-                pline("%s%s%s像\"%s%s\"",
+                pline("%s%s%s像\"%s%s \"",
                       siblings ? "它们的" : "它的",
                       cry_sound(mon), /*危险:ing_suffix(cry_sound(mon))*/
                       (is_silent(mon->data) || Deaf) ? "似乎" : "听起来",
                       flags.female ? "妈妈" : "爸爸", egg->spe ? "." : "?");
             } else if (mon->data->mlet == S_DRAGON && !Deaf) {
                 SetVoice(mon, 0, 80, 0);
-                verbalize("Gleep!"); /* Mything eggs :-) */
+                verbalize("咕噜!"); /* Mything eggs :-) */
             }
             break;
 
@@ -1248,7 +1248,7 @@ slip_or_trip(void)
         if (Hallucination) {
             what = strcpy(buf, what);
             buf[0] = highc(buf[0]);
-            pline("天哪!%s咬了%s你的%s!", what,
+            pline("天哪! %s咬了%s你的%s!", what,
                   (!otmp || otmp->quan == 1L) ? "" : "", body_part(FOOT));
         } else {
             You("被%s绊倒.", what);
@@ -1494,7 +1494,7 @@ burn_object(anything *arg, long timeout)
                     switch (obj->where) {
                     case OBJ_INVENT:
                     case OBJ_MINVENT:
-                        pline("%s看起来要熄灭了.", Yname2(obj));
+                        pline("%s看上去要熄灭了.", Yname2(obj));
                         break;
                     case OBJ_FLOOR:
                         You_see("%s快要熄灭了.", an(xname(obj)));
@@ -1878,7 +1878,7 @@ do_storms(void)
         /* Inside a cloud during a thunderstorm is deafening. */
         /* Even if already deaf, we sense the thunder's vibrations. */
         Soundeffect(se_kaboom_boom_boom, 80);
-        pline("嘭!!!嘭!!嘭!!");
+        pline("嘭!!! 嘭!! 嘭!!");
         incr_itimeout(&HDeaf, rn1(20, 30));
         disp.botl = TRUE;
         if (!u.uinvulnerable) {

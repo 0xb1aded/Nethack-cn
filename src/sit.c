@@ -50,7 +50,7 @@ throne_sit_effect(void)
             int which;
 
             buf[0] = '\0';
-            getlin("选择王座效果(1..13)[0=随机]", buf);
+            getlin("选择王座效果 (1..13) [0=随机]", buf);
             if (buf[0] == '\033') {
                 pline("%s", Never_mind);
                 return; /* caller will still cause a move to elapse */
@@ -81,7 +81,7 @@ throne_sit_effect(void)
             exercise(A_CON, FALSE);
             break;
         case 4:
-            You_feel("好,好多了!");
+            You_feel("好, 好多了!");
             if (Upolyd) {
                 if (u.mh >= (u.mhmax - 5))
                     u.mhmax += 4;
@@ -116,7 +116,7 @@ throne_sit_effect(void)
                 /* Magical voice not affected by deafness */
                 pline("一个声音回荡道:");
                 SetVoice((struct monst *) 0, 0, 80, voice_throne);
-                verbalize("尔客至矣,%s!",
+                verbalize("尔客至矣, %s!",
                           flags.female ? "夫人" : "主公");
                 while (cnt--)
                     (void) makemon(courtmon(), tx, ty, NO_MM_FLAGS);
@@ -135,7 +135,7 @@ throne_sit_effect(void)
             pline("一个声音回荡道:");
             SetVoice((struct monst *) 0, 0, 80, voice_throne);
             verbalize(
-                 "乱臣贼子,敢坐于此无上圣座,当遭天谴!");
+                 "乱臣贼子, 敢坐于此无上圣座, 当遭天谴!");
             if (Luck > 0) {
                 make_blinded(BlindedTimeout + rn1(100, 250), TRUE);
                 change_luck((Luck > 1) ? -rnd(2) : -1);
@@ -228,8 +228,8 @@ throne_sit_effect(void)
         newsym_force(tx, ty);
         /* "[God] promptly vanishes in a puff of logic" is from
            Douglas Adams' _The_Hitchhiker's_Guide_to_the_Galaxy_. */
-        pline_The("王座在一团逻辑烟雾中%s。",
-                  cansee(tx, ty) ? "消失" : "已经消失");
+        pline_The("王座在一团逻辑烟雾中%s.",
+                  cansee(tx, ty) ? "消失了" : "已经消失");
     }
 }
 
@@ -252,7 +252,7 @@ special_throne_effect(int effect) {
         levl[tx][ty].typ = ROOM, levl[tx][ty].flags = 0;
         map_background(tx, ty, FALSE);
         newsym_force(tx, ty);
-        pline_The("王座耗尽了力量,瓦解了.");
+        pline_The("王座耗尽了力量, 瓦解了.");
         break;
     case 5:
         /* permanent level drain */
@@ -301,7 +301,7 @@ special_throne_effect(int effect) {
     {
         /* summon demons; a NULL argument to msummon summons demons as
            though they were summoned by the Wizard of Yendor */
-        pline_The("王座似乎在呼救！");
+        pline_The("王座似乎在呼救!");
         msummon(NULL);
         msummon(NULL);
         msummon(NULL);
@@ -344,7 +344,7 @@ special_throne_effect(int effect) {
     {
         /* ability shuffle */
         int ability;
-        pline("当你坐在王座上,你的身体和心智开始扭曲.");
+        pline("当你坐在王座上, 你的身体和心智开始扭曲.");
         for (ability = 0; ability < A_MAX; ++ability) {
             adjattrib(ability, rn2(5) - 2, -1);
         }
@@ -472,7 +472,7 @@ dosit(void)
                 u.utrap++;
             } else if (u.utraptype == TT_PIT) {
                 if (trap && trap->ttyp == SPIKED_PIT) {
-                    You("坐在尖刺上.哎哟!");
+                    You("坐在尖刺上. 哎哟!");
                     losehp(Half_physical_damage ? rn2(2) : 1,
                            "坐在尖刺上", KILLED_BY);
                     exercise(A_STR, FALSE);
@@ -480,7 +480,7 @@ dosit(void)
                     You("坐在坑里.");
                 u.utrap += rn2(5);
             } else if (u.utraptype == TT_WEB) {
-                You("坐在蜘蛛网里,被缠得更紧了!");
+                You("坐在蜘蛛网里, 被缠得更紧了!");
                 u.utrap += rn1(10, 5);
             } else if (u.utraptype == TT_LAVA) {
                 /* Must have fire resistance or they'd be dead already */

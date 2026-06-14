@@ -769,7 +769,7 @@ selection_size_description(struct selectionvar *sel, char *buf)
     selection_getbounds(sel, &rect);
     dx = rect.hx - rect.lx + 1;
     dy = rect.hy - rect.ly + 1;
-    Sprintf(buf, "%s %i×%i",
+    Sprintf(buf, "%s的%i×%i",
             selection_is_irregular(sel) ? "不规则形状"
             : (dx == dy) ? "正方形"
               : "矩形",

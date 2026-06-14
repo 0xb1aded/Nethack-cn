@@ -240,7 +240,7 @@ wildmiss(struct monst *mtmp, struct attack *mattk)
                   (compat == 2) ? "迷人地" : "魅惑地",
                   Invis ? "隐形的" : "");
         else
-            pline("%s攻击你的%s幻影,但没有击中你!",
+            pline("%s攻击你的%s幻影, 但没有击中你!",
                   /* Note:  if you're both invisible and displaced, only
                    * monsters which see invisible will attack your displaced
                    * image, since the displaced image is also invisible. */
@@ -252,7 +252,7 @@ wildmiss(struct monst *mtmp, struct attack *mattk)
         if (compat)
             pline("%s直接伸向你的扭曲的幻影.", Monst_name);
         else
-            pline("%s被水的反射所愚弄,没有击中!",
+            pline("%s被水的反射所愚弄, 没有击中!",
                   Monst_name);
 
     } else {
@@ -271,7 +271,7 @@ expels(
         if (digests(mdat)) {
             You("被吐了出来!");
         } else if (enfolds(mdat)) {
-            pline_mon(mtmp, "%s展开了,你被释放了出来!", Monnam(mtmp));
+            pline_mon(mtmp, "%s展开了, 你被释放了出来!", Monnam(mtmp));
         } else {
             char blast[40];
             struct attack *attk = attacktype_fordmg(mdat, AT_ENGL, AD_ANY);
@@ -575,7 +575,7 @@ mattacku(struct monst *mtmp)
                    so mtmp's next move will be a regular attack */
                 place_monster(mtmp, mtmp->mx, mtmp->my); /* put back */
                 newsym(u.ux, u.uy); /* u.uundetected was toggled */
-                pline_mon(mtmp, "你落下去时,%s后退了一步!", Monnam(mtmp));
+                pline_mon(mtmp, "你落下去时, %s后退了一步!", Monnam(mtmp));
                 return 0;
             }
 
@@ -639,12 +639,12 @@ mattacku(struct monst *mtmp)
                     if (gy.youmonst.data->mlet == S_EEL
                         || u.umonnum == PM_TRAPPER)
                         pline(
-                             "等等,%s! 有一个隐藏的叫做%s的%s!",
+                             "等等, %s! 有一个隐藏的叫做%s的%s!",
                               m_monnam(mtmp),
                               svp.plname, pmname(gy.youmonst.data, Ugender)); /*修改语序:pmname(gy.youmonst.data, Ugender), svp.plname);*/
                     else
                         pline(
-                          "等等,%s! 有一个叫做%s的%s隐藏在%s下面!",
+                          "等等, %s! 有一个叫做%s的%s隐藏在%s下面!",
                               m_monnam(mtmp),
                               svp.plname, /*修改语序:pmname(gy.youmonst.data, Ugender),*/
                               pmname(gy.youmonst.data, Ugender), /*修改语序:svp.plname,*/
@@ -669,7 +669,7 @@ mattacku(struct monst *mtmp)
         if (sticky && !youseeit)
             pline("它被你困住了.");
         else /* see note about m_monnam() above */
-            pline("等等,%s! 那是个叫做%s的%s!", m_monnam(mtmp),
+            pline("等等, %s! 那是个叫做%s的%s!", m_monnam(mtmp),
                   svp.plname, pmname(gy.youmonst.data, Ugender)); /*修改语序:pmname(gy.youmonst.data, Ugender), svp.plname);*/
         if (sticky)
             set_ustuck(mtmp);
@@ -690,7 +690,7 @@ mattacku(struct monst *mtmp)
                   ? "试图捡起你"
                   : "打扰了你");
         else /* see note about m_monnam() above */
-            pline("等等,%s! 那个%s其实是个叫做%s的%s!", m_monnam(mtmp),
+            pline("等等, %s! 那个%s其实是个叫做%s的%s!", m_monnam(mtmp),
                   mimic_obj_name(&gy.youmonst),
                   svp.plname, pmname(&mons[u.umonnum], Ugender)); /*修改语序,危险:an(pmname(&mons[u.umonnum], Ugender)), svp.plname);*/
         if (gm.multi < 0) { /* this should always be the case */
@@ -746,7 +746,7 @@ mattacku(struct monst *mtmp)
             pline_mon(mtmp, "%s稍微松开了些.", Monnam(mtmp));
         } else if (!range2) {
             if (youseeit || sensemon(mtmp))
-                pline("%s开始攻击你,但又收了回去.",
+                pline("%s开始攻击你, 但又收了回去.",
                       Monnam(mtmp));
             else
                 You_feel("%s在你附近移动.", something);
@@ -857,7 +857,7 @@ mattacku(struct monst *mtmp)
                     pline_mon(mtmp, "%s气喘吁吁!", Monnam(mtmp));
                 } else {
                     if (youseeit) {
-                        pline_mon(mtmp, "%s向前突进,然后后退!",
+                        pline_mon(mtmp, "%s向前突进, 然后后退!",
                                   Monnam(mtmp));
                     } else {
                         if (is_whirly(mtmp->data)) {
@@ -1066,7 +1066,7 @@ u_slip_free(
         && (!obj->cursed || rn2(3))) {
         pline_mon(mtmp, "%s%s了你的%s%s!", Monnam(mtmp),
               (mattk->adtyp == AD_WRAP) ? "滑过"
-                                        : "抓住了,但不能持续控制",
+                                        : "抓住了, 但不能持续控制",
               obj->greased ? "上油的" : "光滑的",
               /* avoid "slippery slippery cloak"
                  for undiscovered oilskin cloak */
@@ -1317,7 +1317,7 @@ gulpmu(struct monst *mtmp, struct attack *mattk)
             char buf[BUFSZ];
 
             Strcpy(buf, mon_nam(u.usteed));
-            urgent_pline("%s向前%s,扯下了你的%s!",
+            urgent_pline("%s向前%s, 扯下了你的%s!",
                          Some_Monnam(mtmp),
                          /* 't', purple 'w' */
                          is_animal(mtmp->data) ? "突进"
@@ -1437,7 +1437,7 @@ gulpmu(struct monst *mtmp, struct attack *mattk)
     case AD_PHYS:
         physical_damage = TRUE;
         if (mtmp->data == &mons[PM_FOG_CLOUD]) {
-            You("浸透了水汽,%s",
+            You("浸透了水汽, %s",
                 flaming(gy.youmonst.data)
                     ? "开始冒烟熄灭!"
                     : Breathless ? "感到有些不适."
@@ -1669,7 +1669,7 @@ gazemu(struct monst *mtmp, struct attack *mattk)
 {
     static const char *const reactions[] = {
         "混乱",              /* [0] */
-        "定住",               /* [1] */
+        "眩晕",               /* [1] */
         "迷惑",   "目眩",  /* [2,3] */
         "发红", "发肿", /* [4,5] */
         "疲倦",                 /* [6] */
@@ -1860,7 +1860,7 @@ gazemu(struct monst *mtmp, struct attack *mattk)
                 already = (mtmp->mfrozen != 0); /* can't happen... */
             } else {
                 fall_asleep(-rnd(10), TRUE);
-                pline("%s的注释让你非常困倦...",
+                pline("%s的注视让你非常困倦...",
                       s_suffix(Monnam(mtmp)));
                 monstunseesu(M_SEEN_SLEEP);
             }
@@ -2031,14 +2031,14 @@ doseduce(struct monst *mon)
             /* confirmation prompt when charisma is high bypassed if deaf */
             if (!Deaf && rn2(20) < ACURR(A_CHA)) {
                 (void) safe_qbuf(qbuf, "\"那个",
-                                 "真好看. 我可以拿走吗?\"", ring,
+                                 "真好看. 我可以拿走吗? \"", ring,
                                  xname, simpleonames, "戒指");
                 makeknown(RIN_ADORNMENT);
                 SetVoice(mon, 0, 80, 0);
                 if (y_n(qbuf) == 'n')
                     continue;
             } else
-                pline("%s决定她想要%s,然后拿走了它.",
+                pline("%s决定她想要%s, 然后拿走了它.",
                       Who, yname(ring));
             makeknown(RIN_ADORNMENT);
             /* might be in left or right ring slot or weapon/alt-wep/quiver */
@@ -2062,14 +2062,14 @@ doseduce(struct monst *mon)
             /* confirmation prompt when charisma is high bypassed if deaf */
             if (!Deaf && rn2(20) < ACURR(A_CHA)) {
                 (void) safe_qbuf(qbuf, "\"那个",
-                                "真好看. 你可以给我戴上吗?\"",
+                                "真好看. 你可以给我戴上吗? \"",
                                  ring, xname, simpleonames, "戒指");
                 makeknown(RIN_ADORNMENT);
                 SetVoice(mon, 0, 80, 0);
                 if (y_n(qbuf) == 'n')
                     continue;
             } else {
-                pline("%s决定你戴上%s会更漂亮,",
+                pline("%s决定你戴上%s会更漂亮, ",
                       Who, yname(ring));
                 pline("并把它戴到你的手指上.");
             }
@@ -2115,7 +2115,7 @@ doseduce(struct monst *mon)
                  Deaf ? "似乎在对你耳语"
                  : naked ? "在你耳边轻声说着甜言蜜语"
                    : "在对你耳语",
-                 naked ? "" : ",时帮你把衣服脱下");
+                 naked ? "" : "时帮你把衣服脱下");
     mayberem(mon, Who, uarmc, cloak_simple_name(uarmc));
     if (!uarmc)
         mayberem(mon, Who, uarm, suit_simple_name(uarm));
@@ -2149,14 +2149,14 @@ doseduce(struct monst *mon)
                    name, possibly revealing them to you */
                 if (yourgloves)
                     observe_object(yourgloves);
-                verbalize("好了,现在你欠我%s%s!",
+                verbalize("好了, 现在你欠我%s%s!",
                           yourgloves ? yname(yourgloves)
                                      : "十二副手套",
-                          yourgloves ? ",还有十一副手套"
+                          yourgloves ? ", 还有十一副手套"
                                      : "");
             }
         } else if (seewho)
-            pline_mon(mon, "%s appears to sigh.", Monnam(mon));
+            pline_mon(mon, "%s似乎叹了口气.", Monnam(mon));
         /* else no regret message if can't see or hear seducer */
 
         if (!tele_restrict(mon))
@@ -2168,7 +2168,7 @@ doseduce(struct monst *mon)
 
     /* by this point you have discovered mon's identity, blind or not... */
     urgent_pline(
-             "当你和%s耳鬓厮磨时,时间仿佛静止了...",
+             "当你和%s耳鬓厮磨时, 时间仿佛静止了...",
                  noit_mon_nam(mon));
     /* 3.6.1: a combined total for charisma plus intelligence of 35-1
        used to guarantee successful outcome; now total maxes out at 32
@@ -2263,10 +2263,10 @@ doseduce(struct monst *mon)
     if (mon->mtame) { /* don't charge */
         ;
     } else if (rn2(20) < ACURR(A_CHA)) {
-        pline("%s要求你付钱给%s,但你拒绝了...",
+        pline("%s要求你付钱给%s, 但你拒绝了...",
               noit_Monnam(mon), noit_mhim(mon));
     } else if (u.umonnum == PM_LEPRECHAUN) {
-        pline_mon(mon, "%s试图拿走你的金币,但是失败了...",
+        pline_mon(mon, "%s试图拿走你的金币, 但是失败了...",
                   noit_Monnam(mon));
     } else {
         long cost;
@@ -2324,7 +2324,7 @@ mayberem(struct monst *mon,
         pline("%s脱掉了你的%s.", seducer, str);
     } else if (rn2(20) < ACURR(A_CHA)) {
         SetVoice(mon, 0, 80, 0); /* y_n aka yn_function is set up for this */
-        Sprintf(qbuf, "\"要我脱掉你的%s吗,%s?\"", str,
+        Sprintf(qbuf, "\"要我脱掉你的%s吗, %s? \"", str,
                 (!rn2(2) ? "情人" : !rn2(2) ? "亲爱的" : "甜心"));
         if (y_n(qbuf) == 'n')
             return;
@@ -2334,7 +2334,7 @@ mayberem(struct monst *mon,
         Sprintf(hairbuf, "让我用我的手指穿过你的%s",
                 body_part(HAIR));
         SetVoice(mon, 0, 80, 0);
-        verbalize("脱下你的%s;%s.", str,
+        verbalize("脱下你的%s; %s.", str,
                   (obj == uarm)
                      ? "再靠近一点吧"
                      : (obj == uarmc || obj == uarms)
@@ -2539,7 +2539,7 @@ passiveum(
                 if (mtmp->mcansee && haseyes(mtmp->data) && rn2(3)
                     && (perceives(mtmp->data) || !Invis)) {
                     if (Blind) {
-                        pline("作为失明的%s,你无法保护自己.",
+                        pline("作为失明的%s, 你无法保护自己.",
                               pmname(gy.youmonst.data,
                                      flags.female ? FEMALE : MALE));
                     } else {

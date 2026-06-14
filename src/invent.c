@@ -1730,7 +1730,7 @@ getobj_hands_txt(const char *action, char *qbuf)
         Sprintf(qbuf, "空的箭袋%s",
                 !uquiver ? " (无准备)" : "");
     } else {
-        Sprintf(qbuf, "你的 %s", makeplural(body_part(HAND)));
+        Sprintf(qbuf, "你的%s", makeplural(body_part(HAND)));
     }
     return qbuf;
 }
@@ -2041,7 +2041,7 @@ getobj(
             if (cnt > 1L && (!coins || cnt > otmp->quan)) {
                 if (cnt > otmp->quan)
                     You("只有%ld个%s%s.", otmp->quan,
-                        (!coins && otmp->quan > 1L) ? ",而且" : "",
+                        (!coins && otmp->quan > 1L) ? ", 而且" : "",
                         (!coins && otmp->quan > 1L) ? only_one : "");
                 else
                     You("%s.", only_one);
@@ -2063,7 +2063,7 @@ getobj(
                 return (struct obj *) 0;
             continue;
         } else if (cnt < 0L || otmp->quan < cnt) {
-            You("没有那么多!你只有%ld个.", otmp->quan);
+            You("没有那么多! 你只有%ld个.", otmp->quan);
             if (gi.in_doagain)
                 return (struct obj *) 0;
             continue;
@@ -3234,7 +3234,7 @@ display_pickinv(
         add_menu_str(win, prompt);
         if (!unid_cnt) {
             add_menu_str(win,
-                         "(所有物品均已永久鉴定)");
+                         " (所有物品均已永久鉴定)");
             gotsomething = TRUE;
         } else {
             any.a_obj = &wizid_fakeobj;
@@ -3355,10 +3355,10 @@ display_pickinv(
         if ((allowxtra && !usextra)
             || (lets && (int) strlen(lets) < inv_cnt(TRUE))) {
             any.a_char = '*';
-            menutext = "(列举所有物品)";
+            menutext = " (列举所有物品)";
         } else if (!lets) {
             any.a_char = '?';
-            menutext = "(列举可能的候选物品)";
+            menutext = " (列举可能的候选物品)";
         }
         if (menutext) {
             add_menu_heading(win, "特殊");
@@ -3774,11 +3774,11 @@ dounpaid(
                        : "地板上面或底下";
 
         if (!count) {
-            You("没有携带任何未付物品,但%s有%d个.", /*修改语序:You("aren't carrying any unpaid items but there %s %d %s.",*/
+            You("没有携带任何未付物品, 但%s有%d个.", /*修改语序:You("aren't carrying any unpaid items but there %s %d %s.",*/
                 where, xtracount); /*修改语序:floorverb, xtracount, where);*/
         } else {
             putstr(win, 0, "");
-            Sprintf(buf, "(%s还有%d个未付物品%s.)", /*修改语序:Sprintf(buf, "(%s还有%d个未付物品%s%s。)",*/
+            Sprintf(buf, " (%s还有%d个未付物品%s. )", /*修改语序:Sprintf(buf, "(%s还有%d个未付物品%s%s。)",*/
                     where, xtracount, plur(xtracount)); /*修改语序:floorverb, xtracount, plur(xtracount), where);*/
             putstr(win, 0, buf);
         }
@@ -4280,7 +4280,7 @@ look_here(
                         : "它是",
                       corpse_xname(otmp, (const char *) 0, CXN_ARTICLE),
                       poly_when_stoned(gy.youmonst.data) ? ""
-                      : ",不幸的是");
+                      : ", 不幸的是");
                 feel_cockatrice(otmp, FALSE);
                 break;
             }
@@ -4531,7 +4531,7 @@ doprgold(void)
         }
         if (hmoney) {
             Sprintf(eos(buf),
-                    ",%s你的背包里还藏有%ld %s",
+                    ", %s你的背包里还藏有%ld %s",
                     umoney ? "并且" : "但是", hmoney,
                     umoney ? "更多的" : currency(hmoney));
         }
@@ -4601,7 +4601,7 @@ noarmor(boolean report_uskin)
             while ((p[1] = p[8]) != '\0')
                 ++p;
 
-        You("没有穿戴防具,但有%s嵌入在你的皮肤中.",
+        You("没有穿戴防具, 但有%s嵌入在你的皮肤中.",
             uskinname);
     }
 }
@@ -4997,7 +4997,7 @@ doorganize(void) /* inventory organizer by Del Lamb */
     if (!gi.invent || (gi.invent->oclass == COIN_CLASS
                       && gi.invent->invlet == GOLD_SYM && !gi.invent->nobj)) {
         You("没有携带%s.",
-            !gi.invent ? "任何东西,所以不能调整" : "任何可调整的东西");
+            !gi.invent ? "任何东西, 所以不能调整" : "任何可调整的东西");
         return ECMD_OK;
     }
 
@@ -5479,7 +5479,7 @@ display_cinventory(struct obj *obj)
         n = query_objlist(qbuf, &(obj->cobj), INVORDER_SORT,
                           &selected, PICK_NONE, allow_all);
     } else {
-        invdisp_nothing(qbuf, "(空)");
+        invdisp_nothing(qbuf, " (空)");
         n = 0;
     }
     if (n > 0) {
