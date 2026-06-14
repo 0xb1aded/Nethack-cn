@@ -38,17 +38,23 @@ const struct class_sym def_monsyms[MAXMCLASSES] = {
 
 const struct symdef def_warnsyms[WARNCOUNT] = {
     /* white warning  */
-    { '0', "unknown creature causing you worry",    CLR_WHITE },
+    { '0', "unknown creature causing you worry",
+           "未知生物使你担忧",    CLR_WHITE },
     /* pink warning   */
-    { '1', "unknown creature causing you concern",  CLR_RED },
+    { '1', "unknown creature causing you concern",
+           "未知生物使你担心",  CLR_RED },
     /* red warning    */
-    { '2', "unknown creature causing you anxiety",  CLR_RED },
+    { '2', "unknown creature causing you anxiety",
+           "未知生物使你焦虑",  CLR_RED },
     /* ruby warning   */
-    { '3', "unknown creature causing you disquiet", CLR_RED },
+    { '3', "unknown creature causing you disquiet",
+           "未知生物使你忧虑", CLR_RED },
     /* purple warning */
-    { '4', "unknown creature causing you alarm",    CLR_MAGENTA },
+    { '4', "unknown creature causing you alarm",
+           "未知生物使你惊恐",    CLR_MAGENTA },
     /* black warning  */
-    { '5', "unknown creature causing you dread",    CLR_BRIGHT_MAGENTA },
+    { '5', "unknown creature causing you dread",
+           "未知生物使你恐惧",    CLR_BRIGHT_MAGENTA },
 };
 
 /*
@@ -65,7 +71,7 @@ const struct symdef defsyms[MAXPCHARS + 1] = {
 #define PCHAR_DRAWING
 #include "defsym.h"
 #undef PCHAR_DRAWING
-    { 0, NULL, NO_COLOR }
+    { 0, NULL, NULL, NO_COLOR }
 };
 
 /* default rogue level symbols */
