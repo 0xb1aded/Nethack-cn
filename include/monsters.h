@@ -1783,7 +1783,7 @@
         M2_STRONG | M2_ROCKTHROW | M2_NASTY | M2_COLLECT | M2_MAGIC,
         M3_INFRAVISIBLE | M3_INFRAVISION,
         20, CLR_MAGENTA, TITAN),
-    MON(NAM("minotaur"), NAM("弥诺陶洛斯"), S_GIANT,
+    MON(NAM("minotaur"), NAM("牛头人"), S_GIANT,
         LVL(15, 15, 6, 0, 0), (G_GENO | G_NOGEN),
         A(ATTK(AT_CLAW, AD_PHYS, 3, 10), ATTK(AT_CLAW, AD_PHYS, 3, 10),
           ATTK(AT_BUTT, AD_PHYS, 2, 8), NO_ATTK, NO_ATTK, NO_ATTK),
@@ -1969,7 +1969,7 @@
     /*
      * Nagas
      */
-    MON(NAM("red naga hatchling"), NAM("红幼纳迦"), S_NAGA,
+    MON(NAM("red naga hatchling"), NAM("幼红纳迦"), S_NAGA,
         LVL(3, 10, 6, 0, 0), G_GENO,
         A(ATTK(AT_BITE, AD_PHYS, 1, 4),
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
@@ -1977,7 +1977,7 @@
         M1_NOLIMBS | M1_SLITHY | M1_THICK_HIDE | M1_NOTAKE | M1_OMNIVORE,
         M2_STRONG, M3_INFRAVISIBLE,
         4, CLR_RED, RED_NAGA_HATCHLING),
-    MON(NAM("black naga hatchling"), NAM("黑幼纳迦"), S_NAGA,
+    MON(NAM("black naga hatchling"), NAM("幼黑纳迦"), S_NAGA,
         LVL(3, 10, 6, 0, 0), G_GENO,
         A(ATTK(AT_BITE, AD_PHYS, 1, 4),
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
@@ -1987,7 +1987,7 @@
             | M1_CARNIVORE,
         M2_STRONG, 0,
         4, CLR_BLACK, BLACK_NAGA_HATCHLING),
-    MON(NAM("golden naga hatchling"), NAM("金幼纳迦"), S_NAGA,
+    MON(NAM("golden naga hatchling"), NAM("幼金纳迦"), S_NAGA,
         LVL(3, 10, 6, 0, 0), G_GENO,
         A(ATTK(AT_BITE, AD_PHYS, 1, 4),
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
@@ -2746,7 +2746,7 @@
     /* aligned priests always have the epri extension attached;
        individual instantiations should always have either ispriest
        or isminion set; role monster priests are separate (below) */
-    MON(NAMS("priest", "priestess", "aligned cleric"), NAMS("男牧师", "女牧师", "阵营牧师"), S_HUMAN,
+    MON(NAMS("priest", "priestess", "aligned cleric"), NAMS("男祭司", "女祭司", "阵营祭司"), S_HUMAN,
         LVL(12, 12, 10, 50, 0), G_NOGEN,
         A(ATTK(AT_WEAP, AD_PHYS, 4, 10), ATTK(AT_KICK, AD_PHYS, 1, 4),
           ATTK(AT_MAGC, AD_CLRC, 0, 0), NO_ATTK, NO_ATTK, NO_ATTK),
