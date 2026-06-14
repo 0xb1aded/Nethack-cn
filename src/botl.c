@@ -3772,11 +3772,11 @@ status_hilite2str(struct hilite_s *hl, boolean for_ui)
         break;
     case BL_TH_UPDOWN:
         if (hl->rel == LT_VALUE)
-            Sprintf(behavebuf, for_ui ? "下降" : "down");
+            Sprintf(behavebuf, "%s", for_ui ? "下降" : "down");
         else if (hl->rel == GT_VALUE)
-            Sprintf(behavebuf, for_ui ? "上升" : "up");
+            Sprintf(behavebuf, "%s", for_ui ? "上升" : "up");
         else if (hl->rel == EQ_VALUE)
-            Sprintf(behavebuf, for_ui ? "变化" : "changed");
+            Sprintf(behavebuf, "%s", for_ui ? "变化" : "changed");
         else
             impossible("hl->behavior=updown, rel error");
         break;
@@ -3852,10 +3852,10 @@ status_hilite2str(struct hilite_s *hl, boolean for_ui)
             impossible("hl->behavior=condition, rel error");
         break;
     case BL_TH_ALWAYS_HILITE:
-        Sprintf(behavebuf, for_ui ? "总是" : "always");
+        Sprintf(behavebuf, "%s", for_ui ? "总是" : "always");
         break;
     case BL_TH_CRITICALHP:
-        Sprintf(behavebuf, for_ui ? "临界生命" : "criticalhp");
+        Sprintf(behavebuf, "%s", for_ui ? "临界生命" : "criticalhp");
         break;
     case BL_TH_NONE:
         break;

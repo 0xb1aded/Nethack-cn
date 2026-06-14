@@ -180,9 +180,9 @@ curses_status_update(
                 *status_vals[fldidx] = '\0';
             } else {
                 Sprintf(status_vals[fldidx],
-                        (fldidx == BL_TITLE && iflags.wc2_hitpointbar)
-                        ? "%-30.30s" : status_fieldfmt[fldidx]
-                                     ? status_fieldfmt[fldidx] : "%s",
+                        (fldidx == BL_TITLE && iflags.wc2_hitpointbar) ? "%s"
+                        : status_fieldfmt[fldidx] ? status_fieldfmt[fldidx]
+                                                  : "%s",
                         text);
                 /* strip trailing spaces; core ought to do this for us */
                 if (fldidx == BL_HUNGER || fldidx == BL_LEVELDESC)
@@ -1014,10 +1014,14 @@ curs_HPbar(
 
     if (bar_len < 1 || bar_len > 30)
         bar_len = 30;
-    if (bar_len > (k = (int) strlen(text))) /* 26 for vertical status */
+    /* 26 for vertical status */
+    if (bar_len > (k = (int) utf8str_width(text)))
         bar_len = k;
-    (void) strncpy(bar, text, bar_len);
-    bar[bar_len] = '\0';
+    {
+        const char *endptr = utf8str_at_col(text, bar_len);
+        memcpy(bar, text, (size_t) (endptr - text));
+        bar[endptr - text] = '\0';
+    }
     if (hpbar_crit_hp)
         repad_with_dashes(bar);
 
@@ -1027,7 +1031,7 @@ curs_HPbar(
     if (bar_pos >= bar_len && hpbar_percent < 100)
         bar_pos = bar_len - 1;
     if (twoparts) {
-        bar2 = &bar[bar_pos];
+        bar2 = &bar[utf8str_at_col(bar, bar_pos) - bar];
         savedch = *bar2;
         *bar2 = '\0';
     }
