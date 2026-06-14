@@ -274,7 +274,7 @@ const struct Role roles[NUM_ROLES+1] = {
       A_WIS,
       SPE_RESTORE_ABILITY,
       -4 },
-    { { "祭司", 0 },
+    { { "牧师", 0 },
       { { "修道者", 0 },
         { "教士助手", 0 },
         { "熟练助手", 0 },
@@ -2135,7 +2135,7 @@ Hello(struct monst *mtmp)
 #ifdef MAIL_STRUCTURES
                (mtmp && mtmp->data == &mons[PM_MAIL_DAEMON]) ? "你好啊" :
 #endif
-               "来了啊"; /* Norse */
+               "幸会"; /* Norse */
     default:
         return "你好";
     }
