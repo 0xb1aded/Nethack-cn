@@ -115,12 +115,12 @@ throw_obj(struct obj *obj, int shotlimit)
         return throw_gold(obj); /* check */
     }
 
-    if (!canletgo(obj, "throw")) {
+    if (!canletgo(obj, "投掷")) {
         res = ECMD_OK;
         goto unsplit_stack;
     }
     if (is_art(obj, ART_MJOLLNIR) && obj != uwep) {
-        pline("在%s能被投掷之前要必须拿着它.", The(xname(obj)));
+        pline("你要先拿起%s才能投掷它.", The(xname(obj)));
         res = ECMD_OK;
         goto unsplit_stack;
     }
@@ -138,12 +138,12 @@ throw_obj(struct obj *obj, int shotlimit)
     u_wipe_engr(2);
     if (!uarmg && obj->otyp == CORPSE && touch_petrifies(&mons[obj->corpsenm])
         && !Stone_resistance) {
-        You("用你的赤%s投掷%s.",
+        You("用你裸露的%s投掷%s.",
             corpse_xname(obj, (const char *) 0, CXN_PFX_THE),
             /* throwing with one hand, but pluralize since the
                expression "with your bare hands" sounds better */
             makeplural(body_part(HAND)));
-        Sprintf(svk.killer.name, "赤手投掷%s",
+        Sprintf(svk.killer.name, "徒手投掷%s",
                 killer_xname(obj));
         instapetrify(svk.killer.name);
     }
@@ -242,7 +242,7 @@ throw_obj(struct obj *obj, int shotlimit)
        attempted to specify a count */
     if (multishot > 1 || shotlimit > 0) {
         /* "You shoot N arrows." or "You throw N daggers." */
-        You("%s %d %s.", gm.m_shot.s ? "发射" : "投掷",
+        You("%s%d %s.", gm.m_shot.s ? "发射" : "投掷",
             multishot, /* (might be 1 if player gave shotlimit) */
             (multishot == 1) ? singular(obj, xname) : xname(obj));
     }
@@ -303,7 +303,7 @@ ok_to_throw(int *shotlimit_p) /* (see dothrow()) */
         You("的身体不能投掷或发射任何东西.");
         return FALSE;
     } else if (nohands(gy.youmonst.data)) {
-        You_cant("没有手就投掷或发射."); /* not body_part(HAND) */
+        You("没有手, 不能投掷或发射."); /* not body_part(HAND) */ /*危险:You_cant*/
         return FALSE;
         /*[what about !freehand(), aside from cursed missile launcher?]*/
     }
@@ -368,7 +368,7 @@ dothrow(void)
     if (!ok_to_throw(&shotlimit))
         return ECMD_OK;
 
-    obj = getobj("throw", throw_ok, GETOBJ_PROMPT | GETOBJ_ALLOWCNT);
+    obj = getobj("投掷什么", throw_ok, GETOBJ_PROMPT | GETOBJ_ALLOWCNT);
     /* it is also possible to throw food */
     /* (or jewels, or iron balls... ) */
 
@@ -532,10 +532,10 @@ dofire(void)
             if (obj) {
                 /* give feedback if quiver has now been filled */
                 uquiver->owornmask &= ~W_QUIVER; /* less verbose */
-                prinv("You ready:", obj, 0L);
+                prinv("你准备好了:", obj, 0L);
                 uquiver->owornmask |= W_QUIVER;
             } else {
-                You("没有适合的东西来准备.");
+                You("没有适合准备的东西.");
             }
         }
     }
@@ -547,7 +547,7 @@ dofire(void)
         gi.in_doagain = 0;
 
         /* this gives its own feedback about populating the quiver slot */
-        res = doquiver_core("fire");
+        res = doquiver_core("发射什么"); /*危险:"fire"*/
         if (res != ECMD_OK && res != ECMD_TIME)
             return res;
 
@@ -591,9 +591,9 @@ endmultishot(boolean verbose)
 {
     if (gm.m_shot.i < gm.m_shot.n) {
         if (verbose && !svc.context.mon_moving) {
-            You("停止%s在%d%s%s之后。",
-                gm.m_shot.s ? "射击" : "投掷",
-                gm.m_shot.i, ordin(gm.m_shot.i),
+            You("在第%d%s次%s之后停止%s.", /*修改语序:You("停止%s在%d%s%s之后。",*/
+                gm.m_shot.i, ordin(gm.m_shot.i), /*修改语序:gm.m_shot.s ? "射击" : "投掷",*/
+                gm.m_shot.s ? "射击" : "投掷", /*修改语序:gm.m_shot.i, ordin(gm.m_shot.i),*/
                 gm.m_shot.s ? "射击" : "投掷");
         }
         gm.m_shot.n = gm.m_shot.i; /* make current shot be the last */
@@ -614,7 +614,7 @@ hitfloor(
     if (IS_ALTAR(levl[u.ux][u.uy].typ)) {
         doaltarobj(obj);
     } else if (verbosely) {
-        const char *verb = (obj->otyp == WAN_STRIKING) ? "strike" : "hit";
+        const char *verb = (obj->otyp == WAN_STRIKING) ? "冲击" : "击中";
         const char *surf = surface(u.ux, u.uy);
         struct trap *t = t_at(u.ux, u.uy);
 
@@ -623,20 +623,20 @@ hitfloor(
         if (t && t->tseen) {
             switch (t->ttyp) {
             case TRAPDOOR:
-                surf = "trap door";
+                surf = "陷阱门";
                 break;
             case HOLE:
-                surf = "edge of the hole";
+                surf = "洞的边缘";
                 break;
             case PIT:
             case SPIKED_PIT:
-                surf = "edge of the pit";
+                surf = "坑的边缘";
                 break;
             default:
                 break;
             }
         }
-        pline("%s %s 了 %s.", Doname2(obj), otense(obj, verb), surf);
+        pline("%s%s了%s.", Doname2(obj), otense(obj, verb), surf);
     }
 
     if (hero_breaks(obj, u.ux, u.uy, BRK_FROM_INV))
@@ -782,7 +782,7 @@ hurtle_step(genericptr_t arg, coordxy x, coordxy y)
     int ltyp, dmg = 0;
 
     if (!isok(x, y)) {
-        You_feel("精神阻碍了你.");
+        You_feel("一种冥冥中的力量阻碍了你.");
         return FALSE;
     } else if (!in_out_region(x, y)) {
         return FALSE;
@@ -802,23 +802,23 @@ hurtle_step(genericptr_t arg, coordxy x, coordxy y)
 
         if (IS_OBSTRUCTED(levl[x][y].typ)
             || closed_door(x, y) || odoor_diag) {
-            why = IS_TREE(ltyp) ? "bumping into a tree"
-                  : IS_OBSTRUCTED(ltyp) ? "bumping into a wall"
-                    : odoor_diag ? "bumping into a door frame"
-                      : "bumping into a closed door";
+            why = IS_TREE(ltyp) ? "撞到树上"
+                  : IS_OBSTRUCTED(ltyp) ? "撞到墙上"
+                    : odoor_diag ? "撞到门框上"
+                      : "撞到关着的门上";
             if (odoor_diag)
-                You("撞到了门框！");
+                You("撞到了门框上!");
             pline("嗷!");
         } else if (ltyp == IRONBARS) {
-            why = "crashing into iron bars";
-            You("撞上一些铁球.  嗷!");
+            why = "撞到铁栅栏上";
+            You("撞到了铁栅栏上. 嗷!");
         } else if ((obj = sobj_at(BOULDER, x, y)) != 0) {
-            why = "bumping into a boulder";
-            You("撞上一个%s.  嗷!", xname(obj));
+            why = "撞到巨石上";
+            You("撞到了一个%s上. 嗷!", xname(obj));
         }  else if (!may_pass) {
             /* did we hit a no-dig non-wall position? */
-            why = "touching the edge of the universe";
-            You("撞到什么东西!");
+            why = "触摸宇宙的边界";
+            You("撞到了什么东西!");
         } else if (diagonal
                    && bad_rock(gy.youmonst.data, u.ux, y)
                    && bad_rock(gy.youmonst.data, x, u.uy)) {
@@ -826,8 +826,8 @@ hurtle_step(genericptr_t arg, coordxy x, coordxy y)
                        && (inv_weight() + weight_cap() > WT_TOOMUCH_DIAGONAL));
 
             if (bigmonst(gy.youmonst.data) || too_much) {
-                why = "wedging into a narrow crevice";
-                You("%s强行挤入一个细缝.",
+                why = "强行挤入一个细缝";
+                You("%s强行挤入了一个细缝.",
                     too_much ? "和你所有的物品" : "");
             }
         }
@@ -860,9 +860,9 @@ hurtle_step(genericptr_t arg, coordxy x, coordxy y)
                          | AUGMENT_IT),
                         FALSE);
         if (!glyph_is_monster(glyph) && !glyph_is_invisible(glyph))
-            You("通过撞到%s发现了%s.", mnam, noit_mhim(mon));
+            You("因为撞到%s发现了%s.", mnam, noit_mhim(mon));
         else
-            You("撞到%s.", mnam);
+            You("撞到了%s.", mnam);
         wakeup(mon, FALSE);
         if (!canspotmon(mon))
             map_invisible(mon->mx, mon->my);
@@ -870,7 +870,7 @@ hurtle_step(genericptr_t arg, coordxy x, coordxy y)
         if (touch_petrifies(mon->data)
             /* this is a bodily collision, so check for body armor */
             && !uarmu && !uarm && !uarmc) {
-            Sprintf(svk.killer.name, "撞上了%s",
+            Sprintf(svk.killer.name, "撞到%s",
                     an(pmname(mon->data, NEUTRAL)));
             instapetrify(svk.killer.name);
         }
@@ -928,10 +928,10 @@ hurtle_step(genericptr_t arg, coordxy x, coordxy y)
             (void) drown();
             return FALSE;
         } else if (!Is_waterlevel(&u.uz) && !stopping_short) {
-            Norep("You move over %s.", an(is_moat(x, y) ? "moat" : "pool"));
+            Norep("你在%s上移动.", an(is_moat(x, y) ? "护城河" : "水池"));
         }
     } else if (is_lava(x, y) && !stopping_short) {
-        Norep("You move over some lava.");
+        Norep("你在熔岩上移动.");
     }
 
     /* FIXME:
@@ -948,7 +948,7 @@ hurtle_step(genericptr_t arg, coordxy x, coordxy y)
             dotrap(ttmp, NO_TRAP_FLAGS);
             return FALSE;
         } else if (ttmp->ttyp == VIBRATING_SQUARE) {
-            pline("你通过它时地面在震动.");
+            pline("当你经过它时, 地面在振动.");
             dotrap(ttmp, NO_TRAP_FLAGS); /* doesn't print messages */
         } else if (ttmp->ttyp == FIRE_TRAP) {
             dotrap(ttmp, NO_TRAP_FLAGS);
@@ -1026,7 +1026,7 @@ mhurtle_step(genericptr_t arg, coordxy x, coordxy y)
     }
     if ((mtmp = m_at(x, y)) != 0 && mtmp != mon) {
         if (canseemon(mon) || canseemon(mtmp))
-            pline("%s 撞到了 %s.", Monnam(mon), a_monnam(mtmp));
+            pline("%s撞到了%s.", Monnam(mon), a_monnam(mtmp));
         wakeup(mtmp, !svc.context.mon_moving);
         /* check whether 'mon' is turned to stone by touching 'mtmp' */
         if (touch_petrifies(mtmp->data)
@@ -1042,7 +1042,7 @@ mhurtle_step(genericptr_t arg, coordxy x, coordxy y)
         }
     } else if (u_at(x, y)) {
         /* a monster has caused 'mon' to hurtle against hero */
-        pline("%s撞到了你。", Some_Monnam(mon));
+        pline("%s撞到了你.", Some_Monnam(mon));
         stop_occupation();
         /* check whether 'mon' is turned to stone by touching poly'd hero */
         if (Upolyd && touch_petrifies(gy.youmonst.data)
@@ -1054,11 +1054,11 @@ mhurtle_step(genericptr_t arg, coordxy x, coordxy y)
         /* and whether hero is turned to stone by being touched by 'mon' */
         if (touch_petrifies(mon->data) && !(uarmu || uarm || uarmc)) {
             Snprintf(svk.killer.name, sizeof svk.killer.name,
-                     "being hit by %s",
+                     "被%s击中",
                      /* combine m_monnam() and noname_monnam():
                         "{your,a} hurtling cockatrice" w/o assigned name */
                      x_monnam(mon, mon->mtame ? ARTICLE_YOUR : ARTICLE_A,
-                              "hurtling", EXACT_NAME | SUPPRESS_NAME, FALSE));
+                              "飞速袭来的", EXACT_NAME | SUPPRESS_NAME, FALSE));
             instapetrify(svk.killer.name);
             newsym(u.ux, u.uy);
         }
@@ -1088,11 +1088,11 @@ hurtle(int dx, int dy, int range, boolean verbose)
      * for diagonal movement, give the player a message and return.
      */
     if (Punished && !carried(uball)) {
-        You_feel("铁球传来一阵拉扯。");
+        You_feel("铁球传来一阵拉扯.");
         nomul(0);
         return;
     } else if (u.utrap) {
-        You("被%s固定.",
+        You("被%s固定住了.",
             (u.utraptype == TT_WEB) ? "网"
             : (u.utraptype == TT_LAVA) ? hliquid("熔岩")
               : (u.utraptype == TT_INFLOOR) ? surface(u.ux, u.uy)
@@ -1110,7 +1110,7 @@ hurtle(int dx, int dy, int range, boolean verbose)
         return; /* paranoia */
 
     nomul(-range);
-    gm.multi_reason = "moving through the air";
+    gm.multi_reason = "在空中移动";
     gn.nomovemsg = ""; /* it just happens */
     if (verbose)
         You("向反方向%s.",

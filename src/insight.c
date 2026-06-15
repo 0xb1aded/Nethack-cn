@@ -1703,7 +1703,7 @@ attributes_enlightenment(
                     trapped ? ", 如果未被陷阱困住" : "",
                     (trapped && terrain) ? ", 并且" : "",
                     terrain ? if_surroundings_permitted : "");
-            enl_msg(You_, "可以漂浮", "曾可以漂浮", buf, "");
+            enl_msg(You_, "可以悬浮", "曾可以悬浮", buf, "");
         }
         BLevitation = save_BLev;
     }
@@ -1720,7 +1720,7 @@ attributes_enlightenment(
                        "weren't" and "permitted" are adequate so the
                        extra complexity to handle that isn't worth it */
                     Levitation
-                       ? ", 如果你不在漂浮"
+                       ? ", 如果你不在悬浮"
                        : (save_BFly == I_SPECIAL)
                           /* this is an oversimplification; being trapped
                              might also be blocking levitation so flight

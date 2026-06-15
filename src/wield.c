@@ -504,7 +504,7 @@ doswapweapon(void)
 int
 dowieldquiver(void)
 {
-    return doquiver_core("ready");
+    return doquiver_core("准备好什么"); /*危险:"ready"*/
 }
 
 /* guts of #quiver command; also used by #fire when refilling empty quiver */

@@ -4206,7 +4206,7 @@ look_here(
                                            : "在",
                        *onwhat = cant_reach ? "" : surf;
 
-            You("试图感受%s%s%s的是什么.", drift ? "漂浮在这里" : where,
+            You("试图感受%s%s%s的是什么.", drift ? "悬浮在这里" : where,
                 drift ? "" : onwhat, drift ? "" : "上"); /*修改语序:drift ? "" : onwhat);*/
 
             if (dfeature && !drift && !strcmp(dfeature, surf))
