@@ -2280,8 +2280,8 @@ print_branch(
         if (br->end1.dnum == dnum && lower_bound < br->end1.dlevel
             && br->end1.dlevel <= upper_bound) {
             Sprintf(buf, "%c %s(通往%s): %d",
-                    br_string(br->type), /*修改语序:bymenu ? chr_u_on_lvl(&br->end1) : ' ',*/
-                    bymenu ? chr_u_on_lvl(&br->end1) : ' ', /*修改语序:br_string(br->type),*/
+                    bymenu ? chr_u_on_lvl(&br->end1) : ' ',
+                    br_string(br->type),
                     cdungeonsnames[br->end2.dnum], depth(&br->end1)); /*危险:svd.dungeons*/
             if (bymenu)
                 tport_menu(win, buf, lchoices_p, &br->end1,
