@@ -1958,7 +1958,7 @@ trapeffect_pit(
                 placebc();
             }
             if (!conj_pit)
-                selftouch("掉下去时,你");
+                selftouch("掉下去时, 你");
             gv.vision_full_recalc = 1; /* vision limits change */
             exercise(A_STR, FALSE);
             exercise(A_DEX, FALSE);
@@ -1997,7 +1997,7 @@ trapeffect_pit(
                 pline("坑爹啊. 这简直是个坑中坑!");
             seetrap(trap);
         }
-        mselftouch(mtmp, "掉下去时,", FALSE);
+        mselftouch(mtmp, "掉下去时, ", FALSE);
         if (wearing_iron_shoes(mtmp)) relevant_spikes = FALSE;
         if (DEADMONSTER(mtmp) || thitm(0, mtmp, (struct obj *) 0,
                                        rnd(relevant_spikes ? 10 : 6), FALSE))
@@ -2485,7 +2485,7 @@ trapeffect_poly_trap(
                 prinv(NULL, uarmf, 0);
         } else if (Antimagic || Unchanging) {
             shieldeff(u.ux, u.uy);
-            You_feel("不一样了一刹那.");
+            You("刹那间感觉异样."); /*危险:You_feel*/
             /* Trap did nothing; don't remove it --KAA */
         } else {
             (void) steedintrap(trap, (struct obj *) 0);

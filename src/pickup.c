@@ -1883,7 +1883,7 @@ pickup_object(
 
     if (uwep && uwep == obj)
         gm.mrg_to_wielded = TRUE;
-    pickup_prinv(obj, count, "升起"); /*危险:可能吧*/
+    pickup_prinv(obj, count, "拿起"); /*危险:可能吧*/
     if (obj->ghostly)
         fix_ghostly_obj(obj);
     gm.mrg_to_wielded = FALSE;

@@ -277,7 +277,7 @@ done_in_by(struct monst *mtmp, int how)
         Strcat(buf, m_monnam(mtmp));
     } else {
         if (has_mgivenname(mtmp)) {
-            Strcat(eos(buf), "%s%s的", /*危险:Sprintf*/
+            Sprintf(eos(buf), "%s%s的", /*危险:Sprintf*/
                     has_ebones(mtmp) ? "" : "叫",
                     MGIVENNAME(mtmp));
         }
@@ -360,7 +360,7 @@ static const struct {
     /* "died of starvation, while fainted from lack of food" is accurate
        but sounds a fairly silly (and doesn't actually appear unless you
        splice together death and while-helpless from xlogfile) */
-    { STARVING, 0, "因饥饿而昏厥", "昏厥" },
+    { STARVING, 0, "因饥饿而晕厥", "晕厥" },
 };
 
 /* clear away while-helpless when the cause of death caused that

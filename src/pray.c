@@ -1867,7 +1867,7 @@ dosacrifice(void)
     }
     highaltar = (levl[u.ux][u.uy].altarmask & AM_SANCTUM);
 
-    otmp = floorfood("sacrifice", 1);
+    otmp = floorfood("献祭什么", 1); /*危险:sacrifice*/
     if (!otmp)
         return ECMD_OK;
 

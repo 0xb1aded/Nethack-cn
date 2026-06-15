@@ -1202,7 +1202,7 @@ status_enlightenment(int mode, int final)
         *buf = lowc(*buf); /* override capitalization */
         if (!strcmp(buf, "weak") || !strcmp(buf, "虚弱"))
             Strcat(buf, "因饥饿");
-        else if (!strncmp(buf, "faint", 5) || !strcmp(buf, "昏厥")) /* fainting, fainted */
+        else if (!strncmp(buf, "faint", 5) || !strcmp(buf, "晕厥")) /* fainting, fainted */
             Strcat(buf, "因严重饥饿");
         if (wizard)
             Sprintf(eos(buf), " <%d>", u.uhunger);

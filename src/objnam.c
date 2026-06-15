@@ -9632,7 +9632,7 @@ readobjnam(char *bp, struct obj *no_wish)
         artifact_exists(d.otmp, safe_oname(d.otmp), FALSE, ONAME_NO_FLAGS);
         obfree(d.otmp, (struct obj *) 0);
         d.otmp = &hands_obj;
-        pline("片刻间,你感觉到%s到了你的%s里,但它随机消失了!",
+        pline("片刻间, 你感觉到%s到了你的%s里, 但它随机消失了!",
               something, makeplural(body_part(HAND)));
         return d.otmp;
     }

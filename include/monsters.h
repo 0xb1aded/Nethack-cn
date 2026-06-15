@@ -1774,7 +1774,7 @@
                                         | M2_NASTY | M2_COLLECT | M2_JEWELS,
         M3_INFRAVISIBLE | M3_INFRAVISION,
         19, CLR_BLUE, STORM_GIANT),
-    MON(NAM("titan"), NAM("提坦"), S_GIANT,
+    MON(NAM("titan"), NAM("泰坦"), S_GIANT,
         LVL(16, 18, -3, 70, 9), (1),
         A(ATTK(AT_WEAP, AD_PHYS, 2, 8), ATTK(AT_MAGC, AD_SPEL, 0, 0),
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
