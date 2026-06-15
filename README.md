@@ -86,7 +86,7 @@ English README：[README_en.md](README_en.md)
 - [ ] do_wear.c
 - [ ] drawing.c
 - [ ] dungeon.c
-- [ ] earlyarg.c
+- [x] earlyarg.c (无需翻译)
 - [ ] eat.c
 - [ ] end.c
 - [ ] engrave.c
