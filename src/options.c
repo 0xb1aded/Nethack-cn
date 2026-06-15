@@ -5780,7 +5780,7 @@ staticfn int
 handler_menu_headings(void)
 {
     boolean gotca = query_color_attr(&iflags.menu_headings,
-                                     "How to highlight menu headings:");
+                                     "如何高亮菜单标题: ");
 
     if (gotca) {
         /* header highlighting affects persistent inventory display */
@@ -6152,7 +6152,7 @@ staticfn int
 handler_petattr(void)
 {
     int tmp
-        = query_attr("Select pet highlight attribute", iflags.wc2_petattr);
+        = query_attr("选择宠物高亮属性", iflags.wc2_petattr);
 
     if (tmp != -1) {
         iflags.wc2_petattr = tmp;

@@ -4082,7 +4082,7 @@ status_hilite_menu_choose_updownboth(
         add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE, clr,
                  buf, MENU_ITEMFLAGS_NONE);
     }
-    Sprintf(buf, "选择字段 %s 的值:", fldname_ui[fld]);
+    Sprintf(buf, "选择字段 %s 的值: ", fldname_ui[fld]);
     end_menu(tmpwin, buf);
 
     res = select_menu(tmpwin, PICK_ONE, &picks);
@@ -4143,7 +4143,7 @@ status_hilite_menu_add(int origfld)
 
  choose_value:
     if (retry++ > 5) {
-        pline("尝试次数已经够多了。");
+        pline("尝试次数已经够多了. ");
         return FALSE;
     }
     if (behavior == BL_TH_VAL_PERCENTAGE
@@ -4193,13 +4193,13 @@ status_hilite_menu_add(int origfld)
         }
         if (*inp == '%') {
             if (!percent) {
-                pline("不应出现百分比。");
+                pline("不应出现百分比. ");
                 goto choose_behavior;
             }
             *inp = '\0'; /* strip '%' [this accepts trailing junk!] */
         } else if (*inp) {
             /* some random characters */
-            pline("\"%s\" 不是一个可识别的数字。", inp);
+            pline("\"%s\" 不是一个可识别的数字. ", inp);
             goto choose_value;
         }
         if (!gotnum) {
@@ -4220,7 +4220,7 @@ status_hilite_menu_add(int origfld)
         if (percent) {
             val = aval.a_int;
             if (initblstats[fld].idxmax == -1) {
-                pline("字段 '%s' 不支持百分比数值。",
+                pline("字段 '%s' 不支持百分比数值. ",
                       fldname_ui[fld]);
                 behavior = BL_TH_VAL_ABSOLUTE;
                 goto choose_value;
@@ -4234,7 +4234,7 @@ status_hilite_menu_add(int origfld)
                 || (val == 0 && lt_gt_eq == LT_VALUE)
                 || (val == 100 && lt_gt_eq == GT_VALUE)
                 || (val > 100 && (val != 101 || lt_gt_eq != LT_VALUE))) {
-                pline("'%s%d%%' 不是一个有效的百分比值。", op, val);
+                pline("'%s%d%%' 不是一个有效的百分比值. ", op, val);
                 goto choose_value;
             }
             /* restore suffix for use in color and attribute prompts */
@@ -4278,7 +4278,7 @@ status_hilite_menu_add(int origfld)
                 (lt_gt_eq == LE_VALUE) ? " 或更少"
                   : (lt_gt_eq == GE_VALUE) ? " 或更多"
                     : "");
-        Sprintf(attrqry, "选择当%s是%s%s%s时的属性: ",
+        Sprintf(attrqry, "(多选) 选择当%s是%s%s%s时的属性: ",
                 fldname_ui[fld],
                 (lt_gt_eq == LT_VALUE) ? "小于 "
                   : (lt_gt_eq == GT_VALUE) ? "大于 "
@@ -4307,12 +4307,12 @@ status_hilite_menu_add(int origfld)
                single choice, skip it altogether and just use 'changed' */
             lt_gt_eq = EQ_VALUE;
         }
-        Sprintf(colorqry, "为当 %s %s 时选择一种颜色: ",
+        Sprintf(colorqry, "选择当 %s为%s 时的颜色: ",
                 fldname_ui[fld],
                 (lt_gt_eq == EQ_VALUE) ? "改变"
                   : (lt_gt_eq == LT_VALUE) ? "减少"
                     : "增加");
-        Sprintf(attrqry, "选择属性，当%s %s时: ",
+        Sprintf(attrqry, "(多选) 选择当%s为%s时属性: ",
                 fldname_ui[fld],
                 (lt_gt_eq == EQ_VALUE) ? "变化"
                   : (lt_gt_eq == LT_VALUE) ? "减少"
@@ -4326,10 +4326,10 @@ status_hilite_menu_add(int origfld)
             return FALSE;
         }
         Snprintf(colorqry, sizeof(colorqry),
-                "Choose a color for conditions %s:",
+                "选择条件为 %s 的颜色:",
                 conditionbitmask2str(cond, TRUE));
         Snprintf(attrqry, sizeof(attrqry),
-                "Choose attribute for conditions %s:",
+                "(多选) 选择条件为 %s 的属性:",
                 conditionbitmask2str(cond, TRUE));
     } else if (behavior == BL_TH_TEXTMATCH) {
         char qry_buf[BUFSZ];
@@ -4381,7 +4381,7 @@ status_hilite_menu_add(int origfld)
                 Sprintf(mbuf, "\"%s\"", gu.urole.rank[i].m);
                 if (gu.urole.rank[i].f) {
                     Sprintf(fbuf, "\"%s\"", gu.urole.rank[i].f);
-                    Snprintf(obuf, sizeof obuf, "%s or %s",
+                    Snprintf(obuf, sizeof obuf, "%s 或 %s",
                             flags.female ? fbuf : mbuf,
                             flags.female ? mbuf : fbuf);
                 } else {
@@ -4426,14 +4426,14 @@ status_hilite_menu_add(int origfld)
             else
                 return FALSE;
         }
-        Sprintf(colorqry, "当 %s 为 '%s' 时选择一种颜色: ",
+        Sprintf(colorqry, "选择当 %s 为 '%s' 时的颜色: ",
                 fldname_ui[fld], hilite.textmatch);
-        Sprintf(attrqry, "当 %s 为 '%s' 时选择属性: ",
+        Sprintf(attrqry, "(多选) 选择当 %s 为 '%s' 时的属性: ",
                 fldname_ui[fld], hilite.textmatch);
     } else if (behavior == BL_TH_ALWAYS_HILITE) {
         Sprintf(colorqry, "选择一个颜色以始终高亮 %s: ",
                 fldname_ui[fld]);
-        Sprintf(attrqry, "选择总是高亮%s的属性: ",
+        Sprintf(attrqry, "(多选) 选择总是高亮 %s 的属性: ",
                 fldname_ui[fld]);
     }
 
@@ -4479,7 +4479,7 @@ status_hilite_menu_add(int origfld)
         tmpattr = hlattr2attrname(atr, attrbuf, BUFSZ);
         if (tmpattr)
             Sprintf(eos(clrbuf), "&%s", tmpattr);
-        pline("已添加高亮条件/%s/%s",
+        pline("已添加高亮 condition/%s/%s",
               conditionbitmask2str(cond, TRUE), clrbuf);
     } else {
         char *p, *q;
@@ -4487,14 +4487,14 @@ status_hilite_menu_add(int origfld)
         hilite.coloridx = clr | (atr << 8);
         hilite.anytype = initblstats[fld].anytype;
 
-        if (fld == BL_TITLE && (p = strstri(hilite.textmatch, " or ")) != 0) {
+        if (fld == BL_TITLE && (p = strstri(hilite.textmatch, " 或 ")) != 0) {
             /* split menu choice "male-rank or female-rank" into two distinct
                but otherwise identical rules, "male-rank" and "female-rank" */
             *p = '\0'; /* chop off " or female-rank" */
             /* new rule for male-rank */
             status_hilite_add_threshold(fld, &hilite);
             pline("已添加高亮 %s", status_hilite2str(&hilite, TRUE));
-            p += sizeof " or " - sizeof "";
+            p += sizeof " 或 " - sizeof "";
             q = hilite.textmatch;
             while ((*q++ = *p++) != '\0')
                 continue;
@@ -4701,8 +4701,8 @@ all_options_statushilites(strbuf_t *sbuf)
     hlstr = status_hilite_str;
 
     while (hlstr) {
-        Sprintf(buf, "选项=高亮状态: %.*s\n",
-                (int) (BUFSZ - sizeof "选项=高亮状态:  " - 1),
+        Sprintf(buf, "OPTIONS=hilite_status: %.*s\n",
+                (int) (BUFSZ - sizeof "OPTIONS=hilite_status:  " - 1),
                 hlstr->str);
         strbuf_append(sbuf, buf);
         hlstr = hlstr->next;

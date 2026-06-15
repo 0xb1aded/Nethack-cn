@@ -389,17 +389,27 @@ match_str2attr(const char *str, boolean complain)
 }
 
 /* ask about highlighting attribute; for menu headers and menu
-   coloring patterns, only one attribute at a time is allowed;
-   for status highlighting, multiple attributes are allowed [overkill;
-   life would be much simpler if that were restricted to one also...] */
+ * coloring patterns, only one attribute at a time is allowed;
+ * for status highlighting, multiple attributes are allowed [overkill;
+ * life would be much simpler if that were restricted to one also...]
+ *
+ * HACK: 该函数原本判断 `prompt` 参数是否以 "Choose" 开头决定是否开启多选，
+ * 中文可以翻译成“选择”但翻译时往往需要调整语序，此外 "Select" 也可能被翻译
+ * 成“选择”导致误开启多选。现统一使用“(多选) ”这个前缀判断是否需要开启多选
+ * 功能。实际上原版这种判断方式本身就并不可靠，另一种方案是添加一个布尔参数
+ * 决定是否开启多选。缺点是这种修改更具侵入性，所有包装了该函数的接口都要转发该参数。
+ */
 int
 query_attr(const char *prompt, int dflt_attr)
 {
+    static const char multi_prefix[] = "(多选) ";
+
     winid tmpwin;
     anything any;
     int i, pick_cnt;
     menu_item *picks = (menu_item *) 0;
-    boolean allow_many = (prompt && !strncmpi(prompt, "Choose", 6));
+    boolean allow_many =
+        (prompt && !strncmp(prompt, multi_prefix, sizeof multi_prefix - 1));
     int clr = NO_COLOR;
 
     tmpwin = create_nhwindow(NHW_MENU);
