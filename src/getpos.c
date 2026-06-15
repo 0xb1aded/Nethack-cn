@@ -180,7 +180,7 @@ getpos_help(boolean force, const char *goal)
             visctrl(cmd_from_func(do_move_east)), goal);
     putstr(tmpwin, 0, sbuf);
     Sprintf(sbuf,
-            "使用'%s', '%s', '%s', '%s'快速移动光标,%s.",
+            "使用'%s', '%s', '%s', '%s'快速移动光标, %s.",
             visctrl(cmd_from_func(do_run_west)),
             visctrl(cmd_from_func(do_run_south)),
             visctrl(cmd_from_func(do_run_north)),

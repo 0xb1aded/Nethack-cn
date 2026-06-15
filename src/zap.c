@@ -635,7 +635,7 @@ probe_monster(struct monst *mtmp)
                                   (char *) 0);
     } else {
         pline("%s没有携带任何东西%s.", noit_Monnam(mtmp),
-              engulfing_u(mtmp) ? ",除了你" : "");
+              engulfing_u(mtmp) ? ", 除了你" : "");
     }
 }
 
@@ -2574,7 +2574,7 @@ zapnodir(struct obj *obj)
         break;
     case WAN_WISHING:
         if (Luck + rn2(5) < 0) {
-            pline("不幸地,没有任何事发生.");
+            pline("不幸的是, 没有任何事发生.");
             known = FALSE;
         } else {
             known = !!obj->dknown;
@@ -2737,7 +2737,7 @@ zapyourself(struct obj *obj, boolean ordinary)
             monstunseesu(M_SEEN_ELEC);
         } else {
             shieldeff(u.ux, u.uy);
-            You("朝自己施法,但看起来没有受伤.");
+            You("朝自己施法, 但看起来没有受伤.");
             monstseesu(M_SEEN_ELEC);
             ugolemeffects(AD_ELEC, orig_dmg);
         }
@@ -6168,7 +6168,7 @@ wishcmdassist(int triesleft)
         wishinfo[] = {
   "许愿详情:",
   "",
-  "输入物品的名称,例如\"potion of monster detection\", ",
+  "输入物品的名称, 例如\"potion of monster detection\", ",
   "\"scroll labeled README\", \"elven mithril-coat\"或",
   "\"Grimtooth\"(不带引号). ",
   "",
@@ -6188,7 +6188,7 @@ wishcmdassist(int triesleft)
                     "如果你指定一种未鉴定的物品%s%s次%s,",
         retry_too[] = "你将获得一件随机物品.",
         suppress_cmdassist[] =
-            "(在配置文件中添加!cmdassist以禁用此辅助功能.)",
+            "(在配置文件中添加!cmdassist以禁用此辅助功能. )",
         *cardinals[] = { "零",  "一",  "二", "三", "四", "五" },
         too_many[] = "过多";
     int i;

@@ -111,7 +111,7 @@ tshirt_text(struct obj *tshirt, char *buf)
         "我活过了岩德军队新兵训练营",
         "吕底俄斯会计学校校内长曲棍球队",
         "Oracle(TM) Fountains第十届湿身T恤大赛",
-        "来啊,黑龙! 有本事就分解这个!",
+        "来啊, 黑龙! 有本事就分解这个!",
         "我跟蠢货在一起 -->",
         "别怪我, 我投给了Izchak!",
         "别慌", /* HHGTTG */
@@ -121,7 +121,7 @@ tshirt_text(struct obj *tshirt, char *buf)
         "100%地精毛 - 请勿洗涤",
         "LI-MING",
         "cK -- 鸡蛇碰到了警察",
-        "别问我,我只是个探险者",
+        "别问我, 我只是个探险者",
         "死时还穿着裤子!",
         "d, 你的狗还是杀手?",
         "*免费的小狗和蝾螈*!",
@@ -434,7 +434,7 @@ doread(void)
                      simpleonames(scroll));
             return ECMD_OK;
         }
-        pline("%s%s上面%s:%s.", /*修改语序:pline("%s%s上面写着":"%s.",*/
+        pline("%s%s上面%s: %s.", /*修改语序:pline("%s%s上面写着":"%s.",*/
               !Blind ? "你看到" : "你摸到",
               simpleonames(scroll), !Blind ? "写着" : "的字", cap_text); /*危险,修改语序:simpleonames(scroll), cap_text);*/
         if (!u.uconduct.literate++)
@@ -2661,7 +2661,7 @@ do_class_genocide(void)
         if (!*buf) {
             pline("%s.", (j + 1 < 5)
                          ? "输入字母(或标点符号)"
-                           "或者一类怪物的名称,或者'none'"
+                           "或者一类怪物的名称, 或者'none'"
                          /* next iteration gives "that's enough tries"
                             so don't suggest typing anything this time */
                          : "未指定怪物类别");
@@ -2857,7 +2857,7 @@ do_genocide(
                 Snprintf(eos(promptbuf), sizeof promptbuf - strlen(promptbuf),
                          " [输入%s]",
                          iflags.cmdassist
-                           ? "输入你想灭绝的怪物的名称或其符号,或者'?'"
+                           ? "输入你想灭绝的怪物的名称或其符号, 或者'?'"
                            : "输入'?'以查看已灭绝物种");
             getlin(promptbuf, buf);
             (void) mungspaces(buf);
@@ -3036,7 +3036,7 @@ punish(struct obj *sobj)
     if (amorphous(gy.youmonst.data) || is_whirly(gy.youmonst.data)
         || unsolid(gy.youmonst.data)) {
         if (!reuse_ball) {
-            pline("一个球和链出现了,然后松开了.");
+            pline("一个球和链出现了, 然后松开了.");
             dropy(mkobj(BALL_CLASS, TRUE));
         } else {
             dropy(reuse_ball);
@@ -3391,7 +3391,7 @@ create_particular(void)
         if (*bufp || altmsg || tryct < 2) {
             pline("我从未听说过这种怪物.");
         } else {
-            pline("再试一次(输入*随机选择,按ESC取消).");
+            pline("再试一次(输入*随机选择, 按ESC取消).");
             ++altmsg;
         }
         /* when a second try is needed, expand the prompt */

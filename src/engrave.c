@@ -220,7 +220,7 @@ cant_reach_floor(coordxy x, coordxy y, boolean up,
 {
     pline("%s够不到%s.",
           wand_engraving
-              ? "你的魔杖没有动静,且魔杖的尖端"
+              ? "你的魔杖没有动静, 且魔杖的尖端"
               : "你",
           up  ? ceiling(x, y)
               : (check_pit && can_reach_floor(FALSE)) ? "坑底"
@@ -1005,7 +1005,7 @@ doengrave(void)
             cant_reach_floor(u.ux, u.uy, FALSE, TRUE, FALSE);
             goto doengr_exit;
         } else {
-            You("挥动魔杖,指向下方的%s.",
+            You("挥动魔杖, 指向下方的%s.",
                 surface(u.ux, u.uy));
             initial_msg_given = TRUE;
         }
@@ -1086,7 +1086,7 @@ doengrave(void)
     }
     if (de->zapwand && (de->otmp->spe < 0)) {
         pline("%s%s化为了尘土.", The(xname(de->otmp)),
-              Blind ? "" : "剧烈发光,然后");
+              Blind ? "" : "剧烈发光, 然后");
         if (!IS_GRAVE(levl[u.ux][u.uy].typ))
             You(
     "你用你的尘土在%s上写字是徒劳的.",
@@ -1180,7 +1180,7 @@ doengrave(void)
             de->eloc, /*修改语序:(de->type == ENGRAVE && de->otmp->quan > 1L) ? "一个" : "",*/
             de->everb); /*修改语序:doname(de->otmp));*/
     else
-        You("用你的%s在%s%s.", /*修改语序:You("你%s了%s,用你的%s.",*/
+        You("用你的%s在%s%s.", /*修改语序:You("你%s了%s, 用你的%s.",*/
             body_part(FINGERTIP), de->eloc, de->everb); /*修改语序:de->everb, de->eloc, body_part(FINGERTIP));*/
 
     /* Prompt for engraving! */
@@ -1199,7 +1199,7 @@ doengrave(void)
     if (de->len == 0 || strchr(de->ebuf, '\033')) {
         if (de->zapwand) {
             if (!Blind)
-                pline("%s了一下,然后%s了.", Tobjnam(de->otmp, "亮"),
+                pline("%s了一下, 然后%s了.", Tobjnam(de->otmp, "亮"),
                       otense(de->otmp, "变暗"));
             de->ret = ECMD_TIME;
             goto doengr_exit;

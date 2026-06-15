@@ -1043,7 +1043,7 @@ polymon(int mntmp)
         if (attacktype(uptr, AT_GAZE))
             pline(use_thec, monsterc, "注视怪物");
         if (might_hide && webmaker(uptr))
-            pline(use_thec, monsterc, "藏在网里,或者织网");
+            pline(use_thec, monsterc, "藏在网里, 或者织网");
         else if (might_hide)
             pline(use_thec, monsterc, "躲藏");
         else if (webmaker(uptr))

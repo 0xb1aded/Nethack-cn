@@ -2152,7 +2152,7 @@ fprefx(struct obj *otmp)
         break;
     case LEMBAS_WAFER:
         if (maybe_polyd(is_orc(gy.youmonst.data), Race_if(PM_ORC))) {
-            pline("%s", "!#?&* 精灵干粮!");
+            pline("%s", "!#?&*精灵干粮!");
             break;
         } else if (maybe_polyd(is_elf(gy.youmonst.data), Race_if(PM_ELF))) {
             pline("一点点就够了.");

@@ -16,7 +16,7 @@ staticfn void maybewakesteed(struct monst *);
 void
 rider_cant_reach(void)
 {
-    You("还不够熟练,无法从%s上够到.", y_monnam(u.usteed));
+    You("还不够熟练, 无法从%s上够到.", y_monnam(u.usteed));
 }
 
 /*** Putting the saddle on ***/

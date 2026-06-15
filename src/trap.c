@@ -1228,7 +1228,7 @@ trapeffect_arrow_trap(
         if (trap->once && trap->tseen && !rn2(15)) {
             if (in_sight && see_it)
                 pline_mon(mtmp,
-                      "%s触发了一个陷阱,但什么都没有发生.",
+                      "%s触发了一个陷阱, 但什么都没有发生.",
                       Monnam(mtmp));
             deltrap(trap);
             newsym(mtmp->mx, mtmp->my);
@@ -1299,7 +1299,7 @@ trapeffect_dart_trap(
         if (trap->once && trap->tseen && !rn2(15)) {
             if (in_sight && see_it)
                 pline_mon(mtmp,
-                      "%s触发了一个陷阱,但什么都没有发生.",
+                      "%s触发了一个陷阱, 但什么都没有发生.",
                       Monnam(mtmp));
             deltrap(trap);
             newsym(mtmp->mx, mtmp->my);
@@ -1380,7 +1380,7 @@ trapeffect_rocktrap(
         if (trap->once && trap->tseen && !rn2(15)) {
             if (in_sight && see_it)
                 pline_mon(mtmp,
-                      "%s上的陷阱门打开了,但是没有东西落下!",
+                      "%s上的陷阱门打开了, 但是没有东西落下!",
                       mon_nam(mtmp));
             deltrap(trap);
             newsym(mtmp->mx, mtmp->my);
@@ -4089,7 +4089,7 @@ float_down(
                 You("无法继续抓住%s.",
                     mon_nam(u.ustuck));
             else
-                pline("%s吃了一惊,无法继续抓住你!",
+                pline("%s吃了一惊, 无法继续抓住你!",
                       mon_nam(u.ustuck));
             set_ustuck((struct monst *) 0);
         }
@@ -4392,7 +4392,7 @@ domagictrap(void)
         case 15:
             if (on_level(&u.uz, &qstart_level))
                 You_feel(
-                    "你像个浪子.%s.",
+                    "你像个浪子. %s.",
                     (flags.female || (Upolyd && is_neuter(gy.youmonst.data)))
                         ? "挺奇怪的"
                         : "");
@@ -5035,7 +5035,7 @@ rescued_from_terrain(int how)
     case DISSOLVED: /* sunk into lava while fire resistant */
         if (is_pool(u.ux, u.uy)) {
             You("%s在%s%s.", find_yourself,
-                hliquid("水"), u.uinwater ? "中" : "上"); /*修改语序:u.uinwater ? "在" : "在...上", hliquid("水"));*/
+                hliquid("水"), u.uinwater ? "中" : "上"); /*修改语序:u.uinwater ? "在" : "在。。。上", hliquid("水"));*/
             mesggiven = TRUE;
         } else if (is_lava(u.ux, u.uy)) {
             You("%s在%s上.", find_yourself, hliquid("熔岩"));
@@ -6969,7 +6969,7 @@ lava_effects(void)
                                                       : rn1(4, 12)) << 8)),
                   TT_LAVA);
         You("沉入%s中%s!", waterbody_name(u.ux, u.uy),
-            !boil_away ? ",但只是轻微灼烧"
+            !boil_away ? ", 但只是轻微灼烧"
                        : "并且即将被烧死");
         if (Fire_resistance)
             monstseesu(M_SEEN_FIRE);

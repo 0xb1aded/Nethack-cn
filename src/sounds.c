@@ -778,7 +778,7 @@ domonnoise(struct monst *mtmp)
                         flags.female ? "姐姐" : "哥哥");
                 verbl_msg = verbuf;
             } else if (nightchild && isnight) {
-                Sprintf(verbuf, "很高兴听到你的声音,夜之子!");
+                Sprintf(verbuf, "很高兴听到你的声音, 夜之子!");
                 verbl_msg = verbuf;
             } else
                 verbl_msg = "我只喝... 药水.";
@@ -990,7 +990,7 @@ domonnoise(struct monst *mtmp)
         break;
     case MS_DJINNI:
         if (mtmp->mtame) {
-            verbl_msg = "抱歉,我的愿望已经用完了.";
+            verbl_msg = "抱歉, 我的愿望已经用完了.";
         } else if (mtmp->mpeaceful) {
             if (ptr == &mons[PM_WATER_DEMON])
                 pline_msg = "咕噜叫.";
@@ -998,7 +998,7 @@ domonnoise(struct monst *mtmp)
                 verbl_msg = "我自由了!";
         } else {
             if (ptr != &mons[PM_PRISONER])
-                verbl_msg = "让你别打扰我,这就给你好好上一课!";
+                verbl_msg = "让你别打扰我, 这就给你好好上一课!";
             else /* vague because prisoner might already be out of cell */
                 verbl_msg = "快把我弄出去.";
         }

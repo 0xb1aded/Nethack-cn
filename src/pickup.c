@@ -1327,11 +1327,11 @@ query_category(
         if (!verify_All) {
             if (!ga.A_first_hint++ || iflags.cmdassist)
                 add_menu_str(win,
-                   "    (除非还选择了其他选项,否则将被忽略)");
+                   "    (除非还选择了其他选项, 否则将被忽略)");
         } else if (show_a) {
             if (!ga.A_second_hint++ || iflags.cmdassist)
                 add_menu_str(win,
-                      "    (如果未选择其他选项,则默认选择'a')");
+                      "    (如果未选择其他选项, 则默认选择'a')");
         }
         /* blank separator */
         add_menu_str(win, "");

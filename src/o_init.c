@@ -635,7 +635,7 @@ choose_disco_sort(
            chosen sort will stick and also apply to '\' usage */
         add_menu_str(tmpwin, "");
         add_menu_str(tmpwin,
-                     "注:按完整字母顺序排序和按类内字母顺序");
+                     "注: 按完整字母顺序排序和按类内字母顺序");
         add_menu_str(tmpwin,
                      "  排序在单类检索中是等效的, 但在将来进");
         add_menu_str(tmpwin,

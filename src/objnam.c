@@ -1192,17 +1192,17 @@ xname_flags(
         switch (obj->otyp) {
         case T_SHIRT:
         case ALCHEMY_SMOCK:
-            ConcatF1(buf, 0, ",上面写着\"%s\"",
+            ConcatF1(buf, 0, ", 上面写着\"%s\"",
                      (obj->otyp == T_SHIRT) ? tshirt_text(obj, tmpbuf)
                                             : apron_text(obj, tmpbuf));
             break;
         case CANDY_BAR:
             lbl = candy_wrapper_text(obj);
             if (*lbl)
-                ConcatF1(buf, 0, ",上面写着\"%s\"", lbl);
+                ConcatF1(buf, 0, ", 上面写着\"%s\"", lbl);
             break;
         case HAWAIIAN_SHIRT:
-            ConcatF1(buf, 0, ",上面有%s",
+            ConcatF1(buf, 0, ", 上面有%s",
                      an(hawaiian_motif(obj, tmpbuf)));
             break;
         default:
@@ -2160,7 +2160,7 @@ doname_base(
            everything out if no merges occur */
         long itemcount = count_contents(obj, FALSE, FALSE, TRUE, FALSE);
 
-        ConcatF2(bp, 0, ",包含%ld个物品%s", itemcount, plur(itemcount)); /*危险:ConcatF2(bp, 0, " containing %ld item%s", itemcount, plur(itemcount)); ConcatF1(prefix, 0, "包含%ld个物品的", itemcount);*/
+        ConcatF2(bp, 0, ", 包含%ld个物品%s", itemcount, plur(itemcount)); /*危险:ConcatF2(bp, 0, " containing %ld item%s", itemcount, plur(itemcount)); ConcatF1(prefix, 0, "包含%ld个物品的", itemcount);*/
     }
 
     switch (is_weptool(obj) ? WEAPON_CLASS : obj->oclass) {
@@ -2399,7 +2399,7 @@ doname_base(
                              glow_color(obj->oartifact));
                 else if (obj->lamplit && artifact_light(obj))
                     /* as above, overwrite known closing paren */
-                    ConcatF1(bp, 1, ",发出%s的光芒)",
+                    ConcatF1(bp, 1, ", 发出%s的光芒)",
                              arti_light_description(obj));
             }
         }
@@ -2410,7 +2410,7 @@ doname_base(
                      URIGHTY ? "左" : "右", body_part(HAND));
         else
             /* TODO: rephrase this when obj isn't a weapon or weptool */
-            ConcatF1(bp, 0, " (副武器%s;未装备)",
+            ConcatF1(bp, 0, " (副武器%s; 未装备)",
                      plur(obj->quan));
     }
     if (obj->owornmask & W_QUIVER) {

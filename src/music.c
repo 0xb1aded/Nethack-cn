@@ -790,7 +790,7 @@ do_play_instrument(struct obj *instr)
     } else if (c == 'y') {
         Strcpy(buf, svt.tune);
     } else {
-        getlin("你要演奏什么? [5个字母,A-G]", buf);
+        getlin("你要演奏什么? [5个字母, A-G]", buf);
         (void) mungspaces(buf);
         if (*buf == '\033')
             goto nevermind;

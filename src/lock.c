@@ -896,7 +896,7 @@ doopen_indir(coordxy x, coordxy y)
     }
 
     if (verysmall(gy.youmonst.data)) {
-        pline("你的体型太小,拉不开门.");
+        pline("你的体型太小, 拉不开门.");
         return res;
     }
 
@@ -1032,7 +1032,7 @@ doclose(void)
 
     if (door->doormask == D_ISOPEN) {
         if (verysmall(gy.youmonst.data) && !u.usteed) {
-            pline("你太小了,无法把门推上.");
+            pline("你太小了, 无法把门推上.");
             return res;
         }
         if (u.usteed

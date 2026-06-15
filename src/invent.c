@@ -2691,7 +2691,7 @@ menu_identify(int id_limit)
             pline1(thats_enough_tries);
             break;
         } else { /* try again */
-            pline("选择一项;使用Esc来退出.");
+            pline("选择一项; 使用Esc来退出.");
         }
     }
 }

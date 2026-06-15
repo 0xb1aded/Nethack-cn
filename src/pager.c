@@ -118,7 +118,7 @@ self_lookat(char *outbuf)
             (Invis && (senseself() || !Blind)) ? "隐形的" : "", svp.plname, race, /*修改语序:(Invis && (senseself() || !Blind)) ? "隐形的" : "", race,*/
             pmname(&mons[u.umonnum], Ugender)); /*修改语序:pmname(&mons[u.umonnum], Ugender), svp.plname);*/
     if (u.usteed)
-        Sprintf(eos(outbuf), ",骑在%s上", y_monnam(u.usteed));
+        Sprintf(eos(outbuf), ", 骑在%s上", y_monnam(u.usteed));
     if (u.uundetected || (Upolyd && U_AP_TYPE)
         || visible_region_at(u.ux, u.uy))
         mhidden_description(&gy.youmonst,
@@ -2699,9 +2699,9 @@ dowhatdoes(void)
     char q, *reslt;
 
     if (!once) {
-        pline("用'&'或者'?'来获取更多信息.%s",
+        pline("用'&'或者'?'来获取更多信息. %s",
 #ifdef ALTMETA
-              iflags.altmeta ? " (按下两次ESC以退出.)" :
+              iflags.altmeta ? "(按下两次ESC以退出. )" :
 #endif
               "");
         once = TRUE;

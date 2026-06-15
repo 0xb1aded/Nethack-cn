@@ -623,10 +623,10 @@ background_enlightenment(int unused_mode UNUSED, int final)
         /* TODO? maybe extend this bit to include various other automatic
            annotations from the dungeon overview code */
         if (Is_rogue_level(&u.uz))
-            Strcat(tmpbuf, ",一个原始的区域");
+            Strcat(tmpbuf, ", 一个原始的区域");
         else if (Is_bigroom(&u.uz) && !Blind)
-            Strcat(tmpbuf, ",一个非常大的房间");
-        Snprintf(buf, sizeof(buf), "在%s,%s", dgnbuf, tmpbuf);
+            Strcat(tmpbuf, ", 一个非常大的房间");
+        Snprintf(buf, sizeof(buf), "在%s%s", dgnbuf, tmpbuf);
     }
     you_are(buf, "");
 
@@ -772,7 +772,7 @@ basics_enlightenment(int mode UNUSED, int final)
     find_ac(); /* enforces AC_MAX cap */
     Sprintf(buf, "%d", u.uac);
     if (abs(u.uac) == AC_MAX)
-        Sprintf(eos(buf), ",可能达到的%s的",
+        Sprintf(eos(buf), ", 可能达到的%s的",
                 (u.uac < 0) ? "最佳" : "最差");
     enl_msg("你的防具", "是 ", "曾是", buf, "");
 
@@ -789,7 +789,7 @@ basics_enlightenment(int mode UNUSED, int final)
         }
         /* terminate the wallet line if appropriate, otherwise add an
            introduction to subsequent continuation; output now either way */
-        Strcat(buf, !hmoney ? "." : !umoney ? ",但是" : ",并且");
+        Strcat(buf, !hmoney ? "." : !umoney ? ", 但是" : ", 并且");
         enlght_out(buf);
 
         /* put contained gold on its own line to avoid excessive width; it's
@@ -807,7 +807,7 @@ basics_enlightenment(int mode UNUSED, int final)
         Strcpy(buf, "开启");
         if (costly_spot(u.ux, u.uy)) {
             /* being in a shop inhibits autopickup, even 'pickup_thrown' */
-            Strcat(buf, ",但在商店内暂时禁用");
+            Strcat(buf, ", 但在商店内暂时禁用");
         } else {
             oc_to_str(flags.pickup_types, ocl);
             Sprintf(eos(buf), ", 拾取%s%s%s", *ocl ? "'" : "",
@@ -913,17 +913,17 @@ one_characteristic(int mode, int final, int attrindx)
                   : (alimit != (attrindx != A_STR ? 18 : STR18(100)));
         paren_pfx = final ? "(" : "(当前;";
         if (acurrent != abase) {
-            Sprintf(eos(valubuf), "%s基础:%s", paren_pfx,
+            Sprintf(eos(valubuf), "%s基础: %s", paren_pfx,
                     attrval(attrindx, abase, valstring));
             paren_pfx = ", ";
         }
         if (abase != apeak) {
-            Sprintf(eos(valubuf), "%s最高:%s", paren_pfx,
+            Sprintf(eos(valubuf), "%s最高: %s", paren_pfx,
                     attrval(attrindx, apeak, valstring));
             paren_pfx = ", ";
         }
         if (interesting_alimit) {
-            Sprintf(eos(valubuf), "%s%s极限:%s", paren_pfx,
+            Sprintf(eos(valubuf), "%s%s极限: %s", paren_pfx,
                     /* more verbose if exceeding 'limit' due to magic bonus */
                     (acurrent > alimit) ? "天生" : "",
                     attrval(attrindx, alimit, valstring));
@@ -1325,7 +1325,7 @@ weapon_insight(int final)
 
         if (!u.twoweap) {
             if (can_advance(wtype, FALSE))
-                Sprintf(eos(buf), ",并且%s",
+                Sprintf(eos(buf), ", 并且%s",
                         !final ? "可以增强" : "还可以增强");
             if (hav)
                 you_are(buf, "");
@@ -1456,7 +1456,7 @@ weapon_insight(int final)
                         ((a1 && a2 && ab) ? ","
                          : (a1 && (a2 || ab)) ? also_wik_ : ""),
                         a2 ? skill_name(wtype2) : "",
-                        ((a1 && a2 && ab) ? ",和"
+                        ((a1 && a2 && ab) ? ", 和"
                          : (a2 && ab) ? also_wik_ : ""),
                         ab ? "双持" : "");
                 enl_msg(You_, "可以增强", "还可以增强", sfx, "");
@@ -1616,7 +1616,7 @@ attributes_enlightenment(
         you_are("有千里眼", from_what(CLAIRVOYANT));
     } else if ((HClairvoyant || EClairvoyant) && BClairvoyant) {
         Strcpy(buf, from_what(-CLAIRVOYANT));
-        (void) strsubst(buf, ",因为", ", 如果没有");
+        (void) strsubst(buf, ", 因为", ", 如果没有");
         enl_msg(You_, "能", "本能", "有千里眼", buf);
     }
     if (Infravision)
@@ -1701,7 +1701,7 @@ attributes_enlightenment(
 
             Sprintf(buf, "%s%s%s",
                     trapped ? ", 如果未被陷阱困住" : "",
-                    (trapped && terrain) ? ",并且" : "",
+                    (trapped && terrain) ? ", 并且" : "",
                     terrain ? if_surroundings_permitted : "");
             enl_msg(You_, "可以漂浮", "曾可以漂浮", buf, "");
         }
@@ -1995,7 +1995,7 @@ attributes_enlightenment(
             case 1:
                 break; /* just "are dead" */
             default:
-                Sprintf(buf, " (%d%s次!)", u.umortality,
+                Sprintf(buf, " (%d%s次! )", u.umortality,
                         ordin(u.umortality));
                 break;
             }
@@ -3372,7 +3372,7 @@ mstatusline(struct monst *mtmp)
                                                  : ", 被你抓住"));
     }
     if (mtmp == u.usteed) {
-        Strcat(info, ",带着你");
+        Strcat(info, ", 带着你");
         if (Wounded_legs) {
             /* EWounded_legs is used to track left/right/both rather than
                some form of extrinsic impairment; HWounded_legs is used for
@@ -3408,7 +3408,7 @@ ustatusline(void)
 
     info[0] = '\0';
     if (Sick) {
-        Strcat(info, ",垂死于");
+        Strcat(info, ", 垂死于");
         if (u.usick_type & SICK_VOMITABLE)
             Strcat(info, "食物中毒");
         if (u.usick_type & SICK_NONVOMITABLE) {

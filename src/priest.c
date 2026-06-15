@@ -642,7 +642,7 @@ priest_talk(struct monst *priest)
         if (quan < 1)
             quan = 1;
 
-        Sprintf(buf, "你打算捐多少(建议:%ld或%ld)?",
+        Sprintf(buf, "你打算捐多少(建议: %ld或%ld)?",
                 suggested * quan, suggested * quan * 2);
 
         if (flags.debug)

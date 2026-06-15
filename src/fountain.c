@@ -426,7 +426,7 @@ dipfountain(struct obj *obj)
             /* The lady of the lake acts! - Eric Backus */
             /* Be *REAL* nice */
             pline(
-              "从黑暗深处,一只手伸上来祝福那把剑.");
+              "从黑暗深处, 一只手伸上来祝福那把剑.");
             pline("当你的手向后退时, 喷泉消失了!");
             obj = oname(obj, artiname(ART_EXCALIBUR),
                         ONAME_VIA_DIP | ONAME_KNOW_ARTI);

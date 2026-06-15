@@ -3655,7 +3655,7 @@ print_mapseen(
         Sprintf(buf, "%s一个原始的区域.", PREFIX);
     } else if (on_level(&mptr->lev, &qstart_level)) {
         Sprintf(buf, "%s家乡%s.", PREFIX,
-                mptr->flags.notreachable ? " (无路可回...)" : "");
+                mptr->flags.notreachable ? " (无路可回... )" : "");
         if (u.uevent.qcompleted)
             Sprintf(buf, "%s完成了%s的任务.", PREFIX, ldrname());
         else if (mptr->flags.questing)

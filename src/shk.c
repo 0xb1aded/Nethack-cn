@@ -1890,7 +1890,7 @@ dopay(void)
                     pline("但你还有金币藏着!");
             }
             if ((umoney < ltmp / 2L) || (umoney < ltmp && stashed_gold))
-                pline("遗憾的是,%s看上去并不满意.",
+                pline("遗憾的是, %s看上去并不满意.",
                       noit_mhe(shkp));
             else
                 make_happy_shk(shkp, FALSE);
@@ -3862,7 +3862,7 @@ stolen_value(
 
         if (!silent) {
             if (canseemon(shkp)) {
-                Norep("%s吼道:\"%s, 你个小偷! \"",
+                Norep("%s吼道: \"%s, 你个小偷! \"",
                       Shknam(shkp), svp.plname);
             } else if (!Deaf) {
                 Norep("你听到一声尖叫, \"贼! \"");  /* Deaf-aware */

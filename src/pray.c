@@ -624,7 +624,7 @@ god_zaps_you(aligntyp resp_god)
         } else
             pline("%s看起来未受影响.", Monnam(u.ustuck));
     } else {
-        pline("突然,一道闪电击中你!");
+        pline("突然, 一道闪电击中了你!");
         if (Reflecting) {
             shieldeff(u.ux, u.uy);
             if (Blind)
@@ -1174,7 +1174,7 @@ pleased(aligntyp g_align)
 
                 *repair_buf = '\0';
                 if (uwep->oeroded || uwep->oeroded2)
-                    Sprintf(repair_buf, ",%s像新的一样",
+                    Sprintf(repair_buf, ", %s像新的一样",
                             otense(uwep, "就"));
 
                 if (uwep->cursed) {
@@ -1684,7 +1684,7 @@ offer_different_alignment_altar(
                 && !p_coaligned(pri))
                 angry_priest();
         } else {
-            pline("不幸的是,你感觉%s的力量在减少.", u_gname());
+            pline("不幸的是, 你感觉%s的力量在减少.", u_gname());
             change_luck(-1);
             exercise(A_WIS, FALSE);
             if (rnl(u.ulevel) > 6 && u.ualign.record > 0
@@ -1819,7 +1819,7 @@ bestow_artifact(uchar max_giftvalue)
             u.ublesscnt = rnz(300 + (50 * nartifacts));
             exercise(A_WIS, TRUE);
             livelog_printf (LL_DIVINEGIFT | LL_ARTIFACT,
-                            "被%s授予了%s", /*修改语序:"被授予了%s,通过%s",*/
+                            "被%s授予了%s", /*修改语序:"被授予了%s, 通过%s",*/
                             align_gname(u.ualign.type)), /*修改语序:artiname(otmp->oartifact),*/
                             artiname(otmp->oartifact); /*修改语序:align_gname(u.ualign.type));*/
             /* make sure we can use this weapon */

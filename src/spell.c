@@ -2033,7 +2033,7 @@ dovspell(void)
                 if (spellsortmenu())
                     sortspells();
             } else {
-                Sprintf(qbuf, "重新排序;'%c'交换",
+                Sprintf(qbuf, "重新排序; '%c'交换",
                         spellet(splnum));
                 if (!dospellmenu(qbuf, splnum, &othnum))
                     break;

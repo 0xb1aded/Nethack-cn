@@ -6,7 +6,7 @@
 #include "hack.h"
 
 static const char brief_feeling[] =
-    "一时感到%s,但很快就过去了.";
+    "一时感到%s, 但很快就过去了.";
 
 staticfn boolean mhitm_mgc_atk_negated(struct monst *, struct monst *,
                                      boolean) NONNULLPTRS;
@@ -2075,7 +2075,7 @@ m_slips_free(struct monst *mdef, struct attack *mattk)
         && (!obj->cursed || rn2(3))) {
         You("%s%s%s%s!",
             (mattk->adtyp == AD_WRAP) ? "滑过"
-                                      : "抓住,但不能持续控制",
+                                      : "抓住, 但不能持续控制",
             s_suffix(mon_nam(mdef)), obj->greased ? "上油的" : "光滑的",
             /* avoid "slippery slippery cloak"
                for undiscovered oilskin cloak */
@@ -2805,7 +2805,7 @@ mhitm_ad_sgld(
                 addinv(mongold);
                 Your("钱包感觉更沉了.");
             } else {
-                You("抓住%s的金币,但背包已经满了.",
+                You("抓住%s的金币, 但背包已经满了.",
                     mon_nam(mdef));
                 dropy(mongold);
             }
@@ -3195,7 +3195,7 @@ mhitm_ad_drin(
             mhm->damage = 0;
             if (!Unchanging && pd == &mons[PM_GREEN_SLIME]) {
                 if (!Slimed) {
-                    You("吸入了一些黏液,感觉不是很舒服.");
+                    You("吸入了一些黏液, 感觉不是很舒服.");
                     make_slimed(10L, (char *) 0);
                 }
             }
@@ -3788,7 +3788,7 @@ mhitm_ad_famn(
         goto mhitm_famn;
     } else if (mdef == &gy.youmonst) {
         /* mhitu */
-        pline_mon(magr, "%s伸过手来,你的身体更加干瘪.",
+        pline_mon(magr, "%s伸过手来, 你的身体更加干瘪.",
                   Monnam(magr));
         exercise(A_CON, FALSE);
         if (!is_fainted())
@@ -3819,7 +3819,7 @@ mhitm_ad_pest(
         goto mhitm_pest;
     } else if (mdef == &gy.youmonst) {
         /* mhitu */
-        pline_mon(magr, "%s伸过手来,你感到颠寒作热.",
+        pline_mon(magr, "%s伸过手来, 你感到颠寒作热.",
                   Monnam(magr));
         (void) diseasemu(pa);
         /* plus the normal damage */
@@ -3877,7 +3877,7 @@ mhitm_ad_deth(
         case 0:
             if (Antimagic)
                 shieldeff(u.ux, u.uy);
-            pline("算你走运,你对它免疫!");
+            pline("算你走运, 你对它免疫!");
             mhm->damage = 0;
             return;
         }

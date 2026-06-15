@@ -229,8 +229,8 @@ static NEARDATA const char *perminv_modes[][3] = {
   /*3*/ { NULL,        NULL,         NULL },
   /*4*/ { NULL,        NULL,         NULL },
 #ifdef TTY_PERM_INVENT
-  /*5*/ { "on+grid",   "all+grid",   "完整物品栏, 包括未使用的字母,除了金币" },
-  /*6*/ { "gold+grid", "full+grid",  "完整物品栏, 包括未使用的字母," },
+  /*5*/ { "on+grid",   "all+grid",   "完整物品栏, 包括未使用的字母, 除了金币" },
+  /*6*/ { "gold+grid", "full+grid",  "完整物品栏, 包括未使用的字母" },
 #else
   /*5*/ { NULL,        NULL,         NULL },
   /*6*/ { NULL,        NULL,         NULL },
@@ -6246,7 +6246,7 @@ handler_whatis_coord(void)
     add_menu_str(tmpwin, "");
     Sprintf(buf, "地图: 左上角: <%d,%d>, 右下角: <%d,%d>%s",
             1, 0, COLNO - 1, ROWNO - 1,
-            flags.verbose ? ";第0列未使用,超出左边缘" : "");
+            flags.verbose ? ";第0列未使用, 超出左边缘" : "");
     add_menu_str(tmpwin, buf);
     if (strcmp(windowprocs.name, "tty")) /* only show for non-tty */
         add_menu_str(tmpwin,
@@ -9685,7 +9685,7 @@ all_options_strbuf(strbuf_t *sbuf)
     int i;
 
     strbuf_init(sbuf);
-    Sprintf(tmp, "#NetHack配置文件,保存于%s\n#\n",
+    Sprintf(tmp, "#NetHack配置文件, 保存于%s\n#\n",
             yyyymmddhhmmss((time_t) 0));
     strbuf_append(sbuf, tmp);
 

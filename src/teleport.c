@@ -1319,7 +1319,7 @@ level_tele(void)
             Strcpy(svk.killer.name, "永久升入了天堂");
         } else if (newlev == -9) {
             You_feel("非常高兴.");
-            pline("(事实上, 你在9号云上了!)");
+            pline("(事实上, 你在9号云上了! )");
             display_nhwindow(WIN_MESSAGE, FALSE);
         } else
             You("现在在云上...");
