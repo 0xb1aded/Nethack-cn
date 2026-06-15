@@ -2092,7 +2092,7 @@ rloco(struct obj *obj)
                                           svd.dndest.nly, svd.dndest.nhx,
                                           svd.dndest.nhy)));
 
-    if (flooreffects(obj, tx, ty, "掉")) {
+    if (flooreffects(obj, tx, ty, "落")) {
         /* update old location (if any) since flooreffects() couldn't;
            unblock_point() for boulder handled by obj_extract_self() */
         if (!(otx == 0 && oty == 0))

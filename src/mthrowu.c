@@ -883,7 +883,7 @@ return_from_mtoss(
             static long do_not_annoy = 0;
 
             if (!do_not_annoy || (svm.moves - do_not_annoy) > 500L) {
-                pline("%s到了%s的%s上!", Tobjnam(otmp, "飞回"),
+                pline("%s了%s的%s上!", Tobjnam(otmp, "飞回"),
                       s_suffix(mon_nam(magr)), mbodypart(magr, HAND));
                 do_not_annoy = svm.moves;
             }
@@ -902,7 +902,7 @@ return_from_mtoss(
             dmg = rn2(2);
             if (!dmg) {
                 if (canseemon(magr)) {
-                    pline("%s到了%s附近, 落在%s的%s%s.",
+                    pline("%s了%s附近, 落在%s的%s%s.",
                           Tobjnam(otmp, "飞回"), mon_nam(magr),
                           mhis(magr), makeplural(mbodypart(magr, FOOT)), 
                           mlevitating ? "下" : "上"); /*修改语序:自己看原文*/
@@ -912,8 +912,8 @@ return_from_mtoss(
             } else {
                 dmg += rnd(3);
                 if (canseemon(magr)) {
-                    pline("%s向%s飞回, 击中了%s%s!",
-                          Tobjnam(otmp, "飞"), mon_nam(magr),
+                    pline("%s了%s, 击中了%s的%s!",
+                          Tobjnam(otmp, "飞回"), mon_nam(magr),
                           mhis(magr), body_part(ARM));
                 } else if (!Deaf) {
                     You_hear("%s砰地击中了%s!", something,
