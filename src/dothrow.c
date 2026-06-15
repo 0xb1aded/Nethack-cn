@@ -1640,7 +1640,7 @@ throwit(
                     range++;
             } else if (obj->oclass != GEM_CLASS) {
                 range /= 2;
-                pline("你没有装备%s, 因此你只能用%s投掷你的%s。",
+                pline("你没有装备%s, 因此你只能用%s投掷你的%s.",
                       an(skill_name(weapon_type(obj))),
                       weapon_descr(obj),
                       body_part(HAND));
@@ -2674,7 +2674,7 @@ throw_gold(struct obj *obj)
         if (digests(u.ustuck->data))
             /* note: s_suffix() returns a modifiable buffer */
             swallower = strcat(s_suffix(swallower), " 内脏");
-        pline_The("金币消失在 %s 中。", swallower);
+        pline_The("金币消失在%s中.", swallower);
         add_to_minv(u.ustuck, obj);
         return ECMD_TIME;
     }

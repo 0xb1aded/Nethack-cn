@@ -5707,7 +5707,7 @@ check_unpaid_usage(struct obj *otmp, boolean altusage)
     arg1 = arg2 = "";
     if (otmp->oclass == SPBOOK_CLASS) {
         fmt = "%s你欠%s%ld %s.";
-        Sprintf(buf, "这不是免费的图书馆, %s! ", cad(FALSE));
+        Sprintf(buf, "这不是免费的图书馆, %s!", cad(FALSE));
         arg1 = rn2(2) ? buf : "";
         arg2 = ESHK(shkp)->debit > 0L ? "额外" : "";
     } else if (otmp->otyp == POT_OIL) {
@@ -5716,15 +5716,15 @@ check_unpaid_usage(struct obj *otmp, boolean altusage)
                             || otmp->otyp == HORN_OF_PLENTY)) {
         fmt = "%s%s倒出内容物者需支付%ld %s.";
         if (!rn2(3))
-            arg1 = "哇哦! ";
+            arg1 = "哇哦!";
         if (!rn2(3))
-            arg1 = "小心! ";
+            arg1 = "小心!";
     } else {
         fmt = "%s%s使用费, %ld %s.";
         if (!rn2(3))
-            arg1 = "嘿! ";
+            arg1 = "嘿!";
         if (!rn2(3))
-            arg2 = "咳咳. ";
+            arg2 = "咳咳.";
     }
 
     if (!Deaf && !muteshk(shkp)) {

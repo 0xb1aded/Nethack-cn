@@ -784,7 +784,7 @@ teleport_pet(struct monst *mtmp, boolean force_it)
             yelp(mtmp);
             return FALSE;
         } else {
-            Your("皮带松了.");
+            Your("狗链松了.");
         release_it:
             m_unleash(mtmp, FALSE);
             return TRUE;
