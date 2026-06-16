@@ -3666,7 +3666,7 @@ mhitm_ad_slow(
 
             mon_adjust_speed(mdef, -1, (struct obj *) 0);
             if (mdef->mspeed != oldspeed && canseemon(mdef))
-                pline("%s速度变慢了.", Monnam(mdef));
+                pline("%s的速度变慢了.", Monnam(mdef));
         }
     } else if (mdef == &gy.youmonst) {
         /* mhitu */
@@ -3681,7 +3681,7 @@ mhitm_ad_slow(
             mon_adjust_speed(mdef, -1, (struct obj *) 0);
             mdef->mstrategy &= ~STRAT_WAITFORU;
             if (mdef->mspeed != oldspeed && gv.vis && canspotmon(mdef))
-                pline_mon(mdef, "%s速度变慢了.", Monnam(mdef));
+                pline_mon(mdef, "%s的速度变慢了.", Monnam(mdef));
         }
     }
 }

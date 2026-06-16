@@ -1651,7 +1651,7 @@ trapmove(
         if (--u.utrap) {
             if (flags.verbose) {
                 if (anchored) {
-                    predicament = "被连在";
+                    predicament = "被系在";
                     culprit = "埋着的球上";
                 } else {
                     predicament = "卡在";

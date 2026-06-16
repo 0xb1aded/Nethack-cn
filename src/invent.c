@@ -4601,7 +4601,7 @@ noarmor(boolean report_uskin)
             while ((p[1] = p[8]) != '\0')
                 ++p;
 
-        You("没有穿戴防具, 但有%s嵌入在你的皮肤中.",
+        You("没有穿戴防具, 但有%s嵌在你的皮肤中.",
             uskinname);
     }
 }

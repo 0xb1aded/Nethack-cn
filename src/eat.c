@@ -2300,7 +2300,7 @@ eataccessory(struct obj *otmp)
                 if (Invis && !oldprop && !ESee_invisible
                     && !perceives(gy.youmonst.data) && !Blind) {
                     newsym(u.ux, u.uy);
-                    pline("突然你能看透自己了.");
+                    pline("突然你能看透你自己了.");
                     makeknown(typ);
                 }
                 break;

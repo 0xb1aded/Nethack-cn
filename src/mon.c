@@ -2858,7 +2858,7 @@ lifesaved_monster(struct monst *mtmp)
                 else
                     pline("%s看上去好多了!", Monnam(mtmp));
             }
-            pline_The("吊坠化为了尘埃!");
+            pline_The("吊坠化为了尘土!");
         }
         m_useup(mtmp, lifesave);
         /* equip replacement amulet, if any, on next move */

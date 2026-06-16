@@ -677,7 +677,7 @@ itemactions(struct obj *otmp)
             || (could_twoweap(gy.youmonst.data) && !uarms
                 && uwep && MAYBETWOWEAPON(uwep)
                 && uswapwep && MAYBETWOWEAPON(uswapwep)))) {
-        Sprintf(buf, "%s双武器", u.twoweap ? "关闭" : "开启");
+        Sprintf(buf, "%双持", u.twoweap ? "关闭" : "开启");
         ia_addmenu(win, IA_TWOWEAPON, 'X', buf);
     }
 

@@ -1089,7 +1089,7 @@ done(int how)
         if (how == CHOKING)
             You("开始呕吐...");
         You_feel("好多了!");
-        pline_The("吊坠化为了尘埃!");
+        pline_The("吊坠化为了尘土!");
         if (uamul)
             useup(uamul);
 
