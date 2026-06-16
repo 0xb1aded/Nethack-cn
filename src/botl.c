@@ -685,7 +685,8 @@ staticfn char *conditionbitmask2str(unsigned long, boolean);
 staticfn unsigned long match_str2conditionbitmask(const char *);
 staticfn unsigned long str2conditionbitmask(char *);
 staticfn boolean parse_condition(char (*)[QBUFSZ], int);
-staticfn char *hlattr2attrname(int, char *, size_t);
+// 修改: 增加了一个布尔参数用于调整输出模式是英文(用于内部)还是中文(用于显示)
+staticfn char *hlattr2attrname(int, char *, size_t, boolean);
 staticfn void status_hilite_linestr_add(int, struct hilite_s *, unsigned long,
                                         const char *);
 staticfn void status_hilite_linestr_done(void);
@@ -3522,7 +3523,7 @@ clear_status_hilites(void)
 }
 
 staticfn char *
-hlattr2attrname(int attrib, char *buf, size_t bufsz)
+hlattr2attrname(int attrib, char *buf, size_t bufsz, boolean for_ui)
 {
     if (attrib && buf) {
         char attbuf[BUFSZ];
@@ -3531,22 +3532,28 @@ hlattr2attrname(int attrib, char *buf, size_t bufsz)
 
         attbuf[0] = '\0';
         if (attrib == HL_NONE) {
-            Strcpy(buf, "normal");
+            Strcpy(buf, for_ui ? "正常" : "normal");
             return buf;
         }
 
         if (attrib & HL_BOLD)
-            Strcat(attbuf, first++ ? "+bold" : "bold");
+            Strcat(attbuf, first++ ? (for_ui ? "+粗体" : "+bold")
+                                   : (for_ui ? "粗体" : "bold"));
         if (attrib & HL_DIM)
-            Strcat(attbuf, first++ ? "+dim" : "dim");
+            Strcat(attbuf, first++ ? (for_ui ? "+黯淡" : "+dim")
+                                   : (for_ui ? "黯淡" : "dim"));
         if (attrib & HL_ITALIC)
-            Strcat(attbuf, first++ ? "+italic" : "italic");
+            Strcat(attbuf, first++ ? (for_ui ? "+斜体" : "+italic")
+                                   : (for_ui ? "斜体" : "italic"));
         if (attrib & HL_ULINE)
-            Strcat(attbuf, first++ ? "+underline" : "underline");
+            Strcat(attbuf, first++ ? (for_ui ? "+下划线" : "+underline")
+                                   : (for_ui ? "下划线" : "underline"));
         if (attrib & HL_BLINK)
-            Strcat(attbuf, first++ ? "+blink" : "blink");
+            Strcat(attbuf, first++ ? (for_ui ? "+闪烁" : "+blink")
+                                   : (for_ui ? "闪烁" : "blink"));
         if (attrib & HL_INVERSE)
-            Strcat(attbuf, first++ ? "+inverse" : "inverse");
+            Strcat(attbuf, first++ ? (for_ui ? "+反色" : "+inverse")
+                                   : (for_ui ? "反色" : "inverse"));
 
         k = strlen(attbuf);
         if (k < (size_t)(bufsz - 1))
@@ -3711,7 +3718,7 @@ status_hilite_linestr_gather_conditions(void)
 
                 (void) strNsubst(strcpy(clrbuf, clr2colorname(clr)),
                                  " ", "-", 0);
-                tmpattr = hlattr2attrname(atr, attrbuf, BUFSZ);
+                tmpattr = hlattr2attrname(atr, attrbuf, BUFSZ, FALSE);
                 if (tmpattr)
                     Sprintf(eos(clrbuf), "&%s", tmpattr);
                 Snprintf(condbuf, sizeof(condbuf), "condition/%s/%s",
@@ -3866,9 +3873,11 @@ status_hilite2str(struct hilite_s *hl, boolean for_ui)
     }
 
     split_clridx(hl->coloridx, &clr, &attr);
-    (void) strNsubst(strcpy(clrbuf, clr2colorname(clr)), " ", "-", 0);
+    (void) strNsubst(strcpy(clrbuf, for_ui
+                             ? clr2colorname_ui(clr)
+                             : clr2colorname(clr)), " ", "-", 0);
     if (attr != HL_UNDEF) {
-        if ((tmpattr = hlattr2attrname(attr, attrbuf, BUFSZ)) != 0)
+        if ((tmpattr = hlattr2attrname(attr, attrbuf, BUFSZ, for_ui)) != 0)
             Sprintf(eos(clrbuf), "&%s", tmpattr);
     }
     Snprintf(buf, sizeof(buf), "%s/%s/%s",
@@ -4480,8 +4489,8 @@ status_hilite_menu_add(int origfld)
             gc.cond_hilites[HL_ATTCLR_INVERSE] &= ~cond;
         }
         gc.cond_hilites[clr] |= cond;
-        (void) strNsubst(strcpy(clrbuf, clr2colorname(clr)), " ", "-", 0);
-        tmpattr = hlattr2attrname(atr, attrbuf, BUFSZ);
+        (void) strNsubst(strcpy(clrbuf, clr2colorname_ui(clr)), " ", "-", 0);
+        tmpattr = hlattr2attrname(atr, attrbuf, BUFSZ, TRUE);
         if (tmpattr)
             Sprintf(eos(clrbuf), "&%s", tmpattr);
         pline("已添加高亮 condition/%s/%s",

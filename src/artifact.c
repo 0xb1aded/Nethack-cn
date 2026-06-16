@@ -2464,7 +2464,7 @@ const char *
 glow_color(int arti_indx)
 {
     int colornum = artilist[arti_indx].acolor;
-    const char *colorstr = clr2colorname(colornum);
+    const char *colorstr = clr2colorname_ui(colornum);
 
     return hcolor(colorstr);
 }

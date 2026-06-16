@@ -2206,12 +2206,22 @@ optfn_menu_headings(
         iflags.menu_headings = ca;
         return optn_ok;
     }
-    if (req == get_val || req == get_cnf_val) {
+    if (req == get_cnf_val) {
         char ca_buf[BUFSZ];
 
         Strcpy(ca_buf, color_attr_to_str(&iflags.menu_headings));
         /* change "no color" to "no-color" or "light blue" to "light-blue" */
         (void) strNsubst(ca_buf, " ", "-", 0);
+        Strcpy(opts, ca_buf);
+        return optn_ok;
+    }
+    // 修改: 中英文分流保持配置文件的兼容性
+    if (req == get_val) {
+        char ca_buf[BUFSZ];
+
+        Sprintf(ca_buf, "%s&%s",
+                clr2colorname_ui(iflags.menu_headings.color),
+                attr2attrname_ui(iflags.menu_headings.attr));
         Strcpy(opts, ca_buf);
         return optn_ok;
     }
@@ -3177,7 +3187,9 @@ optfn_petattr(
     if (req == get_val || req == get_cnf_val) {
 #if defined(TTY_GRAPHICS) || defined(CURSES_GRAPHICS)
         if (WINDOWPORT(tty) || WINDOWPORT(curses)) {
-            Strcpy(opts, attr2attrname(iflags.wc2_petattr));
+            Strcpy(opts, (req == get_val)
+                         ? attr2attrname_ui(iflags.wc2_petattr)
+                         : attr2attrname(iflags.wc2_petattr));
         } else
 #endif
         if (iflags.wc2_petattr != 0)
@@ -6458,9 +6470,9 @@ handler_menu_colors(void)
         any = cg.zeroany;
         mc_idx = 0;
         while (tmp) {
-            sattr = attr2attrname(tmp->attr);
-            sclr = strcpy(clrbuf, clr2colorname(tmp->color));
-            (void) strNsubst(clrbuf, " ", "-", 0);
+            // 修改: 中文颜色描述中无空格，不需要将空格转为 '-'
+            sattr = attr2attrname_ui(tmp->attr);
+            sclr = strcpy(clrbuf, clr2colorname_ui(tmp->color));
             any.a_int = ++mc_idx;
             /* construct suffix */
             Sprintf(buf, "\"\"=%s%s%s", sclr,
