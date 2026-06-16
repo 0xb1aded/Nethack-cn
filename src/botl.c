@@ -2486,12 +2486,14 @@ reset_status_hilites(void)
 staticfn boolean
 noneoftheabove(const char *hl_text)
 {
+    /* 修改: 中文使用另一种匹配规则
     if (fuzzymatch(hl_text, "none of the above", "\" -_", TRUE)
         || fuzzymatch(hl_text, "(polymorphed)", "\"()", TRUE)
         || fuzzymatch(hl_text, "none of the above (polymorphed)",
                       "\" -_()", TRUE))
         return TRUE;
-    return FALSE;
+    return FALSE; */
+    return fuzzymatch(hl_text, "以上都不是 (已变形)", "\" -_()", FALSE);
 }
 
 /*
@@ -3935,7 +3937,7 @@ status_hilite_menu_choose_behavior(int fld)
     if (fld != BL_CONDITION) {
         any = cg.zeroany;
         any.a_int = onlybeh = BL_TH_ALWAYS_HILITE;
-        Sprintf(buf, "总是高亮 %s", fldname_ui[fld]);
+        Sprintf(buf, "总是高亮%s", fldname_ui[fld]);
         add_menu(tmpwin, &nul_glyphinfo, &any, 'a', 0, ATR_NONE,
                  clr, buf, MENU_ITEMFLAGS_NONE);
         nopts++;
@@ -3952,7 +3954,7 @@ status_hilite_menu_choose_behavior(int fld)
     if (fld != BL_CONDITION && fld != BL_VERS) {
         any = cg.zeroany;
         any.a_int = onlybeh = BL_TH_UPDOWN;
-        Sprintf(buf, "%s 的值变化", fldname_ui[fld]);
+        Sprintf(buf, "%s的值变化", fldname_ui[fld]);
         add_menu(tmpwin, &nul_glyphinfo, &any, 'c', 0, ATR_NONE,
                  clr, buf, MENU_ITEMFLAGS_NONE);
         nopts++;
@@ -4034,8 +4036,8 @@ status_hilite_menu_choose_updownboth(
 
     if (ltok) {
         if (str)
-            Sprintf(buf, "%s 于 %s",
-                    (fld == BL_AC) ? "更好 (更低)" : "更少", str);
+            Sprintf(buf, "比 %s %s",
+                    str, (fld == BL_AC) ? "更好 (更低)" : "更少");
         else
             Sprintf(buf, "数值下降");
         any = cg.zeroany;
@@ -4044,7 +4046,7 @@ status_hilite_menu_choose_updownboth(
                  clr, buf, MENU_ITEMFLAGS_NONE);
 
         if (str) {
-            Sprintf(buf, "%s或%s",
+            Sprintf(buf, "%s 或%s",
                     str, (fld == BL_AC) ? "更好 (更低)" : "更少");
             any = cg.zeroany;
             any.a_int = 10 + LE_VALUE;
@@ -4064,7 +4066,7 @@ status_hilite_menu_choose_updownboth(
 
     if (gtok) {
         if (str) {
-            Sprintf(buf, "%s 或 %s",
+            Sprintf(buf, "%s 或%s",
                     str, (fld == BL_AC) ? "更差 (更高)" : "更多");
             any = cg.zeroany;
             any.a_int = 10 + GE_VALUE;
@@ -4073,8 +4075,11 @@ status_hilite_menu_choose_updownboth(
         }
 
         if (str)
+            /* 修改语序
             Sprintf(buf, "%s 比 %s",
-                    (fld == BL_AC) ? "更差 (更高)" : "更多", str);
+                    (fld == BL_AC) ? "更差 (更高)" : "更多", str); */
+            Sprintf(buf, "比 %s %s",
+                    str, (fld == BL_AC) ? "更差 (更高)" : "更多");
         else
             Sprintf(buf, "数值上升");
         any = cg.zeroany;
@@ -4381,7 +4386,7 @@ status_hilite_menu_add(int origfld)
                 Sprintf(mbuf, "\"%s\"", gu.urole.rank[i].m);
                 if (gu.urole.rank[i].f) {
                     Sprintf(fbuf, "\"%s\"", gu.urole.rank[i].f);
-                    Snprintf(obuf, sizeof obuf, "%s 或 %s",
+                    Snprintf(obuf, sizeof obuf, "%s 或%s",
                             flags.female ? fbuf : mbuf,
                             flags.female ? mbuf : fbuf);
                 } else {
@@ -4426,14 +4431,14 @@ status_hilite_menu_add(int origfld)
             else
                 return FALSE;
         }
-        Sprintf(colorqry, "选择当 %s 为 '%s' 时的颜色: ",
+        Sprintf(colorqry, "选择当%s为 '%s' 时的颜色: ",
                 fldname_ui[fld], hilite.textmatch);
-        Sprintf(attrqry, "(多选) 选择当 %s 为 '%s' 时的属性: ",
+        Sprintf(attrqry, "(多选) 选择当%s为 '%s' 时的属性: ",
                 fldname_ui[fld], hilite.textmatch);
     } else if (behavior == BL_TH_ALWAYS_HILITE) {
-        Sprintf(colorqry, "选择一个颜色以始终高亮 %s: ",
+        Sprintf(colorqry, "选择一个颜色以始终高亮%s: ",
                 fldname_ui[fld]);
-        Sprintf(attrqry, "(多选) 选择总是高亮 %s 的属性: ",
+        Sprintf(attrqry, "(多选) 选择总是高亮%s的属性: ",
                 fldname_ui[fld]);
     }
 
@@ -4487,14 +4492,14 @@ status_hilite_menu_add(int origfld)
         hilite.coloridx = clr | (atr << 8);
         hilite.anytype = initblstats[fld].anytype;
 
-        if (fld == BL_TITLE && (p = strstri(hilite.textmatch, " 或 ")) != 0) {
+        if (fld == BL_TITLE && (p = strstr(hilite.textmatch, " 或")) != 0) {
             /* split menu choice "male-rank or female-rank" into two distinct
                but otherwise identical rules, "male-rank" and "female-rank" */
             *p = '\0'; /* chop off " or female-rank" */
             /* new rule for male-rank */
             status_hilite_add_threshold(fld, &hilite);
             pline("已添加高亮 %s", status_hilite2str(&hilite, TRUE));
-            p += sizeof " 或 " - sizeof "";
+            p += sizeof " 或" - sizeof "";
             q = hilite.textmatch;
             while ((*q++ = *p++) != '\0')
                 continue;
@@ -4669,18 +4674,9 @@ status_hilites_viewall(void)
     datawin = create_nhwindow(NHW_TEXT);
 
     while (hlstr) {
-        if (hlstr->hl) {
-            Snprintf(buf, sizeof(buf), "选项=高亮状态: %s",
-                     status_hilite2str(hlstr->hl, TRUE));
-        } else if (hlstr->fld == BL_CONDITION && hlstr->mask) {
-            char *last_slash = strrchr(hlstr->str, '/');
-            const char *color = last_slash ? last_slash + 1 : "";
-            Snprintf(buf, sizeof(buf), "选项=高亮状态: condition/%s/%s",
-                     conditionbitmask2str(hlstr->mask, TRUE), color);
-        } else {
-            hlstr = hlstr->next;
-            continue;
-        }
+        Sprintf(buf, "OPTIONS=hilite_status: %.*s",
+                (int) (BUFSZ - sizeof "OPTIONS=hilite_status: " - 1),
+                hlstr->str);
         putstr(datawin, 0, buf);
         hlstr = hlstr->next;
     }
