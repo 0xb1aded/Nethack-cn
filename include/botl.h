@@ -143,8 +143,15 @@ struct conditions_t {
     enum blconditions c;
     const char *text[3];
 };
+
+// 修改: 新建结构体用于存放 `conditions` 的翻译文本及项目拼音
+struct cond_zh_t {
+    const char *const text;
+    const char *const pinyin;
+};
+
 extern const struct conditions_t conditions[CONDITION_COUNT];
-extern const char *const conditions_ui[CONDITION_COUNT];
+extern const struct cond_zh_t conditions_ui[CONDITION_COUNT];
 
 struct condtests_t {
     enum blconditions c;

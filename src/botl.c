@@ -663,6 +663,8 @@ staticfn int percentage(struct istat_s *, struct istat_s *);
 staticfn int exp_percentage(void);
 staticfn int QSORTCALLBACK cond_cmp(const genericptr, const genericptr);
 staticfn int QSORTCALLBACK menualpha_cmp(const genericptr, const genericptr);
+// 修改: 增加一个回调用于实现拼音排序
+staticfn int QSORTCALLBACK pinyin_cmp(const genericptr, const genericptr);
 
 #ifdef STATUS_HILITES
 staticfn void s_to_anything(anything *, char *, int);
@@ -874,25 +876,37 @@ const struct conditions_t conditions[] = {
 };
 
 // 新增: 用于 UI 显示的 `conditions[]`
-const char *const conditions_ui[] = {
-    [bl_bareh] = "徒手",       [bl_blind] = "失明",
-    [bl_busy] = "忙碌",        [bl_conf] = "混乱",
-    [bl_deaf] = "失聪",
-    [bl_elf_iron] = "触铁", // 一个尚未实现的机制，精灵触铁会受伤。惧铁？
-    [bl_fly] = "飞行",         [bl_foodpois] = "食物中毒",
-    [bl_glowhands] = "发光", // 发/散发？
-    [bl_grab] = "擒抱",        [bl_hallu] = "幻觉",
-    [bl_held] = "被持",        [bl_icy] = "冻结",
-    [bl_inlava] = "深处熔岩",  [bl_lev] = "悬浮",
-    [bl_parlyz] = "麻痹",      [bl_ride] = "骑乘",
-    [bl_sleeping] = "睡眠",    [bl_slime] = "粘液化",
-    [bl_slippery] = "手滑", // 对于部分怪物可能不是“手”？
-    [bl_stone] = "石化",       [bl_strngl] = "窒息",
-    [bl_stun] = "眩晕",        [bl_submerged] = "水下",
-    [bl_termill] = "不治之症", [bl_tethered] = "束缚",
-    [bl_trapped] = "陷阱",     [bl_unconsc] = "昏迷",
-    [bl_woundedl] = "腿伤", // 对于部分怪物可能不是“腿”？
-    [bl_holding] = "紧握",
+const struct cond_zh_t conditions_ui[] = {
+    [bl_bareh] = { "徒手", "tushou" },
+    [bl_blind] = { "失明", "shiming" },
+    [bl_busy] = { "忙碌", "manglu" },
+    [bl_conf] = { "混乱", "hunluan" },
+    [bl_deaf] = { "失聪", "shicong" },
+    [bl_elf_iron] = { "触铁", "chutie" }, // 未实装。精灵触铁会受伤。惧铁？
+    [bl_fly] = { "飞行", "feixing" },
+    [bl_foodpois] = { "食物中毒", "shiwuzhongdu" },
+    [bl_glowhands] = { "发光", "faguang" }, // 发/散发？
+    [bl_grab] = { "擒抱", "qinbao" },
+    [bl_hallu] = { "幻觉", "huanjue" },
+    [bl_held] = { "被持", "beichi" },
+    [bl_icy] = { "冻结", "dongjie" },
+    [bl_inlava] = { "身处熔岩", "shenchurongyan" },
+    [bl_lev] = { "悬浮", "xuanfu" },
+    [bl_parlyz] = { "麻痹", "mabi" },
+    [bl_ride] = { "骑乘", "qicheng" },
+    [bl_sleeping] = { "睡眠", "shuimian" },
+    [bl_slime] = { "粘液化", "nianyehua" },
+    [bl_slippery] = { "手滑", "shouhua" }, // 对于部分怪物可能不是“手”？
+    [bl_stone] = { "石化", "shihua" },
+    [bl_strngl] = { "窒息", "zhixi" },
+    [bl_stun] = { "眩晕", "xuanyun" },
+    [bl_submerged] = { "水下", "shuixia" },
+    [bl_termill] = { "不治之症", "buzhizhizheng" },
+    [bl_tethered] = { "束缚", "shufu" },
+    [bl_trapped] = { "陷阱", "xianjing" },
+    [bl_unconsc] = { "昏迷", "hunmi" },
+    [bl_woundedl] = { "腿伤", "tuishang" }, // 对于部分怪物可能不是“腿”？
+    [bl_holding] = { "紧握", "jinwo" },
 };
 
 /* [perhaps these should all be opt_out with default of 'in';
@@ -933,7 +947,7 @@ struct condtests_t condtests[CONDITION_COUNT] = {
 };
 
 // 新增: 用于显示 `condtests[]` 中的内容，主要是 `cond_menu()`
-static const char *const *const condtests_ui = conditions_ui;
+static const struct cond_zh_t *const condtests_ui = conditions_ui;
 
 /* condition indexing */
 int cond_idx[CONDITION_COUNT] = { 0 };
@@ -1484,7 +1498,8 @@ cond_cmp(const genericptr vptr1, const genericptr vptr2)
     if (c1 != c2)
         return c1 - c2;
     /* tie-breaker - visible alpha by name */
-    return strcmpi(condtests[indx1].useroption, condtests[indx2].useroption);
+    // 修改: 原本会按照字母顺序二次排序，现也改为拼音排序
+    return strcmpi(condtests_ui[indx1].pinyin, condtests_ui[indx2].pinyin);
 }
 
 /* qsort callback routine for alphabetical sorting of index */
@@ -1494,6 +1509,16 @@ menualpha_cmp(const genericptr vptr1, const genericptr vptr2)
     int indx1 = *(int *) vptr1, indx2 = *(int *) vptr2;
 
     return strcmpi(condtests[indx1].useroption, condtests[indx2].useroption);
+}
+
+/* qort 回调，用于拼音排序 */
+staticfn int QSORTCALLBACK
+pinyin_cmp(const genericptr vptr1, const genericptr vptr2)
+{
+    int indx1 = *(int *) vptr1, indx2 = *(int *) vptr2;
+    const char *pinyin1 = conditions_ui[indx1].pinyin,
+               *pinyin2 = conditions_ui[indx2].pinyin;
+    return strcmpi(pinyin1, pinyin2);
 }
 
 int
@@ -1522,7 +1547,7 @@ boolean
 cond_menu(void)
 {
     static const char *const menutitle[2] = {
-        "按字母排序", "按开启状态排序"
+        "按拼音排序", "按开启状态排序"
     };
     int i, res, idx = 0;
     int sequence[CONDITION_COUNT];
@@ -1540,7 +1565,7 @@ cond_menu(void)
         }
         qsort((genericptr_t) sequence, CONDITION_COUNT,
               sizeof sequence[0],
-              (gc.condmenu_sortorder) ? cond_cmp : menualpha_cmp);
+              (gc.condmenu_sortorder) ? cond_cmp : pinyin_cmp);
 
         tmpwin = create_nhwindow(NHW_MENU);
         start_menu(tmpwin, MENU_BEHAVE_STANDARD);
@@ -1559,9 +1584,9 @@ cond_menu(void)
             idx = sequence[i];
             // 修改: 无法直接通过 format 限制 UTF-8
             // 字符串的显示列数，所以手动计算
-            Sprintf(mbuf, "%s%*s", condtests_ui[idx],
-                    14 - (int) utf8str_width(condtests_ui[idx]) > 0
-                    ? 14 - (int) utf8str_width(condtests_ui[idx]) : 0, "");
+            Sprintf(mbuf, "%s%*s", condtests_ui[idx].text,
+                    14 - (int) utf8str_width(condtests_ui[idx].text) > 0
+                    ? 14 - (int) utf8str_width(condtests_ui[idx].text) : 0, "");
             any = cg.zeroany;
             any.a_int = idx + 2; /* avoid zero and the sort change pick */
             condtests[idx].choice = FALSE;
@@ -3277,7 +3302,7 @@ query_conditions(void)
         any = cg.zeroany;
         any.a_ulong = conditions[i].mask;
         add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE,
-                 clr, conditions_ui[i], MENU_ITEMFLAGS_NONE);
+                 clr, conditions_ui[i].text, MENU_ITEMFLAGS_NONE);
     }
 
     end_menu(tmpwin, "选择状态条件");
@@ -3313,7 +3338,7 @@ conditionbitmask2str(unsigned long ul, boolean for_ui)
     for (i = 0; i < SIZE(conditions); i++)
         if ((conditions[i].mask & ul) != 0UL) {
             Sprintf(eos(buf), "%s%s", (first) ? "" : "+",
-                    for_ui ? conditions_ui[i]
+                    for_ui ? conditions_ui[i].text
                            : conditions[i].text[0]);
             first = FALSE;
         }

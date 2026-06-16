@@ -1075,7 +1075,7 @@ curs_HPbar(
 /* conditions[] is used primarily for parsing hilite_status rules, but
    we can use it for condition names and mask bits, avoiding duplication */
 extern const struct conditions_t conditions[]; /* botl.c */
-extern const char *const conditions_ui[];      /* botl.c, Chinese display */
+extern const struct cond_zh_t conditions_ui[]; /* botl.c, Chinese display */
 extern int cond_idx[CONDITION_COUNT];
 
 DISABLE_WARNING_FORMAT_NONLITERAL
@@ -1105,7 +1105,7 @@ curs_stat_conds(
             ci = cond_idx[i];
             bitmsk = conditions[ci].mask;
             if (curses_condition_bits & bitmsk) {
-                Strcpy(condnam, conditions_ui[ci]);
+                Strcpy(condnam, conditions_ui[ci].text);
                 Strcat(strcat(condbuf, " "), condnam);
 #ifdef STATUS_HILITES
                 if (nohilite && *nohilite
@@ -1138,9 +1138,9 @@ curs_stat_conds(
             bitmsk = conditions[ci].mask;
             if (cond_bits & bitmsk) {
                 if (!vert_fmt)
-                    Strcpy(condnam, conditions_ui[ci]);
+                    Strcpy(condnam, conditions_ui[ci].text);
                 else
-                    Sprintf(condnam, vert_fmt, conditions_ui[ci]);
+                    Sprintf(condnam, vert_fmt, conditions_ui[ci].text);
                 cndlen = 1 + (int) utf8str_width(condnam); /* count leading space */
                 if (!do_vert) {
                     getyx(win, cy, cx);
