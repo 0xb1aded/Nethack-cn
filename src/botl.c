@@ -1553,7 +1553,7 @@ cond_menu(void)
         add_menu(tmpwin, &nul_glyphinfo, &any, 'S', 0, ATR_NONE,
                  clr, mbuf, MENU_ITEMFLAGS_SKIPINVERT);
         any = cg.zeroany;
-        Sprintf(mbuf, "顺序 %s", menutitle[gc.condmenu_sortorder]);
+        Sprintf(mbuf, "顺序: %s", menutitle[gc.condmenu_sortorder]);
         add_menu_heading(tmpwin, mbuf);
         for (i = 0; i < SIZE(condtests); i++) {
             idx = sequence[i];
@@ -4000,7 +4000,7 @@ status_hilite_menu_choose_behavior(int fld)
         || fld == BL_CAP || fld == BL_HUNGER) {
         any = cg.zeroany;
         any.a_int = onlybeh = BL_TH_TEXTMATCH;
-        Sprintf(buf, "%s 文本匹配", fldname_ui[fld]);
+        Sprintf(buf, "%s文本匹配", fldname_ui[fld]);
         add_menu(tmpwin, &nul_glyphinfo, &any, 't', 0, ATR_NONE,
                  clr, buf, MENU_ITEMFLAGS_NONE);
         nopts++;
@@ -4045,8 +4045,8 @@ status_hilite_menu_choose_updownboth(
 
     if (ltok) {
         if (str)
-            Sprintf(buf, "比 %s %s",
-                    str, (fld == BL_AC) ? "更好 (更低)" : "更少");
+            Sprintf(buf, "%s %s",
+                    (fld == BL_AC) ? "小于等于 (更好于)" : "小于等于", str);
         else
             Sprintf(buf, "数值下降");
         any = cg.zeroany;
@@ -4055,8 +4055,8 @@ status_hilite_menu_choose_updownboth(
                  clr, buf, MENU_ITEMFLAGS_NONE);
 
         if (str) {
-            Sprintf(buf, "%s 或%s",
-                    str, (fld == BL_AC) ? "更好 (更低)" : "更少");
+            Sprintf(buf, "%s %s",
+                    (fld == BL_AC) ? "小于 (更好于)" : "小于", str);
             any = cg.zeroany;
             any.a_int = 10 + LE_VALUE;
             add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE,
@@ -4065,7 +4065,7 @@ status_hilite_menu_choose_updownboth(
     }
 
     if (str)
-        Sprintf(buf, "精确匹配 %s", str);
+        Sprintf(buf, "等于 %s", str);
     else
         Sprintf(buf, "数值变化");
     any = cg.zeroany;
@@ -4075,8 +4075,8 @@ status_hilite_menu_choose_updownboth(
 
     if (gtok) {
         if (str) {
-            Sprintf(buf, "%s 或%s",
-                    str, (fld == BL_AC) ? "更差 (更高)" : "更多");
+            Sprintf(buf, "%s %s",
+                    (fld == BL_AC) ? "大于等于 (更差于)" : "大于等于", str);
             any = cg.zeroany;
             any.a_int = 10 + GE_VALUE;
             add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE,
@@ -4087,8 +4087,8 @@ status_hilite_menu_choose_updownboth(
             /* 修改语序
             Sprintf(buf, "%s 比 %s",
                     (fld == BL_AC) ? "更差 (更高)" : "更多", str); */
-            Sprintf(buf, "比 %s %s",
-                    str, (fld == BL_AC) ? "更差 (更高)" : "更多");
+            Sprintf(buf, "%s %s",
+                    (fld == BL_AC) ? "大于 (更差于)" : "大于", str);
         else
             Sprintf(buf, "数值上升");
         any = cg.zeroany;
@@ -4283,6 +4283,7 @@ status_hilite_menu_add(int origfld)
                 goto choose_value;
         }
 
+        /* 修改语序
         Sprintf(colorqry, "选择当%s是%s%s%s时的颜色:",
                 fldname_ui[fld],
                 (lt_gt_eq == LT_VALUE) ? "小于 "
@@ -4300,7 +4301,25 @@ status_hilite_menu_add(int origfld)
                 numstart,
                 (lt_gt_eq == LE_VALUE) ? " 或更少"
                   : (lt_gt_eq == GE_VALUE) ? " 或更多"
-                    : "");
+                    : ""); */
+        Sprintf(colorqry, "选择当%s%s%s %s 时的颜色:",
+                fldname_ui[fld],
+                (lt_gt_eq == LT_VALUE) ? "小于"
+                  : (lt_gt_eq == GT_VALUE) ? "大于"
+                    : "",
+                (lt_gt_eq == LE_VALUE) ? "小于等于"
+                  : (lt_gt_eq == GE_VALUE) ? "大于等于"
+                    : "",
+                numstart);
+        Sprintf(attrqry, "(多选) 选择当%s%s%s %s 时的属性: ",
+                fldname_ui[fld],
+                (lt_gt_eq == LT_VALUE) ? "小于"
+                  : (lt_gt_eq == GT_VALUE) ? "大于"
+                    : "",
+                (lt_gt_eq == LE_VALUE) ? "小于等于"
+                  : (lt_gt_eq == GE_VALUE) ? "大于等于"
+                    : "",
+                numstart);
 
         hilite.rel = lt_gt_eq;
         hilite.value = aval;
