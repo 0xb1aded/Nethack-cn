@@ -39,10 +39,10 @@ jobs:
           npm install -g opencc
 
       - name: Checkout opencc-tonggui
-        uses: amorphobia/opencc-tonggui
+        uses: actions/checkout@v4
         with:
           repository: 'amorphobia/opencc-tonggui'
-          ref: 'main'
+          ref: 'master'
           path: 'opencc-tonggui'
 
       - name: Build Visual Studio solution (Original)
