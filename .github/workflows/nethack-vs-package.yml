@@ -77,10 +77,6 @@ jobs:
           ls .
           cat ./kanjifiles.txt
           cat ./kanjifiles.txt | while read -r file; do
-            if ! iconv -f UTF-8 -t UTF-8 "$file" >/dev/null 2>&1; then
-              echo "Skip: $file"
-              continue
-            fi
             echo "Converting: $file"
             ./opencc/bin/opencc.exe -c "./opencc-tonggui/opencc/s2tg.json" -i "$file" -o "$file.tmp" && mv "$file.tmp" "$file"
           done
