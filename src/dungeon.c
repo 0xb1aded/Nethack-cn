@@ -4,9 +4,9 @@
 /*-Copyright (c) Robert Patrick Rankin, 2012. */
 /* NetHack may be freely redistributed.  See license for details. */
 
+#include "hack.h"
 #include "dgn_file.h"
 #include "dlb.h"
-#include "hack.h"
 
 #define DUNGEON_FILE "dungeon.lua"
 
