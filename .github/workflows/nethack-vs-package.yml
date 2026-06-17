@@ -56,21 +56,21 @@ jobs:
         run: |
           python ./.github/workflows/findkanjifiles.py
 
-#      - name: Build Visual Studio solution (Original)
- #       run: |
-  #        msbuild $env:SOLUTION_PATH /m /p:Configuration=$env:BUILD_CONFIGURATION /p:Platform=$env:BUILD_PLATFORM /t:Build
+      - name: Build Visual Studio solution (Original)
+        run: |
+          msbuild $env:SOLUTION_PATH /m /p:Configuration=$env:BUILD_CONFIGURATION /p:Platform=$env:BUILD_PLATFORM /t:Build
 
-   #   - name: Verify packaged artifacts (Original)
-    #    run: |
-     #     $packages = Get-ChildItem -Path $env:PACKAGE_DIR -Filter *.zip -File -ErrorAction Stop
-      #    $packages | Select-Object Name, Length, LastWriteTime | Format-Table -AutoSize
+      - name: Verify packaged artifacts (Original)
+        run: |
+          $packages = Get-ChildItem -Path $env:PACKAGE_DIR -Filter *.zip -File -ErrorAction Stop
+          $packages | Select-Object Name, Length, LastWriteTime | Format-Table -AutoSize
 
-      #- name: Upload workflow artifact (Original)
-       # uses: actions/upload-artifact@v4
-     #   with:
-      #    name: nethack-vspackage-x64
-       #   path: vspackage/*.zip
-        #  if-no-files-found: error
+      - name: Upload workflow artifact (Original)
+        uses: actions/upload-artifact@v4
+        with:
+          name: nethack-vspackage-x64
+          path: vspackage/*.zip
+          if-no-files-found: error
 
       - name: Convert to Traditional
         shell: bash
@@ -115,7 +115,7 @@ jobs:
         run: |
           short_sha="${GITHUB_SHA::7}"
           tag="nethack-pre-${GITHUB_RUN_NUMBER}-${short_sha}"
-          name="NetHack prerelease #${GITHUB_RUN_NUMBER} (${short_sha})"
+          name="NetHack prerelease ${GITHUB_RUN_NUMBER} (${short_sha})"
           {
             echo "tag=$tag"
             echo "name=$name"

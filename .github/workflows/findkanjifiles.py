@@ -21,7 +21,7 @@ files = getfiles('.')
 kanjifiles = []
 #common = "`1234567890-=qwertyuiop[]\\asdfghjkl;'zxcvbnm,./~!@#$%^&*()_+QWERTYUIOP{}|ASDFGHJKL:\"ZXCVBNM<>? \n\r\t\b\f©"
 for i in files:
-    if i.startswith('./.git/') or i.startswith('./opencc'):
+    if i.startswith('./.git/') or i.startswith('./opencc') or i.startswith('./submodules') or i.endswith('.png') or i.endswith('.PNG'):
         continue
     else:
         try:
