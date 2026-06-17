@@ -690,7 +690,7 @@ staticfn boolean parse_condition(char (*)[QBUFSZ], int);
 // 修改: 增加了一个布尔参数用于调整输出模式是英文(用于内部)还是中文(用于显示)
 staticfn char *hlattr2attrname(int, char *, size_t, boolean);
 staticfn void status_hilite_linestr_add(int, struct hilite_s *, unsigned long,
-                                        const char *);
+                                        unsigned int, const char *);
 staticfn void status_hilite_linestr_done(void);
 staticfn int status_hilite_linestr_countfield(int);
 staticfn void status_hilite_linestr_gather_conditions(void);
@@ -1511,7 +1511,7 @@ menualpha_cmp(const genericptr vptr1, const genericptr vptr2)
     return strcmpi(condtests[indx1].useroption, condtests[indx2].useroption);
 }
 
-/* qort 回调，用于拼音排序 */
+/* qsort 回调，用于拼音排序 */
 staticfn int QSORTCALLBACK
 pinyin_cmp(const genericptr vptr1, const genericptr vptr2)
 {
@@ -3593,6 +3593,7 @@ struct _status_hilite_line_str {
     int fld;
     struct hilite_s *hl;
     unsigned long mask;
+    unsigned int color_attr; // color | (attribute << 8)
     char str[BUFSZ];
     struct _status_hilite_line_str *next;
 };
@@ -3606,6 +3607,7 @@ status_hilite_linestr_add(
     int fld,
     struct hilite_s *hl,
     unsigned long mask,
+    unsigned int color_attr,
     const char *str)
 {
     struct _status_hilite_line_str *tmp, *nxt;
@@ -3618,6 +3620,7 @@ status_hilite_linestr_add(
     tmp->fld = fld;
     tmp->hl = hl;
     tmp->mask = mask;
+    tmp->color_attr = color_attr;
     if (fld == BL_TITLE)
         Strcpy(tmp->str, str);
     else
@@ -3749,7 +3752,8 @@ status_hilite_linestr_gather_conditions(void)
                 Snprintf(condbuf, sizeof(condbuf), "condition/%s/%s",
                          conditionbitmask2str(cond_maps[i].bm, FALSE), clrbuf);
                 status_hilite_linestr_add(BL_CONDITION, 0,
-                                          cond_maps[i].bm, condbuf);
+                                          cond_maps[i].bm,
+                                          cond_maps[i].clratr, condbuf);
             }
         }
 }
@@ -3765,7 +3769,8 @@ status_hilite_linestr_gather(void)
     for (i = 0; i < MAXBLSTATS; i++) {
         hl = gb.blstats[0][i].thresholds;
         while (hl) {
-            status_hilite_linestr_add(i, hl, 0UL, status_hilite2str(hl, FALSE));
+            status_hilite_linestr_add(i, hl, 0UL, 0,
+                                      status_hilite2str(hl, FALSE));
             hl = hl->next;
         }
     }
@@ -4648,9 +4653,23 @@ status_hilite_menu_fld(int fld)
             if (hlstr->fld == fld) {
                 any = cg.zeroany;
                 any.a_int = hlstr->id;
-                add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE, clr,
-                         status_hilite2str(hlstr->hl, TRUE),
-                         MENU_ITEMFLAGS_NONE);
+                // 修改: 状态子菜单需要单独的处理分支 (else 块)，不然不显示
+                if (hlstr->hl) {
+                    add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE,
+                             clr, status_hilite2str(hlstr->hl, TRUE),
+                             MENU_ITEMFLAGS_NONE);
+                } else if (hlstr->fld == BL_CONDITION) {
+                    struct hilite_s temp_hilite = {
+                        .fld = BL_CONDITION,
+                        .behavior = BL_TH_CONDITION,
+                        .rel = EQ_VALUE,
+                        .value.a_ulong = hlstr->mask,
+                        .coloridx = (int) hlstr->color_attr,
+                    };
+                    add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE,
+                             clr, status_hilite2str(&temp_hilite, TRUE),
+                             MENU_ITEMFLAGS_NONE);
+                }
             }
             hlstr = hlstr->next;
         }
