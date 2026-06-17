@@ -54,25 +54,27 @@ jobs:
         run: |
           python ./.github/workflows/findkanjifiles.py
 
-      - name: Build Visual Studio solution (Original)
-        run: |
-          msbuild $env:SOLUTION_PATH /m /p:Configuration=$env:BUILD_CONFIGURATION /p:Platform=$env:BUILD_PLATFORM /t:Build
+#      - name: Build Visual Studio solution (Original)
+ #       run: |
+  #        msbuild $env:SOLUTION_PATH /m /p:Configuration=$env:BUILD_CONFIGURATION /p:Platform=$env:BUILD_PLATFORM /t:Build
 
-      - name: Verify packaged artifacts (Original)
-        run: |
-          $packages = Get-ChildItem -Path $env:PACKAGE_DIR -Filter *.zip -File -ErrorAction Stop
-          $packages | Select-Object Name, Length, LastWriteTime | Format-Table -AutoSize
+   #   - name: Verify packaged artifacts (Original)
+    #    run: |
+     #     $packages = Get-ChildItem -Path $env:PACKAGE_DIR -Filter *.zip -File -ErrorAction Stop
+      #    $packages | Select-Object Name, Length, LastWriteTime | Format-Table -AutoSize
 
-      - name: Upload workflow artifact (Original)
-        uses: actions/upload-artifact@v4
-        with:
-          name: nethack-vspackage-x64
-          path: vspackage/*.zip
-          if-no-files-found: error
+      #- name: Upload workflow artifact (Original)
+       # uses: actions/upload-artifact@v4
+     #   with:
+      #    name: nethack-vspackage-x64
+       #   path: vspackage/*.zip
+        #  if-no-files-found: error
 
       - name: Convert to Traditional
         shell: bash
         run: |
+          ls .
+          cat ./kanjifiles.txt
           cat ./kanjifiles.txt | while read -r file; do
             if ! iconv -f UTF-8 -t UTF-8 "$file" >/dev/null 2>&1; then
               echo "Skip: $file"
