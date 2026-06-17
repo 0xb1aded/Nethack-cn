@@ -1,3 +1,5 @@
+encoding = 'utf-8'
+errors = 'ignore'
 import os
 def getfiles(path):
     e = []
@@ -30,6 +32,7 @@ for i in files:
                 kanjifiles.append(i)
                 print('Found Kanji file:', i)
         except:
+            print('Not Kanji file:', i)
             continue
 with open('./kanjifiles.txt', 'w') as f:
     for i in kanjifiles:
