@@ -35,8 +35,10 @@ jobs:
         uses: microsoft/setup-msbuild@v2
 
       - name: Set up OpenCC
+        shell: bash
         run: |
-          npm install -g opencc
+          gh release download --repo BYVoid/OpenCC --pattern "*windows*.zip" --dir ./opencc
+          unzip ./opencc/*windows.zip -d ./opencc
 
       - name: Checkout opencc-tonggui
         uses: actions/checkout@v4
@@ -62,10 +64,11 @@ jobs:
           if-no-files-found: error
 
       - name: Convert to Traditional
+        shell: bash
         run: |
-          find . -type f ! -path "./.git/*" ! -path "./opencc-tonggui/*" | while read -r file; do
+          find . -type f ! -path "./.git/*" ! -path "./opencc-tonggui/*" ! -path "./opencc/*" | while read -r file; do
             echo "Converting: $file"
-            opencc -c "./opencc-tonggui/s2tg.json" -i "$file" -o "$file"
+            ./opencc/bin/opencc.exe -c "./opencc-tonggui/s2tg.json" -i "$file" -o "$file"
           done
 
       - name: Build Visual Studio solution (Traditional)
