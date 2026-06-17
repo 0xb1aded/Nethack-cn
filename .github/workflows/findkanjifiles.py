@@ -6,7 +6,7 @@ def getfiles(path):
     except:
         return path
     for i in f:
-        d = getfiles('%s\\%s' % (path, i))
+        d = getfiles('%s/%s' % (path, i))
         try:
             e = e + d
         except:
@@ -19,24 +19,18 @@ def havekanji(text):
     return False
 files = getfiles('.')
 kanjifiles = []
-common = "`1234567890-=qwertyuiop[]\\asdfghjkl;'zxcvbnm,./~!@#$%^&*()_+QWERTYUIOP{}|ASDFGHJKL:\"ZXCVBNM<>? \n\r\t\b\f©"
+#common = "`1234567890-=qwertyuiop[]\\asdfghjkl;'zxcvbnm,./~!@#$%^&*()_+QWERTYUIOP{}|ASDFGHJKL:\"ZXCVBNM<>? \n\r\t\b\f©"
 for i in files:
-    if i.startswith('.\\.git\\'):
+    if i.startswith('./.git/'):
         continue
     else:
         try:
             f = open(i, 'r').read()
             if havekanji(f):
                 kanjifiles.append(i)
+                print('Found Kanji file:', i)
         except:
             continue
-with open('.\\kanjifiles.txt', 'w') as f:
+with open('./kanjifiles.txt', 'w') as f:
     for i in kanjifiles:
         print(i, file = f)
-'''
-for i in files:
-    try:
-        f = open('..\\%s' % k, 'r').read()
-    except:
-        continue
-'''
