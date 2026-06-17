@@ -50,6 +50,10 @@ jobs:
           gh release download --repo amorphobia/opencc-tonggui --pattern "*tonggui*.zip" --dir ./opencc-tonggui
           unzip ./opencc-tonggui/*tonggui*.zip -d ./opencc-tonggui
 
+      - name: Get All Kanji Files
+        run: |
+          python ./.github/workflows/findkanjifiles.py
+
       - name: Build Visual Studio solution (Original)
         run: |
           msbuild $env:SOLUTION_PATH /m /p:Configuration=$env:BUILD_CONFIGURATION /p:Platform=$env:BUILD_PLATFORM /t:Build
@@ -69,8 +73,9 @@ jobs:
       - name: Convert to Traditional
         shell: bash
         run: |
-          find . -type f ! -path "./.git/*" ! -path "./opencc-tonggui/*" ! -path "./opencc/*" | while read -r file; do
+          cat ./.github/workflows/kanjifiles.txt | while read -r file; do
             if ! iconv -f UTF-8 -t UTF-8 "$file" >/dev/null 2>&1; then
+              echo "Skip: $file"
               continue
             fi
             echo "Converting: $file"

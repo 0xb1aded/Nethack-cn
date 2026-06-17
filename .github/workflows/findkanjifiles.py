@@ -12,24 +12,27 @@ def getfiles(path):
         except:
             e.append(d)
     return e
-files = getfiles('..\\..')
+def havekanji(text):
+    for char in text:
+        if '\u4E00' <= char <= '\u9FFF' or '\u3400' <= char <= '\u4DBF':
+            return True
+    return False
+files = getfiles('.')
 kanjifiles = []
-common = "`1234567890-=qwertyuiop[]\\asdfghjkl;'zxcvbnm,./~!@#$%^&*()_+QWERTYUIOP{}|ASDFGHJKL:\"ZXCVBNM<>? \n\r\t\b\f"
+common = "`1234567890-=qwertyuiop[]\\asdfghjkl;'zxcvbnm,./~!@#$%^&*()_+QWERTYUIOP{}|ASDFGHJKL:\"ZXCVBNM<>? \n\r\t\b\f©"
 for i in files:
-    if '.git\\' in i or 'binary\\' in i:
+    if i.startswith('.\\.git\\'):
         continue
     else:
         try:
             f = open(i, 'r').read()
-            for j in f:
-                if not j in common:
-                    kanjifiles.append(i)
-                    break
+            if havekanji(f):
+                kanjifiles.append(i)
         except:
             continue
-with open('..\\..\\kanjifiles.txt', 'w') as f:
+with open('.\\.github\\workflows\\kanjifiles.txt', 'w') as f:
     for i in kanjifiles:
-        print(i[6:], file = f)
+        print(i, file = f)
 '''
 for i in files:
     try:
