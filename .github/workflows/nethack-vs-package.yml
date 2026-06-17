@@ -34,19 +34,56 @@ jobs:
       - name: Set up MSBuild
         uses: microsoft/setup-msbuild@v2
 
-      - name: Build Visual Studio solution
+      - name: Set up OpenCC
+        run: |
+          npm install -g opencc
+
+      - name: Checkout opencc-tonggui
+        uses: amorphobia/opencc-tonggui
+        with:
+          repository: 'amorphobia/opencc-tonggui'
+          ref: 'main'
+          path: 'opencc-tonggui'
+
+      - name: Build Visual Studio solution (Original)
         run: |
           msbuild $env:SOLUTION_PATH /m /p:Configuration=$env:BUILD_CONFIGURATION /p:Platform=$env:BUILD_PLATFORM /t:Build
 
-      - name: Verify packaged artifacts
+      - name: Verify packaged artifacts (Original)
         run: |
           $packages = Get-ChildItem -Path $env:PACKAGE_DIR -Filter *.zip -File -ErrorAction Stop
           $packages | Select-Object Name, Length, LastWriteTime | Format-Table -AutoSize
 
-      - name: Upload workflow artifact
+      - name: Upload workflow artifact (Original)
         uses: actions/upload-artifact@v4
         with:
           name: nethack-vspackage-x64
+          path: vspackage/*.zip
+          if-no-files-found: error
+
+      - name: Convert to Traditional
+        run: |
+          opencc s2t.json
+      - name: Process all text files
+        run: |
+          find . -type f ! -path "./.git/*" ! -path "./opencc-tonggui/*" | while read -r file; do
+            echo "Converting: $file"
+            opencc -c "./opencc-tonggui/s2tg.json" -i "$file" -o "$file"
+          done
+
+      - name: Build Visual Studio solution (Traditional)
+        run: |
+          msbuild $env:SOLUTION_PATH /m /p:Configuration=$env:BUILD_CONFIGURATION /p:Platform=$env:BUILD_PLATFORM /t:Build
+
+      - name: Verify packaged artifacts (Traditional)
+        run: |
+          $packages = Get-ChildItem -Path $env:PACKAGE_DIR -Filter *.zip -File -ErrorAction Stop
+          $packages | Select-Object Name, Length, LastWriteTime | Format-Table -AutoSize
+
+      - name: Upload workflow artifact (Traditional)
+        uses: actions/upload-artifact@v4
+        with:
+          name: nethack-vspackage-x64-tg
           path: vspackage/*.zip
           if-no-files-found: error
 
