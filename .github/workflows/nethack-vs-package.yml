@@ -70,8 +70,11 @@ jobs:
         shell: bash
         run: |
           find . -type f ! -path "./.git/*" ! -path "./opencc-tonggui/*" ! -path "./opencc/*" | while read -r file; do
+            if ! iconv -f UTF-8 -t UTF-8 "$file" >/dev/null 2>&1; then
+              continue
+            fi
             echo "Converting: $file"
-            ./opencc/bin/opencc.exe -c "./opencc-tonggui/opencc/s2tg.json" -i "$file" -o "$file"
+            ./opencc/bin/opencc.exe -c "./opencc-tonggui/opencc/s2tg.json" -i "$file" -o "$file.tmp" && mv "$file.tmp" "$file"
           done
 
       - name: Build Visual Studio solution (Traditional)
