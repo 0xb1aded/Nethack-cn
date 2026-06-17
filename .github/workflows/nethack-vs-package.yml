@@ -63,9 +63,6 @@ jobs:
 
       - name: Convert to Traditional
         run: |
-          opencc s2t.json
-      - name: Process all text files
-        run: |
           find . -type f ! -path "./.git/*" ! -path "./opencc-tonggui/*" | while read -r file; do
             echo "Converting: $file"
             opencc -c "./opencc-tonggui/s2tg.json" -i "$file" -o "$file"
