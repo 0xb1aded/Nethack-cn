@@ -30,7 +30,7 @@ for i in files:
                 kanjifiles.append(i)
         except:
             continue
-with open('.\\.github\\workflows\\kanjifiles.txt', 'w') as f:
+with open('.\\kanjifiles.txt', 'w') as f:
     for i in kanjifiles:
         print(i, file = f)
 '''

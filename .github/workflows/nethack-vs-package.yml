@@ -73,7 +73,7 @@ jobs:
       - name: Convert to Traditional
         shell: bash
         run: |
-          cat ./.github/workflows/kanjifiles.txt | while read -r file; do
+          cat ./kanjifiles.txt | while read -r file; do
             if ! iconv -f UTF-8 -t UTF-8 "$file" >/dev/null 2>&1; then
               echo "Skip: $file"
               continue
