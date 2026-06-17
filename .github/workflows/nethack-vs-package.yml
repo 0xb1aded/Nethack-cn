@@ -51,6 +51,7 @@ jobs:
           unzip ./opencc-tonggui/*tonggui*.zip -d ./opencc-tonggui
 
       - name: Get All Kanji Files
+        shell: bash
         run: |
           python ./.github/workflows/findkanjifiles.py
 
