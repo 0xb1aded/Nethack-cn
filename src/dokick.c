@@ -272,7 +272,7 @@ kick_monster(struct monst *mon, coordxy x, coordxy y)
                       (can_teleport(mon->data) && !noteleport_level(mon))
                           ? "瞬移"
                           : is_floater(mon->data)
-                                ? "悬浮"
+                                ? "飘浮"
                                 : is_flyer(mon->data) ? "俯冲"
                                                       : (nolimbs(mon->data)
                                                          || slithy(mon->data))

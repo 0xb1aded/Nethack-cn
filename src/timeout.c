@@ -44,7 +44,7 @@ static const struct propname {
     { SLEEPY, "困倦" },
     { TELEPORT, "传送" },
     { POLYMORPH, "变形" },
-    { LEVITATION, "悬浮" },
+    { LEVITATION, "飘浮" },
     { FAST, "加速" }, /* timed 'FAST' is very fast */
     { CLAIRVOYANT, "超视" },
     { DETECT_MONSTERS, "感知怪物" },
@@ -345,7 +345,7 @@ sickness_dialogue(void)
 }
 
 static NEARDATA const char *const levi_texts[] = {
-    "你悬浮得稍微低一些.",
+    "你飘浮得稍微低一些.",
     "你在%s%s摇摇晃晃."
 };
 

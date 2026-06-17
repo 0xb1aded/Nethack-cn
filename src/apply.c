@@ -174,20 +174,20 @@ use_towel(struct obj *obj)
         incr_itimeout(&HBlinded, (-1 * (int) u.ucreamed));
         u.ucreamed = 0;
         if (!Blinded) {
-            pline("你把黏糊物擦掉了。");
+            pline("你把那黏糊糊的东西擦掉了.");
             if (!gulp_blnd_check()) {
                 set_itimeout(&HBlinded, 1L);
                 make_blinded(0L, TRUE);
             }
         } else {
-            Your("%s现在感觉干净了。", body_part(FACE));
+            Your("%s现在感觉干净了.", body_part(FACE));
         }
         if (is_wet_towel(obj))
             dry_a_towel(obj, -1, drying_feedback);
         return ECMD_TIME;
     }
 
-    Your("%s和%s已经干净了.", body_part(FACE),
+    Your("%s和%s已经很干净了.", body_part(FACE),
          makeplural(body_part(HAND)));
 
     return ECMD_OK;

@@ -535,7 +535,7 @@ moverock_core(coordxy sx, coordxy sy)
                        if this is one among multiple boulders */
                     if (!Blind)
                         gv.viz_array[ry][rx] |= IN_SIGHT;
-                    if (!flooreffects(otmp, rx, ry, "落")) {
+                    if (!flooreffects(otmp, rx, ry, "掉")) {
                         place_object(otmp, rx, ry);
                     }
                     if (mtmp && !Blind)
@@ -1823,7 +1823,7 @@ u_locomotion(const char *def)
        its is_flyer() and is_floater() tests wouldn't work on hero except
        when hero is polymorphed and not wearing an amulet of flying
        or boots/ring/spell of levitation */
-    return Levitation ? (capitalize ? "悬浮" : "悬浮")
+    return Levitation ? (capitalize ? "漂浮" : "漂浮")
            : Flying ? (capitalize ? "飞行" : "飞行")
              : locomotion(gy.youmonst.data, def);
 }

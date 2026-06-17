@@ -124,7 +124,7 @@ toggle_stealth(
             if (!is_boots(obj))
                 You("移动得非常安静.");
             else if (Levitation || Flying)
-                You("悄无声息地悬浮着.");
+                You("悄无声息地飘浮着.");
             else
                 You("走得非常安静.");
         } else {
@@ -3097,7 +3097,7 @@ menu_remarm(int retry)
         all_worn_categories = (retry == -2);
     } else if (flags.menu_style == MENU_FULL) {
         all_worn_categories = FALSE;
-        n = query_category("你想脱下什么类型的物品?",
+        n = query_category("脱下什么类型的物品?",
                            gi.invent, (WORN_TYPES | ALL_TYPES
                                     | UNPAID_TYPES | BUCX_TYPES),
                            &pick_list, PICK_ANY);

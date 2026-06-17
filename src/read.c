@@ -2328,7 +2328,7 @@ drop_boulder_on_player(
         dmg = 0;
     wake_nearto(u.ux, u.uy, 4 * 4);
     /* Must be before the losehp(), for bones files */
-    if (!flooreffects(otmp2, u.ux, u.uy, "落")) {
+    if (!flooreffects(otmp2, u.ux, u.uy, "掉")) {
         place_object(otmp2, u.ux, u.uy);
         stackobj(otmp2);
         newsym(u.ux, u.uy);
@@ -2401,7 +2401,7 @@ drop_boulder_on_monster(coordxy x, coordxy y, boolean confused, boolean byu)
         return 1;
     }
     /* Drop the rock/boulder to the floor */
-    if (!flooreffects(otmp2, x, y, "落")) {
+    if (!flooreffects(otmp2, x, y, "掉")) {
         place_object(otmp2, x, y);
         stackobj(otmp2);
         newsym(x, y); /* map the rock */

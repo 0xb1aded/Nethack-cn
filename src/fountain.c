@@ -20,7 +20,7 @@ DISABLE_WARNING_FORMAT_NONLITERAL
 void
 floating_above(const char *what)
 {
-    const char *umsg = "正悬浮在%s上空.";
+    const char *umsg = "正飘浮在%s上空.";
 
     if (u.utrap && (u.utraptype == TT_INFLOOR || u.utraptype == TT_LAVA)) {
         /* when stuck in floor (not possible at fountain or sink location,

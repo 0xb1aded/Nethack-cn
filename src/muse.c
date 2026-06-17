@@ -1073,7 +1073,7 @@ use_defensive(struct monst *mtmp)
         if (Inhell && mon_has_amulet(mtmp) && !rn2(4)
             && (dunlev(&u.uz) < dunlevs_in_dungeon(&u.uz) - 3)) {
             if (vismon)
-                pline("当%s爬上楼梯时, 一股神秘的力量"
+                pline("当%s爬上楼梯时, 一种神秘的力量"
                       "一时环绕着%s...",
                       mon_nam(mtmp), mhim(mtmp));
             /* simpler than for the player; this will usually be

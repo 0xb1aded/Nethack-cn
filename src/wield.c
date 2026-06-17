@@ -410,7 +410,7 @@ dowield(void)
         /* offer to split stack if multiple are quivered */
         if (uquiver->quan > 1L && inv_cnt(FALSE) < invlet_basic
                                     && splittable(uquiver)) {
-            Sprintf(qbuf, "你已经准备好了%ld个%s. 要手持其中一个吗?",
+            Sprintf(qbuf, "你已经准备好了%ld %s. 要手持其中一个吗?",
                     uquiver->quan, simpleonames(uquiver));
             switch (ynq(qbuf)) {
             case 'q':
@@ -576,7 +576,7 @@ doquiver_core(const char *verb) /* "ready" or "fire" */
         /* offer to split stack if wielding more than 1 */
         if (uwep->quan > 1L && inv_cnt(FALSE) < invlet_basic
                                     && splittable(uwep)) {
-            Sprintf(qbuf, "你正拿着%ld个%s. 将它们中的%ld个准备?",
+            Sprintf(qbuf, "你正拿着%ld %s. 将它们中的%ld个准备?",
                     uwep->quan, simpleonames(uwep), uwep->quan - 1L);
             switch (ynq(qbuf)) {
             case 'q':
@@ -611,7 +611,7 @@ doquiver_core(const char *verb) /* "ready" or "fire" */
     } else if (newquiver == uswapwep) {
         if (uswapwep->quan > 1L && inv_cnt(FALSE) < invlet_basic
             && splittable(uswapwep)) {
-            Sprintf(qbuf, "%s%ld个%s. 将它们中的%ld个准备?",
+            Sprintf(qbuf, "%s%ld %s. 将它们中的%ld个准备?",
                     u.twoweap ? "你正以副手手持"
                               : "你的备用武器是",
                     uswapwep->quan, simpleonames(uswapwep),

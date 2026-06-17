@@ -1114,7 +1114,7 @@ hurtle(int dx, int dy, int range, boolean verbose)
     gn.nomovemsg = ""; /* it just happens */
     if (verbose)
         You("向反方向%s.",
-            (range > 1) ? "猛冲" : "悬浮");
+            (range > 1) ? "猛冲" : "飘浮");
     /* if we're in the midst of shooting multiple projectiles, stop */
     endmultishot(TRUE);
     uc.x = u.ux;
@@ -1801,7 +1801,7 @@ throwit(
                       ? "哗啦!" : "扑通!");
             }
         }
-        if (flooreffects(obj, gb.bhitpos.x, gb.bhitpos.y, "落")) {
+        if (flooreffects(obj, gb.bhitpos.x, gb.bhitpos.y, "掉")) {
             throwit_return(TRUE);
             return;
         }
@@ -2718,7 +2718,7 @@ throw_gold(struct obj *obj)
         }
     }
 
-    if (flooreffects(obj, gb.bhitpos.x, gb.bhitpos.y, "落"))
+    if (flooreffects(obj, gb.bhitpos.x, gb.bhitpos.y, "掉"))
         return ECMD_TIME;
     if (u.dz > 0)
         pline_The("金币击中了%s.", surface(gb.bhitpos.x, gb.bhitpos.y));

@@ -576,7 +576,7 @@ dxdy_to_dist_descr(coordxy dx, coordxy dy, boolean fulldir)
             if (abs(dy) > 9999)
                 dy = sgn(dy) * 9999;
             Sprintf(eos(buf), "%d%s%s", abs(dy), dirnames[(dy > 0)][fulldir],
-                    dx ? "，" : "");
+                    dx ? ", " : "");
         }
         if (dx) {
             if (abs(dx) > 9999)

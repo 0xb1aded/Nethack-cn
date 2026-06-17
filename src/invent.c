@@ -4206,7 +4206,7 @@ look_here(
                                            : "在",
                        *onwhat = cant_reach ? "" : surf;
 
-            You("试图感受%s%s%s的是什么.", drift ? "悬浮在这里" : where,
+            You("试图感受%s%s%s的是什么.", drift ? "飘浮在这里" : where,
                 drift ? "" : onwhat, drift ? "" : "上"); /*修改语序:drift ? "" : onwhat);*/
 
             if (dfeature && !drift && !strcmp(dfeature, surf))
@@ -4652,7 +4652,7 @@ int
 doprring(void)
 {
     if (!uleft && !uright) {
-        You("没有戴任何戒指.");
+        You("没有戴戒指.");
     } else {
         char lets[3]; /* 3: uright, uleft, terminator */
         boolean use_inuse_mode = FALSE;

@@ -884,7 +884,7 @@ peffect_paralysis(struct obj *otmp)
         You("僵住了一刹那.");
     } else {
         if (Levitation || Is_airlevel(&u.uz) || Is_waterlevel(&u.uz))
-            You("静止悬浮着.");
+            You("静止飘浮着.");
         else if (u.usteed)
             You("在原地僵住!");
         else

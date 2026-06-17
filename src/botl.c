@@ -204,7 +204,7 @@ do_statusline2(void)
         Strcpy(nb = eos(nb), " 幻觉");
     /* levitation and flying are mutually exclusive; riding is not */
     if (Levitation)
-        Strcpy(nb = eos(nb), " 悬浮");
+        Strcpy(nb = eos(nb), " 飘浮");
     if (Flying)
         Strcpy(nb = eos(nb), " 飞行");
     if (u.usteed)

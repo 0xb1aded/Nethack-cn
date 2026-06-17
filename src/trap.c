@@ -3493,7 +3493,7 @@ launch_obj(
                     /* the boulder won't be used up if there is a
                        monster in the trap; stop rolling anyway */
                     x2 = x, y2 = y; /* stops here */
-                    if (flooreffects(singleobj, x2, y2, "落")) {
+                    if (flooreffects(singleobj, x2, y2, "掉")) {
                         used_up = TRUE;
                         launch_drop_spot((struct obj *) 0, 0, 0);
                     }
@@ -3506,7 +3506,7 @@ launch_obj(
                 if (used_up || dist == -1)
                     break; /* from 'while' loop */
             }
-            if (flooreffects(singleobj, x, y, "落")) {
+            if (flooreffects(singleobj, x, y, "掉")) {
                 used_up = TRUE;
                 launch_drop_spot((struct obj *) 0, 0, 0);
                 break;
@@ -3940,7 +3940,7 @@ float_up(void)
     if (u.utrap) {
         if (u.utraptype == TT_PIT) {
             reset_utrap(FALSE);
-            You("悬浮起来, 脱离了%s!", trapname(PIT, FALSE));
+            You("飘浮起来, 脱离了%s!", trapname(PIT, FALSE));
             gv.vision_full_recalc = 1; /* vision limits change */
             fill_pit(u.ux, u.uy);
         } else if (u.utraptype == TT_LAVA /* molten lava */
@@ -4015,7 +4015,7 @@ fill_pit(coordxy x, coordxy y)
     if ((t = t_at(x, y)) != 0 && (is_pit(t->ttyp) || is_hole(t->ttyp))
         && (otmp = sobj_at(BOULDER, x, y)) != 0) {
         obj_extract_self(otmp);
-        (void) flooreffects(otmp, x, y, "停在");
+        (void) flooreffects(otmp, x, y, "停");
     }
 }
 
@@ -5681,8 +5681,8 @@ try_lift(
     boolean stuff) /* False: monster w/o minvent; True: w/ minvent */
 {
     if (calc_capacity(xtra_wt) >= HVY_ENCUMBER) {
-        pline("你%s%s搬不起来.", Monnam(mtmp),
-              stuff ? "携带的物品太多" : "太重了");
+        pline("你%s, 搬不起来%s.", stuff ? "携带的物品太多" : "太重了", /*修改语序:pline("你%s搬不起来%s.", Monnam(mtmp),*/
+              Monnam(mtmp)); /*修改语序:stuff ? "携带的物品太多" : "太重了");*/
         if (!ttmp->madeby_u && !mtmp->mpeaceful && mtmp->mcanmove
             && !mindless(mtmp->data) && mtmp->data->mlet != S_HUMAN
             && rnl(10) < 3) {
