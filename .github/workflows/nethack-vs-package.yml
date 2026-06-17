@@ -57,6 +57,8 @@ jobs:
           python ./.github/workflows/findkanjifiles.py
 
       - name: Build Visual Studio solution (Original)
+        env:
+          CL: "/utf-8"
         run: |
           msbuild $env:SOLUTION_PATH /m /p:Configuration=$env:BUILD_CONFIGURATION /p:Platform=$env:BUILD_PLATFORM /t:Build
 
@@ -78,10 +80,12 @@ jobs:
           cat ./kanjifiles.txt
           cat ./kanjifiles.txt | tr -d '\r' | while read -r file; do
             echo "Converting: $file"
-            ./opencc/bin/opencc.exe -c "./opencc-tonggui/opencc/s2tg.json" -i "$file" -o "$file.tmp" && mv "$file.tmp" "$file"
+            ./opencc/bin/opencc.exe -c "./opencc-tonggui/opencc/s2tg.json" -i "$file" -o "$file"
           done
 
       - name: Build Visual Studio solution (Traditional)
+        env:
+          CL: "/utf-8"
         run: |
           msbuild $env:SOLUTION_PATH /m /p:Configuration=$env:BUILD_CONFIGURATION /p:Platform=$env:BUILD_PLATFORM /t:Build
 
