@@ -40,7 +40,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release download --repo BYVoid/OpenCC --pattern "*windows*.zip" --dir ./opencc
-          unzip ./opencc/*windows.zip -d ./opencc
+          unzip ./opencc/*windows*.zip -d ./opencc
 
       - name: Checkout opencc-tonggui
         uses: actions/checkout@v4
