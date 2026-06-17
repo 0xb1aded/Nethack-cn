@@ -96,7 +96,7 @@ done2(void)
         abandon_tutorial = TRUE;
 
     if (abandon_tutorial || !paranoid_query(
-            ParanoidQuit, "确定不保存直接推出?")) {
+            ParanoidQuit, "确定不保存直接退出?")) {
 #ifndef NO_SIGNAL
         (void) signal(SIGINT, (SIG_RET_TYPE) done1);
 #endif
