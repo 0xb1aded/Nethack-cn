@@ -43,11 +43,13 @@ jobs:
           unzip ./opencc/*windows*.zip -d ./opencc
 
       - name: Checkout opencc-tonggui
-        uses: actions/checkout@v4
-        with:
-          repository: 'amorphobia/opencc-tonggui'
-          ref: 'master'
-          path: 'opencc-tonggui'
+          repository: ''
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release download --repo amorphobia/opencc-tonggui --pattern "*tonggui*.zip" --dir ./opencc-tonggui
+          unzip ./opencc-tonggui/*tonggui*.zip -d ./opencc-tonggui
 
       - name: Build Visual Studio solution (Original)
         run: |
