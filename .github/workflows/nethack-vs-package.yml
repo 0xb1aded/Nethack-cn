@@ -94,7 +94,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: nethack-vspackage-x64-tg
-          path: vspackage/*.zip
+          path: vspackage/*-tg.zip
           if-no-files-found: error
 
   release:
@@ -106,7 +106,6 @@ jobs:
       - name: Download packaged artifacts
         uses: actions/download-artifact@v4
         with:
-          name: nethack-vspackage-x64
           path: release-assets
 
       - name: Prepare release metadata
