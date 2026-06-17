@@ -94,7 +94,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: nethack-vspackage-x64-tg
-          path: vspackage/*-tg.zip
+          path: vspackage/*.zip
           if-no-files-found: error
 
   release:
