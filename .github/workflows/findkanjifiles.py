@@ -31,8 +31,8 @@ for i in files:
             if havekanji(f):
                 kanjifiles.append(i)
                 print('Found Kanji file:', i)
-        except:
-            print('Not Kanji file:', i)
+        except Exception as error:
+            print('Not Kanji file:', i, error)
             continue
 with open('./kanjifiles.txt', 'w') as f:
     for i in kanjifiles:
