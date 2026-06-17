@@ -42,8 +42,7 @@ jobs:
           gh release download --repo BYVoid/OpenCC --pattern "*windows*.zip" --dir ./opencc
           unzip ./opencc/*windows*.zip -d ./opencc
 
-      - name: Checkout opencc-tonggui
-          repository: ''
+      - name: Set up General Standard Traditional (opencc-tonggui)
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
