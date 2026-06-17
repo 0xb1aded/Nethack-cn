@@ -1,5 +1,3 @@
-encoding = 'utf-8'
-errors = 'ignore'
 import os
 def getfiles(path):
     e = []
@@ -27,7 +25,7 @@ for i in files:
         continue
     else:
         try:
-            f = open(i, 'r').read()
+            f = open(i, 'r', encoding = 'utf-8', errors = 'ignore').read()
             if havekanji(f):
                 kanjifiles.append(i)
                 print('Found Kanji file:', i)
