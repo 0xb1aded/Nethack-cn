@@ -74,9 +74,8 @@ jobs:
       - name: Convert to Traditional
         shell: bash
         run: |
-          ls .
           cat ./kanjifiles.txt
-          cat ./kanjifiles.txt | while read -r file; do
+          cat ./kanjifiles.txt | tr -d '\r' | while read -r file; do
             echo "Converting: $file"
             ./opencc/bin/opencc.exe -c "./opencc-tonggui/opencc/s2tg.json" -i "$file" -o "$file.tmp" && mv "$file.tmp" "$file"
           done

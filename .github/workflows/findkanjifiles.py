@@ -25,7 +25,7 @@ for i in files:
         continue
     else:
         try:
-            f = open(i, 'r', encoding = 'utf-8', errors = 'ignore').read()
+            f = open(i, 'r', encoding = 'utf-8', errors = 'ignore', newline = '\n').read()
             if havekanji(f):
                 kanjifiles.append(i)
                 print('Found Kanji file:', i)
