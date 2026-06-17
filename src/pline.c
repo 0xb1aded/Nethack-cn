@@ -483,7 +483,7 @@ verbalize(const char *line, ...)
     tmp = You_buf((int) strlen(line) + sizeof "\"\"");
     Strcpy(tmp, "\"");
     Strcat(tmp, line);
-    Strcat(tmp, "\"");
+    Strcat(tmp, " \"");
     vpline(tmp, the_args);
     gp.pline_flags &= ~PLINE_VERBALIZE;
     va_end(the_args);

@@ -1,4 +1,5 @@
-/* NetHack 5.0	botl.c	$NHDT-Date: 1769839231 2026/01/30 22:00:31 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.277 $ */
+/* NetHack 5.0  botl.c  $NHDT-Date: 1769839231 2026/01/30 22:00:31 $
+ * $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.277 $ */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /*-Copyright (c) Michael Allison, 2006. */
 /* NetHack may be freely redistributed.  See license for details. */
@@ -88,14 +89,14 @@ do_statusline1(void)
     if (i > j)
         Sprintf(nb = eos(nb), "%*s", i - j, " "); /* pad with spaces */
 
-    Sprintf(nb = eos(nb), "力:%s  敏:%-1d  体:%-1d  智:%-1d  感:%-1d  魅:%-1d",
-            get_strength_str(),
-            ACURR(A_DEX), ACURR(A_CON), ACURR(A_INT), ACURR(A_WIS),
-            ACURR(A_CHA));
+    Sprintf(nb = eos(nb),
+            "力:%s  敏:%-1d  体:%-1d  智:%-1d  感:%-1d  魅:%-1d",
+            get_strength_str(), ACURR(A_DEX), ACURR(A_CON), ACURR(A_INT),
+            ACURR(A_WIS), ACURR(A_CHA));
     Sprintf(nb = eos(nb), "%s",
-            (u.ualign.type == A_CHAOTIC) ? "  混沌"
-              : (u.ualign.type == A_NEUTRAL) ? "  中立"
-                : "  秩序");
+            (u.ualign.type == A_CHAOTIC)   ? "  混沌"
+            : (u.ualign.type == A_NEUTRAL) ? "  中立"
+                                           : "  秩序");
 #ifdef SCORE_ON_BOTL
     if (flags.showscore)
         Sprintf(nb = eos(nb), " S:%ld", botl_score());
@@ -107,11 +108,11 @@ char *
 do_statusline2(void)
 {
     static char newbot2[BUFSZ], /* MAXCO: botl.h */
-         /* dungeon location (and gold), hero health (HP, PW, AC),
-            experience (HD if poly'd, else Exp level and maybe Exp points),
-            time (in moves), varying number of status conditions */
-         dloc[QBUFSZ], hlth[QBUFSZ], expr[QBUFSZ],
-         tmmv[QBUFSZ], cond[QBUFSZ], vers[QBUFSZ];
+        /* dungeon location (and gold), hero health (HP, PW, AC),
+           experience (HD if poly'd, else Exp level and maybe Exp points),
+           time (in moves), varying number of status conditions */
+        dloc[QBUFSZ], hlth[QBUFSZ], expr[QBUFSZ], tmmv[QBUFSZ], cond[QBUFSZ],
+        vers[QBUFSZ];
     char *nb;
     size_t dln, dx, hln, xln, tln, cln, vrn;
     int hp, hpmax, cap;
@@ -134,8 +135,9 @@ do_statusline2(void)
     if ((money = money_cnt(gi.invent)) < 0L)
         money = 0L; /* ought to issue impossible() and then discard gold */
     Sprintf(eos(dloc), "%s:%-2ld", /* strongest hero can lift ~300000 gold */
-            (iflags.in_dumplog || iflags.invis_goldsym) ? "$"
-              : encglyph(objnum_to_glyph(GOLD_PIECE)),
+            (iflags.in_dumplog || iflags.invis_goldsym)
+                ? "$"
+                : encglyph(objnum_to_glyph(GOLD_PIECE)),
             min(money, 999999L));
     dln = utf8str_width(dloc);
     /* '$' encoded as \GXXXXNNNN is 9 chars longer than display will need */
@@ -146,9 +148,8 @@ do_statusline2(void)
     hpmax = Upolyd ? u.mhmax : u.uhpmax;
     if (hp < 0)
         hp = 0;
-    Sprintf(hlth, "生命:%d(%d) 能量:%d(%d) 护甲:%-2d",
-            min(hp, 9999), min(hpmax, 9999),
-            min(u.uen, 9999), min(u.uenmax, 9999), u.uac);
+    Sprintf(hlth, "生命:%d(%d) 能量:%d(%d) 护甲:%-2d", min(hp, 9999),
+            min(hpmax, 9999), min(u.uen, 9999), min(u.uenmax, 9999), u.uac);
     hln = utf8str_width(hlth);
 
     /* experience */
@@ -180,14 +181,15 @@ do_statusline2(void)
     if (Stoned)
         Strcpy(nb = eos(nb), " 石化");
     if (Slimed)
-        Strcpy(nb = eos(nb), " 粘液化"); // 此处原文: Slime
+        Strcpy(nb = eos(nb), " 黏液化"); // 此处原文: Slime
     if (Strangled)
         Strcpy(nb = eos(nb), " 窒息");
     if (Sick) {
         if (u.usick_type & SICK_VOMITABLE)
             Strcpy(nb = eos(nb), " 食物中毒");
         if (u.usick_type & SICK_NONVOMITABLE)
-            Strcpy(nb = eos(nb), " 不治之症"); // 此处原文: TermIll=Terminal Illness
+            Strcpy(nb = eos(nb),
+                   " 不治之症"); // 此处原文: TermIll=Terminal Illness
     }
     if (u.uhs != NOT_HUNGRY)
         Sprintf(nb = eos(nb), " %s", hu_stat_ui[u.uhs]);
@@ -263,8 +265,8 @@ bot(void)
         return;
     /* dosave() flags completion by setting u.uhp to -1; suppress_map_output()
        covers program_state.restoring and is used for status as well as map */
-    if (u.uhp != -1 && gy.youmonst.data
-        && iflags.status_updates && !suppress_map_output()) {
+    if (u.uhp != -1 && gy.youmonst.data && iflags.status_updates
+        && !suppress_map_output()) {
         if (VIA_WINDOWPORT()) {
             bot_via_windowport();
         } else {
@@ -331,8 +333,10 @@ rank_to_xlev(int rank)
      *  8 =>   30
      * We return the low end of each range.
      */
-    return (rank < 1) ? 1 : (rank < 2) ? 3
-           : (rank < 8) ? ((rank * 4) - 2) : 30;
+    return (rank < 1)   ? 1
+           : (rank < 2) ? 3
+           : (rank < 8) ? ((rank * 4) - 2)
+                        : 30;
 }
 
 const char *
@@ -371,10 +375,7 @@ rank(void)
 }
 
 int
-title_to_mon(
-    const char *str,
-    int *rank_indx,
-    int *title_length)
+title_to_mon(const char *str, int *rank_indx, int *title_length)
 {
     int i, j;
 
@@ -412,9 +413,11 @@ max_rank_sz(void)
     size_t r, maxr = 0;
 
     for (i = 0; i < 9; i++) {
-        if (gu.urole.rank[i].m && (r = utf8str_width(gu.urole.rank[i].m)) > maxr)
+        if (gu.urole.rank[i].m
+            && (r = utf8str_width(gu.urole.rank[i].m)) > maxr)
             maxr = r;
-        if (gu.urole.rank[i].f && (r = utf8str_width(gu.urole.rank[i].f)) > maxr)
+        if (gu.urole.rank[i].f
+            && (r = utf8str_width(gu.urole.rank[i].f)) > maxr)
             maxr = r;
     }
     gm.mrank_sz = (int) maxr;
@@ -434,9 +437,9 @@ botl_score(void)
     if ((umoney -= u.umoney0) < 0L)
         umoney = 0L;
     depthbonus = (50L * (deepest - 1L))
-                 + ((deepest > 30L) ? 10000L
+                 + ((deepest > 30L)   ? 10000L
                     : (deepest > 20L) ? (1000L * (deepest - 20L))
-                      : 0L);
+                                      : 0L);
     /* neither umoney nor depthbonus can grow unusually big (gold due to
        weight); u.urexp might */
     return nowrap_add(u.urexp, umoney + depthbonus);
@@ -449,8 +452,8 @@ describe_level(
     char *buf, /* output buffer */
     int dflgs) /* 1: append trailing space; 2: include dungeon branch name */
 {
-    boolean addspace = (dflgs & 1) != 0,  /* (used to be unconditional) */
-            addbranch = (dflgs & 2) != 0; /* False: status, True: livelog */
+    boolean addspace = (dflgs & 1) != 0, /* (used to be unconditional) */
+        addbranch = (dflgs & 2) != 0;    /* False: status, True: livelog */
     int ret = 1;
 
     if (Is_knox(&u.uz)) {
@@ -496,14 +499,15 @@ weapon_status(char *outbuf)
            otherwise make no assumptions */
         res = uarmg ? "空手" /* empty handed means "gloves only" */
               : humanoid(gy.youmonst.data) ? "徒手" /* bare hands */
-                : "无武器";
+                                           : "无武器";
     } else if (u.twoweap) {
         /* two-weaponing implies hands and a weapon or wep-tool
            (not other odd stuff) in each hand */
         res = "双持";
         /* note: dual wielding two lances doesn't produce double joust */
-        if (u.usteed && (weapon_type(uwep) == P_LANCE
-                         || weapon_type(uswapwep) == P_LANCE))
+        if (u.usteed
+            && (weapon_type(uwep) == P_LANCE
+                || weapon_type(uswapwep) == P_LANCE))
             res = "双持+长戟"; /* lance behaves specially when mounted */
     } else {
         /* report most weapons by their skill class (so a katana will be
@@ -572,7 +576,8 @@ weapon_status(char *outbuf)
 char *
 armor_status(char *armbuf)
 {
-    int n = !!uarmg + !!uarmc + !!uarm + !!uarmu + !!uarmh + !!uarmf + !!uarms;
+    int n =
+        !!uarmg + !!uarmc + !!uarm + !!uarmu + !!uarmh + !!uarmf + !!uarms;
 
     /*
      * FIXME: ^X needs to provide non-abbreviated version of this info.
@@ -581,15 +586,15 @@ armor_status(char *armbuf)
     if (n == 0) { /* no armor */
         Strcpy(armbuf, "无防具");
     } else if (n == 1) { /* just one piece; spell it out */
-        Strcpy(armbuf, uarmg ? "手套"
+        Strcpy(armbuf, uarmg   ? "手套"
                        : uarmc ? "斗篷"
-                         : uarm  ? "盔甲"
-                           : uarmu ? "衬衫"
-                             : uarmh ? helm_simple_name(uarmh) /* 帽子|头盔 */
-                               : uarmf ? "靴子"
-                                 : uarms ? "盾牌"
-                                   : ""); /* not possible */
-    } else { /* more than one piece */
+                       : uarm  ? "盔甲"
+                       : uarmu ? "衬衫"
+                       : uarmh ? helm_simple_name(uarmh) /* 帽子|头盔 */
+                       : uarmf ? "靴子"
+                       : uarms ? "盾牌"
+                               : ""); /* not possible */
+    } else {                          /* more than one piece */
         char *p = armbuf;
 
         /* gloves first since this is expected to follow weapon_status();
@@ -676,8 +681,8 @@ staticfn void split_clridx(int, int *, int *);
 staticfn boolean is_ltgt_percentnumber(const char *);
 staticfn boolean has_ltgt_percentnumber(const char *);
 staticfn int splitsubfields(char *, char ***, int);
-staticfn boolean is_fld_arrayvalues(const char *, const char *const *,
-                                    int, int, int *);
+staticfn boolean is_fld_arrayvalues(const char *, const char *const *, int,
+                                    int, int *);
 staticfn int query_arrayvalue(const char *, const char *const *, int, int);
 staticfn void status_hilite_add_threshold(int, struct hilite_s *);
 staticfn boolean parse_status_hl2(char (*)[QBUFSZ], boolean);
@@ -711,19 +716,39 @@ staticfn void status_hilites_viewall(void);
 #define Is_Temp_Hilite(rule) ((rule) && (rule)->behavior == BL_TH_UPDOWN)
 
 /* pointers to current hilite rule and list of this field's defined rules */
-#define INIT_THRESH  , (struct hilite_s *) 0, (struct hilite_s *) 0
-#else /* !STATUS_HILITES */
+#define INIT_THRESH , (struct hilite_s *) 0, (struct hilite_s *) 0
+#else               /* !STATUS_HILITES */
 #define INIT_THRESH /*empty*/
 #endif
 
 #define INIT_BLSTAT(name, fmtstr, anytyp, wid, fld) \
-    { name, fmtstr, 0L, FALSE, FALSE, 0, anytyp,                        \
-      { (genericptr_t) 0 }, { (genericptr_t) 0 }, (char *) 0,           \
-      wid, -1, fld  INIT_THRESH }
+    { name,                                         \
+      fmtstr,                                       \
+      0L,                                           \
+      FALSE,                                        \
+      FALSE,                                        \
+      0,                                            \
+      anytyp,                                       \
+      { (genericptr_t) 0 },                         \
+      { (genericptr_t) 0 },                         \
+      (char *) 0,                                   \
+      wid,                                          \
+      -1,                                           \
+      fld INIT_THRESH }
 #define INIT_BLSTATP(name, fmtstr, anytyp, wid, maxfld, fld) \
-    { name, fmtstr, 0L, FALSE, TRUE, 0, anytyp,                         \
-      { (genericptr_t) 0 }, { (genericptr_t) 0 }, (char *) 0,           \
-      wid, maxfld, fld  INIT_THRESH }
+    { name,                                                  \
+      fmtstr,                                                \
+      0L,                                                    \
+      FALSE,                                                 \
+      TRUE,                                                  \
+      0,                                                     \
+      anytyp,                                                \
+      { (genericptr_t) 0 },                                  \
+      { (genericptr_t) 0 },                                  \
+      (char *) 0,                                            \
+      wid,                                                   \
+      maxfld,                                                \
+      fld INIT_THRESH }
 
 /*
  * If entries are added to this, botl.h will require updating too.
@@ -750,18 +775,15 @@ static struct istat_s initblstats[MAXBLSTATS] = {
     INIT_BLSTAT("gold", " %s", ANY_LONG, 40, BL_GOLD),
     INIT_BLSTATP("power", " 能量:%s", ANY_INT, 10, BL_ENEMAX, BL_ENE),
     INIT_BLSTAT("power-max", "(%s)", ANY_INT, 10, BL_ENEMAX),
-    INIT_BLSTATP("experience-level", " 等级:%s", ANY_INT, 10,
-                 BL_EXP, BL_XP),
+    INIT_BLSTATP("experience-level", " 等级:%s", ANY_INT, 10, BL_EXP, BL_XP),
     INIT_BLSTAT("armor-class", " 护甲:%s", ANY_INT, 10, BL_AC),
     INIT_BLSTAT("HD", " 生命骰:%s", ANY_INT, 10, BL_HD),
     INIT_BLSTAT("time", " 回合:%s", ANY_LONG, 30, BL_TIME),
     /* hunger used to be 'ANY_UINT'; see note below in bot_via_windowport() */
     INIT_BLSTAT("hunger", " %s", ANY_INT, 20, BL_HUNGER),
-    INIT_BLSTATP("hitpoints", " 生命:%s", ANY_INT, 10, BL_HPMAX,
-                 BL_HP),
+    INIT_BLSTATP("hitpoints", " 生命:%s", ANY_INT, 10, BL_HPMAX, BL_HP),
     INIT_BLSTAT("hitpoints-max", "(%s)", ANY_INT, 10, BL_HPMAX),
-    INIT_BLSTAT("dungeon-level", "%s", ANY_STR, MAXVALWIDTH,
-                BL_LEVELDESC),
+    INIT_BLSTAT("dungeon-level", "%s", ANY_STR, MAXVALWIDTH, BL_LEVELDESC),
     INIT_BLSTATP("experience", "/%s", ANY_LONG, 30, BL_EXP, BL_EXP),
     INIT_BLSTAT("condition", "%s", ANY_MASK32, 0, BL_CONDITION),
     /* optional; once set it doesn't change unless 'showvers' option is
@@ -805,32 +827,28 @@ static const char *const fldname_ui[MAXBLSTATS] = {
 #ifdef STATUS_HILITES
 
 static const struct condmap condition_aliases[] = {
-    { "strangled",      BL_MASK_STRNGL },
-    { "all",            BL_MASK_BAREH | BL_MASK_BLIND | BL_MASK_BUSY
-                        | BL_MASK_CONF | BL_MASK_DEAF | BL_MASK_ELF_IRON
-                        | BL_MASK_FLY | BL_MASK_FOODPOIS | BL_MASK_GLOWHANDS
-                        | BL_MASK_GRAB | BL_MASK_HALLU | BL_MASK_HELD
-                        | BL_MASK_ICY | BL_MASK_INLAVA | BL_MASK_LEV
-                        | BL_MASK_PARLYZ | BL_MASK_RIDE | BL_MASK_SLEEPING
-                        | BL_MASK_SLIME | BL_MASK_SLIPPERY | BL_MASK_STONE
-                        | BL_MASK_STRNGL | BL_MASK_STUN | BL_MASK_SUBMERGED
-                        | BL_MASK_TERMILL | BL_MASK_TETHERED
-                        | BL_MASK_TRAPPED | BL_MASK_UNCONSC
-                        | BL_MASK_WOUNDEDL | BL_MASK_HOLDING },
+    { "strangled", BL_MASK_STRNGL },
+    { "all",
+      BL_MASK_BAREH | BL_MASK_BLIND | BL_MASK_BUSY | BL_MASK_CONF
+          | BL_MASK_DEAF | BL_MASK_ELF_IRON | BL_MASK_FLY | BL_MASK_FOODPOIS
+          | BL_MASK_GLOWHANDS | BL_MASK_GRAB | BL_MASK_HALLU | BL_MASK_HELD
+          | BL_MASK_ICY | BL_MASK_INLAVA | BL_MASK_LEV | BL_MASK_PARLYZ
+          | BL_MASK_RIDE | BL_MASK_SLEEPING | BL_MASK_SLIME | BL_MASK_SLIPPERY
+          | BL_MASK_STONE | BL_MASK_STRNGL | BL_MASK_STUN | BL_MASK_SUBMERGED
+          | BL_MASK_TERMILL | BL_MASK_TETHERED | BL_MASK_TRAPPED
+          | BL_MASK_UNCONSC | BL_MASK_WOUNDEDL | BL_MASK_HOLDING },
     { "major_troubles", BL_MASK_FOODPOIS | BL_MASK_GRAB | BL_MASK_INLAVA
-                        | BL_MASK_SLIME | BL_MASK_STONE | BL_MASK_STRNGL
-                        | BL_MASK_TERMILL },
+                            | BL_MASK_SLIME | BL_MASK_STONE | BL_MASK_STRNGL
+                            | BL_MASK_TERMILL },
     { "minor_troubles", BL_MASK_BLIND | BL_MASK_CONF | BL_MASK_DEAF
-                        | BL_MASK_HALLU | BL_MASK_PARLYZ | BL_MASK_SUBMERGED
-                        | BL_MASK_STUN },
-    { "movement",       BL_MASK_LEV | BL_MASK_FLY | BL_MASK_RIDE },
-    { "opt_in",         BL_MASK_BAREH | BL_MASK_BUSY | BL_MASK_GLOWHANDS
-                        | BL_MASK_HELD | BL_MASK_ICY | BL_MASK_PARLYZ
-                        | BL_MASK_SLEEPING | BL_MASK_SLIPPERY
-                        | BL_MASK_SUBMERGED | BL_MASK_TETHERED
-                        | BL_MASK_TRAPPED
-                        | BL_MASK_UNCONSC | BL_MASK_WOUNDEDL
-                        | BL_MASK_HOLDING },
+                            | BL_MASK_HALLU | BL_MASK_PARLYZ
+                            | BL_MASK_SUBMERGED | BL_MASK_STUN },
+    { "movement", BL_MASK_LEV | BL_MASK_FLY | BL_MASK_RIDE },
+    { "opt_in", BL_MASK_BAREH | BL_MASK_BUSY | BL_MASK_GLOWHANDS
+                    | BL_MASK_HELD | BL_MASK_ICY | BL_MASK_PARLYZ
+                    | BL_MASK_SLEEPING | BL_MASK_SLIPPERY | BL_MASK_SUBMERGED
+                    | BL_MASK_TETHERED | BL_MASK_TRAPPED | BL_MASK_UNCONSC
+                    | BL_MASK_WOUNDEDL | BL_MASK_HOLDING },
 };
 
 // 新增: 用于显示 `condition_aliases[]` 中的内容
@@ -843,36 +861,36 @@ static const char *const condition_aliases_ui[] = {
 /* condition names and their abbreviations are used by windowport code */
 const struct conditions_t conditions[] = {
     /* ranking, mask, identifier, txt1, txt2, txt3 */
-    { 20, BL_MASK_BAREH,     bl_bareh,     { "Bare",     "Bar",   "Bh"  } },
-    { 10, BL_MASK_BLIND,     bl_blind,     { "Blind",    "Blnd",  "Bl"  } },
-    { 20, BL_MASK_BUSY,      bl_busy,      { "Busy",     "Bsy",   "By"  } },
-    { 10, BL_MASK_CONF,      bl_conf,      { "Conf",     "Cnf",   "Cf"  } },
-    { 10, BL_MASK_DEAF,      bl_deaf,      { "Deaf",     "Def",   "Df"  } },
-    { 15, BL_MASK_ELF_IRON,  bl_elf_iron,  { "Iron",     "Irn",   "Fe"  } },
-    { 10, BL_MASK_FLY,       bl_fly,       { "Fly",      "Fly",   "Fl"  } },
-    {  6, BL_MASK_FOODPOIS,  bl_foodpois,  { "FoodPois", "Fpois", "Poi" } },
-    { 20, BL_MASK_GLOWHANDS, bl_glowhands, { "Glow",     "Glo",   "Gl"  } },
-    {  2, BL_MASK_GRAB,      bl_grab,      { "Grab",     "Grb",   "Gr"  } },
-    { 10, BL_MASK_HALLU,     bl_hallu,     { "Hallu",    "Hal",   "Hl"  } },
-    { 20, BL_MASK_HELD,      bl_held,      { "Held",     "Hld",   "Hd"  } },
-    { 20, BL_MASK_ICY,       bl_icy,       { "Icy",      "Icy",   "Ic"  } },
-    {  8, BL_MASK_INLAVA,    bl_inlava,    { "InLava",   "Lav",   "La"  } },
-    { 10, BL_MASK_LEV,       bl_lev,       { "Lev",      "Lev",   "Lv"  } },
-    { 20, BL_MASK_PARLYZ,    bl_parlyz,    { "Parlyz",   "Para",  "Par" } },
-    { 10, BL_MASK_RIDE,      bl_ride,      { "Ride",     "Rid",   "Rd"  } },
-    { 20, BL_MASK_SLEEPING,  bl_sleeping,  { "Zzz",      "Zzz",   "Zz"  } },
-    {  6, BL_MASK_SLIME,     bl_slime,     { "Slime",    "Slim",  "Slm" } },
-    { 20, BL_MASK_SLIPPERY,  bl_slippery,  { "Slip",     "Slp",   "Sl"  } },
-    {  6, BL_MASK_STONE,     bl_stone,     { "Stone",    "Ston",  "Sto" } },
-    {  4, BL_MASK_STRNGL,    bl_strngl,    { "Strngl",   "Stngl", "Str" } },
-    { 10, BL_MASK_STUN,      bl_stun,      { "Stun",     "Stun",  "St"  } },
-    { 15, BL_MASK_SUBMERGED, bl_submerged, { "Submrg",   "Subm",  "Sm"  } },
-    {  6, BL_MASK_TERMILL,   bl_termill,   { "TermIll",  "Ill",   "Ill" } },
-    { 20, BL_MASK_TETHERED,  bl_tethered,  { "Teth",     "Tth",   "Te"  } },
-    { 20, BL_MASK_TRAPPED,   bl_trapped,   { "Trap",     "Trp",   "Tr"  } },
-    { 20, BL_MASK_UNCONSC,   bl_unconsc,   { "Out",      "Out",   "KO"  } },
-    { 20, BL_MASK_WOUNDEDL,  bl_woundedl,  { "WLegs",    "Leg",   "Lg"  } },
-    { 20, BL_MASK_HOLDING,   bl_holding,   { "UHold",    "UHld",  "UHd" } },
+    { 20, BL_MASK_BAREH, bl_bareh, { "Bare", "Bar", "Bh" } },
+    { 10, BL_MASK_BLIND, bl_blind, { "Blind", "Blnd", "Bl" } },
+    { 20, BL_MASK_BUSY, bl_busy, { "Busy", "Bsy", "By" } },
+    { 10, BL_MASK_CONF, bl_conf, { "Conf", "Cnf", "Cf" } },
+    { 10, BL_MASK_DEAF, bl_deaf, { "Deaf", "Def", "Df" } },
+    { 15, BL_MASK_ELF_IRON, bl_elf_iron, { "Iron", "Irn", "Fe" } },
+    { 10, BL_MASK_FLY, bl_fly, { "Fly", "Fly", "Fl" } },
+    { 6, BL_MASK_FOODPOIS, bl_foodpois, { "FoodPois", "Fpois", "Poi" } },
+    { 20, BL_MASK_GLOWHANDS, bl_glowhands, { "Glow", "Glo", "Gl" } },
+    { 2, BL_MASK_GRAB, bl_grab, { "Grab", "Grb", "Gr" } },
+    { 10, BL_MASK_HALLU, bl_hallu, { "Hallu", "Hal", "Hl" } },
+    { 20, BL_MASK_HELD, bl_held, { "Held", "Hld", "Hd" } },
+    { 20, BL_MASK_ICY, bl_icy, { "Icy", "Icy", "Ic" } },
+    { 8, BL_MASK_INLAVA, bl_inlava, { "InLava", "Lav", "La" } },
+    { 10, BL_MASK_LEV, bl_lev, { "Lev", "Lev", "Lv" } },
+    { 20, BL_MASK_PARLYZ, bl_parlyz, { "Parlyz", "Para", "Par" } },
+    { 10, BL_MASK_RIDE, bl_ride, { "Ride", "Rid", "Rd" } },
+    { 20, BL_MASK_SLEEPING, bl_sleeping, { "Zzz", "Zzz", "Zz" } },
+    { 6, BL_MASK_SLIME, bl_slime, { "Slime", "Slim", "Slm" } },
+    { 20, BL_MASK_SLIPPERY, bl_slippery, { "Slip", "Slp", "Sl" } },
+    { 6, BL_MASK_STONE, bl_stone, { "Stone", "Ston", "Sto" } },
+    { 4, BL_MASK_STRNGL, bl_strngl, { "Strngl", "Stngl", "Str" } },
+    { 10, BL_MASK_STUN, bl_stun, { "Stun", "Stun", "St" } },
+    { 15, BL_MASK_SUBMERGED, bl_submerged, { "Submrg", "Subm", "Sm" } },
+    { 6, BL_MASK_TERMILL, bl_termill, { "TermIll", "Ill", "Ill" } },
+    { 20, BL_MASK_TETHERED, bl_tethered, { "Teth", "Tth", "Te" } },
+    { 20, BL_MASK_TRAPPED, bl_trapped, { "Trap", "Trp", "Tr" } },
+    { 20, BL_MASK_UNCONSC, bl_unconsc, { "Out", "Out", "KO" } },
+    { 20, BL_MASK_WOUNDEDL, bl_woundedl, { "WLegs", "Leg", "Lg" } },
+    { 20, BL_MASK_HOLDING, bl_holding, { "UHold", "UHld", "UHd" } },
 };
 
 // 新增: 用于 UI 显示的 `conditions[]`
@@ -914,36 +932,36 @@ const struct cond_zh_t conditions_ui[] = {
 struct condtests_t condtests[CONDITION_COUNT] = {
     /* id, useropt, opt_in or out, enabled, configchoice, testresult;
        default value for enabled is !opt_in but can get changed via options */
-    { bl_bareh,     "barehanded",  opt_in,  FALSE, FALSE, FALSE },
-    { bl_blind,     "blind",       opt_out, TRUE,  FALSE, FALSE },
-    { bl_busy,      "busy",        opt_in,  FALSE, FALSE, FALSE },
-    { bl_conf,      "conf",        opt_out, TRUE,  FALSE, FALSE },
-    { bl_deaf,      "deaf",        opt_out, TRUE,  FALSE, FALSE },
-    { bl_elf_iron,  "iron",        opt_out, TRUE,  FALSE, FALSE },
-    { bl_fly,       "fly",         opt_out, TRUE,  FALSE, FALSE },
-    { bl_foodpois,  "foodPois",    opt_out, TRUE,  FALSE, FALSE },
-    { bl_glowhands, "glowhands",   opt_in,  FALSE, FALSE, FALSE },
-    { bl_grab,      "grab",        opt_out, TRUE,  FALSE, FALSE },
-    { bl_hallu,     "hallucinat",  opt_out, TRUE,  FALSE, FALSE },
-    { bl_held,      "held",        opt_in,  FALSE, FALSE, FALSE },
-    { bl_icy,       "ice",         opt_in,  FALSE, FALSE, FALSE },
-    { bl_inlava,    "lava",        opt_out, TRUE,  FALSE, FALSE },
-    { bl_lev,       "levitate",    opt_out, TRUE,  FALSE, FALSE },
-    { bl_parlyz,    "paralyzed",   opt_in,  FALSE, FALSE, FALSE },
-    { bl_ride,      "ride",        opt_out, TRUE,  FALSE, FALSE },
-    { bl_sleeping,  "sleep",       opt_in,  FALSE, FALSE, FALSE },
-    { bl_slime,     "slime",       opt_out, TRUE,  FALSE, FALSE },
-    { bl_slippery,  "slip",        opt_in,  FALSE, FALSE, FALSE },
-    { bl_stone,     "stone",       opt_out, TRUE,  FALSE, FALSE },
-    { bl_strngl,    "strngl",      opt_out, TRUE,  FALSE, FALSE },
-    { bl_stun,      "stun",        opt_out, TRUE,  FALSE, FALSE },
-    { bl_submerged, "submerged",   opt_in,  FALSE, FALSE, FALSE },
-    { bl_termill,   "termIll",     opt_out, TRUE,  FALSE, FALSE },
-    { bl_tethered,  "tethered",    opt_in,  FALSE, FALSE, FALSE },
-    { bl_trapped,   "trap",        opt_in,  FALSE, FALSE, FALSE },
-    { bl_unconsc,   "unconscious", opt_in,  FALSE, FALSE, FALSE },
-    { bl_woundedl,  "woundedlegs", opt_in,  FALSE, FALSE, FALSE },
-    { bl_holding,   "holding",     opt_in,  FALSE, FALSE, FALSE },
+    { bl_bareh, "barehanded", opt_in, FALSE, FALSE, FALSE },
+    { bl_blind, "blind", opt_out, TRUE, FALSE, FALSE },
+    { bl_busy, "busy", opt_in, FALSE, FALSE, FALSE },
+    { bl_conf, "conf", opt_out, TRUE, FALSE, FALSE },
+    { bl_deaf, "deaf", opt_out, TRUE, FALSE, FALSE },
+    { bl_elf_iron, "iron", opt_out, TRUE, FALSE, FALSE },
+    { bl_fly, "fly", opt_out, TRUE, FALSE, FALSE },
+    { bl_foodpois, "foodPois", opt_out, TRUE, FALSE, FALSE },
+    { bl_glowhands, "glowhands", opt_in, FALSE, FALSE, FALSE },
+    { bl_grab, "grab", opt_out, TRUE, FALSE, FALSE },
+    { bl_hallu, "hallucinat", opt_out, TRUE, FALSE, FALSE },
+    { bl_held, "held", opt_in, FALSE, FALSE, FALSE },
+    { bl_icy, "ice", opt_in, FALSE, FALSE, FALSE },
+    { bl_inlava, "lava", opt_out, TRUE, FALSE, FALSE },
+    { bl_lev, "levitate", opt_out, TRUE, FALSE, FALSE },
+    { bl_parlyz, "paralyzed", opt_in, FALSE, FALSE, FALSE },
+    { bl_ride, "ride", opt_out, TRUE, FALSE, FALSE },
+    { bl_sleeping, "sleep", opt_in, FALSE, FALSE, FALSE },
+    { bl_slime, "slime", opt_out, TRUE, FALSE, FALSE },
+    { bl_slippery, "slip", opt_in, FALSE, FALSE, FALSE },
+    { bl_stone, "stone", opt_out, TRUE, FALSE, FALSE },
+    { bl_strngl, "strngl", opt_out, TRUE, FALSE, FALSE },
+    { bl_stun, "stun", opt_out, TRUE, FALSE, FALSE },
+    { bl_submerged, "submerged", opt_in, FALSE, FALSE, FALSE },
+    { bl_termill, "termIll", opt_out, TRUE, FALSE, FALSE },
+    { bl_tethered, "tethered", opt_in, FALSE, FALSE, FALSE },
+    { bl_trapped, "trap", opt_in, FALSE, FALSE, FALSE },
+    { bl_unconsc, "unconscious", opt_in, FALSE, FALSE, FALSE },
+    { bl_woundedl, "woundedlegs", opt_in, FALSE, FALSE, FALSE },
+    { bl_holding, "holding", opt_in, FALSE, FALSE, FALSE },
 };
 
 // 新增: 用于显示 `condtests[]` 中的内容，主要是 `cond_menu()`
@@ -962,58 +980,58 @@ static const char c_Wall[] = "Wall";
  *  others can only occur when hero has the Passes_walls ability.
  */
 const char *terrain_descr[] = {
-/* 0*/ "Stone",         /* stone */
-       c_Wall,          /* vwall */
-       c_Wall,          /* hwall */
-       c_Wall,          /* tlcorner */
-       c_Wall,          /* trcorner */
-       c_Wall,          /* blcorner */
-       c_Wall,          /* brcorner */
-       c_Wall,          /* crosswall */
-       c_Wall,          /* tuwall */
-       c_Wall,          /* tdwall */
-/*10*/ c_Wall,          /* tlwall */
-       c_Wall,          /* trwall */
-       "Portcullis",    /* dbwall, closed drawbridge 'door' */
-       "Tree",
-       c_Wall,          /* sdoor: secret door */
-       "Stone",         /* scorr: secret corridor */
-       "Pool",          /* pool or non-moat water; can be boiled away */
-       "Moat",          /* water that can't be boiled away */
-       "Water",         /* water on Water level; can't be boiled or frozen */
-       "(gap)",         /* drawbridge_up; replaced by whatever is under */
-/*20*/ "Lava",          /* lavapool */
-       "LavaWall",      /* lava that extends to ceiling */
-       "Bars",          /* ironbars */
-       "Doorway",       /* doorless or broken door; diagonal movement is ok */
-       "Corridor",      /* replaced by "Floor" */
-       "Room",          /* also replaced by "Floor" */
-       "Stairs",
-       "Ladder",
-       "Fountain",
-       "Throne",
-/*30*/ "Sink",
-       "Grave",
-       "Altar",
-       "Ice",
-       "Bridge",        /* drawbridge_down, span across moat/ice/lava/floor */
-       "Air",           /* open air on Air level or bubble on Water level */
-       "Cloud",         /* [part of] a cloud or Air level */
-       /*
-        */
-/*37*/ "",              /* MAX_TYPE; skipped ratther than overloaded */
-/*38*/ c_Wall,          /* MATCH_WALL for special levels; shouldn't happen */
-       /*
-        * additional terrain names that aren't simple levl[][].typ values
-        */
-/*39*/ "Floor",         /* substituted for room or corridor */
-/*40*/ "Ground",        /* 'room' on Earth level */
-       "Open-door",     /* open (not broken or doorless) */
-       "Shut-door",     /* closed or locked (or trapped) */
-       "Swamp",         /* Juiblex level */
-       "Submerged",     /* under water */
-       "Sea",           /* moat terrain on Medusa's level: "shallow sea" */
-       "WaterWall",     /* water that extends to the ceiling */
+    /* 0*/ "Stone", /* stone */
+    c_Wall,         /* vwall */
+    c_Wall,         /* hwall */
+    c_Wall,         /* tlcorner */
+    c_Wall,         /* trcorner */
+    c_Wall,         /* blcorner */
+    c_Wall,         /* brcorner */
+    c_Wall,         /* crosswall */
+    c_Wall,         /* tuwall */
+    c_Wall,         /* tdwall */
+    /*10*/ c_Wall,  /* tlwall */
+    c_Wall,         /* trwall */
+    "Portcullis",   /* dbwall, closed drawbridge 'door' */
+    "Tree",
+    c_Wall,        /* sdoor: secret door */
+    "Stone",       /* scorr: secret corridor */
+    "Pool",        /* pool or non-moat water; can be boiled away */
+    "Moat",        /* water that can't be boiled away */
+    "Water",       /* water on Water level; can't be boiled or frozen */
+    "(gap)",       /* drawbridge_up; replaced by whatever is under */
+    /*20*/ "Lava", /* lavapool */
+    "LavaWall",    /* lava that extends to ceiling */
+    "Bars",        /* ironbars */
+    "Doorway",     /* doorless or broken door; diagonal movement is ok */
+    "Corridor",    /* replaced by "Floor" */
+    "Room",        /* also replaced by "Floor" */
+    "Stairs",
+    "Ladder",
+    "Fountain",
+    "Throne",
+    /*30*/ "Sink",
+    "Grave",
+    "Altar",
+    "Ice",
+    "Bridge", /* drawbridge_down, span across moat/ice/lava/floor */
+    "Air",    /* open air on Air level or bubble on Water level */
+    "Cloud",  /* [part of] a cloud or Air level */
+    /*
+     */
+    /*37*/ "",     /* MAX_TYPE; skipped ratther than overloaded */
+    /*38*/ c_Wall, /* MATCH_WALL for special levels; shouldn't happen */
+    /*
+     * additional terrain names that aren't simple levl[][].typ values
+     */
+    /*39*/ "Floor",  /* substituted for room or corridor */
+    /*40*/ "Ground", /* 'room' on Earth level */
+    "Open-door",     /* open (not broken or doorless) */
+    "Shut-door",     /* closed or locked (or trapped) */
+    "Swamp",         /* Juiblex level */
+    "Submerged",     /* under water */
+    "Sea",           /* moat terrain on Medusa's level: "shallow sea" */
+    "WaterWall",     /* water that extends to the ceiling */
 };
 
 static const char c_Wall_ui[] = "墙";
@@ -1074,35 +1092,35 @@ static boolean cache_avail[3] = { FALSE, FALSE, FALSE };
 static boolean cache_reslt[3] = { FALSE, FALSE, FALSE };
 static const char *cache_nomovemsg = NULL, *cache_multi_reason = NULL;
 
-#define cond_cache_prepA() \
-do {                                                        \
-    boolean clear_cache = FALSE, refresh_cache = FALSE;     \
+#define cond_cache_prepA()                                  \
+    do {                                                    \
+        boolean clear_cache = FALSE, refresh_cache = FALSE; \
                                                             \
-    if (gm.multi < 0) {                                     \
-        if (gn.nomovemsg || gm.multi_reason) {              \
-            if (cache_nomovemsg != gn.nomovemsg)            \
-                refresh_cache = TRUE;                       \
-            if (cache_multi_reason != gm.multi_reason)      \
-                refresh_cache = TRUE;                       \
+        if (gm.multi < 0) {                                 \
+            if (gn.nomovemsg || gm.multi_reason) {          \
+                if (cache_nomovemsg != gn.nomovemsg)        \
+                    refresh_cache = TRUE;                   \
+                if (cache_multi_reason != gm.multi_reason)  \
+                    refresh_cache = TRUE;                   \
+            } else {                                        \
+                clear_cache = TRUE;                         \
+            }                                               \
         } else {                                            \
             clear_cache = TRUE;                             \
         }                                                   \
-    } else {                                                \
-        clear_cache = TRUE;                                 \
-    }                                                       \
-    if (clear_cache) {                                      \
-        cache_nomovemsg = (const char *) 0;                 \
-        cache_multi_reason = (const char *) 0;              \
-    }                                                       \
-    if (refresh_cache) {                                    \
-        cache_nomovemsg = gn.nomovemsg;                     \
-        cache_multi_reason = gm.multi_reason;               \
-    }                                                       \
-    if (clear_cache || refresh_cache) {                     \
-        cache_reslt[0] = cache_avail[0] = FALSE;            \
-        cache_reslt[1] = cache_avail[1] = FALSE;            \
-    }                                                       \
-} while (0)
+        if (clear_cache) {                                  \
+            cache_nomovemsg = (const char *) 0;             \
+            cache_multi_reason = (const char *) 0;          \
+        }                                                   \
+        if (refresh_cache) {                                \
+            cache_nomovemsg = gn.nomovemsg;                 \
+            cache_multi_reason = gm.multi_reason;           \
+        }                                                   \
+        if (clear_cache || refresh_cache) {                 \
+            cache_reslt[0] = cache_avail[0] = FALSE;        \
+            cache_reslt[1] = cache_avail[1] = FALSE;        \
+        }                                                   \
+    } while (0)
 
 /* we don't put this next declaration in #ifdef STATUS_HILITES.
  * In the absence of STATUS_HILITES, each array
@@ -1129,7 +1147,7 @@ bot_via_windowport(void)
     gn.now_or_before_idx = idx;
 
     /* clear the "value set" indicators */
-    (void) memset((genericptr_t) gv.valset, 0, MAXBLSTATS * sizeof (boolean));
+    (void) memset((genericptr_t) gv.valset, 0, MAXBLSTATS * sizeof(boolean));
 
     /*
      * Note: min(x,9999) - we enforce the same maximum on hp, maxhp,
@@ -1151,7 +1169,7 @@ bot_via_windowport(void)
         size_t col = 0, pos = 0;
         while (buf[pos]) {
             uint8 clen = 0, cw = 0;
-            utf8char_info(buf +pos,&clen,&cw);
+            utf8char_info(buf + pos, &clen, &cw);
             if (col + cw > (size_t) free_cols && col >= BOTL_NSIZ)
                 break;
             col += cw;
@@ -1180,18 +1198,17 @@ bot_via_windowport(void)
     gb.blstats[idx][BL_CH].a.a_int = ACURR(A_CHA);
 
     /* Alignment */
-    Strcpy(gb.blstats[idx][BL_ALIGN].val, (u.ualign.type == A_CHAOTIC)
-                                          ? "混沌"
-                                          : (u.ualign.type == A_NEUTRAL)
-                                               ? "中立"
-                                               : "秩序");
+    Strcpy(gb.blstats[idx][BL_ALIGN].val,
+           (u.ualign.type == A_CHAOTIC)   ? "混沌"
+           : (u.ualign.type == A_NEUTRAL) ? "中立"
+                                          : "秩序");
 
     /* Score */
     gb.blstats[idx][BL_SCORE].a.a_long =
 #ifdef SCORE_ON_BOTL
         flags.showscore ? botl_score() :
 #endif
-        0L;
+                        0L;
 
     /*  Hit points  */
     i = Upolyd ? u.mh : u.uhp;
@@ -1228,8 +1245,9 @@ bot_via_windowport(void)
      * sequence.
      */
     Sprintf(gb.blstats[idx][BL_GOLD].val, "%s:%ld",
-            (iflags.in_dumplog || iflags.invis_goldsym) ? "$"
-              : encglyph(objnum_to_glyph(GOLD_PIECE)),
+            (iflags.in_dumplog || iflags.invis_goldsym)
+                ? "$"
+                : encglyph(objnum_to_glyph(GOLD_PIECE)),
             gb.blstats[idx][BL_GOLD].a.a_long);
     gv.valset[BL_GOLD] = TRUE; /* indicate val already set */
 
@@ -1243,7 +1261,8 @@ bot_via_windowport(void)
     gb.blstats[idx][BL_AC].a.a_int = u.uac;
 
     /* Monster level (if Upolyd) */
-    gb.blstats[idx][BL_HD].a.a_int = Upolyd ? (int) mons[u.umonnum].mlevel : 0;
+    gb.blstats[idx][BL_HD].a.a_int =
+        Upolyd ? (int) mons[u.umonnum].mlevel : 0;
 
     /* Experience */
     gb.blstats[idx][BL_XP].a.a_int = u.ulevel;
@@ -1304,22 +1323,24 @@ bot_via_windowport(void)
      * configurations) should ameliorate that.]
      */
 
-#define test_if_enabled(c) if (condtests[(c)].enabled) condtests[(c)].test
+#define test_if_enabled(c)      \
+    if (condtests[(c)].enabled) \
+    condtests[(c)].test
 
     condtests[bl_foodpois].test = condtests[bl_termill].test = FALSE;
     if (Sick) {
         test_if_enabled(bl_foodpois) = (u.usick_type & SICK_VOMITABLE) != 0;
         test_if_enabled(bl_termill) = (u.usick_type & SICK_NONVOMITABLE) != 0;
     }
-    condtests[bl_inlava].test = condtests[bl_tethered].test
-        = condtests[bl_trapped].test = FALSE;
+    condtests[bl_inlava].test = condtests[bl_tethered].test =
+        condtests[bl_trapped].test = FALSE;
     if (u.utrap) {
         test_if_enabled(bl_inlava) = (u.utraptype == TT_LAVA);
         test_if_enabled(bl_tethered) = (u.utraptype == TT_BURIEDBALL);
         /* if in-lava or tethered is disabled and the condition applies,
            lump it in with trapped */
-        test_if_enabled(bl_trapped) = (!condtests[bl_inlava].test
-                                       && !condtests[bl_tethered].test);
+        test_if_enabled(bl_trapped) =
+            (!condtests[bl_inlava].test && !condtests[bl_tethered].test);
     }
     condtests[bl_grab].test = condtests[bl_held].test
 #if 0
@@ -1348,37 +1369,37 @@ bot_via_windowport(void)
             test_if_enabled(bl_held) = !condtests[bl_grab].test;
         }
     }
-    condtests[bl_blind].test     = (Blind) ? TRUE : FALSE;
-    condtests[bl_conf].test      = (Confusion) ? TRUE : FALSE;
-    condtests[bl_deaf].test      = (Deaf) ? TRUE : FALSE;
-    condtests[bl_fly].test       = (Flying) ? TRUE : FALSE;
+    condtests[bl_blind].test = (Blind) ? TRUE : FALSE;
+    condtests[bl_conf].test = (Confusion) ? TRUE : FALSE;
+    condtests[bl_deaf].test = (Deaf) ? TRUE : FALSE;
+    condtests[bl_fly].test = (Flying) ? TRUE : FALSE;
     condtests[bl_glowhands].test = (u.umconf) ? TRUE : FALSE;
-    condtests[bl_hallu].test     = (Hallucination) ? TRUE : FALSE;
-    condtests[bl_lev].test       = (Levitation) ? TRUE : FALSE;
-    condtests[bl_ride].test      = (u.usteed) ? TRUE : FALSE;
-    condtests[bl_slime].test     = (Slimed) ? TRUE : FALSE;
-    condtests[bl_stone].test     = (Stoned) ? TRUE : FALSE;
-    condtests[bl_strngl].test    = (Strangled) ? TRUE : FALSE;
-    condtests[bl_stun].test      = (Stunned) ? TRUE : FALSE;
+    condtests[bl_hallu].test = (Hallucination) ? TRUE : FALSE;
+    condtests[bl_lev].test = (Levitation) ? TRUE : FALSE;
+    condtests[bl_ride].test = (u.usteed) ? TRUE : FALSE;
+    condtests[bl_slime].test = (Slimed) ? TRUE : FALSE;
+    condtests[bl_stone].test = (Stoned) ? TRUE : FALSE;
+    condtests[bl_strngl].test = (Strangled) ? TRUE : FALSE;
+    condtests[bl_stun].test = (Stunned) ? TRUE : FALSE;
     condtests[bl_submerged].test = (Underwater) ? TRUE : FALSE;
     test_if_enabled(bl_elf_iron) = (FALSE);
-    test_if_enabled(bl_bareh)    = (!uarmg && !uwep);
-    test_if_enabled(bl_icy)      = (levl[u.ux][u.uy].typ == ICE);
+    test_if_enabled(bl_bareh) = (!uarmg && !uwep);
+    test_if_enabled(bl_icy) = (levl[u.ux][u.uy].typ == ICE);
     test_if_enabled(bl_slippery) = (Glib) ? TRUE : FALSE;
     test_if_enabled(bl_woundedl) = (Wounded_legs) ? TRUE : FALSE;
 
     if (gm.multi < 0) {
         cond_cache_prepA();
-        if (condtests[bl_unconsc].enabled
-            && cache_nomovemsg && !cache_avail[0]) {
-                cache_reslt[0] = (!u.usleep && unconscious());
-                cache_avail[0] = TRUE;
+        if (condtests[bl_unconsc].enabled && cache_nomovemsg
+            && !cache_avail[0]) {
+            cache_reslt[0] = (!u.usleep && unconscious());
+            cache_avail[0] = TRUE;
         }
-        if (condtests[bl_parlyz].enabled
-            && cache_multi_reason && !cache_avail[1]) {
-                cache_reslt[1] = (!strncmp(cache_multi_reason, "麻痹", 6)
-                                 || !strncmp(cache_multi_reason, "冻结", 6));
-                cache_avail[1] = TRUE;
+        if (condtests[bl_parlyz].enabled && cache_multi_reason
+            && !cache_avail[1]) {
+            cache_reslt[1] = (!strncmp(cache_multi_reason, "麻痹", 6)
+                              || !strncmp(cache_multi_reason, "冻结", 6));
+            cache_avail[1] = TRUE;
         }
         if (cache_avail[0] && cache_reslt[0]) {
             condtests[bl_unconsc].test = cache_reslt[0];
@@ -1395,12 +1416,12 @@ bot_via_windowport(void)
     }
 
 #define cond_setbit(c) \
-        gb.blstats[idx][BL_CONDITION].a.a_ulong |= conditions[(c)].mask
+    gb.blstats[idx][BL_CONDITION].a.a_ulong |= conditions[(c)].mask
 
     for (i = 0; i < CONDITION_COUNT; ++i) {
         if (condtests[i].enabled
-             /* && i != bl_holding  */ /* uncomment to suppress UHold */
-                && condtests[i].test)
+            /* && i != bl_holding  */ /* uncomment to suppress UHold */
+            && condtests[i].test)
             cond_setbit(i);
     }
 #undef cond_bitset
@@ -1453,8 +1474,8 @@ stat_update_time(void)
 
     eval_notify_windowport_field(fld, gv.valset, idx);
     if ((windowprocs.wincap2 & WC2_FLUSH_STATUS) != 0L)
-        status_update(BL_FLUSH, (genericptr_t) 0, 0, 0,
-                      NO_COLOR, (unsigned long *) 0);
+        status_update(BL_FLUSH, (genericptr_t) 0, 0, 0, NO_COLOR,
+                      (unsigned long *) 0);
     return;
 }
 
@@ -1477,8 +1498,8 @@ condopt(int idx, boolean *addr, boolean negated)
             cond_idx[i] = i;
             condtests[i].choice = condtests[i].enabled;
         }
-        qsort((genericptr_t) cond_idx, CONDITION_COUNT,
-              sizeof cond_idx[0], cond_cmp);
+        qsort((genericptr_t) cond_idx, CONDITION_COUNT, sizeof cond_idx[0],
+              cond_cmp);
     } else {
         /* (addr == &condtests[idx].choice) */
         condtests[idx].enabled = negated ? FALSE : TRUE;
@@ -1538,7 +1559,7 @@ parse_cond_option(boolean negated, char *opts)
             return 0;
         }
     }
-    return 1;  /* !0 indicates error */
+    return 1; /* !0 indicates error */
 }
 
 /* display a menu of all available status condition options and let player
@@ -1546,9 +1567,8 @@ parse_cond_option(boolean negated, char *opts)
 boolean
 cond_menu(void)
 {
-    static const char *const menutitle[2] = {
-        "按拼音排序", "按开启状态排序"
-    };
+    static const char *const menutitle[2] = { "按拼音排序",
+                                              "按开启状态排序" };
     int i, res, idx = 0;
     int sequence[CONDITION_COUNT];
     winid tmpwin;
@@ -1563,8 +1583,7 @@ cond_menu(void)
         for (i = 0; i < CONDITION_COUNT; ++i) {
             sequence[i] = i;
         }
-        qsort((genericptr_t) sequence, CONDITION_COUNT,
-              sizeof sequence[0],
+        qsort((genericptr_t) sequence, CONDITION_COUNT, sizeof sequence[0],
               (gc.condmenu_sortorder) ? cond_cmp : pinyin_cmp);
 
         tmpwin = create_nhwindow(NHW_MENU);
@@ -1575,8 +1594,8 @@ cond_menu(void)
         Sprintf(mbuf, "将顺序从\"%s\"改为\"%s\"",
                 menutitle[gc.condmenu_sortorder],
                 menutitle[1 - gc.condmenu_sortorder]);
-        add_menu(tmpwin, &nul_glyphinfo, &any, 'S', 0, ATR_NONE,
-                 clr, mbuf, MENU_ITEMFLAGS_SKIPINVERT);
+        add_menu(tmpwin, &nul_glyphinfo, &any, 'S', 0, ATR_NONE, clr, mbuf,
+                 MENU_ITEMFLAGS_SKIPINVERT);
         any = cg.zeroany;
         Sprintf(mbuf, "顺序: %s", menutitle[gc.condmenu_sortorder]);
         add_menu_heading(tmpwin, mbuf);
@@ -1586,13 +1605,15 @@ cond_menu(void)
             // 字符串的显示列数，所以手动计算
             Sprintf(mbuf, "%s%*s", condtests_ui[idx].text,
                     14 - (int) utf8str_width(condtests_ui[idx].text) > 0
-                    ? 14 - (int) utf8str_width(condtests_ui[idx].text) : 0, "");
+                        ? 14 - (int) utf8str_width(condtests_ui[idx].text)
+                        : 0,
+                    "");
             any = cg.zeroany;
             any.a_int = idx + 2; /* avoid zero and the sort change pick */
             condtests[idx].choice = FALSE;
             add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE, clr, mbuf,
-                     condtests[idx].enabled
-                        ? MENU_ITEMFLAGS_SELECTED : MENU_ITEMFLAGS_NONE);
+                     condtests[idx].enabled ? MENU_ITEMFLAGS_SELECTED
+                                            : MENU_ITEMFLAGS_NONE);
         }
 
         end_menu(tmpwin, "选择要切换的状态条件");
@@ -1604,10 +1625,10 @@ cond_menu(void)
             for (i = 0; i < res; i++) {
                 idx = picks[i].item.a_int;
                 if (idx == 1) {
-                   /* sort change requested */
-                   gc.condmenu_sortorder = 1 - gc.condmenu_sortorder;
-                   showmenu = TRUE;
-                   break;       /* for loop */
+                    /* sort change requested */
+                    gc.condmenu_sortorder = 1 - gc.condmenu_sortorder;
+                    showmenu = TRUE;
+                    break; /* for loop */
                 } else {
                     idx -= 2;
                     condtests[idx].choice = TRUE;
@@ -1665,10 +1686,7 @@ opt_next_cond(int indx, char *outbuf)
 }
 
 staticfn boolean
-eval_notify_windowport_field(
-    int fld,
-    boolean *valsetlist,
-    int idx)
+eval_notify_windowport_field(int fld, boolean *valsetlist, int idx)
 {
     static int oldrndencode = 0;
     static nhsym oldgoldsym = 0;
@@ -1695,12 +1713,11 @@ eval_notify_windowport_field(
      *  means that percentages need to be kept up to date.
      *  [Affects exp_percent_changing() too.]
      */
-    if (((chg || gu.update_all || fld == BL_XP)
-         && curr->percent_matters
+    if (((chg || gu.update_all || fld == BL_XP) && curr->percent_matters
 #ifdef STATUS_HILITES
          && curr->thresholds
 #endif
-        )
+         )
         /* when 'hitpointbar' is On, percent matters even if HP
            hasn't changed and has no percentage rules (in case HPmax
            has changed when HP hasn't, where we ordinarily wouldn't
@@ -1708,7 +1725,7 @@ eval_notify_windowport_field(
         || (fld == BL_HP && iflags.wc2_hitpointbar)) {
         fldmax = curr->idxmax;
         pc = (fldmax == BL_EXP) ? exp_percentage()
-              : (fldmax >= 0 && fldmax < MAXBLSTATS)
+             : (fldmax >= 0 && fldmax < MAXBLSTATS)
                  ? percentage(curr, &gb.blstats[idx][fldmax])
                  : 0; /* bullet proofing; can't get here */
         if (pc != prev->percent_value)
@@ -1756,7 +1773,7 @@ eval_notify_windowport_field(
     }
 #endif
 
-   if (gu.update_all || chg || reset) {
+    if (gu.update_all || chg || reset) {
         if (!valsetlist[fld])
             (void) anything_to_s(curr->val, &curr->a, anytype);
 
@@ -1769,9 +1786,8 @@ eval_notify_windowport_field(
                 if (chg == 1 && fld == BL_XP)
                     chg = compare_blstats(prev, curr);
 
-                curr->hilite_rule = get_hilite(idx, fld,
-                                               (genericptr_t) &curr->a,
-                                               chg, pc, &color);
+                curr->hilite_rule = get_hilite(
+                    idx, fld, (genericptr_t) &curr->a, chg, pc, &color);
                 prev->hilite_rule = curr->hilite_rule;
                 if (chg == 2) {
                     color = NO_COLOR;
@@ -1779,12 +1795,12 @@ eval_notify_windowport_field(
                 }
             }
 #endif /* STATUS_HILITES */
-            status_update(fld, (genericptr_t) curr->val,
-                          chg, pc, color, (unsigned long *) 0);
+            status_update(fld, (genericptr_t) curr->val, chg, pc, color,
+                          (unsigned long *) 0);
         } else {
             /* Color for conditions is done through gc.cond_hilites[] */
-            status_update(fld, (genericptr_t) &curr->a.a_ulong,
-                          chg, pc, color, gc.cond_hilites);
+            status_update(fld, (genericptr_t) &curr->a.a_ulong, chg, pc,
+                          color, gc.cond_hilites);
         }
         curr->chg = prev->chg = TRUE;
         updated = TRUE;
@@ -1793,9 +1809,7 @@ eval_notify_windowport_field(
 }
 
 staticfn void
-evaluate_and_notify_windowport(
-    boolean *valsetlist,
-    int idx)
+evaluate_and_notify_windowport(boolean *valsetlist, int idx)
 {
     int i, fld, updated = 0;
 
@@ -1812,8 +1826,7 @@ evaluate_and_notify_windowport(
             || ((fld == BL_VERS) && !flags.showvers)
             || ((fld == BL_TERRAIN) && !flags.terrainstatus)
             || ((fld == BL_WEAPON) && !flags.weaponstatus)
-            || ((fld == BL_ARMOR) && !flags.armorstatus)
-            ) {
+            || ((fld == BL_ARMOR) && !flags.armorstatus)) {
             continue;
         }
         if (eval_notify_windowport_field(fld, valsetlist, idx))
@@ -1843,12 +1856,12 @@ evaluate_and_notify_windowport(
      *
      */
     if (disp.botlx && (windowprocs.wincap2 & WC2_RESET_STATUS) != 0L)
-        status_update(BL_RESET, (genericptr_t) 0, 0, 0,
-                      NO_COLOR, (unsigned long *) 0);
+        status_update(BL_RESET, (genericptr_t) 0, 0, 0, NO_COLOR,
+                      (unsigned long *) 0);
     else if ((updated || disp.botlx)
              && (windowprocs.wincap2 & WC2_FLUSH_STATUS) != 0L)
-        status_update(BL_FLUSH, (genericptr_t) 0, 0, 0,
-                      NO_COLOR, (unsigned long *) 0);
+        status_update(BL_FLUSH, (genericptr_t) 0, 0, 0, NO_COLOR,
+                      (unsigned long *) 0);
 
     disp.botl = disp.botlx = disp.time_botl = FALSE;
     gu.update_all = FALSE;
@@ -1874,21 +1887,22 @@ status_initialize(
     }
     for (i = 0; i < MAXBLSTATS; ++i) {
         fld = initblstats[i].fld;
-        fldenabl = (fld == BL_SCORE) ? flags.showscore
-                   : (fld == BL_TIME) ? flags.time
-                     : (fld == BL_EXP) ? (boolean) (flags.showexp && !Upolyd)
-                       : (fld == BL_XP) ? (boolean) !Upolyd
-                         : (fld == BL_HD) ? (boolean) Upolyd
-                           : (fld == BL_VERS) ? flags.showvers
-                             : (fld == BL_WEAPON) ? flags.weaponstatus
-                               : (fld == BL_ARMOR) ? flags.armorstatus
-                                 : (fld == BL_TERRAIN) ? flags.terrainstatus
-                                   : TRUE;
+        fldenabl = (fld == BL_SCORE)    ? flags.showscore
+                   : (fld == BL_TIME)   ? flags.time
+                   : (fld == BL_EXP)    ? (boolean) (flags.showexp && !Upolyd)
+                   : (fld == BL_XP)     ? (boolean) !Upolyd
+                   : (fld == BL_HD)     ? (boolean) Upolyd
+                   : (fld == BL_VERS)   ? flags.showvers
+                   : (fld == BL_WEAPON) ? flags.weaponstatus
+                   : (fld == BL_ARMOR)  ? flags.armorstatus
+                   : (fld == BL_TERRAIN) ? flags.terrainstatus
+                                         : TRUE;
 
         fieldname = fldname_ui[fld];
         // 修改: 无法直接通过 format 限制 UTF-8 字符串的显示列数，所以手动计算
-        fieldfmt = (fld == BL_TITLE && iflags.wc2_hitpointbar) ? "%s"
-                   : initblstats[i].fldfmt;
+        fieldfmt = (fld == BL_TITLE && iflags.wc2_hitpointbar)
+                       ? "%s"
+                       : initblstats[i].fldfmt;
         status_enablefield(fld, fieldname, fieldfmt, fldenabl);
     }
     gu.update_all = TRUE;
@@ -1923,9 +1937,8 @@ status_finish(void)
                 next = temp->next;
                 free((genericptr_t) temp);
             }
-            gb.blstats[0][i].thresholds
-                = gb.blstats[1][i].thresholds
-                    = (struct hilite_s *) NULL;
+            gb.blstats[0][i].thresholds = gb.blstats[1][i].thresholds =
+                (struct hilite_s *) NULL;
         }
 #endif /* STATUS_HILITES */
     }
@@ -1950,8 +1963,8 @@ init_blstats(void)
             gb.blstats[i][j] = initblstats[j];
             gb.blstats[i][j].a = cg.zeroany;
             if (gb.blstats[i][j].valwidth) {
-                gb.blstats[i][j].val
-                    = (char *) alloc(gb.blstats[i][j].valwidth);
+                gb.blstats[i][j].val =
+                    (char *) alloc(gb.blstats[i][j].valwidth);
                 gb.blstats[i][j].val[0] = '\0';
             } else
                 gb.blstats[i][j].val = (char *) 0;
@@ -1995,8 +2008,8 @@ compare_blstats(struct istat_s *bl1, struct istat_s *bl2)
 
     anytype = bl1->anytype;
     if ((!bl1->a.a_void || !bl2->a.a_void)
-        && (anytype == ANY_IPTR || anytype == ANY_UPTR
-            || anytype == ANY_LPTR || anytype == ANY_ULPTR)) {
+        && (anytype == ANY_IPTR || anytype == ANY_UPTR || anytype == ANY_LPTR
+            || anytype == ANY_ULPTR)) {
         panic("compare_blstat: invalid pointer %s, %s",
               fmt_ptr((genericptr_t) bl1->a.a_void),
               fmt_ptr((genericptr_t) bl2->a.a_void));
@@ -2007,44 +2020,51 @@ compare_blstats(struct istat_s *bl1, struct istat_s *bl2)
         anytype = ANY_INT;
 
     fld = bl1->fld;
-    use_rawval = (fld == BL_HP || fld == BL_HPMAX
-                  || fld == BL_ENE || fld == BL_ENEMAX
-                  || fld == BL_GOLD);
+    use_rawval = (fld == BL_HP || fld == BL_HPMAX || fld == BL_ENE
+                  || fld == BL_ENEMAX || fld == BL_GOLD);
     a1 = use_rawval ? &bl1->rawval : &bl1->a;
     a2 = use_rawval ? &bl2->rawval : &bl2->a;
 
     switch (anytype) {
     case ANY_INT:
-        result = (a1->a_int < a2->a_int) ? 1
-                     : (a1->a_int > a2->a_int) ? -1 : 0;
+        result = (a1->a_int < a2->a_int)   ? 1
+                 : (a1->a_int > a2->a_int) ? -1
+                                           : 0;
         break;
     case ANY_IPTR:
-        result = (*a1->a_iptr < *a2->a_iptr) ? 1
-                     : (*a1->a_iptr > *a2->a_iptr) ? -1 : 0;
+        result = (*a1->a_iptr < *a2->a_iptr)   ? 1
+                 : (*a1->a_iptr > *a2->a_iptr) ? -1
+                                               : 0;
         break;
     case ANY_LONG:
-        result = (a1->a_long < a2->a_long) ? 1
-                     : (a1->a_long > a2->a_long) ? -1 : 0;
+        result = (a1->a_long < a2->a_long)   ? 1
+                 : (a1->a_long > a2->a_long) ? -1
+                                             : 0;
         break;
     case ANY_LPTR:
-        result = (*a1->a_lptr < *a2->a_lptr) ? 1
-                     : (*a1->a_lptr > *a2->a_lptr) ? -1 : 0;
+        result = (*a1->a_lptr < *a2->a_lptr)   ? 1
+                 : (*a1->a_lptr > *a2->a_lptr) ? -1
+                                               : 0;
         break;
     case ANY_UINT:
-        result = (a1->a_uint < a2->a_uint) ? 1
-                     : (a1->a_uint > a2->a_uint) ? -1 : 0;
+        result = (a1->a_uint < a2->a_uint)   ? 1
+                 : (a1->a_uint > a2->a_uint) ? -1
+                                             : 0;
         break;
     case ANY_UPTR:
-        result = (*a1->a_uptr < *a2->a_uptr) ? 1
-                     : (*a1->a_uptr > *a2->a_uptr) ? -1 : 0;
+        result = (*a1->a_uptr < *a2->a_uptr)   ? 1
+                 : (*a1->a_uptr > *a2->a_uptr) ? -1
+                                               : 0;
         break;
     case ANY_ULONG:
-        result = (a1->a_ulong < a2->a_ulong) ? 1
-                     : (a1->a_ulong > a2->a_ulong) ? -1 : 0;
+        result = (a1->a_ulong < a2->a_ulong)   ? 1
+                 : (a1->a_ulong > a2->a_ulong) ? -1
+                                               : 0;
         break;
     case ANY_ULPTR:
-        result = (*a1->a_ulptr < *a2->a_ulptr) ? 1
-                     : (*a1->a_ulptr > *a2->a_ulptr) ? -1 : 0;
+        result = (*a1->a_ulptr < *a2->a_ulptr)   ? 1
+                 : (*a1->a_ulptr > *a2->a_ulptr) ? -1
+                                                 : 0;
         break;
     case ANY_STR:
         result = sgn(strcmp(bl1->val, bl2->val));
@@ -2182,7 +2202,7 @@ percentage(struct istat_s *bl, struct istat_s *maxbl)
             result = ((100 * ival) / mval);
             break;
         case ANY_LONG:
-            lval  = bl->a.a_long;
+            lval = bl->a.a_long;
             result = (int) ((100L * lval) / maxbl->a.a_long);
             break;
         case ANY_UINT:
@@ -2290,8 +2310,8 @@ exp_percent_changing(void)
             a = cg.zeroany;
             a.a_int = (int) u.ulevel;
 #ifdef STATUS_HILITES
-            rule = get_hilite(gn.now_or_before_idx, BL_XP,
-                              (genericptr_t) &a, 0, pc, &color_dummy);
+            rule = get_hilite(gn.now_or_before_idx, BL_XP, (genericptr_t) &a,
+                              0, pc, &color_dummy);
             if (rule != curr->hilite_rule)
                 return TRUE; /* caller should set 'disp.botl' to True */
 #endif
@@ -2362,30 +2382,28 @@ repad_with_dashes(char *inoutbuf)
 static const struct fieldid_t {
     const char *fieldname;
     enum statusfields fldid;
-} fieldids_alias[] = {
-    { "characteristics",   BL_CHARACTERISTICS },
-    { "encumbrance",       BL_CAP },
-    { "experience-points", BL_EXP },
-    { "dx",       BL_DX },
-    { "co",       BL_CO },
-    { "con",      BL_CO },
-    { "points",   BL_SCORE },
-    { "cap",      BL_CAP },
-    { "pw",       BL_ENE },
-    { "pw-max",   BL_ENEMAX },
-    { "xl",       BL_XP },
-    { "xplvl",    BL_XP },
-    { "ac",       BL_AC },
-    { "hit-dice", BL_HD },
-    { "turns",    BL_TIME },
-    { "hp",       BL_HP },
-    { "hp-max",   BL_HPMAX },
-    { "dgn",      BL_LEVELDESC },
-    { "xp",       BL_EXP },
-    { "exp",      BL_EXP },
-    { "flags",    BL_CONDITION },
-    { NULL,       BL_FLUSH }
-};
+} fieldids_alias[] = { { "characteristics", BL_CHARACTERISTICS },
+                       { "encumbrance", BL_CAP },
+                       { "experience-points", BL_EXP },
+                       { "dx", BL_DX },
+                       { "co", BL_CO },
+                       { "con", BL_CO },
+                       { "points", BL_SCORE },
+                       { "cap", BL_CAP },
+                       { "pw", BL_ENE },
+                       { "pw-max", BL_ENEMAX },
+                       { "xl", BL_XP },
+                       { "xplvl", BL_XP },
+                       { "ac", BL_AC },
+                       { "hit-dice", BL_HD },
+                       { "turns", BL_TIME },
+                       { "hp", BL_HP },
+                       { "hp-max", BL_HPMAX },
+                       { "dgn", BL_LEVELDESC },
+                       { "xp", BL_EXP },
+                       { "exp", BL_EXP },
+                       { "flags", BL_CONDITION },
+                       { NULL, BL_FLUSH } };
 
 /* format arguments */
 static const char threshold_value[] = "hilite_status threshold ",
@@ -2409,8 +2427,8 @@ fldname_to_bl_indx(const char *name)
         if (!nmatches) {
             /* check aliases */
             for (i = 0; fieldids_alias[i].fieldname; i++)
-                if (fuzzymatch(fieldids_alias[i].fieldname, name,
-                               " -_", TRUE)) {
+                if (fuzzymatch(fieldids_alias[i].fieldname, name, " -_",
+                               TRUE)) {
                     fld = fieldids_alias[i].fldid;
                     nmatches++;
                 }
@@ -2425,7 +2443,6 @@ fldname_to_bl_indx(const char *name)
                     nmatches++;
                 }
         }
-
     }
     return (nmatches == 1) ? fld : BL_FLUSH;
 }
@@ -2540,11 +2557,8 @@ noneoftheabove(const char *hl_text)
  *     pointer to rule that applies; Null if no rule does.
  */
 staticfn struct hilite_s *
-get_hilite(
-    int idx, int fldidx,
-    genericptr_t vp,
-    int chg, int pc,
-    int *colorptr)
+get_hilite(int idx, int fldidx, genericptr_t vp, int chg, int pc,
+           int *colorptr)
 {
     struct hilite_s *hl, *rule = 0;
     anything *value = (anything *) vp;
@@ -2596,26 +2610,22 @@ get_hilite(
                     exactmatch = perc_or_abs = TRUE;
                 } else if (exactmatch) {
                     ; /* already found best fit, skip lt,ge,&c */
-                } else if (hl->rel == LT_VALUE
-                           && (pc < hl->value.a_int)
+                } else if (hl->rel == LT_VALUE && (pc < hl->value.a_int)
                            && (hl->value.a_int <= min_pc)) {
                     rule = hl;
                     min_pc = hl->value.a_int;
                     perc_or_abs = TRUE;
-                } else if (hl->rel == LE_VALUE
-                           && (pc <= hl->value.a_int)
+                } else if (hl->rel == LE_VALUE && (pc <= hl->value.a_int)
                            && (hl->value.a_int <= min_pc)) {
                     rule = hl;
                     min_pc = hl->value.a_int;
                     perc_or_abs = TRUE;
-                } else if (hl->rel == GT_VALUE
-                           && (pc > hl->value.a_int)
+                } else if (hl->rel == GT_VALUE && (pc > hl->value.a_int)
                            && (hl->value.a_int >= max_pc)) {
                     rule = hl;
                     max_pc = hl->value.a_int;
                     perc_or_abs = TRUE;
-                } else if (hl->rel == GE_VALUE
-                           && (pc >= hl->value.a_int)
+                } else if (hl->rel == GE_VALUE && (pc >= hl->value.a_int)
                            && (hl->value.a_int >= max_pc)) {
                     rule = hl;
                     max_pc = hl->value.a_int;
@@ -2721,8 +2731,8 @@ get_hilite(
                         exactmatch = TRUE;
                     } else if (exactmatch) {
                         ; /* already found best fit, skip "noneoftheabove" */
-                    } else if (fldidx == BL_TITLE
-                               && Upolyd && noneoftheabove(hl->textmatch)) {
+                    } else if (fldidx == BL_TITLE && Upolyd
+                               && noneoftheabove(hl->textmatch)) {
                         rule = hl;
                     }
                 }
@@ -2887,7 +2897,7 @@ splitsubfields(char *str, char ***sfarr, int maxsf)
             if (*c == '&' || *c == '+') {
                 *c = '\0';
                 subfields[sf] = st;
-                st = c+1;
+                st = c + 1;
                 sf++;
             }
             c++;
@@ -2906,11 +2916,8 @@ splitsubfields(char *str, char ***sfarr, int maxsf)
 }
 
 staticfn boolean
-is_fld_arrayvalues(
-    const char *str,
-    const char *const *arr,
-    int arrmin, int arrmax,
-    int *retidx)
+is_fld_arrayvalues(const char *str, const char *const *arr, int arrmin,
+                   int arrmax, int *retidx)
 {
     int i;
 
@@ -2923,10 +2930,8 @@ is_fld_arrayvalues(
 }
 
 staticfn int
-query_arrayvalue(
-    const char *querystr,
-    const char *const *arr,
-    int arrmin, int arrmax)
+query_arrayvalue(const char *querystr, const char *const *arr, int arrmin,
+                 int arrmax)
 {
     int i, res, ret = arrmin - 1;
     winid tmpwin;
@@ -2943,8 +2948,8 @@ query_arrayvalue(
             continue; /*... set to Null between Satiated and Hungry     */
         any = cg.zeroany;
         any.a_int = i + adj;
-        add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE,
-                 clr, arr[i], MENU_ITEMFLAGS_NONE);
+        add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE, clr, arr[i],
+                 MENU_ITEMFLAGS_NONE);
     }
 
     end_menu(tmpwin, querystr);
@@ -2968,8 +2973,8 @@ status_hilite_add_threshold(int fld, struct hilite_s *hilite)
         return;
 
     /* alloc and initialize a new hilite_s struct */
-    new_hilite = (struct hilite_s *) alloc(sizeof (struct hilite_s));
-    *new_hilite = *hilite;   /* copy struct */
+    new_hilite = (struct hilite_s *) alloc(sizeof(struct hilite_s));
+    *new_hilite = *hilite; /* copy struct */
 
     new_hilite->set = TRUE;
     new_hilite->fld = fld;
@@ -3003,8 +3008,8 @@ parse_status_hl2(char (*s)[QBUFSZ], boolean from_configfile)
     int sidx = 0, i = -1, dt = ANY_INVALID;
     int coloridx = -1, successes = 0;
     int disp_attrib = 0;
-    boolean percent, changed, numeric, down, up,
-            grt, lt, gte, le, eq, txtval, always, criticalhp;
+    boolean percent, changed, numeric, down, up, grt, lt, gte, le, eq, txtval,
+        always, criticalhp;
     const char *txt;
     enum statusfields fld = BL_FLUSH;
     struct hilite_s hilite;
@@ -3045,7 +3050,7 @@ parse_status_hl2(char (*s)[QBUFSZ], boolean from_configfile)
     ++sidx;
     while (s[sidx][0]) {
         char buf[BUFSZ], **subfields;
-        int sf = 0;     /* subfield count */
+        int sf = 0; /* subfield count */
         int kidx;
 
         txt = (const char *) 0;
@@ -3058,7 +3063,7 @@ parse_status_hl2(char (*s)[QBUFSZ], boolean from_configfile)
         if (!s[sidx][0])
             return TRUE;
 #endif
-        memset((genericptr_t) &hilite, 0, sizeof (struct hilite_s));
+        memset((genericptr_t) &hilite, 0, sizeof(struct hilite_s));
         hilite.set = FALSE; /* mark it "unset" */
         hilite.fld = fld;
 
@@ -3080,9 +3085,8 @@ parse_status_hl2(char (*s)[QBUFSZ], boolean from_configfile)
                 up = TRUE;
             changed = TRUE;
         } else if (fld == BL_CAP
-                   && is_fld_arrayvalues(s[sidx], enc_stat,
-                                         SLT_ENCUMBER, OVERLOADED + 1,
-                                         &kidx)) {
+                   && is_fld_arrayvalues(s[sidx], enc_stat, SLT_ENCUMBER,
+                                         OVERLOADED + 1, &kidx)) {
             txt = enc_stat_ui[kidx];
             txtval = TRUE;
         } else if (fld == BL_ALIGN
@@ -3090,9 +3094,9 @@ parse_status_hl2(char (*s)[QBUFSZ], boolean from_configfile)
             txt = aligntxt_ui[kidx];
             txtval = TRUE;
         } else if (fld == BL_HUNGER
-                   && is_fld_arrayvalues(s[sidx], hutxt,
-                                         SATIATED, STARVED + 1, &kidx)) {
-            txt = hu_stat_ui[kidx];   /* store hu_stat_ui[] val, not hutxt[] */
+                   && is_fld_arrayvalues(s[sidx], hutxt, SATIATED,
+                                         STARVED + 1, &kidx)) {
+            txt = hu_stat_ui[kidx]; /* store hu_stat_ui[] val, not hutxt[] */
             txtval = TRUE;
         } else if (!strcmpi(s[sidx], "changed")) {
             changed = TRUE;
@@ -3103,7 +3107,7 @@ parse_status_hl2(char (*s)[QBUFSZ], boolean from_configfile)
 
             tmp = s[sidx]; /* is_ltgt_() guarantees [<>]?=?[-+]?[0-9]+%? */
             if (strchr(tmp, '%'))
-               percent = TRUE;
+                percent = TRUE;
             if (*tmp == '<') {
                 if (tmp[1] == '=')
                     le = TRUE;
@@ -3127,19 +3131,24 @@ parse_status_hl2(char (*s)[QBUFSZ], boolean from_configfile)
             if (dt == ANY_INT
                 /* AC is the only field where negative values make sense but
                    accept >-1 for other fields; reject <0 for non-AC */
-                && (hilite.value.a_int
-                    < ((fld == BL_AC) ? -128 : grt ? -1 : lt ? 1 : 0)
-                /* percentages have another more comprehensive check below */
-                    || hilite.value.a_int > (percent ? (lt ? 101 : 100)
-                                                     : LARGEST_INT))) {
-                config_error_add("%s'%s%d%s'%s", threshold_value,
-                                 op, hilite.value.a_int, percent ? "%" : "",
+                && (hilite.value.a_int < ((fld == BL_AC) ? -128
+                                          : grt          ? -1
+                                          : lt           ? 1
+                                                         : 0)
+                    /* percentages have another more comprehensive check below
+                     */
+                    || hilite.value.a_int
+                           > (percent ? (lt ? 101 : 100) : LARGEST_INT))) {
+                config_error_add("%s'%s%d%s'%s", threshold_value, op,
+                                 hilite.value.a_int, percent ? "%" : "",
                                  is_out_of_range);
                 return FALSE;
             } else if (dt == ANY_LONG
-                       && hilite.value.a_long < (grt ? -1L : lt ? 1L : 0L)) {
-                config_error_add("%s'%s%ld'%s", threshold_value,
-                                 op, hilite.value.a_long, is_out_of_range);
+                       && hilite.value.a_long < (grt  ? -1L
+                                                 : lt ? 1L
+                                                      : 0L)) {
+                config_error_add("%s'%s%ld'%s", threshold_value, op,
+                                 hilite.value.a_long, is_out_of_range);
                 return FALSE;
             }
         } else if (initblstats[fld].anytype == ANY_STR) {
@@ -3147,8 +3156,9 @@ parse_status_hl2(char (*s)[QBUFSZ], boolean from_configfile)
             txtval = TRUE;
         } else {
             config_error_add(has_ltgt_percentnumber(s[sidx])
-                 ? "Wrong format '%s', expected a threshold number or percent"
-                 : "Unknown behavior '%s'",
+                                 ? "Wrong format '%s', expected a threshold "
+                                   "number or percent"
+                                 : "Unknown behavior '%s'",
                              s[sidx]);
             return FALSE;
         }
@@ -3162,7 +3172,7 @@ parse_status_hl2(char (*s)[QBUFSZ], boolean from_configfile)
             hilite.rel = GE_VALUE;
         else if (le)
             hilite.rel = LE_VALUE;
-        else if (eq  || percent || numeric || changed)
+        else if (eq || percent || numeric || changed)
             hilite.rel = EQ_VALUE;
         else if (txtval)
             hilite.rel = TXT_VALUE;
@@ -3183,21 +3193,20 @@ parse_status_hl2(char (*s)[QBUFSZ], boolean from_configfile)
             } else if ((hilite.value.a_int < -1)
                        || (hilite.value.a_int == -1
                            && hilite.value.a_int != GT_VALUE)
-                       || (hilite.value.a_int == 0
-                           && hilite.rel == LT_VALUE)
+                       || (hilite.value.a_int == 0 && hilite.rel == LT_VALUE)
                        || (hilite.value.a_int == 100
                            && hilite.rel == GT_VALUE)
                        || (hilite.value.a_int == 101
                            && hilite.value.a_int != LT_VALUE)
                        || (hilite.value.a_int > 101)) {
                 config_error_add(
-                           "hilite_status: invalid percentage value '%s%d%%'",
-                                 (hilite.rel == LT_VALUE) ? "<"
-                                   : (hilite.rel == LE_VALUE) ? "<="
-                                     : (hilite.rel == GT_VALUE) ? ">"
-                                       : (hilite.rel == GE_VALUE) ? ">="
-                                         : "=",
-                                 hilite.value.a_int);
+                    "hilite_status: invalid percentage value '%s%d%%'",
+                    (hilite.rel == LT_VALUE)   ? "<"
+                    : (hilite.rel == LE_VALUE) ? "<="
+                    : (hilite.rel == GT_VALUE) ? ">"
+                    : (hilite.rel == GE_VALUE) ? ">="
+                                               : "=",
+                    hilite.value.a_int);
                 return FALSE;
             }
         }
@@ -3288,7 +3297,7 @@ parse_status_hl2(char (*s)[QBUFSZ], boolean from_configfile)
 staticfn unsigned long
 query_conditions(void)
 {
-    int i,res;
+    int i, res;
     unsigned long ret = 0UL;
     winid tmpwin;
     anything any;
@@ -3301,8 +3310,8 @@ query_conditions(void)
     for (i = 0; i < SIZE(conditions); i++) {
         any = cg.zeroany;
         any.a_ulong = conditions[i].mask;
-        add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE,
-                 clr, conditions_ui[i].text, MENU_ITEMFLAGS_NONE);
+        add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE, clr,
+                 conditions_ui[i].text, MENU_ITEMFLAGS_NONE);
     }
 
     end_menu(tmpwin, "选择状态条件");
@@ -3325,21 +3334,19 @@ conditionbitmask2str(unsigned long ul, boolean for_ui)
     boolean first = TRUE;
     const char *alias = (char *) 0;
 
-
     buf[0] = '\0';
     if (!ul)
         return buf;
 
     for (i = 1; i < SIZE(condition_aliases); i++)
         if (condition_aliases[i].bitmask == ul)
-            alias = for_ui ? condition_aliases_ui[i]
-                           : condition_aliases[i].id;
+            alias =
+                for_ui ? condition_aliases_ui[i] : condition_aliases[i].id;
 
     for (i = 0; i < SIZE(conditions); i++)
         if ((conditions[i].mask & ul) != 0UL) {
             Sprintf(eos(buf), "%s%s", (first) ? "" : "+",
-                    for_ui ? conditions_ui[i].text
-                           : conditions[i].text[0]);
+                    for_ui ? conditions_ui[i].text : conditions[i].text[0]);
             first = FALSE;
         }
 
@@ -3441,7 +3448,7 @@ parse_condition(char (*s)[QBUFSZ], int sidx)
         return FALSE;
     }
     while (s[sidx][0]) {
-        int sf = 0;     /* subfield count */
+        int sf = 0; /* subfield count */
         char buf[BUFSZ], **subfields;
 
         tmp = s[sidx];
@@ -3581,7 +3588,7 @@ hlattr2attrname(int attrib, char *buf, size_t bufsz, boolean for_ui)
                                    : (for_ui ? "反色" : "inverse"));
 
         k = strlen(attbuf);
-        if (k < (size_t)(bufsz - 1))
+        if (k < (size_t) (bufsz - 1))
             Strcpy(buf, attbuf);
         return buf;
     }
@@ -3603,12 +3610,8 @@ static struct _status_hilite_line_str *status_hilite_str = 0;
 static int status_hilite_str_id = 0;
 
 staticfn void
-status_hilite_linestr_add(
-    int fld,
-    struct hilite_s *hl,
-    unsigned long mask,
-    unsigned int color_attr,
-    const char *str)
+status_hilite_linestr_add(int fld, struct hilite_s *hl, unsigned long mask,
+                          unsigned int color_attr, const char *str)
 {
     struct _status_hilite_line_str *tmp, *nxt;
 
@@ -3684,8 +3687,7 @@ status_hilite_linestr_gather_conditions(void)
         unsigned int clratr;
     } cond_maps[SIZE(conditions)];
 
-    (void) memset(cond_maps, 0,
-                  SIZE(conditions) * sizeof (struct _cond_map));
+    (void) memset(cond_maps, 0, SIZE(conditions) * sizeof(struct _cond_map));
 
     for (i = 0; i < SIZE(conditions); i++) {
         int clr = NO_COLOR;
@@ -3744,15 +3746,15 @@ status_hilite_linestr_gather_conditions(void)
                 char condbuf[BUFSZ];
                 char *tmpattr;
 
-                (void) strNsubst(strcpy(clrbuf, clr2colorname(clr)),
-                                 " ", "-", 0);
+                (void) strNsubst(strcpy(clrbuf, clr2colorname(clr)), " ", "-",
+                                 0);
                 tmpattr = hlattr2attrname(atr, attrbuf, BUFSZ, FALSE);
                 if (tmpattr)
                     Sprintf(eos(clrbuf), "&%s", tmpattr);
                 Snprintf(condbuf, sizeof(condbuf), "condition/%s/%s",
-                         conditionbitmask2str(cond_maps[i].bm, FALSE), clrbuf);
-                status_hilite_linestr_add(BL_CONDITION, 0,
-                                          cond_maps[i].bm,
+                         conditionbitmask2str(cond_maps[i].bm, FALSE),
+                         clrbuf);
+                status_hilite_linestr_add(BL_CONDITION, 0, cond_maps[i].bm,
                                           cond_maps[i].clratr, condbuf);
             }
         }
@@ -3778,7 +3780,6 @@ status_hilite_linestr_gather(void)
     status_hilite_linestr_gather_conditions();
 }
 
-
 staticfn char *
 status_hilite2str(struct hilite_s *hl, boolean for_ui)
 {
@@ -3795,12 +3796,12 @@ status_hilite2str(struct hilite_s *hl, boolean for_ui)
 
     behavebuf[0] = '\0';
     clrbuf[0] = '\0';
-    op = (hl->rel == LT_VALUE) ? "<"
-           : (hl->rel == LE_VALUE) ? "<="
-             : (hl->rel == GT_VALUE) ? ">"
-               : (hl->rel == GE_VALUE) ? ">="
-                 : (hl->rel == EQ_VALUE) ? "="
-                   : 0;
+    op = (hl->rel == LT_VALUE)   ? "<"
+         : (hl->rel == LE_VALUE) ? "<="
+         : (hl->rel == GT_VALUE) ? ">"
+         : (hl->rel == GE_VALUE) ? ">="
+         : (hl->rel == EQ_VALUE) ? "="
+                                 : 0;
 
     switch (hl->behavior) {
     case BL_TH_VAL_PERCENTAGE:
@@ -3903,16 +3904,15 @@ status_hilite2str(struct hilite_s *hl, boolean for_ui)
     }
 
     split_clridx(hl->coloridx, &clr, &attr);
-    (void) strNsubst(strcpy(clrbuf, for_ui
-                             ? clr2colorname_ui(clr)
-                             : clr2colorname(clr)), " ", "-", 0);
+    (void) strNsubst(
+        strcpy(clrbuf, for_ui ? clr2colorname_ui(clr) : clr2colorname(clr)),
+        " ", "-", 0);
     if (attr != HL_UNDEF) {
         if ((tmpattr = hlattr2attrname(attr, attrbuf, BUFSZ, for_ui)) != 0)
             Sprintf(eos(clrbuf), "&%s", tmpattr);
     }
     Snprintf(buf, sizeof(buf), "%s/%s/%s",
-             for_ui ? fldname_ui[hl->fld]
-                    : initblstats[hl->fld].fldname,
+             for_ui ? fldname_ui[hl->fld] : initblstats[hl->fld].fldname,
              behavebuf, clrbuf);
 
     return buf;
@@ -3938,8 +3938,8 @@ status_hilite_menu_choose_field(void)
 #endif
         any = cg.zeroany;
         any.a_int = (i + 1);
-        add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE,
-                 clr, fldname_ui[i], MENU_ITEMFLAGS_NONE);
+        add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE, clr,
+                 fldname_ui[i], MENU_ITEMFLAGS_NONE);
     }
 
     end_menu(tmpwin, "选择一个高亮字段: ");
@@ -3957,7 +3957,7 @@ staticfn int
 status_hilite_menu_choose_behavior(int fld)
 {
     winid tmpwin;
-    int res = 0, beh = BL_TH_NONE-1;
+    int res = 0, beh = BL_TH_NONE - 1;
     anything any;
     menu_item *picks = (menu_item *) 0;
     char buf[BUFSZ];
@@ -3977,16 +3977,16 @@ status_hilite_menu_choose_behavior(int fld)
         any = cg.zeroany;
         any.a_int = onlybeh = BL_TH_ALWAYS_HILITE;
         Sprintf(buf, "总是高亮%s", fldname_ui[fld]);
-        add_menu(tmpwin, &nul_glyphinfo, &any, 'a', 0, ATR_NONE,
-                 clr, buf, MENU_ITEMFLAGS_NONE);
+        add_menu(tmpwin, &nul_glyphinfo, &any, 'a', 0, ATR_NONE, clr, buf,
+                 MENU_ITEMFLAGS_NONE);
         nopts++;
     }
 
     if (fld == BL_CONDITION) {
         any = cg.zeroany;
         any.a_int = onlybeh = BL_TH_CONDITION;
-        add_menu(tmpwin, &nul_glyphinfo, &any, 'b', 0, ATR_NONE,
-                 clr, "条件位掩码", MENU_ITEMFLAGS_NONE);
+        add_menu(tmpwin, &nul_glyphinfo, &any, 'b', 0, ATR_NONE, clr,
+                 "条件位掩码", MENU_ITEMFLAGS_NONE);
         nopts++;
     }
 
@@ -3994,8 +3994,8 @@ status_hilite_menu_choose_behavior(int fld)
         any = cg.zeroany;
         any.a_int = onlybeh = BL_TH_UPDOWN;
         Sprintf(buf, "%s的值变化", fldname_ui[fld]);
-        add_menu(tmpwin, &nul_glyphinfo, &any, 'c', 0, ATR_NONE,
-                 clr, buf, MENU_ITEMFLAGS_NONE);
+        add_menu(tmpwin, &nul_glyphinfo, &any, 'c', 0, ATR_NONE, clr, buf,
+                 MENU_ITEMFLAGS_NONE);
         nopts++;
     }
 
@@ -4003,41 +4003,39 @@ status_hilite_menu_choose_behavior(int fld)
         && (at == ANY_INT || at == ANY_LONG)) {
         any = cg.zeroany;
         any.a_int = onlybeh = BL_TH_VAL_ABSOLUTE;
-        add_menu(tmpwin, &nul_glyphinfo, &any, 'n', 0, ATR_NONE,
-                 clr, "数值阈值", MENU_ITEMFLAGS_NONE);
+        add_menu(tmpwin, &nul_glyphinfo, &any, 'n', 0, ATR_NONE, clr,
+                 "数值阈值", MENU_ITEMFLAGS_NONE);
         nopts++;
     }
 
     if (initblstats[fld].idxmax >= 0) {
         any = cg.zeroany;
         any.a_int = onlybeh = BL_TH_VAL_PERCENTAGE;
-        add_menu(tmpwin, &nul_glyphinfo, &any, 'p', 0, ATR_NONE,
-                 clr, "百分比阈值", MENU_ITEMFLAGS_NONE);
+        add_menu(tmpwin, &nul_glyphinfo, &any, 'p', 0, ATR_NONE, clr,
+                 "百分比阈值", MENU_ITEMFLAGS_NONE);
         nopts++;
     }
 
     if (fld == BL_HP) {
         any = cg.zeroany;
         any.a_int = onlybeh = BL_TH_CRITICALHP;
-        Sprintf(buf,  "高亮显示临界低的 %s",
-                fldname_ui[fld]);
-        add_menu(tmpwin, &nul_glyphinfo, &any, 'C', 0, ATR_NONE,
-                 clr, buf, MENU_ITEMFLAGS_NONE);
+        Sprintf(buf, "高亮显示临界低的 %s", fldname_ui[fld]);
+        add_menu(tmpwin, &nul_glyphinfo, &any, 'C', 0, ATR_NONE, clr, buf,
+                 MENU_ITEMFLAGS_NONE);
         nopts++;
     }
 
-    if (initblstats[fld].anytype == ANY_STR
-        || fld == BL_CAP || fld == BL_HUNGER) {
+    if (initblstats[fld].anytype == ANY_STR || fld == BL_CAP
+        || fld == BL_HUNGER) {
         any = cg.zeroany;
         any.a_int = onlybeh = BL_TH_TEXTMATCH;
         Sprintf(buf, "%s文本匹配", fldname_ui[fld]);
-        add_menu(tmpwin, &nul_glyphinfo, &any, 't', 0, ATR_NONE,
-                 clr, buf, MENU_ITEMFLAGS_NONE);
+        add_menu(tmpwin, &nul_glyphinfo, &any, 't', 0, ATR_NONE, clr, buf,
+                 MENU_ITEMFLAGS_NONE);
         nopts++;
     }
 
-    Sprintf(buf, "选择 %s 字段高亮行为: ",
-            fldname_ui[fld]);
+    Sprintf(buf, "选择 %s 字段高亮行为: ", fldname_ui[fld]);
     end_menu(tmpwin, buf);
 
     if (nopts > 1) {
@@ -4058,10 +4056,8 @@ status_hilite_menu_choose_behavior(int fld)
 }
 
 staticfn int
-status_hilite_menu_choose_updownboth(
-    int fld,
-    const char *str,
-    boolean ltok, boolean gtok)
+status_hilite_menu_choose_updownboth(int fld, const char *str, boolean ltok,
+                                     boolean gtok)
 {
     int res, ret = NO_LTEQGT;
     winid tmpwin;
@@ -4081,16 +4077,16 @@ status_hilite_menu_choose_updownboth(
             Sprintf(buf, "数值下降");
         any = cg.zeroany;
         any.a_int = 10 + LT_VALUE;
-        add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE,
-                 clr, buf, MENU_ITEMFLAGS_NONE);
+        add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE, clr, buf,
+                 MENU_ITEMFLAGS_NONE);
 
         if (str) {
-            Sprintf(buf, "%s %s",
-                    (fld == BL_AC) ? "小于 (更好于)" : "小于", str);
+            Sprintf(buf, "%s %s", (fld == BL_AC) ? "小于 (更好于)" : "小于",
+                    str);
             any = cg.zeroany;
             any.a_int = 10 + LE_VALUE;
-            add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE,
-                     clr, buf, MENU_ITEMFLAGS_NONE);
+            add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE, clr, buf,
+                     MENU_ITEMFLAGS_NONE);
         }
     }
 
@@ -4100,8 +4096,8 @@ status_hilite_menu_choose_updownboth(
         Sprintf(buf, "数值变化");
     any = cg.zeroany;
     any.a_int = 10 + EQ_VALUE;
-    add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE,
-             clr, buf, MENU_ITEMFLAGS_NONE);
+    add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE, clr, buf,
+             MENU_ITEMFLAGS_NONE);
 
     if (gtok) {
         if (str) {
@@ -4109,22 +4105,22 @@ status_hilite_menu_choose_updownboth(
                     (fld == BL_AC) ? "大于等于 (更差于)" : "大于等于", str);
             any = cg.zeroany;
             any.a_int = 10 + GE_VALUE;
-            add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE,
-                     clr, buf, MENU_ITEMFLAGS_NONE);
+            add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE, clr, buf,
+                     MENU_ITEMFLAGS_NONE);
         }
 
         if (str)
             /* 修改语序
             Sprintf(buf, "%s 比 %s",
                     (fld == BL_AC) ? "更差 (更高)" : "更多", str); */
-            Sprintf(buf, "%s %s",
-                    (fld == BL_AC) ? "大于 (更差于)" : "大于", str);
+            Sprintf(buf, "%s %s", (fld == BL_AC) ? "大于 (更差于)" : "大于",
+                    str);
         else
             Sprintf(buf, "数值上升");
         any = cg.zeroany;
         any.a_int = 10 + GT_VALUE;
-        add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE, clr,
-                 buf, MENU_ITEMFLAGS_NONE);
+        add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE, clr, buf,
+                 MENU_ITEMFLAGS_NONE);
     }
     Sprintf(buf, "选择字段 %s 的值: ", fldname_ui[fld]);
     end_menu(tmpwin, buf);
@@ -4152,7 +4148,7 @@ status_hilite_menu_add(int origfld)
     char attrqry[BUFSZ];
     int retry = 0;
 
- choose_field:
+choose_field:
     fld = origfld;
     if (fld == BL_FLUSH) {
         fld = status_hilite_menu_choose_field();
@@ -4167,12 +4163,12 @@ status_hilite_menu_add(int origfld)
     colorqry[0] = '\0';
     attrqry[0] = '\0';
 
-    memset((genericptr_t) &hilite, 0, sizeof (struct hilite_s));
+    memset((genericptr_t) &hilite, 0, sizeof(struct hilite_s));
     hilite.next = (struct hilite_s *) 0;
     hilite.set = FALSE; /* mark it "unset" */
     hilite.fld = fld;
 
- choose_behavior:
+choose_behavior:
     behavior = status_hilite_menu_choose_behavior(fld);
 
     if (behavior == (BL_TH_NONE - 1)) {
@@ -4185,13 +4181,12 @@ status_hilite_menu_add(int origfld)
 
     hilite.behavior = behavior;
 
- choose_value:
+choose_value:
     if (retry++ > 5) {
         pline("尝试次数已经够多了. ");
         return FALSE;
     }
-    if (behavior == BL_TH_VAL_PERCENTAGE
-        || behavior == BL_TH_VAL_ABSOLUTE) {
+    if (behavior == BL_TH_VAL_PERCENTAGE || behavior == BL_TH_VAL_ABSOLUTE) {
         char inbuf[BUFSZ], buf[BUFSZ];
         anything aval;
         int val, dt;
@@ -4201,8 +4196,7 @@ status_hilite_menu_add(int origfld)
 
         lt_gt_eq = NO_LTEQGT; /* not set up yet */
         inbuf[0] = '\0';
-        Sprintf(buf, "输入 %s值 (%s 阈值): ",
-                percent ? "百分比 " : "",
+        Sprintf(buf, "输入 %s值 (%s 阈值): ", percent ? "百分比 " : "",
                 fldname_ui[fld]);
         getlin(buf, inbuf);
         if (inbuf[0] == '\0' || inbuf[0] == '\033')
@@ -4216,8 +4210,9 @@ status_hilite_menu_add(int origfld)
            or <=50% or >=50 or =50 */
         if (*inp == '>' || *inp == '<' || *inp == '=') {
             lt_gt_eq = (*inp == '>') ? ((inp[1] == '=') ? GE_VALUE : GT_VALUE)
-                     : (*inp == '<') ? ((inp[1] == '=') ? LE_VALUE : LT_VALUE)
-                       : EQ_VALUE;
+                       : (*inp == '<')
+                           ? ((inp[1] == '=') ? LE_VALUE : LT_VALUE)
+                           : EQ_VALUE;
             *inp++ = ' ';
             numstart++;
             if (lt_gt_eq == GE_VALUE || lt_gt_eq == LE_VALUE) {
@@ -4250,12 +4245,13 @@ status_hilite_menu_add(int origfld)
             pline("那是个隐形数字吗？");
             goto choose_value;
         }
-        op = (lt_gt_eq == LT_VALUE) ? "<"
-               : (lt_gt_eq == LE_VALUE) ? "<="
-                 : (lt_gt_eq == GT_VALUE) ? ">"
-                   : (lt_gt_eq == GE_VALUE) ? ">="
-                     : (lt_gt_eq == EQ_VALUE) ? "="
-                       : ""; /* didn't specify lt_gt_eq with number */
+        op = (lt_gt_eq == LT_VALUE)   ? "<"
+             : (lt_gt_eq == LE_VALUE) ? "<="
+             : (lt_gt_eq == GT_VALUE) ? ">"
+             : (lt_gt_eq == GE_VALUE) ? ">="
+             : (lt_gt_eq == EQ_VALUE)
+                 ? "="
+                 : ""; /* didn't specify lt_gt_eq with number */
 
         aval = cg.zeroany;
         dt = percent ? ANY_INT : initblstats[fld].anytype;
@@ -4264,8 +4260,7 @@ status_hilite_menu_add(int origfld)
         if (percent) {
             val = aval.a_int;
             if (initblstats[fld].idxmax == -1) {
-                pline("字段 '%s' 不支持百分比数值. ",
-                      fldname_ui[fld]);
+                pline("字段 '%s' 不支持百分比数值. ", fldname_ui[fld]);
                 behavior = BL_TH_VAL_ABSOLUTE;
                 goto choose_value;
             }
@@ -4285,30 +4280,31 @@ status_hilite_menu_add(int origfld)
             if (!strchr(numstart, '%'))
                 Strcat(numstart, "%");
 
-        /* reject negative values except for AC and >-1; reject 0 for < */
+            /* reject negative values except for AC and >-1; reject 0 for < */
         } else if (dt == ANY_INT
-                   && (aval.a_int < ((fld == BL_AC) ? -128
+                   && (aval.a_int < ((fld == BL_AC)           ? -128
                                      : (lt_gt_eq == GT_VALUE) ? -1
-                                       : (lt_gt_eq == LT_VALUE) ? 1 : 0))) {
-            pline("%s'%s%d'%s", threshold_value_ui,
-                  op, aval.a_int, is_out_of_range_ui);
+                                     : (lt_gt_eq == LT_VALUE) ? 1
+                                                              : 0))) {
+            pline("%s'%s%d'%s", threshold_value_ui, op, aval.a_int,
+                  is_out_of_range_ui);
             goto choose_value;
         } else if (dt == ANY_LONG
-                   && (aval.a_long < ((lt_gt_eq == GT_VALUE) ? -1L
-                                      : (lt_gt_eq == LT_VALUE) ? 1L : 0L))) {
-            pline("%s'%s%ld'%s", threshold_value_ui,
-                  op, aval.a_long, is_out_of_range_ui);
+                   && (aval.a_long < ((lt_gt_eq == GT_VALUE)   ? -1L
+                                      : (lt_gt_eq == LT_VALUE) ? 1L
+                                                               : 0L))) {
+            pline("%s'%s%ld'%s", threshold_value_ui, op, aval.a_long,
+                  is_out_of_range_ui);
             goto choose_value;
         }
 
         if (lt_gt_eq == NO_LTEQGT) {
-            boolean ltok = ((dt == ANY_INT)
-                            ? (aval.a_int > 0 || fld == BL_AC)
-                            : (aval.a_long > 0L)),
+            boolean ltok = ((dt == ANY_INT) ? (aval.a_int > 0 || fld == BL_AC)
+                                            : (aval.a_long > 0L)),
                     gtok = (!percent || aval.a_long < 100);
 
-            lt_gt_eq = status_hilite_menu_choose_updownboth(fld, inbuf,
-                                                            ltok, gtok);
+            lt_gt_eq =
+                status_hilite_menu_choose_updownboth(fld, inbuf, ltok, gtok);
             if (lt_gt_eq == NO_LTEQGT)
                 goto choose_value;
         }
@@ -4332,23 +4328,21 @@ status_hilite_menu_add(int origfld)
                 (lt_gt_eq == LE_VALUE) ? " 或更少"
                   : (lt_gt_eq == GE_VALUE) ? " 或更多"
                     : ""); */
-        Sprintf(colorqry, "选择当%s%s%s %s 时的颜色:",
-                fldname_ui[fld],
-                (lt_gt_eq == LT_VALUE) ? "小于"
-                  : (lt_gt_eq == GT_VALUE) ? "大于"
-                    : "",
-                (lt_gt_eq == LE_VALUE) ? "小于等于"
-                  : (lt_gt_eq == GE_VALUE) ? "大于等于"
-                    : "",
+        Sprintf(colorqry, "选择当%s%s%s %s 时的颜色:", fldname_ui[fld],
+                (lt_gt_eq == LT_VALUE)   ? "小于"
+                : (lt_gt_eq == GT_VALUE) ? "大于"
+                                         : "",
+                (lt_gt_eq == LE_VALUE)   ? "小于等于"
+                : (lt_gt_eq == GE_VALUE) ? "大于等于"
+                                         : "",
                 numstart);
-        Sprintf(attrqry, "(多选) 选择当%s%s%s %s 时的属性: ",
-                fldname_ui[fld],
-                (lt_gt_eq == LT_VALUE) ? "小于"
-                  : (lt_gt_eq == GT_VALUE) ? "大于"
-                    : "",
-                (lt_gt_eq == LE_VALUE) ? "小于等于"
-                  : (lt_gt_eq == GE_VALUE) ? "大于等于"
-                    : "",
+        Sprintf(attrqry, "(多选) 选择当%s%s%s %s 时的属性: ", fldname_ui[fld],
+                (lt_gt_eq == LT_VALUE)   ? "小于"
+                : (lt_gt_eq == GT_VALUE) ? "大于"
+                                         : "",
+                (lt_gt_eq == LE_VALUE)   ? "小于等于"
+                : (lt_gt_eq == GE_VALUE) ? "大于等于"
+                                         : "",
                 numstart);
 
         hilite.rel = lt_gt_eq;
@@ -4370,16 +4364,14 @@ status_hilite_menu_add(int origfld)
                single choice, skip it altogether and just use 'changed' */
             lt_gt_eq = EQ_VALUE;
         }
-        Sprintf(colorqry, "选择当 %s为%s 时的颜色: ",
-                fldname_ui[fld],
-                (lt_gt_eq == EQ_VALUE) ? "改变"
-                  : (lt_gt_eq == LT_VALUE) ? "减少"
-                    : "增加");
-        Sprintf(attrqry, "(多选) 选择当%s为%s时属性: ",
-                fldname_ui[fld],
-                (lt_gt_eq == EQ_VALUE) ? "变化"
-                  : (lt_gt_eq == LT_VALUE) ? "减少"
-                    : "增加");
+        Sprintf(colorqry, "选择当 %s为%s 时的颜色: ", fldname_ui[fld],
+                (lt_gt_eq == EQ_VALUE)   ? "改变"
+                : (lt_gt_eq == LT_VALUE) ? "减少"
+                                         : "增加");
+        Sprintf(attrqry, "(多选) 选择当%s为%s时属性: ", fldname_ui[fld],
+                (lt_gt_eq == EQ_VALUE)   ? "变化"
+                : (lt_gt_eq == LT_VALUE) ? "减少"
+                                         : "增加");
         hilite.rel = lt_gt_eq;
     } else if (behavior == BL_TH_CONDITION) {
         cond = query_conditions();
@@ -4389,24 +4381,21 @@ status_hilite_menu_add(int origfld)
             return FALSE;
         }
         Snprintf(colorqry, sizeof(colorqry),
-                "选择条件为 %s 的颜色:",
-                conditionbitmask2str(cond, TRUE));
-        Snprintf(attrqry, sizeof(attrqry),
-                "(多选) 选择条件为 %s 的属性:",
-                conditionbitmask2str(cond, TRUE));
+                 "选择条件为 %s 的颜色:", conditionbitmask2str(cond, TRUE));
+        Snprintf(attrqry, sizeof(attrqry), "(多选) 选择条件为 %s 的属性:",
+                 conditionbitmask2str(cond, TRUE));
     } else if (behavior == BL_TH_TEXTMATCH) {
         char qry_buf[BUFSZ];
 
         Sprintf(qry_buf, "%s %s 要匹配的文本值:",
-                (fld == BL_CAP
-                 || fld == BL_ALIGN
-                 || fld == BL_HUNGER
-                 || fld == BL_TITLE) ? "选择" : "输入",
+                (fld == BL_CAP || fld == BL_ALIGN || fld == BL_HUNGER
+                 || fld == BL_TITLE)
+                    ? "选择"
+                    : "输入",
                 fldname_ui[fld]);
         if (fld == BL_CAP) {
-            int rv = query_arrayvalue(qry_buf,
-                                      enc_stat_ui,
-                                      SLT_ENCUMBER, OVERLOADED + 1);
+            int rv = query_arrayvalue(qry_buf, enc_stat_ui, SLT_ENCUMBER,
+                                      OVERLOADED + 1);
 
             if (rv < SLT_ENCUMBER)
                 goto choose_behavior;
@@ -4414,9 +4403,8 @@ status_hilite_menu_add(int origfld)
             hilite.rel = TXT_VALUE;
             Strcpy(hilite.textmatch, enc_stat_ui[rv]);
         } else if (fld == BL_ALIGN) {
-            static const char *const aligntxt_ui[] = {
-                "混沌", "中立", "秩序"
-            };
+            static const char *const aligntxt_ui[] = { "混沌", "中立",
+                                                       "秩序" };
             int rv = query_arrayvalue(qry_buf, aligntxt_ui, 0, 2 + 1);
 
             if (rv < 0)
@@ -4428,7 +4416,8 @@ status_hilite_menu_add(int origfld)
             static const char *const hutxt_ui[] = {
                 "饱腹", (char *) 0, "饥饿", "虚弱", "晕厥", "昏倒", "饿死",
             };
-            int rv = query_arrayvalue(qry_buf, hutxt_ui, SATIATED, STARVED + 1);
+            int rv =
+                query_arrayvalue(qry_buf, hutxt_ui, SATIATED, STARVED + 1);
 
             if (rv < SATIATED)
                 goto choose_behavior;
@@ -4445,8 +4434,8 @@ status_hilite_menu_add(int origfld)
                 if (gu.urole.rank[i].f) {
                     Sprintf(fbuf, "\"%s\"", gu.urole.rank[i].f);
                     Snprintf(obuf, sizeof obuf, "%s 或%s",
-                            flags.female ? fbuf : mbuf,
-                            flags.female ? mbuf : fbuf);
+                             flags.female ? fbuf : mbuf,
+                             flags.female ? mbuf : fbuf);
                 } else {
                     fbuf[0] = obuf[0] = '\0';
                 }
@@ -4489,18 +4478,16 @@ status_hilite_menu_add(int origfld)
             else
                 return FALSE;
         }
-        Sprintf(colorqry, "选择当%s为 '%s' 时的颜色: ",
-                fldname_ui[fld], hilite.textmatch);
-        Sprintf(attrqry, "(多选) 选择当%s为 '%s' 时的属性: ",
-                fldname_ui[fld], hilite.textmatch);
+        Sprintf(colorqry, "选择当%s为 '%s' 时的颜色: ", fldname_ui[fld],
+                hilite.textmatch);
+        Sprintf(attrqry, "(多选) 选择当%s为 '%s' 时的属性: ", fldname_ui[fld],
+                hilite.textmatch);
     } else if (behavior == BL_TH_ALWAYS_HILITE) {
-        Sprintf(colorqry, "选择一个颜色以始终高亮%s: ",
-                fldname_ui[fld]);
-        Sprintf(attrqry, "(多选) 选择总是高亮%s的属性: ",
-                fldname_ui[fld]);
+        Sprintf(colorqry, "选择一个颜色以始终高亮%s: ", fldname_ui[fld]);
+        Sprintf(attrqry, "(多选) 选择总是高亮%s的属性: ", fldname_ui[fld]);
     }
 
- choose_color:
+choose_color:
     clr = query_color(colorqry, NO_COLOR);
     if (clr == -1) {
         if (behavior != BL_TH_ALWAYS_HILITE)
@@ -4542,8 +4529,8 @@ status_hilite_menu_add(int origfld)
         tmpattr = hlattr2attrname(atr, attrbuf, BUFSZ, TRUE);
         if (tmpattr)
             Sprintf(eos(clrbuf), "&%s", tmpattr);
-        pline("已添加高亮 condition/%s/%s",
-              conditionbitmask2str(cond, TRUE), clrbuf);
+        pline("已添加高亮 condition/%s/%s", conditionbitmask2str(cond, TRUE),
+              clrbuf);
     } else {
         char *p, *q;
 
@@ -4604,13 +4591,13 @@ status_hilite_remove(int id)
                     hlprev->next = hl->next;
                 } else {
                     gb.blstats[0][fld].thresholds = hl->next;
-                    gb.blstats[1][fld].thresholds
-                        = gb.blstats[0][fld].thresholds;
+                    gb.blstats[1][fld].thresholds =
+                        gb.blstats[0][fld].thresholds;
                 }
                 if (gb.blstats[0][fld].hilite_rule == hl) {
-                    gb.blstats[0][fld].hilite_rule
-                        = gb.blstats[1][fld].hilite_rule
-                        = (struct hilite_s *) 0;
+                    gb.blstats[0][fld].hilite_rule =
+                        gb.blstats[1][fld].hilite_rule =
+                            (struct hilite_s *) 0;
                     gb.blstats[0][fld].time = gb.blstats[1][fld].time = 0L;
                 }
                 free((genericptr_t) hl);
@@ -4700,8 +4687,8 @@ status_hilite_menu_fld(int fld)
     {
         any = cg.zeroany;
         any.a_int = -2;
-        add_menu(tmpwin, &nul_glyphinfo, &any, 'Z', 0, ATR_NONE,
-                 clr, "添加新的高亮", MENU_ITEMFLAGS_NONE);
+        add_menu(tmpwin, &nul_glyphinfo, &any, 'Z', 0, ATR_NONE, clr,
+                 "添加新的高亮", MENU_ITEMFLAGS_NONE);
     }
 
     Sprintf(buf, "当前 %s 高亮: ", fldname_ui[fld]);
@@ -4789,7 +4776,7 @@ status_hilite_menu(void)
     int countall;
     int clr = NO_COLOR;
 
- shlmenu_redo:
+shlmenu_redo:
     redo = FALSE;
 
     tmpwin = create_nhwindow(NHW_MENU);
@@ -4800,9 +4787,8 @@ status_hilite_menu(void)
     if (countall) {
         any = cg.zeroany;
         any.a_int = -1;
-        add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE,
-                 clr, "以配置格式查看所有高亮",
-                 MENU_ITEMFLAGS_NONE);
+        add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE, clr,
+                 "以配置格式查看所有高亮", MENU_ITEMFLAGS_NONE);
 
         add_menu_str(tmpwin, "");
     }
@@ -4826,8 +4812,8 @@ status_hilite_menu(void)
         Sprintf(buf, "%-18s", fldname_ui[i]);
         if (count)
             Sprintf(eos(buf), " (已定义 %d)", count);
-        add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE,
-                 clr, buf, MENU_ITEMFLAGS_NONE);
+        add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE, clr, buf,
+                 MENU_ITEMFLAGS_NONE);
     }
 
     end_menu(tmpwin, "状态高亮: ");

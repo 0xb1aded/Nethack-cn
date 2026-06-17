@@ -48,7 +48,7 @@ use_saddle(struct obj *otmp)
         return ECMD_CANCEL;
     }
     if (!u.dx && !u.dy) {
-        pline("要骑上你自己吗?有意思...");
+        pline("要骑上你自己吗? 有意思...");
         return ECMD_OK;
     }
     if (!isok(u.ux + u.dx, u.uy + u.dy)
@@ -229,8 +229,8 @@ mount_steed(
     if (Wounded_legs) {
         char qbuf[QBUFSZ];
 
-        legs_in_no_shape("riding", FALSE);
-        Sprintf(qbuf, "治疗你的%s腿吗？",
+        legs_in_no_shape("骑乘", FALSE);
+        Sprintf(qbuf, "治疗你的%s腿吗?",
                 ((HWounded_legs & BOTH_SIDES) == BOTH_SIDES) ? "双" : "");
         if (force && wizard && y_n(qbuf) == 'y')
             heal_legs(0);
@@ -264,7 +264,7 @@ mount_steed(
            attempting to mount a tail segment when hero was not adjacent
            to worm's head could trigger an impossible() in worm_cross()
            called from test_move(), so handle not-on-head before that */
-        You("无法骑乘%s,更不用说它的尾巴了.", a_monnam(mtmp));
+        You("无法骑乘%s, 更不用说它的尾巴了.", a_monnam(mtmp));
         return FALSE;
     }
     if (u.uswallow || u.ustuck || u.utrap || Punished
@@ -309,7 +309,7 @@ mount_steed(
         /* no longer tame */
         newsym(mtmp->mx, mtmp->my);
         pline("%s不顺从%s!", Monnam(mtmp),
-              mtmp->mleashed ? ",并且把它的链子甩掉了" : "");
+              mtmp->mleashed ? ", 并且把它的链子甩掉了" : "");
         if (mtmp->mleashed)
             m_unleash(mtmp, FALSE);
         return (FALSE);
@@ -331,7 +331,7 @@ mount_steed(
         return (FALSE);
     }
     if (!force && uarm && is_metallic(uarm) && greatest_erosion(uarm)) {
-        Your("%s盔甲太硬了,骑不上%s.",
+        Your("%s盔甲太硬了, 骑不上%s.",
              uarm->oeroded ? "生锈的" : "腐蚀的", mon_nam(mtmp));
         return (FALSE);
     }
@@ -632,13 +632,13 @@ dismount_steed(
     case DISMOUNT_BYCHOICE:
     default:
         if (otmp && otmp->cursed) {
-            You("不能.这个鞍%s被诅咒的.",
+            You("不能. 这个鞍%s被诅咒的.",
                 otmp->bknown ? "是" : "似乎是");
             otmp->bknown = 1; /* ok to skip set_bknown() here */
             return;
         }
         if (!have_spot) {
-            You("不能.没有任何地方能让你站起来.");
+            You("不能. 没有任何地方能让你站起来.");
             return;
         }
         if (!has_mgivenname(mtmp)) {

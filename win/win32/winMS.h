@@ -270,6 +270,7 @@ extern COLORREF message_fg_color;
 
 int DrawTextA_UTF8(HDC hdc, const char *text_utf8, int text_len, LPRECT rect, UINT format);
 int ListView_InsertColumn_UTF8(HWND hwndLV, int iCol, const LV_COLUMN *pcol);
+BOOL SetWindowTextA_UTF8(HWND hWnd, const char *text_utf8);
 
 #undef DrawText
 #define DrawText DrawTextA_UTF8
@@ -277,4 +278,8 @@ int ListView_InsertColumn_UTF8(HWND hwndLV, int iCol, const LV_COLUMN *pcol);
 #define DrawTextA DrawTextA_UTF8
 #undef ListView_InsertColumn
 #define ListView_InsertColumn ListView_InsertColumn_UTF8
+#undef SetWindowText
+#define SetWindowText SetWindowTextA_UTF8
+#undef SetWindowTextA
+#define SetWindowTextA SetWindowTextA_UTF8
 #endif /* WINMS_H */

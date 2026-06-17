@@ -711,7 +711,7 @@ check_ransacked(const char *s)
 }
 
 #define ORC_LEADER 1
-static const char *const orcfruit[] = { "paddle cactus", "dwarven root" };
+static const char *const orcfruit[] = { "桨状仙人掌", "矮人根" };
 
 staticfn void
 migrate_orc(struct monst *mtmp, unsigned long mflags)
@@ -1510,7 +1510,7 @@ fumaroles(void)
         }
     }
     if (snd && !Deaf)
-        Norep("You hear a %swhoosh!", loud ? "loud " : "");  /* Deaf-aware */
+        Norep("你听到一声%s呼声!", loud ? "响亮的" : "");  /* Deaf-aware */
 }
 
 /*
@@ -1978,20 +1978,20 @@ mv_bubble(struct bubble *b, coordxy dx, coordxy dy, boolean ini)
             colli |= 1;
 
         if (b->x < gbxmin) {
-            pline("气泡 xmin: x = %d, xmin = %d", b->x, gbxmin);
+            pline("bubble xmin: x = %d, xmin = %d", b->x, gbxmin);
             b->x = gbxmin;
         }
         if (b->y < gbymin) {
-            pline("气泡 ymin: y = %d, ymin = %d", b->y, gbymin);
+            pline("bubble ymin: y = %d, ymin = %d", b->y, gbymin);
             b->y = gbymin;
         }
         if ((int) (b->x + b->bm[0] - 1) > gbxmax) {
-            pline("气泡 xmax: x = %d, xmax = %d", b->x + b->bm[0] - 1,
+            pline("bubble xmax: x = %d, xmax = %d", b->x + b->bm[0] - 1,
                   gbxmax);
             b->x = gbxmax - b->bm[0] + 1;
         }
         if ((int) (b->y + b->bm[1] - 1) > gbymax) {
-            pline("气泡 ymax：y = %d, ymax = %d", b->y + b->bm[1] - 1,
+            pline("bubble ymax: y = %d, ymax = %d", b->y + b->bm[1] - 1,
                   gbymax);
             b->y = gbymax - b->bm[1] + 1;
         }

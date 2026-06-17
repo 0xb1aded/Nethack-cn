@@ -95,7 +95,7 @@ dowrite(struct obj *pen)
     }
 
     /* get paper to write on */
-    paper = getobj("写在什么上", write_ok, GETOBJ_NOFLAGS);
+    paper = getobj("写在什么上面", write_ok, GETOBJ_NOFLAGS); /*待写:离合*/
     if (!paper)
         return ECMD_CANCEL;
     /* can't write on a novel (unless/until it's been converted into a blank
@@ -151,7 +151,7 @@ dowrite(struct obj *pen)
         if (!OBJ_NAME(objects[i]))
             continue;
 
-        if (!strcmpi(OBJ_NAME(objects[i]), nm)) {
+        if (!strcmpi(OBJ_NAME(objects[i]), nm) || !strcmpi(OBJ_ENAME(objects[i]), nm)) {
             if (objects[i].oc_name_known
                 /* spellbooks can only be written by_name, so no need to
                    hold out for a 'better' by_descr match */
@@ -164,7 +164,7 @@ dowrite(struct obj *pen)
             }
         }
 
-        if (!strcmpi(OBJ_DESCR(objects[i]), nm)) {
+        if (!strcmpi(OBJ_DESCR(objects[i]), nm) || !strcmpi(OBJ_EDESCR(objects[i]), nm)) {
             by_descr = TRUE;
             goto found;
         }
@@ -216,7 +216,7 @@ dowrite(struct obj *pen)
         boolean fanfic = !rn2(3), tearup = !rn2(3);
 
         if (!fanfic) {
-            You("%s写伟大的岩德利亚人小说，但%s.",
+            You("%s写伟大的岩德利亚人小说, 但%s.",
                 !tearup ? "准备" : "尝试",
                 !Hallucination ? "缺乏灵感" : "灵感太多了写不下");
         } else {
@@ -237,7 +237,7 @@ dowrite(struct obj *pen)
     } else if (by_descr && paper->oclass == SPBOOK_CLASS
                && !objects[i].oc_name_known) {
         /* can't write unknown spellbooks by description */
-        pline("不幸的是，你没有足够的知识以继续.");
+        pline("不幸的是, 你没有足够的知识以继续.");
         return ECMD_TIME;
     }
 
@@ -255,7 +255,7 @@ dowrite(struct obj *pen)
     /* see if there's enough ink */
     basecost = cost(new_obj);
     if (pen->spe < basecost / 2) {
-        Your("魔笔太干了，写不了!");
+        Your("魔笔太干了, 写不了!");
         obfree(new_obj, (struct obj *) 0);
         return ECMD_TIME;
     }
@@ -271,10 +271,10 @@ dowrite(struct obj *pen)
         Your("魔笔干了!");
         /* scrolls disappear, spellbooks don't */
         if (paper->oclass == SPBOOK_CLASS) {
-            pline_The("魔法书没写完，而且你写的字消失了.");
+            pline_The("魔法书没写完, 而且你写的字消失了.");
             update_inventory(); /* pen charges */
         } else {
-            pline_The("卷轴现在已经没用了，然后消失了!");
+            pline_The("卷轴现在已经没用了, 然后消失了!");
             useup(paper);
         }
         obfree(new_obj, (struct obj *) 0);
@@ -323,7 +323,7 @@ dowrite(struct obj *pen)
         /* scrolls disappear, spellbooks don't */
         if (paper->oclass == SPBOOK_CLASS) {
             You(
-      "写上你最好的字:\"我的日记\",但它很快消退了.");
+      "写上你最好的字: \"我的日记\", 但它很快消退了.");
             update_inventory(); /* pen charges */
         } else {
             if (by_descr) {
@@ -331,7 +331,7 @@ dowrite(struct obj *pen)
                 wipeout_text(namebuf, (6 + MAXULEV - u.ulevel) / 6, 0);
             } else
                 Sprintf(namebuf, "%s到此一游!", svp.plname);
-            You("写上\"%s\",然后卷轴消失了.", namebuf);
+            You("写上\"%s\", 然后卷轴消失了.", namebuf);
             useup(paper);
         }
         obfree(new_obj, (struct obj *) 0);
@@ -345,7 +345,7 @@ dowrite(struct obj *pen)
            have passed the write-an-unknown scroll test
            above we can still fail this one, so it's doubly
            hard to write an unknown scroll while blind */
-        You("无法正确地写卷轴,然后它消失了.");
+        You("无法正确地写卷轴, 然后它消失了.");
         useup(paper);
         obfree(new_obj, (struct obj *) 0);
         return ECMD_TIME;
@@ -357,7 +357,7 @@ dowrite(struct obj *pen)
     /* success */
     if (new_obj->oclass == SPBOOK_CLASS) {
         /* acknowledge the change in the object's description... */
-        pline_The("魔法书奇怪地扭曲,然后变%s.",
+        pline_The("魔法书奇怪地扭曲, 然后变%s.",
                   new_book_description(new_obj->otyp, namebuf));
     }
     new_obj->blessed = (curseval > 0);
@@ -377,7 +377,7 @@ dowrite(struct obj *pen)
     if (objects[new_obj->otyp].oc_name_known || by_descr)
         observe_object(new_obj);
 
-    new_obj = hold_another_object(new_obj, "哦不!%s出了你的手中!",
+    new_obj = hold_another_object(new_obj, "哦不! %s出了你的手中!",
                                   The(aobjnam(new_obj, "滑落")),
                                   (const char *) 0);
     nhUse(new_obj); /* try to avoid complaint about dead assignment */

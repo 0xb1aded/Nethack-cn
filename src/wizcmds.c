@@ -474,7 +474,7 @@ wiz_level_change(void)
             losexp("#levelchange");
     } else {
         if (u.ulevel >= MAXULEV) {
-            You("你已经达到最高等级.");
+            You("已经达到最高等级.");
             return ECMD_OK;
         }
         if (newlevel > MAXULEV)

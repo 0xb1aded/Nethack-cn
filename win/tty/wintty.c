@@ -4392,24 +4392,32 @@ tty_nh_poskey(coordxy *x UNUSED, coordxy *y UNUSED, int *mod UNUSED)
     int i;
 
     HUPSKIP_RESULT('\033');
+
 #if defined(WIN32CON)
     (void) fflush(stdout);
-    /* Note: if raw_print() and wait_synch() get called to report terminal
-     * initialization problems, then wins[] and ttyDisplay might not be
-     * available yet.  Such problems will probably be fatal before we get
-     * here, but validate those pointers just in case...
-     */
+
     if (WIN_MESSAGE != WIN_ERR && wins[WIN_MESSAGE])
         wins[WIN_MESSAGE]->flags &= ~WIN_STOP;
+
+    /* 先隐藏一次光标，再进入取键 */
+    term_curs_set(0);
+
+    program_state.getting_char++;
     i = console_poskey(x, y, mod);
+    program_state.getting_char--;
+
+    /* 取键结束后再恢复 */
+    term_curs_set(1);
+
     if (!i && mod && (*mod == 0 || *mod == EOF))
-        i = '\033'; /* map NUL or EOF to ESC, nethack doesn't expect either */
-    /* topline has been seen - we can clear the need for --More-- */
+        i = '\033';
+
     if (ttyDisplay && ttyDisplay->toplin == TOPLINE_NEED_MORE)
         ttyDisplay->toplin = TOPLINE_NON_EMPTY;
 #else /* !WIN32CON */
     i = tty_nhgetch();
 #endif /* ?WIN32CON */
+
     return i;
 }
 

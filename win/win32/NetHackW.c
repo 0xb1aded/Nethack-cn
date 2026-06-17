@@ -436,6 +436,31 @@ _nhapply_image_transparent(HDC hDC, int x, int y, int width, int height,
     return TRUE;
 }
 
+BOOL
+SetWindowTextA_UTF8(HWND hWnd, const char *text_utf8)
+{
+    BOOL result = FALSE;
+    int wlen;
+    WCHAR *text_utf16;
+
+    if (!text_utf8)
+        text_utf8 = "";
+
+    wlen = MultiByteToWideChar(CP_UTF8, 0, text_utf8, -1, NULL, 0);
+    if (wlen <= 0)
+        return FALSE;
+
+    text_utf16 = (WCHAR *) malloc(wlen * sizeof(WCHAR));
+    if (!text_utf16)
+        return FALSE;
+
+    if (MultiByteToWideChar(CP_UTF8, 0, text_utf8, -1, text_utf16, wlen) > 0)
+        result = SetWindowTextW(hWnd, text_utf16);
+
+    free(text_utf16);
+    return result;
+}
+
 int
 DrawTextA_UTF8(HDC hdc, const char *text_utf8, int text_len, LPRECT rect,
                UINT format)

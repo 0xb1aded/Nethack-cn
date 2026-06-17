@@ -550,14 +550,14 @@ outrumor(
 
     line = getrumor(truth, buf, reading ? FALSE : TRUE);
     if (!*line)
-        line = "NetHack谣言文件已关闭,正在维护.";
+        line = "NetHack谣言文件已关闭, 正在维护.";
     switch (mechanism) {
     case BY_ORACLE:
         /* Oracle delivers the rumor */
-        pline("不背其言,神谕者%s说:",
-              (!rn2(4) ? "随口 "
-                       : (!rn2(3) ? "随意 "
-                                  : (rn2(2) ? "若无其事地 " : ""))));
+        pline("不背其言, 神谕者%s说:",
+              (!rn2(4) ? "随口"
+                       : (!rn2(3) ? "随意"
+                                  : (rn2(2) ? "若无其事地" : ""))));
         SetVoice((struct monst *) 0, 0, 80, voice_oracle);
         verbalize1(line);
         /* [WIS exercised by getrumor()] */
@@ -671,8 +671,8 @@ outoracle(boolean special, boolean delphi)
         if (delphi)
             putstr(tmpwin, 0,
                    special
-                     ? "神谕者不屑地拿走了你所有的金子,说:"
-                     : "神谕沉思了片刻,随后沉声说道:");
+                     ? "神谕者不屑地拿走了你所有的金子, 说:"
+                     : "神谕沉思了片刻, 随后沉声说道:");
         else
             putstr(tmpwin, 0, "信息内容如下:");
         putstr(tmpwin, 0, "");
@@ -714,7 +714,7 @@ doconsult(struct monst *oracl)
         return ECMD_OK;
     }
 
-    Sprintf(qbuf, "\"汝欲小卜乎?\"(%d%s)",
+    Sprintf(qbuf, "\"汝欲小卜乎? \" (%d%s)",
             minor_cost, currency((long) minor_cost));
     switch (ynq(qbuf)) {
     default:
@@ -722,7 +722,7 @@ doconsult(struct monst *oracl)
         return ECMD_OK;
     case 'y':
         if (umoney < (long) minor_cost) {
-            You("你没有足够的金币来支付这个!");
+            You("没有足够的金币来支付这个!");
             return ECMD_OK;
         }
         u_pay = minor_cost;
@@ -731,7 +731,7 @@ doconsult(struct monst *oracl)
         if (umoney <= (long) minor_cost /* don't even ask */
             || (svo.oracle_cnt == 1 || go.oracle_flg < 0))
             return ECMD_OK;
-        Sprintf(qbuf, "\"然,汝欲大卜邪?\"(%d%s)",
+        Sprintf(qbuf, "\"然, 汝欲大卜邪? \" (%d%s)",
                 major_cost, currency((long) major_cost));
         if (y_n(qbuf) != 'y')
             return ECMD_OK;
