@@ -83,7 +83,7 @@ jobs:
         shell: bash
         run: |
           mkdir -p "$PACKAGE_DIR"
-          7z a "$PACKAGE_DIR/NetHack-cn-src.zip" . '-xr!.git' '-xr!.github' '-xr!opencc' '-xr!opencc-tonggui' '-xr!vspackage'
+          7z a "$PACKAGE_DIR/NetHack-cn-src-${{ matrix.orthography }}.zip" . '-xr!.git' '-xr!.github' '-xr!opencc' '-xr!opencc-tonggui' '-xr!vspackage'
 
       - name: Build Visual Studio solution
         env:
@@ -93,7 +93,7 @@ jobs:
 
       - name: Rename packaged artifacts
         run: |
-          Get-ChildItem -Path $env:PACKAGE_DIR -Filter *.zip | ForEach-Object {
+          Get-ChildItem -Path $env:PACKAGE_DIR -Filter *.zip | Where-Object { $_.Name -notlike "NetHack-cn-src-*" } | ForEach-Object {
             $newName = "$($_.BaseName)-${{ matrix.orthography }}$($_.Extension)"
             Rename-Item -Path $_.FullName -NewName $newName
           }
@@ -106,7 +106,7 @@ jobs:
       - name: Upload workflow artifact
         uses: actions/upload-artifact@v4
         with:
-          name: nethack-vspackage-x64
+          name: nethack-vspackage-x64-${{ matrix.orthography }}
           path: vspackage/*.zip
           if-no-files-found: error
 
@@ -141,7 +141,9 @@ jobs:
           tag_name: ${{ steps.meta.outputs.tag }}
           name: ${{ steps.meta.outputs.name }}
           prerelease: true
-          files: release-assets/*.zip
+          files: |
+            release-assets/*.zip
+            release-assets/**/*.zip
           body: |
             Automated NetHack Visual Studio package build.
 
