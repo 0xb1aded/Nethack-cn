@@ -754,7 +754,7 @@ xcalled(
         panic("xcalled: not enough room for prefix (%d > %d)",
               pfxlen, bufsiz);
 
-    Sprintf(eos(buf), "%s被称为%.*s", pfx, bufsiz - pfxlen, sfx);
+    Sprintf(eos(buf), "%s (被称为%.*s)", pfx, bufsiz - pfxlen, sfx); /*危险:我对这个没有bug的信心甚至低于我能爬上珠穆朗玛峰，，，要是有bug就换掉吧。 --Francium-233*/
 }
 
 staticfn void
@@ -1072,7 +1072,7 @@ xname_flags(
             /*Strcat(buf, "之");*/
             Strcat(buf, "卷轴");
         } else if (un) {
-            xcalled(buf, BUFSZ - PREFIX, "", un);
+            xcalled(buf, BUFSZ - PREFIX, "卷轴", un);
         } else if (ocl->oc_magic) {
             Strcpy(buf, "写着");
             Strcat(buf, dn);
@@ -1211,7 +1211,7 @@ xname_flags(
     }
 
     if (has_oname(obj) && dknown) {
-        Concat(buf, 0, "(被称为"); /*冗余:你懂吧*/
+        Concat(buf, 0, " (被称为"); /*冗余:你懂吧*/
 
         /* jump directly here if obj passes the has-personal-name test */
  nameit:
@@ -7474,6 +7474,19 @@ readobjnam_postparse1(struct _readobjnam_data *d)
                 return 1; /*goto srch;*/
             }
     }
+    if ((d->p = strstri(d->bp, " (被称为")) != 0) {
+        *d->p = 0;
+        /* note: if 'un' is too long, obj lookup just won't match anything */
+        d->un = d->p + strlen(" (被称为");
+        /* "helmet called telepathy" is not "helmet" (a specific type)
+         * "shield called reflection" is not "shield" (a general type)
+         */
+        for (i = 0; i < SIZE(o_ranges); i++)
+            if (!strcmpi(d->bp, o_ranges[i].name)) {
+                d->oclass = o_ranges[i].oclass;
+                return 1; /*goto srch;*/
+            }
+    }
     if ((d->p = strstri(d->bp, ",被称为")) != 0) {
         *d->p = 0;
         /* note: if 'un' is too long, obj lookup just won't match anything */
@@ -7555,6 +7568,30 @@ readobjnam_postparse1(struct _readobjnam_data *d)
     if ((d->p = strstri(d->bp, ", 标签为")) != 0) {
         *d->p = 0;
         d->dn = d->p + strlen(", 标签为");
+    }
+    if ((d->p = strstri(d->bp, "(写着")) != 0) {
+        *d->p = 0;
+        d->dn = d->p + strlen("(写着");
+    }
+    if ((d->p = strstri(d->bp, "(上面写着")) != 0) {
+        *d->p = 0;
+        d->dn = d->p + strlen("(上面写着");
+    }
+    if ((d->p = strstri(d->bp, "(标签为")) != 0) {
+        *d->p = 0;
+        d->dn = d->p + strlen("(标签为");
+    }
+    if ((d->p = strstri(d->bp, " (写着")) != 0) {
+        *d->p = 0;
+        d->dn = d->p + strlen("( 写着");
+    }
+    if ((d->p = strstri(d->bp, " (上面写着")) != 0) {
+        *d->p = 0;
+        d->dn = d->p + strlen(" (上面写着");
+    }
+    if ((d->p = strstri(d->bp, " (标签为")) != 0) {
+        *d->p = 0;
+        d->dn = d->p + strlen(" (标签为");
     }
     if ((d->p = strstri(d->bp, " of spinach")) != 0) {
         *d->p = 0;
