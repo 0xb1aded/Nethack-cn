@@ -19,7 +19,7 @@ env:
   PACKAGE_DIR: vspackage
 
 jobs:
-  build:
+  prepare:
     runs-on: windows-latest
     defaults:
       run:
@@ -55,49 +55,65 @@ jobs:
         shell: bash
         run: |
           python ./.github/workflows/findkanjifiles.py
+  
+  build:
+    needs: prepare
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        orthography: [s, t, tg, twp]
+    defaults:
+      run:
+        shell: pwsh
 
-      - name: Build Visual Studio solution (Original)
+      - name: Orthographic Convert
+        shell: bash
+        run: |
+          if [ "${{ matrix.orthography }}" = "s" ]; then
+            echo "Original, skip converting"
+          elif [ "${{ matrix.orthography }}" = "tg" ]; then
+            echo "Using orthography: ${{ matrix.orthography }}"
+            cat ./kanjifiles.txt
+            cat ./kanjifiles.txt | tr -d '\r' | while read -r file; do
+              echo "Converting: $file"
+              ./opencc/bin/opencc.exe -c "./opencc-tonggui/opencc/s2tg.json" -i "$file" -o "$file"
+            done
+          else:
+            echo "Using orthography: ${{ matrix.orthography }}"
+            cat ./kanjifiles.txt
+            cat ./kanjifiles.txt | tr -d '\r' | while read -r file; do
+              echo "Converting: $file"
+              ./opencc/bin/opencc.exe -c "s2${{ matrix.orthography }}.json" -i "$file" -o "$file"
+            done
+          fi
+
+      - name: Package (Converted) Source Code
+        run:
+          New-Item -ItemType Directory -Force -Path $env:PACKAGE_DIR
+          7z a "$env:PACKAGE_DIR/NetHack-cn-src.zip" * -xr!.git -xr!.github -xr!opencc -xr!opencc-tonggui -xr!vspackage
+
+      - name: Build Visual Studio solution
         env:
           CL: "/utf-8"
         run: |
           msbuild $env:SOLUTION_PATH /m /p:Configuration=$env:BUILD_CONFIGURATION /p:Platform=$env:BUILD_PLATFORM /t:Build
 
-      - name: Verify packaged artifacts (Original)
+      - name: Rename packaged artifacts
+        run: |
+          Get-ChildItem -Path $env:PACKAGE_DIR -Filter *.zip | ForEach-Object {
+            $newName = "$($_.BaseName)-${{ matrix.orthography }}$($_.Extension)"
+            Rename-Item -Path $_.FullName -NewName $newName
+          }
+
+      - name: Verify packaged artifacts
         run: |
           $packages = Get-ChildItem -Path $env:PACKAGE_DIR -Filter *.zip -File -ErrorAction Stop
           $packages | Select-Object Name, Length, LastWriteTime | Format-Table -AutoSize
 
-      - name: Upload workflow artifact (Original)
+      - name: Upload workflow artifact
         uses: actions/upload-artifact@v4
         with:
           name: nethack-vspackage-x64
-          path: vspackage/*.zip
-          if-no-files-found: error
-
-      - name: Convert to Traditional
-        shell: bash
-        run: |
-          cat ./kanjifiles.txt
-          cat ./kanjifiles.txt | tr -d '\r' | while read -r file; do
-            echo "Converting: $file"
-            ./opencc/bin/opencc.exe -c "./opencc-tonggui/opencc/s2tg.json" -i "$file" -o "$file"
-          done
-
-      - name: Build Visual Studio solution (Traditional)
-        env:
-          CL: "/utf-8"
-        run: |
-          msbuild $env:SOLUTION_PATH /m /p:Configuration=$env:BUILD_CONFIGURATION /p:Platform=$env:BUILD_PLATFORM /t:Build
-
-      - name: Verify packaged artifacts (Traditional)
-        run: |
-          $packages = Get-ChildItem -Path $env:PACKAGE_DIR -Filter *.zip -File -ErrorAction Stop
-          $packages | Select-Object Name, Length, LastWriteTime | Format-Table -AutoSize
-
-      - name: Upload workflow artifact (Traditional)
-        uses: actions/upload-artifact@v4
-        with:
-          name: nethack-vspackage-x64-tg
           path: vspackage/*.zip
           if-no-files-found: error
 
@@ -110,7 +126,9 @@ jobs:
       - name: Download packaged artifacts
         uses: actions/download-artifact@v4
         with:
+          pattern: nethack-vspackage-*
           path: release-assets
+          merge-multiple: true
 
       - name: Prepare release metadata
         id: meta

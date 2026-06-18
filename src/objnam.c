@@ -7651,6 +7651,9 @@ readobjnam_postparse1(struct _readobjnam_data *d)
         d->bp += strlen("双");
         if (d->cnt > 1)
             d->cnt *= 2;
+    } else if (!strncmpi(d->bp, "一对", strlen("一对"))) {
+        d->bp += strlen("一对");
+        d->cnt *= 2;
     } else if (!strncmpi(d->bp, "set of ", 7)) {
         d->bp += 7;
     } else if (!strncmpi(d->bp, "sets of ", 8)) {
