@@ -19,12 +19,14 @@ env:
   PACKAGE_DIR: vspackage
 
 jobs:
-  prepare:
+  build:
     runs-on: windows-latest
+    strategy:
+      matrix:
+        orthography: [s, t, tg, twp]
     defaults:
       run:
         shell: pwsh
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -55,17 +57,7 @@ jobs:
         shell: bash
         run: |
           python ./.github/workflows/findkanjifiles.py
-  
-  build:
-    needs: prepare
-    runs-on: windows-latest
-    strategy:
-      matrix:
-        orthography: [s, t, tg, twp]
-    defaults:
-      run:
-        shell: pwsh
-    steps:
+
       - name: Orthographic Convert
         shell: bash
         run: |
