@@ -3438,7 +3438,7 @@ use_pole(struct obj *obj, boolean autohit)
         return ECMD_OK;
     }
     if (obj != uwep) {
-        if (wield_tool(obj, "挥舞")) {
+        if (wield_tool(obj, "挥动")) {
             cmdq_add_ec(CQ_CANNED, doapply);
             cmdq_add_key(CQ_CANNED, obj->invlet);
             return ECMD_TIME;

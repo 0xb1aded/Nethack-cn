@@ -55,6 +55,8 @@ English README：[README_en.md](README_en.md)
 
 如果对修改后的代码没有把握，请在行最后添加注释：/*危险:(修改前的代码)*/
 
+如果只是换一个pline类的函数（You、Your、pline_The之类的），请在行最后添加注释：/*换pline:(修改前的函数)*/
+
 #### 人工审校
 ##### 源代码
 

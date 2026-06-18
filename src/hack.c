@@ -785,9 +785,9 @@ still_chewing(coordxy x, coordxy y)
     } else if (lev->typ == SDOOR) {
         if (lev->doormask & D_TRAPPED) {
             lev->doormask = D_NODOOR;
-            b_trapped("隐藏门", NO_PART);
+            b_trapped("暗门", NO_PART);
         } else {
-            digtxt = "啃穿了隐藏门.";
+            digtxt = "啃穿了暗门.";
             lev->doormask = D_BROKEN;
         }
         lev->typ = DOOR;
@@ -3810,7 +3810,7 @@ pickup_checks(void)
                 hliquid("水"));
             return 0;
         } else if (!Underwater) {
-            You("甚至看不到底部, 更别说捡起什么了."); /*危险:You_cant、something*/
+            You("甚至看不到底部, 更别说捡起什么了."); /*换pline:You_cant、something*/
             return 0;
         }
     }

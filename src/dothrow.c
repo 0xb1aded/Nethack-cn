@@ -303,7 +303,7 @@ ok_to_throw(int *shotlimit_p) /* (see dothrow()) */
         You("的身体不能投掷或发射任何东西.");
         return FALSE;
     } else if (nohands(gy.youmonst.data)) {
-        You("没有手, 不能投掷或发射."); /* not body_part(HAND) */ /*危险:You_cant*/
+        You("没有手, 不能投掷或发射."); /* not body_part(HAND) */ /*换pline:You_cant*/
         return FALSE;
         /*[what about !freehand(), aside from cursed missile launcher?]*/
     }
@@ -1281,7 +1281,7 @@ toss_up(struct obj *obj, boolean hitsroof)
     } else {
         action = "差点击中";
     }
-    pline("%s%s了%s, 然后落到了你的%s上.", Doname2(obj),
+    pline("%s%s了%s, 然后掉到了你的%s上.", Doname2(obj),
           action, ceiling(u.ux, u.uy), body_part(HEAD));
 
     /* object now hits you */

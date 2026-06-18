@@ -3210,7 +3210,7 @@ corpse_chance(
                 /* mdef is a gas spore (AT_BOOM) that is exploding inside an
                    engulfer; suppress usual explosion since it's contained */
                 if (magr == &gy.youmonst) {
-                    pline("你的%s里有一个东西爆炸了!", body_part(STOMACH)); /*危险:There("你的%s里有一个东西爆炸了!", body_part(STOMACH));*/
+                    pline("你的%s里有一个东西爆炸了!", body_part(STOMACH)); /*换pline:There("你的%s里有一个东西爆炸了!", body_part(STOMACH));*/
                     Sprintf(svk.killer.name, "%s的爆炸",
                             s_suffix(pmname(mdat, Mgender(mon))));
                     losehp(Maybe_Half_Phys(tmp), svk.killer.name,

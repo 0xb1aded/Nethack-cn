@@ -5142,8 +5142,8 @@ getcad(
     struct monst *shkp, const char *dmgstr, coordxy x, coordxy y,
     boolean uinshp, boolean animal, boolean pursue)
 {
-    boolean dugwall = (!strcmp(dmgstr, "dig into")    /* wand */
-                    || !strcmp(dmgstr, "damage")); /* pick-axe */
+    boolean dugwall = (!strcmp(dmgstr, "dig into") || !cnstrcmp(dmgstr, "挖") || !cnstrcmp(dmgstr, "挖掉")   /* wand */
+                    || !strcmp(dmgstr, "damage") || !cnstrcmp(dmgstr, "破坏")); /* pick-axe */
 
     if (muteshk(shkp)) {
         if (animal && !helpless(shkp))
@@ -5151,12 +5151,12 @@ getcad(
     } else if (pursue || uinshp || !um_dist(x, y, 1)) {
         if (!Deaf) {
             SetVoice(shkp, 0, 80, 0);
-            verbalize("你怎么敢%s我的%s?", (!strcmp(dmgstr, "dig into") ? "挖" : (!strcmp(dmgstr, "damage") ? "破坏" : "")),
+            verbalize("你怎么敢%s我的%s?", dmgstr,
                         dugwall ? "店" : "门");
         } else {
             pline("%s对你%s%s的%s的行为%s!",
                     Shknam(shkp), /*修改语序:*/
-                    (!strcmp(dmgstr, "dig into") ? "挖" : (!strcmp(dmgstr, "damage") ? "破坏" : "")), noit_mhis(shkp), dugwall ? "商店" : "门", ROLL_FROM(angrytexts)); /*修改语序:(!strcmp(dmgstr, "dig into") ? "挖" : (!strcmp(dmgstr, "damage") ? "破坏" : "")), noit_mhis(shkp), dugwall ? "商店" : "门");*/
+                    dmgstr, noit_mhis(shkp), dugwall ? "商店" : "门", ROLL_FROM(angrytexts)); /*修改语序:(!strcmp(dmgstr, "dig into") ? "挖" : (!strcmp(dmgstr, "damage") ? "破坏" : "")), noit_mhis(shkp), dugwall ? "商店" : "门");*/
         }
     } else {
         if (!Deaf) {
@@ -5167,7 +5167,7 @@ getcad(
         } else {
             pline("%s对有人%s%s的%s的行为%s!",
                     Shknam(shkp),
-                    (!strcmp(dmgstr, "dig into") ? "挖" : (!strcmp(dmgstr, "damage") ? "破坏" : "")), noit_mhis(shkp), dugwall ? "商店" : "门", ROLL_FROM(angrytexts)); /*修改语序:同上*/
+                    dmgstr, noit_mhis(shkp), dugwall ? "商店" : "门", ROLL_FROM(angrytexts)); /*修改语序:同上*/
         }
     }
     hot_pursuit(shkp);

@@ -110,7 +110,7 @@ boulder_hits_pool(
         if (!fills_up || !pushing) { /* splashing occurs */
             if (!u.uinwater) {
                 if (pushing ? !Blind : cansee(rx, ry)) {
-                    pline("随着一声巨大的水花, %s%s了%s.", /*危险:There*/
+                    pline("随着一声巨大的水花, %s%s了%s.", /*换pline:There*/
                           the(xname(otmp)), fills_up ? "填上" : "掉进",
                           what);
                 } else if (!Deaf) {
@@ -1232,7 +1232,7 @@ dodown(void)
                 && uwep && is_pick(uwep)) {
                 return use_pick_axe2(uwep);
             } else {
-                You("%s不能从这里下去.", /*危险:You_cant*/
+                You("%s不能从这里下去.", /*换pline:You_cant*/
                          (trap && trap->ttyp == VIBRATING_SQUARE) ? "还"
                                                                   : "");
                 return ECMD_OK;

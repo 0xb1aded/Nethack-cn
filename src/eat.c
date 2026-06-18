@@ -1251,7 +1251,7 @@ cpostfx(int pm)
     case PM_SANDESTIN: /* moot--they don't leave corpses */
     case PM_GENETIC_ENGINEER:
         if (Unchanging) {
-            You("刹那间感觉异样."); /* same as poly trap */ /*危险:You_feel*/
+            You("刹那间感觉异样."); /* same as poly trap */ /*换pline:You_feel*/
         } else {
             /* polyself() is potentially fatal; if food is a tin, use it up
                early to keep it out of bones */
@@ -1817,7 +1817,7 @@ Hear_again(void)
 staticfn int
 rottenfood(struct obj *obj)
 {
-    pline("呕! 这%s真%s!",
+    pline("呕! 这%s%s!",
           foodword(obj), is_rottable(obj) ? "已经烂了" : "真糟糕"); /*修改语序:is_rottable(obj) ? "已经烂了" : "真糟糕", foodword(obj));*/
     if (!rn2(4)) {
         if (Hallucination)

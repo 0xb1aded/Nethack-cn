@@ -703,7 +703,7 @@ namefloorobj(void)
     }
     if (!obj) {
         /* "under you" is safe here since there's no object to hide under */
-        pline("%s似乎没有任何物品.", /*危险:There*/
+        pline("%s似乎没有任何物品.", /*换pline:There*/
               u_at(cc.x, cc.y) ? "在你下方" : "那里");
         return;
     }

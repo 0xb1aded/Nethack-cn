@@ -511,7 +511,7 @@ dowieldquiver(void)
 int
 doquiver_core(const char *verb) /* "ready" or "fire" */
 {
-    char qbuf[QBUFSZ];
+    char qbuf[QBUFSZ], verb2[BUFSZ]; Strcpy(verb2, verb);
     struct obj *newquiver;
     int res;
     boolean was_uwep = FALSE, was_twoweap = u.twoweap;
@@ -562,8 +562,8 @@ doquiver_core(const char *verb) /* "ready" or "fire" */
  already_quivered:
         pline("发射物已经准备好了!");
         return ECMD_OK;
-    } else if (newquiver->owornmask & (W_ARMOR | W_ACCESSORY | W_SADDLE)) {
-        You("不能%s那个!", !strcmp(verb, "ready") ? "准备" : (!strcmp(verb, "fire") ? "发射" : (!strcmp(verb, "wield") ? "装备" : (!strcmp(verb, "rub") ? "擦" : "")))); /*危险:You("不能%s那个！", verb);*/
+    } else if (newquiver->owornmask & (W_ARMOR | W_ACCESSORY | W_SADDLE)) { strsubst(verb2, "什么", "");/*危险:也许吧*/
+        You("不能%s那个!", verb2);
         return ECMD_OK;
     } else if (newquiver == uwep) {
         int weld_res = !uwep->bknown;
@@ -650,7 +650,7 @@ doquiver_core(const char *verb) /* "ready" or "fire" */
     }
 
  quivering:
-    if (!strcmp(verb, "ready")) {
+    if (!strcmp(verb, "ready") || !cnstrcmp(verb, "准备好什么")) {
         /* place item in quiver before printing so that inventory feedback
            includes "(at the ready)" */
         setuqwep(newquiver);
@@ -696,8 +696,8 @@ wield_tool(struct obj *obj,
                    || strstri(what, "s of ") != 0);
 
     if (obj->owornmask & (W_ARMOR | W_ACCESSORY)) {
-        You_cant("在戴着%s的时候%s%s.", more_than_1 ? "它们" : "它", !strcmp(verb, "ready") ? "准备" : (!strcmp(verb, "fire") ? "发射" : (!strcmp(verb, "wield") ? "装备" : (!strcmp(verb, "rub") ? "擦" : ""))), /*修改语序，危险:You_cant("%s %s while wearing %s.", verb, yname(obj),*/
-                 yname(obj)); /*修改语序:more_than_1 ? "them" : "it");*/
+        You_cant("在戴着%s的时候%s%s.", yname(obj), verb, /*修改语序，危险:You_cant("%s %s while wearing %s.", verb, yname(obj),*/
+                 more_than_1 ? "它们" : "它"); /*修改语序:more_than_1 ? "them" : "it");*/
         return FALSE;
     }
     if (uwep && welded(uwep)) {
@@ -710,7 +710,7 @@ wield_tool(struct obj *obj,
                 more_than_1 = FALSE;
             pline(
                "因为你的武器粘在你的%s上, 所以你不能%s%s%s.",
-                  hand, !strcmp(verb, "ready") ? "准备" : (!strcmp(verb, "fire") ? "发射" : (!strcmp(verb, "wield") ? "装备" : (!strcmp(verb, "rub") ? "擦" : ""))), more_than_1 ? "那些" : "那个", xname(obj)); /*危险:hand, verb, more_than_1 ? "those" : "that", xname(obj));*/
+                  hand, verb, more_than_1 ? "那些" : "那个", xname(obj)); /*危险:hand, verb, more_than_1 ? "those" : "that", xname(obj));*/
         } else {
             You_cant("做那个.");
         }

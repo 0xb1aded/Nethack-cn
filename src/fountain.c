@@ -351,7 +351,7 @@ drinkfountain(void)
             break;
         case 26: /* See Monsters */
             if (monster_detect((struct obj *) 0, 0))
-                pline("这%s喝起来什么味道都没有.", hliquid("水")); /*危险:pline_The*/
+                pline("这%s喝起来什么味道都没有.", hliquid("水")); /*换pline:pline_The*/
             exercise(A_WIS, TRUE);
             break;
         case 27: /* Find a gem in the sparkling waters. */

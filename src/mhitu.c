@@ -1486,7 +1486,7 @@ gulpmu(struct monst *mtmp, struct attack *mattk)
         break;
     case AD_ELEC:
         if (!mtmp->mcan && rn2(2)) {
-            pline("你周围的空气因电流而噼啪作响."); /*危险:pline_The*/
+            pline("你周围的空气因电流而噼啪作响."); /*换pline:pline_The*/
             if (Shock_resistance) {
                 shieldeff(u.ux, u.uy);
                 You("似乎毫发无损.");

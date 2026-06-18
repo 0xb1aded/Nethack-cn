@@ -277,7 +277,7 @@ done_in_by(struct monst *mtmp, int how)
         Strcat(buf, m_monnam(mtmp));
     } else {
         if (has_mgivenname(mtmp)) {
-            Sprintf(eos(buf), "%s%s的", /*危险:Sprintf*/
+            Sprintf(eos(buf), "%s%s的", /*换pline:Sprintf*/
                     has_ebones(mtmp) ? "" : "叫",
                     MGIVENNAME(mtmp));
         }
