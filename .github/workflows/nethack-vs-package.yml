@@ -65,7 +65,7 @@ jobs:
     defaults:
       run:
         shell: pwsh
-
+      steps:
       - name: Orthographic Convert
         shell: bash
         run: |
