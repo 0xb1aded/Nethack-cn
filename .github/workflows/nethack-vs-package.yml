@@ -80,7 +80,7 @@ jobs:
           fi
 
       - name: Package (Converted) Source Code
-        run:
+        run: |
           New-Item -ItemType Directory -Force -Path $env:PACKAGE_DIR
           7z a "$env:PACKAGE_DIR/NetHack-cn-src.zip" * -xr!.git -xr!.github -xr!opencc -xr!opencc-tonggui -xr!vspackage
 
