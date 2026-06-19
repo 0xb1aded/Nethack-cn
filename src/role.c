@@ -153,7 +153,7 @@ const struct Role roles[NUM_ROLES+1] = {
       A_INT,
       SPE_DIG,
       -4 },
-    { { "治疗师", 0 },
+    { { "医生", 0 },
       { { "根切术师", 0 },
         { "经验医师", 0 },
         { "防腐师", 0 },

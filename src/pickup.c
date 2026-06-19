@@ -3673,7 +3673,7 @@ dotip(void)
     else if (uarmh && cobj == uarmh)
         return tiphat() ? ECMD_TIME : ECMD_OK;
     else if (cobj->otyp == STATUE)
-        pline("没有什么有趣的事情发生.");
+        pline("没有什么值得关注的事情发生.");
     else
         pline1(nothing_happens);
     return ECMD_OK;

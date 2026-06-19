@@ -42,24 +42,24 @@ hitmsg(struct monst *mtmp, struct attack *mattk)
     } else {
         switch (mattk->aatyp) {
         case AT_BITE:
-            verb = "咬了你一口";
+            verb = "咬你";
             break;
         case AT_KICK:
             if (thick_skinned(gy.youmonst.data))
                 punct = ".";
-            verb = "踢了你一下";
+            verb = "踢你";
             break;
         case AT_STNG:
-            verb = "叮了你一口";
+            verb = "叮你";
             break;
         case AT_BUTT:
-            verb = "撞了你一下";
+            verb = "撞你";
             break;
         case AT_TUCH:
-            verb = "碰了你一下!";
+            verb = "碰你!";
             break;
         case AT_TENT:
-            verb = "的触手吸食了一口你的脑袋";
+            verb = "用触手吸你的脑袋";
             Monst_name = s_suffix(Monst_name);
             break;
         case AT_EXPL:
@@ -67,7 +67,7 @@ hitmsg(struct monst *mtmp, struct attack *mattk)
             verb = "爆炸了";
             break;
         default:
-            verb = "打了你一下";
+            verb = "打你";
         }
         /* if a monster hits more than once with similar attack, say so */
         again = (mtmp->m_id == gh.hitmsg_mid

@@ -3383,7 +3383,7 @@
         M1_HUMANOID | M1_OMNIVORE,
         M2_NOPOLY | M2_HUMAN | M2_STRONG | M2_COLLECT, M3_INFRAVISIBLE,
         12, HI_DOMESTIC, KNIGHT),
-    MON(NAM("monk"), NAM("僧侣"), S_HUMAN,
+    MON(NAM("monk"), NAM("武僧"), S_HUMAN,
         LVL(10, 12, 10, 2, 0), G_NOGEN,
         A(ATTK(AT_CLAW, AD_PHYS, 1, 8), ATTK(AT_KICK, AD_PHYS, 1, 8),
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
@@ -3393,7 +3393,7 @@
         M3_INFRAVISIBLE,
         11, HI_DOMESTIC, MONK),
     /* monster priests are separate monsters (above; "aligned cleric") */
-    MON(NAMS("priest", "priestess", "cleric"), NAMS("男祭司", "女祭司", "祭司"), S_HUMAN,
+    MON(NAMS("priest", "priestess", "cleric"), NAMS("男牧师", "女牧师", "牧师"), S_HUMAN,
         LVL(10, 12, 10, 2, 0), G_NOGEN,
         A(ATTK(AT_WEAP, AD_PHYS, 1, 6), ATTK(AT_MAGC, AD_CLRC, 0, 0),
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),

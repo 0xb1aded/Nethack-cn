@@ -1707,7 +1707,7 @@ seffect_taming(struct obj **sobjp)
             }
     }
     if (!results) {
-        pline("%s没有任何有趣的事发生.",
+        pline("%s没有任何值得关注的事情发生.",
               !candidates ? "" : "看起来");
     } else {
         pline_The("附近%s更%s友好了.",
