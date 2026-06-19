@@ -1,9 +1,9 @@
 import os
 def getfiles(path):
     e = []
-    try:
+    if os.path.isdir(path):
         f = os.listdir(path)
-    except:
+    else:
         return path
     for i in f:
         d = getfiles('%s/%s' % (path, i))
