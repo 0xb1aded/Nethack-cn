@@ -129,7 +129,7 @@ getrumor(
     if (gt.true_rumor_size < 0L) /* a previous try failed to open RUMORFILE */
         return rumor_buf;
 
-    rumors = dlb_fopen(RUMORFILE, "r");
+    rumors = dlb_fopen(RUMORFILE, "r, ccs=UTF-8"); /*危险:rumors = dlb_fopen(RUMORFILE, "r");*/
     if (rumors) {
         int count = 0;
         int adjtruth;
