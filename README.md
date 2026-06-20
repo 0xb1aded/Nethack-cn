@@ -203,6 +203,7 @@ English README：[README_en.md](README_en.md)
 - [ ] rumors.tru
 - [ ] tribute
 - [ ] quest.lua
+- [ ] optlist.h
 
 ### 技术细节
 

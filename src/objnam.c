@@ -1054,8 +1054,7 @@ xname_flags(
                 Strcat(buf, actualn);
                 Strcat(buf, "药水");
             } else {
-                xcalled(buf, BUFSZ - PREFIX, "", un);
-                Strcat(buf, "药水");
+                xcalled(buf, BUFSZ - PREFIX, "药水", un);
             }
         } else {
             Strcat(buf, dn);
