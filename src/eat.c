@@ -558,7 +558,7 @@ done_eating(boolean message)
             pline1(gn.nomovemsg);
         gn.nomovemsg = 0;
     } else if (message) {
-        You("你%s完了%s.",
+        You("%s完了%s.",
             (gy.youmonst.data == &mons[PM_FIRE_ELEMENTAL]) ? "消耗"
             : "吃",
             food_xname(piece, TRUE));
@@ -3495,7 +3495,7 @@ newuhs(boolean incr)
                           ? gu.urole.name.m
                           : "精灵");
             else
-                You("你%s虚弱.", !incr ? "仍然很"
+                You("%s虚弱.", !incr ? "仍然很"
                                 : (u.uhunger < 45) ? "感到"
                                   : "开始感到");
             if (incr && go.occupation
@@ -3773,7 +3773,7 @@ vomit(void) /* A good idea from David Neves */
 
         /* currently, only yellow dragons can breathe acid */
         if (mattk) {
-            You("你对自己喷出了酸液..."); /* [why?] */
+            You("对自己喷出了酸液..."); /* [why?] */
             ubreatheu(mattk);
         }
         /* vomiting on an altar is, all things considered, rather impolite */

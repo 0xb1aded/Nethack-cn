@@ -1180,7 +1180,7 @@ doengrave(void)
             de->eloc, /*修改语序:(de->type == ENGRAVE && de->otmp->quan > 1L) ? "一个" : "",*/
             de->everb); /*修改语序:doname(de->otmp));*/
     else
-        You("用你的%s在%s%s.", /*修改语序:You("你%s了%s, 用你的%s.",*/
+        You("用你的%s在%s%s.", /*修改语序:You("%s了%s, 用你的%s.",*/
             body_part(FINGERTIP), de->eloc, de->everb); /*修改语序:de->everb, de->eloc, body_part(FINGERTIP));*/
 
     /* Prompt for engraving! */

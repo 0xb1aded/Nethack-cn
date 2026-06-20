@@ -987,7 +987,7 @@ Amulet_on(struct obj *amul)
             makeknown(AMULET_OF_MAGICAL_BREATHING);
             on_msg(uamul);
             on_msg_done = TRUE;
-            You("你不再受到毒气的困扰.");
+            You("不再受到毒气的困扰.");
         }
         /* no need to check for becoming able to breathe underwater;
            if we are underwater, we already can or we would have drowned */
@@ -2771,7 +2771,7 @@ select_off(struct obj *otmp)
             why = uwep;
         }
         if (why) {
-            You("你不能%s来脱下%s.", buf, the(xname(otmp)));
+            You("不能%s来脱下%s.", buf, the(xname(otmp)));
             set_bknown(why, 1);
             return 0;
         }

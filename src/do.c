@@ -1111,7 +1111,7 @@ u_stuck_cannot_go(const char *updn)
 {
     if (u.ustuck) {
         if (u.uswallow || !sticks(gy.youmonst.data)) {
-            You("你正在被%s, 无法向%s移动.",
+            You("正在被%s, 无法向%s移动.",
                 !u.uswallow ? "吞下"
                 : digests(u.ustuck->data) ? "裹住"
                 : "吞没", updn);

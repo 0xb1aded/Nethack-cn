@@ -866,7 +866,7 @@ kick_dumb(coordxy x, coordxy y)
 {
     exercise(A_DEX, FALSE);
     if (martial() || ACURR(A_DEX) >= 16 || rn2(3)) {
-        You("你朝空处踢了一脚。");
+        You("朝空处踢了一脚。");
         if (Blind)
             feel_location(x, y);
     } else {

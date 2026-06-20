@@ -691,7 +691,7 @@ stop_occupation(void)
 {
     if (go.occupation) {
         if (!maybe_finished_meal(TRUE))
-            You("你停止了%s。", go.occtxt);
+            You("停止了%s。", go.occtxt);
         go.occupation = (int (*)(void)) 0;
         disp.botl = TRUE; /* in case u.uhs changed */
         nomul(0);

@@ -495,7 +495,7 @@ staticfn void
 use_magic_whistle(struct obj *obj)
 {
     if (!can_blow(&gy.youmonst)) {
-        You("你无法使用这个哨子。");
+        You("无法使用这个哨子。");
     } else if (obj->cursed && !rn2(2)) {
         You("产生出%s%s.", Underwater ? "非常" : "",
             Deaf ? "高频的振动" : "尖锐的嗡嗡声");
@@ -4473,7 +4473,7 @@ staticfn int
 flip_through_book(struct obj *obj)
 {
     if (Underwater) {
-        You("你不想让书页变得更湿，对吧?");
+        You("不想让书页变得更湿，对吧?");
         return ECMD_OK;
     }
 
