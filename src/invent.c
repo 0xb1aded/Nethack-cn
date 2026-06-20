@@ -4303,8 +4303,8 @@ look_here(
             putstr(tmpwin, 0, "");
         }
         Sprintf(buf, "%s这里的%s:",
-                picked_some ? "其他物品" : "物品",
-                Blind ? "你感觉到" : "");
+                Blind ? "你感觉到" : "", /*修改语序:picked_some ? "其他物品" : "物品",*/
+                picked_some ? "其他物品" : "物品"); /*修改语序:Blind ? "你感觉到" : "");*/
         putstr(tmpwin, 0, buf);
         for (; otmp; otmp = otmp->nexthere) {
             if (otmp->otyp == CORPSE && will_feel_cockatrice(otmp, FALSE)) {
