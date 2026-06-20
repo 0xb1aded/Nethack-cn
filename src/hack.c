@@ -2172,7 +2172,7 @@ domove_swap_with_pet(
                      : (!has_mgivenname(mtmp)
                         && !type_is_pname(mtmp->data)) ? ARTICLE_THE
                      : ARTICLE_NONE,
-                     (mtmp->mpeaceful && !mtmp->mtame) ? "驯服的" : 0,
+                     (mtmp->mpeaceful && !mtmp->mtame) ? "和平的" : 0,
                      has_mgivenname(mtmp) ? SUPPRESS_SADDLE : 0, FALSE));
 
         /* check for displacing it into pools and traps */

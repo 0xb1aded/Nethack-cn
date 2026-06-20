@@ -133,7 +133,7 @@ mswings(
     boolean bash)       /* True: polearm used at too close range */
 {
     if (flags.verbose && !Blind && mon_visible(mtmp)) {
-        pline_mon(mtmp, "%s%s%s%s%s.", Monnam(mtmp),
+        pline_mon(mtmp, "%s%s%s的%s%s.", Monnam(mtmp),
                   mswings_verb(otemp, bash),
                   mhis(mtmp), /*修改语序:(otemp->quan > 1L) ? "之一" : "",*/
                   (otemp->quan > 1L) ? "一个" : "", xname(otemp)); /*修改语序:mhis(mtmp), xname(otemp));*/
