@@ -1014,16 +1014,16 @@ const char *terrain_descr[] = {
     "Grave",
     "Altar",
     "Ice",
-    "Bridge", /* drawbridge_down, span across moat/ice/lava/floor */
-    "Air",    /* open air on Air level or bubble on Water level */
-    "Cloud",  /* [part of] a cloud or Air level */
-    /*
-     */
-    /*37*/ "",     /* MAX_TYPE; skipped ratther than overloaded */
-    /*38*/ c_Wall, /* MATCH_WALL for special levels; shouldn't happen */
-    /*
-     * additional terrain names that aren't simple levl[][].typ values
-     */
+    "Bridge",        /* drawbridge_down, span across moat/ice/lava/floor */
+    "Air",           /* open air on Air level or bubble on Water level */
+    "Cloud",         /* [part of] a cloud or Air level */
+                     /*
+                      */
+    /*37*/ "",       /* MAX_TYPE; skipped ratther than overloaded */
+    /*38*/ c_Wall,   /* MATCH_WALL for special levels; shouldn't happen */
+                     /*
+                      * additional terrain names that aren't simple levl[][].typ values
+                      */
     /*39*/ "Floor",  /* substituted for room or corridor */
     /*40*/ "Ground", /* 'room' on Earth level */
     "Open-door",     /* open (not broken or doorless) */
@@ -2408,7 +2408,7 @@ static const struct fieldid_t {
 /* format arguments */
 static const char threshold_value[] = "hilite_status threshold ",
                   is_out_of_range[] = " is out of range";
-static const char threshold_value_ui[] = "高亮阈值",
+static const char threshold_value_ui[] = "阈值",
                   is_out_of_range_ui[] = "超出范围";
 
 /* field name to bottom line index */
@@ -3942,7 +3942,7 @@ status_hilite_menu_choose_field(void)
                  fldname_ui[i], MENU_ITEMFLAGS_NONE);
     }
 
-    end_menu(tmpwin, "选择一个高亮字段: ");
+    end_menu(tmpwin, "选择一个突出显示字段: ");
 
     res = select_menu(tmpwin, PICK_ONE, &picks);
     destroy_nhwindow(tmpwin);
@@ -3976,7 +3976,7 @@ status_hilite_menu_choose_behavior(int fld)
     if (fld != BL_CONDITION) {
         any = cg.zeroany;
         any.a_int = onlybeh = BL_TH_ALWAYS_HILITE;
-        Sprintf(buf, "总是高亮%s", fldname_ui[fld]);
+        Sprintf(buf, "总是突出显示%s", fldname_ui[fld]);
         add_menu(tmpwin, &nul_glyphinfo, &any, 'a', 0, ATR_NONE, clr, buf,
                  MENU_ITEMFLAGS_NONE);
         nopts++;
@@ -4019,7 +4019,7 @@ status_hilite_menu_choose_behavior(int fld)
     if (fld == BL_HP) {
         any = cg.zeroany;
         any.a_int = onlybeh = BL_TH_CRITICALHP;
-        Sprintf(buf, "高亮显示临界低的 %s", fldname_ui[fld]);
+        Sprintf(buf, "突出显示临界低的 %s", fldname_ui[fld]);
         add_menu(tmpwin, &nul_glyphinfo, &any, 'C', 0, ATR_NONE, clr, buf,
                  MENU_ITEMFLAGS_NONE);
         nopts++;
@@ -4035,7 +4035,7 @@ status_hilite_menu_choose_behavior(int fld)
         nopts++;
     }
 
-    Sprintf(buf, "选择 %s 字段高亮行为: ", fldname_ui[fld]);
+    Sprintf(buf, "选择 %s 字段突出显示行为: ", fldname_ui[fld]);
     end_menu(tmpwin, buf);
 
     if (nopts > 1) {
@@ -4483,8 +4483,9 @@ choose_value:
         Sprintf(attrqry, "(多选) 选择当%s为 '%s' 时的属性: ", fldname_ui[fld],
                 hilite.textmatch);
     } else if (behavior == BL_TH_ALWAYS_HILITE) {
-        Sprintf(colorqry, "选择一个颜色以始终高亮%s: ", fldname_ui[fld]);
-        Sprintf(attrqry, "(多选) 选择总是高亮%s的属性: ", fldname_ui[fld]);
+        Sprintf(colorqry, "选择一个颜色以始终突出显示%s: ", fldname_ui[fld]);
+        Sprintf(attrqry,
+                "(多选) 选择总是突出显示%s的属性: ", fldname_ui[fld]);
     }
 
 choose_color:
@@ -4529,8 +4530,8 @@ choose_color:
         tmpattr = hlattr2attrname(atr, attrbuf, BUFSZ, TRUE);
         if (tmpattr)
             Sprintf(eos(clrbuf), "&%s", tmpattr);
-        pline("已添加高亮 condition/%s/%s", conditionbitmask2str(cond, TRUE),
-              clrbuf);
+        pline("已添加突出显示规则 condition/%s/%s",
+              conditionbitmask2str(cond, TRUE), clrbuf);
     } else {
         char *p, *q;
 
@@ -4543,7 +4544,7 @@ choose_color:
             *p = '\0'; /* chop off " or female-rank" */
             /* new rule for male-rank */
             status_hilite_add_threshold(fld, &hilite);
-            pline("已添加高亮 %s", status_hilite2str(&hilite, TRUE));
+            pline("已添加突出显示规则 %s", status_hilite2str(&hilite, TRUE));
             p += sizeof " 或" - sizeof "";
             q = hilite.textmatch;
             while ((*q++ = *p++) != '\0')
@@ -4551,7 +4552,7 @@ choose_color:
             /* proceed with normal addition of new rule */
         }
         status_hilite_add_threshold(fld, &hilite);
-        pline("已添加高亮 %s", status_hilite2str(&hilite, TRUE));
+        pline("已添加突出显示规则 %s", status_hilite2str(&hilite, TRUE));
     }
     reset_status_hilites();
     return TRUE;
@@ -4661,7 +4662,7 @@ status_hilite_menu_fld(int fld)
             hlstr = hlstr->next;
         }
     } else {
-        Sprintf(buf, "当前没有为 %s 设置高亮显示", fldname_ui[fld]);
+        Sprintf(buf, "当前没有为 %s 设置突出显示", fldname_ui[fld]);
         add_menu_str(tmpwin, buf);
     }
 
@@ -4672,7 +4673,7 @@ status_hilite_menu_fld(int fld)
         any = cg.zeroany;
         any.a_int = -1;
         add_menu(tmpwin, &nul_glyphinfo, &any, 'X', 0, ATR_NONE, clr,
-                 "移除选中的高亮项", MENU_ITEMFLAGS_NONE);
+                 "移除选中的突出显示项", MENU_ITEMFLAGS_NONE);
     }
 
 #ifndef SCORE_ON_BOTL
@@ -4688,10 +4689,10 @@ status_hilite_menu_fld(int fld)
         any = cg.zeroany;
         any.a_int = -2;
         add_menu(tmpwin, &nul_glyphinfo, &any, 'Z', 0, ATR_NONE, clr,
-                 "添加新的高亮", MENU_ITEMFLAGS_NONE);
+                 "添加新的突出显示规则", MENU_ITEMFLAGS_NONE);
     }
 
-    Sprintf(buf, "当前 %s 高亮: ", fldname_ui[fld]);
+    Sprintf(buf, "当前 %s 突出显示: ", fldname_ui[fld]);
     end_menu(tmpwin, buf);
 
     acted = FALSE;
@@ -4788,7 +4789,7 @@ shlmenu_redo:
         any = cg.zeroany;
         any.a_int = -1;
         add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE, clr,
-                 "以配置格式查看所有高亮", MENU_ITEMFLAGS_NONE);
+                 "以配置格式查看所有突出显示规则", MENU_ITEMFLAGS_NONE);
 
         add_menu_str(tmpwin, "");
     }
@@ -4820,7 +4821,7 @@ shlmenu_redo:
                  MENU_ITEMFLAGS_NONE);
     }
 
-    end_menu(tmpwin, "状态高亮: ");
+    end_menu(tmpwin, "状态的突出显示: ");
     if ((res = select_menu(tmpwin, PICK_ONE, &picks)) > 0) {
         fld = picks->item.a_int - 1;
         if (fld < 0) {
