@@ -4809,7 +4809,11 @@ shlmenu_redo:
 #endif
         any = cg.zeroany;
         any.a_int = fld + 1;
-        Sprintf(buf, "%-18s", fldname_ui[i]);
+        /* 修改: 原本的排版方式不适用于 UTF-8 编码的中文
+        Sprintf(buf, "%-18s", fldname_ui[i]); */
+        int display_width = (int) utf8str_width(fldname_ui[i]);
+        Sprintf(buf, "%s%*s", fldname_ui[i],
+                18 - display_width > 0 ? 18 - display_width : 0, "");
         if (count)
             Sprintf(eos(buf), " (已定义 %d)", count);
         add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE, clr, buf,
