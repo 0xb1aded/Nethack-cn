@@ -154,10 +154,10 @@ static const char *readchar_queue = "";
 
 /* for rejecting attempts to use wizard mode commands
  * Also used in wizcmds.c  */
-const char unavailcmd[] = "无效指令'%s'.";
+const char unavailcmd[] = "无效命令'%s'.";
 
 /* for rejecting #if !SHELL, !SUSPEND */
-static const char cmdnotavail[] = "'%s'指令不可用.";
+static const char cmdnotavail[] = "'%s'命令不可用.";
 
 /* the #prevmsg command */
 staticfn int
@@ -505,7 +505,7 @@ doextcmd(void)
         if (!can_do_extcmd(&extcmdlist[idx]))
             return ECMD_OK;
         if (iflags.menu_requested && !accept_menu_prefix(&extcmdlist[idx])) {
-            pline("'%s'前缀对%s指令无效.",
+            pline("'%s'前缀对%s命令无效.",
                   visctrl(cmd_from_func(do_reqmenu)),
                   extcmdlist[idx].ef_txt);
             iflags.menu_requested = FALSE;
@@ -532,8 +532,8 @@ doc_extcmd_flagstr(
     if (!efp) {
         char qbuf[QBUFSZ];
 
-        add_menu_str(menuwin, "[A]指令自动补全");
-        Sprintf(qbuf, "[m]指令允许使用'%s'前缀",
+        add_menu_str(menuwin, "[A]命令自动补全");
+        Sprintf(qbuf, "[m]命令允许使用'%s'前缀",
                 visctrl(cmd_from_func(do_reqmenu)));
         add_menu_str(menuwin, qbuf);
         return (char *) 0;
@@ -570,8 +570,8 @@ doextlist(void)
     int n, pass;
     int menumode = 0, menushown[2], onelist = 0;
     boolean redisplay = TRUE, search = FALSE;
-    static const char *const headings[] = { "扩展指令",
-                                      "调试扩展指令" };
+    static const char *const headings[] = { "扩展命令",
+                                      "调试扩展命令" };
     int clr = NO_COLOR;
 
     searchbuf[0] = '\0';
@@ -581,10 +581,10 @@ doextlist(void)
         redisplay = FALSE;
         any = cg.zeroany;
         start_menu(menuwin, MENU_BEHAVE_STANDARD);
-        add_menu_str(menuwin, "扩展指令列表");
+        add_menu_str(menuwin, "扩展命令列表");
         add_menu_str(menuwin, "");
 
-        Sprintf(buf, "切换到%s不会自动补全的指令",
+        Sprintf(buf, "切换到%s不会自动补全的命令",
                 menumode ? "包括" : "不包括");
         any.a_int = 1;
         add_menu(menuwin, &nul_glyphinfo, &any, 'a', 0, ATR_NONE, clr, buf,
@@ -598,7 +598,7 @@ doextlist(void)
                having ':' as an explicit selector overrides the default
                menu behavior for it; we retain 's' as a group accelerator */
             add_menu(menuwin, &nul_glyphinfo, &any, ':', 's', ATR_NONE,
-                     clr, "搜索扩展指令",
+                     clr, "搜索扩展命令",
                      MENU_ITEMFLAGS_NONE);
         } else {
             Strcpy(buf, "从搜索切换回来");
@@ -616,8 +616,8 @@ doextlist(void)
         if (wizard) {
             any.a_int = 4;
             add_menu(menuwin, &nul_glyphinfo, &any, 'z', 0, ATR_NONE, clr,
-          onelist ? "切换到在单独区域显示调试指令"
-       : "切换到按字母顺序显示所有指令(包括调试指令)",
+          onelist ? "切换到在单独区域显示调试命令"
+       : "切换到按字母顺序显示所有命令(包括调试命令)",
                      MENU_ITEMFLAGS_NONE);
         }
         add_menu_str(menuwin, "");
@@ -718,7 +718,7 @@ doextlist(void)
             searchbuf[0] = '\0';
         }
         if (search) {
-            Strcpy(promptbuf, "扩展指令列表搜索短语");
+            Strcpy(promptbuf, "扩展命令列表搜索短语");
             Strcat(promptbuf, "?");
             getlin(promptbuf, searchbuf);
             (void) mungspaces(searchbuf);
@@ -853,7 +853,7 @@ extcmd_via_menu(void)
             add_menu(win, &nul_glyphinfo, &any, any.a_char, 0,
                      ATR_NONE, clr, buf, MENU_ITEMFLAGS_NONE);
         }
-        Snprintf(prompt, sizeof(prompt), "扩展指令: %s", cbuf);
+        Snprintf(prompt, sizeof(prompt), "扩展命令: %s", cbuf);
         end_menu(win, prompt);
         n = select_menu(win, PICK_ONE, &pick_list);
         destroy_nhwindow(win);
@@ -1643,7 +1643,7 @@ do_repeat(void)
         struct _cmd_queue *repeat_copy;
 
         if (!cmdq_peek(CQ_REPEAT)) {
-            Norep("没有可重复的指令.");
+            Norep("没有可重复的命令.");
             return ECMD_FAIL;
         }
         repeat_copy = cmdq_copy(CQ_REPEAT);
@@ -1665,9 +1665,9 @@ do_repeat(void)
    or control keystroke generally should not be; there are a few exceptions
    such as ^O/#overview and C/N/#name */
 struct ext_func_tab extcmdlist[] = {
-    { '#',    "#", "输入并执行扩展指令",
+    { '#',    "#", "输入并执行扩展命令",
               doextcmd, IFBURIED | GENERALCMD | CMD_M_PREFIX, NULL },
-    { M('?'), "?", "列举所以扩展指令",
+    { M('?'), "?", "列举所有扩展命令",
               doextlist, IFBURIED | AUTOCOMPLETE | GENERALCMD | CMD_M_PREFIX,
               NULL },
     { M('a'), "adjust", "调整物品栏字母分配",
@@ -1726,14 +1726,14 @@ struct ext_func_tab extcmdlist[] = {
     { M('f'), "force", "暴力开锁",
               doforce, AUTOCOMPLETE, NULL },
     { M('g'), "genocided",
-              "列举已灭绝或绝技的生物",
+              "列举已灭绝或绝迹的生物",
               dogenocided,
               IFBURIED | AUTOCOMPLETE | GENERALCMD | CMD_M_PREFIX, NULL },
     { ';',    "glance", "显示地图符号对应的事物",
               doquickwhatis, IFBURIED | GENERALCMD, NULL },
     { '?',    "help", "获取帮助信息",
               dohelp, IFBURIED | GENERALCMD, NULL },
-    { '\0',   "herecmdmenu", "显示此处可执行的指令菜单",
+    { '\0',   "herecmdmenu", "显示此处可执行的命令菜单",
               doherecmdmenu, IFBURIED | AUTOCOMPLETE | GENERALCMD, NULL },
     { '\0',    "history", "显示游戏开发历史的概述",
               dohistory, IFBURIED | AUTOCOMPLETE | GENERALCMD, NULL },
@@ -1826,7 +1826,7 @@ struct ext_func_tab extcmdlist[] = {
        key2extcmddesc() constructs a more explicit two line description
        for display by the '&' command and expects to find "prefix:" as
        the start of the text here */
-    { 'm',    "reqmenu", "前缀: 请求菜单或修改指令",
+    { 'm',    "reqmenu", "前缀: 请求菜单或修改命令",
               do_reqmenu, PREFIXCMD, NULL },
     { C('_'), "retravel", "旅行到上一个选择的旅行目的地",
               dotravel_target, 0, NULL },
@@ -1896,7 +1896,7 @@ struct ext_func_tab extcmdlist[] = {
               "查看没有怪物或物体遮挡的地图",
               doterrain, IFBURIED | GENERALCMD | AUTOCOMPLETE, NULL },
     { '\0',   "therecmdmenu",
-              "在此处对相邻位置可执行的指令菜单",
+              "在此处对相邻位置可执行的命令菜单",
               dotherecmdmenu, AUTOCOMPLETE | GENERALCMD | MOUSECMD, NULL },
     { 't',    "throw", "扔东西",
               dothrow, 0, NULL },
@@ -1917,7 +1917,7 @@ struct ext_func_tab extcmdlist[] = {
     { '<',    "up", "上楼梯",
               /* (see comment for dodown() above */
               doup, CMD_M_PREFIX, NULL },
-    { M('V'), "vanquished", "列举消灭的怪物",
+    { M('V'), "vanquished", "列举击败的怪物",
               dovanquished,
               IFBURIED | AUTOCOMPLETE | GENERALCMD | CMD_M_PREFIX, NULL },
     { M('v'), "version",
@@ -1925,13 +1925,13 @@ struct ext_func_tab extcmdlist[] = {
               doextversion, IFBURIED | AUTOCOMPLETE | GENERALCMD, NULL },
     { 'V',    "versionshort", "显示程序版本和编译时间",
               doversion, IFBURIED | GENERALCMD | CMD_M_PREFIX, NULL },
-    { '\0',   "vision", "显示",
+    { '\0',   "vision", "显示视觉阵列",
               wiz_show_vision, IFBURIED | AUTOCOMPLETE | WIZMODECMD, NULL },
     { '.',    "wait", "停下, 什么都不做",
               donull, IFBURIED | CMD_M_PREFIX, "等待" },
     { 'W',    "wear", "穿上一件防具",
               dowear, 0, NULL },
-    { '&',    "whatdoes", "说明指令的作用",
+    { '&',    "whatdoes", "说明命令的作用",
               dowhatdoes, IFBURIED | GENERALCMD, NULL },
     { '/',    "whatis", "说明符号对应的事物",
               dowhatis, IFBURIED | GENERALCMD, NULL },
@@ -2090,7 +2090,7 @@ static const struct {
 } misc_keys[] = {
     { NHKF_ESC, "取消当前提示或待处理的前缀", FALSE },
     { NHKF_COUNT,
-      "前缀: 用于在指令前添加计数时表示数字", TRUE },
+      "前缀: 用于在命令前添加计数时表示数字", TRUE },
     { 0, (const char *) 0, FALSE }
 };
 
@@ -2345,9 +2345,9 @@ handler_rebind_keys_add(boolean keyfirst)
              MENU_ITEMFLAGS_NONE);
     }
     if (key)
-        Sprintf(buf, "将'%s'绑定到哪个指令?", key2txt(key, buf2));
+        Sprintf(buf, "将'%s'绑定到哪个命令?", key2txt(key, buf2));
     else
-        Sprintf(buf, "绑定什么指令?");
+        Sprintf(buf, "绑定什么命令?");
     end_menu(win, buf);
     npick = select_menu(win, PICK_ONE, &picks);
     destroy_nhwindow(win);
@@ -2370,7 +2370,7 @@ handler_rebind_keys_add(boolean keyfirst)
                 char querybuf[BUFSZ];
 
                 parambuf[0] = '\0';
-                Sprintf(querybuf, "指令%s需要一个参数:", ec->ef_txt);
+                Sprintf(querybuf, "命令%s需要一个参数:", ec->ef_txt);
                 getlin(querybuf, parambuf);
                 (void) mungspaces(parambuf);
                 Snprintf(cmdstr, BUFSZ-1, "%s(%s)", ec->ef_txt, parambuf);
@@ -2420,10 +2420,10 @@ handler_rebind_keys(void)
 
     any.a_int = 1;
     add_menu(win, &nul_glyphinfo, &any, '\0', 0, ATR_NONE, clr,
-             "将按键绑定到指令", MENU_ITEMFLAGS_NONE);
+             "将按键绑定到命令", MENU_ITEMFLAGS_NONE);
     any.a_int = 2;
     add_menu(win, &nul_glyphinfo, &any, '\0', 0, ATR_NONE, clr,
-             "将指令绑定到按键", MENU_ITEMFLAGS_NONE);
+             "将命令绑定到按键", MENU_ITEMFLAGS_NONE);
     if (count_bind_keys()) {
         any.a_int = 3;
         add_menu(win, &nul_glyphinfo, &any, '\0', 0, ATR_NONE, clr,
@@ -2478,7 +2478,7 @@ handler_change_autocompletions(void)
                  MENU_ITEMFLAGS_NONE);
     }
 
-    end_menu(win, "哪些指令自动补全?");
+    end_menu(win, "哪些命令自动补全?");
     n = select_menu(win, PICK_ANY, &picks);
     if (n >= 0) {
         int j;
@@ -2986,14 +2986,14 @@ dokeylist(void)
 
     if (keylist_putcmds(datawin, TRUE, GENERALCMD, IGNORECMD, keys_used)) {
         putstr(datawin, 0, "");
-        putstr(datawin, 0, "通用指令:");
+        putstr(datawin, 0, "通用命令:");
         (void) keylist_putcmds(datawin, FALSE, GENERALCMD,
                                IGNORECMD, keys_used);
     }
 
     if (keylist_putcmds(datawin, TRUE, 0, GENERALCMD | IGNORECMD, keys_used)) {
         putstr(datawin, 0, "");
-        putstr(datawin, 0, "游戏指令:");
+        putstr(datawin, 0, "游戏命令:");
         (void) keylist_putcmds(datawin, FALSE, 0,
                                GENERALCMD | IGNORECMD,
                                keys_used);
@@ -3002,7 +3002,7 @@ dokeylist(void)
     if (wizard && keylist_putcmds(datawin, TRUE,
                                   WIZMODECMD, INTERNALCMD, keys_used)) {
         putstr(datawin, 0, "");
-        putstr(datawin, 0, "调试模式指令:");
+        putstr(datawin, 0, "调试模式命令:");
         (void) keylist_putcmds(datawin, FALSE,
                                WIZMODECMD, INTERNALCMD, keys_used);
     }
@@ -3707,7 +3707,7 @@ rhack(int key)
                  */
                 if (was_m_prefix) {
                     custompline(SUPPRESS_HISTORY,
-                          "The %s指令'%s' prefix.",
+                          "The %s命令'%s' prefix.",
                           tlist->ef_txt, which);
                 } else {
                     uchar ch = tlist->key;
@@ -3715,7 +3715,7 @@ rhack(int key)
                             down = (ch == '>' || tlist->ef_funct == dodown);
 
                     pline(
-                "'%s'前缀后应跟随一个移动指令%s.",
+                "'%s'前缀后应跟随一个移动命令%s.",
                           which,
                           (up || down) ? "而不是向上或向下" : "");
                 }
@@ -3831,7 +3831,7 @@ rhack(int key)
     }
 
     if (bad_command) {
-        custompline(SUPPRESS_HISTORY, "未知指令'%s'.", visctrl(key));
+        custompline(SUPPRESS_HISTORY, "未知命令'%s'.", visctrl(key));
         cmdq_clear(CQ_CANNED);
         cmdq_clear(CQ_REPEAT);
         iflags.sanity_no_check = iflags.sanity_check; /* skip sanity check */
@@ -4235,7 +4235,7 @@ help_dir(
         putstr(win, 0, buf);
         putstr(win, 0, "");
     } else if (msg) {
-        Sprintf(buf, "指令助手: %s", msg);
+        Sprintf(buf, "命令助手: %s", msg);
         putstr(win, 0, buf);
         putstr(win, 0, "");
     }

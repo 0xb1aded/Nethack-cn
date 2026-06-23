@@ -2709,7 +2709,7 @@ dowhatdoes(void)
 #if defined(UNIX) || defined(VMS)
     introff(); /* disables ^C but not ^\ */
 #endif
-    q = yn_function("什么指令?", (char *) 0, '\0', TRUE);
+    q = yn_function("什么命令?", (char *) 0, '\0', TRUE);
 #ifdef ALTMETA
     if (q == '\033' && iflags.altmeta) {
         /* in an ideal world, we would know whether another keystroke
@@ -2872,24 +2872,24 @@ static const struct {
     const char *text;
 } help_menu_items[] = {
     { hmenu_doextversion, "关于NetHack(版本信息)." },
-    { dispfile_help, "游戏及指令的详细说明." },
-    { dispfile_shelp, "游戏指令列表." },
+    { dispfile_help, "游戏及命令的详细说明." },
+    { dispfile_shelp, "游戏命令列表." },
     { hmenu_dohistory, "NetHack的简要历史." },
     { hmenu_dowhatis, "游戏中现实的某个特定符号的信息." },
     { hmenu_dowhatdoes, "某个特定按键的功能说明." },
     { option_help, "游戏选项列表." },
     { dispfile_optionfile, "L游戏选项的详细说明." },
     { dispfile_optmenu, "使用%s命令设置选项." },
-    { dokeylist, "键盘指令完整列表." },
-    { hmenu_doextlist, "扩展指令列表." },
+    { dokeylist, "键盘命令完整列表." },
+    { hmenu_doextlist, "扩展命令列表." },
     { domenucontrols, "菜单控制键列表." },
     { dispfile_usagehelp, "NetHack命令行介绍." },
     { dispfile_license, "NetHack许可协议." },
     { docontact, "支持信息." },
 #ifdef PORT_HELP
-    { port_help, "和%s有关的帮助和指令." },
+    { port_help, "和%s有关的帮助和命令." },
 #endif
-    { dispfile_debughelp, "巫师模式指令列表." },
+    { dispfile_debughelp, "巫师模式命令列表." },
     { (void (*)(void)) 0, (char *) 0 }
 };
 
