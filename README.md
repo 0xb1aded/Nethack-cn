@@ -19,7 +19,7 @@ English README：[README_en.md](README_en.md)
 - [x] 跨平台前端：**[直接启动浏览器版](https://stackc00ki3.github.io/nethack-3d/)** 仓库：[nethack-3d](https://github.com/StackC00ki3/nethack-3d)
 - [x] 安卓版：**[点我下载apk](https://github.com/StackC00ki3/ANetHack-cn/releases)** 仓库：[Anethack-cn](https://github.com/StackC00ki3/ANetHack-cn)
 - [x] 中文输入
-- [ ] 许愿机制
+- [x] 许愿机制 (仍需测试)
 - [ ] 灭绝机制
 - [ ] 跨层传送机制
 
@@ -69,138 +69,138 @@ English README：[README_en.md](README_en.md)
 - [x] bones.c
 - [ ] botl.c
 - [x] calendar.c
-- [ ] cfgfiles.c
-- [ ] cmd.c
+- [x] cfgfiles.c
+- [x] cmd.c
 - [x] coloratt.c
 - [x] date.c
-- [ ] dbridge.c
-- [ ] decl.c
-- [ ] detect.c
-- [ ] dig.c
+- [x] dbridge.c
+- [x] decl.c
+- [x] detect.c
+- [x] dig.c
 - [x] display.c (无需翻译)
 - [x] dlb.c (无需翻译)
-- [ ] do.c
+- [x] do.c
 - [x] dog.c
-- [ ] dogmove.c
+- [x] dogmove.c
 - [x] dokick.c
-- [ ] dothrow.c
-- [ ] do_name.c
-- [ ] do_wear.c
-- [ ] drawing.c
-- [ ] dungeon.c
+- [x] dothrow.c
+- [x] do_name.c
+- [x] do_wear.c
+- [x] drawing.c
+- [x] dungeon.c
 - [x] earlyarg.c (无需翻译)
-- [ ] eat.c
-- [ ] end.c
-- [ ] engrave.c
-- [ ] exper.c
-- [ ] explode.c
+- [x] eat.c
+- [x] end.c
+- [x] engrave.c
+- [x] exper.c
+- [x] explode.c
 - [x] extralev.c (无需翻译)
 - [x] files.c (无需翻译)
-- [ ] fountain.c
-- [ ] getpos.c
-- [ ] glyphs.c
-- [ ] hack.c
+- [x] fountain.c
+- [x] getpos.c
+- [x] glyphs.c
+- [x] hack.c
 - [x] hacklib.c (无需翻译)
-- [ ] iactions.c
-- [ ] insight.c
-- [ ] invent.c
+- [x] iactions.c
+- [x] insight.c
+- [x] invent.c
 - [x] isaac64.c (无需翻译)
-- [ ] light.c
-- [ ] lock.c
-- [ ] mail.c
-- [ ] makemon.c
-- [ ] mcastu.c
-- [ ] mdlib.c
-- [ ] mhitm.c
-- [ ] mhitu.c
-- [ ] minion.c
-- [ ] mklev.c
-- [ ] mkmap.c
-- [ ] mkmaze.c
-- [ ] mkobj.c
-- [ ] mkroom.c
-- [ ] mon.c
-- [ ] mondata.c
-- [ ] monmove.c
-- [ ] monst.c
-- [ ] mplayer.c
-- [ ] mthrowu.c
-- [ ] muse.c
-- [ ] music.c
+- [x] light.c
+- [x] lock.c
+- [x] mail.c
+- [x] makemon.c
+- [x] mcastu.c
+- [x] mdlib.c
+- [x] mhitm.c
+- [x] mhitu.c
+- [x] minion.c
+- [x] mklev.c
+- [x] mkmap.c
+- [x] mkmaze.c
+- [x] mkobj.c
+- [x] mkroom.c
+- [x] mon.c
+- [x] mondata.c
+- [x] monmove.c
+- [x] monst.c
+- [x] mplayer.c
+- [x] mthrowu.c
+- [x] muse.c
+- [x] music.c
 - [x] nhlobj.c (无需翻译)
 - [x] nhlsel.c (无需翻译)
 - [x] nhlua.c (无需翻译)
-- [ ] nhmd4.c
-- [ ] objects.c
-- [ ] objnam.c
-- [ ] options.c
-- [ ] o_init.c
-- [ ] pager.c
-- [ ] pickup.c
-- [ ] pline.c
-- [ ] polyself.c
-- [ ] potion.c
-- [ ] pray.c
-- [ ] priest.c
-- [ ] quest.c
-- [ ] questpgr.c
-- [ ] read.c
+- [x] nhmd4.c
+- [x] objects.c
+- [x] objnam.c
+- [x] options.c
+- [x] o_init.c
+- [x] pager.c
+- [x] pickup.c
+- [x] pline.c
+- [x] polyself.c
+- [x] potion.c
+- [x] pray.c
+- [x] priest.c
+- [x] quest.c
+- [x] questpgr.c
+- [x] read.c
 - [x] rect.c (无需翻译)
-- [ ] region.c
-- [ ] report.c
-- [ ] restore.c
-- [ ] rip.c
+- [x] region.c
+- [x] report.c
+- [x] restore.c
+- [x] rip.c
 - [x] rnd.c (无需翻译)
-- [ ] role.c
-- [ ] rumors.c
-- [ ] save.c
+- [x] role.c
+- [x] rumors.c
+- [x] save.c
 - [x] selvar.c (无需翻译)
 - [x] sfbase.c (无需翻译)
 - [x] sfstruct.c (无需翻译)
-- [ ] shk.c
-- [ ] shknam.c
-- [ ] sit.c
-- [ ] sounds.c
-- [ ] spell.c
+- [x] shk.c
+- [x] shknam.c
+- [x] sit.c
+- [x] sounds.c
+- [x] spell.c
 - [x] sp_lev.c (无需翻译)
-- [ ] stairs.c
-- [ ] steal.c
-- [ ] steed.c
-- [ ] strutil.c
+- [x] stairs.c
+- [x] steal.c
+- [x] steed.c
+- [x] strutil.c
 - [x] symbols.c (无需翻译)
 - [x] sys.c (无需翻译)
-- [ ] teleport.c
-- [ ] tile.c
-- [ ] timeout.c
-- [ ] topten.c
+- [x] teleport.c
+- [x] tile.c
+- [x] timeout.c
+- [x] topten.c
 - [x] track.c (无需翻译)
-- [ ] trap.c
-- [ ] uhitm.c
+- [x] trap.c
+- [x] uhitm.c
 - [x] utf8map.c (无需翻译)
 - [x] u_init.c (无需翻译)
-- [ ] vault.c
+- [x] vault.c
 - [x] version.c (无需翻译)
 - [x] vision.c (无需翻译)
-- [ ] weapon.c
-- [ ] were.c
-- [ ] wield.c
-- [ ] windows.c
-- [ ] wizard.c
-- [ ] wizcmds.c
-- [ ] worm.c
-- [ ] worn.c
-- [ ] write.c
-- [ ] zap.c
+- [x] weapon.c
+- [x] were.c
+- [x] wield.c
+- [x] windows.c
+- [x] wizard.c
+- [x] wizcmds.c
+- [x] worm.c
+- [x] worn.c
+- [x] write.c
+- [x] zap.c
 
 ##### 文本文件(主要的几个，还有好多)
 
-- [ ] bogusmon.txt
-- [ ] dungeon.lua
+- [x] bogusmon.txt
+- [x] dungeon.lua
 - [ ] engrave.txt
-- [ ] epitaph.txt
-- [ ] oracles.txt
-- [ ] rumors.fal
-- [ ] rumors.tru
+- [x] epitaph.txt
+- [x] oracles.txt
+- [x] rumors.fal
+- [x] rumors.tru
 - [ ] tribute
 - [ ] quest.lua
 - [ ] optlist.h
@@ -299,7 +299,7 @@ English README：[README_en.md](README_en.md)
 
 **处理方案**: 只返回一个不带“的”的实词，使用时请在后面加上“的光芒”。
 
-##### objdescr_is(struct obj \*obj, const char \*descr) 
+##### objdescr_is(struct obj \*obj, const char \*descr)
 
 位置: [o_init.c](src\o_init.c)
 
