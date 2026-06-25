@@ -338,10 +338,10 @@ ghitm(struct monst *mtmp, struct obj *gold)
                 SetVoice(mtmp, 0, 80, 0);
                 if (mtmp->mpeaceful) {
                     ESHK(mtmp)->credit += value;
-                    You("获得了 %ld %s的信用.", ESHK(mtmp)->credit,
+                    You("获得了%ld %s的信用.", ESHK(mtmp)->credit,
                         currency(ESHK(mtmp)->credit));
                 } else
-                    verbalize("谢谢, 人渣！");
+                    verbalize("谢谢, 人渣!");
             }
         } else if (mtmp->ispriest) {
             SetVoice(mtmp, 0, 80, 0);
@@ -1123,7 +1123,7 @@ kick_nondoor(coordxy x, coordxy y, int avrg_attrib)
                 /* [feel this happen if Deaf?] */
                 pline("咔嚓! %s碎了!", Something);
             } else {
-                pline_The("墓碑倒向一旁，摔得粉碎!");
+                pline_The("墓碑倒向一旁, 摔得粉碎!");
                 newsym(x, y);
             }
         }
