@@ -2364,7 +2364,7 @@ mkgrave(struct mkroom *croom)
         return;
 
     /* Put a grave at <m.x,m.y> */
-    make_grave(m.x, m.y, dobell ? "解铃还须系铃人!" : (char *) 0);
+    make_grave(m.x, m.y, dobell ? "摇铃得救!" : (char *) 0);
 
     /* Possibly fill it with objects */
     if (!rn2(3)) {

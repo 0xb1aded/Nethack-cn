@@ -2265,7 +2265,7 @@ dopray(void)
     if (gp.p_type == 3 && !Inhell) {
         /* if you've been true to your god you can't die while you pray */
         if (!Blind)
-            You("被微弱的光所环绕.");
+            You("被一圈闪光所环绕.");
         u.uinvulnerable = TRUE;
     }
 

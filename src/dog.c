@@ -835,7 +835,7 @@ keepdogs(
                 stay_behind = TRUE;
             } else if (mon_has_amulet(mtmp)) {
                 if (canseemon(mtmp))
-                    pline("%s 似乎一时迷失了方向。",
+                    pline("%s看上去迷失了一刹那.",
                           Monnam(mtmp));
                 stay_behind = TRUE;
             }

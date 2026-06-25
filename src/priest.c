@@ -531,7 +531,7 @@ intemple(int roomno)
             if (flags.verbose)
                 You("害怕得要死, 无法移动.");
             nomul(-3);
-            gm.multi_reason = "被幽灵惊吓";
+            gm.multi_reason = "被幽灵恐吓";
             gn.nomovemsg = "你重新镇定下来.";
         }
     }

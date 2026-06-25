@@ -5884,7 +5884,7 @@ untrap(
         autounlock_door = TRUE;
     }
     if (!isok(x, y)) {
-        pline_The("潜伏在那里的危险超出了你的掌握范围.");
+        pline_The("潜伏在那里的危险超出了你的掌握.");
         return 0;
     }
 
