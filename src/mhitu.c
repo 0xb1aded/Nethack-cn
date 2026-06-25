@@ -225,7 +225,7 @@ wildmiss(struct monst *mtmp, struct attack *mattk)
             case 2:
                 pline("%s攻击了%s!", Monst_name,
                       is_waterwall(mtmp->mux,mtmp->muy)
-                        ? "空水"
+                        ? "水"
                         : "空气");
                 break;
             default:
@@ -1606,7 +1606,7 @@ explmu(
     if (!ufound) {
         pline("%s在%s中爆炸了!",
               canseemon(mtmp) ? Monnam(mtmp) : "它",
-              is_waterwall(mtmp->mux,mtmp->muy) ? "空水"
+              is_waterwall(mtmp->mux,mtmp->muy) ? "水"
                                                 : "空气");
     } else {
         hitmsg(mtmp, mattk);

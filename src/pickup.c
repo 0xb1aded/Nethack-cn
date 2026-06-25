@@ -1686,7 +1686,7 @@ carry_count(struct obj *obj,            /* object to pick up... */
     }
 
     if (!container)
-        Strcpy(where, "在这儿"); /* slightly shorter form */
+        Strcpy(where, "在这里"); /* slightly shorter form */
     if (gi.invent || umoney) {
         prefx1 = "你一点也";
         prefx2 = "";
@@ -1731,7 +1731,7 @@ lift_object(
            [this was using simpleonames(obj) for shortest description, but
            that's suboptimal for loadstones because it omits user-assigned
            type name which is something of interest for gray stones] */
-        You("携带了太多的东西, 不能再拾取%s%s.",
+        You("携带的物品太多, 不能再拾取%s%s.",
             (obj->quan == 1L) ? "另一个" : "更多的", xname(obj));
         return -1;
     }

@@ -1897,7 +1897,7 @@ seffect_fire(struct obj **sobjp)
             pline("你想把爆炸的中心放在哪里?");
             getpos_sethilite(display_stinking_cloud_positions,
                              can_center_cloud);
-            (void) getpos(&cc, TRUE, "想要的爆炸中心");
+            (void) getpos(&cc, TRUE, "目标位置");
             if (!can_center_cloud(cc.x, cc.y)) {
                 /* try to reach too far, get burned */
                 cc.x = u.ux;
@@ -3088,7 +3088,7 @@ do_stinking_cloud(struct obj *sobj, boolean mention_stinking)
     cc.x = u.ux;
     cc.y = u.uy;
     getpos_sethilite(display_stinking_cloud_positions, can_center_cloud);
-    if (getpos(&cc, TRUE, "想要的臭云中心") < 0) {
+    if (getpos(&cc, TRUE, "目标位置") < 0) {
         pline1(Never_mind);
         return;
     } else if (!can_center_cloud(cc.x, cc.y)) {

@@ -978,7 +978,7 @@ polymon(int mntmp)
         if (u.utraptype == TT_INFLOOR) {
             pline_The("岩石似乎不再困住你了.");
         } else {
-            pline_The("掩埋的球不再束缚你了.");
+            pline_The("埋着的球不再束缚你了.");
             buried_ball_to_freedom();
         }
         reset_utrap(TRUE);
@@ -993,7 +993,7 @@ polymon(int mntmp)
             You("滑脱出了铁链.");
             unpunish();
         } else if (u.utrap && u.utraptype == TT_BURIEDBALL) {
-            You("滑脱出了掩埋的球和链.");
+            You("滑脱出了埋着的球和链.");
             buried_ball_to_freedom();
         }
     }

@@ -2691,7 +2691,7 @@ trapeffect_rolling_boulder_trap(
             if (in_sight)
                 pline_mon(mtmp, "%s%s触发了%s.",
                       !Deaf ? "咔哒! " : "", Monnam(mtmp),
-                      trap->tseen ? "一个滚石陷阱" : something);
+                      trap->tseen ? "一个滚石陷阱" : "什么东西"); /*修改语序:something*/
             if (launch_obj(BOULDER, trap->launch.x, trap->launch.y,
                            trap->launch2.x, trap->launch2.y, style)) {
                 if (in_sight)

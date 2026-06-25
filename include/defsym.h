@@ -467,7 +467,7 @@
     OBJCLASS( 7,  '%', FOOD,   S_food, "food", "食物")
     OBJCLASS( 8,  '!', POTION, S_potion, "potions", "药水")
     OBJCLASS( 9,  '?', SCROLL, S_scroll, "scrolls", "卷轴")
-    OBJCLASS(10,  '+', SPBOOK, S_book, "spellbooks", "法术书")
+    OBJCLASS(10,  '+', SPBOOK, S_book, "spellbooks", "魔法书")
     OBJCLASS(11,  '/', WAND,   S_wand, "wands", "魔杖")
     OBJCLASS2(12, '$', COIN,   GOLD_SYM, S_coin, "coins", "一堆金币")
     OBJCLASS(13,  '*', GEM,    S_gem, "rocks", "宝石或岩石")

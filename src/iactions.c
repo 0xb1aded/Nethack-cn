@@ -116,7 +116,7 @@ item_reading_classification(struct obj *obj, char *outbuf)
         Sprintf(outbuf, "%s这本%s",
                 (novel || blank) ? "阅读" : tome ? "审视" : "研读",
                 novel ? simpleonames(obj) /* "novel" or "paperback book" */
-                      : tome ? "典籍" : "法术书");
+                      : tome ? "典籍" : "魔法书");
     } else {
         res = IA_NONE;
     }

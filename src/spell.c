@@ -1670,7 +1670,7 @@ throwspell(void)
     cc.y = u.uy;
     getpos_sethilite(display_spell_target_positions,
                      can_center_spell_location);
-    if (getpos(&cc, TRUE, "想要施放的位置") < 0)
+    if (getpos(&cc, TRUE, "目标位置") < 0)
         return 0; /* user pressed ESC */
     clear_nhwindow(WIN_MESSAGE); /* discard any autodescribe feedback */
 

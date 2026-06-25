@@ -273,7 +273,7 @@ mount_steed(
         if (Punished || !(u.uswallow || u.ustuck || u.utrap))
             You("挪不动你的%s.", body_part(LEG));
         else
-            You("暂时被困在这儿.");
+            You("暂时被困在这里.");
         return (FALSE);
     }
 

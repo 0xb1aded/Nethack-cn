@@ -912,7 +912,7 @@ from_what(
      * Restrict the source of the attributes just to debug mode for now
      */
     if (wizard) {
-        static NEARDATA const char because_of[] = ",因为%s";
+        static NEARDATA const char because_of[] = ", 因为%s";
 
         if (propidx >= 0) {
             char *p;
