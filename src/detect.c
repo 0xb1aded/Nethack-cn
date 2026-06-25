@@ -1223,7 +1223,7 @@ use_crystal_ball(struct obj **optr)
             pline("%s难理解了!", Tobjnam(obj, "太"));
             break;
         case 2:
-            pline("%s了你！", Tobjnam(obj, "迷惑"));
+            pline("%s了你!", Tobjnam(obj, "迷惑"));
             make_confused((HConfusion & TIMEOUT) + impair, FALSE);
             break;
         case 3:
@@ -1909,7 +1909,7 @@ openit(void)
             if (Blind)
                 pline("它的嘴张开了!");
             else
-                pline("%s张开了它的嘴！", Monnam(u.ustuck));
+                pline("%s张开了它的嘴!", Monnam(u.ustuck));
 #if 0   /* expels() will take care of this */
         } else if (enfolds(u.ustuck->data)) {
             /* trapper or lurker above */

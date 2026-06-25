@@ -3421,7 +3421,7 @@ get_table_int_or_random(lua_State *L, const char *name, int rndval)
             lua_pop(L, 1);
             return rndval;
         }
-        Sprintf(buf, "期望整数或\"random\"用于\"%s\"，却得到 ", name);
+        Sprintf(buf, "期望整数或\"random\"用于\"%s\", 却得到 ", name);
         if (tmp)
             Sprintf(eos(buf), "\"%s\"", tmp);
         else

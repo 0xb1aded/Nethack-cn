@@ -672,7 +672,7 @@ disclose(int how, boolean taken)
         if (should_query_disclose_option('c', &defquery)) {
             int acnt = count_achievements();
 
-            Sprintf(qbuf, "你想查看你达成的挑战%s吗？",
+            Sprintf(qbuf, "你想查看你达成的挑战%s吗?",
                     /* this was distinguishing between one achievement and
                        multiple achievements, but "conduct and achievement"
                        looked strange if multiple conducts got shown (which

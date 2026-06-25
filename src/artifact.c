@@ -1655,7 +1655,7 @@ artifact_hit(
                 pline(ROLL_FROM(behead_msg), wepdesc,
                       mon_nam(mdef));
                 if (Hallucination && !flags.female)
-                    pline("干得好, 亨利, 但那不是安妮.");
+                    pline("干得好, 亨利, 但那不是安妮."); /*译者注:亨利八世和安妮·博林*/
                 observe_object(otmp);
                 return TRUE;
             } else {
