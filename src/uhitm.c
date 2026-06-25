@@ -2890,7 +2890,7 @@ mhitm_ad_tlpt(
             You("未受影响.");
         } else {
             if (flags.verbose)
-                Your("你的位置突然变得%s不确定!",
+                Your("位置突然变得%s不确定!",
                      (Teleport_control && !Stunned && !unconscious()) ? ""
                      : "非常");
             tele();

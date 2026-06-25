@@ -4782,7 +4782,7 @@ water_damage(
 #endif
            ) return 0;
         if (in_invent)
-            Your("你的%s%s.", ostr, vtense(ostr, "洇了"));
+            Your("%s%s.", ostr, vtense(ostr, "洇了"));
 
         obj->otyp = SCR_BLANK_PAPER;
         obj->dknown = 0;

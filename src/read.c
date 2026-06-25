@@ -1429,7 +1429,7 @@ seffect_confuse_monster(struct obj **sobjp)
             if (altfeedback)
                 Your("%s%s发麻.", hands, u.umconf ? "更加" : "开始");
             else if (!u.umconf)
-                Your("你的%s开始发出%s光.", hands, hcolor(NH_RED));
+                Your("%s开始发出%s光.", hands, hcolor(NH_RED));
             else
                 pline_The("%s的%s光增强了.", hcolor(NH_RED),
                           hands);

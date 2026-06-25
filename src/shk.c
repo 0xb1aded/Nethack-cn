@@ -1980,7 +1980,7 @@ dopay(void)
                 eshkp->credit -= dtmp;
                 eshkp->debit = 0L;
                 eshkp->loan = 0L;
-                Your("你的信用已抵消负债.");
+                Your("信用已抵消负债.");
             } else if (!eshkp->credit) {
                 money2mon(shkp, dtmp);
                 eshkp->debit = 0L;
@@ -5776,7 +5776,7 @@ costly_gold(
         delta = amount - eshkp->credit;
         if (!silent) {
             if (eshkp->credit)
-                Your("你的信用被抹除了.");
+                Your("信用被抹除了.");
             if (eshkp->debit)
                 Your("欠款增加了%ld %s.", delta, currency(delta));
             else
@@ -6058,7 +6058,7 @@ globby_bill_fixup(struct obj *obj_absorber, struct obj *obj_absorbed)
                 if (eshkp->debit) {
                     eshkp->debit = 0L;
                     eshkp->loan = 0L;
-                    Your("你的负债还清了.");
+                    Your("负债还清了.");
                 }
                 if (eshkp->credit == delta)
                     pline_The("%s存储了%ld %s的信用.",

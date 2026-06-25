@@ -708,7 +708,7 @@ peffect_hallucination(struct obj *otmp)
         You("感知着你自己...");
         display_nhwindow(WIN_MESSAGE, FALSE);
         enlightenment(MAGICENLIGHTENMENT, ENL_GAMEINPROGRESS);
-        Your("你的意识恢复正常了.");
+        Your("意识恢复正常了.");
         exercise(A_WIS, TRUE);
     }
 }
