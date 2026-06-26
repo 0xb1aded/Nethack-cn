@@ -2458,7 +2458,7 @@ doputon(void)
     if (uleft && uright && uamul && ublindf
         && uarm && uarmu && uarmc && uarmh && uarms && uarmg && uarmf) {
         /* 'P' message doesn't mention armor */
-        Your("你没有空的%s了, 而且你已经戴上了护身符和%s.",
+        You("没有空的%s了, 而且你已经戴上了护身符和%s.", /*换pline:Your*/
              humanoid(gy.youmonst.data) ? "无名指" :
              fingers_or_gloves(FALSE), /*危险,修改语序:同上*/
              (ublindf->otyp == LENSES) ? "眼镜" : "眼罩");
