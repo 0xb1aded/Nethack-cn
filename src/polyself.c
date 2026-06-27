@@ -1278,7 +1278,7 @@ break_armor(void)
             if (is_whirly(uptr))
                 Your("靴子掉了下来!");
             else
-                Your("靴子从%s的双脚上%s!",
+                Your("靴子从双脚上%s!",
                      verysmall(uptr) ? "滑出" : "被蹬开");
             (void) Boots_off();
             dropp(otmp);
