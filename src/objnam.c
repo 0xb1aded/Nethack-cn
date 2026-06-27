@@ -608,7 +608,7 @@ fruitname(
     else
         fruit_nam = svp.pl_fruit; /* use it as is */
 
-    Sprintf(buf, "%s%s", makesingular(fruit_nam), juice ? " 汁" : "");
+    Sprintf(buf, "%s%s", makesingular(fruit_nam), juice ? "汁" : "");
     return buf;
 }
 
