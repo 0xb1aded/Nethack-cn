@@ -2628,12 +2628,13 @@ corpse_xname(
     /* it's safe to overwrite our nambuf[] after an() has copied its
        old value into another buffer; and once _that_ has been copied,
        the obuf[] returned by an() can be made available for re-use */
+    /* 冗余:应该不用1 XX尸体
     if (any_prefix) {
         char *obufp;
 
         Strcpy(nambuf, obufp = one(nambuf));
         releaseobuf(obufp);
-    }
+    }*/
 
     if (glob) {
         ; /* omit_corpse doesn't apply; quantity is always 1 */
