@@ -863,7 +863,7 @@ scrolltele(struct obj *scroll)
             Strcpy(whobuf, "你");
             if (u.usteed)
                 Sprintf(eos(whobuf), "和%s", mon_nam(u.usteed));
-            pline("想%s传送到哪里?", whobuf);
+            pline("想把%s传送到哪里?", whobuf);
             if (scroll)
                 learnscroll(scroll);
             cc.x = u.ux;
