@@ -913,7 +913,7 @@ doengrave_ctx_verb(struct _doengrave_ctx *de)
     case BURN:
         de->everb = de->adding ? (de->frosted ? "的融化的文字上加几笔"
                                   : "的烧进去的文字上加几笔")
-                       : (de->frosted ? "融化" : "烧进");
+                       : (de->frosted ? "上融化出文字" : "上烧出文字");
         break;
     case MARK:
         de->everb = de->adding ? "的涂鸦上加几笔" : "上涂鸦";
