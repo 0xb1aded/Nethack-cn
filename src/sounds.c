@@ -164,7 +164,7 @@ temple_priest_sound(struct monst *mtmp)
                 continue;
             break; /* msg is acceptable */
         } while (++trycount < 50);
-        while (!letter(*msg))
+        while (!letter1(*msg))
             ++msg; /* skip control flags */
         if (strchr(msg, '%')) {
             DISABLE_WARNING_FORMAT_NONLITERAL
