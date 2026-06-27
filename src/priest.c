@@ -355,14 +355,14 @@ priestname(
             Strcat(pname, "高级");
     }
 
-    Strcat(pname, what);
     /* same as distant_monnam(), more or less... */
     if (do_hallu || !high_priest || reveal_high_priest
         || !Is_astralevel(&u.uz)
         || m_next2u(mon) || program_state.gameover) {
-        Strcat(pname, " 的 ");
         Strcat(pname, halu_gname(mon_aligntyp(mon)));
+        Strcat(pname, "的");
     }
+    Strcat(pname, what); /*修改语序:放到了后面*/
     return pname;
 }
 
