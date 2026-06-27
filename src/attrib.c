@@ -586,11 +586,11 @@ exerper(void)
 /* exercise/abuse text (must be in attribute order, not botl order);
    phrased as "You must have been [][0]." or "You haven't been [][1]." */
 static NEARDATA const char *const exertext[A_MAX][2] = {
-    { "在努力地锻炼", "适当的锻炼" },           /* Str */
+    { "在努力地锻炼", "适当锻炼" },           /* Str */
     { 0, 0 },                                                     /* Int */
     { "非常细心", "用心" },                     /* Wis */
-    { "在练习你的反应能力", "在最近练习反应能力" }, /* Dex */
-    { "在以一个健康的生活方式过着", "注意你的健康" },   /* Con */
+    { "在练习你的反应能力", "练习反应能力" }, /* Dex */
+    { "在过着一个健康的生活方式", "注意你的健康" },   /* Con */
     { 0, 0 },                                                     /* Cha */
 };
 
@@ -661,8 +661,8 @@ exerchk(void)
                 /* if you actually changed an attrib - zero accumulation */
                 AEXE(i) = ax = 0;
                 /* then print an explanation */
-                You("%s %s.",
-                    (mod_val > 0) ? "一定" : "没有",
+                You("%s%s.",
+                    (mod_val > 0) ? "一定" : "最近没有",
                     exertext[i][(mod_val > 0) ? 0 : 1]);
             }
  nextattrib:
