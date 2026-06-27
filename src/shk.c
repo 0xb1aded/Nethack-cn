@@ -3568,9 +3568,9 @@ addtobill(
         } else {
             long save_quan = obj->quan;
 
-            Strcpy(buf, "\"你");
+            Strcpy(buf, "\"");
             if (ANGRY(shkp)) {
-                Strcat(buf, "个败类, ");
+                Strcat(buf, "你个败类, ");
             } else if (!ESHK(shkp)->surcharge) {
                 Strcat(buf, "");
                 append_honorific(buf);
@@ -3578,7 +3578,7 @@ addtobill(
             }
             obj->quan = 1L; /* fool xname() into giving singular */
             set_voice(shkp, 0, 80, 0);
-            pline("%s需要为%s%s%s支付%ld %s. \"", buf, (save_quan > 1L) ? "每个"
+            pline("%s, 你需要为%s%s%s支付%ld %s. \"", buf, (save_quan > 1L) ? "每个"
                                    : (contentscount && !obj->unpaid)
                                        ? "这个"
                                        : "这个",
