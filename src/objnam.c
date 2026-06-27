@@ -916,7 +916,7 @@ xname_flags(
         ConcUpdate(buf);
 
         if (typ == FIGURINE && omndx != NON_PM) {
-            char anbuf[10]; /* [4] would be enough: 'a','n',' ','\0' */
+            /*冗余:char anbuf[10];*/ /* [4] would be enough: 'a','n',' ','\0' */
             const char *pm_name = obj_pmname(obj);
 
             Sprintf(buf, "%s的%s", pm_name, actualn); /*危险:ConcatF2(buf, 0, " of %s%s", just_an(anbuf, pm_name), pm_name);*/
@@ -1008,7 +1008,7 @@ xname_flags(
         break;
     case ROCK_CLASS:
         if (typ == STATUE && omndx != NON_PM) {
-            char anbuf[10];
+            /*冗余:char anbuf[10];*/
             const char *statue_pmname = obj_pmname(obj);
 
             Snprintf(buf, bufspaceleft, "%s%s%s的%s",
@@ -2369,11 +2369,15 @@ doname_base(
             Concat(bp, 0, " (已装备)");
         } else {
             const char *hand_s = body_part(HAND);
-            char *obufp, handsbuf[40];
+            char /*冗余:*obufp,*/ handsbuf[40];
 
             if (bimanual(obj)) { /* "hands" */
+                /*危险,冗余:
                 hand_s = strcpy(handsbuf, obufp = makeplural(hand_s));
                 releaseobuf(obufp);
+                */
+                Sprintf(handsbuf, "双%s", hand_s); /*是不是很危险?我也觉得*/
+                hand_s = handsbuf;
             } else { /* "right hand" or "left hand" */
                 Sprintf(handsbuf, "%s%s",
                         URIGHTY ? "右" : "左", hand_s);
@@ -9770,7 +9774,7 @@ suit_simple_name(struct obj *suit)
             return "龙鳞";
         suitnm = OBJ_NAME(objects[suit->otyp]);
         esuitp = eos((char *) suitnm);
-        if (strlen(suitnm) > 5 && !strcmp(esuitp - 5, " mail" || !strcmp(esuitp - strlen("甲"), "甲")))
+        if (strlen(suitnm) > 5 && (!strcmp(esuitp - 5, " mail") || !strcmp(esuitp - strlen("甲"), "甲")))
             return "护甲"; /* most suits fall into this category */
         else if (strlen(suitnm) > 7 && (!strcmp(esuitp - 7, " jacket") || !strcmp(esuitp - strlen("夹克"), "夹克")))
             return "夹克"; /* leather jacket */
