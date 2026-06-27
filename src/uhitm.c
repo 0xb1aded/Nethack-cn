@@ -2159,7 +2159,7 @@ theft_petrifies(struct obj *otmp)
 #endif
 
     /* stealing this corpse is fatal... */
-    instapetrify(corpse_xname(otmp, "偷窃", CXN_ARTICLE));
+    instapetrify(corpse_xname(otmp, "偷来的", CXN_ARTICLE));
     /* apparently wasn't fatal after all... */
     return TRUE;
 }

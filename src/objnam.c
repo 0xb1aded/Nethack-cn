@@ -2610,9 +2610,9 @@ corpse_xname(
     } else {
         /* adjective positioning depends upon format of monster name */
         if (possessive) /* Medusa's cursed partly eaten corpse */
-            Sprintf(eos(nambuf), "%s的%s", mnam, adjective);
+            Sprintf(eos(nambuf), "%s%s", mnam, adjective);
         else /* cursed partly eaten troll corpse */
-            Sprintf(eos(nambuf), "%s的%s", adjective, mnam);
+            Sprintf(eos(nambuf), "%s%s", adjective, mnam);
         /* in case adjective has a trailing space, squeeze it out */
         mungspaces(nambuf);
         /* doname() might include a count in the adjective argument;
@@ -9765,18 +9765,18 @@ suit_simple_name(struct obj *suit)
 
     if (suit) {
         if (Is_dragon_mail(suit))
-            return "dragon mail"; /* <color> dragon scale mail */
+            return "龙鳞甲"; /* <color> dragon scale mail */
         else if (Is_dragon_scales(suit))
-            return "dragon scales";
+            return "龙鳞";
         suitnm = OBJ_NAME(objects[suit->otyp]);
         esuitp = eos((char *) suitnm);
-        if (strlen(suitnm) > 5 && !strcmp(esuitp - 5, " mail"))
-            return "mail"; /* most suits fall into this category */
-        else if (strlen(suitnm) > 7 && !strcmp(esuitp - 7, " jacket"))
-            return "jacket"; /* leather jacket */
+        if (strlen(suitnm) > 5 && !strcmp(esuitp - 5, " mail" || !strcmp(esuitp - strlen("甲"), "甲")))
+            return "护甲"; /* most suits fall into this category */
+        else if (strlen(suitnm) > 7 && (!strcmp(esuitp - 7, " jacket") || !strcmp(esuitp - strlen("夹克"), "夹克")))
+            return "夹克"; /* leather jacket */
     }
     /* "suit" is lame but "armor" is ambiguous and "body armor" is absurd */
-    return "suit";
+    return "套装";
 }
 
 const char *
@@ -9785,18 +9785,18 @@ cloak_simple_name(struct obj *cloak)
     if (cloak) {
         switch (cloak->otyp) {
         case ROBE:
-            return "robe";
+            return "长袍";
         case MUMMY_WRAPPING:
-            return "wrapping";
+            return "绷带";
         case ALCHEMY_SMOCK:
             return (objects[cloak->otyp].oc_name_known && cloak->dknown)
-                       ? "smock"
-                       : "apron";
+                       ? "罩衫"
+                       : "围裙";
         default:
             break;
         }
     }
-    return "cloak";
+    return "斗篷";
 }
 
 /* helm vs hat for messages */
@@ -9841,7 +9841,7 @@ gloves_simple_name(struct obj *gloves)
 const char *
 boots_simple_name(struct obj *boots)
 {
-    static const char shoes[] = "shoes";
+    static const char shoes[] = "鞋子";
 
     if (boots && boots->dknown) {
         int otyp = boots->otyp;
@@ -9853,7 +9853,7 @@ boots_simple_name(struct obj *boots)
             || (objects[otyp].oc_name_known && strstri(actualn, shoes)))
             return shoes;
     }
-    return "boots";
+    return "靴子";
 }
 
 /* simplified shield for messages */
@@ -9863,7 +9863,7 @@ shield_simple_name(struct obj *shield)
     if (shield) {
         /* xname() describes unknown (unseen) reflection as smooth */
         if (shield->otyp == SHIELD_OF_REFLECTION)
-            return shield->dknown ? "silver shield" : "smooth shield";
+            return shield->dknown ? "银盾" : "抛光的盾牌";
         /*
          * We might distinguish between wooden vs metallic or
          * light vs heavy to give small benefit to spell casters.
@@ -9883,14 +9883,14 @@ shield_simple_name(struct obj *shield)
                : "light shield";
 #endif
     }
-    return "shield";
+    return "盾牌";
 }
 
 /* for completeness */
 const char *
 shirt_simple_name(struct obj *shirt UNUSED)
 {
-    return "shirt";
+    return "衬衫";
 }
 
 const char *
@@ -9898,7 +9898,7 @@ mimic_obj_name(struct monst *mtmp)
 {
     if (M_AP_TYPE(mtmp) == M_AP_OBJECT) {
         if (mtmp->mappearance == GOLD_PIECE)
-            return "gold";
+            return "金币";
         if (mtmp->mappearance != STRANGE_OBJECT)
             return simple_typename(mtmp->mappearance);
     }
