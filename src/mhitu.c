@@ -56,7 +56,7 @@ hitmsg(struct monst *mtmp, struct attack *mattk)
             verb = "撞你";
             break;
         case AT_TUCH:
-            verb = "碰你!";
+            verb = "碰你";
             break;
         case AT_TENT:
             verb = "用触手吸你的脑袋";
