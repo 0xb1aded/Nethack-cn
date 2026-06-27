@@ -4173,7 +4173,7 @@ look_here(
             trap = (struct trap *) NULL;
 
         if (reg || trap)
-            There("这里有%s%s%s.",
+            There("有%s%s%s.",
                   reg ? regbuf : "",
                   (reg && trap) ? "和" : "",
                   trap ? an(trapname(trap->ttyp, FALSE)) : "");

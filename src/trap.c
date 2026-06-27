@@ -6020,7 +6020,7 @@ untrap(
                     }
                     /* 'n' => continue to next box */
             }
-            There("这里没有其他箱子或盒子了.");
+            There("没有其他箱子或盒子了.");
         }
 
         if (stumble_on_door_mimic(x, y))
