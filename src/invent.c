@@ -4187,7 +4187,7 @@ look_here(
     if (Blind) {
         boolean drift = Is_airlevel(&u.uz) || Is_waterlevel(&u.uz);
 
-        if (dfeature && (!strncmp(dfeature, "altar ", 6)) || !strncmp(dfeature, "祭坛", strlen("祭坛"))) {
+        if (dfeature && IS_ALTAR(levl[u.ux][u.uy].typ)) { /*危险:但愿不会出问题*/
             /* don't say "altar" twice, dfeature has more info */
             You("试图感觉这里有什么.");
         } else if (SURFACE_AT(u.ux, u.uy) == ICE) {
