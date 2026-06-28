@@ -1646,7 +1646,7 @@ seffect_enchant_weapon(struct obj **sobjp)
             Your("武器暖和了一会儿.");
         } else {
             uwep->rknown = TRUE;
-            pline("%s被一层%s%s%s覆盖!", Yobjnam2(uwep, "是"),
+            pline("%s被一层%s%s%s覆盖!", Yobjnam2(uwep, ""),
                   scursed ? "斑驳的" : "闪烁的",
                   hcolor(scursed ? NH_PURPLE : NH_GOLDEN),
                   scursed ? "光芒" : "护盾");
