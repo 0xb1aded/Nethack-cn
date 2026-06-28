@@ -93,7 +93,7 @@ missmu(struct monst *mtmp, boolean nearmiss, struct attack *mattk)
     if (could_seduce(mtmp, &gy.youmonst, mattk) && !mtmp->mcan)
         pline_mon(mtmp, "%s假装友好.", Monnam(mtmp));
     else
-        pline_mon(mtmp, "%s%s没打中!", Monnam(mtmp),
+        pline_mon(mtmp, "%s%s没有击中!", Monnam(mtmp),
                   (nearmiss && flags.verbose) ? "恰好" : "");
 
     stop_occupation();
