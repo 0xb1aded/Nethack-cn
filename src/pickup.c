@@ -1773,7 +1773,7 @@ lift_object(
                         : (next_encumbr >= HVY_ENCUMBER) ? nearloadpfx
                           : (next_encumbr >= MOD_ENCUMBER) ? moderateloadpfx
                             : slightloadpfx, 
-                        !container ? "拿得动" : "拿出"); /*修改语序:交换*/
+                        !container ? "拿起" : "拿出"); /*修改语序:交换*/
                 (void) safe_qbuf(qbuf, qbuf, ". 继续?", obj, doname,
                                  ansimpleoname, something);
                 obj->quan = savequan;
