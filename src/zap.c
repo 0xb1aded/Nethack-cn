@@ -1034,15 +1034,15 @@ revive(struct obj *corpse, boolean by_hero)
         if (cansee(x, y)) {
             char buf[BUFSZ];
 
-            Strcpy(buf, one_of ? "其中之一" : "");
+            (void) shk_your(eos(buf), corpse);
+            Strcat(buf, one_of ? "其中一具" : "");
             /* shk_your: "the " or "your " or "<mon>'s " or "<Shk>'s ".
                If the result is "Shk's " then it will be ambiguous:
                is Shk the mon carrying it, or does Shk's shop own it?
                Let's not worry about that... */
-            (void) shk_your(eos(buf), corpse);
             if (one_of)
                 corpse->quan++; /* force plural */
-            Strcat(corpse_xname(corpse, (const char *) 0, CXN_NO_PFX), buf); /*修改语序：Strcat(buf, corpse_xname(corpse, (const char *) 0, CXN_NO_PFX));*/
+            Strcat(buf, corpse_xname(corpse, (const char *) 0, CXN_NO_PFX)); /*修改语序：Strcat(buf, corpse_xname(corpse, (const char *) 0, CXN_NO_PFX));*/
             if (one_of) /* could be simplified to ''corpse->quan = 1L;'' */
                 corpse->quan--;
             pline("%s发出虹彩的光芒.", upstart(buf));
@@ -1177,8 +1177,8 @@ unturn_dead(struct monst *mon)
             Strcpy(corpse, corpse_xname(otmp, (const char *) 0, CXN_NORMAL));
             /* shk_your/Shk_Your produces a value with a trailing space */
             if (otmp->quan > 1L) {
-                Strcpy(owner, "其中一具");
                 (void) shk_your(eos(owner), otmp);
+                Strcat(owner, "其中一具");
             } else
                 (void) Shk_Your(owner, otmp);
         }
