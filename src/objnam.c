@@ -5169,7 +5169,7 @@ static const struct monster_spellings {
     const char *sp;
     int itsmonster; /*monster name*/
     int itsgender; /*neutral0, female1, male2*/
-} monster_aliases[] = {
+} monster_aliases[] = { /*Francium-223: 如果要修改,应与objnam.c的monster_aliases保持同步(等哪天应该整合到一个头文件里)*/
     { "巨型蚂蚁", PM_GIANT_ANT, 0 },
     { "巨蚂蚁", PM_GIANT_ANT, 0 },
     { "巨蚁", PM_GIANT_ANT, 0 },
