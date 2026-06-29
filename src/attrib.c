@@ -935,17 +935,17 @@ from_what(
              */
             if ((propidx == BLINDED && u.uroleplay.blind)
                 || (propidx == DEAF && u.uroleplay.deaf))
-                Sprintf(buf, " 从出生就有");
+                Sprintf(buf, "从出生就有");
             else if (innateness == FROM_ROLE || innateness == FROM_RACE)
-                Strcpy(buf, " 天赋");
+                Strcpy(buf, "天赋");
             else if (innateness == FROM_INTR) /* [].intrinsic & FROMOUTSIDE */
-                Strcpy(buf, " 内在");
+                Strcpy(buf, "内在属性");
             else if (innateness == FROM_EXP)
-                Strcpy(buf, " 是因为你的经验");
+                Strcpy(buf, ", 因为你的经验");
             else if (innateness == FROM_LYCN)
-                Strcpy(buf, " 是由于兽化病");
+                Strcpy(buf, ", 因为兽化病");
             else if (innateness == FROM_FORM)
-                Strcpy(buf, " 来自你的生物形态");
+                Strcpy(buf, ", 来自你的变形形态");
             else if (propidx == FAST && Very_fast)
                 Sprintf(buf, because_of,
                         ((HFast & TIMEOUT) != 0L) ? "药水或魔法"
@@ -964,7 +964,7 @@ from_what(
             else if (propidx == BLINDED && u.ucreamed
                      && BlindedTimeout == (long) u.ucreamed
                      && !EBlinded && !(HBlinded & ~TIMEOUT))
-                Sprintf(buf, "由于粘液覆盖了你的%s",
+                Sprintf(buf, ", 因为粘液覆盖了你的%s",
                         body_part(FACE));
 
             /* remove some verbosity and/or redundancy */
