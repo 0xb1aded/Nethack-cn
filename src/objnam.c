@@ -191,6 +191,7 @@ strprepend(char *s, const char *pref)
 /* manage a pool of BUFSZ buffers, so callers don't have to */
 static char NEARDATA obufs[NUMOBUF][BUFSZ];
 static int obufidx = 0;
+int wenthere = 0;
 
 staticfn char *
 nextobuf(void)
@@ -874,7 +875,10 @@ xname_flags(
         find_artifact(obj);
 
     if (obj_is_pname(obj))
+    {
+        wenthere = 1;
         goto nameit;
+    }
 
     /* Some classes use strcpy(buf, something)+strcat(buf, otherthing).
        In those cases, ConcUpdate() is needed in between if Concat()
@@ -1224,7 +1228,14 @@ xname_flags(
         /* downcase "The" in "<quest-artifact-item> named The ..." */
         if (obj->oartifact && !strncmp(obufp, "The ", 4))
             *obufp = lowc(*obufp); /* change 'T' in "The " to 't' */
-        Concat(buf, 0, ")");
+        if (wenthere) /*goto过来的*/
+        {
+            wenthere = 0;
+        }
+        else
+        {
+            Concat(buf, 0, ")");
+        }
     }
     /*冗余:
     if (!strncmpi(buf, "the ", 4))
@@ -1331,7 +1342,10 @@ xename_flags(
         find_artifact(obj);
 
     if (obj_is_pname(obj))
+    {
+        wenthere = 1;
         goto nameit;
+    }
 
     /* Some classes use strcpy(buf, something)+strcat(buf, otherthing).
        In those cases, ConcUpdate() is needed in between if Concat()
