@@ -441,7 +441,7 @@ itemactions(struct obj *otmp)
                 surface(u.ux, u.uy),
                 (is_blade(otmp) || otmp->oclass == WAND_CLASS
                  || ((otmp->oclass == GEM_CLASS || otmp->oclass == RING_CLASS)
-                     && objects[otmp->otyp].oc_tough)) ? "刻字" : "写字");
+                     && objects[otmp->otyp].oc_tough)) ? "刻下" : "写下");
         ia_addmenu(win, IA_ENGRAVE_OBJ, 'E', buf);
     }
 

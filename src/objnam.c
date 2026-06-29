@@ -2632,7 +2632,7 @@ corpse_xname(
     } else {
         /* adjective positioning depends upon format of monster name */
         if (possessive) /* Medusa's cursed partly eaten corpse */
-            Sprintf(eos(nambuf), "%s%s", mnam, adjective);
+            Sprintf(eos(nambuf), "%s的%s", mnam, adjective);
         else /* cursed partly eaten troll corpse */
             Sprintf(eos(nambuf), "%s%s", adjective, mnam);
         /* in case adjective has a trailing space, squeeze it out */
@@ -6535,7 +6535,7 @@ wizterrainwish(struct _readobjnam_data *d)
         else /* -1 - A_CHAOTIC, 0 - A_NEUTRAL, 1 - A_LAWFUL */
             al = !rn2(6) ? A_NONE : (rn2((int) A_LAWFUL + 2) - 1);
         lev->altarmask = Align2amask(al); /* overlays 'flags' */
-        pline("一个%s祭坛.", An(align_str(al)));
+        pline("%s祭坛.", An(align_str(al)));
         madeterrain = TRUE;
     } else if (!BSTRCMPI(bp, p - 5, "grave")
                || !BSTRCMPI(bp, p - 9, "headstone")) {

@@ -1684,7 +1684,7 @@ rloc_to_core(struct monst *mtmp, coordxy x, coordxy y, unsigned rlocflags)
                   : nearu                               ? nearu
                   : ((olddu = distu(oldx, oldy)) == du) ? ""
                   : (du < olddu)                        ? "更近处"
-                                                        : "得更处");
+                                                        : "更远处");
         } else {
             pline("%s%s%s%s!", appearmsg ? Amonnam(mtmp) : Monnam(mtmp),
                   appearmsg ? "突然" : "", !Blind ? "出现在" : "到达",
