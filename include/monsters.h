@@ -528,7 +528,7 @@
         M2_HOSTILE | M2_NASTY | M2_GREEDY | M2_JEWELS | M2_COLLECT,
         M3_INFRAVISIBLE | M3_INFRAVISION,
         13, CLR_BRIGHT_MAGENTA, MIND_FLAYER),
-    MON(NAM("master mind flayer"), NAM("夺心魔大师"), S_HUMANOID,
+    MON(NAM("master mind flayer"), NAM("高阶夺心魔"), S_HUMANOID,
         LVL(13, 12, 0, 90, -8), (G_GENO | 1),
         A(ATTK(AT_WEAP, AD_PHYS, 1, 8), ATTK(AT_TENT, AD_DRIN, 2, 1),
           ATTK(AT_TENT, AD_DRIN, 2, 1), ATTK(AT_TENT, AD_DRIN, 2, 1),
