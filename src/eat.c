@@ -1452,9 +1452,9 @@ tin_details(struct obj *obj, int mnum, char *buf)
             } else {
                 Sprintf(eos(buf), "%s", tintxts[r].txt);
             }
-        } else {
+        }/*冗余: else {
             Strcpy(eos(buf), "的");
-        }
+        }*/
         if (vegetarian(&mons[mnum]))
             Sprintf(eos(buf), "%s罐头", mons[mnum].pmnames[NEUTRAL]);
         else

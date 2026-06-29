@@ -1006,9 +1006,13 @@ xname_flags(
             break;
         }
 
-        Concat(buf, 0, actualn);
+        //危险:Concat(buf, 0, actualn);
         if (typ == TIN && known)
+        {
             tin_details(obj, omndx, buf);
+        } else { //谁要再写if后面跟着一行不带大括号我真得拿一根冲击魔杖放ta嘴里折断了
+            Concat(buf, 0, actualn);
+        }
         break;
     case COIN_CLASS:
     case CHAIN_CLASS:
@@ -7782,17 +7786,6 @@ readobjnam_postparse1(struct _readobjnam_data *d)
                 }
                 d->typ = TIN;
                 return 2; /*goto typfnd;*/
-            } else if ((d->p = strstri(d->bp, "罐头")) != 0) {
-                if (!strcmpi(d->p - strlen("菠菜罐头"), "菠菜")) {
-                    d->contents = TIN_SPINACH;
-                    d->mntmp = NON_PM;
-                } else {
-                    d->tmp = tin_variety_txt(d->p + 7, &d->tinv);
-                    d->tvariety = d->tinv;
-                    d->mntmp = name_to_mon(d->p + 7 + d->tmp, &d->mgend);
-                }
-                d->typ = TIN;
-                return 2; /*goto typfnd;*/
             } else if ((d->p = strstri(d->bp, " of ")) != 0
                        && ((d->mntmp = name_to_mon(d->p + 4, &d->mgend))
                            >= LOW_PM))
@@ -7927,7 +7920,7 @@ readobjnam_postparse1(struct _readobjnam_data *d)
                 }
                 if(!strcmp(d->bp + strlen(fs->sp), "罐头") || !strcmp(d->bp + strlen(fs->sp), "的罐头") || !strcmp(d->bp + strlen(fs->sp), "肉罐头"))
                 {
-                    d->typ = CORPSE;
+                    d->typ = TIN;
                     return 2; /*goto typfnd;*/
                 }
             }
