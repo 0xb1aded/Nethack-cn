@@ -1184,7 +1184,7 @@ doengrave(void)
             body_part(FINGERTIP), de->eloc, de->everb); /*修改语序:de->everb, de->eloc, body_part(FINGERTIP));*/
 
     /* Prompt for engraving! */
-    Sprintf(de->qbuf, "你想在这个%s%s吗?",
+    Sprintf(de->qbuf, "你想在这个%s%s什么?",
             de->eloc, de->everb); /*修改语序:de->everb, de->eloc);*/
     getlin(de->qbuf, de->ebuf);
     /* convert tabs to spaces and condense consecutive spaces to one */
