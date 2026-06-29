@@ -273,7 +273,11 @@ obj_typename(int otyp)
 
     buf[0] = '\0'; /* redundant */
     /* here for ring/scroll/potion/wand */
-    if (nn) {
+    if (nn && (ocl->oc_class == RING_CLASS || 
+               ocl->oc_class == SCROLL_CLASS || 
+               ocl->oc_class == POTION_CLASS || 
+               ocl->oc_class == WAND_CLASS || 
+               ocl->oc_class == SPBOOK_CLASS)) {
         Sprintf(eos(buf), "%s", actualn);
     }
     switch (ocl->oc_class) {
