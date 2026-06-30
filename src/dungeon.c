@@ -3638,7 +3638,7 @@ print_mapseen(
         i = strlen(PREFIX);
         buf[i] = highc(buf[i]);
         /* capitalizing it makes it a sentence; terminate with '.' */
-        Strcat(buf, "死亡");
+        Strcat(buf, ".");
         add_menu_str(win, buf);
     }
 
