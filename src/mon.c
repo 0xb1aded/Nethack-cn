@@ -2913,7 +2913,7 @@ vamprises(struct monst *mtmp)
         Snprintf(action, sizeof action, "%s%s%s起来, %s成了",
                  Unaware ? "你梦到" : "",
                  x_monnam(mtmp, ARTICLE_THE,
-                          spec_mon ? (char *) 0 : "看上去已经死了的",
+                          spec_mon ? (char *) 0 : "看上去已经死掉的",
                           (SUPPRESS_INVISIBLE | AUGMENT_IT), FALSE),
                  Unaware ? "" : "突然",
                  spec_death ? "复原" : "转变");

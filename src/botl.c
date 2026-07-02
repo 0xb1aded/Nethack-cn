@@ -467,7 +467,7 @@ describe_level(
         /* ports with more room may expand this one */
         if (!addbranch)
             Sprintf(buf, "%s:%-2d", /* "Dlvl:n" (grep fodder) */
-                    In_tutorial(&u.uz) ? "教程" : "地牢层", depth(&u.uz));
+                    In_tutorial(&u.uz) ? "教程" : "层数", depth(&u.uz));
         else
             Sprintf(buf, "%d层", depth(&u.uz));
         ret = 0;
