@@ -5906,7 +5906,7 @@ maybe_destroy_item(
                    : ((cnt < quan) ? "中有一些"     /* n of N */
                       : (quan == 2L) ? "全都"   /* 2 of 2 */
                         : "全都");               /* N of N */
-            pline("%s%s%s!", (cnt == 1L && quan == 1L) ? Yname2(obj) : yname(obj), /*修改语序:pline("%s%s %s!", mult,*/
+            pline("%s%s%s了!", (cnt == 1L && quan == 1L) ? Yname2(obj) : yname(obj), /*修改语序:pline("%s%s %s!", mult,*/
                   mult, /*修改语序:(cnt == 1L && quan == 1L) ? Yname2(obj) : yname(obj),*/
                   destroy_strings[dindx][(cnt > 1L)]);
         }

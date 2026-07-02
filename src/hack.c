@@ -2317,7 +2317,7 @@ domove_fight_empty(coordxy x, coordxy y)
 
  futile:
         You("%s%s%s.",
-            !(boulder || solid) ? "" : !explo ? "无害地 " : "徒劳地 ",
+            !(boulder || solid) ? "" : !explo ? "无害地" : "徒劳地",
             explo ? "爆炸攻击" : "攻击", buf);
 
         nomul(0);

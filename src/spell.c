@@ -296,7 +296,7 @@ deadbook(struct obj *book2)
             if (!u.udg_cnt || u.udg_cnt > soon)
                 u.udg_cnt = soon;
         } else { /* at least one relic not prepared properly */
-            You("感觉好像缺少%s...", something);
+            You("感觉好像缺少什么..."); /*修改语序:something*/
             goto raise_dead;
         }
         return;

@@ -2597,7 +2597,7 @@
      *  the '@' class does not obey rule #2.
      *  Plain "human" is a placeholder, not a normal monster.
      */
-    MON(NAM("human"), NAM("人"), S_HUMAN, /* for corpses */
+    MON(NAM("human"), NAM("人类"), S_HUMAN, /* for corpses */
         LVL(0, 12, 10, 0, 0), G_NOGEN,
         A(ATTK(AT_WEAP, AD_PHYS, 1, 6),
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
