@@ -589,9 +589,9 @@ do_improvisation(struct obj *instr)
     case MAGIC_FLUTE: /* Make monster fall asleep */
         consume_obj_charge(instr, TRUE);
 
-        You("%s产生出了%s%s音乐.", !Deaf ? "" : "似乎",
-            Hallucination ? "管乐的" : "柔和的",
-            same_old_song ? "" : "熟悉的");
+        You("%s产生出了%s%s.", !Deaf ? "" : "似乎",
+            same_old_song ? "" : "熟悉的",
+            Hallucination ? "管乐" : "柔和的音乐"); /*修改语序:自己看*/
         Hero_playnotes(obj_to_instr(&itmp), improvisation, 50);
         put_monsters_to_sleep(u.ulevel * 5);
         exercise(A_DEX, TRUE);

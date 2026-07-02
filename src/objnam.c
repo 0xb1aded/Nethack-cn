@@ -5346,6 +5346,7 @@ static const struct monster_spellings {
     { "玻璃锥怪", PM_GLASS_PIERCER, 0 },
     { "洛斯兽", PM_ROTHE, 0 },
     { "猛犸", PM_MUMAK, 0 },
+    { "毛象", PM_MUMAK, 0 },
     { "狼狗", PM_LEOCROTTA, 0 },
     { "狮头象", PM_WUMPUS, 0 },
     { "雷兽", PM_TITANOTHERE, 0 },

@@ -987,6 +987,10 @@ checkfile(
             alt = ep + strlen(", 被称为");
             if ((ap = strstri(dbase_str, ", 被称为")) != 0 && ap < ep)
                 ep = ap; /* "named" is alt but truncate at "called" */
+        } else if ((ep = strstri(dbase_str, " (被称为")) != 0) { /*危险:我当时是怎么写的，，，*/
+            alt = ep + strlen(" (被称为");
+            if ((ap = strstri(dbase_str, ", 被称为")) != 0 && ap < ep)
+                ep = ap; /* "named" is alt but truncate at "called" */
         }else if ((ep = strstri(dbase_str, " called ")) != 0) {
             copynchars(givenname, ep + 8, BUFSZ - 1);
             alt = givenname;

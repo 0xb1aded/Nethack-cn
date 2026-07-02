@@ -3437,14 +3437,14 @@ in_or_out_menu(
     }
     if (outokay) {
         any.a_int = 4; /* 'b' */
-        Sprintf(buf, "%s拿出来, 再放进去", inokay ? "先 " : "");
+        Sprintf(buf, "%s拿出来, 再放进去", inokay ? "先" : "");
         add_menu(win, &nul_glyphinfo, &any, menuselector[any.a_int], 0,
                  ATR_NONE, clr, buf, MENU_ITEMFLAGS_NONE);
     }
     if (inokay) {
         any.a_int = 5; /* 'r' */
         Sprintf(buf, "%s先放进去, 再拿出来",
-                outokay ? "反过来;" : "");
+                outokay ? "反过来; " : "");
         add_menu(win, &nul_glyphinfo, &any, menuselector[any.a_int], 0,
                  ATR_NONE, clr, buf, MENU_ITEMFLAGS_NONE);
         any.a_int = 6; /* 's' */

@@ -1142,7 +1142,7 @@ seffect_enchant_armor(struct obj **sobjp)
             pline("%s温暖了一刹那.", Yobjnam2(otmp, "感觉"));
         } else {
             otmp->rknown = TRUE;
-            pline("%s被一层%s%s%s覆盖!", Yobjnam2(otmp, ""),
+            pline("%s一层%s%s%s覆盖!", Yobjnam2(otmp, "被"),
                   scursed ? "斑驳的" : "闪烁的",
                   hcolor(scursed ? NH_BLACK : NH_GOLDEN),
                   scursed ? "光芒"
@@ -1646,7 +1646,7 @@ seffect_enchant_weapon(struct obj **sobjp)
             Your("武器暖和了一会儿.");
         } else {
             uwep->rknown = TRUE;
-            pline("%s被一层%s%s%s覆盖!", Yobjnam2(uwep, ""),
+            pline("%s一层%s%s%s覆盖!", Yobjnam2(uwep, "被"),
                   scursed ? "斑驳的" : "闪烁的",
                   hcolor(scursed ? NH_PURPLE : NH_GOLDEN),
                   scursed ? "光芒" : "护盾");
