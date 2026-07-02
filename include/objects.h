@@ -398,11 +398,11 @@ BOW("elven bow", "runed bow", "精灵弓", "符文弓",   0, 12, 30, 60, 0, WOOD
                                                         ELVEN_BOW),
 BOW("orcish bow", "crude bow", "兽人弓", "粗糙弓",  0, 12, 30, 60, 0, WOOD, P_BOW, CLR_BLACK,
                                                         ORCISH_BOW),
-BOW("yumi", "long bow", "弩", "长弓",               0,  0, 30, 60, 0, WOOD, P_BOW, HI_WOOD,
+BOW("yumi", "long bow", "和弓", "长弓",               0,  0, 30, 60, 0, WOOD, P_BOW, HI_WOOD,
                                                         YUMI),
 BOW("sling", NoDes, "投石器", NoDes,                1, 40,  3, 20, 0, LEATHER, P_SLING, HI_LEATHER,
                                                         SLING),
-BOW("crossbow", NoDes, "十字弓", NoDes,             1, 45, 50, 40, 0, WOOD, P_CROSSBOW, HI_WOOD,
+BOW("crossbow", NoDes, "弩", NoDes,             1, 45, 50, 40, 0, WOOD, P_CROSSBOW, HI_WOOD,
                                                         CROSSBOW),
 
 #undef P
