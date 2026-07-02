@@ -459,11 +459,11 @@ moverock_core(coordxy sx, coordxy sy)
                 if (Blind)
                     feel_location(sx, sy);
                 if (canspotmon(mtmp)) {
-                    pline("另一边有一只%s.", a_monnam(mtmp));
+                    pline("另一边有%s.", a_monnam(mtmp));
                     deliver_part1 = TRUE;
                 } else {
                     Soundeffect(se_monster_behind_boulder, 50);
-                    You_hear("一只怪物在%s后面.", the(xname(otmp)));
+                    You_hear("有一只怪物在%s后面.", the(xname(otmp)));
                     if (!Deaf)
                         deliver_part1 = TRUE;
                     map_invisible(rx, ry);
