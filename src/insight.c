@@ -3101,7 +3101,7 @@ list_genocided(char defquery, boolean ask)
                  * collected list unless that bit is set.
                  */
                 if ((svm.mvitals[mndx].mvflags & G_GONE) == G_EXTINCT)
-                    Strcat(buf, " (已灭绝)");
+                    Strcat(buf, " (已绝迹)");
                 putstr(klwin, 0, buf);
             }
             if (!dumping)

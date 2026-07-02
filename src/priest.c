@@ -347,20 +347,19 @@ priestname(
         Strcat(pname, "反叛的");
     }
 
-    if (mon->ispriest || aligned_priest) {
-        if (high_priest)
-            Strcat(pname, do_hallu ? "大" : "高");
-    } else {
-        if (mon->mtame && !strcmpi(what, "Angel") || !strcmp(what, "天使"))
-            Strcat(pname, "高级");
-    }
-
     /* same as distant_monnam(), more or less... */
     if (do_hallu || !high_priest || reveal_high_priest
         || !Is_astralevel(&u.uz)
         || m_next2u(mon) || program_state.gameover) {
         Strcat(pname, halu_gname(mon_aligntyp(mon)));
         Strcat(pname, "的");
+    }
+    if (mon->ispriest || aligned_priest) {
+        if (high_priest)
+            Strcat(pname, do_hallu ? "大" : "高阶");
+    } else {
+        if (mon->mtame && !strcmpi(what, "Angel") || !strcmp(what, "天使"))
+            Strcat(pname, "守护");
     }
     Strcat(pname, what); /*修改语序:放到了后面*/
     return pname;

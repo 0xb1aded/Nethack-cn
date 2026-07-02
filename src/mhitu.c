@@ -1448,7 +1448,7 @@ gulpmu(struct monst *mtmp, struct attack *mattk)
                 tmp = 0;
         } else {
             You("被%s了!", enfolds(mtmp->data) ? "挤压"
-                                               : "被碎片击打");
+                                               : "碎片击打");
             exercise(A_STR, FALSE);
         }
         break;

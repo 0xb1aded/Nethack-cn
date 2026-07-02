@@ -198,7 +198,7 @@ castmu(
     if (!foundyou && thinks_it_foundyou
         && !is_undirected_spell(spellnum)) {
         pline_mon(mtmp, "%s对%s施法!",
-                 canseemon(mtmp) ? Monnam(mtmp) : "什么东西",
+                 canseemon(mtmp) ? Monnam(mtmp) : "有东西在",
                  is_waterwall(mtmp->mux, mtmp->muy) ? "水"
                                                     : "空气");
         return M_ATTK_MISS;

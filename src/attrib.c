@@ -175,7 +175,7 @@ adjattrib(
     if (ACURR(ndx) == old_acurr) {
         if (msgflg == 0 && flags.verbose) {
             if (ABASE(ndx) == old_abase && AMAX(ndx) == old_amax) {
-                pline("你%s不能再%s.",
+                pline("你%s不能再%s了.",
                       abonflg ? "现在" : "已经", attrstr);
             } else {
                 /* current stayed the same but base value changed, or
@@ -192,7 +192,7 @@ adjattrib(
 
     disp.botl = TRUE;
     if (msgflg <= 0)
-        You_feel("%s%s!", (incr > 1 || incr < -1) ? "非常" : "", attrstr);
+        You_feel("%s%s!", (incr > 1 || incr < -1) ? "非常" : "很", attrstr);
     if (program_state.in_moveloop && (ndx == A_STR || ndx == A_CON))
         encumber_msg();
     return TRUE;
@@ -1049,7 +1049,7 @@ adjabil(int oldlevel, int newlevel)
                 *(abil->ability) |= mask;
             if (!(*(abil->ability) & INTRINSIC & ~mask)) {
                 if (*(abil->gainstr))
-                    You_feel("%s!", abil->gainstr);
+                    You_feel("很%s!", abil->gainstr);
             }
         } else if (oldlevel >= abil->ulevel && newlevel < abil->ulevel) {
             *(abil->ability) &= ~mask;

@@ -356,7 +356,7 @@ moverock_core(coordxy sx, coordxy sy)
     while ((otmp = sobj_at(BOULDER, sx, sy)) != 0) {
 
         if (Blind && glyph_to_obj(glyph_at(sx, sy)) != BOULDER) {
-            pline("那和东西感觉像一块巨石.");
+            pline("那个东西感觉像一块巨石.");
             map_object(otmp, TRUE);
             nomul(0);
             return -1;

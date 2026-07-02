@@ -73,7 +73,7 @@ item_naming_classification(
             callname = the(callname);
         else if (!is_plural(obj))
             callname = makeplural(callname);
-        Sprintf(ocallbuf, "%s的类型%s",
+        Sprintf(ocallbuf, "%s%s的类型",
                 (!objects[obj->otyp].oc_uname
                  || !*objects[obj->otyp].oc_uname) ? Call : Recall,
                 callname);
