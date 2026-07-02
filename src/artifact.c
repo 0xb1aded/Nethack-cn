@@ -342,47 +342,31 @@ artifact_name(
     boolean fuzzy)    /* whether to allow extra or omitted spaces or dashes */
 {
     const struct artifact *a;
-    const char *aname;
+    const char *aname, *bname;
 
     if (!strncmpi(name, "the ", 4))
         name += 4;
 
     for (a = artilist + 1; a->otyp; a++) {
         aname = a->name;
-        if (!strncmpi(aname, "the ", 4))
+        bname = a->ename;
+        if (!strncmpi(aname, "the ", 4)) {
             aname += 4;
+        }
+        if (!strncmpi(bname, "the ", 4)) {
+            bname += 4;
+        }
         if (!fuzzy ? !strcmpi(name, aname)
                    : fuzzymatch(name, aname, " -", TRUE)) {
             if (otyp_p)
                 *otyp_p = a->otyp;
             return a->name;
         }
-    }
-
-    return (char *) 0;
-}
-
-const char *
-artifact_ename( /*待写:同artiename*/
-    const char *ename, /* string from player that might be an artifact name */
-    short *otyp_p,    /* secondary output */
-    boolean fuzzy)    /* whether to allow extra or omitted spaces or dashes */
-{
-    const struct artifact *a;
-    const char *aname;
-
-    if (!strncmpi(ename, "the ", 4))
-        ename += 4;
-
-    for (a = artilist + 1; a->otyp; a++) {
-        aname = a->ename;
-        if (!strncmpi(aname, "the ", 4))
-            aname += 4;
-        if (!fuzzy ? !strcmpi(ename, aname)
-                   : fuzzymatch(ename, aname, " -", TRUE)) {
+        if (!fuzzy ? !strcmpi(name, bname)
+                   : fuzzymatch(name, bname, " -", TRUE)) {
             if (otyp_p)
                 *otyp_p = a->otyp;
-            return a->ename;
+            return a->name;
         }
     }
 
