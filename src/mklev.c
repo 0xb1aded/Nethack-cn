@@ -2177,7 +2177,7 @@ mkstairs(
             sidx = glyph_to_cmap(glyph);
 
         impossible("mkstairs:  placing stairs %s on %s at <%d,%d>",
-                   up ? "up" : "down", defsyms[sidx].explanation, x, y);
+                   up ? "up" : "down", defsyms[sidx].bexplanation, x, y);
     }
 
     /*
