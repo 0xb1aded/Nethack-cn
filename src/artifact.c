@@ -374,14 +374,14 @@ artifact_name(
 }
 
 boolean
-exist_artifact(int otyp, const char *ename)
+exist_artifact(int otyp, const char *name)
 {
     const struct artifact *a;
     struct arti_info *arex;
 
-    if (otyp && *ename)
+    if (otyp && *name)
         for (a = artilist + 1, arex = artiexist + 1; a->otyp; a++, arex++)
-            if ((int) a->otyp == otyp && !strcmp(a->ename, ename))
+            if ((int) a->otyp == otyp && (!strcmp(a->name, name) || !strcmp(a->ename, name)))
                 return arex->exists ? TRUE : FALSE;
     return FALSE;
 }
@@ -399,7 +399,7 @@ artifact_exists(
 
     if (otmp && *name)
         for (a = artilist + 1; a->otyp; a++)
-            if (a->otyp == otmp->otyp && !strcmp(a->name, name)) {
+            if (a->otyp == otmp->otyp && (!strcmp(a->name, name) || !strcmp(a->ename, name))) {
                 int m = (int) (a - artilist);
 
                 otmp->oartifact = (char) (mod ? m : 0);

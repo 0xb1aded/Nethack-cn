@@ -9102,7 +9102,7 @@ readobjnam(char *bp, struct obj *no_wish)
         set_tin_variety(d.otmp, d.tvariety);
 
     if (d.name) {
-        const char *aname, *aename, *novelname;
+        const char *aname, *novelname;
         short objtyp;
 
         /* an artifact name might need capitalization fixing */
@@ -9117,7 +9117,7 @@ readobjnam(char *bp, struct obj *no_wish)
 
         d.otmp = oname(d.otmp, d.name, ONAME_WISH);
         /* name==aname => wished for artifact (otmp->oartifact => got it) */
-        if (d.otmp->oartifact || d.name == aname || d.name == aename) {
+        if (d.otmp->oartifact || d.name == aname) {
             d.otmp->quan = 1L;
             u.uconduct.wisharti++; /* KMH, conduct */
         }
