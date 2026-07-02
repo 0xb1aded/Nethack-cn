@@ -961,7 +961,7 @@ x_monnam(
       if (has_ebones(mtmp)) {
 #endif
         if (mdat == &mons[PM_GHOST]) {
-            Sprintf(eos(buf), "%s鬼魂", s_suffix(name));
+            Sprintf(eos(buf), "%s的鬼魂", s_suffix(name));
             name_at_start = TRUE;
         } else if (called) {
             Sprintf(eos(buf), "叫做%s的%s", name, pm_name); /*危险:Sprintf(eos(buf), "%s叫做%s", pm_name, name);*/
