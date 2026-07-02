@@ -160,7 +160,7 @@ stinky_nemesis(struct monst *mon)
     int r, mndx = monsndx(mon->data);
     for (r = 0; roles[r].name.m || roles[r].name.f; ++r)
         if (roles[r].neminum == mndx) {
-            (void) com_pager_core(roles[r].filecode, "killed_nemesis",
+            (void) com_pager_core(roles[r].efilecode, "killed_nemesis",
                                   FALSE, &mesg);
             break;
         }
@@ -169,7 +169,7 @@ stinky_nemesis(struct monst *mon)
     /* since nemdead() just gave the message for hero's nemesis even if 'mon'
        is some other role's nemesis (feasible in wizard mode), base any gas
        cloud on the text that was shown even if not appropriate for 'mon' */
-    (void) com_pager_core(gu.urole.filecode, "killed_nemesis", FALSE, &mesg);
+    (void) com_pager_core(gu.urole.efilecode, "killed_nemesis", FALSE, &mesg);
 #endif
 
     /* this is somewhat fragile; it assumes that when both {noxious or
@@ -629,7 +629,7 @@ com_pager(const char *msgid)
 void
 qt_pager(const char *msgid)
 {
-    if (!com_pager_core(gu.urole.filecode, msgid, FALSE, (char **) 0))
+    if (!com_pager_core(gu.urole.efilecode, msgid, FALSE, (char **) 0))
         (void) com_pager_core("common", msgid, TRUE, (char **) 0);
 }
 

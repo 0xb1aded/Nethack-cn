@@ -794,10 +794,10 @@ set_bonesfile_name(char *file, d_level *lev)
     }
 #endif
     dptr = eos(file);
-    /* when this naming scheme was adopted, 'filecode' was one letter;
+    /* when this naming scheme was adopted, 'efilecode' was one letter;
        3.3.0 turned it into a three letter string for quest levels */
     Sprintf(dptr, "%c%s", svd.dungeons[lev->dnum].boneid,
-            In_quest(lev) ? gu.urole.filecode : "0");
+            In_quest(lev) ? gu.urole.efilecode : "0");
     if ((sptr = Is_special(lev)) != 0)
         Sprintf(eos(dptr), ".%c", sptr->boneid);
     else
@@ -3696,8 +3696,8 @@ livelog_add(long ll_type, const char *str)
                        "turns=%ld"   LLOG_SEP  "starttime=%ld" LLOG_SEP
                        "curtime=%ld" LLOG_SEP  "message=%s"    LLOG_EOL,
                        (ll_type & sysopt.livelog), svp.plname,
-                       gu.urole.filecode, gu.urace.filecode,
-                       genders[gindx].filecode, aligns[aindx].filecode,
+                       gu.urole.efilecode, gu.urace.efilecode,
+                       genders[gindx].efilecode, aligns[aindx].efilecode,
                        svm.moves, timet_to_seconds(ubirthday),
                        timet_to_seconds(now), str);
         (void) fclose(livelogfile);

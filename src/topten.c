@@ -267,7 +267,7 @@ readentry(FILE *rfile, struct toptenentry *tt)
                 tt->points = 0;
             tt->plrole[1] = '\0';
             if ((i = str2role(tt->plrole)) >= 0)
-                Strcpy(tt->plrole, roles[i].filecode);
+                Strcpy(tt->plrole, roles[i].efilecode);
             Strcpy(tt->plrace, "?");
             Strcpy(tt->plgend, (tt->plgend[0] == 'M') ? "男" : "女");
             Strcpy(tt->plalign, "?");
@@ -377,8 +377,8 @@ writexlentry(FILE *rfile, struct toptenentry *tt, int how)
             timet_to_seconds(ubirthday), XLOG_SEP,
             timet_to_seconds(urealtime.finish_time));
     Fprintf(rfile, "%cgender0=%s%calign0=%s", XLOG_SEP,
-            genders[flags.initgend].filecode, XLOG_SEP,
-            aligns[1 - u.ualignbase[A_ORIGINAL]].filecode);
+            genders[flags.initgend].efilecode, XLOG_SEP,
+            aligns[1 - u.ualignbase[A_ORIGINAL]].efilecode);
     Fprintf(rfile, "%cflags=0x%lx", XLOG_SEP, encodexlogflags());
     Fprintf(rfile, "%cgold=%ld", XLOG_SEP,
             money_cnt(gi.invent) + hidden_gold(TRUE));
@@ -686,10 +686,10 @@ topten(int how, time_t when)
     t0->maxhp = u.uhpmax;
     t0->deaths = u.umortality;
     t0->uid = uid;
-    copynchars(t0->plrole, gu.urole.filecode, ROLESZ);
-    copynchars(t0->plrace, gu.urace.filecode, ROLESZ);
-    copynchars(t0->plgend, genders[flags.female].filecode, ROLESZ);
-    copynchars(t0->plalign, aligns[1 - u.ualign.type].filecode, ROLESZ);
+    copynchars(t0->plrole, gu.urole.efilecode, ROLESZ);
+    copynchars(t0->plrace, gu.urace.efilecode, ROLESZ);
+    copynchars(t0->plgend, genders[flags.female].efilecode, ROLESZ);
+    copynchars(t0->plalign, aligns[1 - u.ualign.type].efilecode, ROLESZ);
     copynchars(t0->name, svp.plname, NAMSZ);
     formatkiller(t0->death, sizeof t0->death, how, TRUE);
     t0->birthdate = yyyymmdd(ubirthday);
@@ -1361,7 +1361,7 @@ classmon(char *plch)
 
     /* Look for this role in the role table */
     for (i = 0; roles[i].name.m; i++) {
-        if (!strncmp(plch, roles[i].filecode, ROLESZ)) {
+        if (!strncmp(plch, roles[i].efilecode, ROLESZ)) {
             if (roles[i].mnum != NON_PM)
                 return roles[i].mnum;
             else

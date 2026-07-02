@@ -763,8 +763,8 @@ str2role(const char *str)
         /* Or the female name? */
         if (roles[i].name.f && !strncmpi(str, roles[i].name.f, len))
             return i;
-        /* Or the filecode? */
-        if (!strcmpi(str, roles[i].filecode))
+        /* Or the efilecode? */
+        if (!strcmpi(str, roles[i].efilecode))
             return i;
     }
 
@@ -829,8 +829,8 @@ str2race(const char *str)
         /* check adjective too */
         if (races[i].adj && !strncmpi(str, races[i].adj, len))
             return i;
-        /* Or the filecode? */
-        if (!strcmpi(str, races[i].filecode))
+        /* Or the efilecode? */
+        if (!strcmpi(str, races[i].efilecode))
             return i;
     }
 
@@ -893,8 +893,8 @@ str2gend(const char *str)
         /* Does it match the adjective? */
         if (!strncmpi(str, genders[i].adj, len))
             return i;
-        /* Or the filecode? */
-        if (!strcmpi(str, genders[i].filecode))
+        /* Or the efilecode? */
+        if (!strcmpi(str, genders[i].efilecode))
             return i;
     }
     if ((len == 1 && (*str == '*' || *str == '@'))
@@ -956,8 +956,8 @@ str2align(const char *str)
         /* Does it match the adjective? */
         if (!strncmpi(str, aligns[i].adj, len))
             return i;
-        /* Or the filecode? */
-        if (!strcmpi(str, aligns[i].filecode))
+        /* Or the efilecode? */
+        if (!strcmpi(str, aligns[i].efilecode))
             return i;
     }
     if ((len == 1 && (*str == '*' || *str == '@'))

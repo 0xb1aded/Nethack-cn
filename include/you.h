@@ -185,8 +185,8 @@ struct Role {
     struct RoleName name;    /* the role's name (from u_init.c) */
     struct RoleName rank[9]; /* names for experience levels (from botl.c) */
     const char *lgod, *ngod, *cgod; /* god names (from pray.c) */
-    const char *filecode;           /* abbreviation for use in file names */
-    const char *cfilecode;          /*危险:role.c, filecode无标记,cfilecode有标记*/
+    const char *efilecode;           /* abbreviation for use in file names */
+    const char *filecode;
     const char *homebase; /* quest leader's location (from questpgr.c) */
     const char *intermed; /* quest intermediate goal (from questpgr.c) */
 
@@ -260,8 +260,8 @@ struct Race {
     const char *noun;           /* noun ("human", "elf") */
     const char *adj;            /* adjective ("human", "elven") */
     const char *coll;           /* collective ("humanity", "elvenkind") */
-    const char *filecode;       /* code for filenames */
-    const char *cfilecode;      /*危险:role.c, filecode无标记,cfilecode有标记*/
+    const char *efilecode;       /* code for filenames */
+    const char *filecode;
     struct RoleName individual; /* individual as a noun ("man", "elf") */
 
     /*** Indices of important monsters and objects ***/
@@ -305,8 +305,8 @@ struct Gender {
     const char *he;       /* he/she/it */
     const char *him;      /* him/her/it */
     const char *his;      /* his/her/its */
-    const char *filecode; /* file code */
-    const char *cfilecode;/*危险:role.c, filecode无标记,cfilecode有标记*/
+    const char *efilecode; /* file code */
+    const char *filecode;
     short allow;          /* equivalent ROLE_ mask */
 };
 #define ROLE_GENDERS 2    /* number of permitted player genders
@@ -337,8 +337,8 @@ extern const struct Gender genders[]; /* table of available genders */
 struct Align {
     const char *noun;     /* law/balance/chaos */
     const char *adj;      /* lawful/neutral/chaotic */
-    const char *filecode; /* file code */
-    const char *cfilecode;/*危险:role.c, filecode无标记,cfilecode有标记*/
+    const char *efilecode; /* file code */
+    const char *filecode;
     short allow;          /* equivalent ROLE_ mask */
     aligntyp value;       /* equivalent A_ value */
 };

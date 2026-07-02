@@ -1120,7 +1120,7 @@ typedef struct nh_file NHFILE;
 /* The UNDEFINED_RACE macro is used to initialize Race variables */
 #define UNDEFINED_RACE \
     {                                           \
-      /* strings (plus cfilecode) */            \
+      /* strings (plus efilecode) */            \
       NULL, NULL, NULL, NULL, NULL, { NULL, NULL },\
       /* Indices: base race, mummy, zombie */   \
       NON_PM, NON_PM, NON_PM,                   \
