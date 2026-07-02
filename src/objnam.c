@@ -9023,6 +9023,11 @@ readobjnam_postparse3(struct _readobjnam_data *d)
             d->typ = objtyp;
             return 2; /*goto typfnd;*/
         }
+        d->name = artifact_ename(d->actualn, &objtyp, TRUE);
+        if (d->name) {
+            d->typ = objtyp;
+            return 2; /*goto typfnd;*/
+        }
     }
 
     /* got a class, but not specific type;
@@ -9066,15 +9071,15 @@ readobjenam_postparse3(struct _readobjnam_data *d)
         }
     }
 
-    if (((d->typ = rnd_otyp_by_namedesc(d->actualn, d->oclass, 1))
+    if (((d->typ = rnd_otyp_by_enameedesc(d->actualn, d->oclass, 1))
          != STRANGE_OBJECT)
         || (d->dn != d->actualn
-            && ((d->typ = rnd_otyp_by_namedesc(d->dn, d->oclass, 1))
+            && ((d->typ = rnd_otyp_by_enameedesc(d->dn, d->oclass, 1))
                 != STRANGE_OBJECT))
-        || ((d->typ = rnd_otyp_by_namedesc(d->un, d->oclass, 1))
+        || ((d->typ = rnd_otyp_by_enameedesc(d->un, d->oclass, 1))
              != STRANGE_OBJECT)
         || (d->origbp != d->actualn
-            && ((d->typ = rnd_otyp_by_namedesc(d->origbp, d->oclass, 1))
+            && ((d->typ = rnd_otyp_by_enameedesc(d->origbp, d->oclass, 1))
                 != STRANGE_OBJECT)))
         return 2; /*goto typfnd;*/
     d->typ = 0;
@@ -9664,13 +9669,17 @@ readobjnam(char *bp, struct obj *no_wish)
         set_tin_variety(d.otmp, d.tvariety);
 
     if (d.name) {
-        const char *aname, *novelname;
+        const char *aname, *aename, *novelname;
         short objtyp;
 
         /* an artifact name might need capitalization fixing */
         aname = artifact_name(d.name, &objtyp, TRUE);
         if (aname && objtyp == d.otmp->otyp)
             d.name = aname;
+
+        aename = artifact_ename(d.name, &objtyp, TRUE);
+        if (aename && objtyp == d.otmp->otyp)
+            d.name = aename;
 
         /* 3.6 tribute - fix up novel */
         if (d.otmp->otyp == SPE_NOVEL
@@ -9679,7 +9688,7 @@ readobjnam(char *bp, struct obj *no_wish)
 
         d.otmp = oname(d.otmp, d.name, ONAME_WISH);
         /* name==aname => wished for artifact (otmp->oartifact => got it) */
-        if (d.otmp->oartifact || d.name == aname) {
+        if (d.otmp->oartifact || d.name == aname || d.name == aename) {
             d.otmp->quan = 1L;
             u.uconduct.wisharti++; /* KMH, conduct */
         }
