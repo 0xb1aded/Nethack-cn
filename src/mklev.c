@@ -1276,10 +1276,10 @@ makelevel(void)
         char fillname[9];
         s_level *loc_lev;
 
-        Sprintf(fillname, "%s-loca", gu.urole.efilecode);
+        Sprintf(fillname, "%s-loca", gu.urole.filecode);
         loc_lev = find_level(fillname);
 
-        Sprintf(fillname, "%s-fil", gu.urole.efilecode);
+        Sprintf(fillname, "%s-fil", gu.urole.filecode);
         Strcat(fillname,
                 (u.uz.dlevel < loc_lev->dlevel.dlevel) ? "a" : "b");
         makemaz(fillname);
@@ -2364,7 +2364,7 @@ mkgrave(struct mkroom *croom)
         return;
 
     /* Put a grave at <m.x,m.y> */
-    make_grave(m.x, m.y, dobell ? "摇铃得救!" : (char *) 0);
+    make_grave(m.x, m.y, dobell ? "摇铃得救! " : (char *) 0);
 
     /* Possibly fill it with objects */
     if (!rn2(3)) {

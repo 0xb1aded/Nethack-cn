@@ -1171,6 +1171,7 @@ name_to_monplus(
             { "玻璃锥怪", PM_GLASS_PIERCER, NEUTRAL },
             { "洛斯兽", PM_ROTHE, NEUTRAL },
             { "猛犸", PM_MUMAK, NEUTRAL },
+            { "毛象", PM_MUMAK, NEUTRAL },
             { "狼狗", PM_LEOCROTTA, NEUTRAL },
             { "狮头象", PM_WUMPUS, NEUTRAL },
             { "雷兽", PM_TITANOTHERE, NEUTRAL },
