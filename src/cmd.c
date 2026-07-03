@@ -3707,7 +3707,7 @@ rhack(int key)
                  */
                 if (was_m_prefix) {
                     custompline(SUPPRESS_HISTORY,
-                          "The %s命令'%s' prefix.",
+                          "%s命令不允许'%s'前缀.",
                           tlist->ef_txt, which);
                 } else {
                     uchar ch = tlist->key;

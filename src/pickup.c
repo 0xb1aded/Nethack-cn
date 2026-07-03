@@ -2298,7 +2298,7 @@ doloot_core(void)
  lootmon:
     if (c != 'y' && (mon_beside(u.ux, u.uy) || iflags.menu_requested)) {
         boolean looted_mon = FALSE;
-        if (!get_adjacent_loc("搜刮拿个方向?",
+        if (!get_adjacent_loc("搜刮哪个方向?",
                               "无效的搜刮方向", u.ux, u.uy, &cc))
             return ECMD_OK;
         underfoot = u_at(cc.x, cc.y);
