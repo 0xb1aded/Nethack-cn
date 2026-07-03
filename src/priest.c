@@ -324,11 +324,11 @@ priestname(
         if (article == ARTICLE_YOUR || (article == ARTICLE_A && high_priest))
             article = ARTICLE_THE;
         if (article == ARTICLE_THE) {
-            Strcpy(pname, "这个");
-        } else if (!strcmp(what, "Angel") || !strcmp(what, "天使")) { /*危险:Angel*/
+            Strcpy(pname, "");
+        } else if (!strcmp(what, "Angel")) { /*危险:Angel*/
             /* bypass just_an(); it would yield "" due to treating capital A
                as indicating a personal name */
-            Strcpy(pname, "一个");
+            Strcpy(pname, "");
         } else {
             (void) just_an(pname, what);
         }
@@ -336,14 +336,14 @@ priestname(
     /* pname[] contains "" or {"a ","an ","the "} */
     if (mon->minvis) {
         /* avoid "a invisible priest" */
-        if (!strcmp(pname, "a "))
-            Strcpy(pname, "一个");
+        /*冗余:if (!strcmp(pname, "a "))
+            Strcpy(pname, "一个");*/
         Strcat(pname, "隐形的");
     }
     if (mon->isminion && EMIN(mon)->renegade) {
         /* avoid "an renegade Angel" */
-        if (!strcmp(pname, "an") && !mon->minvis)
-            Strcpy(pname, "一个");
+        /*冗余:if (!strcmp(pname, "an") && !mon->minvis)
+            Strcpy(pname, "一个");*/
         Strcat(pname, "反叛的");
     }
 

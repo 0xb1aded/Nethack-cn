@@ -3393,7 +3393,7 @@
         M3_INFRAVISIBLE,
         11, HI_DOMESTIC, MONK),
     /* monster priests are separate monsters (above; "aligned cleric") */
-    MON(NAMS("priest", "priestess", "cleric"), NAMS("牧师"), S_HUMAN,
+    MON(NAMS("priest", "priestess", "cleric"), NAM("牧师"), S_HUMAN,
         LVL(10, 12, 10, 2, 0), G_NOGEN,
         A(ATTK(AT_WEAP, AD_PHYS, 1, 6), ATTK(AT_MAGC, AD_CLRC, 0, 0),
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
