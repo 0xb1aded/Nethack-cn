@@ -1463,7 +1463,7 @@ gulpmu(struct monst *mtmp, struct attack *mattk)
             if (Hallucination)
                 pline("哎呀! 你被黏液覆盖了!");
             else
-                You("被粘液覆盖了! 它在灼烧!");
+                You("被黏液覆盖了! 它在灼烧!");
             exercise(A_STR, FALSE);
             monstunseesu(M_SEEN_ACID);
         }

@@ -964,7 +964,7 @@ from_what(
             else if (propidx == BLINDED && u.ucreamed
                      && BlindedTimeout == (long) u.ucreamed
                      && !EBlinded && !(HBlinded & ~TIMEOUT))
-                Sprintf(buf, ", 因为粘液覆盖了你的%s",
+                Sprintf(buf, ", 因为黏液覆盖了你的%s",
                         body_part(FACE));
 
             /* remove some verbosity and/or redundancy */

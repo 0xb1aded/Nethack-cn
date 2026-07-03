@@ -335,7 +335,7 @@
     MONSYM(39, 'M', MUMMY, S_MUMMY, "木乃伊")
     MONSYM(40, 'N', NAGA, S_NAGA, "纳迦")
     MONSYM(41, 'O', OGRE, S_OGRE, "食人魔")
-    MONSYM(42, 'P', PUDDING, S_PUDDING, "布丁或粘液")
+    MONSYM(42, 'P', PUDDING, S_PUDDING, "布丁或黏液")
     MONSYM(43, 'Q', QUANTMECH, S_QUANTMECH, "量子工程师")
     MONSYM(44, 'R', RUSTMONST, S_RUSTMONST, "锈蚀怪或祛魔怪")
     MONSYM(45, 'S', SNAKE, S_SNAKE, "蛇")
