@@ -672,12 +672,12 @@ outoracle(boolean special, boolean delphi)
             putstr(tmpwin, 0,
                    special
                      ? "神谕者不屑地拿走了你所有的金子, 说:"
-                     : "神谕沉思了片刻, 随后沉声说道:");
+                     : "神谕者沉思了片刻, 随后沉声说道:");
         else
             putstr(tmpwin, 0, "信息内容如下:");
         putstr(tmpwin, 0, "");
 
-        while (dlb_fgets(line, COLNO, oracles) && strcmp(line, "---\n")) {
+        while (dlb_fgets(line, COLNO, oracles) && strncmp(line, "---", 3)) {
             if ((endp = strchr(line, '\n')) != 0)
                 *endp = 0;
             putstr(tmpwin, 0, xcrypt(line, xbuf));
