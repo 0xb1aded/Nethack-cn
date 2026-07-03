@@ -1747,7 +1747,7 @@ struct ext_func_tab extcmdlist[] = {
               dojump, AUTOCOMPLETE, NULL },
     { C('d'), "kick", "用脚踢",
               dokick, 0, NULL },
-    { '\\',   "known", "显示已发现的对象类型",
+    { '\\',   "known", "显示已发现的物品类型",
               dodiscovered, IFBURIED | GENERALCMD | CMD_M_PREFIX, NULL },
     { '`',    "knownclass", "显示某类物品的已发现类型",
               doclassdisco, IFBURIED | GENERALCMD | CMD_M_PREFIX, NULL },

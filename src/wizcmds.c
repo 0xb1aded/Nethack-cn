@@ -1392,7 +1392,7 @@ misc_stats(
     if (count || size) {
         *total_count += count;
         *total_size += size;
-        Strcpy(hdrbuf, "对象类型名称, 文本");
+        Strcpy(hdrbuf, "物品类型名称, 文本");
         Sprintf(buf, template, hdrbuf, count, size);
         putstr(win, 0, buf);
     }
@@ -1627,7 +1627,7 @@ wiz_show_stats(void)
 
     total_obj_count = total_obj_size = 0L;
     putstr(win, 0, stats_hdr);
-    Sprintf(buf, "  对象, 基础大小 %ld", (long) sizeof (struct obj));
+    Sprintf(buf, "  物品, 基础大小 %ld", (long) sizeof (struct obj));
     putstr(win, 0, buf);
     obj_chain(win, "invent", gi.invent, TRUE,
               &total_obj_count, &total_obj_size);
