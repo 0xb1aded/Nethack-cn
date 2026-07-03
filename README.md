@@ -20,7 +20,7 @@ English README：[README_en.md](README_en.md)
 - [x] 安卓版：**[点我下载apk](https://github.com/StackC00ki3/ANetHack-cn/releases)** 仓库：[Anethack-cn](https://github.com/StackC00ki3/ANetHack-cn)
 - [x] 中文输入
 - [x] 许愿机制 (仍需测试)
-- [ ] 灭绝机制
+- [x] 灭绝机制 (仍需测试)
 - [ ] 跨层传送机制
 
 ### 翻译标准化
