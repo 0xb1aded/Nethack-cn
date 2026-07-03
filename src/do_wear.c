@@ -1881,7 +1881,7 @@ doremring(void)
         return ECMD_OK;
     }
     if (Naccessories != 1 || ParanoidRemove || cmdq_peek(CQ_CANNED))
-        otmp = getobj("拿下什么", remove_ok, GETOBJ_NOFLAGS);
+        otmp = getobj("摘下什么", remove_ok, GETOBJ_NOFLAGS);
     if (!otmp)
         return ECMD_CANCEL;
 
