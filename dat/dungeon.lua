@@ -5,7 +5,7 @@
 -- The dungeon description file.
 dungeon = {
    {
-      name = "The Dungeons of Doom",
+      name = "The Dungeons of Doom", cname = "命运地牢",
       bonetag = "D",
       base = 25,
       range = 5,
@@ -86,7 +86,7 @@ dungeon = {
       }
    },
    {
-      name = "Gehennom", cname = "吕底俄斯堡",
+      name = "Gehennom", cname = "地狱",
       bonetag = "G",
       base = 20,
       range = 5,

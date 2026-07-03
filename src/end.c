@@ -1530,7 +1530,7 @@ really_done(int how)
                     (u.uz.dlevel < 0) ? "去世" : ends[how]);
         } else {
             /* more conventional demise */
-            const char *where = svd.dungeons[u.uz.dnum].dname;
+            const char *where = svd.dungeons[u.uz.dnum].dcname;
 
             if (Is_astralevel(&u.uz))
                 where = "星界";
