@@ -2,7 +2,7 @@
 
 [![Build Status](https://github.com/StackC00ki3/nethack-cn/actions/workflows//nethack-vs-package.yml/badge.svg)](http://github.com/stackC00ki3/nethack-cn/releases)
 
-English README：[README_en.md](README_en.md)
+Chinese README：[README.md](README.md)
 
 ### 快速开始
 无需本地编译，可直接在[本项目 Release 页面](http://github.com/stackC00ki3/nethack-cn/releases)下载自动构建的汉化预览版
