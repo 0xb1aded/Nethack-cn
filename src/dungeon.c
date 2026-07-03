@@ -2316,7 +2316,7 @@ print_dungeon(boolean bymenu, schar *rlev, xint16 *rdgn)
         menu_item *selected;
         int idx;
 
-        end_menu(win, "层数传送到哪儿:");
+        end_menu(win, "层间传送到哪里:");
         n = select_menu(win, PICK_ONE, &selected);
         destroy_nhwindow(win);
         if (n > 0) {
@@ -3485,11 +3485,11 @@ print_mapseen(
             || In_endgame(&mptr->lev))
             Sprintf(buf, "%s:", svd.dungeons[dnum].dname);
         else if (builds_up(&mptr->lev))
-            Sprintf(buf, "%s:  层数%d 往上到%d", svd.dungeons[dnum].dname,
+            Sprintf(buf, "%s: %d层往上到%d层", svd.dungeons[dnum].dname,
                     depthstart + svd.dungeons[dnum].entry_lev - 1,
                     depthstart + svd.dungeons[dnum].dunlev_ureached - 1);
         else
-            Sprintf(buf, "%s:  层数%d 到%d", svd.dungeons[dnum].dname,
+            Sprintf(buf, "%s: %d层到%d层", svd.dungeons[dnum].dname,
                     depthstart,
                     depthstart + svd.dungeons[dnum].dunlev_ureached - 1);
 
@@ -3502,7 +3502,7 @@ print_mapseen(
         Sprintf(buf, "%s%s:", (final != -1) ? TAB : "",
                 endgamelevelname(tmpbuf, i));
     else
-        Sprintf(buf, "%s第 %d 层:", (final != -1) ? TAB : "", i);
+        Sprintf(buf, "%s第%d层:", (final != -1) ? TAB : "", i);
 
     /* wizmode prints out proto dungeon names for clarity */
     if (wizard) {
@@ -3515,7 +3515,7 @@ print_mapseen(
     if (mptr->custom)
         Sprintf(eos(buf), " \" %s\"", mptr->custom);
     if (on_level(&u.uz, &mptr->lev))
-        Sprintf(eos(buf), " <-  你%s这里.",
+        Sprintf(eos(buf), " <- 你%s这里.",
                 (final <= 0 || (final == 1 && how == ASCENDED)) ? "在"
                 : (final == 1 && how == ESCAPED)                ? "离开了"
                                                                 : "在");
@@ -3630,7 +3630,7 @@ print_mapseen(
          * if the branch goes upwards.  Unless it's the end game.
          */
         if (mptr->br->end1_up && !In_endgame(&(mptr->br->end2)))
-            Sprintf(eos(buf), ",  层数%d", depth(&(mptr->br->end2)));
+            Sprintf(eos(buf), ", %d层", depth(&(mptr->br->end2)));
         Strcat(buf, "死亡");
         add_menu_str(win, buf);
     }
