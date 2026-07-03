@@ -328,16 +328,16 @@ ask_redraw(DialogRef wind, DialogItemIndex item)
         MoveTo(rect.left + 4, rect.top + 12);
         switch (item) {
         case RSRC_ASK_ROLE:
-            DrawText(roles[askselect[item]].efilecode, 0, 3);
+            DrawText(roles[askselect[item]].filecode, 0, 3);
             break;
         case RSRC_ASK_RACE:
-            DrawText(races[askselect[item]].efilecode, 0, 3);
+            DrawText(races[askselect[item]].filecode, 0, 3);
             break;
         case RSRC_ASK_GEND:
-            DrawText(genders[askselect[item]].efilecode, 0, 3);
+            DrawText(genders[askselect[item]].filecode, 0, 3);
             break;
         case RSRC_ASK_ALIGN:
-            DrawText(aligns[askselect[item]].efilecode, 0, 3);
+            DrawText(aligns[askselect[item]].filecode, 0, 3);
             break;
         case RSRC_ASK_MODE:
             DrawChar(modechar[askselect[item]]);

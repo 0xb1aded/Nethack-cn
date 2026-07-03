@@ -1177,8 +1177,8 @@ distant_monnam(
        its own obfuscation) */
     if (mon->data == &mons[PM_HIGH_CLERIC] && !Hallucination
         && Is_astralevel(&u.uz) && !m_next2u(mon)) {
-        Strcpy(outbuf, article == ARTICLE_THE ? "" : "");
-        Strcat(outbuf, mon->female ? "高阶祭司" : "高阶祭司");
+        //冗余:Strcpy(outbuf, article == ARTICLE_THE ? "" : "");
+        Strcat(outbuf, "高阶祭司");
     } else {
         Strcpy(outbuf, x_monnam(mon, article, (char *) 0, 0, TRUE));
     }

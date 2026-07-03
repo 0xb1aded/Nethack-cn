@@ -160,7 +160,7 @@ stinky_nemesis(struct monst *mon)
     int r, mndx = monsndx(mon->data);
     for (r = 0; roles[r].name.m || roles[r].name.f; ++r)
         if (roles[r].neminum == mndx) {
-            (void) com_pager_core(roles[r].efilecode, "killed_nemesis",
+            (void) com_pager_core(roles[r].filecode, "killed_nemesis",
                                   FALSE, &mesg);
             break;
         }
