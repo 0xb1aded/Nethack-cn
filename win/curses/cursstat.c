@@ -180,9 +180,9 @@ curses_status_update(
                 *status_vals[fldidx] = '\0';
             } else {
                 Sprintf(status_vals[fldidx],
-                        (fldidx == BL_TITLE && iflags.wc2_hitpointbar)
-                        ? "%-30.30s" : status_fieldfmt[fldidx]
-                                     ? status_fieldfmt[fldidx] : "%s",
+                        (fldidx == BL_TITLE && iflags.wc2_hitpointbar) ? "%s"
+                        : status_fieldfmt[fldidx] ? status_fieldfmt[fldidx]
+                                                  : "%s",
                         text);
                 /* strip trailing spaces; core ought to do this for us */
                 if (fldidx == BL_HUNGER || fldidx == BL_LEVELDESC)
@@ -355,7 +355,7 @@ draw_horizontal(boolean border)
        for direct output if no highlighting is requested ('asis') but
        primarily used to measure the length */
     curs_stat_conds(0, 0, &x, &y, cbuf, &asis);
-    clen = (int) strlen(cbuf);
+    clen = (int) utf8str_width(cbuf);
 
     cap_and_hunger = 0;
     if (*status_vals[BL_HUNGER])
@@ -366,7 +366,7 @@ draw_horizontal(boolean border)
     /* don't bother conditionalizing this; always 0 for !SCORE_ON_BOTL */
     sho_score = (status_activefields[BL_SCORE] != 0);
     sho_vers = (status_activefields[BL_VERS] != 0);
-    versstart = sho_vers ? (width - (int) strlen(status_vals[BL_VERS])
+    versstart = sho_vers ? (width - (int) utf8str_width(status_vals[BL_VERS])
                             + (border ? 1 : 0))
                          : 0;
 
@@ -418,9 +418,9 @@ draw_horizontal(boolean border)
             case BL_TITLE:
                 if (iflags.wc2_hitpointbar) {
                     w += 2; /* count '[' and ']' */
-                    t = (int) strlen(text);
+                    t = (int) utf8str_width(text);
                     if (t != 30) /* HPbar() will use modified copy of title */
-                        w -= (t - 30); /* '+= strlen()' below will add 't';
+                        w -= (t - 30); /* '+= utf8str_width()' below will add 't';
                                         * functional result being 'w += 30' */
                 }
                 FALLTHROUGH;
@@ -436,7 +436,7 @@ draw_horizontal(boolean border)
                 spacing[fld] = (cap_and_hunger == 2);
                 break;
             case BL_CONDITION:
-                text = cbuf; /* for 'w += strlen(text)' below */
+                text = cbuf; /* for 'w += utf8str_width(text)' below */
                 spacing[fld] = (cap_and_hunger == 0);
                 break;
             case BL_VERS:
@@ -458,7 +458,7 @@ draw_horizontal(boolean border)
             default:
                 break;
             }
-            w += (int) strlen(text);
+            w += (int) utf8str_width(text);
             /* if preceding field has any trailing spaces, don't add extra;
                (should only apply to prev==title; status_update() handles
                others that used to have trailing spaces by stripping such) */
@@ -555,16 +555,16 @@ draw_horizontal(boolean border)
                    and wrap; if so, truncate it; (won't wrap on last line
                    of borderless window, but will when there's a border);
                    could only do that after all extra spaces are gone */
-                if (!xtra) {
+                 if (!xtra) {
+                     int cap_w = (int) utf8str_width(text);
                      getyx(win, ey, ex);
-                     t = (int) strlen(text);
-                     if (ex + t > width - (border ? 0 : 1)) {
+                     if (ex + cap_w > width - (border ? 0 : 1)) {
                          text = strcpy(ebuf, text);
                          t = (width - (border ? 0 : 1)) - (ex - 1);
                          ebuf[max(t, 2)] = '\0'; /* might still wrap... */
                      }
                      nhUse(ey); /* getyx needed 3 args */
-                }
+                 }
                 break;
             case BL_SCORE:
 #ifdef SCORE_ON_BOTL
@@ -639,7 +639,7 @@ draw_horizontal(boolean border)
                     if (number_of_lines == 3) {
                         int vlen = (sho_vers
                                     && fieldorder[j][i + 1] == BL_VERS)
-                                   ? ((int) strlen(status_vals[BL_VERS])
+                                   ? ((int) utf8str_width(status_vals[BL_VERS])
                                       + spacing[BL_VERS])
                                    : 0;
 
@@ -1014,10 +1014,14 @@ curs_HPbar(
 
     if (bar_len < 1 || bar_len > 30)
         bar_len = 30;
-    if (bar_len > (k = (int) strlen(text))) /* 26 for vertical status */
+    /* 26 for vertical status */
+    if (bar_len > (k = (int) utf8str_width(text)))
         bar_len = k;
-    (void) strncpy(bar, text, bar_len);
-    bar[bar_len] = '\0';
+    {
+        const char *endptr = utf8str_at_col(text, bar_len);
+        memcpy(bar, text, (size_t) (endptr - text));
+        bar[endptr - text] = '\0';
+    }
     if (hpbar_crit_hp)
         repad_with_dashes(bar);
 
@@ -1027,7 +1031,7 @@ curs_HPbar(
     if (bar_pos >= bar_len && hpbar_percent < 100)
         bar_pos = bar_len - 1;
     if (twoparts) {
-        bar2 = &bar[bar_pos];
+        bar2 = &bar[utf8str_at_col(bar, bar_pos) - bar];
         savedch = *bar2;
         *bar2 = '\0';
     }
@@ -1071,6 +1075,7 @@ curs_HPbar(
 /* conditions[] is used primarily for parsing hilite_status rules, but
    we can use it for condition names and mask bits, avoiding duplication */
 extern const struct conditions_t conditions[]; /* botl.c */
+extern const struct cond_zh_t conditions_ui[]; /* botl.c, Chinese display */
 extern int cond_idx[CONDITION_COUNT];
 
 DISABLE_WARNING_FORMAT_NONLITERAL
@@ -1100,8 +1105,8 @@ curs_stat_conds(
             ci = cond_idx[i];
             bitmsk = conditions[ci].mask;
             if (curses_condition_bits & bitmsk) {
-                Strcpy(condnam, conditions[ci].text[0]);
-                Strcat(strcat(condbuf, " "), upstart(condnam));
+                Strcpy(condnam, conditions_ui[ci].text);
+                Strcat(strcat(condbuf, " "), condnam);
 #ifdef STATUS_HILITES
                 if (nohilite && *nohilite
                     && (condcolor(bitmsk, curses_colormasks) != NO_COLOR
@@ -1133,10 +1138,10 @@ curs_stat_conds(
             bitmsk = conditions[ci].mask;
             if (cond_bits & bitmsk) {
                 if (!vert_fmt)
-                    Strcpy(condnam, conditions[ci].text[0]);
+                    Strcpy(condnam, conditions_ui[ci].text);
                 else
-                    Sprintf(condnam, vert_fmt, conditions[ci].text[0]);
-                cndlen = 1 + (int) strlen(condnam); /* count leading space */
+                    Sprintf(condnam, vert_fmt, conditions_ui[ci].text);
+                cndlen = 1 + (int) utf8str_width(condnam); /* count leading space */
                 if (!do_vert) {
                     getyx(win, cy, cx);
                     if (cy > cy0) /* wrap to next line shouldn't happen */
@@ -1167,7 +1172,7 @@ curs_stat_conds(
 #endif /* STATUS_HILITES */
 
                 /* output the condition name */
-                waddstr(win, upstart(condnam));
+                waddstr(win, condnam);
 
 #ifdef STATUS_HILITES
                 if (iflags.hilite_delta) {
@@ -1234,19 +1239,14 @@ curs_vert_status_vals(int win_width)
             /* classify type of field (labeled or not) and make some fixups */
             switch ((enum statusfields) fldidx) {
             case BL_XP:
-                 /* "experience-level : N" is too long and becomes misleading
-                    if value is shown as 'N/experience-points' */
-                lbl = "experience";
+                lbl = "经验";
                 break;
             case BL_LEVELDESC:
-                /* "dungeon-level" is redundant when value is "Dlvl-N" */
-                lbl = "location";
+                lbl = "位置";
                 break;
             case BL_HD:
-                /* "HD" is too oscure; 0 actually means 1d4 (so about 1/2);
-                   "hit-dice" is obscure too but doesn't stand out as such */
-                lbl = (!strcmp(text, "1") || !strcmp(text, "0")) ? "hit-die"
-                      : "hit-dice";
+                // 修改: 中文无单复数区分
+                lbl = "生命骰";
                 break;
             case BL_ALIGN:
                 /* don't want sprintf(": %s") below inserting second space */
@@ -1299,7 +1299,7 @@ curs_vert_status_vals(int win_width)
                         -lbl_width, lbl_width, lbl, leadingspace, text);
                 *status_vals_long[fldidx] = highc(*status_vals_long[fldidx]);
             } else if (fldidx == BL_VERS && *text) {
-                int txtlen = (int) strlen(text);
+                int txtlen = (int) utf8str_width(text);
 
                 /* right justify without "Version :" prefix; if longer than
                    width, keep only the *end* of the value */
@@ -1326,18 +1326,18 @@ curs_vert_status_vals(int win_width)
             /* check whether 'label : value' is too wide; if so, we'll
                shorten the label's allowed width and try again */
             if (use_name) {
-                fld_width = (int) strlen(status_vals_long[fldidx]);
+                fld_width = (int) utf8str_width(status_vals_long[fldidx]);
                 /* each extension field is preceded by its base field in
                    order to append, so base's _vals_long[] has been set */
                 switch ((enum statusfields) fldidx) {
                 case BL_HPMAX:
-                    fld_width += (int) strlen(status_vals_long[BL_HP]);
+                    fld_width += (int) utf8str_width(status_vals_long[BL_HP]);
                     break;
                 case BL_ENEMAX:
-                    fld_width += (int) strlen(status_vals_long[BL_ENE]);
+                    fld_width += (int) utf8str_width(status_vals_long[BL_ENE]);
                     break;
                 case BL_EXP:
-                    fld_width += (int) strlen(status_vals_long[BL_XP]);
+                    fld_width += (int) utf8str_width(status_vals_long[BL_XP]);
                     break;
                 default:
                     break;

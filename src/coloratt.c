@@ -39,6 +39,12 @@ static const struct color_names colornames[] = {
     { "bright cyan", CLR_BRIGHT_CYAN }
 };
 
+static const char *const colornames_ui[] = {
+    "黑色", "红色", "绿色", "棕色", "蓝色", "品红", "青色", "灰色", "橙色",
+    "浅绿", "黄色", "浅蓝", "浅品", "浅青", "白色", "无色", NULL,   "透明",
+    "紫色", "浅紫", "亮紫", "灰色", "亮红", "亮绿", "亮蓝", "亮品", "亮青",
+};
+
 struct attr_names {
     const char *name;
     int attr;
@@ -56,6 +62,11 @@ static const struct attr_names attrnames[] = {
     { "normal", ATR_NONE },
     { "uline", ATR_ULINE },
     { "reverse", ATR_INVERSE },
+};
+
+static const char *const attrnames_ui[] = {
+    "无",   "粗体", "黯淡", "斜体",   "下划线", "闪烁",
+    "反色", NULL,   "正常", "下划线", "反色",
 };
 
 /* { colortyp, tableindex, rgbindx, name, r, g, b }, */
@@ -327,6 +338,21 @@ attr2attrname(int attr)
     return (char *) 0;
 }
 
+// 修改: 这里并没有选择在原函数增加一个布尔参数
+// `for_ui`，而是简单拷贝了原函数并修改输出内容。
+// 因为考虑到此处是公共接口，尽量不破坏其函数签名。
+// 若不介意这一点则仍可与原函数合并，保持一致。下同。
+const char *
+attr2attrname_ui(int attr)
+{
+    int i;
+
+    for (i = 0; i < SIZE(attrnames); i++)
+        if (attrnames[i].attr == attr)
+            return attrnames_ui[i];
+    return (char *) 0;
+}
+
 /*
  * Color support functions and data for "color"
  *
@@ -342,6 +368,17 @@ clr2colorname(int clr)
     for (i = 0; i < SIZE(colornames); i++)
         if (colornames[i].name && colornames[i].color == clr)
             return colornames[i].name;
+    return (char *) 0;
+}
+
+const char *
+clr2colorname_ui(int clr)
+{
+    int i;
+
+    for (i = 0; i < SIZE(colornames); i++)
+        if (colornames[i].name && colornames[i].color == clr)
+            return colornames_ui[i];
     return (char *) 0;
 }
 
@@ -389,28 +426,38 @@ match_str2attr(const char *str, boolean complain)
 }
 
 /* ask about highlighting attribute; for menu headers and menu
-   coloring patterns, only one attribute at a time is allowed;
-   for status highlighting, multiple attributes are allowed [overkill;
-   life would be much simpler if that were restricted to one also...] */
+ * coloring patterns, only one attribute at a time is allowed;
+ * for status highlighting, multiple attributes are allowed [overkill;
+ * life would be much simpler if that were restricted to one also...]
+ *
+ * HACK: 该函数原本判断 `prompt` 参数是否以 "Choose" 开头决定是否开启多选，
+ * 中文可以翻译成“选择”但翻译时往往需要调整语序，此外 "Select" 也可能被翻译
+ * 成“选择”导致误开启多选。现统一使用“(多选) ”这个前缀判断是否需要开启多选
+ * 功能。实际上原版这种判断方式本身就并不可靠，另一种方案是添加一个布尔参数
+ * 决定是否开启多选。缺点是这种修改更具侵入性，所有包装了该函数的接口都要转发该参数。
+ */
 int
 query_attr(const char *prompt, int dflt_attr)
 {
+    static const char multi_prefix[] = "(多选) ";
+
     winid tmpwin;
     anything any;
     int i, pick_cnt;
     menu_item *picks = (menu_item *) 0;
-    boolean allow_many = (prompt && !strncmpi(prompt, "Choose", 6));
+    boolean allow_many =
+        (prompt && !strncmp(prompt, multi_prefix, sizeof multi_prefix - 1));
     int clr = NO_COLOR;
 
     tmpwin = create_nhwindow(NHW_MENU);
     start_menu(tmpwin, MENU_BEHAVE_STANDARD);
     any = cg.zeroany;
     for (i = 0; i < SIZE(attrnames); i++) {
-        if (!attrnames[i].name)
+        if (!attrnames_ui[i])
             break;
         any.a_int = i + 1;
         add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0,
-                 attrnames[i].attr, clr, attrnames[i].name,
+                 attrnames[i].attr, clr, attrnames_ui[i],
                  (attrnames[i].attr == dflt_attr) ? MENU_ITEMFLAGS_SELECTED
                                                   : MENU_ITEMFLAGS_NONE);
     }
@@ -486,11 +533,11 @@ query_color(const char *prompt, int dflt_color)
     start_menu(tmpwin, MENU_BEHAVE_STANDARD);
     any = cg.zeroany;
     for (i = 0; i < SIZE(colornames); i++) {
-        if (!colornames[i].name)
+        if (!colornames_ui[i])
             break;
         any.a_int = i + 1;
         add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0,
-                 ATR_NONE, NO_COLOR, colornames[i].name,
+                 ATR_NONE, NO_COLOR, colornames_ui[i],
                  (colornames[i].color == dflt_color) ? MENU_ITEMFLAGS_SELECTED
                                                      : MENU_ITEMFLAGS_NONE);
     }
@@ -558,12 +605,12 @@ basic_menu_colors(
                shorter basic names won't get false matches as substrings
                of the longer ones) */
             for (i = 0; i < SIZE(colornames); ++i) {
-                if (!colornames[i].name) /* first alias entry has no name */
+                if (!colornames_ui[i])
                     break;
                 c = colornames[i].color;
                 if (c == CLR_BLACK || c == CLR_WHITE || c == NO_COLOR)
                     continue; /* skip these */
-                Sprintf(cnm, patternfmt, colornames[i].name);
+                Sprintf(cnm, patternfmt, colornames_ui[i]);
                 add_menu_coloring_parsed(cnm, c, ATR_NONE);
             }
 

@@ -4538,6 +4538,7 @@ static long tty_condition_bits;
 static struct tty_status_fields tty_status[2][MAXBLSTATS]; /* 2: NOW,BEFORE */
 static int hpbar_percent, hpbar_crit_hp;
 extern const struct conditions_t conditions[CONDITION_COUNT];
+extern const struct cond_zh_t conditions_ui[CONDITION_COUNT];
 
 static const char *const encvals[3][6] = {
     { "", "Burdened", "Stressed", "Strained", "Overtaxed", "Overloaded" },
@@ -5158,7 +5159,7 @@ set_condition_length(void)
         for (c = 0; c < SIZE(conditions); ++c) {
             mask = conditions[c].mask;
             if ((tty_condition_bits & mask) == mask)
-                lth += 1 + (int) strlen(conditions[c].text[cond_shrinklvl]);
+                lth += 1 + (int) strlen(conditions_ui[c].text);
         }
     }
     tty_status[NOW][BL_CONDITION].lth = lth;
@@ -5392,7 +5393,7 @@ render_status(void)
                                 if (coloridx != NO_COLOR)
                                     term_start_color(coloridx);
                             }
-                            condtext = conditions[ci].text[cond_shrinklvl];
+                            condtext = conditions_ui[ci].text;
                             if (x >= cw->cols && !truncation_expected) {
                                 impossible(
                          "Unexpected condition placement overflow for \"%s\"",
