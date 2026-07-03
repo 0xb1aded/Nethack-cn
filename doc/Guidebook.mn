@@ -16,7 +16,7 @@
 .\"|||
 .\"
 .
-.so tmac.nh \" extra macros which aren't in tmac.n
+.so tmac.nh	\" extra macros which aren't in tmac.n
 .
 .ds h0 "NetHack说明手册
 .ds h1
@@ -402,7 +402,7 @@ b j n(tab)1 2 3(tab))
 .lp "g[yuhjklbn]"
 前缀：移动，直到你发现一些让你感兴趣的事情。
 .lp "G[yuhjklbn]或<CONTROL->[yuhjklbn]"
-前缀：类似前缀‘g’，但走廊的分叉路由不会作为触发感兴趣。
+前缀：类似前缀‘g’，但走廊的分叉路口不会作为感兴趣的事情触发。
 .lp ""
 注意：<Control>+<key>指的是打字时按下<Shift>一样按下<Control>或者<Ctrl>，然后再按下<key>，松开<key>，再松开<Control>。说明手册里的^<key>意思是一样的。Control加的字母是大小写无关的，所以^x和^X一样的。
 .lp "M[yuhjklbn]"
@@ -412,7 +412,7 @@ b j n(tab)1 2 3(tab))
 .lp _
 使用最短路径算法移动到地图上的某个位置。
 .lp ""
-该最短路劲由英雄已知的地图位置计算得出（例如看到的或先前走过的）。
+该最短路径由英雄已知的地图位置计算得出（例如看到的或先前走过的）。
 如果这里无法计算出一个最短路径，那么会使用一个猜测的路径来替代。
 其停止条件大多数情况和‘G’前缀类似，但是不会捡起物品，因此隐式地强制使用‘m’前缀。
 对于支持鼠标的移植，当在非当前位置鼠标点击发生时，同样会被调用。
@@ -477,7 +477,7 @@ b j n(tab)1 2 3(tab))
 .lp ""
 如果你在一项类别上，指定了不止一个值（例如“!?”对于毒药和卷轴或者是“BU”对于被祝福的和未被诅咒的），一项物品如果它匹配了指定值的任意一个将会满足条件（因此“!?”意味着‘!’或者‘?’）。
 如果你指定了多个类别，物品将会匹配每个类别的条件（因此“%u”意味着种类‘%’和未付款‘u’）。
-最后，你可能会在多个类别中指定多个值：“!?BU”将会选择所有被祝福或未被诅咒的毒药和卷轴。（在早于3.6的版本中，过滤组合的行为是不一样的。）
+最后，你可能会在多个类别中指定多个值：“!?BU”将会选择所有被祝福或未被诅咒的毒药和卷轴。（在3.6之前，过滤组合的行为是不一样的。）
 .lp ^D
 踢某些东西（通常是门）。
 .lp e
@@ -496,7 +496,7 @@ b j n(tab)1 2 3(tab))
 在地板上刻字。
 .sd
 .si
-E\- - 在地板上用你的手指写字.
+E\- - 在地板上用你的手指写字。
 .ei
 .ed
 .lp ""
@@ -576,7 +576,7 @@ E\- - 在地板上用你的手指写字.
 .lp Q
 选择准备弹药。你可以在那之后使用‘f’命令进行投射。
 .lp ""
-（在早于3.3的版本，这个命令用于退出游戏，现在已经迁移至“#quit”命令。）
+（在3.3之前，这个命令用于退出游戏，现在已经迁移至“#quit”命令。）
 .lp r
 读卷轴或者书。
 .lp R
@@ -654,7 +654,7 @@ w\- - 什么也不拿，使用的空手。
 .lp X
 开关双持战斗。这个命令也可以通过“#twoweapon”扩展命令来实现。
 .lp ""
-（在早于3.6版本之前，这个键位曾用于开启“探索模式”，也被称作“发现模式”，现在被迁移至“#exploremode”和M-X。）
+（在3.6版本之前，这个键位曾用于开启“探索模式”，也被称作“发现模式”，现在被迁移至“#exploremode”和M-X。）
 .lp ^X
 显示你的属性。
 .lp ""
@@ -1174,7 +1174,7 @@ Debug mode only.
 脱下所有防具。
 默认按键为‘A’。
 .lp #teleport
-层间传送。
+层内传送。
 默认按键为‘^T’。
 .lp "#terrain "
 显示没有挡住的地图。
@@ -1604,7 +1604,7 @@ No time elapses.
 .pg
 选项
 .op pile_limit
-控制一个堆中可以包含多少个对象，这些对象位于同一地图位置，以便游戏显示“此处有对象”而非列出具体对象。
+控制一个堆中可以包含多少个物品，这些物品位于同一地图位置，以便游戏显示“此处有物品”而非列出具体物品。
 默认值为\f(CR5\fP。
 将其设置为\f(CR1\fP时，系统将始终显示该提示，而非列出任何物品。
 将其设置为\f(CR0\fP属于特殊情况，无论堆栈规模多大，系统都会始终列出所有物品。
@@ -1887,18 +1887,18 @@ NetHack将会告诉你你现在的负载状况有多糟糕。
 .TS S
 center;
 a n.
-龙鳞甲（Dragon Scale Mail）  1
-板甲（Plate Mail），水晶板甲（Crystal Plate Mail） 3
-黄铜板甲（Bronze Plate Mail），板条甲（Splint Mail），带链甲（Banded Mail）   4
-矮人秘银胶衣（Dwarvish Mithril-Coat）   4
-锁子甲（Chain Mail），精灵秘银胶衣（Elven Mithril-Coat）  5
-鳞甲（Scale Mail），兽人锁子甲（Orcish Chain Mail） 6
-龙鳞片（Dragon Scales）  7
-嵌皮甲（Studded Leather Armor）  7
-锁环甲（Ring Mail）  7
-皮甲（Leather Armor），兽人锁环甲（Orcish Ring Mail）   8
-皮夹克（Leather Jacket） 9
-无护甲（No Armor）   10
+龙鳞甲（Dragon Scale Mail）	1
+板甲（Plate Mail），水晶板甲（Crystal Plate Mail）	3
+黄铜板甲（Bronze Plate Mail），板条甲（Splint Mail），带链甲（Banded Mail）	4
+矮人秘银胶衣（Dwarvish Mithril-Coat）	4
+锁子甲（Chain Mail），精灵秘银胶衣（Elven Mithril-Coat）	5
+鳞甲（Scale Mail），兽人锁子甲（Orcish Chain Mail）	6
+龙鳞片（Dragon Scales）	7
+嵌皮甲（Studded Leather Armor）	7
+锁环甲（Ring Mail）	7
+皮甲（Leather Armor），兽人锁环甲（Orcish Ring Mail）	8
+皮夹克（Leather Jacket）	9
+无护甲（No Armor）	10
 .TE
 .pg
 你还可以穿戴其他护甲部件（如披风盖在盔甲外、衬衫穿在盔甲内、头盔、手套、靴子、盾牌），从而进一步降低你的护甲值。
@@ -2177,32 +2177,32 @@ wands.
 .TS
 center;
 L Lz2 L.
-\fIRank\fP  \-  获得了头衔\fIRank\fP。
-Shop    \-  进入了一个商店。
-Temple  \-  进入了一个神庙。
-Mines   \-  进入了侏儒矿坑。
-Town    \-  进入了矿洞镇。
-Oracle  \-  询问了德尔斐的神谕者。
-Novel   \-  读了一本碟形世界小说。
-Sokoban \-  进入了推箱子关卡。
-Big Room    \-  进入了大房间。
-Soko-Prize  \-  探索到了推箱子关卡的顶层，并在那里发现了一个特殊道具。
-Mines' End  \-  探索到了侏儒矿坑的最深处，并在那里发现了一件特殊物品。
-Medusa  \-  击败了美杜莎。
-Tune    \-  发现了可以开关城堡吊桥的旋律。
-Bell    \-  获得了开启之铃。
-Gehennom    \-  进入了地狱。
-Candle  \-  获得了呼唤烛台。
-Book    \-  获得了死亡之书。
-Invocation  \-  进入了地狱的最底层。
-Amulet  \-  获得了假的岩德护身符。
-Endgame \-  到达了元素位面。
-Astral  \-  到达了星界。
-Blind   \-  天生失明。
-Deaf    \-  天生失聪。
-Nudist  \-  从未穿戴任何盔甲。
-Pauper  \-  以一无所有开局。
-Ascended    \-  将护身符送达其最终目的地。
+\fIRank\fP	\-	获得了头衔\fIRank\fP。
+Shop	\-	进入了一个商店。
+Temple	\-	进入了一个神庙。
+Mines	\-	进入了侏儒矿坑。
+Town	\-	进入了矿洞镇。
+Oracle	\-	询问了德尔斐的神谕者。
+Novel	\-	读了一本碟形世界小说。
+Sokoban	\-	进入了推箱子关卡。
+Big Room	\-	进入了大房间。
+Soko-Prize	\-	探索到了推箱子关卡的顶层，并在那里发现了一个特殊道具。
+Mines' End	\-	探索到了侏儒矿坑的最深处，并在那里发现了一件特殊物品。
+Medusa	\-	击败了美杜莎。
+Tune	\-	发现了可以开关城堡吊桥的旋律。
+Bell	\-	获得了开启之铃。
+Gehennom	\-	进入了地狱。
+Candle	\-	获得了呼唤烛台。
+Book	\-	获得了死亡之书。
+Invocation	\-	进入了地狱的最底层。
+Amulet	\-	获得了假的岩德护身符。
+Endgame	\-	到达了元素位面。
+Astral	\-	到达了星界。
+Blind	\-	天生失明。
+Deaf	\-	天生失聪。
+Nudist	\-	从未穿戴任何盔甲。
+Pauper	\-	以一无所有开局。
+Ascended	\-	将护身符送达其最终目的地。
 .TE
 .sp
 .lp "Notes:  "
@@ -4380,14 +4380,14 @@ You can adjust the appearance of the following status fields:
 center;
 c c c.
 .\"TABLE_START
-title   dungeon-level   experience-level
-strength    gold    experience
-dexterity   hitpoints   HD
-constitution    hitpoints-max   time
-intelligence    power   hunger
-wisdom  power-max   carrying-capacity
-charisma    armor-class condition
-alignment       score
+title	dungeon-level	experience-level
+strength	gold	experience
+dexterity	hitpoints	HD
+constitution	hitpoints-max	time
+intelligence	power	hunger
+wisdom	power-max	carrying-capacity
+charisma	armor-class	condition
+alignment		score
 .\"TABLE_END  Do not delete this line.
 .TE
 .lp ""
@@ -4547,192 +4547,192 @@ l s s
 l1fCR l1 l.
 .\"TABLE_START
 NetHack Symbols
-\ \     Symbol Name Description
-\_  \_  \_
-\   S_air   (air)
-\&_ S_altar (altar)
-\(dq    S_amulet    (amulet)
-A   S_angel (angelic being)
-a   S_ant   (ant or other insect)
-\(ha    S_anti_magic_trap   (anti-magic field)
-[   S_armor (suit or piece of armor)
-[   S_armour    (suit or piece of armor)
-\(ha    S_arrow_trap    (arrow trap)
-0   S_ball  (iron ball)
-#   S_bars  (iron bars)
-B   S_bat   (bat or bird)
-\(ha    S_bear_trap (bear trap)
-\-  S_blcorn    (bottom left corner)
-b   S_blob  (blob)
-+   S_book  (spellbook)
-)   S_boomleft  (boomerang open left)
-(   S_boomright (boomerang open right)
-\`  S_boulder   (boulder)
-\-  S_brcorn    (bottom right corner)
->   S_brdnladder    (branch ladder down)
->   S_brdnstair (branch staircase down)
-<   S_brupladder    (branch ladder up)
-<   S_brupstair (branch staircase up)
-C   S_centaur   (centaur)
-\&_ S_chain (iron chain)
-#   S_cloud (cloud)
-c   S_cockatrice    (cockatrice)
-$   S_coin  (pile of coins)
-#   S_corr  (corridor)
-\-  S_crwall    (wall)
-#   S_darkroom  (dark room)
-\(ha    S_dart_trap (dart trap)
-&   S_demon (major demon)
-*   S_digbeam   (dig beam)
->   S_dnladder  (ladder down)
->   S_dnstair   (staircase down)
-d   S_dog   (dog or other canine)
-D   S_dragon    (dragon)
-;   S_eel   (sea monster)
-E   S_elemental (elemental)
-#   S_engrcorr  (engraving in a corridor)
-\`  S_engroom   (engraving in a room)
-/   S_expl_tl   (explosion top left)
-\-  S_expl_tc   (explosion top center)
-\\  S_expl_tr   (explosion top right)
-|   S_expl_ml   (explosion middle left)
-\   S_expl_mc   (explosion middle center)
-|   S_expl_mr   (explosion middle right)
-\\  S_expl_bl   (explosion bottom left)
-\-  S_expl_bc   (explosion bottom center)
-/   S_expl_br   (explosion bottom right)
-e   S_eye   (eye or sphere)
-\(ha    S_falling_rock_trap (falling rock trap)
-f   S_feline    (cat or other feline)
-\(ha    S_fire_trap (fire trap)
-!   S_flashbeam (flash beam)
-%   S_food  (piece of food)
-{   S_fountain  (fountain)
-F   S_fungus    (fungus or mold)
-*   S_gem   (gem or rock)
-\   S_ghost (ghost)
-H   S_giant (giant humanoid)
-G   S_gnome (gnome)
-\'  S_golem (golem)
-|   S_grave (grave)
-g   S_gremlin   (gremlin)
-\-  S_hbeam (horizontal beam [zap animation])
-#   S_hcdbridge (horizontal raised drawbridge)
-+   S_hcdoor    (closed door in horizontal wall)
-\.  S_hodbridge (horizontal lowered drawbridge)
-|   S_hodoor    (open door in horizontal wall)
-\(ha    S_hole  (hole)
-@   S_human (human or elf)
-h   S_humanoid  (humanoid)
-\-  S_hwall (horizontal wall)
-\.  S_ice   (ice)
-i   S_imp   (imp or minor demon)
-I   S_invisible (invisible monster)
-J   S_jabberwock    (jabberwock)
-j   S_jelly (jelly)
-k   S_kobold    (kobold)
-K   S_kop   (Keystone Kop)
-\(ha    S_land_mine (land mine)
-}   S_lava  (molten lava)
-}   S_lavawall  (wall of lava)
-l   S_leprechaun    (leprechaun)
-\(ha    S_level_teleporter  (level teleporter)
-L   S_lich  (lich)
-y   S_light (light)
-#   S_litcorr   (lit corridor)
-:   S_lizard    (lizard)
-\\  S_lslant    (diagonal beam [zap animation])
-\(ha    S_magic_portal  (magic portal)
-\(ha    S_magic_trap    (magic trap)
-m   S_mimic (mimic)
-]   S_mimic_def (mimic)
-M   S_mummy (mummy)
-N   S_naga  (naga)
-\.  S_ndoor (doorway without door)
-n   S_nymph (nymph)
-O   S_ogre  (ogre)
-o   S_orc   (orc)
-p   S_piercer   (piercer)
-\(ha    S_pit   (pit)
-#   S_poisoncloud   (poison cloud)
-\(ha    S_polymorph_trap    (polymorph trap)
-}   S_pool  (water)
-!   S_potion    (potion)
-P   S_pudding   (pudding or ooze)
-q   S_quadruped (quadruped)
-Q   S_quantmech (quantum mechanic)
-\&= S_ring  (ring)
-\`  S_rock  (boulder or statue)
-r   S_rodent    (rodent)
-\(ha    S_rolling_boulder_trap  (rolling boulder trap)
-\.  S_room  (floor of a room)
-/   S_rslant    (diagonal beam [zap animation])
-\(ha    S_rust_trap (rust trap)
-R   S_rustmonst (rust monster or disenchanter)
-?   S_scroll    (scroll)
-#   S_sink  (sink)
-\(ha    S_sleeping_gas_trap (sleeping gas trap)
-S   S_snake (snake)
-s   S_spider    (arachnid or centipede)
-\(ha    S_spiked_pit    (spiked pit)
-\(ha    S_squeaky_board (squeaky board)
-0   S_ss1   (magic shield 1 of 4)
-#   S_ss2   (magic shield 2 of 4)
-@   S_ss3   (magic shield 3 of 4)
-*   S_ss4   (magic shield 4 of 4)
-\(ha    S_statue_trap   (statue trap)
-\   S_stone (solid rock)
-]   S_strange_obj   (strange object)
-\-  S_sw_bc (swallow bottom center)
-\\  S_sw_bl (swallow bottom left)
-/   S_sw_br (swallow bottom right)
-|   S_sw_ml (swallow middle left)
-|   S_sw_mr (swallow middle right)
-\-  S_sw_tc (swallow top center)
-/   S_sw_tl (swallow top left)
-\\  S_sw_tr (swallow top right)
-\-  S_tdwall    (wall)
-\(ha    S_teleportation_trap    (teleportation trap)
-\\  S_throne    (opulent throne)
-\-  S_tlcorn    (top left corner)
-|   S_tlwall    (wall)
-(   S_tool  (useful item (pick-axe, key, lamp...))
-\(ha    S_trap_door (trap door)
-t   S_trapper   (trapper or lurker above)
-\-  S_trcorn    (top right corner)
-#   S_tree  (tree)
-T   S_troll (troll)
-|   S_trwall    (wall)
-\-  S_tuwall    (wall)
-U   S_umber (umber hulk)
-\   S_unexplored    (unexplored terrain)
-u   S_unicorn   (unicorn or horse)
-<   S_upladder  (ladder up)
-<   S_upstair   (staircase up)
-V   S_vampire   (vampire)
-|   S_vbeam (vertical beam [zap animation])
-#   S_vcdbridge (vertical raised drawbridge)
-+   S_vcdoor    (closed door in vertical wall)
-\.  S_venom (splash of venom)
-\(ha    S_vibrating_square  (vibrating square)
-\.  S_vodbridge (vertical lowered drawbridge)
-\-  S_vodoor    (open door in vertical wall)
-v   S_vortex    (vortex)
-|   S_vwall (vertical wall)
-/   S_wand  (wand)
-}   S_water (water)
-)   S_weapon    (weapon)
-\(dq    S_web   (web)
-w   S_worm  (worm)
-\(ti    S_worm_tail (long worm tail)
-W   S_wraith    (wraith)
-x   S_xan   (xan or other extraordinary insect)
-X   S_xorn  (xorn)
-Y   S_yeti  (apelike creature)
-Z   S_zombie    (zombie)
-z   S_zruty (zruty)
-\   S_pet_override  (any pet if ACCESSIBILITY=1 is set)
-\   S_hero_override (hero if ACCESSIBILITY=1 is set)
+\ \ 	Symbol Name	Description
+\_	\_	\_
+\ 	S_air	(air)
+\&_	S_altar	(altar)
+\(dq	S_amulet	(amulet)
+A	S_angel	(angelic being)
+a	S_ant	(ant or other insect)
+\(ha	S_anti_magic_trap	(anti-magic field)
+[	S_armor	(suit or piece of armor)
+[	S_armour	(suit or piece of armor)
+\(ha	S_arrow_trap	(arrow trap)
+0	S_ball	(iron ball)
+#	S_bars	(iron bars)
+B	S_bat	(bat or bird)
+\(ha	S_bear_trap	(bear trap)
+\-	S_blcorn	(bottom left corner)
+b	S_blob	(blob)
++	S_book	(spellbook)
+)	S_boomleft	(boomerang open left)
+(	S_boomright	(boomerang open right)
+\`	S_boulder	(boulder)
+\-	S_brcorn	(bottom right corner)
+>	S_brdnladder	(branch ladder down)
+>	S_brdnstair	(branch staircase down)
+<	S_brupladder	(branch ladder up)
+<	S_brupstair	(branch staircase up)
+C	S_centaur	(centaur)
+\&_	S_chain	(iron chain)
+#	S_cloud	(cloud)
+c	S_cockatrice	(cockatrice)
+$	S_coin	(pile of coins)
+#	S_corr	(corridor)
+\-	S_crwall	(wall)
+#	S_darkroom	(dark room)
+\(ha	S_dart_trap	(dart trap)
+&	S_demon	(major demon)
+*	S_digbeam	(dig beam)
+>	S_dnladder	(ladder down)
+>	S_dnstair	(staircase down)
+d	S_dog	(dog or other canine)
+D	S_dragon	(dragon)
+;	S_eel	(sea monster)
+E	S_elemental	(elemental)
+#	S_engrcorr	(engraving in a corridor)
+\`	S_engroom	(engraving in a room)
+/	S_expl_tl	(explosion top left)
+\-	S_expl_tc	(explosion top center)
+\\	S_expl_tr	(explosion top right)
+|	S_expl_ml	(explosion middle left)
+\ 	S_expl_mc	(explosion middle center)
+|	S_expl_mr	(explosion middle right)
+\\	S_expl_bl	(explosion bottom left)
+\-	S_expl_bc	(explosion bottom center)
+/	S_expl_br	(explosion bottom right)
+e	S_eye	(eye or sphere)
+\(ha	S_falling_rock_trap	(falling rock trap)
+f	S_feline	(cat or other feline)
+\(ha	S_fire_trap	(fire trap)
+!	S_flashbeam	(flash beam)
+%	S_food	(piece of food)
+{	S_fountain	(fountain)
+F	S_fungus	(fungus or mold)
+*	S_gem	(gem or rock)
+\ 	S_ghost	(ghost)
+H	S_giant	(giant humanoid)
+G	S_gnome	(gnome)
+\'	S_golem	(golem)
+|	S_grave	(grave)
+g	S_gremlin	(gremlin)
+\-	S_hbeam	(horizontal beam [zap animation])
+#	S_hcdbridge	(horizontal raised drawbridge)
++	S_hcdoor	(closed door in horizontal wall)
+\.	S_hodbridge	(horizontal lowered drawbridge)
+|	S_hodoor	(open door in horizontal wall)
+\(ha	S_hole	(hole)
+@	S_human	(human or elf)
+h	S_humanoid	(humanoid)
+\-	S_hwall	(horizontal wall)
+\.	S_ice	(ice)
+i	S_imp	(imp or minor demon)
+I	S_invisible	(invisible monster)
+J	S_jabberwock	(jabberwock)
+j	S_jelly	(jelly)
+k	S_kobold	(kobold)
+K	S_kop	(Keystone Kop)
+\(ha	S_land_mine	(land mine)
+}	S_lava	(molten lava)
+}	S_lavawall	(wall of lava)
+l	S_leprechaun	(leprechaun)
+\(ha	S_level_teleporter	(level teleporter)
+L	S_lich	(lich)
+y	S_light	(light)
+#	S_litcorr	(lit corridor)
+:	S_lizard	(lizard)
+\\	S_lslant	(diagonal beam [zap animation])
+\(ha	S_magic_portal	(magic portal)
+\(ha	S_magic_trap	(magic trap)
+m	S_mimic	(mimic)
+]	S_mimic_def	(mimic)
+M	S_mummy	(mummy)
+N	S_naga	(naga)
+\.	S_ndoor	(doorway without door)
+n	S_nymph	(nymph)
+O	S_ogre	(ogre)
+o	S_orc	(orc)
+p	S_piercer	(piercer)
+\(ha	S_pit	(pit)
+#	S_poisoncloud	(poison cloud)
+\(ha	S_polymorph_trap	(polymorph trap)
+}	S_pool	(water)
+!	S_potion	(potion)
+P	S_pudding	(pudding or ooze)
+q	S_quadruped	(quadruped)
+Q	S_quantmech	(quantum mechanic)
+\&=	S_ring	(ring)
+\`	S_rock	(boulder or statue)
+r	S_rodent	(rodent)
+\(ha	S_rolling_boulder_trap	(rolling boulder trap)
+\.	S_room	(floor of a room)
+/	S_rslant	(diagonal beam [zap animation])
+\(ha	S_rust_trap	(rust trap)
+R	S_rustmonst	(rust monster or disenchanter)
+?	S_scroll	(scroll)
+#	S_sink	(sink)
+\(ha	S_sleeping_gas_trap	(sleeping gas trap)
+S	S_snake	(snake)
+s	S_spider	(arachnid or centipede)
+\(ha	S_spiked_pit	(spiked pit)
+\(ha	S_squeaky_board	(squeaky board)
+0	S_ss1	(magic shield 1 of 4)
+#	S_ss2	(magic shield 2 of 4)
+@	S_ss3	(magic shield 3 of 4)
+*	S_ss4	(magic shield 4 of 4)
+\(ha	S_statue_trap	(statue trap)
+\ 	S_stone	(solid rock)
+]	S_strange_obj	(strange object)
+\-	S_sw_bc	(swallow bottom center)
+\\	S_sw_bl	(swallow bottom left)
+/	S_sw_br	(swallow bottom right)
+|	S_sw_ml	(swallow middle left)
+|	S_sw_mr	(swallow middle right)
+\-	S_sw_tc	(swallow top center)
+/	S_sw_tl	(swallow top left)
+\\	S_sw_tr	(swallow top right)
+\-	S_tdwall	(wall)
+\(ha	S_teleportation_trap	(teleportation trap)
+\\	S_throne	(opulent throne)
+\-	S_tlcorn	(top left corner)
+|	S_tlwall	(wall)
+(	S_tool	(useful item (pick-axe, key, lamp...))
+\(ha	S_trap_door	(trap door)
+t	S_trapper	(trapper or lurker above)
+\-	S_trcorn	(top right corner)
+#	S_tree	(tree)
+T	S_troll	(troll)
+|	S_trwall	(wall)
+\-	S_tuwall	(wall)
+U	S_umber	(umber hulk)
+\ 	S_unexplored	(unexplored terrain)
+u	S_unicorn	(unicorn or horse)
+<	S_upladder	(ladder up)
+<	S_upstair	(staircase up)
+V	S_vampire	(vampire)
+|	S_vbeam	(vertical beam [zap animation])
+#	S_vcdbridge	(vertical raised drawbridge)
++	S_vcdoor	(closed door in vertical wall)
+\.	S_venom	(splash of venom)
+\(ha	S_vibrating_square	(vibrating square)
+\.	S_vodbridge	(vertical lowered drawbridge)
+\-	S_vodoor	(open door in vertical wall)
+v	S_vortex	(vortex)
+|	S_vwall	(vertical wall)
+/	S_wand	(wand)
+}	S_water	(water)
+)	S_weapon	(weapon)
+\(dq	S_web	(web)
+w	S_worm	(worm)
+\(ti	S_worm_tail	(long worm tail)
+W	S_wraith	(wraith)
+x	S_xan	(xan or other extraordinary insect)
+X	S_xorn	(xorn)
+Y	S_yeti	(apelike creature)
+Z	S_zombie	(zombie)
+z	S_zruty	(zruty)
+\ 	S_pet_override	(any pet if ACCESSIBILITY=1 is set)
+\ 	S_hero_override	(hero if ACCESSIBILITY=1 is set)
 .\"TABLE_END  Do not delete this line.
 .TE
 .\" don't hyphenate file name across lines
@@ -5430,49 +5430,49 @@ miscreants in this, the list of Dungeoneers:
 center;
 c2 c2 c.
 .\"TABLE_START
-Adam Aronow Irina Rempt-Drijfhout   Mike Gallop
-Alex Kompel Izchak Miller   Mike Passaretti
-Alex Smith  J. Ali Harlow   Mike Stephenson
-Andreas Dorn    Janet Walz  Mikko Juola
-Andy Church Janne Salmijarvi    Nathan Eady
-Andy Swanson    Jean-Christophe Collet  Norm Meluch
-Andy Thomson    Jeff Bailey Olaf Seibert
-Ari Huttunen    Jochen Erwied   Pasi Kallinen
-Bart House  John Kallen Pat Rankin
-Benson I. Margulies John Rupley Patric Mueller
-Bill Dyer   John S. Bien    Paul Winner
-Boudewijn Waijers   Johnny Lee  Pierre Martineau
-Bruce Cox   Jon W{tte   Ralf Brown
-Bruce Holloway  Jonathan Handler    Ray Chason
-Bruce Mewborne  Joshua Delahunty    Richard Addison
-Cameron Root    Karl Garrison   Richard Beigel
-Carl Schelin    Keizo Yamamoto  Richard P. Hughey
-Chris Russo Keith Simpson   Rob Menke
-David Cohrs Ken Arnold  Robin Bandy
-David Damerell  Ken Arromdee    Robin Johnson
-David Gentzel   Ken Lorber  Roderick Schertler
-David Hairston  Ken Washikita   Roland McGrath
-Dean Luick  Kestrel Gregorich-Trevor    Ron Van Iwaarden
-Del Lamb    Kevin Darcy Ronnen Miller
-Derek S. Ray    Kevin Hugo  Ross Brown
-Deron Meranda   Kevin Sitze Sascha Wostmann
-Dion Nicolaas   Kevin Smolkowski    Scott Bigham
-Dylan O'Donnell Kevin Sweet Scott R. Turner
-Eric Backus Lars Huttar Sean Hunt
-Eric Hendrickson    Leon Arnott Stephen Spackman
-Eric R. Smith   M. Drew Streib  Stefan Thielscher
-Eric S. Raymond Malcolm Ryan    Stephen White
-Erik Andersen   Mark Gooderum   Steve Creps
-Fredrik Ljungdahl   Mark Modrall    Steve Linhart
-Frederick Roeber    Marvin Bressler Steve VanDevender
-G. Branden Robinson Matthew Day Teemu Suikki
-Gil Neiger  Merlyn LeRoy    Tim Lennan
-Greg Laskin Michael Allison Timo Hakulinen
-Greg Olson  Michael Feir    Tom Almy
-Gregg Wonderly  Michael Hamel   Tom West
-Hao-yang Wang   Michael Meyer   Warren Cheung
-Helge Hafting   Michael Sokolov Warwick Allison
-Ingo Paschke    Mike Engber Yitzhak Sapir
+Adam Aronow	Irina Rempt-Drijfhout	Mike Gallop
+Alex Kompel	Izchak Miller	Mike Passaretti
+Alex Smith	J. Ali Harlow	Mike Stephenson
+Andreas Dorn	Janet Walz	Mikko Juola
+Andy Church	Janne Salmijarvi	Nathan Eady
+Andy Swanson	Jean-Christophe Collet	Norm Meluch
+Andy Thomson	Jeff Bailey	Olaf Seibert
+Ari Huttunen	Jochen Erwied	Pasi Kallinen
+Bart House	John Kallen	Pat Rankin
+Benson I. Margulies	John Rupley	Patric Mueller
+Bill Dyer	John S. Bien	Paul Winner
+Boudewijn Waijers	Johnny Lee	Pierre Martineau
+Bruce Cox	Jon W{tte	Ralf Brown
+Bruce Holloway	Jonathan Handler	Ray Chason
+Bruce Mewborne	Joshua Delahunty	Richard Addison
+Cameron Root	Karl Garrison	Richard Beigel
+Carl Schelin	Keizo Yamamoto	Richard P. Hughey
+Chris Russo	Keith Simpson	Rob Menke
+David Cohrs	Ken Arnold	Robin Bandy
+David Damerell	Ken Arromdee	Robin Johnson
+David Gentzel	Ken Lorber	Roderick Schertler
+David Hairston	Ken Washikita	Roland McGrath
+Dean Luick	Kestrel Gregorich-Trevor	Ron Van Iwaarden
+Del Lamb	Kevin Darcy	Ronnen Miller
+Derek S. Ray	Kevin Hugo	Ross Brown
+Deron Meranda	Kevin Sitze	Sascha Wostmann
+Dion Nicolaas	Kevin Smolkowski	Scott Bigham
+Dylan O'Donnell	Kevin Sweet	Scott R. Turner
+Eric Backus	Lars Huttar	Sean Hunt
+Eric Hendrickson	Leon Arnott	Stephen Spackman
+Eric R. Smith	M. Drew Streib	Stefan Thielscher
+Eric S. Raymond	Malcolm Ryan	Stephen White
+Erik Andersen	Mark Gooderum	Steve Creps
+Fredrik Ljungdahl	Mark Modrall	Steve Linhart
+Frederick Roeber	Marvin Bressler	Steve VanDevender
+G. Branden Robinson	Matthew Day	Teemu Suikki
+Gil Neiger	Merlyn LeRoy	Tim Lennan
+Greg Laskin	Michael Allison	Timo Hakulinen
+Greg Olson	Michael Feir	Tom Almy
+Gregg Wonderly	Michael Hamel	Tom West
+Hao-yang Wang	Michael Meyer	Warren Cheung
+Helge Hafting	Michael Sokolov	Warwick Allison
+Ingo Paschke	Mike Engber	Yitzhak Sapir
 .\"TABLE_END  Do not delete this line.
 .TE
 .BR 1
