@@ -2746,7 +2746,7 @@
     /* aligned priests always have the epri extension attached;
        individual instantiations should always have either ispriest
        or isminion set; role monster priests are separate (below) */
-    MON(NAMS("priest", "priestess", "aligned cleric"), NAMS("男祭司", "女祭司", "阵营祭司"), S_HUMAN,
+    MON(NAMS("priest", "priestess", "aligned cleric"), NAM("祭司"), S_HUMAN,
         LVL(12, 12, 10, 50, 0), G_NOGEN,
         A(ATTK(AT_WEAP, AD_PHYS, 4, 10), ATTK(AT_KICK, AD_PHYS, 1, 4),
           ATTK(AT_MAGC, AD_CLRC, 0, 0), NO_ATTK, NO_ATTK, NO_ATTK),
@@ -2757,7 +2757,7 @@
         15, CLR_WHITE, ALIGNED_CLERIC),
     /* high priests always have epri and always have ispriest set;
        they are flagged as unique even through they aren't */
-    MON(NAMS("high priest", "high priestess", "high cleric"), NAMS("高级男祭司", "高级女祭司", "高级祭司"), S_HUMAN,
+    MON(NAMS("high priest", "high priestess", "high cleric"), NAM("高阶祭司"), S_HUMAN,
         LVL(25, 15, 7, 70, 0), (G_NOGEN | G_UNIQ),
         A(ATTK(AT_WEAP, AD_PHYS, 4, 10), ATTK(AT_KICK, AD_PHYS, 2, 8),
           ATTK(AT_MAGC, AD_CLRC, 2, 8), ATTK(AT_MAGC, AD_CLRC, 2, 8),
@@ -3358,7 +3358,7 @@
         M1_HUMANOID | M1_OMNIVORE,
         M2_NOPOLY | M2_HUMAN | M2_STRONG | M2_COLLECT, M3_INFRAVISIBLE,
         12, HI_DOMESTIC, BARBARIAN),
-    MON(NAMS("caveman", "cavewoman", "cave dweller"), NAMS("男穴居人", "女穴居人", "穴居人"), S_HUMAN,
+    MON(NAMS("caveman", "cavewoman", "cave dweller"), NAM("穴居人"), S_HUMAN,
         LVL(10, 12, 10, 0, 1), G_NOGEN,
         A(ATTK(AT_WEAP, AD_PHYS, 2, 4),
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
@@ -3393,7 +3393,7 @@
         M3_INFRAVISIBLE,
         11, HI_DOMESTIC, MONK),
     /* monster priests are separate monsters (above; "aligned cleric") */
-    MON(NAMS("priest", "priestess", "cleric"), NAMS("男牧师", "女牧师", "牧师"), S_HUMAN,
+    MON(NAMS("priest", "priestess", "cleric"), NAMS("牧师"), S_HUMAN,
         LVL(10, 12, 10, 2, 0), G_NOGEN,
         A(ATTK(AT_WEAP, AD_PHYS, 1, 6), ATTK(AT_MAGC, AD_CLRC, 0, 0),
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
