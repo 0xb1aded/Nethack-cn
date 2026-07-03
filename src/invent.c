@@ -2107,7 +2107,7 @@ silly_thing(const char *word,
     if (ocls == ARMOR_CLASS) {
         if (!strcmp(word, "put on") || !strcmp(word, "戴上什么"))
             s1 = "W", s2 = "穿上", s3 = "";
-        else if (!strcmp(word, "remove") || !strcmp(word, "拿下什么"))
+        else if (!strcmp(word, "remove") || !strcmp(word, "摘下什么"))
             s1 = "T", s2 = "脱下", s3 = "";
     } else if ((ocls == RING_CLASS || otyp == MEAT_RING)
                || ocls == AMULET_CLASS
@@ -2115,7 +2115,7 @@ silly_thing(const char *word,
         if (!strcmp(word, "wear") || !strcmp(word, "穿上什么"))
             s1 = "P", s2 = "戴上", s3 = "";
         else if (!strcmp(word, "take off") || !strcmp(word, "脱下什么"))
-            s1 = "R", s2 = "拿下", s3 = "";
+            s1 = "R", s2 = "摘下", s3 = "";
     }
     if (s1)
         pline("使用'%s'键以%s%s%s.", s1, s2,
