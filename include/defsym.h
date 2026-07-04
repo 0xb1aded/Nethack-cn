@@ -309,7 +309,7 @@
     MONSYM(17, 'q', QUADRUPED, S_QUADRUPED, "四足动物")
     MONSYM(18, 'r', RODENT, S_RODENT, "啮齿动物")
     MONSYM(19, 's', SPIDER, S_SPIDER, "蛛形类或蜈蚣")
-    MONSYM(20, 't', TRAPPER, S_TRAPPER, "蛰伏怪")
+    MONSYM(20, 't', TRAPPER, S_TRAPPER, "诱陷者或蛰伏怪")
     /* unicorn, horses */
     MONSYM(21, 'u', UNICORN, S_UNICORN, "独角兽或马")
     MONSYM(22, 'v', VORTEX, S_VORTEX, "漩涡")
