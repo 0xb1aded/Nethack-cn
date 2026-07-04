@@ -172,7 +172,7 @@
     PCHAR2(69, '^',  S_anti_magic_trap, "anti magic trap", "anti-magic field", "反魔法力场",
                                         HI_ZAP)
     PCHAR2(70, '^',  S_polymorph_trap, "polymorph trap", "polymorph trap", "变形陷阱", CLR_BRIGHT_GREEN)
-    PCHAR2(71, '~',  S_vibrating_square, "vibrating square", "vibrating square", "振动方块", CLR_MAGENTA)
+    PCHAR2(71, '~',  S_vibrating_square, "vibrating square", "vibrating square", "振动方格", CLR_MAGENTA)
     PCHAR2(72, '^',  S_trapped_door, "trapped door", "trapped door", "带陷阱的门", CLR_ORANGE)
     PCHAR2(73, '^',  S_trapped_chest, "trapped chest", "trapped chest", "带陷阱的箱子", CLR_ORANGE)
     /* end traps                                                       */
