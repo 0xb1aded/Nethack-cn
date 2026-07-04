@@ -115,7 +115,17 @@ static const struct {
                 { '7', "/" },
                 { '8', "3o" } };
 
-/* degrade some of the characters in a string */
+#include <string.h>
+
+static int utf8_char_len(unsigned char c) {
+    if ((c & 0x80) == 0) return 1;
+    if ((c & 0xE0) == 0xC0) return 2;
+    if ((c & 0xF0) == 0xE0) return 3;
+    if ((c & 0xF8) == 0xF0) return 4;
+    return 1;
+}
+
+/* 兼容多字节字符（汉字）的退化函数 */
 void
 wipeout_text(
     char *engr,    /* engraving text */
@@ -124,24 +134,41 @@ wipeout_text(
 {
     char *s;
     int i, j, nxt, use_rubout;
-    unsigned lth = (unsigned) strlen(engr);
+    
+    unsigned num_chars = 0;
+    char *p = engr;
+    while (*p) {
+        num_chars++;
+        p += utf8_char_len((unsigned char)*p);
+    }
 
-    if (lth && cnt > 0) {
+    if (num_chars && cnt > 0) {
         while (cnt--) {
             /* pick next character */
             if (!seed) {
                 /* random */
-                nxt = rn2((int) lth);
+                nxt = rn2((int) num_chars);
                 use_rubout = rn2(4);
             } else {
-                /* predictable; caller can reproduce the same sequence by
-                   supplying the same arguments later, or a pseudo-random
-                   sequence by varying any of them */
-                nxt = seed % lth;
+                /* predictable */
+                nxt = seed % num_chars;
                 seed *= 31, seed %= (BUFSZ - 1);
                 use_rubout = seed & 3;
             }
-            s = &engr[nxt];
+            
+            s = engr;
+            for (int k = 0; k < nxt; k++) {
+                s += utf8_char_len((unsigned char)*s);
+            }
+
+            int char_bytes = utf8_char_len((unsigned char)*s);
+
+            if (char_bytes > 1) {
+                *s = '?';
+                memmove(s + 1, s + char_bytes, strlen(s + char_bytes) + 1);
+                continue;
+            }
+
             if (*s == ' ')
                 continue;
 
@@ -177,9 +204,9 @@ wipeout_text(
         }
     }
 
-    /* trim trailing spaces */
-    while (lth && engr[lth - 1] == ' ')
-        engr[--lth] = '\0';
+    unsigned byte_len = (unsigned) strlen(engr);
+    while (byte_len && engr[byte_len - 1] == ' ')
+        engr[--byte_len] = '\0';
 }
 
 /* check whether hero can reach something at ground level */
@@ -898,22 +925,22 @@ doengrave_ctx_verb(struct _doengrave_ctx *de)
     switch (de->type) {
     default:
         de->everb = de->adding ? "的奇怪的文字上加几笔"
-                               : "上写字";
+                               : "上写";
         break;
     case DUST:
-        de->everb = de->adding ? "的文字上加几笔" : "上写字";
+        de->everb = de->adding ? "的文字上加几笔" : "上写";
         de->eloc = de->frosted ? "冰霜" : "灰尘";
         break;
     case HEADSTONE:
-        de->everb = de->adding ? "的墓志铭上加几笔" : "上刻字";
+        de->everb = de->adding ? "的墓志铭上加几笔" : "上刻";
         break;
     case ENGRAVE:
-        de->everb = de->adding ? "的刻字上加几笔" : "上刻字";
+        de->everb = de->adding ? "的刻字上加几笔" : "上刻";
         break;
     case BURN:
         de->everb = de->adding ? (de->frosted ? "的融化的文字上加几笔"
                                   : "的烧进去的文字上加几笔")
-                       : (de->frosted ? "上融化出文字" : "上烧出文字");
+                       : (de->frosted ? "上融化出" : "上烧出");
         break;
     case MARK:
         de->everb = de->adding ? "的涂鸦上加几笔" : "上涂鸦";
@@ -1173,14 +1200,14 @@ doengrave(void)
 
     /* Tell adventurer what is going on */
     if (de->otmp != &hands_obj)
-        You("用%s%s在%s%s.", (de->type == ENGRAVE && de->otmp->quan > 1L) ? "一个" : "", doname(de->otmp), /*修改语序:You("%s在%s上用%s%s。", de->everb, de->eloc,*/
+        You("用%s%s在%s%s字.", (de->type == ENGRAVE && de->otmp->quan > 1L) ? "一个" : "", doname(de->otmp), /*修改语序:You("%s在%s上用%s%s。", de->everb, de->eloc,*/
             /* since doname() yields "N items" when quantity is more than
                one, match that by using "1 of" rather than "one of" when
                informing the player that the stack will be split */
             de->eloc, /*修改语序:(de->type == ENGRAVE && de->otmp->quan > 1L) ? "一个" : "",*/
             de->everb); /*修改语序:doname(de->otmp));*/
     else
-        You("用你的%s在%s%s.", /*修改语序:You("%s了%s, 用你的%s.",*/
+        You("用你的%s在%s%s字.", /*修改语序:You("%s了%s, 用你的%s.",*/
             body_part(FINGERTIP), de->eloc, de->everb); /*修改语序:de->everb, de->eloc, body_part(FINGERTIP));*/
 
     /* Prompt for engraving! */
