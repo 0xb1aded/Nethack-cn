@@ -1117,7 +1117,7 @@ doengrave(void)
         } else if (de->type == de->oep->engr_type
                    && (!Blind || de->oep->engr_type == BURN
                        || de->oep->engr_type == ENGRAVE)) {
-            c = yn_function("您想在现有刻字上添加内容吗?",
+            c = yn_function("你想在现有刻字上添加内容吗?",
                             ynqchars, 'y', TRUE);
             if (c == 'q') {
                 pline1(Never_mind);

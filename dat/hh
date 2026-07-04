@@ -26,10 +26,10 @@ S     save      保存游戏(将来可恢复)并退出
                 [如需恢复, 重启游戏时使用原来的角色名;
                 使用#quit以不保存退出]
 !     sh        返回终端(如果允许; 输入'exit'返回游戏)
-^Z    suspend   暂停游戏(与您当前的挂起字符无关)
+^Z    suspend   暂停游戏(与你当前的挂起字符无关)
                 [在基于UNIX(tm)的系统中, 使用'fg'返回]
 O     options   设置选项
-/     what-is   说明地图符号对应的事物
+/     whatis   说明地图符号对应的事物
 \     known     显示已发现的物品类型
 |     perminv   与持久性物品栏窗口进行交互, 而不是与英雄+地图进行交互
 v     chronicle 显示重大事件日志
@@ -38,7 +38,7 @@ V     version   显示版本号
 ^R    redraw    重绘屏幕
 ^P    prevmsg   重复上一条游戏消息(连续按^P会重复更前的)
 #               引入扩展命令(输入#?以列举)
-&     what-does 说明命令的作用
+&     whatdoes  说明命令的作用
 
 Control字符表示为"^"后跟一个字母. 按下Ctrl或Control键(如同Shift键一样), 
 然后输入该字母.
@@ -135,7 +135,7 @@ M-s   sit       坐下
 M-t   turn      驱赶亡灵, 如果角色允许的话
 M-T   tip       倒空容器
 M-u   untrap    解除陷阱
-M-V   vanquished  列举击败的怪物的zhonglei和数量
+M-V   vanquished  列举击败的怪物的种类和数量
 M-v   version   显示此版本NetHack的编译时选项
 M-w   wipe      擦脸
 M-X   exploremode 从普通游戏模式切换到不计分的探索模式
