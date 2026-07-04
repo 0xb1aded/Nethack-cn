@@ -290,7 +290,6 @@ apelike creature
 	  [ Battle for the Planet of the Apes, by David Gerrold ]
 apple
 苹果
-15
 	NEWTONIAN, adj.  Pertaining to a philosophy of the universe
 	invented by Newton, who discovered that an apple will fall
 	to the ground, but was unable to say why.  His successors
@@ -496,7 +495,6 @@ titanothere
 		[ Prehistoric Animals, by Barry Cox ]
 banana
 香蕉
-10
 	He took another step and she cocked her right wrist in
 	viciously.  She heard the spring click.  Weight slapped into
 	her hand.
@@ -800,7 +798,7 @@ boulder
 		[ The King Must Die, by Mary Renault ]
 ~*longbow of diana
 ~*狄安娜的长弓
-~*狄安娜的长弓)
+~*狄安娜的长弓*
 bow
 弓
 * bow
@@ -833,7 +831,7 @@ brigit
 		[ Encyclopedia of Gods, by Michael Jordan ]
 ~stormbringer
 ~兴风者
-~兴风者)
+~*兴风者*
 *broadsword
 *阔剑
 	Bring me my broadsword
@@ -891,7 +889,6 @@ camelot*
 		[ Encyclopedia Mythica, ed. M.F. Lindemans ]
 candy bar
 条形糖果
-13
 	Only once a year, on his birthday, did Charlie Bucket ever
 	get to taste a bit of chocolate.  The whole family saved up
 	their money for that special occasion, and when the great
@@ -912,7 +909,6 @@ candy bar
 		[ Charlie and the Chocolate Factory, by Roald Dahl ]
 carrot
 萝卜
-15
 	In World War II, Britain's air ministry spread the word that
 	a diet of these vegetables helped pilots see Nazi bombers
 	attacking at night.  That was a lie intended to cover the real
@@ -1132,7 +1128,7 @@ clay golem
 		[ Feet of Clay, by Terry Pratchett ]
 cleaver
 撕裂者
-撕裂者)
+*撕裂者*
 	Hither came Conan, the Cimmerian, black-haired, sullen-eyed,
 	sword in hand, a thief, a reaver, a slayer, with gigantic
 	melancholies and gigantic mirth, to tread the jeweled
@@ -1292,7 +1288,6 @@ cram*
 		[ The Hobbit, by J.R.R. Tolkien ]
 cream pie
 奶油派
-25
 	Gregor stared at the pastry tray, and sighed.  "I suppose
 	it would disturb the guards if I tried to shove a cream torte up
 	your nose."
@@ -1433,7 +1428,7 @@ cyclops
 		[ The Odyssey, (chapter Epsilon), by Homer ]
 ~sting
 ~杀兽针
-~杀兽针)
+~*杀兽针*
 *dagger
 *匕首
 	Is this a dagger which I see before me,
@@ -1502,7 +1497,7 @@ major demon
 # seem to be very appropriate)
 demonbane
 除魔之杖
-除魔之杖)
+*除魔之杖*
 #	Do not be deceived, Wormwood. Our cause is never more in danger
 #	than when a human, no longer desiring, but still intending, to do
 #	our Enemy's will, looks round upon a universe from which every
@@ -2021,7 +2016,7 @@ ettin
 	hunter that stalks by night and eats any meat it can catch.
 excalibur
 誓约胜利之剑
-誓约胜利之剑)
+*誓约胜利之剑*
 	At first only its tip was visible, but then it rose, straight,
 	proud, all that was noble and great and wondrous.  The tip of
 	the blade pointed toward the moon, as if it would cleave it
@@ -2051,7 +2046,7 @@ expensive camera
 		[ The Light Fantastic, by Terry Pratchett ]
 eye of the aethiopica
 埃塞俄比亚之眼
-埃塞俄比亚之眼)
+*埃塞俄比亚之眼*
 	This is a powerful amulet of ESP.  In addition to its standard
 	powers, it regenerates the energy of anyone who carries
 	it, allowing them to cast spells more often.  It also reduces
@@ -2072,7 +2067,7 @@ eye of the aethiopica
 # not derived from the book.]
 eyes of the overworld
 上界之眼
-上界之眼)
+*上界之眼*
 	The Eyes of the Overworld is a rather obscure artifact.
 	These magical lenses push the wearer's view sense into the
 	"overworld" -- another name for a segment of the Astral Plane.
@@ -2116,8 +2111,8 @@ fire trap
 f* brand
 霜铭
 焰铭
-霜铭)
-焰铭)
+*霜铭*
+*焰铭*
 	Some say the world will end in fire,
 	Some say in ice.
 	From what I've tasted of desire
@@ -2223,7 +2218,6 @@ fog* cloud
 		[ Ozma of Oz, by L. Frank Baum ]
 fortune cookie
 幸运饼干
-55
 	Nemesis cracked another cookie and wrinkled her nose. "_You will
 	have great fortune when you least expect it,_" she read. "That's
 	exactly the sort of nonsense I hate. Someone opens a cookie, and
@@ -2613,7 +2607,7 @@ grave
 		[ Three Songs to the Same Tune, by W.B. Yeats ]
 grayswandir
 夜刃
-夜刃)
+*夜刃*
 	Why had I been wearing Grayswandir?  Would another weapon have
 	affected a Logrus-ghost as strongly?  Had it really been my
 	father, then, who had brought me here?  And had he felt I might
@@ -2752,7 +2746,7 @@ physician
 		[ The Devil's Dictionary, by Ambrose Bierce ]
 heart of ahriman
 阿里曼之心
-阿里曼之心)
+*阿里曼之心*
 	The other three drew in their breath sharply, and the dark,
 	powerful man who stood at the head of the sarcophagus whispered:
 	"The Heart of Ahriman!"  The other lifted a quick hand
@@ -3306,7 +3300,7 @@ jabberwock
 vorpal*
 斩首*
 斩首剑
-斩首剑)
+*斩首剑*
 	"Beware the Jabberwock, my son!
 	  The jaws that bite, the claws that catch!
 	Beware the Jubjub bird, and shun
@@ -3709,7 +3703,7 @@ leash
 	putting the Dearlys on the leash to lead them over crossings.
 		[ The Hundred and One Dalmatians, by Dodie Smith ]
 lembas*
-*兰巴斯
+兰巴斯*
 	In the morning, as they were beginning to pack their slender
 	goods, Elves that could speak their tongue came to them and
 	brought them many gifts of food and clothing for their
@@ -3846,7 +3840,7 @@ loki
 	Fenrir, who will devour the sun at Ragnarok.
 *longbow of diana
 *狄安娜的长弓
-*狄安娜的长弓)
+*狄安娜的长弓*
 	This legendary bow grants ESP when carried and can reflect magical
 	attacks when wielded.  When invoked it provides a supply of arrows.
 # long worm -- see "worm"
@@ -3978,7 +3972,7 @@ lynx
 		[ 10,000 Dreams Interpreted, by Gustavus Hindman Miller ]
 ~*sceptre of might
 ~*力量权杖
-~*力量权杖)
+~*力量权杖*
 mace
 钉头锤
 sceptre
@@ -3996,7 +3990,7 @@ magic marker
 		[ Richelieu, by Edward Bulwer-Lytton ]
 magic mirror of merlin
 梅林的魔镜
-梅林的魔镜)
+*梅林的魔镜*
 	  [...] In Dehenbarth (that now South Wales is hight,
 	  What time King Ryence reigned, and dealed right)
 	  The great magician Merlin had devised,
@@ -4017,7 +4011,7 @@ magic mirror of merlin
 		[ The Faerie Queene, by Edmund Spencer ]
 magicbane
 神魔克星
-神魔克星)
+*神魔克星*
 	A highly enchanted athame said to hold the power to channel
 	and direct magical energy.
 mail d*emon
@@ -4112,7 +4106,7 @@ master assassin
 		[ The Colour of Magic, by Terry Pratchett ]
 master key of thievery
 盗窃专用万能钥匙
-盗窃专用万能钥匙)
+*盗窃专用万能钥匙*
 	This skeleton key was fashioned in ages past and imbued with
 	a powerful magic which allows it to open any lock.  When
 	carried, it grants its owner warning, teleport control, and
@@ -4195,7 +4189,6 @@ shield of reflection
 		[ Bulfinch's Mythology, by Thomas Bulfinch ]
 melon
 西瓜
-10
 	"What is it, Umbopa, son of a fool?" I shouted in Zulu.
 	"It is food and water, Macumazahn," and again he waved the
 	green thing.
@@ -4288,14 +4281,14 @@ mit*ra*
 		[ The Fellowship of the Ring, by J.R.R. Tolkien ]
 *mitre of holiness
 *圣洁冠冕
-*圣洁冠冕)
+*圣洁冠冕*
 	This helm of brilliance performs all of the normal functions
 	of a helm of brilliance, but also has the ability to protect
 	anyone who carries it from fire.  When invoked, it boosts
 	the energy of the invoker, allowing them to cast more spells.
 mjollnir
 雷神之锤
-雷神之锤)
+*雷神之锤*
 	Forged by the dwarves Eitri and Brokk, in response to Loki's
 	challenge, Mjollnir is an indestructible war hammer.  It has
 	two magical properties:  when thrown it always returned to
@@ -4731,14 +4724,14 @@ pear
 		[ The Last Battle, by C.S. Lewis ]
 *orb of detection
 探测之球
-探测之球)
+*探测之球*
 	This Orb is a crystal ball of exceptional powers.  When
 	carried, it grants ESP, limits damage done by spells, and
 	protects the carrier from magic missiles.  When invoked it
 	allows the carrier to become invisible.
 *orb of fate
 命运之球
-命运之球)
+*命运之球*
 	Some say that Odin himself created this ancient crystal ball,
 	although others argue that Loki created it and forged Odin's
 	signature on the bottom.  In any case, it is a powerful
@@ -4750,7 +4743,7 @@ goblin king
 哥布林王
 orcrist
 杀兽剑
-杀兽剑)
+*杀兽剑*
 	The Great Goblin gave a truly awful howl of rage when he
 	looked at it, and all his soldiers gnashed their teeth,
 	clashed their shields, and stamped.  They knew the sword at
@@ -4948,7 +4941,7 @@ pit fiend
 	domains.
 platinum yendorian express card
 岩德利亚至尊白金卡
-岩德利亚至尊白金卡)
+*岩德利亚至尊白金卡*
 	This is an ancient artifact made of an unknown material.  It
 	is rectangular in shape, very thin, and inscribed with archaic
 	runes of power.  When carried, it grants the bearer ESP, reduces
@@ -5661,7 +5654,7 @@ scalpel
 		[ Wikipedia, the free encyclopedia ]
 *sceptre of might
 *力量权杖
-*力量权杖)
+*力量权杖*
 	This mace was created aeons ago in some unknown cave,
 	and has been passed down from generation to generation of
 	cave dwellers.  It is a very mighty mace indeed, and in
@@ -5951,6 +5944,7 @@ pit viper
 		[ Genesis 3:1-6,13-15 ]
 snickersnee
 村雨
+*村雨*
 	Ah, never shall I forget the cry,
 	    or the shriek that shrieked he,
 	As I gnashed my teeth, and from my sheath
@@ -6064,7 +6058,7 @@ squeaky board
 	of you to come.  Shut the door, will you?"
 		[ The Light Fantastic, by Terry Pratchett ]
 ~*aesculapius
-~阿斯克勒庇俄斯*
+~*阿斯克勒庇俄斯*
 *staff
 *棒子
 	So they stood, each in his place, neither moving a finger's
@@ -6087,7 +6081,7 @@ squeaky board
 		[ The Merry Adventures of Robin Hood, by Howard Pyle ]
 *staff of aesculapius
 *阿斯克勒庇俄斯之杖
-*阿斯克勒庇俄斯之杖)
+*阿斯克勒庇俄斯之杖*
 	This staff is considered sacred to all healers, as it truly
 	holds the powers of life and death.  When wielded, it
 	protects its user from all life draining attacks, and
@@ -6187,7 +6181,7 @@ television
 	Not invented yet.
 sting
 杀兽针
-杀兽针)
+*杀兽针*
 	There was the usual dim grey light of the forest-day about
 	him when he came to his senses.  The spider lay dead beside
 	him, and his sword-blade was stained black.  Somehow the
@@ -6203,7 +6197,7 @@ sting
 		[ The Hobbit, by J.R.R. Tolkien ]
 stormbringer
 兴风者
-兴风者)
+*兴风者*
 	There were sounds in the distance, incongruent with the
 	sounds of even this nameless, timeless sea: thin sounds,
 	agonized and terrible, for all that they remained remote -
@@ -6248,7 +6242,7 @@ straw golem
 		[ The Wonderful Wizard of Oz, by L. Frank Baum ]
 sunsword
 旭日剑
-旭日剑)
+*旭日剑*
 	What you seek is a blade of light,
 	a weapon for vengeance.
 		[ Expedition to Castle Ravenloft,
@@ -6537,7 +6531,7 @@ tripe ration
 *tsurugi of muramasa
 *muramasa
 *村正
-*村正)
+*村正*
 	This most ancient of swords has been passed down through the
 	leadership of the Samurai legions for hundreds of years.  It
 	is said to grant luck to its wielder, but its main power is
@@ -6795,7 +6789,7 @@ warg
 		[ The Fellowship of the Ring, by J.R.R. Tolkien ]
 ~mjollnir
 ~雷神之锤
-~雷神之锤)
+~*雷神之锤*
 war*hammer
 战锤
 	They had come together at the ford of the Trident while the
