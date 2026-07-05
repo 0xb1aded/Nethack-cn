@@ -7,9 +7,10 @@ English README: [README_en.md](README_en.md)
 ### 快速开始
 无需本地编译，可直接在[本项目 Release 页面](http://github.com/stackC00ki3/nethack-cn/releases)下载自动构建的汉化预览版
 
-### 百科翻译
+### 待完成
 
-
+optlist.h：命令列表
+data.base：百科全书，总共有几千行
 
 ### 路线图
 
@@ -196,18 +197,27 @@ English README: [README_en.md](README_en.md)
 - [x] write.c
 - [x] zap.c
 
-##### 文本文件(主要的几个，还有好多)
+##### 文本文件
 
 - [x] bogusmon.txt
 - [x] dungeon.lua
-- [ ] engrave.txt
+- [x] engrave.txt
 - [x] epitaph.txt
 - [x] oracles.txt
 - [x] rumors.fal
 - [x] rumors.tru
-- [ ] tribute
-- [ ] quest.lua
+- [x] quest.lua
 - [ ] optlist.h
+- [x] hh
+- [ ] data.base (重中之重)
+- [x] help
+- [x] hh
+- [x] history
+- [x] keyhelp
+- [x] license
+- [x] opthelp
+- [x] usagehelp
+- [x] wizhelp
 
 ### 技术细节
 
