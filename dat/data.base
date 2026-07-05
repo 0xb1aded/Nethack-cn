@@ -7206,6 +7206,7 @@ zruty
 arc* ranks
 考古学家头衔
 考古学家称号
+考古学家等级
 archeologist
 考古学家
 digger
@@ -7226,20 +7227,21 @@ collector
 收藏家
 curator
 馆长
-	Archeologist ranks
-	  title            level
-	Digger            1 to 2
-	Field Worker      3 to 5
-	Investigator      6 to 9
-	Exhumer          10 to 13
-	Excavator        14 to 17
-	Spelunker        18 to 21
-	Speleologist     22 to 25
-	Collector        26 to 29
-	Curator             30
+	考古学家称号
+	 头衔             等级
+	挖掘者            1到2
+	田野调查者        3到5
+	调查员            6到9
+	发掘者           10到13
+	开凿者           14到17
+	洞穴探险家       18到21
+	洞穴学家         22到25
+	收藏家           26到29
+	馆长               30
 bar* ranks
 野蛮人头衔
 野蛮人称号
+野蛮人等级
 barbarian
 野蛮人
 plunder?*
@@ -7260,23 +7262,21 @@ chieftain*
 首领
 conquer*
 征服者
-	Barbarian ranks
-	  title            level
-	Plunderer,
-	 Plunderess       1 to 2
-	Pillager          3 to 5
-	Bandit            6 to 9
-	Brigand          10 to 13
-	Raider           14 to 17
-	Reaver           18 to 21
-	Slayer           22 to 25
-	Chieftain,
-	 Chieftainess    26 to 29
-	Conqueror,
-	 Conqueress         30
+	野蛮人称号
+	 头衔             等级
+	抢劫者            1到2
+	劫掠者            3到5
+	强盗              6到9
+	土匪             10到13
+	洗劫者           14到17
+	掠夺者           18到21
+	屠戮者           22到25
+	首领             26到29
+	征服者             30
 cav* ranks
 穴居人头衔
 穴居人称号
+穴居人等级
 caveman
 穴居人
 cavewoman
@@ -7299,60 +7299,61 @@ rover
 探险者
 pioneer
 先驱者
-	Caveman/Cavewoman/Cave Dweller ranks
-	  title            level
-	Troglodyte        1 to 2
-	Aborigine         3 to 5
-	Wanderer          6 to 9
-	Vagrant          10 to 13
-	Wayfarer         14 to 17
-	Roamer           18 to 21
-	Nomad            22 to 25
-	Rover            26 to 29
-	Pioneer             30
+	穴居人称号
+	 头衔             等级
+	穴居人            1到2
+	土著              3到5
+	流浪者            6到9
+	游荡者           10到13
+	旅行者           14到17
+	漫游者           18到21
+	游牧者           22到25
+	探险者           26到29
+	先驱者             30
 hea* ranks
 医生头衔
 医生称号
+医生等级
 治疗师头衔
 治疗师称号
+治疗师等级
 healer
 医生
 治疗师
 rhizotomist
+采药师
 empiric
-根切术师
-embalmer
 经验医师
-dresser
+embalmer
 防腐师
-medic* ossium
+dresser
 护理
-herbalist
+medic* ossium
 骨科医师
-magister
+herbalist
 草药师
+magister
 magistra
 导师
 physician
 医师
 chirurgeon
 外科医生
-	Healer ranks
-	  title            level
-	Rhizotomist       1 to 2
-	Empiric           3 to 5
-	Embalmer          6 to 9
-	Dresser          10 to 13
-	Medicus ossium,
-	 Medica ossium   14 to 17
-	Herbalist        18 to 21
-	Magister,
-	 Magistra        22 to 25
-	Physician        26 to 29
-	Chirurgeon          30
+	医生称号
+	 头衔             等级
+	采药师            1到2
+	经验医师          3到5
+	防腐师            6到9
+	护理             10到13
+	骨科医师         14到17
+	草药师           18到21
+	导师             22到25
+	医师             26到29
+	外科医生           30
 kni* ranks
 骑士头衔
 骑士称号
+骑士等级
 knight
 骑士
 gallant
@@ -7374,22 +7375,21 @@ dame
 庄园主
 paladin
 圣骑士
-	Knight ranks
-	  title            level
-	Gallant           1 to 2
-	Esquire           3 to 5
-	Bachelor          6 to 9
-	Sergeant         10 to 13
-	Knight           14 to 17
-	Banneret         18 to 21
-	Chevalier,
-	 Chevaliere      22 to 25
-	Seignieur,
-	 Dame            26 to 29
-	Paladin             30
+	骑士称号
+	 头衔             等级
+	勇士              1到2
+	绅士              3到5
+	下级爵士          6到9
+	中将             10到13
+	骑士             14到17
+	方旗骑士         18到21
+	轻骑兵           22到25
+	庄园主           26到29
+	圣骑士             30
 mon* ranks
 武僧头衔
 武僧称号
+武僧等级
 monk
 武僧
 candidate
@@ -7412,23 +7412,26 @@ student of fire
 火之学徒
 master
 长老
-	Monk ranks
-	  title            level
-	Candidate         1 to 2
-	Novice            3 to 5
-	Initiate          6 to 9
-	Student
-	  of Stones      10 to 13
-	  of Waters      14 to 17
-	  of Metals      18 to 21
-	  of Winds       22 to 25
-	  of Fire        26 to 29
-	Master              30
+	武僧称号
+	 头衔             等级
+	行者              1到2
+	沙弥,
+	 沙弥尼           3到5
+	比丘,
+	 比丘尼           6到9
+	土之学徒         10到13
+	水之学徒         14到17
+	金之学徒         18到21
+	风之学徒         22到25
+	火之学徒         26到29
+	长老               30
 pri* ranks
 牧师头衔
 牧师称号
+牧师等级
 祭司头衔
 祭司称号
+祭司等级
 priest*
 牧师*
 aspirant
@@ -7449,24 +7452,21 @@ lama
 牧首
 high priest*
 高阶祭司
-	Priest/Priestess/Cleric ranks
-	  title            level
-	Aspirant          1 to 2
-	Acolyte           3 to 5
-	Adept             6 to 9
-	Priest,
-	 Priestess       10 to 13
-	Curate           14 to 17
-	Canon,
-	 Canoness        18 to 21
-	Lama             22 to 25
-	Patriarch,
-	 Matriarch       26 to 29
-	High Priest,
-	 High Priestess     30
+	牧师称号
+	 头衔             等级
+	修道者            1到2
+	侍祭              3到5
+	高级侍祭          6到9
+	祭司             10到13
+	副牧师           14到17
+	教区牧师         18到21
+	喇嘛             22到25
+	牧首             26到29
+	高阶祭司           30
 ran* ranks
 游侠头衔
 游侠称号
+游侠等级
 ranger
 游侠
 tenderfoot
@@ -7487,22 +7487,21 @@ sharpshooter
 狙击手
 marks*man
 神枪手
-	Ranger ranks
-	  title            level
-	Tenderfoot        1 to 2
-	Lookout           3 to 5
-	Trailblazer       6 to 9
-	Reconnoiterer,
-	 Reconnoiteress  10 to 13
-	Scout            14 to 17
-	Arbalester       18 to 21
-	Archer           22 to 25
-	Sharpshooter     26 to 29
-	Marksman,
-	 Markswoman         30
+	游侠称号
+	 头衔             等级
+	新人              1到2
+	瞭望者            3到5
+	开路者            6到9
+	侦查员           10到13
+	侦察兵           14到17
+	弩手             18到21
+	弓箭手           22到25
+	狙击手           26到29
+	神枪手             30
 rog* ranks
-游侠头衔
-游侠称号
+盗贼头衔
+盗贼称号
+盗贼等级
 rogue
 盗贼
 footpad
@@ -7523,18 +7522,17 @@ mags*man
 欺诈者
 thief
 大盗
-	Rogue ranks
-	  title            level
-	Footpad           1 to 2
-	Cutpurse          3 to 5
-	Rogue             6 to 9
-	Pilferer         10 to 13
-	Robber           14 to 17
-	Burglar          18 to 21
-	Filcher          22 to 25
-	Magsman,
-	 Magswoman       26 to 29
-	Thief               30
+	盗贼称号
+	 头衔             等级
+	路匪              1到2
+	扒手              3到5
+	盗贼              6到9
+	窃贼             10到13
+	强盗             14到17
+	抢劫者           18到21
+	偷窃者           22到25
+	欺诈者           26到29
+	大盗               30
 sam* ranks
 samurai
 武士
@@ -7559,20 +7557,21 @@ kuge
 shogun
 将军
 	Samurai ranks
-	  title            level
-	Hatamoto          1 to 2
-	Ronin             3 to 5
-	Ninja,
-	 Kunoichi         6 to 9
-	Joshu            10 to 13
-	Ryoshu           14 to 17
-	Kokushu          18 to 21
-	Daimyo           22 to 25
-	Kuge             26 to 29
-	Shogun              30
+	 头衔             等级
+	旗本              1到2
+	浪人              3到5
+	忍者,
+	 くノ一           6到9
+	城主             10到13
+	领主             14到17
+	国主             18到21
+	大名             22到25
+	公家             26到29
+	将军               30
 tou* ranks
 游客头衔
 游客称号
+游客等级
 tourist
 游客
 rambler
@@ -7593,21 +7592,21 @@ explorer
 考察者
 adventurer
 探险家
-	Tourist ranks
-	  title            level
-	Rambler           1 to 2
-	Sightseer         3 to 5
-	Excursionist      6 to 9
-	Peregrinator,
-	 Peregrinatrix   10 to 13
-	Traveler         14 to 17
-	Journeyer        18 to 21
-	Voyager          22 to 25
-	Explorer         26 to 29
-	Adventurer          30
+	游客称号
+	 头衔             等级
+	旅行者            1到2
+	观光客            3到5
+	短途游客          6到9
+	朝圣者           10到13
+	旅行家           14到17
+	长途游客         18到21
+	远行者           22到25
+	考察者           26到29
+	探险家             30
 val* ranks
 女武神头衔
 女武神称号
+女武神等级
 valkyrie
 女武神
 stripling
@@ -7630,23 +7629,21 @@ champion
 lord
 lady
 殿下
-	Valkyrie ranks
-	  title            level
-	Stripling         1 to 2
-	Skirmisher        3 to 5
-	Fighter           6 to 9
-	Man-at-arms,
-	 Woman-at-arms   10 to 13
-	Warrior          14 to 17
-	Swashbuckler     18 to 21
-	Hero,
-	 Heroine         22 to 25
-	Champion         26 to 29
-	Lord,
-	 Lady               30
+	女武神称号
+	 头衔             等级
+	新兵              1到2
+	游击兵            3到5
+	斗士              6到9
+	重骑兵           10到13
+	战士             14到17
+	剑客             18到21
+	英雄,            22到25
+	豪杰             26到29
+	殿下               30
 wiz* ranks
 巫师头衔
 巫师称号
+巫师等级
 wizard
 巫师
 evoker
@@ -7668,19 +7665,17 @@ necromancer
 大魔法师
 mage
 智者
-	Wizard ranks
-	  title            level
-	Evoker            1 to 2
-	Conjurer          3 to 5
-	Thaumaturge       6 to 9
-	Magician         10 to 13
-	Enchanter,
-	 Enchantress     14 to 17
-	Sorcerer,
-	 Sorceress       18 to 21
-	Necromancer      22 to 25
-	Wizard           26 to 29
-	Mage                30
+	巫师称号
+	 头衔             等级
+	召唤师            1到2
+	咒术师            3到5
+	奇术师            6到9
+	魔法师           10到13
+	附魔师           14到17
+	术士             18到21
+	妖术师           22到25
+	大魔法师         26到29
+	智者               30
 ##
 # list the titles for all the Discworld novels (3.6 tribute);
 # the extra leading spaces are intentional--tty displays the whole list
