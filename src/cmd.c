@@ -1763,9 +1763,9 @@ struct ext_func_tab extcmdlist[] = {
               doloot, AUTOCOMPLETE | CMD_M_PREFIX, NULL },
     { '\0',   "migratemons",
 #ifdef DEBUG_MIGRATING_MONS
-              "show migrating monsters and migrate N random ones",
+              "显示正在迁移的怪物, 并随机迁移N个",
 #else
-              "show migrating monsters",
+              "显示正在迁移的怪物",
 #endif
               wiz_migrate_mons, IFBURIED | AUTOCOMPLETE | WIZMODECMD, NULL },
     { M('m'), "monster", "使用怪物的特殊能力",

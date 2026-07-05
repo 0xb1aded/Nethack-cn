@@ -6006,7 +6006,7 @@ untrap(
                                      otmp, xname, ansimpleoname, "盒子");
                 else
                     (void) safe_qbuf(qbuf, "这里有",
-                                     ". 检查一下有没有陷阱?", otmp,
+                                     ". 检查里面有没有陷阱?", otmp,
                                      doname, ansimpleoname, "盒子");
                 switch (ynq(qbuf)) {
                     case 'q':
