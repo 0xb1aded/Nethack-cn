@@ -1047,9 +1047,10 @@ checkfile(
                 impossible("can't read 'data' file");
                 goto checkfile_done;
             } else if (sscanf(buf, "%8lx\n", &txt_offset) < 1
-                       || txt_offset == 0L)
+                       || txt_offset == 0L){
                 goto bad_data_file;
-
+                
+            }
             /* look for the appropriate entry */
             while (dlb_fgets(buf, BUFSZ, fp)) {
                 if (*buf == '.')
@@ -1059,8 +1060,9 @@ checkfile(
                     /* a number indicates the end of current entry */
                     skipping_entry = FALSE;
                 } else if (!skipping_entry) {
-                    if (!(ep = strchr(buf, '\n')))
+                    if (!(ep = strchr(buf, '\n'))){
                         goto bad_data_file;
+                        }
                     (void) strip_newline((ep > buf) ? ep - 1 : ep);
                     /* if we match a key that begins with "~", skip
                        this entry */
@@ -1086,11 +1088,13 @@ checkfile(
 
                 /* skip over other possible matches for the info */
                 do {
-                    if (!dlb_fgets(buf, BUFSZ, fp))
+                    if (!dlb_fgets(buf, BUFSZ, fp)){
                         goto bad_data_file;
+                        }
                 } while (!digit(*buf));
-                if (sscanf(buf, "%ld,%d\n", &entry_offset, &entry_count) < 2)
+                if (sscanf(buf, "%ld,%d\n", &entry_offset, &entry_count) < 2){
                     goto bad_data_file;
+                    }
                 fseekoffset = (long) txt_offset + entry_offset;
                 if (pass == 1)
                     pass1offset = fseekoffset;
@@ -1126,11 +1130,13 @@ checkfile(
                         /* room for 1-tab or 8-space prefix + BUFSZ-1 + \0 */
                         char tabbuf[BUFSZ + 8], *tp;
 
-                        if (!dlb_fgets(tabbuf, BUFSZ, fp))
+                        if (!dlb_fgets(tabbuf, BUFSZ, fp)){
                             goto bad_data_file;
+                            }
                         tp = tabbuf;
-                        if (!strchr(tp, '\n'))
+                        if (!strchr(tp, '\n')){
                             goto bad_data_file;
+                            }
                         (void) strip_newline(tp);
                         /* text in this file is indented with one tab but
                            someone modifying it might use spaces instead */
@@ -1145,6 +1151,7 @@ checkfile(
                             } while (tp < &tabbuf[8] && *tp == ' ');
                         } else if (*tp) { /* empty lines are ok */
                             goto bad_data_file;
+                            
                         }
                         /* if a tab after the leading one is found,
                            convert tabs into spaces; the attributions
@@ -1885,7 +1892,7 @@ do_look(int mode, coord *click_cc)
           }
         case '?':
             from_screen = FALSE;
-            getlin("高亮什么? (输入单词)", out_str);
+            getlin("查找什么? (输入单词)", out_str);
             if (strcmp(out_str, " ")) /* keep single space as-is */
                 /* remove leading and trailing whitespace and
                    condense consecutive internal whitespace */

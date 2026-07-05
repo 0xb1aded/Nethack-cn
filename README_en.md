@@ -2,7 +2,7 @@
 
 [![Build Status](https://github.com/StackC00ki3/nethack-cn/actions/workflows//nethack-vs-package.yml/badge.svg)](http://github.com/stackC00ki3/nethack-cn/releases)
 
-English README: [README_en.md](README_en.md)
+Chinese README：[README.md](README.md)
 
 ### Quick Start
 No need to compile locally; you can download the automatically built Chinese localization preview version directly from [this project’s Release page](http://github.com/stackC00ki3/nethack-cn/releases)
