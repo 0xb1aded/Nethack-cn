@@ -5285,6 +5285,7 @@ static const struct monster_spellings {
     { "护理者", PM_ATTENDANT, 0 },
     { "实习骑士", PM_PAGE, 0 },
     { "方丈", PM_ABBOT, 0 },
+    { "修道院院长", PM_ABBOT, 0 },
     { "侍祭", PM_ACOLYTE, 0 },
     { "猎人", PM_HUNTER, 0 },
     { "刺客", PM_THUG, 0 },

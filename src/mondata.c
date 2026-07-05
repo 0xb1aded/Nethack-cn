@@ -1672,6 +1672,7 @@ name_to_monplus(
             { "护理者", PM_ATTENDANT, NEUTRAL },
             { "实习骑士", PM_PAGE, NEUTRAL },
             { "方丈", PM_ABBOT, NEUTRAL },
+            { "修道院院长", PM_ABBOT, NEUTRAL },
             { "侍祭", PM_ACOLYTE, NEUTRAL },
             { "猎人", PM_HUNTER, NEUTRAL },
             { "刺客", PM_THUG, NEUTRAL },

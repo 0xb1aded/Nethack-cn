@@ -3828,7 +3828,7 @@
         M2_NOPOLY | M2_HUMAN | M2_PEACEFUL | M2_STRONG | M2_COLLECT,
         M3_INFRAVISIBLE,
         7, HI_DOMESTIC, PAGE),
-    MON(NAM("abbot"), NAM("方丈"), S_HUMAN,
+    MON(NAM("abbot"), NAM("修道院院长"), S_HUMAN,
         LVL(5, 12, 10, 20, 0), G_NOGEN,
         A(ATTK(AT_CLAW, AD_PHYS, 8, 2), ATTK(AT_KICK, AD_STUN, 3, 2),
           ATTK(AT_MAGC, AD_CLRC, 0, 0), NO_ATTK, NO_ATTK, NO_ATTK),
