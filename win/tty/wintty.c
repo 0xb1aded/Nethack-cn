@@ -461,7 +461,7 @@ resize_tty(void)
                 /* cop-out */
                 oldtoplin = TOPLINE_EMPTY; /* don't restore it below */
                 ttyDisplay->toplin = TOPLINE_NON_EMPTY;
-                addtopl("Press a key to continue: ");
+                addtopl("按任意键继续: ");
                 resize_mesg++;
                 break;
             }
@@ -664,7 +664,7 @@ tty_player_selection(void)
 void
 tty_askname(void)
 {
-    static const char who_are_you[] = "Who are you? ";
+    static const char who_are_you[] = "你是谁? ";
     int c, ct, tryct = 0;
 #ifdef WIN32CON
     int old_in_getlin;
@@ -674,7 +674,7 @@ tty_askname(void)
     if (iflags.wc2_selectsaved && !iflags.renameinprogress)
         switch (restore_menu(BASE_WINDOW)) {
         case -1:
-            bail("Until next time then..."); /* quit */
+            bail("那么, 下次见..."); /* quit */
             /*NOTREACHED*/
             break;
         case 0:
@@ -692,9 +692,9 @@ tty_askname(void)
     do {
         if (++tryct > 1) {
             if (tryct > 10)
-                bail("Giving up after 10 tries.\n");
+                bail("尝试10次. 已放弃.\n");
             tty_curs(BASE_WINDOW, 1, wins[BASE_WINDOW]->cury - 1);
-            tty_putstr(BASE_WINDOW, 0, "Enter a name for your character...");
+            tty_putstr(BASE_WINDOW, 0, "为你的角色输入名字...");
             /* erase previous prompt (in case of ESC after partial response) */
             tty_curs(BASE_WINDOW, 1, wins[BASE_WINDOW]->cury), cl_end();
         }
@@ -835,15 +835,15 @@ static void
 getret(void)
 {
 #if defined(MICRO) || defined(WIN32CON)
-    getreturn("to continue");
+    getreturn("以继续");
 #else
     HUPSKIP();
     xputs("\n");
     if (flags.standout)
         standoutbeg();
-    xputs("Hit ");
-    xputs(iflags.cbreak ? "space" : "return");
-    xputs(" to continue: ");
+    xputs("按");
+    xputs(iflags.cbreak ? "空格" : "return");
+    xputs("以继续: ");
     if (flags.standout)
         standoutend();
     xwaitforspace(" ");
@@ -1768,7 +1768,7 @@ process_menu_window(winid window, struct WinDesc *cw)
             Strcat(resp, default_menu_cmds);
 
             if (cw->npages > 1)
-                Sprintf(cw->morestr, "(%d of %d)", curr_page + 1,
+                Sprintf(cw->morestr, "(页数%d/%d)", curr_page + 1,
                         (int) cw->npages);
             else if (msave)
                 Strcpy(cw->morestr, msave);
@@ -1939,7 +1939,7 @@ process_menu_window(winid window, struct WinDesc *cw)
                 boolean on_curr_page = FALSE;
                 int lineno = 0;
 
-                tty_getlin("Search for:", tmpbuf);
+                tty_getlin("查找:", tmpbuf);
                 if (!tmpbuf[0] || tmpbuf[0] == '\033')
                     break;
                 Sprintf(searchbuf, "*%s*", tmpbuf);
@@ -2699,7 +2699,7 @@ tty_display_file(
 
         if (fd < 0) {
             if (complain)
-                pline("Cannot open %s.", fname);
+                pline("无法打开%s.", fname);
             else /* [is this refresh actually necessary?] */
                 docrt();
             return;
@@ -2711,11 +2711,11 @@ tty_display_file(
             (void) close(0);
             if (dup(fd)) {
                 if (complain)
-                    raw_printf("Cannot open %s as stdin.", fname);
+                    raw_printf("无法打开%s作为stdin.", fname);
             } else {
                 (void) execlp(gc.catmore, "page", (char *) 0);
                 if (complain)
-                    raw_printf("Cannot exec %s.", gc.catmore);
+                    raw_printf("无法运行%s.", gc.catmore);
             }
             if (complain)
                 sleep(10); /* want to wait_synch() but stdin is gone */
@@ -2740,7 +2740,7 @@ tty_display_file(
                 tty_wait_synch(); /* "Hit <space> to continue: " */
                 if (u.ux) /* if hero is on map, refresh the screen */
                     docrt();
-                pline("Cannot open \"%s\".", fname);
+                pline("无法打开\"%s\".", fname);
             }
         } else {
             winid datawin = tty_create_nhwindow(NHW_TEXT);
@@ -3007,11 +3007,11 @@ tty_end_menu(
     if (cw->npages > 1) {
         char buf[QBUFSZ];
         /* produce the largest demo string */
-        Sprintf(buf, "(%ld of %ld) ", cw->npages, cw->npages);
+        Sprintf(buf, "(页数%ld/%ld) ", cw->npages, cw->npages);
         len = strlen(buf);
         cw->morestr = dupstr("");
     } else {
-        cw->morestr = dupstr("(end) ");
+        cw->morestr = dupstr("(结束) ");
         len = strlen(cw->morestr);
     }
 
@@ -3220,9 +3220,9 @@ ttyinv_create_window(int newid, struct WinDesc *newwin)
                    &newwin->maxrow)) {
         tty_destroy_nhwindow(newid);
         WIN_INVEN = WIN_ERR;
-        pline("%s.", "tty perm_invent could not be enabled");
-        pline("tty perm_invent needs a terminal that is at least %dx%d, "
-              "yours is %dx%d.",
+        pline("%s.", "tty perm_invent无法启用");
+        pline("tty perm_invent需要至少%dx%d大的终端, "
+              "你的是%dx%d.",
               (int) (minrow + 1 + ROWNO + StatusRows()), tty_perminv_mincol,
               ttyDisplay->rows, ttyDisplay->cols);
         tty_wait_synch();
@@ -3897,7 +3897,7 @@ tty_wait_synch(void)
     } else {
         tty_display_nhwindow(WIN_MAP, FALSE);
         if (ttyDisplay->inmore) {
-            addtopl("--More--");
+            addtopl("--更多--");
             (void) fflush(stdout);
         } else if (ttyDisplay->inread > program_state.gameover) {
             /* this can only happen if we were reading and got interrupted */

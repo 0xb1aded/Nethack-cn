@@ -9,6 +9,7 @@ English README: [README_en.md](README_en.md)
 
 ### 待完成
 
+sys里的文件：各平台的界面文件，里面也有文本
 optlist.h：命令列表
 data.base：百科全书，总共有几千行
 
