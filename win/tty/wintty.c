@@ -183,7 +183,7 @@ static char obuf[BUFSIZ]; /* BUFSIZ is defined in stdio.h */
 
 static const char winpanicstr[] = "Bad window Id %d (%s)";
 #define ttywindowpanic() panic(winpanicstr, window, __func__)
-char defmorestr[] = "--More--";
+char defmorestr[] = "--更多--";
 
 #ifdef CLIPPING
 #if defined(TILES_IN_GLYPHMAP) && defined(MSDOS)
@@ -3007,11 +3007,11 @@ tty_end_menu(
     if (cw->npages > 1) {
         char buf[QBUFSZ];
         /* produce the largest demo string */
-        Sprintf(buf, "(页数%ld/%ld) ", cw->npages, cw->npages);
+        Sprintf(buf, "(%ld of %ld) ", cw->npages, cw->npages);
         len = strlen(buf);
         cw->morestr = dupstr("");
     } else {
-        cw->morestr = dupstr("(结束) ");
+        cw->morestr = dupstr("(end) ");
         len = strlen(cw->morestr);
     }
 
@@ -3220,9 +3220,9 @@ ttyinv_create_window(int newid, struct WinDesc *newwin)
                    &newwin->maxrow)) {
         tty_destroy_nhwindow(newid);
         WIN_INVEN = WIN_ERR;
-        pline("%s.", "tty perm_invent无法启用");
-        pline("tty perm_invent需要至少%dx%d大的终端, "
-              "你的是%dx%d.",
+        pline("%s.", "tty perm_invent could not be enabled");
+        pline("tty perm_invent needs a terminal that is at least %dx%d, "
+              "yours is %dx%d.",
               (int) (minrow + 1 + ROWNO + StatusRows()), tty_perminv_mincol,
               ttyDisplay->rows, ttyDisplay->cols);
         tty_wait_synch();
