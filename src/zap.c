@@ -1053,9 +1053,9 @@ revive(struct obj *corpse, boolean by_hero)
             pline("一个尸体苏醒了.");
         }
         /* don't charge for shopkeeper's own corpse if we just revived him */
-        if (shkp && mtmp != shkp)
+        if (shkp && mtmp != shkp){
             (void) stolen_value(corpse, x, y, (boolean) shkp->mpeaceful,
-                                FALSE);
+                                FALSE);}
 
         /* [we don't give any comparable message about the corpse for
            the !by_hero case because caller might have already done so] */

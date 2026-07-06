@@ -1048,7 +1048,7 @@ checkfile(
                 goto checkfile_done;
             } else if (sscanf(buf, "%8lx\n", &txt_offset) < 1
                        || txt_offset == 0L){
-                goto bad_data_file;
+                panic("baddata1");goto bad_data_file;
                 
             }
             /* look for the appropriate entry */
@@ -1061,7 +1061,7 @@ checkfile(
                     skipping_entry = FALSE;
                 } else if (!skipping_entry) {
                     if (!(ep = strchr(buf, '\n'))){
-                        goto bad_data_file;
+                        panic("baddata2");goto bad_data_file;
                         }
                     (void) strip_newline((ep > buf) ? ep - 1 : ep);
                     /* if we match a key that begins with "~", skip
@@ -1089,11 +1089,11 @@ checkfile(
                 /* skip over other possible matches for the info */
                 do {
                     if (!dlb_fgets(buf, BUFSZ, fp)){
-                        goto bad_data_file;
+                        panic("baddata3");goto bad_data_file;
                         }
                 } while (!digit(*buf));
                 if (sscanf(buf, "%ld,%d\n", &entry_offset, &entry_count) < 2){
-                    goto bad_data_file;
+                    panic("baddata4:%s", buf);goto bad_data_file;
                     }
                 fseekoffset = (long) txt_offset + entry_offset;
                 if (pass == 1)
@@ -1131,11 +1131,11 @@ checkfile(
                         char tabbuf[BUFSZ + 8], *tp;
 
                         if (!dlb_fgets(tabbuf, BUFSZ, fp)){
-                            goto bad_data_file;
+                            panic("baddata5");goto bad_data_file;
                             }
                         tp = tabbuf;
                         if (!strchr(tp, '\n')){
-                            goto bad_data_file;
+                            panic("baddata6");goto bad_data_file;
                             }
                         (void) strip_newline(tp);
                         /* text in this file is indented with one tab but
@@ -1150,7 +1150,7 @@ checkfile(
                                 ++tp;
                             } while (tp < &tabbuf[8] && *tp == ' ');
                         } else if (*tp) { /* empty lines are ok */
-                            goto bad_data_file;
+                            panic("baddata7");goto bad_data_file;
                             
                         }
                         /* if a tab after the leading one is found,

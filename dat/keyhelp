@@ -1,4 +1,3 @@
-	meaningathata^Sasuspendsaoutputaandasubsequenta^Qaresumesasuspended
 	根据硬件、操作系统或NetHack界面的不同, 某些按键可能无法使用. 
 
 	例如, ^S和^Q通常用于XON/XOFF流控制, 这意味着^S会暂停输出, 随后输入

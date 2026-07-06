@@ -2010,8 +2010,8 @@ getobj(
             /* guard against the [hypothetical] chance of having more
                than one invent slot of gold and picking the non-'$' one */
             || (otmp && otmp->oclass == COIN_CLASS)) {
-            if (otmp && obj_ok(otmp) <= GETOBJ_EXCLUDE) {
-                You("不能%s.", strsubst(word, "什么", "金币"));
+            if (otmp && obj_ok(otmp) <= GETOBJ_EXCLUDE) { char wordbuf[BUFSZ]; Strcpy(wordbuf, word); /*危险*/
+                You("不能%s.", strsubst(wordbuf, "什么", "金币"));
                 return (struct obj *) 0;
             }
             /*
@@ -3221,7 +3221,7 @@ display_pickinv(
             sortedinvent[0].obj = (struct obj *) 0;
     }
 
-    start_menu(win, menu_behavior);
+    start_menu(win, menu_behavior); //debugfuzzer有问题:1
     any = cg.zeroany;
     if (wizid) {
         int unid_cnt;
