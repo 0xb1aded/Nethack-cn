@@ -835,15 +835,15 @@ static void
 getret(void)
 {
 #if defined(MICRO) || defined(WIN32CON)
-    getreturn("以继续");
+    getreturn("to continue");
 #else
     HUPSKIP();
     xputs("\n");
     if (flags.standout)
         standoutbeg();
-    xputs("按");
-    xputs(iflags.cbreak ? "空格" : "return");
-    xputs("以继续: ");
+    xputs("Hit ");
+    xputs(iflags.cbreak ? "space" : "return");
+    xputs(" to continue: ");
     if (flags.standout)
         standoutend();
     xwaitforspace(" ");
@@ -1768,7 +1768,7 @@ process_menu_window(winid window, struct WinDesc *cw)
             Strcat(resp, default_menu_cmds);
 
             if (cw->npages > 1)
-                Sprintf(cw->morestr, "(页数%d/%d)", curr_page + 1,
+                Sprintf(cw->morestr, "(%d of %d)", curr_page + 1,
                         (int) cw->npages);
             else if (msave)
                 Strcpy(cw->morestr, msave);

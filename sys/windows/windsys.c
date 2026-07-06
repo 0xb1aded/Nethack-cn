@@ -581,7 +581,7 @@ getreturn(const char *str)
     if (in_getreturn || !getreturn_enabled)
         return;
     in_getreturn = TRUE;
-    Sprintf(buf,"按<Enter>%s.", str);
+    Sprintf(buf,"Hit <Enter> %s.", str);
     raw_print(buf);
     if (WINDOWPORT(tty))
         windows_console_custom_nhgetch();
