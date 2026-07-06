@@ -68,7 +68,7 @@ silent         不使用终端的蜂鸣声                                  [Tru
 sortpack       将背包中同类物品分组                                [True]
 sparkle        对被抵抗的魔法攻击显示闪烁效果                      [True]
                (例如对防火怪物发动的火焰攻击)
-standout       在消息中对 --More-- 使用突出显示模式               [False]
+standout       在消息中对--More--使用突出显示模式                 [False]
 status_updates 更新状态行                                          [True]
 terrainstatus  显示描述当前位置的额外状态字段                     [False]
 time           显示已过去的游戏时间(以步数计)                     [False]

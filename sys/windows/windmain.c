@@ -435,14 +435,14 @@ attempt_restore:
         if (ge.early_raw_messages)
             raw_print("Restoring save file...");
         else
-            pline("Restoring save file...");
+            pline("读取存档中...");
         mark_synch(); /* flush output */
         if (dorecover(nhfp)) {
             resuming = TRUE; /* not starting new game */
             if (discover)
-                You("are in non-scoring discovery mode.");
+                You("正在游玩不计分的探索模式.");
             if (discover || wizard) {
-                if (y_n("Do you want to keep the save file?") == 'n')
+                if (y_n("你想保留存档文件吗?") == 'n')
                     (void) delete_savefile();
                 else {
                     nh_compress(fqname(gs.SAVEF, SAVEPREFIX, 0));
@@ -471,7 +471,7 @@ attempt_restore:
         }
         newgame();
         if (discover)
-            You("are in non-scoring discovery mode.");
+            You("正在游玩不计分的探索模式.");
     }
 
         // iflags.debug_fuzzer = TRUE;
@@ -1362,7 +1362,7 @@ stdio_wait_synch(void)
 {
     char valid[] = { ' ', '\n', '\r', '\033', '\0' };
 
-    fprintf(stdout, "--More--");
+    fprintf(stdout, "--更多--");
     (void) fflush(stdout);
     while (!strchr(valid, nhgetch()))
         ;
