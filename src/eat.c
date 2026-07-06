@@ -3699,7 +3699,7 @@ floorfood(
             /* "There is <an object> here; <verb> it?" or
                "There are <N objects> here; <verb> one?" */
             Sprintf(qbuf, "这里%s", otense(otmp, "有")); strsubst(verb2, "什么", "");
-            Sprintf(qsfx, "; %s%s?", verb2, one ? "了它" : "一个");
+            Snprintf(qsfx, sizeof(qsfx), "; %s%s?", verb2, one ? "了它" : "一个"); /*危险:Sprintf(qsfx, "; %s%s?", verb2, one ? "了它" : "一个");*/
             (void) safe_qbuf(qbuf, qbuf, qsfx, otmp, doname, ansimpleoname,
                              one ? "什么东西" : (const char *) "一些东西"); /*危险:one ? something : (const char *) "一些东西");*/
             if ((c = yn_function(qbuf, ynqchars, 'n', TRUE)) == 'y')

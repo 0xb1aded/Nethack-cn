@@ -358,7 +358,7 @@ priestname(
         if (high_priest)
             Strcat(pname, do_hallu ? "大" : "高阶");
     } else {
-        if (mon->mtame && !strcmpi(what, "Angel") || !strcmp(what, "天使"))
+        if (mon->mtame && (!strcmpi(what, "Angel") || !strcmp(what, "天使")))
             Strcat(pname, "守护");
     }
     Strcat(pname, what); /*修改语序:放到了后面*/
