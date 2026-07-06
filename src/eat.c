@@ -2015,7 +2015,7 @@ eatcorpse(struct obj *otmp)
                  ? (yummy ? ((u.umonnum == PM_TIGER) ? "太-棒-了" : "绝了")
                           : palatable ? "棒极了" : "很恶心")
               : (yummy ? "很美味" : palatable ?
-                 &palat_msg[0] : "很可怕"), /*危险:&palat_msg[1]*/
+                 &palat_msg[0] : "很难吃"), /*危险:&palat_msg[1]*/
               (yummy || !palatable) ? '!' : '.');
     }
 
