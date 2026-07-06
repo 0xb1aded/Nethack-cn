@@ -519,10 +519,10 @@ background_enlightenment(int unused_mode UNUSED, int final)
         Strcpy(buf, "实际上"); /* "You are actually a ..." */
     if (!strcmpi(rank_titl, role_titl)) {
         /* omit role when rank title matches it */
-        Sprintf(eos(buf), "是一位%s, 等级%d的%s%s", an(rank_titl), u.ulevel,
+        Sprintf(eos(buf), "是一位%s, 等级%d的%s%s", rank_titl, u.ulevel,
                 tmpbuf, gu.urace.noun);
     } else {
-        Sprintf(eos(buf), "是一位%s, 等级%d的%s%s%s", an(rank_titl), u.ulevel,
+        Sprintf(eos(buf), "是一位%s, 等级%d的%s%s%s", rank_titl, u.ulevel,
                 tmpbuf, gu.urace.adj, role_titl);
     }
     you_are(buf, "");
@@ -530,7 +530,7 @@ background_enlightenment(int unused_mode UNUSED, int final)
     /* report alignment (bypass you_are() in order to omit ending period);
        adverb is used to distinguish between temporary change (helm of opp.
        alignment), permanent change (one-time conversion), and original */
-    Sprintf(buf, "%s%s%s阵营, %s肩负着%s的使命",
+    Sprintf(buf, "  %s%s%s阵营, %s肩负着%s的使命",
             You_, !final ? "属于" : "曾属于",
             align_str(u.ualign.type),
             /* helm of opposite alignment (might hide conversion) */
@@ -554,7 +554,7 @@ background_enlightenment(int unused_mode UNUSED, int final)
     /* show the rest of this game's pantheon (finishes previous sentence)
        [appending "also Moloch" at the end would allow for straightforward
        trailing "and" on all three aligned entries but looks too verbose] */
-    Sprintf(buf, "%s敌对的是", !final ? "现在" : "曾");
+    Sprintf(buf, "  %s敌对的是", !final ? "现在" : "曾");
     if (u.ualign.type != A_LAWFUL)
         Sprintf(eos(buf), "%s(%s)和", align_gname(A_LAWFUL),
                 align_str(A_LAWFUL));
@@ -565,7 +565,7 @@ background_enlightenment(int unused_mode UNUSED, int final)
     if (u.ualign.type != A_CHAOTIC)
         Sprintf(eos(buf), "%s(%s)", align_gname(A_CHAOTIC),
                 align_str(A_CHAOTIC));
-    Strcat(buf, "死亡"); /* terminate sentence */
+    Strcat(buf, "."); /* terminate sentence */
     enlght_out(buf);
 
     /* show original alignment,gender,race,role if any have been changed;
@@ -582,7 +582,7 @@ background_enlightenment(int unused_mode UNUSED, int final)
         difalgn &= ~1; /* suppress helm from "started out <foo>" message */
     }
     if (difgend || difalgn) { /* sex change or perm align change or both */
-        Sprintf(buf, "你最开始是%s%s%s.",
+        Sprintf(buf, "  你最开始是%s%s%s.",
                 difgend ? genders[flags.initgend].adj : "",
                 (difgend && difalgn) ? "和" : "",
                 difalgn ? align_str(u.ualignbase[A_ORIGINAL]) : "");
@@ -690,7 +690,7 @@ background_enlightenment(int unused_mode UNUSED, int final)
         /* [flags.showexp currently does not matter; should it?] */
 
         /* experience level is already shown above */
-        Sprintf(buf, "%-1ld经验点%s", u.uexp, plur(u.uexp));
+        Sprintf(buf, "有%-1ld经验点%s", u.uexp, plur(u.uexp));
         /* TODO?
          *  Remove wizard-mode restriction since patient players can
          *  determine the numbers needed without resorting to spoilers
@@ -734,37 +734,37 @@ basics_enlightenment(int mode UNUSED, int final)
         pwmax = u.uenmax, hpmax = (Upolyd ? u.mhmax : u.uhpmax);
 
     enlght_out(""); /* separator after background */
-    enlght_out("Basics:");
+    enlght_out("基础:");
 
     if (hp < 0)
         hp = 0;
     /* "1 out of 1" rather than "all" if max is only 1; should never happen */
     if (hp == hpmax && hpmax > 1)
-        Sprintf(buf, "%d HP", hpmax);
+        Sprintf(buf, "有%d点生命值", hpmax);
     else
-        Sprintf(buf, "%d/%d点生命值%s", hp, hpmax, plur(hpmax));
+        Sprintf(buf, "有%d/%d点生命值%s", hp, hpmax, plur(hpmax));
     you_have(buf, "");
 
     /* low max energy is feasible, so handle couple of extra special cases */
     if (pwmax == 0 || (pw == pwmax && pwmax == 2)) /* both: not "all 2" */
-        Sprintf(buf, "%s%s", !pwmax ? "0种" : "两种", Power);
+        Sprintf(buf, "%s%s", !pwmax ? "没有" : "有两点", Power);
     else if (pw == pwmax && pwmax > 2)
-        Sprintf(buf, "%d%s", pwmax, Power);
+        Sprintf(buf, "有%d%s", pwmax, Power);
     else
-        Sprintf(buf, "%d/%d%s", pw, pwmax, Power);
+        Sprintf(buf, "有%d/%d%s", pw, pwmax, Power);
     you_have(buf, "");
 
     if (Upolyd) {
         switch (mons[u.umonnum].mlevel) {
         case 0:
             /* status line currently being explained shows "HD:0" */
-            Strcpy(buf, "0生命骰(实际为1/2)");
+            Strcpy(buf, "有0生命骰(实际为1/2)");
             break;
         case 1:
-            Strcpy(buf, "1生命骰");
+            Strcpy(buf, "有1生命骰");
             break;
         default:
-            Sprintf(buf, "%d生命骰", mons[u.umonnum].mlevel);
+            Sprintf(buf, "有%d生命骰", mons[u.umonnum].mlevel);
             break;
         }
         you_have(buf, "");
@@ -775,7 +775,7 @@ basics_enlightenment(int mode UNUSED, int final)
     if (abs(u.uac) == AC_MAX)
         Sprintf(eos(buf), ", 可能达到的%s的",
                 (u.uac < 0) ? "最佳" : "最差");
-    enl_msg("你的防具", "是 ", "曾是", buf, "");
+    enl_msg("你的防具等级", "是 ", "曾是", buf, "");
 
     /* gold; similar to doprgold (#showgold) but without shop billing info;
        includes container contents, unlike status line but like doprgold */
@@ -783,9 +783,9 @@ basics_enlightenment(int mode UNUSED, int final)
         long umoney = money_cnt(gi.invent), hmoney = hidden_gold(final);
 
         if (!umoney) {
-            Sprintf(buf, "的钱包%s空的", !final ? "是" : "曾是");
+            Sprintf(buf, "  你的钱包%s空的", !final ? "是" : "曾是");
         } else {
-            Sprintf(buf, "的钱包里装%s%ld %s", !final ? "着" : "了",
+            Sprintf(buf, "  你的钱包里装%s%ld %s", !final ? "着" : "了",
                     umoney, currency(umoney));
         }
         /* terminate the wallet line if appropriate, otherwise add an
@@ -796,9 +796,9 @@ basics_enlightenment(int mode UNUSED, int final)
         /* put contained gold on its own line to avoid excessive width; it's
            phrased as a continuation of the wallet line so not capitalized */
         if (hmoney) {
-            Sprintf(buf, "的背包里%s有%ld %s", /*危险:自己看*/
+            Sprintf(buf, "  你的背包里%s有%ld %s", /*危险:自己看*/
                     umoney ? "还" : "", hmoney, umoney ? "" : currency(hmoney));
-            enl_msg("你", "", "", buf, "");
+            enl_msg("你", "有", "曾有", buf, "");
         }
     }
 
@@ -912,7 +912,7 @@ one_characteristic(int mode, int final, int attrindx)
         interesting_alimit =
             final ? TRUE /* was originally `(abase != alimit)' */
                   : (alimit != (attrindx != A_STR ? 18 : STR18(100)));
-        paren_pfx = final ? "(" : "(当前;";
+        paren_pfx = final ? "(" : "(当前; ";
         if (acurrent != abase) {
             Sprintf(eos(valubuf), "%s基础: %s", paren_pfx,
                     attrval(attrindx, abase, valstring));
@@ -1021,7 +1021,7 @@ status_enlightenment(int mode, int final)
             you_are("正在被埋葬", "");
         } else {
             if (final && (Strangled & I_SPECIAL)) {
-                enlght_out(" 你死于窒息.");
+                enlght_out("你死于窒息.");
             } else {
                 Strcpy(buf, "被窒息");
                 if (wizard)
@@ -1036,7 +1036,7 @@ status_enlightenment(int mode, int final)
            puts TermIll before FoodPois and death due to timeout reports
            terminal illness if both are in effect, so do the same here */
         if (final && (Sick & I_SPECIAL)) {
-            Sprintf(buf, " %s死于%s.", You_, /* has trailing space */
+            Sprintf(buf, "%s死于%s.", You_, /* has trailing space */
                     (u.usick_type & SICK_NONVOMITABLE)
                     ? "绝症" : "食物中毒");
             enlght_out(buf);
@@ -2104,7 +2104,7 @@ show_conduct(int final)
     if (!u.uroleplay.reroll)
         Strcpy(buf, "角色重掷未启用.");
     else if (!u.uroleplay.numrerolls)
-        Strcpy(buf, "你的角色没有被重新投掷.");
+        Strcpy(buf, "你的角色没有被重掷.");
     else
         Sprintf(buf, "你的角色被重掷了%s.",
                 N_times(u.uroleplay.numrerolls, bufN));
