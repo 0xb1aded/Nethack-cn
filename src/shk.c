@@ -3583,17 +3583,17 @@ addtobill(
                                        ? "这个"
                                        : "这个",
                   xname(obj),
-                  (contentscount && obj->unpaid) ? and_its_contents : the_contents_of, ltmp, currency(ltmp)
+                  (contentscount && obj->unpaid) ? and_its_contents : "", ltmp, currency(ltmp)
                   ); /*修改语序:去翻原版吧,,,这么多换行*/
             obj->quan = save_quan;
         }
     } else if (!silent) {
         if (ltmp) {
             set_voice(shkp, 0, 80, 0);
-            pline_The("%s%s%s%s的标价为%ld %s.",
-                      (obj->quan > 1L) ? "每个" : "", (contentscount && !obj->unpaid) ? "" : "", /*修改语序:(contentscount && !obj->unpaid) ? "" : "",*/
+            pline_The("%s%s%s的标价为%ld %s.",
+                      (obj->quan > 1L) ? "每个" : "", /*修改语序:(contentscount && !obj->unpaid) ? "" : "",*/
                       the(xname(obj)),
-                      (contentscount && obj->unpaid) ? and_its_contents : the_contents_of, /*危险:(contentscount && obj->unpaid) ? and_its_contents : "",*/
+                      contentscount ? (obj->unpaid ? and_its_contents : the_contents_of) : "", /*危险:(contentscount && obj->unpaid) ? and_its_contents : "",*/
                       ltmp, currency(ltmp)); /*修改语序:ltmp, currency(ltmp), (obj->quan > 1L) ? " 每个" : "");*/
         } else {
             pline("%s没有注意.", Shknam(shkp));
@@ -4148,10 +4148,10 @@ sellobj(
             Sprintf(qsfx, "%s. 卖出%s?",
                     (cltmp && ltmp)
                         ? (only_partially_your_contents
-                               ? ((yourc == 1L) ? "及其部分内容物"
+                               ? ((yourc == 1L) ? "及其内容物"
                                                 : "及其部分内容物")
                                : and_its_contents)
-                        : ((cltmp && !ltmp) ? "的内容物" : ""), /*危险:自己看*/
+                        : "", /*危险:自己看*/ //2026.07.07 我当时是怎么写的，，， --Francium-223
                     one ? "它" : "它们");
             record_price_quote(obj->otyp, offer / obj->quan, FALSE);
             (void) safe_qbuf(qbuf, qbuf, qsfx, obj, xname, simpleonames,
@@ -5442,8 +5442,8 @@ price_quote(struct obj *first_obj)
             Sprintf(price, "%s%ld %s", (otmp->quan) > 1L ? " 每个" : "", cost, /*修改语序:Sprintf(price, "%ld %s%s", cost, currency(cost),*/
                     currency(cost)); /*修改语序:(otmp->quan) > 1L ? " 每个" : "");*/
         }
-        Sprintf(buf, "%s%s, %s", contentsonly ? the_contents_of : "",
-                doname(otmp), price);
+        Sprintf(buf, "%s%s, %s", doname(otmp),
+                contentsonly ? the_contents_of : "", price); /*修改语序:我当时写了个啥，，，*/
         putstr(tmpwin, 0, buf), cnt++;
     }
     if (cnt > 1) {
@@ -5456,8 +5456,8 @@ price_quote(struct obj *first_obj)
         } else {
             /* print cost in slightly different format, so can't reuse buf;
                cost and contentsonly are already set up */
-            Sprintf(buf, "%s%s", contentsonly ? the_contents_of : "",
-                    doname(first_obj));
+            Sprintf(buf, "%s%s", doname(first_obj),
+                    contentsonly ? the_contents_of : "");
             SetVoice(shkp, 0, 80, 0);
             verbalize("%s, 价格%s%ld %s%s", upstart(buf), (first_obj->quan > 1L) ? "每个" : "", cost, /*修改语序:verbalize("%s,价格%s%ld %s%s", upstart(buf), cost,*/
                       currency(cost), /*修改语序:currency(cost), (first_obj->quan > 1L) ? "each" : "",*/
