@@ -882,9 +882,9 @@ u_entered_shop(char *enterstring)
             if (!Deaf && !muteshk(shkp)) {
                 SetVoice(shkp, 0, 80, 0);
                 verbalize(not_upset
-                              ? "可以把你的%s%s留在外面吗?"
-                              : "把你的%s%s留在外面.",
-                          tool, plur(cnt));
+                              ? "可以把你的%s留在外面吗?"
+                              : "把你的%s留在外面.",
+                          tool);
             } else {
                 pline("%s%s让你带着你的%s%s进入.",
                       Shknam(shkp),
@@ -895,8 +895,8 @@ u_entered_shop(char *enterstring)
         } else if (u.usteed) {
             if (!Deaf && !muteshk(shkp)) {
                 SetVoice(shkp, 0, 80, 0);
-                verbalize(not_upset ? "可以把你的%s%s留在外面吗?"
-                                    : "把你的%s%s留在外面.",
+                verbalize(not_upset ? "可以把你的%s留在外面吗?"
+                                    : "把你的%s留在外面.",
                           y_monnam(u.usteed));
             } else {
                 pline("%s%s让你骑着%s进来.",
@@ -2439,10 +2439,10 @@ reject_purchase(
             Sprintf(which, "%s", (intact_quan > 1L) ? "这些" : "这个");
 
         SetVoice(shkp, 0, 80, 0);
-        verbalize("在买%s之前%s先把其他的%s付了.", which, /*修改语序:which放到最后*/
-                  ANGRY(shkp) ? "" : "请",
-                  simpleonames(obj), /* short name suffices */
-                  which);
+        verbalize("在买%s之前%s先把其他的%s付了.",  /*修改语序:which放到最后*/
+                  which,
+                  ANGRY(shkp) ? "" : "请", /* short name suffices */
+                  simpleonames(obj));
     } else {
         pline("%s%s%s你要先把其他的%s付了.",
               Shknam(shkp),

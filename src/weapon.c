@@ -456,7 +456,7 @@ silver_sears(struct monst *magr UNUSED, struct monst *mdef,
            silver [see hmonas(uhitm.c) for explanation of 'multi_claw'] */
         both = ((ltyp == rtyp && l_dknown == r_dknown) || (l_ag && r_ag));
         Sprintf(rings, "戒指"); /*修改语序:Sprintf(rings, "戒指%s", both ? "s" : "");*/
-        Your("%s%s%s%s了%s!", both ? "两枚" : "",/*修改语序:Your("%s%s%s了%s!",*/
+        Your("%s%s%s%s%s了%s!", both ? "两枚" : "",/*修改语序:Your("%s%s%s了%s!",*/
              (l_ag || r_ag) ? "银" /*修改语序:(l_ag || r_ag) ? "银"*/
              : both ? "" /*修改语序:: both ? ""*/
                : ((silverhit & W_RINGL) != 0L) ? "左" /*修改语序:: ((silverhit & W_RINGL) != 0L) ? "左" */

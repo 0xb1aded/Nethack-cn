@@ -2123,8 +2123,8 @@ silly_thing(const char *word,
     else
 #endif
     /* see comment about Amulet of Yendor in objtyp_is_callable(do_name.c);
-       known fakes yield the silly thing feedback */ const char* word2[BUFSZ];
-    if (!strcmp(word, "call") || !strcmp(word, "叫什么")
+       known fakes yield the silly thing feedback */ char word2[BUFSZ];
+    if ((!strcmp(word, "call")) || (!strcmp(word, "叫什么"))
         && (otmp->otyp == AMULET_OF_YENDOR
             || (otmp->otyp == FAKE_AMULET_OF_YENDOR && !otmp->known))) {
         pline_The("护身符不喜欢被命名.");

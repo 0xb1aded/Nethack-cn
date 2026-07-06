@@ -193,8 +193,8 @@ flooreffects(
             if (*verb && (cansee(x, y) || distu(x, y) == 0))
                 pline("%s巨石%s%s到了坑里.",
                       Blind ? "一块" : "那块",
-                      mtmp ? "" : "和你一起"), /*修改语序:vtense((const char *) 0, verb),*/
-                      vtense((const char *) 0, verb); /*修改语序:mtmp ? "" : "和你一起");*/
+                      mtmp ? "" : "和你一起", /*修改语序:vtense((const char *) 0, verb),*/
+                      vtense((const char *) 0, verb)); /*修改语序:mtmp ? "" : "和你一起");*/
             if (mtmp) {
                 if (!passes_walls(mtmp->data) && !throws_rocks(mtmp->data)) {
                     /* dieroll was rnd(20); 1: maximum chance to hit

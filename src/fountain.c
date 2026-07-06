@@ -665,7 +665,7 @@ drinksink(void)
         pline_The("%s仿佛有自己的意志般地流动!", hliquid("水"));
         if ((svm.mvitals[PM_WATER_ELEMENTAL].mvflags & G_GONE)
             || !makemon(&mons[PM_WATER_ELEMENTAL], u.ux, u.uy, MM_NOMSG))
-            pline("");
+            pline("但是它停下来了. ");
         break;
     case 8:
         pline("呕, 这%s味道糟透了.", hliquid("水"));
@@ -673,7 +673,7 @@ drinksink(void)
         newexplevel();
         break;
     case 9:
-        pline("呕... 这%s尝起来像污水! 你呕吐了.");
+        pline("呕... 这尝起来像污水! 你呕吐了.");
         morehungry(rn1(30 - ACURR(A_CON), 11));
         vomit();
         break;

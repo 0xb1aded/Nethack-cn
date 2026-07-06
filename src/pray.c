@@ -1820,8 +1820,8 @@ bestow_artifact(uchar max_giftvalue)
             exercise(A_WIS, TRUE);
             livelog_printf (LL_DIVINEGIFT | LL_ARTIFACT,
                             "被%s授予了%s", /*修改语序:"被授予了%s, 通过%s",*/
-                            align_gname(u.ualign.type)), /*修改语序:artiname(otmp->oartifact),*/
-                            artiname(otmp->oartifact); /*修改语序:align_gname(u.ualign.type));*/
+                            align_gname(u.ualign.type), /*修改语序:artiname(otmp->oartifact),*/
+                            artiname(otmp->oartifact)); /*修改语序:align_gname(u.ualign.type));*/
             /* make sure we can use this weapon */
             unrestrict_weapon_skill(weapon_type(otmp));
             if (!Hallucination && !Blind) {
@@ -2448,7 +2448,7 @@ doturn(void)
         return ECMD_TIME;
     }
     if (Inhell) {
-        pline("因为你在地狱, %s也无能为力.",
+        pline("因为你在地狱, %s%s帮助你.",
               /* not actually calling upon Moloch but use alternate
                  phrasing anyway if hallucinatory feedback says it's him */
               Gname, !strcmp(Gname, Moloch) ? "不会" : "不能");

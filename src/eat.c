@@ -3586,7 +3586,7 @@ floorfood(
     int corpsecheck) /* 0, no check, 1, corpses, 2, tinnable corpses */
 {
     struct obj *otmp;
-    char qbuf[QBUFSZ], verb2[BUFSZ]; /*危险:增加verb2[BUFSZ]*/
+    char qbuf[QBUFSZ], verb2[255]; /*危险:增加verb2[BUFSZ]*/
     char c; Strcpy(verb2, verb); /*危险:verb2去掉"什么"*/
     struct permonst *uptr = gy.youmonst.data;
     boolean feeding = !strcmp(verb, "eat") || !cnstrcmp(verb, "吃什么"),        /* corpsecheck==0 */

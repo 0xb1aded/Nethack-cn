@@ -588,7 +588,7 @@ priest_talk(struct monst *priest)
         };
 
         if (helpless(priest)) {
-            pline("%s从s的沉思中惊醒!", Monnam(priest),
+            pline("%s从%s的沉思中惊醒!", Monnam(priest),
                   mhis(priest));
             priest->mfrozen = priest->msleeping = 0;
             priest->mcanmove = 1;

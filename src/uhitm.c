@@ -2209,7 +2209,7 @@ steal_it(struct monst *mdef, struct attack *mattk)
             && gy.youmonst.data->mlet == S_NYMPH)
             You("迷住了%s. %s乐意地交出了%s的%s财物.",
                 mon_nam(mdef), upstart(strcpy(heshe, mhe(mdef))),
-                mhis(mdef)), !gold ? "" : "大部分"; /*修改语序!gold ? "" : "大部分", mhis(mdef));*/
+                mhis(mdef), !gold ? "" : "大部分"); /*修改语序!gold ? "" : "大部分", mhis(mdef));*/
         else
             You("勾引%s然后%s开始脱下%s的衣服.",
                 mon_nam(mdef), mhe(mdef), mhis(mdef));

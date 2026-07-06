@@ -2797,7 +2797,7 @@ optfn_paranoid_confirmation(int optidx, int req, boolean opt_negated,
 #endif
             /* convert prayconfirm to paranoid_confirm:+pray and
                !prayconfirm to paranoid_confirm:-pray */
-            Sprintf(prayconfirm, "%c祈祷", opt_negated ? '-' : '+');
+            Sprintf(prayconfirm, "%cpray", opt_negated ? '-' : '+');
             op = prayconfirm;
             /* possibly changing !prayconfirm to paranoid_confirm:-pray
                which clears a paranoia bit but isn't a negated option */

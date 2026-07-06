@@ -2575,7 +2575,7 @@ in_container(struct obj *obj)
         return 0;
     } else if (obj->owornmask & (W_ARMOR | W_ACCESSORY)) {
         Norep("你不能%s你正在穿戴的东西.",
-              Icebox ? "冷藏" : "藏入", something); /*Icebox ? "冷藏" : "藏入", something);*/
+              Icebox ? "冷藏" : "藏入"); /*修改语序:Icebox ? "冷藏" : "藏入", something);*/
         return 0;
     } else if ((obj->otyp == LOADSTONE) && obj->cursed) {
         set_bknown(obj, 1);
