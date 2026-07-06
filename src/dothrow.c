@@ -368,7 +368,7 @@ dothrow(void)
     if (!ok_to_throw(&shotlimit))
         return ECMD_OK;
 
-    obj = getobj("投掷什么", throw_ok, GETOBJ_PROMPT | GETOBJ_ALLOWCNT);
+    obj = getobj("投掷什么", throw_ok, GETOBJ_PROMPT | GETOBJ_ALLOWCNT); //debugfuzzer有问题:1
     /* it is also possible to throw food */
     /* (or jewels, or iron balls... ) */
 

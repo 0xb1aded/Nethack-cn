@@ -422,7 +422,7 @@ read_engr_at(coordxy x, coordxy y)
             }
             You("%s: \"%s\"%s", (Blind) ? "摸到上面的字" : "读到", et,
                 endpunct);
-            Strcpy(ep->engr_txt[remembered_text], ep->engr_txt[actual_text]);
+            Strcpy(ep->engr_txt[remembered_text], ep->engr_txt[actual_text]); //debugfuzzer有问题:1
             ep->eread = 1;
             ep->erevealed = 1;
             if (svc.context.run > 0)

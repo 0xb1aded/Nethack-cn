@@ -9,6 +9,9 @@ English README: [README_en.md](README_en.md)
 
 ### 待完成
 
+即使你什么都不会，也可以下载下来，在命令行里输入nethack -D -u wizard -debug:fuzzer，然后等待……直到游戏崩溃。
+然后在崩溃的地方（通过WindGbg之类的调试器找到崩溃的函数）后面加一个注释： //debugfuzzer有问题:1
+如果已经有了，在这后面的数字上再+1。
 optlist.h：命令列表
 data.base：百科全书，总共有几千行
 
