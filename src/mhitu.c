@@ -117,7 +117,7 @@ mswings_verb(
 
     verb = bash ? "猛挥" /*sigh*/
            : lash ? "甩"
-             : thrust ? "扔出"
+             : thrust ? "猛刺"
                : "挥动";
     /* (might have caller also pass attacker's formatted name so that
        if hallucination makes that be plural, we could use vtense() to
