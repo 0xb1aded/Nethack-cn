@@ -3897,7 +3897,7 @@ tty_wait_synch(void)
     } else {
         tty_display_nhwindow(WIN_MAP, FALSE);
         if (ttyDisplay->inmore) {
-            addtopl("--更多--");
+            addtopl("--More--"); /*危险:写"更多"会乱码，先忍着*/
             (void) fflush(stdout);
         } else if (ttyDisplay->inread > program_state.gameover) {
             /* this can only happen if we were reading and got interrupted */
