@@ -1362,7 +1362,7 @@ stdio_wait_synch(void)
 {
     char valid[] = { ' ', '\n', '\r', '\033', '\0' };
 
-    fprintf(stdout, "--更多--");
+    fprintf(stdout, "--More--");
     (void) fflush(stdout);
     while (!strchr(valid, nhgetch()))
         ;

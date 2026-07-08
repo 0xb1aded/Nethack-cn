@@ -183,7 +183,7 @@ static char obuf[BUFSIZ]; /* BUFSIZ is defined in stdio.h */
 
 static const char winpanicstr[] = "Bad window Id %d (%s)";
 #define ttywindowpanic() panic(winpanicstr, window, __func__)
-char defmorestr[] = "--更多--";
+char defmorestr[] = "--More--";
 
 #ifdef CLIPPING
 #if defined(TILES_IN_GLYPHMAP) && defined(MSDOS)
