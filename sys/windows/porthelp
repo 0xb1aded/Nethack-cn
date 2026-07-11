@@ -29,7 +29,7 @@ Windows版NetHack移植版支持一些新增或增强的
 5. 数字键盘 (number_pad模式有效)
 
 
-1. ALT Key Combinations
+1. ALT键组合
 ----------------------------------------------
 非图形化(tty)界面始终以“NetHack模式”运行, 而“NetHack for Windows - 
 Graphical Interface”允许你切换模式. 在非NetHack模式下, 所有ALT键组合
@@ -61,7 +61,7 @@ Graphical Interface”允许你切换模式. 在非NetHack模式下, 所有ALT�
     Alt-w    #wipe           - 擦脸.
     Alt-?    #?              - 显示扩展菜单命令列表
 
-2. Options that you assign a value to (Graphical Interface only)
+2. 可赋值的选项(仅限图形界面)
 ----------------------------------------------------------------
 
 "NetHack for Windows - Graphical Interface"支持以下附加选项, 而非图形界面
