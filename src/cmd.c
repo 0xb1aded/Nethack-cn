@@ -1735,7 +1735,7 @@ struct ext_func_tab extcmdlist[] = {
               dohelp, IFBURIED | GENERALCMD, NULL },
     { '\0',   "herecmdmenu", "显示此处可执行的命令菜单",
               doherecmdmenu, IFBURIED | AUTOCOMPLETE | GENERALCMD, NULL },
-    { '\0',    "history", "显示游戏开发历史的概述",
+    { '\0',   "history", "显示游戏开发历史的概述",
               dohistory, IFBURIED | AUTOCOMPLETE | GENERALCMD, NULL },
     { 'i',    "inventory", "显示你的物品栏",
               ddoinv, IFBURIED | GENERALCMD, NULL },
