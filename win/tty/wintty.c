@@ -183,7 +183,7 @@ static char obuf[BUFSIZ]; /* BUFSIZ is defined in stdio.h */
 
 static const char winpanicstr[] = "Bad window Id %d (%s)";
 #define ttywindowpanic() panic(winpanicstr, window, __func__)
-char defmorestr[] = "--More--";
+char defmorestr[] = "--更多--";
 
 #ifdef CLIPPING
 #if defined(TILES_IN_GLYPHMAP) && defined(MSDOS)
@@ -1234,8 +1234,7 @@ dmore(
              (int) ttyDisplay->cury);
     if (flags.standout)
         standoutbeg();
-    xputs(prompt);
-    ttyDisplay->curx += strlen(prompt);
+    putsyms(prompt);
     if (flags.standout)
         standoutend();
 
@@ -1780,7 +1779,7 @@ process_menu_window(winid window, struct WinDesc *cw)
             dmore(cw, resp);
         } else {
             /* just put the cursor back... */
-            tty_curs(window, (int) strlen(cw->morestr) + 2, page_lines);
+            tty_curs(window, (int) utf8str_width(cw->morestr) + 2, page_lines);
             xwaitforspace(resp);
         }
 
@@ -3897,7 +3896,7 @@ tty_wait_synch(void)
     } else {
         tty_display_nhwindow(WIN_MAP, FALSE);
         if (ttyDisplay->inmore) {
-            addtopl("--More--"); /*危险:写"更多"会乱码，先忍着*/
+            addtopl(defmorestr);
             (void) fflush(stdout);
         } else if (ttyDisplay->inread > program_state.gameover) {
             /* this can only happen if we were reading and got interrupted */

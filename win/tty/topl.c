@@ -222,8 +222,10 @@ more(void)
     ttyDisplay->inmore++;
 
     if (ttyDisplay->toplin) {
+        int morecols = (int) utf8str_width(defmorestr);
+
         tty_curs(BASE_WINDOW, cw->curx + 1, cw->cury);
-        if (cw->curx >= CO - 8)
+        if (cw->curx >= CO - morecols)
             topl_putsym('\n');
     }
 
@@ -267,7 +269,8 @@ update_topl(const char *bp)
     n0 = strlen(bp);
     if ((ttyDisplay->toplin == TOPLINE_NEED_MORE || skip)
         && cw->cury == 0
-        && n0 + (int) strlen(gt.toplines) + 3 < CO - 8 /* room for --More-- */
+        && (int) utf8str_width(gt.toplines) + (int) utf8str_width(bp) + 3
+               < CO - (int) utf8str_width(defmorestr)
         && (notdied = strncmp(bp, "You die", 7)) != 0) {
         Strcat(gt.toplines, "  ");
         Strcat(gt.toplines, bp);
