@@ -11,8 +11,6 @@ English README: [README_en.md](README_en.md)
 
 sys里的文件：各平台的界面文件，里面也有文本
 
-optlist.h：命令列表
-
 data.base：百科全书，总共有几千行
 
 ### 已知待解决的问题
