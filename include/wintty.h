@@ -357,5 +357,5 @@ extern void video_update_positionbar(char *);
 #endif
 #endif /*MSDOS*/
 #endif /* NO_TERMS */
-extern boolean decode_utf8_char(const char *, wchar_t *, int *, int *); /*危险*/
+
 #endif /* WINTTY_H */

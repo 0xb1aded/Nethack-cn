@@ -248,7 +248,7 @@ static void status_sanity_check(void);
 static int utf8_char_len(unsigned char);
 static boolean utf8_continuation(unsigned char);
 static char *utf8_prev_char(char *, char *);
-//危险:static boolean decode_utf8_char(const char *, wchar_t *, int *, int *);
+static boolean decode_utf8_char(const char *, wchar_t *, int *, int *);
 static int utf8_char_cols(const char *, int *);
 static int utf8_text_cols(const char *);
 static void hpbar_format_title(char *, size_t, const char *, int);
@@ -1445,7 +1445,7 @@ utf8_prev_char(char *start, char *pos)
     return prev;
 }
 
-boolean
+static boolean
 decode_utf8_char(const char *src, wchar_t *wch, int *srclen, int *charwidth)
 {
     int i, len, wlen;
@@ -3220,7 +3220,7 @@ ttyinv_create_window(int newid, struct WinDesc *newwin)
                    &newwin->maxrow)) {
         tty_destroy_nhwindow(newid);
         WIN_INVEN = WIN_ERR;
-        pline("%s.", "tty perm_invent could not be enabled阿斯顿法国红酒看来");
+        pline("%s.", "tty perm_invent could not be enabled");
         pline("tty perm_invent needs a terminal that is at least %dx%d, "
               "yours is %dx%d.",
               (int) (minrow + 1 + ROWNO + StatusRows()), tty_perminv_mincol,
@@ -3897,7 +3897,7 @@ tty_wait_synch(void)
     } else {
         tty_display_nhwindow(WIN_MAP, FALSE);
         if (ttyDisplay->inmore) {
-            addtopl("--更多--"); /*危险,待写:写"更多"会乱码，先忍着*/
+            addtopl("--More--"); /*危险:写"更多"会乱码，先忍着*/
             (void) fflush(stdout);
         } else if (ttyDisplay->inread > program_state.gameover) {
             /* this can only happen if we were reading and got interrupted */
