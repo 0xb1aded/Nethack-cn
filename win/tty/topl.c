@@ -5,6 +5,7 @@
 
 #ifdef WIN32CON
 #include <Windows.h>
+#include <conio.h>
 #endif
 
 #include "hack.h"
@@ -350,10 +351,12 @@ topl_putsym(char c)
 }
 
 /* output a wide character (UTF-16-LE) to the topline message window */
+/* output a wide character (UTF-16-LE) to the topline message window */
 static void
 topl_putsymw(unsigned short c)
 {
     struct WinDesc *cw = wins[WIN_MESSAGE];
+    int charwidth;
 
     if (cw == (struct WinDesc *) 0)
         panic("Putsymw window MESSAGE nonexistent");
@@ -387,15 +390,20 @@ topl_putsymw(unsigned short c)
         return;
     }
 
-    /* normal wide character output */
-    if (ttyDisplay->curx == CO - 1)
-        topl_putsymw('\n'); /* wrap to next line if at end */
+    /* figure out this character's on-screen width BEFORE deciding
+       whether it needs to wrap; otherwise a double-width character
+       can straddle the right edge instead of wrapping as a whole */
+    charwidth = (c > 0xff) ? 2 : 1;
+    if ((int) ttyDisplay->curx + charwidth > CO - 1)
+        topl_putsymw('\n'); /* wrap to next line if it won't fit */
 
 #ifdef WIN32CON
-    /* putchar supports wide characters, just pass the wchar_t */
-    (void) putchar(c);
+    /* putchar() truncates a wide value to one byte -- that's why Chinese
+       text came out garbled. _putwch() writes a real UTF-16 code unit
+       to the console. */
+    (void) _putwch((wchar_t) c);
 #endif
-    ttyDisplay->curx += c > 0xff ? 2 : 1;
+    ttyDisplay->curx += charwidth;
     cw->curx = ttyDisplay->curx;
     if (cw->curx == 0)
         cl_end();
