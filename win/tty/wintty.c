@@ -664,7 +664,7 @@ tty_player_selection(void)
 void
 tty_askname(void)
 {
-    static const char who_are_you[] = "\xe4\xbd\xa0\xe6\x98\xaf\xe8\xb0\x81? ";
+    static const char who_are_you[] = "你是谁? ";
     int c, ct, tryct = 0;
 #ifdef WIN32CON
     int old_in_getlin;
