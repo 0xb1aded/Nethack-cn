@@ -674,7 +674,7 @@ tty_askname(void)
     if (iflags.wc2_selectsaved && !iflags.renameinprogress)
         switch (restore_menu(BASE_WINDOW)) {
         case -1:
-            bail("Until next time then..."); /* quit */ //中文乱码
+            bail("那么, 下次见..."); /* quit */ //中文乱码
             /*NOTREACHED*/
             break;
         case 0:
@@ -692,7 +692,7 @@ tty_askname(void)
     do {
         if (++tryct > 1) {
             if (tryct > 10)
-                bail("Giving up after 10 tries.\n"); //中文乱码
+                bail("10次尝试, 已放弃.\n"); //中文乱码
             tty_curs(BASE_WINDOW, 1, wins[BASE_WINDOW]->cury - 1);
             tty_putstr(BASE_WINDOW, 0, "为你的角色输入名字...");
             /* erase previous prompt (in case of ESC after partial response) */

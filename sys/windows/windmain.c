@@ -1086,12 +1086,12 @@ getlock(void)
      * prompt_result == -1 means willfully destroy the old game.
      * prompt_result == 0 should just exit.
      */
-    Sprintf(oops, "You chose to %s.",
+    Sprintf(oops, "你选择%s.", //中文乱码
                 (prompt_result == -1)
-                    ? "destroy the old game and start a new one"
+                    ? "摧毁旧的游戏, 开始新的"
                     : (prompt_result == 1)
-                        ? "recover the old game"
-                        : "not start a new game");
+                        ? "恢复旧的游戏"
+                        : "不开始新的游戏");
 #ifdef WIN32CON
     if (istty)
         term_clear_screen();
@@ -1215,8 +1215,8 @@ tty_self_recover_prompt(void)
     raw_print("\n");
     raw_print("\n");
     raw_print("\n");
-    raw_print("There are files from a game in progress under your name. "); //中文乱码
-    raw_print("Recover? [yn] ");
+    raw_print("在你的名下有一些正在进行的游戏文件. "); //中文乱码
+    raw_print("恢复? [yn] ");
 
  tty_ask_again:
 
@@ -1238,8 +1238,8 @@ tty_self_recover_prompt(void)
 
     if (pl == 1 && (c == 'n' || c == 'N')) {
         /* no to recover */
-        raw_print("\n\nAre you sure you wish to destroy the old game rather than try to\n"); //中文乱码
-        raw_print("recover it? [yn] ");
+        raw_print("\n\n你确定要摧毁旧的游戏, \n"); //中文乱码
+        raw_print("而非恢复它? [yn] ");
         c = 'n';
         ct = 0;
         pl = 2;
@@ -1279,13 +1279,13 @@ other_self_recover_prompt(void)
     c = 'n';
     ct = 0;
     if (iflags.window_inited || WINDOWPORT(curses)) {
-        c = y_n("There are files from a game in progress under your name. " //中文乱码
-               "Recover?");
+        c = y_n("在你的名下有一些正在进行的游戏文件. " //中文乱码
+               "恢复?");
     } else {
         c = 'n';
         ct = 0;
-        raw_print("There are files from a game in progress under your name. " //中文乱码
-              "Recover? [yn]");
+        raw_print("在你的名下有一些正在进行的游戏文件. " //中文乱码
+              "恢复? [yn]");
     }
 
  other_ask_again:
@@ -1306,8 +1306,8 @@ other_self_recover_prompt(void)
     }
     if (pl == 1 && (c == 'n' || c == 'N')) {
         /* no to recover */
-        c = y_n("Are you sure you wish to destroy the old game, rather than try to " //中文乱码
-                  "recover it? [yn] ");
+        c = y_n("你确定要摧毁旧的游戏, " //中文乱码
+                  "而非恢复它? [yn] ");
         pl = 2;
         if (!ismswin && !iscurses) {
             c = 'n';
