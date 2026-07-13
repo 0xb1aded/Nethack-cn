@@ -833,12 +833,12 @@ static const char *const random_insult[] = {
 };
 
 static const char *const random_malediction[] = {
-    "黄泉将速收汝骸,", "吾嗤尔, 可鄙之",
+    "黄泉将速收汝骸, ", "吾嗤尔, 可鄙之",
     "速就死, 汝", "抗拒无益, 汝",
     "不降则死, 汝", "必弗宥, 汝",
-    "汝将悔尔诈,", "汝之于我犹蚤虱也,",
-    "汝其毙矣,", "天命诛之,",
-    "汝诚为尸矣,"
+    "汝将悔尔诈, ", "汝之于我犹蚤虱也, ",
+    "汝其毙矣, ", "天命诛之, ",
+    "汝诚为尸矣, "
 };
 
 /* Insult or intimidate the player */
@@ -864,7 +864,7 @@ cuss(struct monst *mtmp)
             verbalize(rn2(2) ? "吾将复还." : "吾必返.");
         } else {
             SetVoice(mtmp, 0, 80, 0);
-            verbalize("%s %s!",
+            verbalize("%s%s!",
                       ROLL_FROM(random_malediction),
                       ROLL_FROM(random_insult));
         }
