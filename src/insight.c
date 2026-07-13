@@ -2102,7 +2102,7 @@ show_conduct(int final)
        also, always use past tense since the chance to do something with it
        is gone by time player can issue #conduct command or see disclosure */
     if (!u.uroleplay.reroll)
-        Strcpy(buf, "角色重掷未启用.");
+        Strcpy(buf, "  角色重掷未启用.");
     else if (!u.uroleplay.numrerolls)
         Strcpy(buf, "你的角色没有被重掷.");
     else
@@ -2137,7 +2137,7 @@ show_conduct(int final)
         you_have_been("是个无神论者");
 
     if (!u.uconduct.weaphit) {
-        you_have_never("用装备的武器攻击");
+        you_have_never("从未用装备的武器攻击");
     } else if (wizard) {
         Sprintf(buf, "用装备的武器击中了%ld次%s",
                 u.uconduct.weaphit, plur(u.uconduct.weaphit));
@@ -2155,11 +2155,11 @@ show_conduct(int final)
     }
 
     if (!u.uconduct.pets)
-        you_have_never("有宠物");
+        you_have_never("从未有宠物");
 
     ngenocided = num_genocides();
     if (ngenocided == 0) {
-        you_have_never("灭绝任何怪物");
+        you_have_never("从未灭绝任何怪物");
     } else {
         Sprintf(buf, "灭绝了%d种类型%s的怪物%s", ngenocided,
                 plur(ngenocided), plur(ngenocided));
@@ -2167,7 +2167,7 @@ show_conduct(int final)
     }
 
     if (!u.uconduct.polypiles) {
-        you_have_never("变形一个物品");
+        you_have_never("从未变形一个物品");
     } else if (wizard) {
         Sprintf(buf, "变形了%ld个物品%s", u.uconduct.polypiles,
                 plur(u.uconduct.polypiles));
@@ -2175,7 +2175,7 @@ show_conduct(int final)
     }
 
     if (!u.uconduct.polyselfs) {
-        you_have_never("自己变形");
+        you_have_never("从未自己变形");
     } else if (wizard) {
         Sprintf(buf, "变形了%ld次%s", u.uconduct.polyselfs,
                 plur(u.uconduct.polyselfs));
