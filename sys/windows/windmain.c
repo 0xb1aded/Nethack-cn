@@ -108,6 +108,7 @@ staticfn void stdio_raw_print(const char *str);
 staticfn void stdio_nonl_raw_print(const char *str);
 staticfn void stdio_raw_print_bold(const char *str);
 staticfn int stdio_nhgetch(void);
+staticfn void stdout_write_utf8(const char *str);
 
 #ifdef PORT_HELP
 void port_help(void);
@@ -951,8 +952,10 @@ void freefakeconsole(void)
 void
 windows_raw_print(const char *str)
 {
-    if (str)
-        fprintf(stdout, "%s\n", str);
+    if (str) {
+        stdout_write_utf8(str);
+        stdout_write_utf8("\n");
+    }
     windows_nhgetch();
     return;
 }
@@ -1356,14 +1359,39 @@ set_emergency_io(void)
 }
 
 
+/* Helper: write UTF-8 string to console via WriteConsoleW,
+   bypassing CRT encoding issues entirely */
+staticfn void
+stdout_write_utf8(const char *str)
+{
+    HANDLE hOut;
+    int wlen;
+    wchar_t *wstr;
+    DWORD written;
+
+    if (!str || !*str)
+        return;
+    hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    if (hOut == INVALID_HANDLE_VALUE)
+        return;
+    wlen = MultiByteToWideChar(CP_UTF8, 0, str, -1, NULL, 0);
+    if (wlen <= 0)
+        return;
+    wstr = (wchar_t *) malloc(wlen * sizeof(wchar_t));
+    if (!wstr)
+        return;
+    MultiByteToWideChar(CP_UTF8, 0, str, -1, wstr, wlen);
+    WriteConsoleW(hOut, wstr, wlen - 1, &written, NULL);
+    free(wstr);
+}
+
 /* Add to your code: windowprocs.win_raw_print = stdio_wait_synch; */
 void
 stdio_wait_synch(void)
 {
     char valid[] = { ' ', '\n', '\r', '\033', '\0' };
 
-    fprintf(stdout, "--More--");
-    (void) fflush(stdout);
+    stdout_write_utf8("--More--");
     while (!strchr(valid, nhgetch()))
         ;
 }
@@ -1372,8 +1400,10 @@ stdio_wait_synch(void)
 void
 stdio_raw_print(const char *str)
 {
-    if (str)
-        fprintf(stdout, "%s\n", str);
+    if (str) {
+        stdout_write_utf8(str);
+        stdout_write_utf8("\n");
+    }
     return;
 }
 
@@ -1383,7 +1413,7 @@ void
 stdio_nonl_raw_print(const char *str)
 {
     if (str)
-        fprintf(stdout, "%s", str);
+        stdout_write_utf8(str);
     return;
 }
 
