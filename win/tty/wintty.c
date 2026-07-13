@@ -664,7 +664,7 @@ tty_player_selection(void)
 void
 tty_askname(void)
 {
-    static const char who_are_you[] = "你是谁? ";
+    static const char who_are_you[] = "\xe4\xbd\xa0\xe6\x98\xaf\xe8\xb0\x81? ";
     int c, ct, tryct = 0;
 #ifdef WIN32CON
     int old_in_getlin;
@@ -2601,9 +2601,27 @@ tty_putstr(winid window, int attr, const char *str)
         tty_curs(window, cw->curx + 1, cw->cury);
         term_start_attr(attr);
         while (*str && (int) ttyDisplay->curx < (int) ttyDisplay->cols - 1) {
+#ifdef WIN32CON
+            wchar_t wch;
+            int srclen = 1, charwidth = 1;
+
+            if (decode_utf8_char(str, &wch, &srclen, &charwidth)) {
+                if ((int) ttyDisplay->curx + charwidth
+                    > (int) ttyDisplay->cols - 1)
+                    break;
+                (void) putchar((int) wch);
+                str += srclen;
+                ttyDisplay->curx += charwidth;
+            } else {
+                (void) putchar((unsigned char) *str);
+                str++;
+                ttyDisplay->curx++;
+            }
+#else
             (void) putchar(*str);
             str++;
             ttyDisplay->curx++;
+#endif
         }
         cw->curx = 0;
         cw->cury++;
@@ -2618,9 +2636,32 @@ tty_putstr(winid window, int attr, const char *str)
                 cw->cury++;
                 tty_curs(window, cw->curx + 1, cw->cury);
             }
+#ifdef WIN32CON
+            {
+                wchar_t wch;
+                int srclen = 1, charwidth = 1;
+
+                if (decode_utf8_char(str, &wch, &srclen, &charwidth)) {
+                    if ((int) ttyDisplay->curx + charwidth
+                        > (int) ttyDisplay->cols - 1) {
+                        cw->curx = 0;
+                        cw->cury++;
+                        tty_curs(window, cw->curx + 1, cw->cury);
+                    }
+                    (void) putchar((int) wch);
+                    str += srclen;
+                    ttyDisplay->curx += charwidth;
+                } else {
+                    (void) putchar((unsigned char) *str);
+                    str++;
+                    ttyDisplay->curx++;
+                }
+            }
+#else
             (void) putchar(*str);
             str++;
             ttyDisplay->curx++;
+#endif
         }
         cw->curx = 0;
         cw->cury++;
