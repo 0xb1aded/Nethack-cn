@@ -1875,7 +1875,7 @@ eatcorpse(struct obj *otmp)
     if (!vegan(&mons[mnum]))
         if (!u.uconduct.unvegan++) {
             livelog_printf(LL_CONDUCT,
-                  "第一次使用动物制品: %s",
+                  "第一次食用动物制品: %s",
                            an(food_xname(otmp, FALSE)));
             ll_conduct++;
         }
