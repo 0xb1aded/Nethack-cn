@@ -1215,8 +1215,8 @@ tty_self_recover_prompt(void)
     raw_print("\n");
     raw_print("\n");
     raw_print("\n");
-    raw_print("你的名下有一些正在进行中的游戏文件. ");
-    raw_print("恢复? [yn] ");
+    raw_print("There are files from a game in progress under your name. "); //中文乱码
+    raw_print("Recover? [yn] ");
 
  tty_ask_again:
 
@@ -1238,8 +1238,8 @@ tty_self_recover_prompt(void)
 
     if (pl == 1 && (c == 'n' || c == 'N')) {
         /* no to recover */
-        raw_print("\n\n你确定要摧毁旧的游戏文件, \n");
-        raw_print("而非恢复? [yn] ");
+        raw_print("\n\nAre you sure you wish to destroy the old game rather than try to\n"); //中文乱码
+        raw_print("recover it? [yn] ");
         c = 'n';
         ct = 0;
         pl = 2;
@@ -1279,13 +1279,13 @@ other_self_recover_prompt(void)
     c = 'n';
     ct = 0;
     if (iflags.window_inited || WINDOWPORT(curses)) {
-        c = y_n("你的名下有一些正在进行中的游戏文件. "
-               "恢复?");
+        c = y_n("There are files from a game in progress under your name. " //中文乱码
+               "Recover?");
     } else {
         c = 'n';
         ct = 0;
-        raw_print("你的名下有一些正在进行中的游戏文件. "
-              "恢复? [yn]");
+        raw_print("There are files from a game in progress under your name. " //中文乱码
+              "Recover? [yn]");
     }
 
  other_ask_again:
@@ -1306,8 +1306,8 @@ other_self_recover_prompt(void)
     }
     if (pl == 1 && (c == 'n' || c == 'N')) {
         /* no to recover */
-        c = y_n("你确定要摧毁旧的游戏文件, "
-                  "而非恢复? [yn] ");
+        c = y_n("Are you sure you wish to destroy the old game, rather than try to " //中文乱码
+                  "recover it? [yn] ");
         pl = 2;
         if (!ismswin && !iscurses) {
             c = 'n';

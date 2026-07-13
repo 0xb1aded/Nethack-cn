@@ -674,7 +674,7 @@ tty_askname(void)
     if (iflags.wc2_selectsaved && !iflags.renameinprogress)
         switch (restore_menu(BASE_WINDOW)) {
         case -1:
-            bail("那么, 下次见..."); /* quit */
+            bail("Until next time then..."); /* quit */ //中文乱码
             /*NOTREACHED*/
             break;
         case 0:
@@ -692,7 +692,7 @@ tty_askname(void)
     do {
         if (++tryct > 1) {
             if (tryct > 10)
-                bail("尝试10次. 已放弃.\n");
+                bail("Giving up after 10 tries.\n"); //中文乱码
             tty_curs(BASE_WINDOW, 1, wins[BASE_WINDOW]->cury - 1);
             tty_putstr(BASE_WINDOW, 0, "为你的角色输入名字...");
             /* erase previous prompt (in case of ESC after partial response) */
@@ -3047,11 +3047,11 @@ tty_end_menu(
     if (cw->npages > 1) {
         char buf[QBUFSZ];
         /* produce the largest demo string */
-        Sprintf(buf, "(%ld of %ld) ", cw->npages, cw->npages);
+        Sprintf(buf, "(页数%ld/%ld) ", cw->npages, cw->npages); /*(%ld %ld)*/
         len = strlen(buf);
         cw->morestr = dupstr("");
     } else {
-        cw->morestr = dupstr("(end) ");
+        cw->morestr = dupstr("(结尾) "); /*(end)*/
         len = strlen(cw->morestr);
     }
 
