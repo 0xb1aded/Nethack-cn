@@ -3036,7 +3036,7 @@ dotrap(struct trap *trap, unsigned trflags)
             && ttype != ANTI_MAGIC && !forcebungle && !plunged
             && !conj_pit && !adj_pit
             && (!rn2(5) || (is_pit(ttype) && is_clinger(gy.youmonst.data)))) {
-                You("逃脱了%s%s.", (ttype == ARROW_TRAP && !trap->madeby_u)
+                You("躲开了%s%s.", (ttype == ARROW_TRAP && !trap->madeby_u)
                                      ? "一个"
                                      : a_your[trap->madeby_u],
                 trapname(ttype, FALSE));
