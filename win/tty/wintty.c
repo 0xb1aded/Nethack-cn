@@ -699,7 +699,7 @@ tty_askname(void)
             tty_curs(BASE_WINDOW, 1, wins[BASE_WINDOW]->cury), cl_end();
         }
         tty_putstr(BASE_WINDOW, 0, who_are_you);
-        tty_curs(BASE_WINDOW, (int) (sizeof who_are_you),
+        tty_curs(BASE_WINDOW, (int) (sizeof who_are_you) - 3, //别问, 问就是-3就能对齐
                  wins[BASE_WINDOW]->cury - 1);
         ct = 0;
         while ((c = tty_nhgetch()) != '\n') {
