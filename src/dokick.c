@@ -934,7 +934,7 @@ kick_door(coordxy x, coordxy y, int avrg_attrib)
         /* break the door */
         if (gm.maploc->doormask & D_TRAPPED) {
             if (flags.verbose)
-                You("踢了一下门.");
+                You("踢门.");
             exercise(A_STR, FALSE);
             gm.maploc->doormask = D_NODOOR;
             b_trapped("门", FOOT);
