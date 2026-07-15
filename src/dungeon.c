@@ -2480,14 +2480,14 @@ query_annotation(d_level *lev)
             (void) describe_level(lbuf, dflgs);
             u.uz = save_uz;
 
-            (void) strsubst(lbuf, "Dlvl:", "level ");
+            (void) strsubst(lbuf, "Dlvl:", "level "); (void) strsubst(lbuf, "地牢:", "层数");
             /* even though we've told describe_level() not to append
                a trailing space (by not including '1' in dflgs), the
                level number is formatted with %-2d so single digit
                values will end up with one anyway; remove it */
             (void) trimspaces(lbuf);
         }
-        Snprintf(qbuf, sizeof qbuf, "What do you want to call %s?", lbuf);
+        Snprintf(qbuf, sizeof qbuf, "你想把%s叫做什么?", lbuf);
         getlin(qbuf, nbuf);
     }
 
