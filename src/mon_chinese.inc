@@ -1,4 +1,5 @@
-
+//Monster spellings used for objnam.c (wishing) and mondata.c (genociding).
+//Example: { "monster name", PM_MONSTER_NAME(found in monsters.h), GENDER(available: NEUTRAL, FEMALE, MALE) },
 { "巨型蚂蚁", PM_GIANT_ANT, NEUTRAL },
 { "巨蚂蚁", PM_GIANT_ANT, NEUTRAL },
 { "巨蚁", PM_GIANT_ANT, NEUTRAL },
