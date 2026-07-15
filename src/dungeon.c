@@ -1674,28 +1674,28 @@ ceiling(coordxy x, coordxy y)
      * see check_special_room()
      */
     if (*in_rooms(x, y, VAULT))
-        what = "vault's ceiling";
+        what = "金库的天花板";
     else if (*in_rooms(x, y, TEMPLE))
-        what = "temple's ceiling";
+        what = "神庙的天花板";
     else if (*in_rooms(x, y, SHOPBASE))
-        what = "shop's ceiling";
+        what = "商店的天花板";
     else if (Is_waterlevel(&u.uz))
         /* water plane has no surface; its air bubbles aren't below sky */
-        what = "water above";
+        what = "上面的水";
     else if (IS_AIR(lev->typ))
-        what = "sky";
+        what = "天";
     else if (Is_firelevel(&u.uz))
-        what = "flames above";
+        what = "上面的火焰";
     else if (In_quest(&u.uz))
         /* just in case; try to avoid in caller if you can */
-        what = "expanse above";
+        what = "上面的辽阔天空";
     else if (Underwater)
-        what = "water's surface";
+        what = "水面";
     else if ((IS_ROOM(lev->typ) && !Is_earthlevel(&u.uz)) || IS_WALL(lev->typ)
              || IS_DOOR(lev->typ) || lev->typ == SDOOR)
-        what = "ceiling";
+        what = "天花板";
     else
-        what = "rock cavern";
+        what = "岩洞";
 
     return what;
 }
