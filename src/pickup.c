@@ -704,7 +704,7 @@ pickup(int what) /* should be a long */
                            || is_lava(u.ux, u.uy))) {
             if (flags.mention_decor)
                 (void) describe_decor();
-            read_engr_at(u.ux, u.uy);
+            read_engr_at(u.ux, u.uy); //debugfuzzer有问题
             return 0;
         }
         /* no pickup if levitating & not on air or water level */
