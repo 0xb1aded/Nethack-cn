@@ -6327,7 +6327,7 @@ chest_trap(
         case 6:
         case 5:
         case 4:
-            msg = "毒针没有打中你";
+            msg = "毒针没有击中你";
             break;
         case 3:
         case 2:

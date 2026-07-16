@@ -383,7 +383,7 @@ ohitmon(
         Soundeffect(se_splat_egg, 35);
         if (vis) {
             if (otmp->otyp == EGG) {
-                pline("啪! %s被%s蛋打中了!", Monnam(mtmp),
+                pline("啪! %s被%s蛋击中了!", Monnam(mtmp),
                       otmp->known ? an(mons[otmp->corpsenm].pmnames[NEUTRAL])
                                   : "一个");
             } else {
@@ -397,7 +397,7 @@ ohitmon(
                 hit(distant_name(otmp, mshot_xname), mtmp, how);
             }
         } else if (verbose && !gm.mtarget)
-            pline("%s%s被打中了%s", (otmp->otyp == EGG) ? "啪! " : "",
+            pline("%s%s被击中了%s", (otmp->otyp == EGG) ? "啪! " : "",
                   Monnam(mtmp), exclam(damage));
 
         if (otmp->opoisoned && is_poisonable(otmp)) {

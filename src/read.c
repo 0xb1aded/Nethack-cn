@@ -2362,7 +2362,7 @@ drop_boulder_on_monster(coordxy x, coordxy y, boolean confused, boolean byu)
             if (mtmp->minvis && !canspotmon(mtmp))
                 map_invisible(mtmp->mx, mtmp->my);
         } else if (engulfing_u(mtmp))
-            You_hear("在你的%s上有东西打中了%s的%s!",
+            You_hear("在你的%s上有东西击中了%s的%s!",
                      body_part(HEAD), s_suffix(mon_nam(mtmp)), /*修改语序:s_suffix(mon_nam(mtmp)), mbodypart(mtmp, STOMACH),*/
                      mbodypart(mtmp, STOMACH)); /*修改语序:body_part(HEAD));*/
 

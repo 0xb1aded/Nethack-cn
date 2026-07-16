@@ -217,7 +217,7 @@ wildmiss(struct monst *mtmp, struct attack *mattk)
         } else {
             switch (rn2(3)) {
             case 0:
-                pline("%s到处乱%s但没打中!", Monst_name, swings);
+                pline("%s到处乱%s但没%s中!", Monst_name, swings, swings);
                 break;
             case 1:
                 pline("%s攻击了你的身旁.", Monst_name);

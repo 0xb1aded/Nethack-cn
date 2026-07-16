@@ -341,11 +341,11 @@ dig(void)
                 dropx(uwep);
             } else {
                 if (u.usteed)
-                    pline("%s出去并%s%s!", Yobjnam2(uwep, "反弹"),
+                    pline("%s出去并%s了%s!", Yobjnam2(uwep, "反弹"),
                           otense(uwep, "击中"), mon_nam(u.usteed));
                 else
-                    pline("哎哟! %s出去并%s你!", Yobjnam2(uwep, "反弹"),
-                          otense(uwep, "打中"));
+                    pline("哎哟! %s出去并%s了你!", Yobjnam2(uwep, "反弹"),
+                          otense(uwep, "击中"));
                 set_wounded_legs(RIGHT_SIDE, 5 + rnd(5));
             }
             break;
