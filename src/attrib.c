@@ -322,12 +322,12 @@ poisoned(
     boolean thrown_weapon) /* thrown weapons are less deadly */
 {
     int i, loss, kprefix = KILLED_BY_AN;
-    boolean blast = !strcmp(reason, "blast");
+    boolean blast = (!strcmp(reason, "blast")) || (!strcmp(reason, "冲"));
 
     /* inform player about being poisoned unless that's already been done;
        "blast" has given a "blast of poison gas" message; "poison arrow",
        "poison dart", etc have implicitly given poison messages too... */
-    if (!blast && !strstri(reason, "poison")) {
+    if (!blast && (!strstri(reason, "poison") || !strstri(reason, "毒"))) {
         boolean plural = (reason[strlen(reason) - 1] == 's') ? 1 : 0;
 
         /* avoid "The" Orcus's sting was poisoned... */
