@@ -3615,7 +3615,7 @@ append_honorific(char *buf)
     if (is_vampire(gy.youmonst.data))
         Strcat(buf, (flags.female) ? "黑暗女王" : "黑暗领主");
     else if (maybe_polyd(is_elf(gy.youmonst.data), Race_if(PM_ELF)))
-        Strcat(buf, (flags.female) ? " 精灵女士" : " 精灵先生");
+        Strcat(buf, (flags.female) ? "精灵女士" : "精灵先生");
     else
         Strcat(buf, !is_human(gy.youmonst.data) ? "生物"
                       : (flags.female) ? "女士"
