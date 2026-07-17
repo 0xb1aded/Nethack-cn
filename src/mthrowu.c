@@ -289,8 +289,8 @@ monshoot(struct monst *mtmp, struct obj *otmp, struct obj *mwep)
         Strcpy(trgbuf, mtarg ? some_mon_nam(mtarg) : "");
         set_msg_xy(mtmp->mx, mtmp->my);
         pline("%s%s%s%s了%s!", Monnam(mtmp),
-              gm.m_shot.s ? "向" : "", trgbuf, /*修改语序:gm.m_shot.s ? "向" : "", onm,*/
-              mtarg ? "射出" : "投掷", onm); /*修改语序:mtarg ? "射出" : "投掷", trgbuf);*/
+              mtarg ? "向" : "", trgbuf, /*修改语序:gm.m_shot.s ? "向" : "", onm,*/
+              gm.m_shot.s ? "射出" : "投掷", onm); /*修改语序:mtarg ? "射出" : "投掷", trgbuf);*/
         gm.m_shot.o = otmp->otyp;
     } else {
         gm.m_shot.o = STRANGE_OBJECT; /* don't give multishot feedback */
