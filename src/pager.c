@@ -983,14 +983,6 @@ checkfile(
             alt = ep + 7;
             if ((ap = strstri(dbase_str, " called ")) != 0 && ap < ep)
                 ep = ap; /* "named" is alt but truncate at "called" */
-        } else if ((ep = strstri(dbase_str, ", 被称为")) != 0) { /*危险:我当时是怎么写的，，，*/
-            alt = ep + strlen(", 被称为");
-            if ((ap = strstri(dbase_str, ", 被称为")) != 0 && ap < ep)
-                ep = ap; /* "named" is alt but truncate at "called" */
-        } else if ((ep = strstri(dbase_str, "(被称为")) != 0) {
-            alt = ep + strlen("(被称为");
-            if ((ap = strstri(dbase_str, "(被称为")) != 0 && ap < ep)
-                ep = ap; /* "named" is alt but truncate at "called" */
         } else if ((ep = strstri(dbase_str, " (被称为")) != 0) {
             alt = ep + strlen(" (被称为");
             if ((ap = strstri(dbase_str, " (被称为")) != 0 && ap < ep)
@@ -1164,7 +1156,7 @@ checkfile(
                     destroy_nhwindow(datawin), datawin = WIN_ERR;
                 }
             } else if (user_typed_name && pass == 0 && !pass1found_in_file) {
-                pline("你对这些事情一无所知.");
+                pline("你对这些事物一无所知.");
             }
         }
     }
