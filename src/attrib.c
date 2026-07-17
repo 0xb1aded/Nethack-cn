@@ -281,12 +281,12 @@ static const struct poison_effect_message {
     void (*delivery_func)(const char *, ...);
     const char *effect_msg;
 } poiseff[] = {
-    { You_feel, "虚弱" },             /* A_STR */
-    { Your, "大脑着火" },       /* A_INT */
-    { Your, "判断力减弱" },  /* A_WIS */
-    { Your, "无法控制肌肉" }, /* A_DEX */
+    { You_feel, "很虚弱" },             /* A_STR */
+    { Your, "大脑着火了" },       /* A_INT */
+    { Your, "判断力减弱了" },  /* A_WIS */
+    { You, "无法控制肌肉了" }, /* A_DEX */
     { You_feel, "非常不健康" },          /* A_CON */
-    { You, "发麻疹" }       /* A_CHA */
+    { You, "发麻疹了" }       /* A_CHA */
 };
 
 /* feedback for attribute loss due to poisoning */
