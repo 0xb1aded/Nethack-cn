@@ -530,7 +530,7 @@ background_enlightenment(int unused_mode UNUSED, int final)
     /* report alignment (bypass you_are() in order to omit ending period);
        adverb is used to distinguish between temporary change (helm of opp.
        alignment), permanent change (one-time conversion), and original */
-    Sprintf(buf, "  %s%s%s阵营, %s肩负着%s的使命",
+    Sprintf(buf, "  %s%s%s阵营, %s肩负着%s的使命,",
             You_, !final ? "属于" : "曾属于",
             align_str(u.ualign.type),
             /* helm of opposite alignment (might hide conversion) */
@@ -636,10 +636,10 @@ background_enlightenment(int unused_mode UNUSED, int final)
         you_have("的冒险之旅刚刚开始", "");
     } else {
         /* 'turns' grates on the nerves in this context... */
-        Sprintf(buf, "地牢%ld回合%s前",
+        Sprintf(buf, "在%ld回合%s前进入地牢",
                 svm.moves, plur(svm.moves));
         /* same phrasing for current and final: "entered" is unconditional */
-        enlght_line(You_, "进入", buf, "");
+        enlght_line(You_, "", buf, "");
     }
 
     /* for gameover, these have been obtained in really_done() so that they
@@ -2902,9 +2902,9 @@ list_vanquished(char defquery, boolean ask)
                     }
                     /* trolls or undead might have come back,
                        but we don't keep track of that */
-                    if (nkilled == 1)
+                    /*冗余: if (nkilled == 1)
                         Strcpy(buf, an(mons[i].pmnames[NEUTRAL]));
-                    else
+                    else*/
                         Sprintf(buf, "%3d %s", nkilled,
                                 makeplural(mons[i].pmnames[NEUTRAL]));
                 }
