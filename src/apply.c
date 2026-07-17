@@ -1691,7 +1691,7 @@ use_lamp(struct obj *obj)
                                = shop_keeper(*in_rooms(u.ux, u.uy, SHOPBASE));
 
                 SetVoice(shkp, 0, 80, 0);
-                verbalize("你把%s烧掉的, 你赔我%s的钱", ithem, ithem);
+                verbalize("你把%s烧掉的, 你赔我%s的钱!", ithem, ithem);
                 bill_dummy_object(obj);
             }
         }
