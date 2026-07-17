@@ -955,7 +955,7 @@ use_defensive(struct monst *mtmp)
         recalc_block_point(mtmp->mx, mtmp->my);
         seetrap(t);
         if (vis) {
-            pline_mon(mtmp, "%s在%s上挖了一个坑.", Monnam(mtmp),
+            pline_mon(mtmp, "%s在%s上挖了一个洞.", Monnam(mtmp),
                   surface(mtmp->mx, mtmp->my));
             pline_mon(mtmp, "%s%s了进去...", Monnam(mtmp),
                   is_flyer(mtmp->data) ? "俯冲" : "掉");

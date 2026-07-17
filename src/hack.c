@@ -555,7 +555,7 @@ moverock_core(coordxy sx, coordxy sy)
                               (ttmp->ttyp == TRAPDOOR) ? "" : "进",
                               otense(otmp, "堵住"),
                               surface(rx, ry),
-                              (ttmp->ttyp == TRAPDOOR) ? "活板门" : "洞"); /*修改语序:最楼两个反过来*/
+                              (ttmp->ttyp == TRAPDOOR) ? "活板门" : "洞"); /*修改语序:最后两个反过来*/
                     deltrap(ttmp);
                     useupf(otmp, 1L);
                     bury_objs(rx, ry);

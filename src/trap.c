@@ -1928,18 +1928,18 @@ trapeffect_pit(
                           death reason will be overridden with
                           "killed while stuck in creature form" */
                        plunged
-                       ? "故意走到了一排锋利的尖刺上"
+                       ? "故意扑到一个有刺的坑里"
                        : (conj_pit || deliberate)
-                         ? "踩到了一排锋利的尖刺上"
+                         ? "踩到一个有刺的坑里"
                          : adj_pit
-                           ? "跌到了一排锋利的尖刺上"
-                           : "掉到了一排锋利的尖刺上",
+                           ? "跌到一个有刺的坑里"
+                           : "掉到一个有刺的坑里",
                        NO_KILLER_PREFIX);
                 if (!rn2(6))
                     poisoned("尖刺", A_STR,
                              (conj_pit || adj_pit || deliberate)
-                             ? "踩到了一排锋利的尖刺上"
-                             : "掉到了一排锋利的尖刺上",
+                             ? "踩到一排有毒的尖刺"
+                             : "掉到一排有毒的尖刺",
                              /* if damage triggered life-saving,
                                 poison is limited to attrib loss */
                              (u.umortality > oldumort) ? 0 : 8, FALSE);
@@ -1948,8 +1948,8 @@ trapeffect_pit(
                 if (!conj_pit && !deliberate
                     && !(plunged && (Flying || is_clinger(gy.youmonst.data))))
                     losehp(Maybe_Half_Phys(rnd(adj_pit ? 3 : 6)),
-                           plunged ? "故意扑到了一排锋利的尖刺"
-                           : "掉进了一个坑里",
+                           plunged ? "故意扑到一个坑里"
+                           : "掉到一个坑里",
                            NO_KILLER_PREFIX);
             }
             if (Punished && !carried(uball)) {
@@ -4221,11 +4221,11 @@ climb_pit(void)
            many times without further user intervention by using a run
            attempt to keep retrying to escape from the pit) */
         if (u.usteed)
-            Norep("%s仍然在洞里.", YMonnam(u.usteed));
+            Norep("%s仍然在坑里.", YMonnam(u.usteed));
         else
             Norep((Hallucination && !rn2(5))
                       ? "你掉下去了, 而且起不来."
-                      : "你仍然在洞里.");
+                      : "你仍然在坑里.");
     }
 }
 
