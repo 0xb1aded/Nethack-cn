@@ -450,7 +450,7 @@ wiz_level_change(void)
     int ret;
 
     buf[0] = '\0'; /* in case EDIT_GETLIN is enabled */
-    getlin("你想把经验等级设置为多少", buf);
+    getlin("你想把经验等级设置为多少?", buf);
     (void) mungspaces(buf);
     if (buf[0] == '\033' || buf[0] == '\0')
         ret = 0;
