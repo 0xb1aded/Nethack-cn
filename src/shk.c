@@ -3443,7 +3443,7 @@ shk_names_obj(
         pline(fmtbuf, obj_name, (obj->quan > 1L) ? "它们" : "它", amt,
               plur(amt), arg);
     } else {
-        You(fmt, amt, obj_name, arg, plur(amt)); /*You(fmt, amt, obj_name, arg, plur(amt));*/ /*危险，修改语序:You(fmt, obj_name, amt, plur(amt), arg);*/
+        You(fmt, amt, plur(amt), obj_name, arg); /*You(fmt, amt, obj_name, arg, plur(amt));*/ /*危险，修改语序:You(fmt, obj_name, amt, plur(amt), arg);*/
     }
 }
 
