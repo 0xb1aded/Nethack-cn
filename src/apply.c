@@ -1481,7 +1481,7 @@ snuff_candle(struct obj *otmp)
 
         (void) get_obj_location(otmp, &x, &y, 0);
         if (otmp->where == OBJ_MINVENT ? cansee(x, y) : !Blind)
-            pline("%s的%s蜡烛%s火焰%s熄灭了.", Shk_Your(buf, otmp),
+            pline("%s%s蜡烛%s火焰%s熄灭了.", Shk_Your(buf, otmp),
                   (candle ? "" : "烛台的"), (many ? "的" : "的"),
                   (many ? "都" : ""));
         end_burn(otmp, TRUE);
@@ -2859,7 +2859,7 @@ use_trap(struct obj *otmp)
     }
     ttyp = (otmp->otyp == LAND_MINE) ? LANDMINE : BEAR_TRAP;
     if (otmp == gt.trapinfo.tobj && u_at(gt.trapinfo.tx, gt.trapinfo.ty)) {
-        You("重新设置%s的%s.", shk_your(buf, otmp),
+        You("重新设置%s%s.", shk_your(buf, otmp),
             trapname(ttyp, FALSE));
         set_occupation(set_trap, occutext, 0);
         return;

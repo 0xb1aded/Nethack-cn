@@ -1449,7 +1449,7 @@ burn_object(anything *arg, long timeout)
                 FALLTHROUGH;
                 /*FALLTHRU*/
             case OBJ_MINVENT:
-                pline("%s的油烧光了.", whose);
+                pline("%s油烧光了.", whose);
                 break;
             case OBJ_FLOOR:
                 You_see("一瓶油烧光了.");
@@ -1514,7 +1514,7 @@ burn_object(anything *arg, long timeout)
                     /*FALLTHRU*/
                 case OBJ_MINVENT:
                     if (obj->otyp == BRASS_LANTERN)
-                        pline("%s的灯笼燃尽了.", whose);
+                        pline("%s灯笼燃尽了.", whose);
                     else
                         pline("%s燃尽了.", Yname2(obj));
                     break;
@@ -1552,7 +1552,7 @@ burn_object(anything *arg, long timeout)
                 switch (obj->where) {
                 case OBJ_INVENT:
                 case OBJ_MINVENT:
-                    pline("%s的%s蜡烛%s在变短.", whose,
+                    pline("%s%s蜡烛%s在变短.", whose,
                           menorah ? "烛台上的" : "",
                           many ? "" : "");
                     break;
@@ -1570,7 +1570,7 @@ burn_object(anything *arg, long timeout)
                 switch (obj->where) {
                 case OBJ_INVENT:
                 case OBJ_MINVENT:
-                    pline("%s的%s蜡烛%s的火焰%s闪烁%s变暗!", whose,
+                    pline("%s%s蜡烛%s的火焰%s闪烁%s变暗!", whose,
                           menorah ? "烛台上的" : "", many ? "" : "",
                           many ? "" : "", many ? "" : "");
                     break;
@@ -1593,7 +1593,7 @@ burn_object(anything *arg, long timeout)
                         FALLTHROUGH;
                         /*FALLTHRU*/
                     case OBJ_MINVENT:
-                        pline("%s的烛台的火焰%s.", whose,
+                        pline("%s烛台的火焰%s.", whose,
                               many ? "熄灭了" : "熄灭了");
                         break;
                     case OBJ_FLOOR:

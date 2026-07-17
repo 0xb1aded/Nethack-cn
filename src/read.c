@@ -384,7 +384,7 @@ doread(void)
         /* can't read shirt worn under suit (under cloak is ok though) */
         if ((otyp == T_SHIRT || otyp == HAWAIIAN_SHIRT) && uarm
             && scroll == uarmu) {
-            pline("%s衬衫被%s的%s盖住了.",
+            pline("%s衬衫被%s%s盖住了.",
                   scroll->unpaid ? "那个" : "你的", shk_your(buf, uarm),
                   suit_simple_name(uarm));
             return ECMD_OK;
