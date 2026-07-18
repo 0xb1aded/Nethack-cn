@@ -1702,8 +1702,8 @@ optfn_fruit(int optidx UNUSED, int req, boolean negated, char *opts, char *op)
             }
         }
     goodfruit:
-        nmcpy(svp.pl_fruit, op, PL_FSIZ);
-        sanitize_name(svp.pl_fruit);
+        strncpy(svp.pl_fruit, op, PL_FSIZ); /*危险:nmcpy*/
+        ///危险,冗余,要是出问题了就把注释去掉:sanitize_name(svp.pl_fruit);
         /* OBJ_NAME(objects[SLIME_MOLD]) won't work for this after
            initialization; it gets changed to generic "fruit" */
         if (!*svp.pl_fruit)
@@ -8054,8 +8054,8 @@ fruitadd(char *str, struct fruit *replace_fruit)
         }
     } else {
         /* not user_supplied, so assumed to be from bones (or orc gang) */
-        copynchars(altname, str, PL_FSIZ - 1);
-        sanitize_name(altname);
+        copynchars(altname, str, PL_FSIZ - 1); /*危险:copynchars*/
+        //危险,冗余,要是出问题了就把注释去掉:sanitize_name(altname);
         flags.made_fruit = TRUE; /* for safety.  Any fruit name added from a
                                   * bones level should exist anyway. */
     }
