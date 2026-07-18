@@ -3314,14 +3314,14 @@ seen_string(xint16 x, const char *obj)
     /* players are computer scientists: 0, 1, 2, n */
     switch (x) {
     case 0:
-        return "no";
+        return "没有";
     /* an() returns too much.  index/strchr is ok in this case */
     case 1:
-        return strchr(vowels, *obj) ? "an" : "a";
+        return "一个";/*冗余:return strchr(vowels, *obj) ? "an" : "a";*/
     case 2:
-        return "some";
+        return "几个";
     case 3:
-        return "many";
+        return "很多";
     }
 
     return "(unknown)";
@@ -3389,7 +3389,7 @@ shop_string(int rtype)
     const char *str = "shop?";       /* catchall */
 
     if (shoptype < 0) {
-        str = "untended shop";
+        str = "无人看管的店铺";
     } else if (shtypes[shoptype].annotation) {
         str = shtypes[shoptype].annotation;
     } else if (shtypes[shoptype].name) {
@@ -3408,10 +3408,10 @@ tunesuffix(mapseen *mptr, char *outbuf, size_t bsz) /* size of outbuf */
         char tmp[BUFSZ];
 
         if (u.uevent.uheard_tune == 2)
-            Sprintf(tmp, "音符 \"%s\"", svt.tune);
+            Sprintf(tmp, "音符\"%s\"", svt.tune);
         else
-            Strcpy(tmp, "5- 音符曲调");
-        Snprintf(outbuf, bsz, " (play %s to open or close drawbridge)", tmp);
+            Strcpy(tmp, "5个音符的曲调");
+        Snprintf(outbuf, bsz, " (演奏%s以开关吊桥)", tmp);
     }
     return outbuf;
 }
@@ -3435,7 +3435,7 @@ tunesuffix(mapseen *mptr, char *outbuf, size_t bsz) /* size of outbuf */
 #define ADDNTOBUF(nam, var)                                                  \
     do {                                                                     \
         if (var)                                                             \
-            Sprintf(eos(buf), "%s%s %s%s", COMMA, seen_string((var), (nam)), \
+            Sprintf(eos(buf), "%s%s%s%s", COMMA, seen_string((var), (nam)), \
                     (nam), plur(var));                                       \
     } while (0)
 /* ADD2NTOBUF: for "M temples and N altars"; seen_string() is safe to use
@@ -3443,7 +3443,7 @@ tunesuffix(mapseen *mptr, char *outbuf, size_t bsz) /* size of outbuf */
 #define ADD2NTOBUF(nam, var, nam2, var2)                              \
     do {                                                              \
         if (var && var2) {                                            \
-            Sprintf(eos(buf), "%s%s %s%s and %s %s%s", COMMA,         \
+            Sprintf(eos(buf), "%s%s%s%s和%s%s%s", COMMA,         \
                     seen_string((var), (nam)), (nam), plur(var),      \
                     seen_string((var2), (nam2)), (nam2), plur(var2)); \
         } else if (var) {                                             \
@@ -3535,7 +3535,7 @@ print_mapseen(
          */
         if (mptr->feat.nshop > 0) {
             if (mptr->feat.nshop > 1)
-                ADDNTOBUF("shop", mptr->feat.nshop);
+                ADDNTOBUF("商店", mptr->feat.nshop);
             else
                 Sprintf(eos(buf), "%s%s", COMMA,
                         an(shop_string(mptr->feat.shoptype)));
@@ -3548,20 +3548,20 @@ print_mapseen(
                possibly it being out of view in an irregularly shaped room);
                FIXME: if all temples present have been desecrated, we ought
                to say so */
-            ADD2NTOBUF("temple", mptr->feat.ntemple, "altar",
+            ADD2NTOBUF("神庙", mptr->feat.ntemple, "祭坛",
                        mptr->feat.naltar);
 
             /* only print out altar's god if they are all to your god */
             atmp = mptr->feat.msalign;              /*    0,  1,  2,  3 */
             atmp = Msa2amask(atmp);                 /*    0,  1,  2,  4 */
             if (Amask2align(atmp) == u.ualign.type) /* -128, -1,  0, +1 */
-                Sprintf(eos(buf), "的%s", align_gname(u.ualign.type));
+                Sprintf(eos(buf), "%s的", align_gname(u.ualign.type));
         }
-        ADDNTOBUF("throne", mptr->feat.nthrone);
-        ADDNTOBUF("fountain", mptr->feat.nfount);
-        ADDNTOBUF("sink", mptr->feat.nsink);
-        ADDNTOBUF("grave", mptr->feat.ngrave);
-        ADDNTOBUF("tree", mptr->feat.ntree);
+        ADDNTOBUF("王座", mptr->feat.nthrone);
+        ADDNTOBUF("喷泉", mptr->feat.nfount);
+        ADDNTOBUF("水槽", mptr->feat.nsink);
+        ADDNTOBUF("墓碑", mptr->feat.ngrave);
+        ADDNTOBUF("树", mptr->feat.ntree);
 #if 0
         ADDTOBUF("water", mptr->feat.water);
         ADDTOBUF("lava", mptr->feat.lava);
@@ -3571,7 +3571,7 @@ print_mapseen(
         i = strlen(PREFIX);
         buf[i] = highc(buf[i]);
         /* capitalizing it makes it a sentence; terminate with '.' */
-        Strcat(buf, "死亡");
+        Strcat(buf, ".");
         add_menu_str(win, buf);
     }
 
@@ -3628,7 +3628,7 @@ print_mapseen(
          */
         if (mptr->br->end1_up && !In_endgame(&(mptr->br->end2)))
             Sprintf(eos(buf), ", %d层", depth(&(mptr->br->end2)));
-        Strcat(buf, "死亡");
+        Strcat(buf, ".");
         add_menu_str(win, buf);
     }
 
@@ -3648,11 +3648,11 @@ print_mapseen(
                    hero here doesn't give away whether bones are produced */
                 formatkiller(tmpbuf, sizeof tmpbuf, how, TRUE);
                 /* rephrase a few death reasons to work with "you" */
-                (void) strsubst(tmpbuf, " himself", " yourself");
+                /*冗余:(void) strsubst(tmpbuf, " himself", " yourself");
                 (void) strsubst(tmpbuf, " herself", " yourself");
                 (void) strsubst(tmpbuf, " his ", " your ");
-                (void) strsubst(tmpbuf, " her ", " your ");
-                Snprintf(buf, sizeof(buf), "%s%syou, %s%c", PREFIX, TAB,
+                (void) strsubst(tmpbuf, " her ", " your ");*/(void) strsubst(tmpbuf, "他", "你"); (void) strsubst(tmpbuf, "她", "你");
+                Snprintf(buf, sizeof(buf), "%s%s你, %s%c", PREFIX, TAB,
                          tmpbuf, --kncnt ? ',' : '.');
                 add_menu_str(win, buf);
             }
