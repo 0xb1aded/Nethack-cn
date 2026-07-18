@@ -73,14 +73,20 @@ OPTIONS=menucolors
 #    MENUCOLOR="regular expression"=color&attribute
 #  Show all blessed items in green
 MENUCOLOR=" blessed " = green
+MENUCOLOR="祝福" = green
 #  Show all holy water in green
 MENUCOLOR=" holy " = green
+MENUCOLOR="圣水" = green
 #  Show all cursed items in red
 MENUCOLOR=" cursed " = red
+MENUCOLOR="被诅咒" = red
+MENUCOLOR="受诅咒" = red
 #  Show all unholy water in red
 MENUCOLOR=" unholy " = red
+MENUCOLOR="邪水" = red
 #  Show all cursed worn items in orange and underlined
 MENUCOLOR=" cursed .* \(being worn\)" = orange&underline
+MENUCOLOR="诅咒.* \(穿戴中\)" = orange&underline
 
 
 
