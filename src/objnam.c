@@ -106,8 +106,8 @@ struct Jitem {
 
 /* true for gems/rocks that should have " stone" appended to their names */
 #define GemStone(typ)                                                  \
-    (typ == FLINT                                                      \
-     || (objects[typ].oc_material == GEMSTONE                          \
+    (/*typ == FLINT                                                      \
+     || */(objects[typ].oc_material == GEMSTONE                          \
          && (typ != DILITHIUM_CRYSTAL && typ != RUBY && typ != DIAMOND \
              && typ != SAPPHIRE && typ != BLACK_OPAL && typ != EMERALD \
              && typ != OPAL)))
@@ -758,7 +758,7 @@ xcalled(
         panic("xcalled: not enough room for prefix (%d > %d)",
               pfxlen, bufsiz);
 
-    Sprintf(eos(buf), "%s (被称为%.*s)", pfx, bufsiz - pfxlen, sfx); /*危险:我对这个没有bug的信心甚至低于我能爬上珠穆朗玛峰，，，要是有bug就换掉吧。 --Francium-233*/
+    Sprintf(eos(buf), "被称为%.*s的%s", bufsiz - pfxlen, sfx, pfx); /*危险:我对这个没有bug的信心甚至低于我能爬上珠穆朗玛峰，，，要是有bug就换掉吧。 --Francium-233*/
 }
 
 staticfn void
@@ -872,11 +872,33 @@ xname_flags(
      */
     if (obj->oartifact && obj->dknown)
         find_artifact(obj);
-
+    //pline("has_oname(obj): %s", has_oname(obj) ? "True" : "False");
     if (obj_is_pname(obj))
     {
         wenthere = 1;
         goto nameit;
+    }
+
+    if (has_oname(obj) && dknown) {
+    	if (!wenthere)
+        {
+            Concat(buf, 0, "被称为"); /*冗余:你懂吧*/
+        }
+
+        /* jump directly here if obj passes the has-personal-name test */
+ nameit:
+        /*assert(has_oname(obj));*/
+        obufp = eos(buf); /* remember where the name will start */
+        Concat(buf, 0, ONAME(obj));
+        /* downcase "The" in "<quest-artifact-item> named The ..." */
+        if (obj->oartifact && !strncmp(obufp, "The ", 4))
+            *obufp = lowc(*obufp); /* change 'T' in "The " to 't' */
+        if (wenthere) /*goto过来的*/
+        {
+            wenthere = 0;
+            goto namefinish;
+        }
+        Concat(buf, 0, "的");
     }
 
     /* Some classes use strcpy(buf, something)+strcat(buf, otherthing).
@@ -886,47 +908,59 @@ xname_flags(
        until after the switch. */
     switch (obj->oclass) {
     case AMULET_CLASS:
-        if (!dknown)
+        if (!dknown){
             Strcpy(buf, "护身符");
-        else if (typ == AMULET_OF_YENDOR || typ == FAKE_AMULET_OF_YENDOR)
+        }
+        else if (typ == AMULET_OF_YENDOR || typ == FAKE_AMULET_OF_YENDOR){
             /* each must be identified individually */
-            Strcpy(buf, known ? actualn : dn);
-        else if (nn)
-            Strcpy(buf, actualn);
-        else if (un)
+            Strcat(buf, known ? actualn : dn);
+        }
+        else if (nn){
+            Strcat(buf, actualn);
+        }
+        else if (un){
             xcalled(buf, BUFSZ - PREFIX, "护身符", un);
-        else
-            Sprintf(buf, "%s护身符", dn);
+        }
+        else{
+            Sprintf(buf, "%s%s护身符", buf, dn);
+        }
         break;
     case WEAPON_CLASS:
-        if (is_poisonable(obj) && obj->opoisoned)
-            Strcpy(buf, "有毒的");
+        if (is_poisonable(obj) && obj->opoisoned){
+            Strcat(buf, "有毒的");
+        }
         FALLTHROUGH;
         /*FALLTHRU*/
     case VENOM_CLASS:
     case TOOL_CLASS:
         /* note: lenses or towel prefix would overwrite poisoned weapon
            prefix if both were simultaneously possible, but they aren't */
-        if (typ == LENSES)
-            Strcpy(buf, "一对");
-        else if (is_wet_towel(obj))
-            Strcpy(buf, (obj->spe < 3) ? "湿润的" : "湿的");
+        if (typ == LENSES){
+            Strcat(buf, "一对");
+        }
+        else if (is_wet_towel(obj)){
+            Strcat(buf, (obj->spe < 3) ? "湿润的" : "湿的");
+        }
 
-        if (!dknown)
-            Strcat(buf, dn);
-        else if (nn)
+        if (!dknown){
+            Strcpy(buf, dn);
+        }
+        else if (nn){
             Strcat(buf, actualn);
-        else if (un)
+        }
+        else if (un){
             xcalled(buf, BUFSZ - PREFIX, dn, un);
-        else
+        }
+        else{
             Strcat(buf, dn);
+        }
         ConcUpdate(buf);
 
         if (typ == FIGURINE && omndx != NON_PM) {
             /*冗余:char anbuf[10];*/ /* [4] would be enough: 'a','n',' ','\0' */
             const char *pm_name = obj_pmname(obj);
 
-            Sprintf(buf, "%s的%s", pm_name, actualn); /*危险:ConcatF2(buf, 0, " of %s%s", just_an(anbuf, pm_name), pm_name);*/
+            Sprintf(buf, "%s%s的%s", buf, pm_name, actualn); /*危险:ConcatF2(buf, 0, " of %s%s", just_an(anbuf, pm_name), pm_name);*/
         } else if (is_wet_towel(obj)) {
             if (wizard)
                 ConcatF1(buf, 0, " (%d)", obj->spe);
@@ -938,25 +972,28 @@ xname_flags(
             Sprintf(buf, "一套%s", actualn);
             break;
         } else if (is_boots(obj) || is_gloves(obj)) {
-            Strcpy(buf, "一双");
+            Strcat(buf, "一双");
             /*FALLTHRU*/
         } else if (is_shield(obj) && !dknown) {
             if (obj->otyp >= ELVEN_SHIELD && obj->otyp <= ORCISH_SHIELD) {
                 Strcpy(buf, "盾牌");
                 break;
             } else if (obj->otyp == SHIELD_OF_REFLECTION) {
-                Strcpy(buf, "平滑的盾");
+                Strcat(buf, "平滑的盾");
                 break;
             }
         }
         ConcUpdate(buf);
 
-        if (nn)
+        if (nn){
             Concat(buf, 0, actualn);
-        else if (un)
+        }
+        else if (un){
             xcalled(buf, BUFSZ - PREFIX, armor_simple_name(obj), un);
-        else
+        }
+        else{
             Concat(buf, 0, dn);
+        }
         break;
     case FOOD_CLASS:
         /* we could include partly-eaten-hack on fruit but don't need to */
@@ -965,12 +1002,12 @@ xname_flags(
 
             if (!f) {
                 impossible("Bad fruit #%d?", obj->spe);
-                Strcpy(buf, "水果");
+                Strcat(buf, "水果");
             } else {
                 /* fruit name is limited in length to PL_FSIZ; converting
                    to/from singular/plural might increase the length a
                    little but not enough to pose a risk of overflowing buf */
-                Strcpy(buf, f->fname);
+                Strcat(buf, f->fname);
                 if (pluralize) {
                     /* ick: already pluralized fruit names are allowed--we
                        want to try to avoid adding a redundant plural suffix;
@@ -979,9 +1016,9 @@ xname_flags(
                        xname() call to consume more than one of those
                        [note: makeXXX() will be fully evaluated and done with
                        'buf' before strcpy() touches its output buffer] */
-                    Strcpy(buf, obufp = makesingular(buf));
+                    Strcat(buf, obufp = makesingular(buf));
                     releaseobuf(obufp);
-                    Strcpy(buf, obufp = makeplural(buf));
+                    Strcat(buf, obufp = makeplural(buf));
                     releaseobuf(obufp);
 
                     pluralize = FALSE;
@@ -1022,7 +1059,7 @@ xname_flags(
             /*冗余:char anbuf[10];*/
             const char *statue_pmname = obj_pmname(obj);
 
-            Snprintf(buf, bufspaceleft, "%s%s%s%s",
+            Snprintf(buf, bufspaceleft, "%s%s%s%s%s", buf,
                      (Role_if(PM_ARCHEOLOGIST)
                       && (obj->spe & CORPSTAT_HISTORIC) != 0) ? "历史感的"
                        : "",
@@ -1042,16 +1079,17 @@ xname_flags(
                use ordinary "boulder" */
             obj->next_boulder = 0;
         } else {
-            Strcpy(buf, actualn); /* "boulder" or "statue" */
+            Strcat(buf, actualn); /* "boulder" or "statue" */
         }
         break;
     case BALL_CLASS:
-        Sprintf(buf, "%s沉重的铁球",
+        Sprintf(buf, "%s%s沉重的铁球", buf,
                 (obj->owt > ocl->oc_weight) ? "非常 " : "");
         break;
     case POTION_CLASS:
-        if (dknown && obj->odiluted)
-            Strcpy(buf, "稀释的");
+        if (dknown && obj->odiluted){
+            Strcat(buf, "稀释的");
+        }
         if (nn || un || !dknown) {
             if (!dknown) {
                 Strcpy(buf, "药水");
@@ -1084,57 +1122,69 @@ xname_flags(
         } else if (un) {
             xcalled(buf, BUFSZ - PREFIX, "卷轴", un);
         } else if (ocl->oc_magic) {
-            Strcpy(buf, "写着");
+            Strcat(buf, "写着");
             Strcat(buf, dn);
             Strcat(buf, "的卷轴");
         } else {
-            Strcpy(buf, dn);
+            Strcat(buf, dn);
             Strcat(buf, "卷轴");
         }
         break;
     case WAND_CLASS:
-        if (!dknown)
+        if (!dknown){
             Strcpy(buf, "魔杖");
-        else if (nn)
-            Sprintf(buf, "%s魔杖", actualn);
-        else if (un)
+        }
+        else if (nn){
+            Sprintf(buf, "%s%s魔杖", buf, actualn);
+        }
+        else if (un){
             xcalled(buf, BUFSZ - PREFIX, "魔杖", un);
-        else
-            Sprintf(buf, "%s魔杖", dn);
+        }
+        else{
+            Sprintf(buf, "%s%s魔杖", buf, dn);
+        }
         break;
     case SPBOOK_CLASS:
         if (typ == SPE_NOVEL) { /* 3.6 tribute */
-            if (!dknown)
+            if (!dknown){
                 Strcpy(buf, "书");
-            else if (nn)
-                Strcpy(buf, actualn);
-            else if (un)
+            }
+            else if (nn){
+                Strcat(buf, actualn);
+            }
+            else if (un){
                 xcalled(buf, BUFSZ - PREFIX, "小说", un);
-            else
+            }
+            else{
                 Sprintf(buf, "%s书", dn);
+            }
             break;
             /* end of tribute */
         } else if (!dknown) {
             Strcpy(buf, "魔法书");
         } else if (nn) {
             if (typ != SPE_BOOK_OF_THE_DEAD)
-                Sprintf(buf, "%s魔法书", actualn);
+                Sprintf(buf, "%s%s魔法书", buf, actualn);
             else
                 Strcat(buf, actualn);
         } else if (un) {
             xcalled(buf, BUFSZ - PREFIX, "魔法书", un);
         } else
-            Sprintf(buf, "%s魔法书", dn);
+            Sprintf(buf, "%s%s魔法书", buf, dn);
         break;
     case RING_CLASS:
-        if (!dknown)
+        if (!dknown){
             Strcpy(buf, "戒指");
-        else if (nn)
+        }
+        else if (nn){
             Sprintf(buf, "%s戒指", actualn);
-        else if (un)
+        }
+        else if (un){
             xcalled(buf, BUFSZ - PREFIX, "戒指", un);
-        else
+        }
+        else{
             Sprintf(buf, "%s戒指", dn);
+        }
         break;
     case GEM_CLASS: {
         const char *rock = (ocl->oc_material == MINERAL) ? "石头" : "宝石";
@@ -1142,14 +1192,17 @@ xname_flags(
         if (!dknown) {
             Strcpy(buf, rock);
         } else if (!nn) {
-            if (un)
+            if (un){
                 xcalled(buf, BUFSZ - PREFIX, rock, un);
-            else
+            }
+            else{
                 Sprintf(buf, "%s%s", dn, rock);
+            }
         } else {
-            Strcpy(buf, actualn);
-            if (GemStone(typ))
+            Strcat(buf, actualn);
+            if (GemStone(typ)){
                 Strcat(buf, "石头");
+            }
         }
         break;
     } /* gem */
@@ -1182,7 +1235,7 @@ xname_flags(
         Concat(buf, 0, obufp);
         releaseobuf(obufp);
     }
-
+namefinish:
     /* give some extra information when game is over; for end-of-game
        attribute disclosure in wizard mode, ysimple_name() calls
        minimal_xname() which passes us a dummy object with o_id==0;
@@ -1220,26 +1273,6 @@ xname_flags(
         }
     }
 
-    if (has_oname(obj) && dknown) {
-        Concat(buf, 0, " (被称为"); /*冗余:你懂吧*/
-
-        /* jump directly here if obj passes the has-personal-name test */
- nameit:
-        /*assert(has_oname(obj));*/
-        obufp = eos(buf); /* remember where the name will start */
-        Concat(buf, 0, ONAME(obj));
-        /* downcase "The" in "<quest-artifact-item> named The ..." */
-        if (obj->oartifact && !strncmp(obufp, "The ", 4))
-            *obufp = lowc(*obufp); /* change 'T' in "The " to 't' */
-        if (wenthere) /*goto过来的*/
-        {
-            wenthere = 0;
-        }
-        else
-        {
-            Concat(buf, 0, ")");
-        }
-    }
     /*冗余:
     if (!strncmpi(buf, "the ", 4))
         buf += 4;

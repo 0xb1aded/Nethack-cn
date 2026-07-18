@@ -893,6 +893,8 @@ checkfile(
         dbase_str += 5;
     else if (!strncmp(dbase_str, "那个", strlen("那个")))
         dbase_str += strlen("那个");
+    else if (!strncmp(dbase_str, "被称为", strlen("被称为")))
+        dbase_str += strlen("被称为");
     else if (digit(*dbase_str)) {
         /* remove count prefix ("2 ya") which can come from looking at map */
         while (digit(*dbase_str))
@@ -986,6 +988,10 @@ checkfile(
         } else if ((ep = strstri(dbase_str, " (被称为")) != 0) {
             alt = ep + strlen(" (被称为");
             if ((ap = strstri(dbase_str, " (被称为")) != 0 && ap < ep)
+                ep = ap; /* "named" is alt but truncate at "called" */
+        } else if ((ep = strstri(dbase_str, "的")) != 0) {
+            alt = ep + strlen("的");
+            if ((ap = strstri(dbase_str, "的")) != 0 && ap < ep)
                 ep = ap; /* "named" is alt but truncate at "called" */
         } else if ((ep = strstri(dbase_str, " called ")) != 0) {
             copynchars(givenname, ep + 8, BUFSZ - 1);
