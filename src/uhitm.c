@@ -540,7 +540,7 @@ do_attack(struct monst *mtmp)
         gu.unweapon = FALSE;
         if (flags.verbose) {
             if (uwep)
-                You("开始用你的%s打击怪物.", yname(uwep));
+                You("开始用%s打击怪物.", yname(uwep));
             else if (!cantwield(gy.youmonst.data))
                 You("开始用你%s的%s%s怪物.",
                     uarmg ? "戴手套" : "裸露", /*修改语序:ing_suffix(Role_if(PM_MONK) ? "猛击" : "打击")*/
@@ -903,8 +903,8 @@ hmon_hitmon_weapon_ranged(
         boolean more_than_1 = (obj->quan > 1L);
 
         pline("当你击中%s时, %s%s破成了碎片.",
-              mon_nam(mon), more_than_1 ? "其中一个" : "",
-              yname(obj));
+              yname(obj),
+              mon_nam(mon), more_than_1 ? "其中一个" : ""); /*修改语序:反过来*/
         if (!more_than_1)
             uwepgone(); /* set gu.unweapon */
         useup(obj);

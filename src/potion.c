@@ -814,7 +814,7 @@ peffect_invisibility(struct obj *otmp)
 
     /* spell cannot penetrate mummy wrapping */
     if (is_spell && BInvis && uarmc->otyp == MUMMY_WRAPPING) {
-        You_feel("你的%s下面有点痒.", yname(uarmc));
+        You_feel("%s下面有点痒.", yname(uarmc));
         return;
     }
     if (Invis || Blind || BInvis) {
