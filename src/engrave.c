@@ -1,4 +1,4 @@
-/* NetHack 5.0	engrave.c	$NHDT-Date: 1737345573 2025/01/19 19:59:33 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.165 $ */
+﻿/* NetHack 5.0	engrave.c	$NHDT-Date: 1737345573 2025/01/19 19:59:33 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.165 $ */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /*-Copyright (c) Robert Patrick Rankin, 2012. */
 /* NetHack may be freely redistributed.  See license for details. */
@@ -1244,14 +1244,23 @@ doengrave(void)
 
     /* Mix up engraving if surface or state of mind is unsound.
        Note: this won't add or remove any spaces. */
-    for (sp = de->ebuf; *sp; sp++) {
-        if (*sp == ' ')
+    for (sp = de->ebuf; *sp; ) {
+        int clen = utf8_char_len((unsigned char) *sp);
+        if (clen > 1) {
+            sp += clen;
             continue;
+        }
+        if (*sp == ' ') {
+            sp++;
+            continue;
+        }
         if (((de->type == DUST || de->type == ENGR_BLOOD) && !rn2(25))
             || (Blind && !rn2(11)) || (Confusion && !rn2(7))
-            || (Stunned && !rn2(4)) || (Hallucination && !rn2(2)))
+            || (Stunned && !rn2(4)) || (Hallucination && !rn2(2))) {
             *sp = ' ' + rnd(96 - 2); /* ASCII '!' thru '~'
                                         (excludes ' ' and DEL) */
+        }
+        sp++;
     }
 
     /* Previous engraving is overwritten */
