@@ -629,7 +629,7 @@ docall_xname(struct obj *obj)
     else if (otemp.oclass == FOOD_CLASS && otemp.globby)
         otemp.owt = 120; /* 6*20, neither a small glob nor a large one */
 
-    return an(xname(&otemp));
+    return xname(&otemp);
 }
 
 void
