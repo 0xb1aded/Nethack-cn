@@ -2550,7 +2550,7 @@ retouch_object(
 
         /* hero can't handle this object, but didn't get touch_artifact()'s
            "<obj> evades your grasp|control" message; give an alternate one */
-        You_cant("%s接触%s!", obj->owornmask ? "再" : "",
+        You_cant("%s接触到%s!", obj->owornmask ? "再" : "",
                  yname(obj));
         /* also inflict damage unless touch_artifact() already did so */
         if (!touch_blasted) {

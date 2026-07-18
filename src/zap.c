@@ -2830,7 +2830,7 @@ zapyourself(struct obj *obj, boolean ordinary)
 
         if (BInvis && uarmc->otyp == MUMMY_WRAPPING) {
             /* A mummy wrapping absorbs it and protects you */
-            You_feel("在%s下面相当痒.", yname(uarmc));
+            You_feel("%s下面相当痒.", yname(uarmc));
             break;
         }
         incr_itimeout(&HInvis, rn1(15, 31));
