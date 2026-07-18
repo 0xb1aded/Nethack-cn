@@ -904,7 +904,7 @@ hmon_hitmon_weapon_ranged(
 
         pline("当你击中%s时, %s%s破成了碎片.",
               yname(obj),
-              mon_nam(mon), more_than_1 ? "其中一个" : ""); /*修改语序:反过来*/
+              mon_nam(mon), more_than_1 ? "中的一个" : ""); /*修改语序:反过来*/
         if (!more_than_1)
             uwepgone(); /* set gu.unweapon */
         useup(obj);

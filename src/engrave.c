@@ -1380,7 +1380,7 @@ engrave(void)
            not welded to the hero's hand(s) */
         if (stylus->quan > 1L) {
             if (firsttime)
-                pline("其中一个%s变钝了.", yname(stylus));
+                pline("%s中的一个变钝了.", yname(stylus));
             stylus = svc.context.engraving.stylus = splitobj(stylus, 1L);
             /* if stack is wielded or quivered, the split-off one isn't */
             stylus->owornmask = 0L;
