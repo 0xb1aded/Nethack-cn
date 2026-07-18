@@ -869,7 +869,7 @@ petname_optfn(int optidx, int req, boolean negated, char *opts, char *op)
             op = empty_optstr;
         }
         nmcpy(petname, op, PL_PSIZ);
-        sanitize_name(petname);
+        //危险,冗余,要是出问题了就把注释去掉:sanitize_name(petname);
     } else if (req == get_val || req == get_cnf_val) {
         failsafe[0] = '\0';
         Sprintf(opts, "%s",
@@ -1703,7 +1703,7 @@ optfn_fruit(int optidx UNUSED, int req, boolean negated, char *opts, char *op)
         }
     goodfruit:
         strncpy(svp.pl_fruit, op, PL_FSIZ); /*危险:nmcpy*/
-        ///危险,冗余,要是出问题了就把注释去掉:sanitize_name(svp.pl_fruit);
+        //危险,冗余,要是出问题了就把注释去掉:sanitize_name(svp.pl_fruit);
         /* OBJ_NAME(objects[SLIME_MOLD]) won't work for this after
            initialization; it gets changed to generic "fruit" */
         if (!*svp.pl_fruit)
