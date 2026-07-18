@@ -1,4 +1,4 @@
-/* NetHack 5.0  botl.c  $NHDT-Date: 1769839231 2026/01/30 22:00:31 $
+﻿/* NetHack 5.0  botl.c  $NHDT-Date: 1769839231 2026/01/30 22:00:31 $
  * $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.277 $ */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /*-Copyright (c) Michael Allison, 2006. */
@@ -1259,6 +1259,11 @@ bot_via_windowport(void)
 
     /* Armor class */
     gb.blstats[idx][BL_AC].a.a_int = u.uac;
+    /* preformat with padding so that single-digit values like 9
+       become "9 " to match 2-digit "10" and avoid display artifacts;
+       valset[]=TRUE prevents anything_to_s() from overwriting this */
+    Sprintf(gb.blstats[idx][BL_AC].val, "%-2d", u.uac);
+    gv.valset[BL_AC] = TRUE;
 
     /* Monster level (if Upolyd) */
     gb.blstats[idx][BL_HD].a.a_int =

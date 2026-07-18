@@ -1,4 +1,4 @@
-/* NetHack 5.0	wintty.c	$NHDT-Date: 1737691300 2025/01/23 20:01:40 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.420 $ */
+﻿/* NetHack 5.0	wintty.c	$NHDT-Date: 1737691300 2025/01/23 20:01:40 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.420 $ */
 /* Copyright (c) David Cohrs, 1991                                */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -5594,6 +5594,16 @@ render_status(void)
                     }
                     tty_putstatusfield(text, x, y);
                     x += (int) strlen(text);
+                    /* when a field's value shrinks (e.g. AC 10->9),
+                       fill the gap with spaces so that stale bytes
+                       from the previous rendering are cleared */
+                    if (tlth < tty_status[BEFORE][idx].lth
+                        && tty_status[NOW][idx].x
+                           == tty_status[BEFORE][idx].x) {
+                        int gap = tty_status[BEFORE][idx].lth - tlth;
+                        while (gap-- > 0)
+                            tty_putstatusfield(" ", x++, y);
+                    }
                     if (iflags.hilite_delta) {
                         if (coloridx != NO_COLOR)
                             term_end_color();
