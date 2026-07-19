@@ -2292,8 +2292,8 @@ dopayobj(
         if (!unseen)
             shk_names_obj(shkp, obj,
                           consumed
-                              ? "以%ld金币%s的价格付下了%s的费用.%s"
-                              : "以%ld金币%s的价格买下了%s.%s",
+                              ? "以%ld 金币%s付下了%s的费用.%s"
+                              : "以%ld 金币%s买下了%s.%s",
                           ltmp, "");
     }
 
@@ -2405,7 +2405,7 @@ buy_container(
         if (unpaidcontainer)
             container->unpaid = container->no_charge = 1;
         shk_names_obj(shkp, container,
-                      "以%ld金币%s买下了%s.%s",
+                      "以%ld 金币%s买下了%s.%s",
                       totalcost, "");
         container->unpaid = container->no_charge = 0;
     }
@@ -4137,7 +4137,7 @@ sellobj(
                when container's contents are unknown, plural "items"
                should be used to not give away information.
              */
-            Sprintf(qbuf, "%s出价%s%ld金币%s购买%s%s",
+            Sprintf(qbuf, "%s出价%s%ld 金币%s购买%s%s",
                     Shknam(shkp), short_funds ? "仅" : "", offer,
                     plur(offer),
                     (cltmp && !ltmp)
@@ -4185,9 +4185,9 @@ sellobj(
             shk_names_obj(shkp, obj,
                           (gs.sell_how != SELL_NORMAL)
                            ? ((!ltmp && cltmp && only_partially_your_contents)
-                         ? "卖掉%s里的部分内容物, 获得了%ld金币%s.%s"
-                         : "卖掉%s, 获得了%ld金币%s.%s")
-            : "丢下%s, 得到了%ld金币%s作为补偿.%s",
+                         ? "卖掉%s里的部分内容物, 获得了%ld 金币%s.%s"
+                         : "卖掉%s, 获得了%ld 金币%s.%s")
+            : "丢下%s, 得到了%ld 金币%s作为补偿.%s",
                           offer, "");
             break;
         default:
