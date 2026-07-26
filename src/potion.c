@@ -772,7 +772,7 @@ peffect_booze(struct obj *otmp)
 {
     gp.potion_unkn++;
     pline("呼! 这尝起来像%s%s!",
-          otmp->odiluted ? "掺水的 " : "",
+          otmp->odiluted ? "掺水的" : "",
           Hallucination ? "蒲公英酒" : "液态的火");
     if (!otmp->blessed) {
         /* booze hits harder if drinking on an empty stomach */

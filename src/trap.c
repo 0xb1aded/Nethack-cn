@@ -275,8 +275,8 @@ erode_obj(
 
         return ER_NOTHING;
     } else if (erosion < MAX_ERODE) {
-        const char *adverb = (erosion + 1 == MAX_ERODE) ? " 完全"
-                             : erosion ? " 进一步"
+        const char *adverb = (erosion + 1 == MAX_ERODE) ? "完全"
+                             : erosion ? "进一步"
                                : "";
 
         if (uvictim || vismon || visobj)
@@ -4691,7 +4691,7 @@ pot_acid_damage(
         bufp = simpleonames(obj);
         pline("%s%s%s!", /* "A potion explodes!" */
                 !exploded ? (one ? "一瓶" : "几瓶")
-                        : (one ? "又一瓶 " : "更多的"),
+                        : (one ? "又一瓶" : "更多的"),
             bufp, vtense(bufp, "爆炸了"));
     }
     if (ga.acid_ctx.ctx_valid) {

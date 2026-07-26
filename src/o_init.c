@@ -676,7 +676,7 @@ disco_typename(int otyp)
         if (!actualn) { /* won't happen; used to pacify static analyzer */
             ;
         } else if (strstri(result, " called")) {
-            Sprintf(buf, " [%s] 称为", actualn);
+            Sprintf(buf, " [%s] called", actualn);
             (void) strsubst(result, " called", buf);
         } else if (strstri(result, " (")) {
             Sprintf(buf, " [%s] (", actualn);

@@ -5643,7 +5643,7 @@ readobjnam_preparse(struct _readobjnam_data *d)
             while (*d->bp == ' ')
                 d->bp++;
             l = 0;
-        } else if (!cnstrcmpi(d->bp, "菠菜", l) || !cnstrcmpi(d->bp, "菠菜的 ", l)) {
+        } else if (!cnstrcmpi(d->bp, "菠菜", l) || !cnstrcmpi(d->bp, "菠菜的", l)) {
             d->contents = TIN_SPINACH;
         } else if (!strncmpi(d->bp, "blessed ", l = 8) || !strncmpi(d->bp, "holy ", l = 5) ||
             !cnstrcmpi(d->bp, "被祝福的", l) || !cnstrcmpi(d->bp, "受祝福的", l) || !cnstrcmpi(d->bp, "有祝福的", l) ||
@@ -6285,6 +6285,10 @@ readobjnam_postparse1(struct _readobjnam_data *d)
         *d->p = 0;
         /* note: if 'name' is too long, oname() will truncate it */
         d->name = d->p + strlen(", 名为");
+    }
+    if ((d->p = strstri(d->bp, "的卷轴")) != 0) { /*极--其--危险*/
+        *d->p = '\0';
+        d->typ = SCR_BLANK_PAPER;
     }
     if ((d->p = strstri(d->bp, " called ")) != 0) {
         *d->p = 0;

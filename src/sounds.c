@@ -77,7 +77,7 @@ beehive_mon_sound(struct monst *mtmp)
         case 2:
             Soundeffect(se_bees, 100);
             You_hear("蜜蜂飞进了你的%s帽子里!",
-                     uarmh ? "" : "(不存在的) ");
+                     uarmh ? "" : "(不存在的)");
             break;
         }
         return TRUE;

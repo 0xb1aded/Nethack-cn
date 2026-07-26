@@ -2335,14 +2335,14 @@ doloot_core(void)
                     You("只能搜刮有容器的格子.");
                 }
             } else {
-                You("在%s搜刮%s%s东西.", !underfoot ? "那里" : "这里", /*修改语序:You("%s%s%s里搜刮.", dont_find_anything,*/
+                You("在%s%s%s东西可以搜刮.", !underfoot ? "那里" : "这里", /*修改语序:You("%s%s%s里搜刮.", dont_find_anything,*/
                     dont_find_anything, /*修改语序:(prev_inquiry || prev_loot) ? "别的" : "",*/
                     (prev_inquiry || prev_loot) ? "别的" : ""); /*修改语序:!underfoot ? "那" : "这");*/
                 return (timepassed ? ECMD_TIME : ECMD_OK);
             }
         }
     } else if (c != 'y' && c != 'n') {
-        You("在%s东西%s可供搜刮.", underfoot ? "这里" : "那里", /*修改语序:You("%s%s可供搜刮。", dont_find_anything,*/
+        You("在%s%s东西可以搜刮.", underfoot ? "这里" : "那里", /*修改语序:You("%s%s可供搜刮。", dont_find_anything,*/
             dont_find_anything); /*修改语序:underfoot ? "这里" : "那里");*/
     }
     return (timepassed ? ECMD_TIME : ECMD_OK);

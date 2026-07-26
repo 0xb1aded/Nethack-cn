@@ -5439,7 +5439,7 @@ price_quote(struct obj *first_obj)
             Strcpy(price, "免费");
             contentsonly = FALSE;
         } else {
-            Sprintf(price, "%s%ld %s", (otmp->quan) > 1L ? " 每个" : "", cost, /*修改语序:Sprintf(price, "%ld %s%s", cost, currency(cost),*/
+            Sprintf(price, "%s%ld %s", (otmp->quan) > 1L ? "每个" : "", cost, /*修改语序:Sprintf(price, "%ld %s%s", cost, currency(cost),*/
                     currency(cost)); /*修改语序:(otmp->quan) > 1L ? " 每个" : "");*/
         }
         Sprintf(buf, "%s%s, %s", doname(otmp),

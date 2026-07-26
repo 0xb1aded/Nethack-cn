@@ -440,7 +440,7 @@ fix_worst_trouble(int trouble)
     case TROUBLE_COLLAPSING:
         /* override Fixed_abil; uncurse that if feasible */
         You_feel("强壮%s了.",
-                 (AMAX(A_STR) - ABASE(A_STR) > 6) ? "多 " : "些");
+                 (AMAX(A_STR) - ABASE(A_STR) > 6) ? "多" : "些");
         ABASE(A_STR) = AMAX(A_STR);
         disp.botl = TRUE;
         if (Fixed_abil) {

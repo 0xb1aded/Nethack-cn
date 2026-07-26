@@ -1625,8 +1625,8 @@ hmon_hitmon_splitmon(
         if ((mclone = clone_mon(mon, 0, 0)) != 0) {
             withwhat[0] = '\0';
             if (u.twoweap && flags.verbose)
-                Sprintf(withwhat, " 用%s", yname(obj));
-            pline("%s在被你用%s击中后分裂开来!", Monnam(mon), withwhat);
+                Sprintf(withwhat, "用%s", yname(obj));
+            pline("%s在被你%s击中后分裂开来!", Monnam(mon), withwhat);
             hmd->hittxt = TRUE;
             (void) mintrap(mclone, NO_TRAP_FLAGS);
         }
@@ -6267,7 +6267,7 @@ that_is_a_mimic(
     }
 
     if (what) {
-        int i = (omit_wait && !strncmp(fmtbuf, "等等 ", strlen("等等 "))) ? strlen("等等 ") : 0; /*待写:int i = (omit_wait && !cnstrncmp(fmtbuf, "等等!", 3)) ? 3 : 0;*/
+        int i = (omit_wait && !strncmp(fmtbuf, "等等! ", strlen("等等! "))) ? strlen("等等! ") : 0; /*待写:int i = (omit_wait && !cnstrncmp(fmtbuf, "等等!", 3)) ? 3 : 0;*/
 
         pline(&fmtbuf[i], what);
     }
