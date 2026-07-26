@@ -758,7 +758,7 @@ xcalled(
         panic("xcalled: not enough room for prefix (%d > %d)",
               pfxlen, bufsiz);
 
-    Sprintf(eos(buf), "被称为%.*s的%s", bufsiz - pfxlen, sfx, pfx); /*危险:我对这个没有bug的信心甚至低于我能爬上珠穆朗玛峰，，，要是有bug就换掉吧。 --Francium-233*/
+    Snprintf(eos(buf), (size_t) (bufsiz + 1), "被称为%.*s的%s", bufsiz - pfxlen, sfx, pfx);
 }
 
 staticfn void
