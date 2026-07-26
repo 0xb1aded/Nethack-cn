@@ -1234,12 +1234,12 @@ use_pick_axe2(struct obj *obj)
                        || sobj_at(STATUE, rx, ry)) {
                 /* if both boulders and statues are present, the topmost
                    boulder will be shown on the map so treat it as target */
-                const char *what = boulder ? "局势" : "雕像";
+                const char *what = boulder ? "巨石" : "雕像";
 
                 if (!ispick) {
                     boolean vibrate = !rn2(3);
 
-                    pline("在你敲击%s时火花四溅.%s", what,
+                    pline("%s在你敲击时火花四溅.%s", what,
                           vibrate ? " 斧柄剧烈振动!"
                                   : "");
                     if (vibrate)

@@ -173,7 +173,7 @@ toggle_displacement(
             makeknown(obj->otyp);
 
         You_feel("怪物%s很难确定你的位置.",
-                 on ? "" : " 不再");
+                 on ? "" : "不再");
     }
 }
 
