@@ -5643,6 +5643,8 @@ readobjnam_preparse(struct _readobjnam_data *d)
             while (*d->bp == ' ')
                 d->bp++;
             l = 0;
+        } else if (!cnstrcmpi(d->bp, "菠菜", l) || !cnstrcmpi(d->bp, "菠菜的 ", l)) {
+            d->contents = TIN_SPINACH;
         } else if (!strncmpi(d->bp, "blessed ", l = 8) || !strncmpi(d->bp, "holy ", l = 5) ||
             !cnstrcmpi(d->bp, "被祝福的", l) || !cnstrcmpi(d->bp, "受祝福的", l) || !cnstrcmpi(d->bp, "有祝福的", l) ||
             !cnstrcmpi(d->bp, "祝福的", l) || !cnstrcmpi(d->bp, "祝福", l) || !cnstrcmpi(d->bp, "圣", l)) {
@@ -6433,7 +6435,7 @@ readobjnam_postparse1(struct _readobjnam_data *d)
         *d->p = 0;
         d->contents = TIN_SPINACH;
     }
-    if ((d->p = strstri(d->bp, "菠菜")) != 0) {
+    if ((d->p = strstri(d->bp, "菠菜罐头")) != 0) {
         *d->p = 0;
         d->contents = TIN_SPINACH;
     }
@@ -7707,6 +7709,11 @@ readobjnam_postparse3(struct _readobjnam_data *d)
         return 2; /*goto typfnd;*/
     }
     if (!strcmpi(d->bp, "菠菜")) {
+        d->contents = TIN_SPINACH;
+        d->typ = TIN;
+        return 2; /*goto typfnd;*/
+    }
+    if (!strcmpi(d->bp, "菠菜罐头")) {
         d->contents = TIN_SPINACH;
         d->typ = TIN;
         return 2; /*goto typfnd;*/

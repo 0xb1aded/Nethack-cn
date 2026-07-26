@@ -1659,7 +1659,7 @@ consume_tin(const char *mesg)
             tin->known = 1;
         }
 
-        if (!always_eat && y_n("Eat it?") == 'n') {
+        if (!always_eat && y_n("要吃吗?") == 'n') {
             if (flags.verbose)
                 You("丢弃了打开的罐头.");
             tin = costly_tin(COST_OPEN);
