@@ -6168,25 +6168,28 @@ wishcmdassist(int triesleft)
         wishinfo[] = {
   "许愿详情:",
   "",
-  "输入物品的名称, 例如\"potion of monster detection\", ",
-  "\"scroll labeled README\", \"elven mithril-coat\"或",
-  "\"Grimtooth\"(不带引号). ",
+  "(用汉语或者英语)输入物品的名称, 例如\"怪物探测药水\"(\"potion",
+  "of monster detection\"), \"写着READ ME的卷轴\"(\"scroll labaled",
+  "READ ME\"), \"精灵秘银胶衣\"(\"elven mithril-coat\")或\"邪兽之牙\"",
+  "(\"Grimtooth\")(不带引号). 正常情况下, 原版能够许愿到的输入在",
+  "这里都能许愿到. 请注意游戏的正字法, 以游戏里显示的形式为准.",
   "",
-  "对于成堆出现的物品类型, 可以指定复数名称, 例如\"potions ",
-  "of healing\", 或指定数量, 例如\"1000 gold pieces\",尽",
-  "管这么大的愿望可能无法实现.",
+  "对于成堆出现的物品类型, 可以指定复数名称, 例如\"potions of",
+  "healing\"(药水-复数 属格 治疗-动名词, \"至少2瓶治疗药水\"(然而",
+  "在这里这么写的话识别不出来)), 或指定数量, 例如\"1000金币\", ",
+  "尽管这么大的愿望可能无法实现.",
   "",
-  "也可以指定各种修饰词来修改物品属性, 例如\"解除诅咒\", \"防",
-  "锈\"或\"+1\".",
+  "也可以指定各种修饰词来修改物品属性, 例如\"解除诅咒\"(\"remove",
+  "curse\"), \"防锈\"(\"rustproof\")或\"+1\".",
   "查看物品栏时显示的大多数修饰词均可指定.",
   "",
-  "指定\"nothing\"可以明确拒绝此愿望.",
+  "指定\"无\"(\"nothing\")可以明确拒绝此愿望.",
   0,
     },
         preserve_wishless[] = "这样做不会破坏'禁许愿'挑战.",
         retry_info[] =
-                    "如果你指定一种未鉴定的物品%s%s次%s,",
-        retry_too[] = "你将获得一件随机物品.",
+                    "如果你指定一种未鉴定的物品%s%s次%s, 你将获得一件随机物品.",
+        //冗余:retry_too[] = "你将获得一件随机物品.",
         suppress_cmdassist[] =
             "(在配置文件中添加!cmdassist以禁用此辅助功能. )",
         *cardinals[] = { "零",  "一",  "二", "三", "四", "五" },
@@ -6210,7 +6213,7 @@ wishcmdassist(int triesleft)
             (triesleft < MAXWISHTRY) ? "以上" : "",
             plur(triesleft));
     putstr(win, 0, buf);
-    putstr(win, 0, retry_too);
+    //冗余: putstr(win, 0, retry_too);
     putstr(win, 0, "");
     if (iflags.cmdassist)
         putstr(win, 0, suppress_cmdassist);
