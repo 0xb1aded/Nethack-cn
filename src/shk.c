@@ -5143,7 +5143,7 @@ getcad(
     boolean uinshp, boolean animal, boolean pursue)
 {
     boolean dugwall = (!strcmp(dmgstr, "dig into") || !cnstrcmp(dmgstr, "挖") || !cnstrcmp(dmgstr, "挖掉")   /* wand */
-                    || !strcmp(dmgstr, "damage") || !cnstrcmp(dmgstr, "破坏")); /* pick-axe */
+                    || !strcmp(dmgstr, "damage") || !cnstrcmp(dmgstr, "破坏") || !cnstrcmp(dmgstr, "损坏")); /* pick-axe */
 
     if (muteshk(shkp)) {
         if (animal && !helpless(shkp))
