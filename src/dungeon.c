@@ -1180,7 +1180,7 @@ init_dungeons(void)
     }
     if (!nhl_loadlua(L, DUNGEON_FILE)) {
         char tbuf[BUFSZ];
-        Sprintf(tbuf, "无法打开地牢描述文件 - \"%s", DUNGEON_FILE);
+        Sprintf(tbuf, "Cannot open dungeon description - \"%s", DUNGEON_FILE);
 #ifdef DLBRSRC /* using a resource from the executable */
         Strcat(tbuf, "\" resource!");
 #else /* using a file or DLB file */
@@ -1195,7 +1195,7 @@ init_dungeons(void)
 #endif
         Strcat(tbuf, DLBFILE);
 #endif
-        Strcat(tbuf, "\" 文件!");
+        Strcat(tbuf, "\" file!");
 #endif
 #ifdef WIN32
         interject_assistance(1, INTERJECT_PANIC, (genericptr_t) tbuf,
@@ -1517,7 +1517,7 @@ earth_sense(void)
 
     for (otmp = svl.level.buriedobjlist; otmp; otmp = otmp->nobj)
         if (u_at(otmp->ox, otmp->oy)) {
-            You("感觉到你的%s下方有东西。", makeplural(body_part(FOOT)));
+            You("感觉到你的%s下方有东西.", makeplural(body_part(FOOT)));
             return;
         }
 }
@@ -2292,10 +2292,10 @@ print_dungeon(boolean bymenu, schar *rlev, xint16 *rdgn)
             print_branch(win, i, last_level, slev->dlevel.dlevel, bymenu,
                          &lchoices);
 
-            Sprintf(buf, "%c %s：%d", chr_u_on_lvl(&slev->dlevel),
+            Sprintf(buf, "%c %s: %d", chr_u_on_lvl(&slev->dlevel),
                     slev->proto, depth(&slev->dlevel));
             if (Is_stronghold(&slev->dlevel))
-                Sprintf(eos(buf), " (曲调%s)", svt.tune);
+                Sprintf(eos(buf), " (曲调为%s)", svt.tune);
             if (bymenu)
                 tport_menu(win, buf, &lchoices, &slev->dlevel,
                            unreachable_level(&slev->dlevel, unplaced));
@@ -2345,8 +2345,8 @@ print_dungeon(boolean bymenu, schar *rlev, xint16 *rdgn)
     /* I hate searching for the invocation pos while debugging. -dean */
     if (Invocation_lev(&u.uz)) {
         putstr(win, 0, "");
-        Sprintf(buf, "召唤位置 @ (%d,%d), 英雄 @ (%d,%d)", svi.inv_pos.x,
-                svi.inv_pos.y, u.ux, u.uy);
+        Sprintf(buf, "Invocation position @ (%d,%d), hero @ (%d,%d)",
+                svi.inv_pos.x, svi.inv_pos.y, u.ux, u.uy);
         putstr(win, 0, buf);
     } else {
         struct trap *trap;
@@ -2362,8 +2362,8 @@ print_dungeon(boolean bymenu, schar *rlev, xint16 *rdgn)
                 break;
 
         if (trap)
-            Sprintf(buf, "传送门在(%d,%d)，英雄在(%d,%d)", trap->tx, trap->ty,
-                    u.ux, u.uy);
+            Sprintf(buf, "Portal @ (%d,%d), hero @ (%d,%d)",
+                    trap->tx, trap->ty, u.ux, u.uy);
 
         /* only report "no portal found" when actually expecting a portal */
         else if (Is_earthlevel(&u.uz) || Is_waterlevel(&u.uz)
@@ -2480,7 +2480,7 @@ query_annotation(d_level *lev)
             (void) describe_level(lbuf, dflgs);
             u.uz = save_uz;
 
-            (void) strsubst(lbuf, "Dlvl:", "level "); (void) strsubst(lbuf, "地牢:", "层数");
+            (void) strsubst(lbuf, "Dlvl:", "level "); //冗余:或许不用? (void) strsubst(lbuf, "地牢:", "层数");
             /* even though we've told describe_level() not to append
                a trailing space (by not including '1' in dflgs), the
                level number is formatted with %-2d so single digit
@@ -2727,16 +2727,17 @@ overview_stats(winid win,                           /* output window */
         }
     }
 
-    Sprintf(hdrbuf, "常规，大小 %ld", (long) sizeof(mapseen));
+    Sprintf(hdrbuf, "general, size %ld", (long) sizeof (mapseen));
     Sprintf(buf, statsfmt, hdrbuf, ocount, osize);
     putstr(win, 0, buf);
     if (bcount) {
-        Sprintf(hdrbuf, "墓地, size %ld", (long) sizeof(struct cemetery));
+        Sprintf(hdrbuf, "cemetery, size %ld",
+                (long) sizeof (struct cemetery));
         Sprintf(buf, statsfmt, hdrbuf, bcount, bsize);
         putstr(win, 0, buf);
     }
     if (acount) {
-        Sprintf(hdrbuf, "注释，文本");
+        Sprintf(hdrbuf, "annotations, text");
         Sprintf(buf, statsfmt, hdrbuf, acount, asize);
         putstr(win, 0, buf);
     }
@@ -3513,9 +3514,9 @@ print_mapseen(
         Sprintf(eos(buf), " \" %s\"", mptr->custom);
     if (on_level(&u.uz, &mptr->lev))
         Sprintf(eos(buf), " <- 你%s这里.",
-                (final <= 0 || (final == 1 && how == ASCENDED)) ? "在"
-                : (final == 1 && how == ESCAPED)                ? "离开了"
-                                                                : "在");
+                (final <= 0 || (final == 1 && how == ASCENDED)) ? "在这里"
+                : (final == 1 && how == ESCAPED)                ? "在这里逃离了"
+                                                                : "曾在这里");
 
     any = cg.zeroany;
     if (final == -1)
@@ -3555,7 +3556,7 @@ print_mapseen(
             atmp = mptr->feat.msalign;              /*    0,  1,  2,  3 */
             atmp = Msa2amask(atmp);                 /*    0,  1,  2,  4 */
             if (Amask2align(atmp) == u.ualign.type) /* -128, -1,  0, +1 */
-                Sprintf(eos(buf), "%s的", align_gname(u.ualign.type));
+                Sprintf(buf, "%s的%s", align_gname(u.ualign.type), buf); /*危险,修改语序:Sprintf(eos(buf), "%s的", align_gname(u.ualign.type));*/
         }
         ADDNTOBUF("王座", mptr->feat.nthrone);
         ADDNTOBUF("喷泉", mptr->feat.nfount);
@@ -3597,14 +3598,14 @@ print_mapseen(
         /* presence of the ludios branch in #overview output indicates that
            the player has made it onto the level; presence of this annotation
            indicates that the fort's entrance has been seen (or mapped) */
-        Sprintf(buf, "%s吕底人堡垒.", PREFIX);
+        Sprintf(buf, "%s吕底俄斯堡.", PREFIX);
     } else if (mptr->flags.castle) {
-        Snprintf(buf, sizeof buf, "%sThe castle%s.", PREFIX,
+        Snprintf(buf, sizeof buf, "%s城堡%s.", PREFIX,
                  tunesuffix(mptr, tmpbuf, sizeof tmpbuf));
     } else if (mptr->flags.valley) {
-        Sprintf(buf, "%s死亡山谷.", PREFIX);
+        Sprintf(buf, "%s死亡谷.", PREFIX);
     } else if (mptr->flags.vibrating_square) {
-        Sprintf(buf, "%s通往摩洛克的圣所之门。", PREFIX);
+        Sprintf(buf, "%s通往摩洛的圣所之门.", PREFIX);
     } else if (mptr->flags.msanctum) {
         Sprintf(buf, "%s摩洛的密室.", PREFIX);
     }
@@ -3613,7 +3614,7 @@ print_mapseen(
     }
     /* quest entrance is not mutually-exclusive with bigroom or rogue level */
     if (mptr->flags.quest_summons) {
-        Sprintf(buf, "%s受%s的传唤.", PREFIX, ldrname());
+        Sprintf(buf, "%s受到%s的召唤.", PREFIX, ldrname());
         add_menu_str(win, buf);
     }
 
@@ -3641,7 +3642,7 @@ print_mapseen(
             if (bp->bonesknown || wizard || final > 0)
                 ++kncnt;
         if (kncnt) {
-            Sprintf(buf, "%s%s", PREFIX, "最终安息之地");
+            Sprintf(buf, "%s%s", PREFIX, "安息之地");
             add_menu_str(win, buf);
             if (died_here) {
                 /* disclosure occurs before bones creation, so listing dead
