@@ -477,7 +477,7 @@ Helmet_on(void)
             if (Blind)
                 pline("%s了一会.", Tobjnam(uarmh, "振动"));
             else
-                pline("%s%s了一刹那.", Tobjnam(uarmh, "闪"),
+                pline("%s了片刻的%s光.", Tobjnam(uarmh, "发出"),
                       hcolor(NH_BLACK));
             curse(uarmh);
             /* curse() doesn't touch bknown so doesn't update persistent
