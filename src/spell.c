@@ -589,7 +589,7 @@ study_book(struct obj *spellbook)
 
                     Sprintf(qbuf,
                     "这本魔法书%s难理解. 继续吗?",
-                            (read_ability < 12 ? "非常 " : "很"));
+                            (read_ability < 12 ? "非常" : "很"));
                     if (y_n(qbuf) != 'y') {
                         spellbook->in_use = FALSE;
                         return 1;
