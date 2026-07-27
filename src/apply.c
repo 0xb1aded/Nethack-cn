@@ -1352,7 +1352,7 @@ use_candelabrum(struct obj *obj)
         pline("%s上%s%d %s.", the(xname(obj)), vtense(s, "只有"), obj->spe, /*修改语序,换pline:There("%s%d根%s在%s中.", vtense(s, "只有"), obj->spe, s,*/
               s); /*修改语序:the(xname(obj)));*/
         if (!Blind)
-            pline("%s点着的. %s出朦胧的光.", obj->spe == 1 ? "它是" : "它们是",
+            pline("%s点着了. %s出朦胧的光.", obj->spe == 1 ? "它" : "它们",
                   Tobjnam(obj, "照射"));
     } else {
         pline("%s的%s在%s", The(xname(obj)), s,
@@ -1736,7 +1736,7 @@ light_cocktail(struct obj **optr)
         obj = splitobj(obj, 1L);
 
     You("点燃了%s药水.%s", shk_your(buf, obj),
-        Blind ? "" : " 它发出微弱的光芒.");
+        Blind ? "" : " 它发出微弱的光.");
 
     if (obj->unpaid && costly_spot(u.ux, u.uy)) {
         struct monst *shkp VOICEONLY = shop_keeper(*in_rooms(u.ux, u.uy,
@@ -2606,7 +2606,7 @@ use_grease(struct obj *obj)
     struct obj *otmp;
 
     if (Glib) {
-        pline("%s从你的%s中滑落了.", Tobjnam(obj, ""),
+        pline("%s你的%s中滑落了.", Tobjnam(obj, "从"),
               fingers_or_gloves(FALSE));
         dropx(obj);
         return ECMD_TIME;
@@ -2618,7 +2618,7 @@ use_grease(struct obj *obj)
         if ((obj->cursed || Fumbling) && !rn2(2)) {
             consume_obj_charge(obj, TRUE);
 
-            pline("%s从你的%s中滑落了.", Tobjnam(obj, ""),
+            pline("%s你的%s中滑落了.", Tobjnam(obj, "从"),
                   fingers_or_gloves(FALSE));
             dropx(obj);
             return ECMD_TIME;
@@ -2768,7 +2768,7 @@ use_stone(struct obj *tstone)
             if (!obj->known) /* note: not "whetstone" */
                 You("肯定觉得这是一块磨石, 是吗?");
             else
-                pline("%s有些潮湿.", Tobjnam(tstone, ""));
+                pline("%s潮湿.", Tobjnam(tstone, "有些"));
             return ECMD_TIME;
         case WAX:
             streak_color = "蜡色的";

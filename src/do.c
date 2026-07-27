@@ -623,11 +623,11 @@ dosinkring(struct obj *obj)
             pline_The("水槽看起来丝毫不像喷泉.");
             break;
         case RIN_PROTECTION:
-            pline_The("水槽发出了片刻的%s光芒.",
+            pline_The("水槽发出了片刻的%s光.",
                       hcolor((obj->spe < 0) ? NH_BLACK : NH_SILVER));
             break;
         case RIN_WARNING:
-            pline_The("水槽发出了片刻的%s光芒.", hcolor(NH_WHITE));
+            pline_The("水槽发出了片刻的%s光.", hcolor(NH_WHITE));
             break;
         case RIN_TELEPORT_CONTROL:
             pline_The("水槽看起来像是被指向了什么地方.");

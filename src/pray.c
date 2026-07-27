@@ -1402,7 +1402,7 @@ water_prayer(boolean bless_water)
             other = TRUE;
     }
     if (!Blind && changed) {
-        pline("%s药水%s落在祭坛上的片刻, 发出了%s%s光芒.",
+        pline("%s药水%s落在祭坛上的片刻, 发出了%s%s光.",
               ((other && changed > 1L) ? "其中一些"
                                        : (other ? "其中一瓶" : "")),
               ((other || changed > 1L) ? "" : ""), (changed > 1L ? "" : ""),
@@ -1671,7 +1671,7 @@ offer_different_alignment_altar(
                 levl[u.ux][u.uy].altarmask |= AM_SHRINE;
             newsym(u.ux, u.uy); /* in case Invisible to self */
             if (!Blind)
-                pline_The("祭坛发出了%s光芒.",
+                pline_The("祭坛发出了%s光.",
                           hcolor((u.ualign.type == A_LAWFUL) ? NH_WHITE
                                  : u.ualign.type ? NH_BLACK
                                    : (const char *) "灰色"));

@@ -2507,7 +2507,7 @@ Sting_effects(
 
             /* 'start' message */
             if (!Blind)
-                pline("%s%s%s光芒%c", bare_artifactname(uwep),
+                pline("%s%s出了%s的光芒%c", bare_artifactname(uwep),
                       otense(uwep, glow_verb(orc_count, FALSE)),
                       glow_color(uwep->oartifact),
                       (newstr > oldstr) ? '!' : '.');

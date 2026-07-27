@@ -655,7 +655,7 @@ stripspe(struct obj *obj)
         pline1(nothing_happens);
     } else {
         /* order matters: message, shop handling, actual transformation */
-        pline("%s了一下.", Yobjnam2(obj, "短暂地振动"));
+        pline("%s了一下.", Yobjnam2(obj, "短暂振动"));
         costly_alteration(obj, COST_UNCHRG);
         obj->spe = 0;
         if (obj->otyp == OIL_LAMP || obj->otyp == BRASS_LANTERN)
@@ -666,22 +666,22 @@ stripspe(struct obj *obj)
 staticfn void
 p_glow1(struct obj *otmp)
 {
-    pline("%s了片刻.", Yobjnam2(otmp, Blind ? "振动" : "发光"));
+    pline("%s%s.", Yobjnam2(otmp, Blind ? "短暂振动了一下" : "发出了短暂"));
 }
 
 staticfn void
 p_glow2(struct obj *otmp, const char *color)
 {
-    pline("%s%s%s了一刹那.", Yobjnam2(otmp, Blind ? "振动" : "发光"),
-          Blind ? "" : hcolor(color), Blind ? "" : "光");
+    pline("%s了片刻%s%s%s.", Yobjnam2(otmp, Blind ? "振动" : "发出"),
+          Blind ? "" : "的", Blind ? "" : hcolor(color), Blind ? "" : "光");
 }
 
 staticfn void
 p_glow3(struct obj *otmp, const char *color)
 {
-    pline("%s微弱地%s%s了一刹那.",
-          Yobjnam2(otmp, Blind ? "振动" : "发光"),
-          Blind ? "" : hcolor(color), Blind ? "" : "光");
+    pline("%s了片刻%s%s.",
+          Yobjnam2(otmp, Blind ? "微弱地振动" : "发出"),
+          Blind ? "" : "微弱的", Blind ? "" : hcolor(color), Blind ? "" : "光");
 }
 
 /* getobj callback for object to charge */
@@ -924,7 +924,7 @@ recharge(struct obj *obj, int curse_bless)
                     p_glow2(obj, NH_BLACK);
                     curse(obj);
                 } else {
-                    pline("%s了片刻.", Yobjnam2(obj, "振动"));
+                    pline("短暂%s了一下.", Yobjnam2(obj, "振动"));
                 }
                 if (obj->spe > 0)
                     costly_alteration(obj, COST_UNCHRG);
@@ -1127,7 +1127,7 @@ seffect_enchant_armor(struct obj **sobjp)
     if (!otmp) {
         strange_feeling(sobj, !Blind
                         ? "你的皮肤亮了一下, 然后变暗."
-                        : "你感到皮肤温暖了一刹那.");
+                        : "你感到皮肤温暖了片刻.");
         *sobjp = 0; /* useup() in strange_feeling() */
         exercise(A_CON, !scursed);
         exercise(A_STR, !scursed);
@@ -1139,7 +1139,7 @@ seffect_enchant_armor(struct obj **sobjp)
         otmp->oerodeproof = 0; /* for messages */
         if (Blind) {
             otmp->rknown = FALSE;
-            pline("%s温暖了一刹那.", Yobjnam2(otmp, "感觉"));
+            pline("%s温暖了片刻.", Yobjnam2(otmp, "感觉"));
         } else {
             otmp->rknown = TRUE;
             pline("%s一层%s%s%s覆盖!", Yobjnam2(otmp, "被"),
@@ -1178,11 +1178,12 @@ seffect_enchant_armor(struct obj **sobjp)
     s = scursed ? -otmp->spe : otmp->spe;
     if (s > (special_armor ? 5 : 3) && rn2(s)) {
         otmp->in_use = TRUE;
-        pline("%s猛烈地%s%s%s了一会儿, 然后%s了.", Yname2(otmp),
-              otense(otmp, Blind ? "振动" : "发光"),
-              (!Blind && !same_color) ? " " : "",
+        pline("%s猛烈地%s了一会%s%s, 然后%s了.", Yname2(otmp), /*修改语序:自己看*/
+              otense(otmp, Blind ? "振动" : "发出"),
               (Blind || same_color) ? "" : hcolor(scursed ? NH_BLACK
                                                   : NH_SILVER),
+
+              (Blind || same_color) ? "" : "光",
               otense(otmp, "蒸发"));
         remove_worn_item(otmp, FALSE);
         useup(otmp);
@@ -1250,11 +1251,11 @@ seffect_enchant_armor(struct obj **sobjp)
             maybe_adjust_light(otmp, old_light);
         return;
     }
-    pline("%s%s%s%s了%s%s%s.", Yname2(otmp), /*修改语序:多了一个%s*/
+    pline("%s%s%s%s了%s%s%s%s.", Yname2(otmp), /*修改语序:多了一个%s*/
           (s == 0) ? "猛烈地" : "",
-          otense(otmp, Blind ? "振动" : "闪"),
+          otense(otmp, Blind ? "振动" : "发出"),
           (!Blind && !same_color) ? "" : "",
-          (s * s > 1) ? "一会儿" : "一刹那",  /*修改语序:(Blind || same_color);*/
+          (s * s > 1) ? "一会" : "片刻", (Blind || same_color) ? "" : "的", /*修改语序:(Blind || same_color);*/
           (Blind || same_color) ? "" : hcolor(scursed ? NH_BLACK : NH_SILVER), /*修改语序:? "" : hcolor(scursed ? NH_BLACK : NH_SILVER), (Blind || same_color) ? "" : "光",*/ /*修改语序:? "" : hcolor(scursed ? NH_BLACK : NH_SILVER),*/
           (Blind || same_color) ? "" : "光"); /*修改语序:(s * s > 1) ? "一会儿" : "一刹那");*/
     /* [this cost handling will need updating if shop pricing is
@@ -1586,7 +1587,7 @@ seffect_remove_curse(struct obj **sobjp)
                 /* like rndcurse(sit.c), effect on regular inventory
                    doesn't show things glowing but saddle does */
                 if (!Blind) {
-                    pline("%s%s光.", Yobjnam2(obj, "发出了"),
+                    pline("%s了%s色光.", Yobjnam2(obj, "发出"),
                               hcolor("琥珀"));
                     obj->bknown = Hallucination ? 0 : 1;
                 } else {
@@ -1643,7 +1644,7 @@ seffect_enchant_weapon(struct obj **sobjp)
         uwep->oerodeproof = 0; /* for messages */
         if (Blind) {
             uwep->rknown = FALSE;
-            Your("武器暖和了一会儿.");
+            Your("武器暖和了一会.");
         } else {
             uwep->rknown = TRUE;
             pline("%s一层%s%s%s覆盖!", Yobjnam2(uwep, "被"),

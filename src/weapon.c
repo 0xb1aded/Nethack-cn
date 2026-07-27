@@ -918,7 +918,7 @@ mon_wield_item(struct monst *mon)
         if (artifact_light(obj) && !obj->lamplit) {
             begin_burn(obj, FALSE);
             if (canseemon(mon))
-                pline("%s在%s的%s中照耀出%s的光芒!", Tobjnam(obj, ""), s_suffix(mon_nam(mon)),/*修改语序: pline("%s%s在%s的%s中闪耀！", Tobjnam(obj, "闪耀"),*/
+                pline("%s在%s的%s中出%s的光芒!", Tobjnam(obj, "照耀"), s_suffix(mon_nam(mon)),/*修改语序: pline("%s%s在%s的%s中闪耀！", Tobjnam(obj, "闪耀"),*/
                       mbodypart(mon, HAND), 
                       arti_light_description(obj)); /*修改语序: mbodypart(mon, HAND));*/
             /* 3.6.3: artifact might be getting wielded by invisible monst */

@@ -2569,7 +2569,7 @@ potion_dip(struct obj *obj, struct obj *potion)
             default:
                 useupall(obj);
                 pline_The("混合物%s蒸发了.",
-                          !Blind ? "发出明亮的光芒并" : "");
+                          !Blind ? "发出明亮的光并" : "");
                 return ECMD_TIME;
             }
         }

@@ -475,7 +475,7 @@ Helmet_on(void)
     case DUNCE_CAP:
         if (uarmh && !uarmh->cursed) {
             if (Blind)
-                pline("%s了一会儿.", Tobjnam(uarmh, "振动"));
+                pline("%s了一会.", Tobjnam(uarmh, "振动"));
             else
                 pline("%s%s了一刹那.", Tobjnam(uarmh, "闪"),
                       hcolor(NH_BLACK));

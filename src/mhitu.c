@@ -1640,7 +1640,7 @@ explmu(
         if (ufound && !not_affected) {
             boolean chg;
             if (!Hallucination)
-                You("被一阵万花筒般的光芒击中了!");
+                You("被一阵万花筒般的闪光击中了!");
             /* avoid hallucinating the black light as it dies */
             mondead(mtmp);    /* remove it from map now */
             kill_agr = FALSE; /* already killed (maybe lifesaved) */

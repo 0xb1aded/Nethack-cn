@@ -999,8 +999,8 @@ chwepon(struct obj *otmp, int amount)
     if (((uwep->spe > 5 && amount >= 0) || (uwep->spe < -5 && amount < 0))
         && rn2(3)) {
         if (!Blind)
-            pline("%s一会%s的光芒, 然后%s了.",
-                  Yobjnam2(uwep, "爆发出"), color,
+            pline("%s一会%s的光, 然后%s了.",
+                  Yobjnam2(uwep, "猛烈地发出"), color,
                   otense(uwep, "蒸发"));
         else
             pline("%s.", Yobjnam2(uwep, "蒸发了"));
@@ -1010,8 +1010,8 @@ chwepon(struct obj *otmp, int amount)
     }
     if (!Blind) {
         xtime = (amount * amount == 1) ? "一瞬" : "一会";
-        pline("%s%s%s的光芒.",
-              Yobjnam2(uwep, amount == 0 ? "爆发出" : "发出"), xtime, /*修改语序:Yobjnam2(uwep, amount == 0 ? "爆发出" : "发出"), color,*/
+        pline("%s%s%s的光.",
+              Yobjnam2(uwep, amount == 0 ? "猛烈地发出" : "发出"), xtime, /*修改语序:Yobjnam2(uwep, amount == 0 ? "爆发出" : "发出"), color,*/
               color); /*修改语序:xtime);*/
         if (otyp != STRANGE_OBJECT && uwep->known
             && (amount > 0 || (amount < 0 && otmp->bknown)))

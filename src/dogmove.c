@@ -352,7 +352,7 @@ dog_starve(struct monst *mtmp)
     else if (cansee(mtmp->mx, mtmp->my))
         pline_mon(mtmp, "%s饿得很难受.", Monnam(mtmp));
     else
-        You_feel("%s了一会儿.",
+        You_feel("%s了一会.",
                     Hallucination ? "沮丧" : "悲伤");
     mondied(mtmp);
 }
