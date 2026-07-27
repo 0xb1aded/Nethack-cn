@@ -377,7 +377,7 @@ doaltarobj(struct obj *obj)
     }
 
     if (obj->blessed || obj->cursed) {
-        There("%s%s祭坛上时, 祭坛闪出了%s光.",
+        pline("%s%s祭坛上时, 祭坛闪出了%s光.", /*换pline:There*/
               doname(obj), /*修改语序:an(hcolor(obj->blessed ? NH_AMBER : NH_BLACK)), doname(obj),*/
               otense(obj, "落到"), hcolor(obj->blessed ? NH_AMBER : NH_BLACK)); /*修改语序:otense(obj, "碰到"));*/
         if (!Hallucination)
