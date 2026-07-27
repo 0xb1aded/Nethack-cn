@@ -1045,7 +1045,7 @@ revive(struct obj *corpse, boolean by_hero)
             Strcat(buf, corpse_xname(corpse, (const char *) 0, CXN_NO_PFX)); /*修改语序：Strcat(buf, corpse_xname(corpse, (const char *) 0, CXN_NO_PFX));*/
             if (one_of) /* could be simplified to ''corpse->quan = 1L;'' */
                 corpse->quan--;
-            pline("%s发出虹彩色的光.", upstart(buf));
+            pline("%s发出虹彩色光.", upstart(buf));
             iflags.last_msg = PLNMSG_OBJ_GLOWS; /* usually for BUC change */
         } else if (shkp) {
             /* need some prior description of the corpse since

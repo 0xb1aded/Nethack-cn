@@ -4315,7 +4315,7 @@ doapply(void)
             /* sometimes the blessing will be worn off */
             if (!rn2(49)) {
                 if (!Blind) {
-                    pline("%s了%s的光.", Yobjnam2(obj, "发出"), hcolor("褐色"));
+                    pline("%s了%s光.", Yobjnam2(obj, "发出"), hcolor("褐色"));
                     set_bknown(obj, 1);
                 }
                 unbless(obj);
