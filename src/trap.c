@@ -5926,9 +5926,9 @@ untrap(
             Strcpy(the_trap, the(trapdescr));
             if (boxcnt) {
                 if (is_pit(ttmp->ttyp)) {
-                    You_cant("%s接触%s%s.", the_trap, u.utrap ? "" : "当站在它的边缘时"/*修改语序:自己看*/
+                    You_cant("%s%s%s.", u.utrap ? "接触" : "在", the_trap, /*修改语序:自己看*/
                              u.utrap ? ", 因为你卡在里面"
-                                     : "");
+                                     : "的边缘接触它");
                     trap_skipped = TRUE;
                     deal_with_floor_trap = FALSE;
                 } else {
