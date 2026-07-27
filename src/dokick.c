@@ -664,7 +664,7 @@ really_kick_object(coordxy x, coordxy y)
             }
         } else {
             if (!rn2(3) || (martial() && !rn2(2))) {
-                pline_The("盖子砰的一声打开了, 然后又合上了.");
+                pline_The("盖子砰的一声打开, 然后又合上了.");
                 gk.kickedobj->lknown = 1;
                 if (otrp)
                     (void) chest_trap(gk.kickedobj, LEG, FALSE);
