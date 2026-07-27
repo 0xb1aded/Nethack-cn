@@ -682,7 +682,7 @@ disco_typename(int otyp)
             Sprintf(buf, " [%s] (", actualn);
             (void) strsubst(result, " (", buf);
         } else {
-            Sprintf(eos(result), " [ %s]", actualn);
+            Sprintf(eos(result), " [%s]", actualn);
         }
     }
     return result;
