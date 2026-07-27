@@ -2292,8 +2292,8 @@ dopayobj(
         if (!unseen)
             shk_names_obj(shkp, obj,
                           consumed
-                              ? "以%ld 金币%s付下了%s的费用.%s"
-                              : "以%ld 金币%s买下了%s.%s",
+                              ? "付下了%s的%ld 金币%s的费用.%s"
+                              : "买下了%s, 花费了%ld 金币%s.%s",  /*待写:函数就是这么写的我能怎么办,,,*/
                           ltmp, "");
     }
 
@@ -2405,7 +2405,7 @@ buy_container(
         if (unpaidcontainer)
             container->unpaid = container->no_charge = 1;
         shk_names_obj(shkp, container,
-                      "以%ld 金币%s买下了%s.%s",
+                      "买下了%s, 花费了%ld 金币%s.%s", /*待写:函数就是这么写的我能怎么办,,,*/
                       totalcost, "");
         container->unpaid = container->no_charge = 0;
     }
@@ -3443,7 +3443,7 @@ shk_names_obj(
         pline(fmtbuf, obj_name, (obj->quan > 1L) ? "它们" : "它", amt,
               plur(amt), arg);
     } else {
-        You(fmt, amt, plur(amt), obj_name, arg); /*You(fmt, amt, obj_name, arg, plur(amt));*/ /*危险，修改语序:You(fmt, obj_name, amt, plur(amt), arg);*/
+        You(fmt, obj_name, amt, plur(amt), arg); /*You(fmt, amt, obj_name, arg, plur(amt));*/ /*危险，修改语序:You(fmt, obj_name, amt, plur(amt), arg);*/
     }
 }
 
@@ -4071,7 +4071,7 @@ sellobj(
             shk_names_obj(shkp, obj,
                           ((gs.sell_how != SELL_NORMAL)
                            ? "用%s换来了%ld zorkmid%s的%s信用."
-                    : "丢下%s, 得到了%ld zorkmid%s的%s信用."),
+                    : "丢下了%s, 得到了%ld zorkmid%s的%s信用."),
                           tmpcr, (eshkp->credit > 0L) ? "额外" : "");
             eshkp->credit += tmpcr;
             if (container)
@@ -4185,9 +4185,9 @@ sellobj(
             shk_names_obj(shkp, obj,
                           (gs.sell_how != SELL_NORMAL)
                            ? ((!ltmp && cltmp && only_partially_your_contents)
-                         ? "卖掉%s里的部分内容物, 获得了%ld 金币%s.%s"
-                         : "卖掉%s, 获得了%ld 金币%s.%s")
-            : "丢下%s, 得到了%ld 金币%s作为补偿.%s",
+                         ? "卖掉了%s里的部分内容物, 获得了%ld 金币%s.%s"
+                         : "卖掉了%s, 获得了%ld 金币%s.%s")
+            : "丢下了%s, 得到了%ld 金币%s作为补偿.%s",
                           offer, "");
             break;
         default:
