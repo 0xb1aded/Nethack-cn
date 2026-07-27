@@ -2565,9 +2565,9 @@ avoid_trap_andor_region(coordxy x, coordxy y)
         int traptype = (Hallucination ? rnd(TRAPNUM - 1) : (int) trap->ttyp);
         boolean into = into_vs_onto(traptype);
 
-        Snprintf(qbuf, sizeof qbuf, "真的要%s%s那个%s?",
-                 u_locomotion("走"), into ? "进" : "上",
-                 defsyms[trap_to_defsym(traptype)].explanation);
+        Snprintf(qbuf, sizeof qbuf, "真的要%s到那个%s%s?", /*修改语序:Snprintf(qbuf, sizeof qbuf, "真的要%s%s那个%s?",*/
+                 u_locomotion("走"), /*修改语序:u_locomotion("走"), into ? "进" : "上",*/
+                 defsyms[trap_to_defsym(traptype)].explanation, into ? "进" : "上"); /*修改语序:defsyms[trap_to_defsym(traptype)].explanation);*/
         /* handled like paranoid_confirm:pray; when paranoid_confirm:trap
            isn't set, don't ask at all but if it is set (checked above),
            ask via y/n if parnoid_confirm:confirm isn't also set or via
