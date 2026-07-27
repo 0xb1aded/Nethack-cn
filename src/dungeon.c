@@ -3513,7 +3513,7 @@ print_mapseen(
     if (mptr->custom)
         Sprintf(eos(buf), " \" %s\"", mptr->custom);
     if (on_level(&u.uz, &mptr->lev))
-        Sprintf(eos(buf), " <- 你%s这里.",
+        Sprintf(eos(buf), " <- 你%s.",
                 (final <= 0 || (final == 1 && how == ASCENDED)) ? "在这里"
                 : (final == 1 && how == ESCAPED)                ? "在这里逃离了"
                                                                 : "曾在这里");
