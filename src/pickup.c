@@ -238,7 +238,7 @@ query_classes(
                         where = !strcmp(action, "pick up") ? "这里"
                                 : !strcmp(action, "take out") ? "里面" : "";
                     if (*where)
-                        There("没有%c在%s.", sym, where); /*修改语序:There("没有%c 在%s.", sym, where);*/
+                        pline("%s没有%c.", where, sym); /*修改语序:There("没有%c 在%s.", sym, where);*/
                     else
                         You("没有%c.", sym);
                     not_everything = TRUE;
@@ -1662,11 +1662,11 @@ carry_count(struct obj *obj,            /* object to pick up... */
         /* some message will be given */
         Strcpy(obj_nambuf, doname(obj));
         if (container) {
-            Sprintf(where, "在%s里面", the(xname(container)));
+            Sprintf(where, "%s里", the(xname(container)));
             verb = "拿";
             verb2 = "出";
         } else {
-            Strcpy(where, "放在这里");
+            Strcpy(where, "这里"); /*危险:lying here*/
             verb = telekinesis ? "吸" : "拿";
             verb2 = "起";
         }
@@ -1686,7 +1686,7 @@ carry_count(struct obj *obj,            /* object to pick up... */
     }
 
     if (!container)
-        Strcpy(where, "在这里"); /* slightly shorter form */
+        Strcpy(where, "这里"); /* slightly shorter form */
     if (gi.invent || umoney) {
         prefx1 = "你一点也";
         prefx2 = "";
@@ -1696,7 +1696,7 @@ carry_count(struct obj *obj,            /* object to pick up... */
         prefx2 = (obj->quan == 1L) ? "" : "一个都";
         suffx = "来了";
     }
-    There("%s%s%s, 但%s%s%s不%s%s.", otense(obj, "有"), obj_nambuf, where,
+    pline("%s%s%s, 但%s%s%s不%s%s.", where, otense(obj, "有"), obj_nambuf, /*换pline,修改语序:There,自己看*/
           prefx1, prefx2, verb, verb2, suffx);
 
     /* *wt_after = iw; */

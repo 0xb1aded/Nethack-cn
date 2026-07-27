@@ -331,7 +331,7 @@ wiz_kill(void)
             if (u.utotype || !on_level(&u.uz, &uarehere))
                 break;
         } else {
-            There("那里没有怪物.");
+            pline("那里没有怪物."); /*换pline:There*/
             break;
         }
     }

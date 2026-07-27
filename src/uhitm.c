@@ -287,7 +287,7 @@ attack_checks(
                       notseen ? "生物" : (const char *) lmonbuf,
                       notseen ? "在那里" : "出现了");
             else if (Blind || (is_pool(mtmp->mx, mtmp->my) && !Underwater))
-                pline("等等! 那里有个隐藏的怪物!");
+                pline("等等! 那里有一个隐藏的怪物!");
             else if ((obj = svl.level.objects[mtmp->mx][mtmp->my]) != 0)
                 pline("等等! 有%s藏在%s底下!",
                       notseen ? something : (const char *) an(lmonbuf),

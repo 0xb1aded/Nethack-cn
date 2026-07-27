@@ -1843,13 +1843,13 @@ dohide(void)
     }
     /* Planes of Air and Water */
     if (on_ceiling && !has_ceiling(&u.uz)) {
-        There("上面无处可藏.");
+        There("上方无处可藏.");
         u.uundetected = 0;
         return ECMD_OK;
     }
     if ((is_hider(gy.youmonst.data) && !Flying) /* floor hider */
         && (Is_airlevel(&u.uz) || Is_waterlevel(&u.uz))) {
-        There("下面无处可藏.");
+        There("上方无处可藏.");
         u.uundetected = 0;
         return ECMD_OK;
     }

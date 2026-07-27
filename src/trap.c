@@ -5454,7 +5454,7 @@ try_disarm(
     }
     /* We might be forced to move onto the trap's location. */
     if (sobj_at(BOULDER, ttmp->tx, ttmp->ty) && !Passes_walls && !under_u) {
-        There("有个巨石挡在你前面.");
+        There("有一个巨石挡在你前面.");
         return 0;
     }
     /* duplicate tight-space checks from test_move */
@@ -5828,9 +5828,9 @@ untrap_box(
         || box->tknown
         || (!force && confused && !rn2(3))) {
         if (!(box->tknown && box->dknown))
-            You("发现在%s上有个陷阱!", the(xname(box)));
+            You("发现%s上有一个陷阱!", the(xname(box)));
         else
-            pline("%s上有个陷阱.", the(xname(box)));
+            pline("%s上有一个陷阱.", the(xname(box)));
         box->tknown = 1;
         observe_object(box);
         if (!confused)
@@ -5915,7 +5915,7 @@ untrap(
         useplural = ((ttmp && boxcnt > 0) || boxcnt > 1);
         /* note: boxcnt and useplural will always be 0 for !here case */
         if (ttmp || boxcnt)
-            There("%s%s%s, 但是你%s够不到%s.",
+            pline("%s%s%s, 但是你%s够不到%s.", /*换pline:There*/
                   useplural ? "有一些" : "有一个", the_trap, here ? "在这里" : "在那里",
                   u.usteed ? "在骑乘时" : "", /*修改语序:useplural ? "它们" : "它",*/
                   useplural ? "它们" : "它"); /*修改语序:u.usteed ? "在骑乘时" : "");*/

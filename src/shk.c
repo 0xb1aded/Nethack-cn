@@ -1783,7 +1783,7 @@ dopay(void)
     }
 
     if ((!sk && (!Blind || Blind_telepat)) || (!Blind && !seensk)) {
-        There("似乎没有店主来收你的付款.");
+        There("似乎没有店主来接收你的付款.");
         return ECMD_OK;
     }
 
@@ -1837,7 +1837,7 @@ dopay(void)
             return ECMD_OK;
         }
         if (!mtmp) {
-            There("没有人在那里接收你的付款.");
+            pline("那里没有人接收你的付款."); /*换pline:There*/
             return ECMD_OK;
         }
         if (!mtmp->isshk) {
