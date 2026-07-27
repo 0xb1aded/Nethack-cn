@@ -656,9 +656,9 @@ peffect_restore_ability(struct obj *otmp)
            does not recover temporary strength loss due to hunger
            or temporary dexterity loss due to wounded legs */
         pline("哇! 这让你感觉%s!",
-              (!otmp->blessed) ? "挺好"
-              : unfixable_trouble_count(FALSE) ? "极好"
-                : "很好");
+              (!otmp->blessed) ? "挺棒"
+              : unfixable_trouble_count(FALSE) ? "非常棒"
+                : "很棒");
         i = rn2(A_MAX); /* start at a random point */
         for (ii = 0; ii < A_MAX; ii++) {
             int lim = AMAX(i);
