@@ -627,7 +627,7 @@ disclose(int how, boolean taken)
 
     if (gi.invent && !done_stopprint) {
         if (taken)
-            Sprintf(qbuf, "你想查看在你%s时本来有什么吗?",
+            Sprintf(qbuf, "你想查看你%s时本来有什么吗?",
                     (how == QUIT) ? "退出" : "死亡");
         else
             Strcpy(qbuf, "你想鉴明你的全部物品吗?");

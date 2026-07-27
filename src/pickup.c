@@ -305,7 +305,7 @@ rider_corpse_revival(struct obj *obj, boolean remotely)
     if (!obj || obj->otyp != CORPSE || !is_rider(&mons[obj->corpsenm]))
         return FALSE;
 
-    pline("在你%s尸体的时候, 它突然移动了...",
+    pline("你%s尸体时, 它突然动了起来...",
           remotely ? "试图拿起" : "触碰");
     (void) revive_corpse(obj);
     exercise(A_WIS, FALSE);

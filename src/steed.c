@@ -246,7 +246,7 @@ mount_steed(
         return (FALSE);
     }
     if (!force && (near_capacity() > SLT_ENCUMBER)) {
-        You_cant("在携带这么多物品时这么做.");
+        You("携带的物品太多, 做不了."); /*换pline:You_cant*/
         return (FALSE);
     }
 

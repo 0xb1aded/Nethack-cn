@@ -2062,7 +2062,7 @@ canwearobj(struct obj *otmp, long *mask, boolean noisy)
 
     if (welded(uwep) && bimanual(uwep) && (is_suit(otmp) || is_shirt(otmp))) {
         if (noisy)
-            You("不能在拿着你的%s的时候做那个.",
+            You("不能在拿着你的%s时做那个.",
                 is_sword(uwep) ? c_sword : c_weapon);
         return 0;
     }
@@ -2729,7 +2729,7 @@ select_off(struct obj *otmp)
     /* special glove checks */
     if (otmp == uarmg) {
         if (welded(uwep)) {
-            You("不能在拿着那个%s的时候取下你的%s.",
+            You("不能在拿着那个%s时取下你的%s.",
                 is_sword(uwep) ? c_sword : c_weapon, c_gloves); /*修改语序:c_gloves, is_sword(uwep) ? c_sword : c_weapon);*/
             set_bknown(uwep, 1);
             return 0;

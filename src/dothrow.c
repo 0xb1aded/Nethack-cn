@@ -948,7 +948,7 @@ hurtle_step(genericptr_t arg, coordxy x, coordxy y)
             dotrap(ttmp, NO_TRAP_FLAGS);
             return FALSE;
         } else if (ttmp->ttyp == VIBRATING_SQUARE) {
-            pline("当你经过它时, 地面在振动.");
+            pline("你经过它时, 地面在振动.");
             dotrap(ttmp, NO_TRAP_FLAGS); /* doesn't print messages */
         } else if (ttmp->ttyp == FIRE_TRAP) {
             dotrap(ttmp, NO_TRAP_FLAGS);
@@ -1533,7 +1533,7 @@ throwit(
             if (obj->greased || throwing_weapon(obj))
                 /* BUG: this message is grammatically incorrect if obj has
                    a plural name; greased gloves or boots for instance. */
-                pline("在你投掷%s, 它滑了出去!", Tobjnam(obj, "的时候"));
+                pline("你投掷%s, 它滑了出去!", Tobjnam(obj, "时"));
             else
                 slipok = FALSE;
         }

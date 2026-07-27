@@ -348,7 +348,7 @@ do_oname(struct obj *obj)
         do {
             wipeout_text(bufp, rnd_on_display_rng(2), (unsigned) 0);
         } while (!strcmp(buf, bufcpy));
-        pline("在刻字时, 你的%s滑了一下.", body_part(HAND));
+        pline("刻字时, 你的%s滑了一下.", body_part(HAND));
         display_nhwindow(WIN_MESSAGE, FALSE);
         You("刻下了: \"%s\".", buf);
         /* violate illiteracy conduct since hero attempted to write

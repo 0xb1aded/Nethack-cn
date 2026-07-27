@@ -1281,7 +1281,7 @@ weapon_insight(int final)
     /* two-weaponing implies hands and
        a weapon or wep-tool (not other odd stuff) in each hand */
     } else if (u.twoweap) {
-        you_are("在同时装备两件武器", "");
+        you_are("同时装备两件武器", "");
 
     /* report most weapons by their skill class (so a katana will be
        described as a long sword, for instance; mattock, hook, and aklys

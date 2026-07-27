@@ -696,7 +696,7 @@ wield_tool(struct obj *obj,
                    || strstri(what, "s of ") != 0);
 
     if (obj->owornmask & (W_ARMOR | W_ACCESSORY)) {
-        You_cant("在戴着%s的时候%s%s.", yname(obj), verb, /*修改语序，危险:You_cant("%s %s while wearing %s.", verb, yname(obj),*/
+        You_cant("在戴着%s时%s%s.", yname(obj), verb, /*修改语序，危险:You_cant("%s %s while wearing %s.", verb, yname(obj),*/
                  more_than_1 ? "它们" : "它"); /*修改语序:more_than_1 ? "them" : "it");*/
         return FALSE;
     }
@@ -722,7 +722,7 @@ wield_tool(struct obj *obj,
     }
     /* check shield */
     if (uarms && bimanual(obj)) {
-        You("不能在穿戴盾牌的时候%s双手%s.", verb,
+        You("不能在穿戴盾牌时%s双手%s.", verb,
             (obj->oclass == WEAPON_CLASS) ? "武器" : "工具");
         return FALSE;
     }

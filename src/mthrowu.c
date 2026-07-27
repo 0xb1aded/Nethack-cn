@@ -624,7 +624,7 @@ m_throw(
             if (is_ammo(singleobj))
                 pline("%s没有发射!", Monnam(mon));
             else
-                pline("当%s投掷时, %s了!", mon_nam(mon), /*修改语序:pline("%s了当%s投掷时!", Tobjnam(singleobj, "滑落"),*/
+                pline("%s投掷时, %s了!", mon_nam(mon), /*修改语序:pline("%s了当%s投掷时!", Tobjnam(singleobj, "滑落"),*/
                       Tobjnam(singleobj, "滑落")); /*修改语序:mon_nam(mon));*/
         }
         dx = rn2(3) - 1;

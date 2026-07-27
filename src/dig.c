@@ -977,7 +977,7 @@ dighole(boolean pit_only, boolean by_magic, coord *cc)
             lev->drawbridgemask &= ~DB_UNDER;
             lev->drawbridgemask |= (typ == LAVAPOOL) ? DB_LAVA : DB_MOAT;
             liquid_flow(dig_x, dig_y, typ, ttmp,
-                        "在你挖掘时, 洞里渗满了%s!");
+                        "你挖掘时, 洞里渗满了%s!");
             retval = TRUE;
         }
 
@@ -996,7 +996,7 @@ dighole(boolean pit_only, boolean by_magic, coord *cc)
             if (!furniture_handled((int) dig_x, (int) dig_y, TRUE)) {
                 lev->typ = typ;
                 liquid_flow(dig_x, dig_y, typ, ttmp,
-                            "在你挖掘时, 洞里渗满了%s!");
+                            "你挖掘时, 洞里渗满了%s!");
             }
             retval = TRUE;
         } else {
@@ -1111,7 +1111,7 @@ use_pick_axe(struct obj *obj)
     verb = ispick ? "挖" : "劈";
 
     if (u.utrap && u.utraptype == TT_WEB) {
-        pline("%s你不能在被卷入网中的时候%s东西.",
+        pline("%s你不能在被卷入网中候%s东西.",
               /* res==0 => no prior message;
                  res==1 => just got "You now wield a pick-axe." message */
               !res ? "不幸的是, " : "但", verb);

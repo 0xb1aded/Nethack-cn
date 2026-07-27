@@ -645,7 +645,7 @@ polyself(int psflags)
                     /* tricky phrasing; dragon scale mail is singular, dragon
                        scales are plural (note: we don't use "set of scales",
                        which usually overrides the distinction, here) */
-                    Your("在融合的时候, %s恢复成了鳞!", buf);
+                    Your("%s融合时, 恢复成了鳞!", buf);
                     /* uarm->spe enchantment remains unchanged;
                        re-converting scales to mail poses risk
                        of evaporation due to over enchanting */
@@ -1782,7 +1782,7 @@ dohide(void)
     /* can't hide while being held (or holding) or while trapped
        (except for floor hiders [trapper or mimic] in pits) */
     if (u.ustuck || (u.utrap && (u.utraptype != TT_PIT || on_ceiling))) {
-        You_cant("在你%s的时候躲藏.",
+        You_cant("在%s时躲藏.",
                  !u.ustuck ? "受困"
                    : u.uswallow ? (digests(u.ustuck->data) ? "被吞咽"
                                                            : "被吞没")

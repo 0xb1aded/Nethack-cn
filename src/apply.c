@@ -117,7 +117,7 @@ use_towel(struct obj *obj)
         You("没有空余的%s!", body_part(HAND));
         return ECMD_OK;
     } else if (obj == ublindf) {
-        You("不能在穿戴着它的时候使用它!");
+        You("不能在穿戴它时使用它!");
         return ECMD_OK;
     } else if (obj->cursed) {
         long old;
