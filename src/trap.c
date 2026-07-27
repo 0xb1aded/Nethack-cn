@@ -1380,7 +1380,7 @@ trapeffect_rocktrap(
         if (trap->once && trap->tseen && !rn2(15)) {
             if (in_sight && see_it)
                 pline_mon(mtmp,
-                      "%s上的陷阱门打开了, 但是没有东西落下!",
+                      "%s顶上的陷阱门打开了, 但是没有东西落下!",
                       mon_nam(mtmp));
             deltrap(trap);
             newsym(mtmp->mx, mtmp->my);

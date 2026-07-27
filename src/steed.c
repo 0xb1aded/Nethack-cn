@@ -343,7 +343,7 @@ mount_steed(
             pline("%s从你身边溜走了.", Monnam(mtmp));
             return FALSE;
         }
-        You("在试图骑上%s时滑了下来.", mon_nam(mtmp));
+        You("试图骑上%s, 但滑了下来.", mon_nam(mtmp));
 
         Sprintf(buf, "在试图骑上%s时滑倒",
                 /* "a saddled mumak" or "a saddled pony called Dobbin" */
