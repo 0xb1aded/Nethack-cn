@@ -3592,7 +3592,7 @@ dotip(void)
     if (boxes > 0
         && (!iflags.menu_requested
             || (flags.menu_style == MENU_TRADITIONAL && boxes > 1))) {
-        Sprintf(buf, "在携带这么多物品时倒空%s.",
+        Sprintf(buf, "携带的物品太多, 无法倒空%s.",
                 !flags.verbose ? "一个箱子" : (boxes > 1) ? "其中的一个" : "它");
         if (!check_capacity(buf) && able_to_loot(cc.x, cc.y, FALSE)) {
             if (boxes > 1) {
