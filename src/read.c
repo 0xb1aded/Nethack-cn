@@ -1255,7 +1255,7 @@ seffect_enchant_armor(struct obj **sobjp)
           (s == 0) ? "猛烈地" : "",
           otense(otmp, Blind ? "振动" : "发出"),
           (!Blind && !same_color) ? "" : "",
-          (s * s > 1) ? "一会" : "片刻", (Blind || same_color) ? "" : "的", /*修改语序:(Blind || same_color);*/
+          (s * s > 1) ? "一会" : "片刻", (Blind || same_color) ? "" : ((s * s > 1) ? "" : "的"), /*修改语序:(Blind || same_color);*/
           (Blind || same_color) ? "" : hcolor(scursed ? NH_BLACK : NH_SILVER), /*修改语序:? "" : hcolor(scursed ? NH_BLACK : NH_SILVER), (Blind || same_color) ? "" : "光",*/ /*修改语序:? "" : hcolor(scursed ? NH_BLACK : NH_SILVER),*/
           (Blind || same_color) ? "" : "光"); /*修改语序:(s * s > 1) ? "一会儿" : "一刹那");*/
     /* [this cost handling will need updating if shop pricing is
