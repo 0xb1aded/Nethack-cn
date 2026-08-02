@@ -8350,8 +8350,8 @@ redo_opt_help:
            and show that, or whether #reqmenu and #options are both still
            bound to keys and show those, but if meta keys are involved
            the player might not know how to type them; keep this simple */
-        Strcpy(buf, "Use command '#optionsfull'"
-                    " to get the complete options list.");
+        Strcpy(buf, "使用'#optionsfull'"
+                    "命令以获得完整的选项菜单.");
         add_menu_str(tmpwin, buf);
     }
     any = cg.zeroany;
