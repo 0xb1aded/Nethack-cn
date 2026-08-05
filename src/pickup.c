@@ -1854,7 +1854,7 @@ pickup_object(
         } else if (!obj->spe && !obj->cursed) {
             obj->spe = 1;
         } else {
-            pline_The("当你%s起卷轴时, %s%s%s为了尘土", telekinesis ? "升" : "捡", /*修改语序:pline_The("卷轴%s%s为了尘土当你%s起来%s时.", plur(obj->quan),*/
+            pline_The("当你%s起卷轴时, %s%s%s为了尘土.", telekinesis ? "升" : "捡", /*修改语序:pline_The("卷轴%s%s为了尘土当你%s起来%s时.", plur(obj->quan),*/
                       (obj->quan == 1L) ? "它" : "它们", plur(obj->quan), /*修改语序:otense(obj, "化"), telekinesis ? "升" : "捡",*/
                       otense(obj, "化")); /*修改语序:(obj->quan == 1L) ? "它" : "它们");*/
             trycall(obj);
