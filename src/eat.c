@@ -2207,14 +2207,14 @@ fprefx(struct obj *otmp)
 #endif
         } else {
  give_feedback:
-            pline("这%s很%s", singular(otmp, xname),
+            pline("这%s%s", singular(otmp, xname),
                   otmp->cursed
-                     ? (Hallucination ? "恶心!" : "可怕!")
+                     ? (Hallucination ? "很恶心!" : "很难吃!")
                      : (otmp->otyp == CRAM_RATION
                         || otmp->otyp == K_RATION
                         || otmp->otyp == C_RATION)
                         ? "平淡."
-                        : Hallucination ? "粗糙!" : "美味!");
+                        : Hallucination ? "绝了!" : "很美味!");
         }
         break; /* default */
     } /* switch */

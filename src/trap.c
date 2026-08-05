@@ -372,7 +372,7 @@ grease_protect(
             pline("%s的%s%s%s", Monnam(victim),
                   ostr, vtense(ostr, "受到"), txt);
     } else if (victim == &gy.youmonst || vismon) {
-        pline("%s%s", Yobjnam2(otmp, "收到"), txt);
+        pline("%s%s", Yobjnam2(otmp, "受到"), txt);
     }
     if (!rn2(2)) {
         otmp->greased = 0;
@@ -4245,7 +4245,7 @@ dofiretrap(
         pline("一股瀑布状的气泡从%s中喷出!",
               the(box ? xname(box) : surface(u.ux, u.uy)));
         if (Fire_resistance)
-            You("未受伤害");
+            You("未受伤害.");
         else
             losehp(rnd(3), "沸水", KILLED_BY);
         return;
