@@ -895,6 +895,8 @@ checkfile(
         dbase_str += strlen("那个");
     else if (!strncmp(dbase_str, "被称为", strlen("被称为")))
         dbase_str += strlen("被称为");
+    else if (!strncmp(dbase_str, "名为", strlen("名为")))
+        dbase_str += strlen("被称为");
     else if (!strncmp(dbase_str, "叫做", strlen("叫做")))
         dbase_str += strlen("叫做");
     else if (digit(*dbase_str)) {

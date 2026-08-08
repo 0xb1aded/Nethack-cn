@@ -882,7 +882,7 @@ xname_flags(
     if (has_oname(obj) && dknown) {
     	if (!wenthere)
         {
-            Concat(buf, 0, "被称为"); /*冗余:你懂吧*/
+            Concat(buf, 0, "名为"); /*冗余:你懂吧*/
         }
 
         /* jump directly here if obj passes the has-personal-name test */
@@ -6359,6 +6359,19 @@ readobjnam_postparse1(struct _readobjnam_data *d)
         *d->p = 0;
         /* note: if 'un' is too long, obj lookup just won't match anything */
         d->un = d->p + strlen("被称为");
+        /* "helmet called telepathy" is not "helmet" (a specific type)
+         * "shield called reflection" is not "shield" (a general type)
+         */
+        for (i = 0; i < SIZE(o_ranges); i++)
+            if (!strcmpi(d->bp, o_ranges[i].name)) {
+                d->oclass = o_ranges[i].oclass;
+                return 1; /*goto srch;*/
+            }
+    }
+    if ((d->p = strstri(d->bp, "叫做")) != 0) {
+        *d->p = 0;
+        /* note: if 'un' is too long, obj lookup just won't match anything */
+        d->un = d->p + strlen("叫做");
         /* "helmet called telepathy" is not "helmet" (a specific type)
          * "shield called reflection" is not "shield" (a general type)
          */
