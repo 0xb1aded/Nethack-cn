@@ -697,7 +697,7 @@ const struct Gender genders[] = {
 
 /* Table of all alignments */
 const struct Align aligns[] = {
-    { "秩序", "秩序", "考",", ROLE_LAWFUL, A_LAWFUL },
+    { "秩序", "秩序", "Law", "秩", ROLE_LAWFUL, A_LAWFUL },
     { "中立", "中立", "Neu", "中", ROLE_NEUTRAL, A_NEUTRAL },
     { "混沌", "混沌", "Cha", "混", ROLE_CHAOTIC, A_CHAOTIC },
     { "邪恶", "无阵营", "Una", "无", 0, A_NONE }
@@ -764,7 +764,7 @@ str2role(const char *str)
         if (roles[i].name.f && !strncmpi(str, roles[i].name.f, len))
             return i;
         /* Or the filecode? */
-        if (!strcmpi(str, roles[i].efilecode))
+        if (!strcmpi(str, roles[i].filecode))
             return i;
     }
 
@@ -830,7 +830,7 @@ str2race(const char *str)
         if (races[i].adj && !strncmpi(str, races[i].adj, len))
             return i;
         /* Or the filecode? */
-        if (!strcmpi(str, races[i].efilecode))
+        if (!strcmpi(str, races[i].filecode))
             return i;
     }
 
@@ -894,7 +894,7 @@ str2gend(const char *str)
         if (!strncmpi(str, genders[i].adj, len))
             return i;
         /* Or the filecode? */
-        if (!strcmpi(str, genders[i].efilecode))
+        if (!strcmpi(str, genders[i].filecode))
             return i;
     }
     if ((len == 1 && (*str == '*' || *str == '@'))
@@ -957,7 +957,7 @@ str2align(const char *str)
         if (!strncmpi(str, aligns[i].adj, len))
             return i;
         /* Or the filecode? */
-        if (!strcmpi(str, aligns[i].efilecode))
+        if (!strcmpi(str, aligns[i].filecode))
             return i;
     }
     if ((len == 1 && (*str == '*' || *str == '@'))
