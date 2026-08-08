@@ -1,4 +1,5 @@
-/* NetHack 5.0	dungeon.c	$NHDT-Date: 1737343478 2025/01/19 19:24:38 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.228 $ */
+/* NetHack 5.0	dungeon.c	$NHDT-Date: 1737343478 2025/01/19 19:24:38 $
+ * $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.228 $ */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /*-Copyright (c) Robert Patrick Rankin, 2012. */
 /* NetHack may be freely redistributed.  See license for details. */
@@ -62,7 +63,7 @@ staticfn void fixup_level_locations(void);
 staticfn void free_proto_dungeon(struct proto_dungeon *);
 staticfn void earth_sense(void);
 staticfn boolean init_dungeon_dungeons(lua_State *, struct proto_dungeon *,
-                                      int);
+                                       int);
 staticfn boolean unplaced_floater(struct dungeon *);
 staticfn boolean unreachable_level(d_level *, boolean);
 staticfn void tport_menu(winid, char *, struct lchoice *, d_level *, boolean);
@@ -82,12 +83,13 @@ staticfn void traverse_mapseenchn(int, winid, int, int, int *);
 staticfn const char *seen_string(xint16, const char *) NONNULL NONNULLARG2;
 staticfn const char *br_string2(branch *) NONNULL NONNULLARG1;
 staticfn const char *shop_string(int) NONNULL;
-staticfn char *tunesuffix(mapseen *, char *, size_t) NONNULL NONNULLPTRS;
+staticfn char *
+tunesuffix(mapseen *, char *, size_t)
+NONNULL NONNULLPTRS;
 
 #ifdef DEBUG
 staticfn void dumpit(void);
 
-static const char* cdungeonsnames[] = {"命运地牢", "地狱", "侏儒矿坑", "任务", "推箱子", "吕底俄斯堡", "弗拉德塔", "元素位面", "教程"};
 staticfn void
 dumpit(void)
 {
@@ -125,15 +127,11 @@ dumpit(void)
     fprintf(stderr, "\nBranches:\n");
     for (br = svb.branches; br; br = br->next) {
         fprintf(stderr, "%d: %s, end1 %d %d, end2 %d %d, %s\n", br->id,
-                br->type == BR_STAIR
-                    ? "stair"
-                    : br->type == BR_NO_END1
-                        ? "no end1"
-                        : br->type == BR_NO_END2
-                            ? "no end2"
-                            : br->type == BR_PORTAL
-                                ? "portal"
-                                : "unknown",
+                br->type == BR_STAIR     ? "stair"
+                : br->type == BR_NO_END1 ? "no end1"
+                : br->type == BR_NO_END2 ? "no end2"
+                : br->type == BR_PORTAL  ? "portal"
+                                         : "unknown",
                 br->end1.dnum, br->end1.dlevel, br->end2.dnum,
                 br->end2.dlevel, br->end1_up ? "end1 up" : "end1 down");
     }
@@ -147,10 +145,7 @@ dumpit(void)
 
 /* Save the dungeon structures. */
 void
-save_dungeon(
-    NHFILE *nhfp,
-    boolean perform_write,
-    boolean free_data)
+save_dungeon(NHFILE *nhfp, boolean perform_write, boolean free_data)
 {
     int i, count;
     branch *curr, *next;
@@ -287,7 +282,7 @@ dname_to_dnum(const char *s)
     xint16 i;
 
     for (i = 0; i < svn.n_dgns; i++)
-        if (!strcmp(svd.dungeons[i].dname, s))
+        if (!strcmp(svd.dungeons[i].dname, s) || !strcmp(svd.dungeons[i].dcname, s))
             return i;
 
     panic("Couldn't resolve dungeon number for name \"%s\".", s);
@@ -309,9 +304,8 @@ find_level(const char *s)
 
 /* Find the branch that links the named dungeon. */
 staticfn int
-find_branch(
-    const char *s, /* dungeon name */
-    struct proto_dungeon *pd)
+find_branch(const char *s, /* dungeon name */
+            struct proto_dungeon *pd)
 {
     int i;
 
@@ -324,12 +318,12 @@ find_branch(
     } else {
         /* support for level tport by name */
         branch *br;
-        const char *dnam;
+        const char *dnam, *dcnam;
 
         for (br = svb.branches; br; br = br->next) {
-            dnam = svd.dungeons[br->end2.dnum].dname;
+            dnam = svd.dungeons[br->end2.dnum].dname; dcnam = svd.dungeons[br->end2.dnum].dcname;
             if (!strcmpi(dnam, s)
-                || (!strncmpi(dnam, "The ", 4) && !strcmpi(dnam + 4, s)))
+                || ((!strncmpi(dnam, "The ", 4) && !strcmpi(dnam + 4, s)) || !strcmpi(dnam, s) || !strcmpi(dcnam, s)))
                 break;
         }
         i = br ? ((ledger_no(&br->end1) << 8) | ledger_no(&br->end2)) : -1;
@@ -344,9 +338,8 @@ DISABLE_WARNING_UNREACHABLE_CODE
  * listing, then figuring out to which dungeon it belongs.
  */
 staticfn xint16
-parent_dnum(
-    const char *s, /* dungeon name */
-    struct proto_dungeon *pd)
+parent_dnum(const char *s, /* dungeon name */
+            struct proto_dungeon *pd)
 {
     int i;
     xint16 pdnum;
@@ -378,11 +371,8 @@ RESTORE_WARNING_UNREACHABLE_CODE
  *       end of the dungeon.
  */
 staticfn int
-level_range(
-    xint16 dgn,
-    int base, int randc, int chain,
-    struct proto_dungeon *pd,
-    int *adjusted_base)
+level_range(xint16 dgn, int base, int randc, int chain,
+            struct proto_dungeon *pd, int *adjusted_base)
 {
     int lmax = svd.dungeons[dgn].num_dunlevs;
 
@@ -482,7 +472,7 @@ insert_branch(branch *new_branch, boolean extract_first)
     new_branch->next = (branch *) 0;
 
 /* Convert the branch into a unique number so we can sort them. */
-#define branch_val(bp) \
+#define branch_val(bp)                                                     \
     ((((long) (bp)->end1.dnum * (MAXLEVEL + 1) + (long) (bp)->end1.dlevel) \
       * (MAXDUNGEON + 1) * (MAXLEVEL + 1))                                 \
      + ((long) (bp)->end2.dnum * (MAXLEVEL + 1) + (long) (bp)->end2.dlevel))
@@ -512,9 +502,7 @@ insert_branch(branch *new_branch, boolean extract_first)
 
 /* Add a dungeon branch to the branch list. */
 staticfn branch *
-add_branch(
-    int dgn, int child_entry_level,
-    struct proto_dungeon *pd)
+add_branch(int dgn, int child_entry_level, struct proto_dungeon *pd)
 {
     static int branch_id = 0;
     int branch_num;
@@ -596,10 +584,9 @@ init_level(int dgn, int proto_index, struct proto_dungeon *pd)
 }
 
 staticfn int
-possible_places(
-    int idx,      /* prototype index */
-    boolean *map, /* array MAXLEVEL+1 in length */
-    struct proto_dungeon *pd)
+possible_places(int idx,      /* prototype index */
+                boolean *map, /* array MAXLEVEL+1 in length */
+                struct proto_dungeon *pd)
 {
     int i, start, count;
     s_level *lev = pd->final_lev[idx];
@@ -630,9 +617,8 @@ DISABLE_WARNING_UNREACHABLE_CODE
 
 /* Pick the nth TRUE entry in the given boolean array. */
 staticfn xint16
-pick_level(
-    boolean *map, /* an array MAXLEVEL+1 in size */
-    int nth)
+pick_level(boolean *map, /* an array MAXLEVEL+1 in size */
+           int nth)
 {
     xint16 i;
     for (i = 1; i <= MAXLEVEL; i++)
@@ -708,33 +694,21 @@ place_level(int proto_index, struct proto_dungeon *pd)
 static struct level_map {
     const char *lev_name;
     d_level *lev_spec;
-} level_map[] = { { "air", &air_level },
-                  { "asmodeus", &asmodeus_level },
-                  { "astral", &astral_level },
-                  { "baalz", &baalzebub_level },
-                  { "bigrm", &bigroom_level },
-                  { "castle", &stronghold_level },
-                  { "earth", &earth_level },
-                  { "fakewiz1", &portal_level },
-                  { "fire", &fire_level },
-                  { "juiblex", &juiblex_level },
-                  { "knox", &knox_level },
-                  { "medusa", &medusa_level },
-                  { "oracle", &oracle_level },
-                  { "orcus", &orcus_level },
-                  { "rogue", &rogue_level },
-                  { "sanctum", &sanctum_level },
-                  { "valley", &valley_level },
-                  { "water", &water_level },
-                  { "wizard1", &wiz1_level },
-                  { "wizard2", &wiz2_level },
-                  { "wizard3", &wiz3_level },
-                  { "minend", &mineend_level },
-                  { "soko1", &sokoend_level },
-                  { X_START, &qstart_level },
-                  { X_LOCATE, &qlocate_level },
-                  { X_GOAL, &nemesis_level },
-                  { "", (d_level *) 0 }
+} level_map[] = {
+    { "air", &air_level },        { "asmodeus", &asmodeus_level },
+    { "astral", &astral_level },  { "baalz", &baalzebub_level },
+    { "bigrm", &bigroom_level },  { "castle", &stronghold_level },
+    { "earth", &earth_level },    { "fakewiz1", &portal_level },
+    { "fire", &fire_level },      { "juiblex", &juiblex_level },
+    { "knox", &knox_level },      { "medusa", &medusa_level },
+    { "oracle", &oracle_level },  { "orcus", &orcus_level },
+    { "rogue", &rogue_level },    { "sanctum", &sanctum_level },
+    { "valley", &valley_level },  { "water", &water_level },
+    { "wizard1", &wiz1_level },   { "wizard2", &wiz2_level },
+    { "wizard3", &wiz3_level },   { "minend", &mineend_level },
+    { "soko1", &sokoend_level },  { X_START, &qstart_level },
+    { X_LOCATE, &qlocate_level }, { X_GOAL, &nemesis_level },
+    { "", (d_level *) 0 }
 };
 
 #undef X_START
@@ -745,12 +719,11 @@ staticfn int
 get_dgn_flags(lua_State *L)
 {
     int dgn_flags = 0;
-    static const char *const flagstrs[] = {
-        "town", "hellish", "mazelike", "roguelike", "unconnected", NULL
-    };
-    static const int flagstrs2i[] = {
-        TOWN, HELLISH, MAZELIKE, ROGUELIKE, UNCONNECTED, 0
-    };
+    static const char *const flagstrs[] = { "town",        "hellish",
+                                            "mazelike",    "roguelike",
+                                            "unconnected", NULL };
+    static const int flagstrs2i[] = { TOWN,      HELLISH,     MAZELIKE,
+                                      ROGUELIKE, UNCONNECTED, 0 };
 
     lua_getfield(L, -1, "flags");
     if (lua_type(L, -1) == LUA_TTABLE) {
@@ -763,8 +736,8 @@ get_dgn_flags(lua_State *L)
             lua_pushinteger(L, f + 1);
             lua_gettable(L, -2);
             if (lua_type(L, -1) == LUA_TSTRING) {
-                dgn_flags |= flagstrs2i[luaL_checkoption(L, -1, NULL,
-                                                         flagstrs)];
+                dgn_flags |=
+                    flagstrs2i[luaL_checkoption(L, -1, NULL, flagstrs)];
                 lua_pop(L, 1);
             } else
                 impossible("flags[%i] is not a string", f);
@@ -781,28 +754,22 @@ get_dgn_flags(lua_State *L)
 staticfn int
 get_dgn_align(lua_State *L)
 {
-    static const char *const dgnaligns[] = {
-        "unaligned", "noalign", "lawful", "neutral", "chaotic", NULL
-    };
-    static const int dgnaligns2i[] = {
-        D_ALIGN_NONE, D_ALIGN_NONE, D_ALIGN_LAWFUL,
-        D_ALIGN_NEUTRAL, D_ALIGN_CHAOTIC, D_ALIGN_NONE
-    };
+    static const char *const dgnaligns[] = { "unaligned", "noalign", "lawful",
+                                             "neutral",   "chaotic", NULL };
+    static const int dgnaligns2i[] = { D_ALIGN_NONE,    D_ALIGN_NONE,
+                                       D_ALIGN_LAWFUL,  D_ALIGN_NEUTRAL,
+                                       D_ALIGN_CHAOTIC, D_ALIGN_NONE };
 
-    int a = dgnaligns2i[get_table_option(L, "alignment",
-                                         "unaligned", dgnaligns)];
+    int a =
+        dgnaligns2i[get_table_option(L, "alignment", "unaligned", dgnaligns)];
     return a;
 }
 
 staticfn void
-init_dungeon_levels(
-    lua_State *L,
-    struct proto_dungeon *pd,
-    int dngidx)
+init_dungeon_levels(lua_State *L, struct proto_dungeon *pd, int dngidx)
 {
     char *lvl_name, *lvl_bonetag, *lvl_chain;
-    int lvl_base, lvl_range, lvl_nlevels, lvl_chance,
-        lvl_align, lvl_flags;
+    int lvl_base, lvl_range, lvl_nlevels, lvl_chance, lvl_align, lvl_flags;
     struct tmplevel *tmpl;
     int bi, f, nlevels;
 
@@ -828,8 +795,8 @@ init_dungeon_levels(
                loop we're inside, not branch connections below) */
             tmpl = &pd->tmplevel[pd->n_levs + f];
 
-            debugpline4("LEVEL[%i]:%s,(%i,%i)",
-                        f, lvl_name, lvl_base, lvl_range);
+            debugpline4("LEVEL[%i]:%s,(%i,%i)", f, lvl_name, lvl_base,
+                        lvl_range);
             tmpl->name = lvl_name;
             tmpl->chainlvl = lvl_chain;
             tmpl->lev.base = lvl_base;
@@ -843,16 +810,15 @@ init_dungeon_levels(
             if (lvl_chain) {
                 debugpline1("CHAINLEVEL: %s", lvl_chain);
                 for (bi = 0; bi < pd->n_levs + f; bi++) {
-                    debugpline2("checking(%i):%s",
-                                bi, pd->tmplevel[bi].name);
+                    debugpline2("checking(%i):%s", bi, pd->tmplevel[bi].name);
                     if (!strcmp(pd->tmplevel[bi].name, lvl_chain)) {
                         tmpl->chain = bi;
                         break;
                     }
                 }
                 if (tmpl->chain == -1)
-                    panic("Could not chain level %s to %s",
-                          lvl_name, lvl_chain);
+                    panic("Could not chain level %s to %s", lvl_name,
+                          lvl_chain);
                 /* free(lvl_chain); -- recorded in pd.tmplevel[] */
             }
         } else
@@ -865,19 +831,14 @@ init_dungeon_levels(
 }
 
 staticfn void
-init_dungeon_branches(
-    lua_State *L,
-    struct proto_dungeon *pd,
-    int dngidx)
+init_dungeon_branches(lua_State *L, struct proto_dungeon *pd, int dngidx)
 {
     static const char *const brdirstr[] = { "up", "down", 0 };
     static const int brdirstr2i[] = { TRUE, FALSE, FALSE };
-    static const char *const brtypes[] = {
-        "stair", "portal", "no_down", "no_up", 0
-    };
-    static const int brtypes2i[] = {
-        TBR_STAIR, TBR_PORTAL, TBR_NO_DOWN, TBR_NO_UP, TBR_STAIR
-    };
+    static const char *const brtypes[] = { "stair", "portal", "no_down",
+                                           "no_up", 0 };
+    static const int brtypes2i[] = { TBR_STAIR, TBR_PORTAL, TBR_NO_DOWN,
+                                     TBR_NO_UP, TBR_STAIR };
     char *br_name, *br_chain;
     int br_base, br_range, br_type, br_up;
     struct tmpbranch *tmpb;
@@ -895,14 +856,14 @@ init_dungeon_branches(
             br_chain = get_table_str_opt(L, "chainlevel", NULL);
             br_base = get_table_int(L, "base");
             br_range = get_table_int_opt(L, "range", 0);
-            br_type = brtypes2i[get_table_option(L, "branchtype",
-                                                 "stair", brtypes)];
-            br_up = brdirstr2i[get_table_option(L, "direction",
-                                                "down", brdirstr)];
+            br_type = brtypes2i[get_table_option(L, "branchtype", "stair",
+                                                 brtypes)];
+            br_up = brdirstr2i[get_table_option(L, "direction", "down",
+                                                brdirstr)];
             tmpb = &(pd->tmpbranch[pd->n_brs + f]);
 
-            debugpline4("BRANCH[%i]:%s,(%i,%i)",
-                        f, br_name, br_base, br_range);
+            debugpline4("BRANCH[%i]:%s,(%i,%i)", f, br_name, br_base,
+                        br_range);
             tmpb->name = br_name;
             tmpb->lev.base = br_base;
             tmpb->lev.rand = br_range;
@@ -917,8 +878,8 @@ init_dungeon_branches(
                         break;
                     }
                 if (tmpb->chain == -1)
-                    panic("Could not chain branch %s to level %s",
-                          br_name, br_chain);
+                    panic("Could not chain branch %s to level %s", br_name,
+                          br_chain);
                 free(br_chain);
             }
         } else
@@ -952,7 +913,7 @@ init_dungeon_set_entry(struct proto_dungeon *pd, int dngidx)
         svd.dungeons[dngidx].entry_lev = dgn_entry;
         if (svd.dungeons[dngidx].entry_lev > svd.dungeons[dngidx].num_dunlevs)
             svd.dungeons[dngidx].entry_lev = svd.dungeons[dngidx].num_dunlevs;
-    } else { /* default */
+    } else {                                /* default */
         svd.dungeons[dngidx].entry_lev = 1; /* defaults to top level */
     }
 }
@@ -995,16 +956,13 @@ init_dungeon_set_depth(struct proto_dungeon *pd, int dngidx)
 }
 
 staticfn boolean
-init_dungeon_dungeons(
-   lua_State *L,
-   struct proto_dungeon *pd,
-   int dngidx)
+init_dungeon_dungeons(lua_State *L, struct proto_dungeon *pd, int dngidx)
 {
-    char *dgn_name, *dgn_bonetag, *dgn_protoname, *dgn_fill;
+    char *dgn_name, *dgn_cname, *dgn_bonetag, *dgn_protoname, *dgn_fill;
     char *dgn_themerms;
     int dgn_base, dgn_range, dgn_align, dgn_entry, dgn_chance, dgn_flags;
 
-    dgn_name = get_table_str(L, "name");
+    dgn_name = get_table_str(L, "name"); dgn_cname = get_table_str(L, "cname");
     /* TODO: accept single char or "none" for bonetag */
     dgn_bonetag = get_table_str_opt(L, "bonetag", emptystr);
     dgn_protoname = get_table_str_opt(L, "protofile", emptystr);
@@ -1017,8 +975,8 @@ init_dungeon_dungeons(
     dgn_fill = get_table_str_opt(L, "lvlfill", emptystr);
     dgn_themerms = get_table_str_opt(L, "themerooms", emptystr);
 
-    debugpline4("DUNGEON[%i]: %s, base=(%i,%i)",
-                dngidx, dgn_name, dgn_base, dgn_range);
+    debugpline4("DUNGEON[%i]: %s, base=(%i,%i)", dngidx, dgn_name, dgn_base,
+                dgn_range);
 
     if (!wizard && dgn_chance && (dgn_chance <= rn2(100))) {
         debugpline1("IGNORING %s", dgn_name);
@@ -1049,7 +1007,7 @@ init_dungeon_dungeons(
     lua_pop(L, 1);
     /* branches end */
 
-    pd->tmpdungeon[dngidx].name = dgn_name;
+    pd->tmpdungeon[dngidx].name = dgn_name; pd->tmpdungeon[dngidx].cname = dgn_cname; /*危险:自己看dungeons.lua*/
     pd->tmpdungeon[dngidx].protoname = dgn_protoname;
     pd->tmpdungeon[dngidx].boneschar = *dgn_bonetag ? *dgn_bonetag : 0;
     pd->tmpdungeon[dngidx].lev.base = dgn_base;
@@ -1061,7 +1019,7 @@ init_dungeon_dungeons(
 
     /* FIXME: these should have length checks */
     Strcpy(svd.dungeons[dngidx].fill_lvl, dgn_fill);
-    Strcpy(svd.dungeons[dngidx].dname, dgn_name);
+    Strcpy(svd.dungeons[dngidx].dname, dgn_name); Strcpy(svd.dungeons[dngidx].dcname, dgn_cname); /*危险:自己看dungeons.lua*/
     Strcpy(svd.dungeons[dngidx].proto, dgn_protoname);
     Strcpy(svd.dungeons[dngidx].themerms, dgn_themerms);
     /* FIXME: accept "none", convert that to '\0' */
@@ -1081,9 +1039,9 @@ init_dungeon_dungeons(
         svd.dungeons[dngidx].depth_start = 1;
         svd.dungeons[dngidx].dunlev_ureached = 1;
     } else {
-        svd.dungeons[dngidx].ledger_start
-            = svd.dungeons[dngidx - 1].ledger_start
-              + svd.dungeons[dngidx - 1].num_dunlevs;
+        svd.dungeons[dngidx].ledger_start =
+            svd.dungeons[dngidx - 1].ledger_start
+            + svd.dungeons[dngidx - 1].num_dunlevs;
         svd.dungeons[dngidx].dunlev_ureached = 0;
     }
 
@@ -1138,7 +1096,7 @@ fixup_level_locations(void)
                 /* This is where the name substitution on the
                  * levels of the quest dungeon occur.
                  */
-                Sprintf(x->proto, "%s%s", gu.urole.efilecode,
+                Sprintf(x->proto, "%s%s", gu.urole.filecode,
                         &lev_map->lev_name[1]);
             } else if (lev_map->lev_spec == &knox_level) {
                 branch *br;
@@ -1209,9 +1167,10 @@ init_dungeons(void)
     int i, cl = 0;
     struct proto_dungeon pd;
     int tidx;
-    nhl_sandbox_info sbi = {NHL_SB_SAFE, 1*1024*1024, 0, 1*1024*1024};
+    nhl_sandbox_info sbi = { NHL_SB_SAFE, 1 * 1024 * 1024, 0,
+                             1 * 1024 * 1024 };
 
-    (void) memset(&pd, 0, sizeof (struct proto_dungeon));
+    (void) memset(&pd, 0, sizeof(struct proto_dungeon));
     pd.n_levs = pd.n_brs = 0;
 
     L = nhl_init(&sbi); /* private Lua state for this function */
@@ -1221,7 +1180,7 @@ init_dungeons(void)
     }
     if (!nhl_loadlua(L, DUNGEON_FILE)) {
         char tbuf[BUFSZ];
-        Sprintf(tbuf, "无法打开地牢描述文件 - \"%s", DUNGEON_FILE);
+        Sprintf(tbuf, "Cannot open dungeon description - \"%s", DUNGEON_FILE);
 #ifdef DLBRSRC /* using a resource from the executable */
         Strcat(tbuf, "\" resource!");
 #else /* using a file or DLB file */
@@ -1236,7 +1195,7 @@ init_dungeons(void)
 #endif
         Strcat(tbuf, DLBFILE);
 #endif
-        Strcat(tbuf, "\" 文件!");
+        Strcat(tbuf, "\" file!");
 #endif
 #ifdef WIN32
         interject_assistance(1, INTERJECT_PANIC, (genericptr_t) tbuf,
@@ -1277,7 +1236,6 @@ init_dungeons(void)
     lua_pushnil(L); /* first key */
     i = 0;
     while (lua_next(L, tidx) != 0) {
-
         if (!lua_istable(L, -1))
             panic("dungeon[%i] is not a lua table", i);
 
@@ -1307,8 +1265,8 @@ init_dungeons(void)
     }
 
     lua_pop(L, 1); /* get rid of the dungeon global */
-    debugpline2("init_dungeon lua DONE (n_levs=%i, n_brs=%i)",
-                pd.n_levs, pd.n_brs);
+    debugpline2("init_dungeon lua DONE (n_levs=%i, n_brs=%i)", pd.n_levs,
+                pd.n_brs);
 
     init_castle_tune();
     fixup_level_locations();
@@ -1393,7 +1351,7 @@ xint16
 maxledgerno(void)
 {
     return (xint16) (svd.dungeons[svn.n_dgns - 1].ledger_start
-                    + svd.dungeons[svn.n_dgns - 1].num_dunlevs);
+                     + svd.dungeons[svn.n_dgns - 1].num_dunlevs);
 }
 
 DISABLE_WARNING_UNREACHABLE_CODE
@@ -1423,7 +1381,7 @@ xint16
 ledger_to_dlev(xint16 ledgerno)
 {
     return (xint16) (ledgerno
-                    - svd.dungeons[ledger_to_dnum(ledgerno)].ledger_start);
+                     - svd.dungeons[ledger_to_dnum(ledgerno)].ledger_start);
 }
 
 /* returns the depth of a level, in floors below the surface
@@ -1554,13 +1512,12 @@ earth_sense(void)
         return;
     if (u.usteed || Flying || Levitation || Upolyd)
         return;
-    if (levl[u.ux][u.uy].typ != CORR
-        && levl[u.ux][u.uy].typ != ROOM)
+    if (levl[u.ux][u.uy].typ != CORR && levl[u.ux][u.uy].typ != ROOM)
         return;
 
     for (otmp = svl.level.buriedobjlist; otmp; otmp = otmp->nobj)
         if (u_at(otmp->ox, otmp->oy)) {
-            You("感觉到你的%s下方有东西。", makeplural(body_part(FOOT)));
+            You("感觉到你的%s下方有东西.", makeplural(body_part(FOOT)));
             return;
         }
 }
@@ -1571,8 +1528,9 @@ u_on_newpos(coordxy x, coordxy y)
     if (!isok(x, y)) { /* validate location */
         void (*func)(const char *, ...) PRINTF_F_PTR(1, 2);
 
-        func = (x < 0 || y < 0 || x > COLNO - 1 || y > ROWNO - 1) ? panic
-               : impossible;
+        func = (x < 0 || y < 0 || x > COLNO - 1 || y > ROWNO - 1)
+                   ? panic
+                   : impossible;
         (*func)("u_on_newpos: trying to place hero off map <%d,%d>", x, y);
     }
     u.ux = x;
@@ -1618,21 +1576,18 @@ u_on_rndspot(int upflag)
            destination instead of its enclosing region.
            Note: up vs down doesn't matter in this case
            because both specify the same exclusion area. */
-        place_lregion(svd.dndest.nlx, svd.dndest.nly,
-                      svd.dndest.nhx, svd.dndest.nhy,
-                      0, 0, 0, 0, LR_DOWNTELE, (d_level *) 0);
+        place_lregion(svd.dndest.nlx, svd.dndest.nly, svd.dndest.nhx,
+                      svd.dndest.nhy, 0, 0, 0, 0, LR_DOWNTELE, (d_level *) 0);
     else if (up)
-        place_lregion(svu.updest.lx, svu.updest.ly,
-                      svu.updest.hx, svu.updest.hy,
-                      svu.updest.nlx, svu.updest.nly,
-                      svu.updest.nhx, svu.updest.nhy,
-                      LR_UPTELE, (d_level *) 0);
+        place_lregion(svu.updest.lx, svu.updest.ly, svu.updest.hx,
+                      svu.updest.hy, svu.updest.nlx, svu.updest.nly,
+                      svu.updest.nhx, svu.updest.nhy, LR_UPTELE,
+                      (d_level *) 0);
     else
-        place_lregion(svd.dndest.lx, svd.dndest.ly,
-                      svd.dndest.hx, svd.dndest.hy,
-                      svd.dndest.nlx, svd.dndest.nly,
-                      svd.dndest.nhx, svd.dndest.nhy,
-                      LR_DOWNTELE, (d_level *) 0);
+        place_lregion(svd.dndest.lx, svd.dndest.ly, svd.dndest.hx,
+                      svd.dndest.hy, svd.dndest.nlx, svd.dndest.nly,
+                      svd.dndest.nhx, svd.dndest.nhy, LR_DOWNTELE,
+                      (d_level *) 0);
 
     /* might have just left solid rock and unblocked levitation */
     switch_terrain();
@@ -1649,8 +1604,7 @@ Is_botlevel(d_level *lev)
 boolean
 Can_dig_down(d_level *lev)
 {
-    return (boolean) (!svl.level.flags.hardfloor
-                      && !Is_botlevel(lev)
+    return (boolean) (!svl.level.flags.hardfloor && !Is_botlevel(lev)
                       && !Invocation_lev(lev));
 }
 
@@ -1683,8 +1637,7 @@ Can_rise_up(coordxy x, coordxy y, d_level *lev)
         return FALSE;
     return (boolean) (lev->dlevel > 1
                       || (svd.dungeons[lev->dnum].entry_lev == 1
-                          && ledger_no(lev) != 1
-                          && stway && stway->up));
+                          && ledger_no(lev) != 1 && stway && stway->up));
 }
 
 boolean
@@ -1721,28 +1674,28 @@ ceiling(coordxy x, coordxy y)
      * see check_special_room()
      */
     if (*in_rooms(x, y, VAULT))
-        what = "vault's ceiling";
+        what = "金库的天花板";
     else if (*in_rooms(x, y, TEMPLE))
-        what = "temple's ceiling";
+        what = "神庙的天花板";
     else if (*in_rooms(x, y, SHOPBASE))
-        what = "shop's ceiling";
+        what = "商店的天花板";
     else if (Is_waterlevel(&u.uz))
         /* water plane has no surface; its air bubbles aren't below sky */
-        what = "water above";
+        what = "上面的水";
     else if (IS_AIR(lev->typ))
-        what = "sky";
+        what = "天";
     else if (Is_firelevel(&u.uz))
-        what = "flames above";
+        what = "上面的火焰";
     else if (In_quest(&u.uz))
         /* just in case; try to avoid in caller if you can */
-        what = "expanse above";
+        what = "上面的辽阔天空";
     else if (Underwater)
-        what = "water's surface";
-    else if ((IS_ROOM(lev->typ) && !Is_earthlevel(&u.uz))
-             || IS_WALL(lev->typ) || IS_DOOR(lev->typ) || lev->typ == SDOOR)
-        what = "ceiling";
+        what = "水面";
+    else if ((IS_ROOM(lev->typ) && !Is_earthlevel(&u.uz)) || IS_WALL(lev->typ)
+             || IS_DOOR(lev->typ) || lev->typ == SDOOR)
+        what = "天花板";
     else
-        what = "rock cavern";
+        what = "岩洞";
 
     return what;
 }
@@ -1756,14 +1709,15 @@ surface(coordxy x, coordxy y)
     if (u_at(x, y) && u.uswallow && is_animal(u.ustuck->data))
         /* 'husk' is iffy but maw is wrong for 't' class */
         return digests(u.ustuck->data) ? "胃"
-               : enfolds(u.ustuck->data) ? "外壳"
-                 : "没有这种东西"; /* can't happen (fingers crossed...) */
+               : enfolds(u.ustuck->data)
+                   ? "外壳"
+                   : "没有这种东西"; /* can't happen (fingers crossed...) */
     else if (IS_AIR(levtyp))
         return Is_waterlevel(&u.uz) ? "气泡"
-                                    : (levtyp == CLOUD) ? "云" : "空气";
+               : (levtyp == CLOUD)  ? "云"
+                                    : "空气";
     else if (is_pool(x, y))
-        return (Underwater && !Is_waterlevel(&u.uz))
-            ? "底部" : hliquid("水");
+        return (Underwater && !Is_waterlevel(&u.uz)) ? "底部" : hliquid("水");
     else if (is_ice(x, y))
         return "冰";
     else if (is_lava(x, y))
@@ -1914,8 +1868,7 @@ In_V_tower(d_level *lev)
 boolean
 On_W_tower_level(d_level *lev)
 {
-    return (boolean) (Is_wiz1_level(lev)
-                      || Is_wiz2_level(lev)
+    return (boolean) (Is_wiz1_level(lev) || Is_wiz2_level(lev)
                       || Is_wiz3_level(lev));
 }
 
@@ -2018,7 +1971,8 @@ boolean
 Invocation_lev(d_level *lev)
 {
     return (boolean) (In_hell(lev)
-                   && lev->dlevel == svd.dungeons[lev->dnum].num_dunlevs - 1);
+                      && lev->dlevel
+                             == svd.dungeons[lev->dnum].num_dunlevs - 1);
 }
 
 /* use instead of depth() wherever a degree of difficulty is made
@@ -2042,22 +1996,22 @@ level_difficulty(void)
            going down to the entrance and then up to the location */
         if (builds_up(&u.uz))
             res += 2 * (svd.dungeons[u.uz.dnum].entry_lev - u.uz.dlevel + 1);
-            /*
-             * 'Proof' by example:  suppose the entrance to sokoban is
-             * on dungeon level 9, leading up to bottom sokoban level
-             * of 8 [entry_lev].  When the hero is on sokoban level 8
-             * [uz.dlevel], depth() yields eight but he has ventured
-             * one level beyond 9, so difficulty depth should be 10:
-             *   8 + 2 * (8 - 8 + 1) => 10.
-             * Going up to 7, depth is 7 but hero will be two beyond 9:
-             *   7 + 2 * (8 - 7 + 1) => 11.
-             * When he goes up to level 6, three levels beyond 9:
-             *   6 + 2 * (8 - 6 + 1) => 12.
-             * And the top level of sokoban at 5, four levels beyond 9:
-             *   5 + 2 * (8 - 5 + 1) => 13.
-             * The same applies to Vlad's Tower, although the increment
-             * there is inconsequential compared to overall depth.
-             */
+        /*
+         * 'Proof' by example:  suppose the entrance to sokoban is
+         * on dungeon level 9, leading up to bottom sokoban level
+         * of 8 [entry_lev].  When the hero is on sokoban level 8
+         * [uz.dlevel], depth() yields eight but he has ventured
+         * one level beyond 9, so difficulty depth should be 10:
+         *   8 + 2 * (8 - 8 + 1) => 10.
+         * Going up to 7, depth is 7 but hero will be two beyond 9:
+         *   7 + 2 * (8 - 7 + 1) => 11.
+         * When he goes up to level 6, three levels beyond 9:
+         *   6 + 2 * (8 - 6 + 1) => 12.
+         * And the top level of sokoban at 5, four levels beyond 9:
+         *   5 + 2 * (8 - 5 + 1) => 13.
+         * The same applies to Vlad's Tower, although the increment
+         * there is inconsequential compared to overall depth.
+         */
 #if 0
         /*
          * The inside of the Wizard's Tower is also effectively a
@@ -2085,12 +2039,10 @@ level_difficulty(void)
 }
 
 /* within same branch, or else main dungeon <-> gehennom */
-#define dlev_in_current_branch(dlev) \
-    (dlev.dnum == u.uz.dnum                     \
-     || (u.uz.dnum == valley_level.dnum         \
-         && dlev.dnum == medusa_level.dnum)     \
-     || (u.uz.dnum == medusa_level.dnum         \
-         && dlev.dnum == valley_level.dnum))
+#define dlev_in_current_branch(dlev)                                       \
+    (dlev.dnum == u.uz.dnum                                                \
+     || (u.uz.dnum == valley_level.dnum && dlev.dnum == medusa_level.dnum) \
+     || (u.uz.dnum == medusa_level.dnum && dlev.dnum == valley_level.dnum))
 
 /* Take one word and try to match it to a level.
  * Recognized levels are as shown by print_dungeon().
@@ -2113,20 +2065,20 @@ lev_by_name(const char *nam)
         /* no matching annotation, check whether they used a name we know */
 
         /* allow strings like "the oracle level" to find "oracle" */
-        if (!strncmpi(nam, "the ", 4))
-            nam += 4;
-        if ((p = strstri(nam, " level")) != 0 && p == eos((char *) nam) - 6) {
-            nam = strcpy(buf, nam);
-            *(eos(buf) - 6) = '\0';
-        }
+        if (!strncmpi(nam, "the ", 4)) {nam += 4;}
+        if (!strncmpi(nam, "第", strlen("第"))) {nam += strlen("第");}
+        if ((p = strstri(nam, " level")) != 0 && p == eos((char *) nam) - 6) {nam = strcpy(buf, nam);
+            *(eos(buf) - 6) = '\0';}
+        if ((p = strstri(nam, "层")) != 0 && p == eos((char *) nam) - strlen("层")) {nam = strcpy(buf, nam);
+            *(eos(buf) - strlen("层")) = '\0';}
         /* hell is the old name, and wouldn't match; gehennom would match its
            branch, yielding the castle level instead of valley of the dead */
-        if (!strcmpi(nam, "gehennom") || !strcmpi(nam, "hell")) {
+        if (!strcmpi(nam, "gehennom") || !strcmpi(nam, "hell") || !strcmpi(nam, "地狱")) {
             if (In_V_tower(&u.uz))
-                nam = " to Vlad's tower"; /* branch to... */
+                nam = "通往弗拉德塔"; /* branch to... */
             else
-                nam = "valley";
-        } else if (!strcmpi(nam, "delphi")) {
+                nam = "死亡谷";
+        } else if (!strcmpi(nam, "delphi") || !strcmpi(nam, "德尔斐") || !strcmpi(nam, "德尔斐")) {
             /* Oracle says "welcome to Delphi" so recognize that name too */
             nam = "oracle";
         }
@@ -2155,9 +2107,10 @@ lev_by_name(const char *nam)
             idx &= 0x00FF;
             /* either wizard mode, or else _both_ sides of branch seen; */
             /* (flags & VISITED)==VISITED: see comment about amnesia above */
-            if (wizard || (((svl.level_info[idx].flags & VISITED) == VISITED)
-                           && ((svl.level_info[idxtoo].flags & VISITED)
-                               == VISITED))) {
+            if (wizard
+                || (((svl.level_info[idx].flags & VISITED) == VISITED)
+                    && ((svl.level_info[idxtoo].flags & VISITED)
+                        == VISITED))) {
                 if (ledger_to_dnum(idxtoo) == u.uz.dnum)
                     idx = idxtoo;
                 dlev.dnum = ledger_to_dnum(idx);
@@ -2202,12 +2155,8 @@ unreachable_level(d_level *lvl_p, boolean unplaced)
 }
 
 staticfn void
-tport_menu(
-    winid win,
-    char *entry,
-    struct lchoice *lchoices,
-    d_level *lvl_p,
-    boolean cannotreach)
+tport_menu(winid win, char *entry, struct lchoice *lchoices, d_level *lvl_p,
+           boolean cannotreach)
 {
     char tmpbuf[BUFSZ];
     anything any;
@@ -2225,8 +2174,8 @@ tport_menu(
     } else {
         any.a_int = lchoices->idx + 1;
     }
-    add_menu(win, &nul_glyphinfo, &any, lchoices->menuletter, 0,
-             ATR_NONE, clr, entry, MENU_ITEMFLAGS_NONE);
+    add_menu(win, &nul_glyphinfo, &any, lchoices->menuletter, 0, ATR_NONE,
+             clr, entry, MENU_ITEMFLAGS_NONE);
     /* this assumes there are at most 52 interesting levels */
     if (lchoices->menuletter == 'z')
         lchoices->menuletter = 'A';
@@ -2242,13 +2191,13 @@ br_string(int type)
 {
     switch (type) {
     case BR_PORTAL:
-        return "Portal";
+        return "传送门";
     case BR_NO_END1:
-        return "Connection";
+        return "连接处";
     case BR_NO_END2:
-        return "One way stair";
+        return "单向楼梯";
     case BR_STAIR:
-        return "Stair";
+        return "楼梯";
     }
     return " (unknown)";
 }
@@ -2261,10 +2210,8 @@ chr_u_on_lvl(d_level *dlev)
 
 /* Print all child branches between the lower and upper bounds. */
 staticfn void
-print_branch(
-    winid win,
-    int dnum, int lower_bound, int upper_bound,
-    boolean bymenu, struct lchoice *lchoices_p)
+print_branch(winid win, int dnum, int lower_bound, int upper_bound,
+             boolean bymenu, struct lchoice *lchoices_p)
 {
     branch *br;
     char buf[BUFSZ];
@@ -2273,10 +2220,10 @@ print_branch(
     for (br = svb.branches; br; br = br->next) {
         if (br->end1.dnum == dnum && lower_bound < br->end1.dlevel
             && br->end1.dlevel <= upper_bound) {
-            Sprintf(buf, "%c %s到%s: %d",
+            Sprintf(buf, "%c 到%s的%s: %d",
                     bymenu ? chr_u_on_lvl(&br->end1) : ' ',
-                    br_string(br->type),
-                    svd.dungeons[br->end2.dnum].dname, depth(&br->end1));
+                    svd.dungeons[br->end2.dnum].dcname, br_string(br->type), /*修改语序:br_string(br->type), svd.dungeons[br->end2.dnum].dname,*/
+                    depth(&br->end1));
             if (bymenu)
                 tport_menu(win, buf, lchoices_p, &br->end1,
                            unreachable_level(&br->end1, FALSE));
@@ -2310,22 +2257,22 @@ print_dungeon(boolean bymenu, schar *rlev, xint16 *rdgn)
         if (bymenu && In_endgame(&u.uz) && i != astral_level.dnum)
             continue;
         unplaced = unplaced_floater(dptr);
-        descr = unplaced ? "depth" : "level";
+        descr = unplaced ? "层深" : "层";
         nlev = dptr->num_dunlevs;
         if (nlev > 1)
-            Snprintf(buf, sizeof buf, "%s: %s %d to %d", dptr->dname,
-                     makeplural(descr), dptr->depth_start,
-                     dptr->depth_start + nlev - 1);
+            Snprintf(buf, sizeof buf, "%s: %d到%d%s", dptr->dcname,
+                     dptr->depth_start, dptr->depth_start + nlev - 1,
+                     makeplural(descr)); /*修改语序:自己看*/
         else
-            Snprintf(buf, sizeof buf, "%s: %s %d", dptr->dname,
-                     descr, dptr->depth_start);
+            Snprintf(buf, sizeof buf, "%s: %d%s", dptr->dcname, dptr->depth_start,
+                     descr); /*修改语序:自己看*/
 
         /* Most entrances are uninteresting. */
         if (dptr->entry_lev != 1) {
             if (dptr->entry_lev == nlev)
-                Strcat(buf, ",  从下方的入口");
+                Strcat(buf, ", 从下方的入口");
             else
-                Sprintf(eos(buf), ",  入口在%d",
+                Sprintf(eos(buf), ", 入口在%d",
                         dptr->depth_start + dptr->entry_lev - 1);
         }
         if (bymenu) {
@@ -2345,11 +2292,10 @@ print_dungeon(boolean bymenu, schar *rlev, xint16 *rdgn)
             print_branch(win, i, last_level, slev->dlevel.dlevel, bymenu,
                          &lchoices);
 
-            Sprintf(buf, "%c %s：%d",
-                    chr_u_on_lvl(&slev->dlevel),
+            Sprintf(buf, "%c %s: %d", chr_u_on_lvl(&slev->dlevel),
                     slev->proto, depth(&slev->dlevel));
             if (Is_stronghold(&slev->dlevel))
-                Sprintf(eos(buf), " (曲调 %s)", svt.tune);
+                Sprintf(eos(buf), " (曲调为%s)", svt.tune);
             if (bymenu)
                 tport_menu(win, buf, &lchoices, &slev->dlevel,
                            unreachable_level(&slev->dlevel, unplaced));
@@ -2367,7 +2313,7 @@ print_dungeon(boolean bymenu, schar *rlev, xint16 *rdgn)
         menu_item *selected;
         int idx;
 
-        end_menu(win, "层数传送到哪儿:");
+        end_menu(win, "层间传送到哪里:");
         n = select_menu(win, PICK_ONE, &selected);
         destroy_nhwindow(win);
         if (n > 0) {
@@ -2387,11 +2333,11 @@ print_dungeon(boolean bymenu, schar *rlev, xint16 *rdgn)
         if (br->end1.dnum == svn.n_dgns) {
             if (first) {
                 putstr(win, 0, "");
-                putstr(win, 0, "Floating branches");
+                putstr(win, 0, "飘浮分支");
                 first = FALSE;
             }
-            Sprintf(buf, "   %s到%s", br_string(br->type),
-                    svd.dungeons[br->end2.dnum].dname);
+            Sprintf(buf, "   到%s的%s", svd.dungeons[br->end2.dnum].dcname,
+                    br_string(br->type)); /*修改语序:交换*/
             putstr(win, 0, buf);
         }
     }
@@ -2399,7 +2345,7 @@ print_dungeon(boolean bymenu, schar *rlev, xint16 *rdgn)
     /* I hate searching for the invocation pos while debugging. -dean */
     if (Invocation_lev(&u.uz)) {
         putstr(win, 0, "");
-        Sprintf(buf, "召唤位置 @ (%d,%d), 英雄 @ (%d,%d)",
+        Sprintf(buf, "Invocation position @ (%d,%d), hero @ (%d,%d)",
                 svi.inv_pos.x, svi.inv_pos.y, u.ux, u.uy);
         putstr(win, 0, buf);
     } else {
@@ -2416,7 +2362,7 @@ print_dungeon(boolean bymenu, schar *rlev, xint16 *rdgn)
                 break;
 
         if (trap)
-            Sprintf(buf, "传送门在(%d,%d)，英雄在(%d,%d)",
+            Sprintf(buf, "Portal @ (%d,%d), hero @ (%d,%d)",
                     trap->tx, trap->ty, u.ux, u.uy);
 
         /* only report "no portal found" when actually expecting a portal */
@@ -2424,7 +2370,7 @@ print_dungeon(boolean bymenu, schar *rlev, xint16 *rdgn)
                  || Is_firelevel(&u.uz) || Is_airlevel(&u.uz)
                  || Is_qstart(&u.uz) || at_dgn_entrance("The Quest")
                  || Is_knox(&u.uz))
-            Strcpy(buf, "未找到传送门。");
+            Strcpy(buf, "未找到传送门.");
 
         /* only give output if we found a portal or expected one and didn't */
         if (*buf) {
@@ -2534,14 +2480,14 @@ query_annotation(d_level *lev)
             (void) describe_level(lbuf, dflgs);
             u.uz = save_uz;
 
-            (void) strsubst(lbuf, "Dlvl:", "level ");
+            (void) strsubst(lbuf, "Dlvl:", "level "); //冗余:或许不用? (void) strsubst(lbuf, "地牢:", "层数");
             /* even though we've told describe_level() not to append
                a trailing space (by not including '1' in dflgs), the
                level number is formatted with %-2d so single digit
                values will end up with one anyway; remove it */
             (void) trimspaces(lbuf);
         }
-        Snprintf(qbuf, sizeof qbuf, "What do you want to call %s?", lbuf);
+        Snprintf(qbuf, sizeof qbuf, "你想把%s叫做什么?", lbuf);
         getlin(qbuf, nbuf);
     }
 
@@ -2661,7 +2607,6 @@ find_mapseen_by_str(const char *s)
     return mptr;
 }
 
-
 void
 rm_mapseen(int ledger_num)
 {
@@ -2759,10 +2704,9 @@ DISABLE_WARNING_FORMAT_NONLITERAL
 
 /* for '#stats' wizard-mode command, to show memory used for #overview data */
 void
-overview_stats(
-    winid win, /* output window */
-    const char *statsfmt, /* format */
-    long *total_count, long *total_size) /* args for the format */
+overview_stats(winid win,                           /* output window */
+               const char *statsfmt,                /* format */
+               long *total_count, long *total_size) /* args for the format */
 {
     char buf[BUFSZ], hdrbuf[QBUFSZ];
     long ocount, osize, bcount, bsize, acount, asize;
@@ -2783,17 +2727,17 @@ overview_stats(
         }
     }
 
-    Sprintf(hdrbuf, "常规，大小 %ld", (long) sizeof (mapseen));
+    Sprintf(hdrbuf, "general, size %ld", (long) sizeof (mapseen));
     Sprintf(buf, statsfmt, hdrbuf, ocount, osize);
     putstr(win, 0, buf);
     if (bcount) {
-        Sprintf(hdrbuf, "墓地, size %ld",
+        Sprintf(hdrbuf, "cemetery, size %ld",
                 (long) sizeof (struct cemetery));
         Sprintf(buf, statsfmt, hdrbuf, bcount, bsize);
         putstr(win, 0, buf);
     }
     if (acount) {
-        Sprintf(hdrbuf, "注释，文本");
+        Sprintf(hdrbuf, "annotations, text");
         Sprintf(buf, statsfmt, hdrbuf, acount, asize);
         putstr(win, 0, buf);
     }
@@ -2871,10 +2815,10 @@ init_mapseen(d_level *lev)
     }
 }
 
-#define OF_INTEREST(feat) \
-    ((feat).nfount || (feat).nsink || (feat).nthrone || (feat).naltar   \
+#define OF_INTEREST(feat)                                             \
+    ((feat).nfount || (feat).nsink || (feat).nthrone || (feat).naltar \
      || (feat).ngrave || (feat).ntree || (feat).nshop || (feat).ntemple)
-  /* || (feat).water || (feat).ice || (feat).lava */
+/* || (feat).water || (feat).ice || (feat).lava */
 
 /* returns true if this level has something interesting to print out */
 staticfn boolean
@@ -2895,9 +2839,9 @@ interest_mapseen(mapseen *mptr)
     }
     /* level is of interest if it has an auto-generated annotation */
     if (mptr->flags.oracle || mptr->flags.bigroom || mptr->flags.roguelevel
-        || mptr->flags.castle || mptr->flags.valley
-        || mptr->flags.msanctum || mptr->flags.vibrating_square
-        || mptr->flags.quest_summons || mptr->flags.questing)
+        || mptr->flags.castle || mptr->flags.valley || mptr->flags.msanctum
+        || mptr->flags.vibrating_square || mptr->flags.quest_summons
+        || mptr->flags.questing)
         return TRUE;
     /* when in Sokoban, list all sokoban levels visited; when not in it,
        list any visited Sokoban level which remains unsolved (will usually
@@ -2932,8 +2876,8 @@ update_lastseentyp(coordxy x, coordxy y)
 
     if (ltyp == DRAWBRIDGE_UP)
         ltyp = db_under_typ(levl[x][y].drawbridgemask);
-    if ((mtmp = m_at(x, y)) != 0
-        && M_AP_TYPE(mtmp) == M_AP_FURNITURE && canseemon(mtmp))
+    if ((mtmp = m_at(x, y)) != 0 && M_AP_TYPE(mtmp) == M_AP_FURNITURE
+        && canseemon(mtmp))
         ltyp = cmap_to_type(mtmp->mappearance);
     svl.lastseentyp[x][y] = ltyp;
 }
@@ -2957,7 +2901,7 @@ count_feat_lastseentyp(
     unsigned atmp;
 
     switch (svl.lastseentyp[x][y]) {
-#if 0   /* levels that have these tend of have a lot of them */
+#if 0 /* levels that have these tend of have a lot of them */
     /*
      * FIXME?  due to theme rooms, lots of levels have an increased
      * chance of having these so automatic annotations for them may
@@ -3012,8 +2956,8 @@ count_feat_lastseentyp(
         atmp = altarmask_at(x, y);
         /* convert to index: 0..3 */
         atmp = (Is_astralevel(&u.uz) && (levl[x][y].seenv & SVALL) != SVALL)
-               ? MSA_NONE
-               : Amask2msa(atmp);
+                   ? MSA_NONE
+                   : Amask2msa(atmp);
         if (!mptr->feat.naltar)
             mptr->feat.msalign = atmp;
         else if (mptr->feat.msalign != atmp)
@@ -3124,13 +3068,12 @@ recalc_mapseen(void)
     /* flags.castle retains previous value */
     mptr->flags.forgot = 0;
     /* flags.quest_summons disabled once quest finished */
-    mptr->flags.quest_summons = (at_dgn_entrance("The Quest")
-                                 && u.uevent.qcalled
-                                 && !(u.uevent.qcompleted
-                                      || u.uevent.qexpelled
-                                      || svq.quest_status.leader_is_dead));
-    mptr->flags.questing = (on_level(&u.uz, &qstart_level)
-                            && svq.quest_status.got_quest);
+    mptr->flags.quest_summons =
+        (at_dgn_entrance("The Quest") && u.uevent.qcalled
+         && !(u.uevent.qcompleted || u.uevent.qexpelled
+              || svq.quest_status.leader_is_dead));
+    mptr->flags.questing =
+        (on_level(&u.uz, &qstart_level) && svq.quest_status.got_quest);
     /* flags.msanctum, .valley, and .vibrating_square handled below */
 
     /* track rooms the hero is in */
@@ -3140,9 +3083,9 @@ recalc_mapseen(void)
         mptr->msrooms[ridx].untended =
             (svr.rooms[ridx].rtype >= SHOPBASE)
                 ? (!(mtmp = shop_keeper(uroom)) || !inhishop(mtmp))
-                : (svr.rooms[ridx].rtype == TEMPLE)
-                      ? (!(mtmp = findpriest(uroom)) || !inhistemple(mtmp))
-                      : 0;
+            : (svr.rooms[ridx].rtype == TEMPLE)
+                ? (!(mtmp = findpriest(uroom)) || !inhistemple(mtmp))
+                : 0;
     }
 
     /* recalculate room knowledge: for now, just shops and temples
@@ -3208,9 +3151,9 @@ recalc_mapseen(void)
         if (mptr->feat.naltar > 0)
             mptr->flags.valley = 1;
 
-    /* Sanctum and Gateway-to-Sanctum are mutually exclusive automatic
-       annotations but handling that is tricky because they're stored
-       with data for different levels */
+        /* Sanctum and Gateway-to-Sanctum are mutually exclusive automatic
+           annotations but handling that is tricky because they're stored
+           with data for different levels */
     } else if (Is_sanctum(&u.uz)) {
         if (mptr->feat.naltar > 0)
             mptr->flags.msanctum = 1;
@@ -3232,10 +3175,11 @@ recalc_mapseen(void)
         for (t = gf.ftrap; t; t = t->ntrap)
             if (t->ttyp == VIBRATING_SQUARE)
                 break;
-        mptr->flags.vibrating_square = t ? t->tseen
-                      /* no trap implies that invocation has been performed */
-                             : ((oth_mptr = find_mapseen(&sanctum_level)) == 0
-                                || !oth_mptr->flags.msanctum);
+        mptr->flags.vibrating_square =
+            t ? t->tseen
+              /* no trap implies that invocation has been performed */
+              : ((oth_mptr = find_mapseen(&sanctum_level)) == 0
+                 || !oth_mptr->flags.msanctum);
     }
 
     if (svl.level.bonesinfo && !mptr->final_resting_place) {
@@ -3304,8 +3248,8 @@ dooverview(void)
 /* called for #overview or for end of game disclosure */
 void
 show_overview(
-    int why, /* 0 => normal #overview command, -1 => 'm' prefix #overview;
-              * 1 or 2 => final disclosure (1: hero lived, 2: hero died) */
+    int why,    /* 0 => normal #overview command, -1 => 'm' prefix #overview;
+                 * 1 or 2 => final disclosure (1: hero lived, 2: hero died) */
     int reason) /* how hero died; used when disclosing end-of-game level */
 {
     winid win;
@@ -3343,8 +3287,8 @@ show_overview(
 /* display endgame levels or non-endgame levels, not both */
 staticfn void
 traverse_mapseenchn(
-    int viewendgame,    /* 0: show endgame branch; 1: show other branches */
-    winid win,      /* output window */
+    int viewendgame, /* 0: show endgame branch; 1: show other branches */
+    winid win,       /* output window */
     int why,        /* -1: menu, 0: normal, 1 and 2: end of game disclosure */
     int reason,     /* when 'why'==1 or 2, how the game ended */
     int *lastdun_p) /* where to restart if called twice */
@@ -3371,14 +3315,14 @@ seen_string(xint16 x, const char *obj)
     /* players are computer scientists: 0, 1, 2, n */
     switch (x) {
     case 0:
-        return "no";
+        return "没有";
     /* an() returns too much.  index/strchr is ok in this case */
     case 1:
-        return strchr(vowels, *obj) ? "an" : "a";
+        return "一个";/*冗余:return strchr(vowels, *obj) ? "an" : "a";*/
     case 2:
-        return "some";
+        return "几个";
     case 3:
-        return "many";
+        return "很多";
     }
 
     return "(unknown)";
@@ -3389,18 +3333,18 @@ staticfn const char *
 br_string2(branch *br)
 {
     /* Special case: quest portal says closed if kicked from quest */
-    boolean closed_portal = (br->end2.dnum == quest_dnum
-                             && u.uevent.qexpelled);
+    boolean closed_portal =
+        (br->end2.dnum == quest_dnum && u.uevent.qexpelled);
 
     switch (br->type) {
     case BR_PORTAL:
-        return closed_portal ? "Sealed portal" : "Portal";
+        return closed_portal ? "被封印的传送门" : "传送门";
     case BR_NO_END1:
-        return "Connection";
+        return "连接处";
     case BR_NO_END2:
-        return br->end1_up ? "One way stairs up" : "One way stairs down";
+        return br->end1_up ? "单向上行楼梯" : "单向下行楼梯";
     case BR_STAIR:
-        return br->end1_up ? "Stairs up" : "Stairs down";
+        return br->end1_up ? "上行楼梯" : "下行楼梯";
     }
 
     return "(unknown)";
@@ -3443,10 +3387,10 @@ shop_string(int rtype)
 {
     extern const struct shclass shtypes[]; /* defined in shknam.c */
     int shoptype = rtype - SHOPBASE; /* convert room type to shop type */
-    const char *str = "shop?"; /* catchall */
+    const char *str = "shop?";       /* catchall */
 
     if (shoptype < 0) {
-        str = "untended shop";
+        str = "无人看管的店铺";
     } else if (shtypes[shoptype].annotation) {
         str = shtypes[shoptype].annotation;
     } else if (shtypes[shoptype].name) {
@@ -3458,20 +3402,17 @@ shop_string(int rtype)
 /* if player knows about the mastermind tune, append it to Castle annotation;
    if drawbridge has been destroyed, flags.castletune will be zero */
 staticfn char *
-tunesuffix(
-    mapseen *mptr,
-    char *outbuf,
-    size_t bsz) /* size of outbuf */
+tunesuffix(mapseen *mptr, char *outbuf, size_t bsz) /* size of outbuf */
 {
     *outbuf = '\0';
     if (mptr->flags.castletune && u.uevent.uheard_tune) {
         char tmp[BUFSZ];
 
         if (u.uevent.uheard_tune == 2)
-            Sprintf(tmp, "音符 \"%s\"", svt.tune);
+            Sprintf(tmp, "音符\"%s\"", svt.tune);
         else
-            Strcpy(tmp, "5- 音符曲调");
-        Snprintf(outbuf, bsz, " (play %s to open or close drawbridge)", tmp);
+            Strcpy(tmp, "5个音符的曲调");
+        Snprintf(outbuf, bsz, " (演奏%s以开关吊桥)", tmp);
     }
     return outbuf;
 }
@@ -3481,36 +3422,36 @@ tunesuffix(
 #if 0
 #define BULLET "" /* empty; otherwise output becomes cluttered */
 #define PREFIX TAB TAB BULLET
-#else                   /*!0*/
+#else /*!0*/
 /* K&R: don't require support for concatenation of adjacent string literals */
 #define PREFIX "      " /* two TABs + empty BULLET: six spaces */
 #endif
 #define COMMA (i++ > 0 ? ", " : PREFIX)
 /* "iterate" once; safe to use as ``if (cond) ADDTOBUF(); else whatever;'' */
-#define ADDTOBUF(nam, var) \
+#define ADDTOBUF(nam, var)                           \
     do {                                             \
         if (var)                                     \
             Sprintf(eos(buf), "%s%s", COMMA, (nam)); \
     } while (0)
-#define ADDNTOBUF(nam, var) \
+#define ADDNTOBUF(nam, var)                                                  \
     do {                                                                     \
         if (var)                                                             \
-            Sprintf(eos(buf), "%s%s %s%s", COMMA, seen_string((var), (nam)), \
+            Sprintf(eos(buf), "%s%s%s%s", COMMA, seen_string((var), (nam)), \
                     (nam), plur(var));                                       \
     } while (0)
 /* ADD2NTOBUF: for "M temples and N altars"; seen_string() is safe to use
    multiple times within one expression; so is plur() */
-#define ADD2NTOBUF(nam, var, nam2, var2) \
-    do {                                                                \
-        if (var && var2) {                                              \
-            Sprintf(eos(buf), "%s%s %s%s and %s %s%s", COMMA,           \
-                    seen_string((var), (nam)), (nam), plur(var),        \
-                    seen_string((var2), (nam2)), (nam2), plur(var2));   \
-        } else if (var) {                                               \
-            ADDNTOBUF(nam, var);                                        \
-        } else if (var2) {                                              \
-            ADDNTOBUF(nam2, var2);                                      \
-        }                                                               \
+#define ADD2NTOBUF(nam, var, nam2, var2)                              \
+    do {                                                              \
+        if (var && var2) {                                            \
+            Sprintf(eos(buf), "%s%s%s%s和%s%s%s", COMMA,         \
+                    seen_string((var), (nam)), (nam), plur(var),      \
+                    seen_string((var2), (nam2)), (nam2), plur(var2)); \
+        } else if (var) {                                             \
+            ADDNTOBUF(nam, var);                                      \
+        } else if (var2) {                                            \
+            ADDNTOBUF(nam2, var2);                                    \
+        }                                                             \
     } while (0)
 
 staticfn void
@@ -3540,15 +3481,14 @@ print_mapseen(
         if (svd.dungeons[dnum].dunlev_ureached == svd.dungeons[dnum].entry_lev
             /* suppress the negative numbers in the endgame */
             || In_endgame(&mptr->lev))
-            Sprintf(buf, "%s:", svd.dungeons[dnum].dname);
+            Sprintf(buf, "%s:", svd.dungeons[dnum].dcname);
         else if (builds_up(&mptr->lev))
-            Sprintf(buf, "%s:  层数%d 往上到%d",
-                    svd.dungeons[dnum].dname,
+            Sprintf(buf, "%s: %d层往上到%d层", svd.dungeons[dnum].dcname,
                     depthstart + svd.dungeons[dnum].entry_lev - 1,
                     depthstart + svd.dungeons[dnum].dunlev_ureached - 1);
         else
-            Sprintf(buf, "%s:  层数%d 到%d",
-                    svd.dungeons[dnum].dname, depthstart,
+            Sprintf(buf, "%s: %d层到%d层", svd.dungeons[dnum].dcname,
+                    depthstart,
                     depthstart + svd.dungeons[dnum].dunlev_ureached - 1);
 
         add_menu_heading(win, buf);
@@ -3560,7 +3500,7 @@ print_mapseen(
         Sprintf(buf, "%s%s:", (final != -1) ? TAB : "",
                 endgamelevelname(tmpbuf, i));
     else
-        Sprintf(buf, "%s第 %d 层:", (final != -1) ? TAB : "", i);
+        Sprintf(buf, "%s第%d层:", (final != -1) ? TAB : "", i);
 
     /* wizmode prints out proto dungeon names for clarity */
     if (wizard) {
@@ -3573,16 +3513,16 @@ print_mapseen(
     if (mptr->custom)
         Sprintf(eos(buf), " \" %s\"", mptr->custom);
     if (on_level(&u.uz, &mptr->lev))
-        Sprintf(eos(buf), " <-  你%s这里.",
-                (final <= 0 || (final == 1 && how == ASCENDED)) ? "在"
-                  : (final == 1 && how == ESCAPED) ? "离开了"
-                    : "在");
+        Sprintf(eos(buf), " <- 你%s.",
+                (final <= 0 || (final == 1 && how == ASCENDED)) ? "在这里"
+                : (final == 1 && how == ESCAPED)                ? "在这里逃离了"
+                                                                : "曾在这里");
 
     any = cg.zeroany;
     if (final == -1)
         any.a_int = ledger_no(&(mptr->lev)) + 1;
-    add_menu(win, &nul_glyphinfo, &any, 0, 0, ATR_NONE, NO_COLOR,
-             buf, MENU_ITEMFLAGS_NONE);
+    add_menu(win, &nul_glyphinfo, &any, 0, 0, ATR_NONE, NO_COLOR, buf,
+             MENU_ITEMFLAGS_NONE);
 
     if (mptr->flags.forgot)
         return;
@@ -3596,7 +3536,7 @@ print_mapseen(
          */
         if (mptr->feat.nshop > 0) {
             if (mptr->feat.nshop > 1)
-                ADDNTOBUF("shop", mptr->feat.nshop);
+                ADDNTOBUF("商店", mptr->feat.nshop);
             else
                 Sprintf(eos(buf), "%s%s", COMMA,
                         an(shop_string(mptr->feat.shoptype)));
@@ -3609,20 +3549,20 @@ print_mapseen(
                possibly it being out of view in an irregularly shaped room);
                FIXME: if all temples present have been desecrated, we ought
                to say so */
-            ADD2NTOBUF("temple", mptr->feat.ntemple,
-                       "altar", mptr->feat.naltar);
+            ADD2NTOBUF("神庙", mptr->feat.ntemple, "祭坛",
+                       mptr->feat.naltar);
 
             /* only print out altar's god if they are all to your god */
             atmp = mptr->feat.msalign;              /*    0,  1,  2,  3 */
             atmp = Msa2amask(atmp);                 /*    0,  1,  2,  4 */
             if (Amask2align(atmp) == u.ualign.type) /* -128, -1,  0, +1 */
-                Sprintf(eos(buf), " 之 %s", align_gname(u.ualign.type));
+                Sprintf(buf, "%s的%s", align_gname(u.ualign.type), buf); /*危险,修改语序:Sprintf(eos(buf), "%s的", align_gname(u.ualign.type));*/
         }
-        ADDNTOBUF("throne", mptr->feat.nthrone);
-        ADDNTOBUF("fountain", mptr->feat.nfount);
-        ADDNTOBUF("sink", mptr->feat.nsink);
-        ADDNTOBUF("grave", mptr->feat.ngrave);
-        ADDNTOBUF("tree", mptr->feat.ntree);
+        ADDNTOBUF("王座", mptr->feat.nthrone);
+        ADDNTOBUF("喷泉", mptr->feat.nfount);
+        ADDNTOBUF("水槽", mptr->feat.nsink);
+        ADDNTOBUF("墓碑", mptr->feat.ngrave);
+        ADDNTOBUF("树", mptr->feat.ntree);
 #if 0
         ADDTOBUF("water", mptr->feat.water);
         ADDTOBUF("lava", mptr->feat.lava);
@@ -3632,7 +3572,7 @@ print_mapseen(
         i = strlen(PREFIX);
         buf[i] = highc(buf[i]);
         /* capitalizing it makes it a sentence; terminate with '.' */
-        Strcat(buf, "死亡");
+        Strcat(buf, ".");
         add_menu_str(win, buf);
     }
 
@@ -3658,14 +3598,14 @@ print_mapseen(
         /* presence of the ludios branch in #overview output indicates that
            the player has made it onto the level; presence of this annotation
            indicates that the fort's entrance has been seen (or mapped) */
-        Sprintf(buf, "%s吕底人堡垒.", PREFIX);
+        Sprintf(buf, "%s吕底俄斯堡.", PREFIX);
     } else if (mptr->flags.castle) {
-        Snprintf(buf, sizeof buf, "%sThe castle%s.", PREFIX,
-                tunesuffix(mptr, tmpbuf, sizeof tmpbuf));
+        Snprintf(buf, sizeof buf, "%s城堡%s.", PREFIX,
+                 tunesuffix(mptr, tmpbuf, sizeof tmpbuf));
     } else if (mptr->flags.valley) {
-        Sprintf(buf, "%s死亡山谷.", PREFIX);
+        Sprintf(buf, "%s死亡谷.", PREFIX);
     } else if (mptr->flags.vibrating_square) {
-        Sprintf(buf, "%s通往摩洛克的圣所之门。", PREFIX);
+        Sprintf(buf, "%s通往摩洛的圣所之门.", PREFIX);
     } else if (mptr->flags.msanctum) {
         Sprintf(buf, "%s摩洛的密室.", PREFIX);
     }
@@ -3674,22 +3614,22 @@ print_mapseen(
     }
     /* quest entrance is not mutually-exclusive with bigroom or rogue level */
     if (mptr->flags.quest_summons) {
-        Sprintf(buf, "%s受%s的传唤.", PREFIX, ldrname());
+        Sprintf(buf, "%s受到%s的召唤.", PREFIX, ldrname());
         add_menu_str(win, buf);
     }
 
     /* print out branches */
     if (mptr->br) {
-        Sprintf(buf, "%s%s到%s", PREFIX, br_string2(mptr->br),
-                svd.dungeons[mptr->br->end2.dnum].dname);
+        Sprintf(buf, "%s到%s的%s", PREFIX, svd.dungeons[mptr->br->end2.dnum].dcname,
+                br_string2(mptr->br)); /*修改语序:同上*/
 
         /* Since mapseen objects are printed out in increasing order
          * of dlevel, clarify which level this branch is going to
          * if the branch goes upwards.  Unless it's the end game.
          */
         if (mptr->br->end1_up && !In_endgame(&(mptr->br->end2)))
-            Sprintf(eos(buf), ",  层数%d", depth(&(mptr->br->end2)));
-        Strcat(buf, "死亡");
+            Sprintf(eos(buf), ", %d层", depth(&(mptr->br->end2)));
+        Strcat(buf, ".");
         add_menu_str(win, buf);
     }
 
@@ -3702,18 +3642,18 @@ print_mapseen(
             if (bp->bonesknown || wizard || final > 0)
                 ++kncnt;
         if (kncnt) {
-            Sprintf(buf, "%s%s", PREFIX, "最终安息之地");
+            Sprintf(buf, "%s%s", PREFIX, "安息之地");
             add_menu_str(win, buf);
             if (died_here) {
                 /* disclosure occurs before bones creation, so listing dead
                    hero here doesn't give away whether bones are produced */
                 formatkiller(tmpbuf, sizeof tmpbuf, how, TRUE);
                 /* rephrase a few death reasons to work with "you" */
-                (void) strsubst(tmpbuf, " himself", " yourself");
+                /*冗余:(void) strsubst(tmpbuf, " himself", " yourself");
                 (void) strsubst(tmpbuf, " herself", " yourself");
                 (void) strsubst(tmpbuf, " his ", " your ");
-                (void) strsubst(tmpbuf, " her ", " your ");
-                Snprintf(buf, sizeof(buf), "%s%syou, %s%c", PREFIX, TAB,
+                (void) strsubst(tmpbuf, " her ", " your ");*/(void) strsubst(tmpbuf, "他", "你"); (void) strsubst(tmpbuf, "她", "你");
+                Snprintf(buf, sizeof(buf), "%s%s你, %s%c", PREFIX, TAB,
                          tmpbuf, --kncnt ? ',' : '.');
                 add_menu_str(win, buf);
             }

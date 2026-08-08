@@ -1002,7 +1002,7 @@ genl_status_update(
             if (cond & BL_MASK_BLIND)
                 Strcpy(nb = eos(nb), "  失明");
             if (cond & BL_MASK_DEAF)
-                Strcpy(nb = eos(nb), "  耳聋");
+                Strcpy(nb = eos(nb), "  失聪");
             if (cond & BL_MASK_STUN)
                 Strcpy(nb = eos(nb), "  眩晕");
             if (cond & BL_MASK_CONF)
@@ -1014,7 +1014,7 @@ genl_status_update(
             if (cond & BL_MASK_FLY)
                 Strcpy(nb = eos(nb), "  飞行");
             if (cond & BL_MASK_RIDE)
-                Strcpy(nb = eos(nb), "  乘骑");
+                Strcpy(nb = eos(nb), "  骑乘");
             break;
         default:
             Sprintf(status_vals[idx],
@@ -1098,7 +1098,7 @@ genl_status_update(
             } /* status_activefields[idx2] */
 
             if (idx2 == BL_CONDITION && pass < 4
-                && strlen(newbot2) - lndelta > COLNO)
+                 && utf8str_width(newbot2) - lndelta > COLNO)
                 break; /* switch to next order */
         } /* i */
 
