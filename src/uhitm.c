@@ -2709,7 +2709,7 @@ mhitm_ad_elec(
         if (!mhitm_mgc_atk_negated(magr, mdef, TRUE)) {
             You("被电击了!");
             if (Shock_resistance) {
-                pline_The("电流没有电击到你!");
+                pline_The("电流没有冲击到你!");
                 monstseesu(M_SEEN_ELEC);
                 mhm->damage = 0;
             } else {
