@@ -1205,7 +1205,7 @@ cpostfx(int pm)
                 livelog_printf(LL_CONDUCT,
                             "第一次变身, 模仿成%s",
                                tempshape);
-            You_cant("无法抗拒模仿%s的诱惑.", tempshape);
+            You("无法抗拒模仿%s的诱惑.", tempshape); /*换pline:You_cant*/
             /* A pile of gold can't ride. */
             if (u.usteed)
                 dismount_steed(DISMOUNT_FELL);
