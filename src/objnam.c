@@ -1016,10 +1016,10 @@ xname_flags(
                        xname() call to consume more than one of those
                        [note: makeXXX() will be fully evaluated and done with
                        'buf' before strcpy() touches its output buffer] */
-                    Strcat(buf, obufp = makesingular(buf));
+                    /*冗余(不然你会看到: 2 黏菌黏菌黏菌黏菌):Strcat(buf, obufp = makesingular(buf));
                     releaseobuf(obufp);
                     Strcat(buf, obufp = makeplural(buf));
-                    releaseobuf(obufp);
+                    releaseobuf(obufp);*/
 
                     pluralize = FALSE;
                 }
