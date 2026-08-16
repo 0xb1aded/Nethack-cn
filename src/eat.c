@@ -1030,7 +1030,7 @@ givit(int type, struct permonst *ptr)
     case COLD_RES:
         debugpline0("Trying to give cold resistance");
         if (!(HCold_resistance & FROMOUTSIDE)) {
-            You_feel("内部充满了热空气.");
+            You_feel("浑身充满了热气.");
             HCold_resistance |= FROMOUTSIDE;
         }
         break;
