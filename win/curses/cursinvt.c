@@ -316,7 +316,7 @@ curs_add_invt(
     newelement.letter = accelerator;
     aptr[pi.inuseindx++] = newelement;
 
-    len = strlen(str);
+    len = (unsigned) utf8str_width(str);
     if (accelerator) {
         /* +4: " )c " inventory letter will be inserted before invtxt;
            invtxt's "a "/"an "/"the " prefix, if any, will be skipped */
@@ -415,12 +415,16 @@ curs_show_invt(WINDOW *win)
              */
             stroffset = pi_article_skip(str); /* to skip "a "/"an "/"the " */
             /* if/when scrolled right, invtxt for item lines gets shifted */
-            stroffset += pi.coloffset;
+            stroffset = (unsigned) (utf8str_at_col(
+                                        str + stroffset, pi.coloffset) - str);
         }
 
         if (stroffset < strlen(str)) {
+            const char *text = str + stroffset;
+            int textlen = (int) (utf8str_at_col(
+                                           text, available_width) - text);
             curses_menu_color_attr(win, color, attr, ON);
-            wprintw(win, "%.*s", available_width, str + stroffset);
+            wprintw(win, "%.*s", textlen, text);
             curses_menu_color_attr(win, color, attr, OFF);
         }
 
