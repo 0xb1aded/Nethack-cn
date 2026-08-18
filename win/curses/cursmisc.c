@@ -303,8 +303,7 @@ curses_num_lines(const char *str, int width)
     if (!str || !*str)
         return 1;
 
-    int disp_width = utf8str_width(p);
-    while (disp_width > width) {
+    while (utf8str_width(p) > width) {
         const char *next =
             curses_next_line(p, width, linebuf, sizeof linebuf);
 
