@@ -1134,7 +1134,7 @@ menu_win_size(nhmenu *menu)
 {
     int maxwidth, maxheight, curentrywidth, lastline;
     int maxentrywidth = 0;
-    int maxheaderwidth = menu->prompt ? (int) strlen(menu->prompt) : 0;
+    int maxheaderwidth = menu->prompt ? (int) utf8str_width(menu->prompt) : 0;
     nhmenu_item *menu_item_ptr, *last_item_ptr = NULL;
     boolean only_if_no_headers = (iflags.menuobjsyms & 4) != 0;
 
@@ -1171,7 +1171,7 @@ menu_win_size(nhmenu *menu)
     assert(menu->entries != NULL); /* at least one iteration will occur */
     for (menu_item_ptr = menu->entries; menu_item_ptr != NULL;
          menu_item_ptr = menu_item_ptr->next_item) {
-        curentrywidth = (int) strlen(menu_item_ptr->str);
+        curentrywidth = (int) utf8str_width(menu_item_ptr->str);
         if (menu_item_ptr->identifier.a_void == NULL) {
             if (curentrywidth > maxheaderwidth) {
                 maxheaderwidth = curentrywidth;

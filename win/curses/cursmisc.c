@@ -27,11 +27,12 @@ static boolean modifiers_available = FALSE;
 static int modified(int ch);
 static void update_modifiers(void);
 static int parse_escape_sequence(int, boolean *);
+static const char *curses_next_line(const char *str, int width, char *line,
+                                    unsigned linesz) NONNULLPTRS;
 
 #define SS3 M(C('O')) /* 8-bit escape sequence initiator for VT number pad */
 
-int
-curses_getch(void)
+    int curses_getch(void)
 {
     int ch;
 
@@ -241,188 +242,141 @@ curses_copy_of(const char *s)
     return dupstr(s);
 }
 
+/* 从 str 中按显示列宽切出第一行。
+ * 将这一行写入 line（以 '\0' 结尾），并返回剩余部分的起始指针。
+ * 仅在 str 已知无法放入 width 列时调用。 */
+static const char *
+curses_next_line(const char *str, int width, char *line, unsigned linesz)
+{
+    const char *p, *last_space = NULL;
+    if (linesz > 0)
+        line[0] = '\0';
 
-/* Determine the number of lines needed for a string for a dialog window
-   of the given width */
+    int col = 0;
+    uint8 clen = 0, cw = 0;
+    for (p = str; *p; p += clen) {
+        utf8char_info(p, &clen, &cw);
+        if (col + cw > width)
+            break;
+        if (*p == ' ')
+            last_space = p;
+        col += cw;
+    }
 
+    if (last_space) {
+        ptrdiff_t len = last_space - str;
+        if (len >= linesz)
+            len = linesz - 1;
+        if (linesz > 0) {
+            memcpy(line, str, len);
+            line[len] = '\0';
+        }
+        return last_space + 1;
+    }
+
+    // 没有空格可断行，在第一个放不下的字符处断开
+    if (p == str && *p) {
+        // 连一个字符都放不下时，也先消费一个完整字符，保证能向前推进
+        utf8char_info(p, &clen, &cw);
+        p += clen;
+    }
+
+    ptrdiff_t len = p - str;
+    if (len >= linesz)
+        len = linesz - 1;
+    if (linesz > 0) {
+        memcpy(line, str, len);
+        line[len] = '\0';
+    }
+
+    return p;
+}
+
+/* 计算一个字符串在给定显示宽度的对话框中需要多少行 */
 int
 curses_num_lines(const char *str, int width)
 {
-    int last_space, count;
+    const char *p = str;
+    char linebuf[BUFSZ];
     int curline = 1;
-    char substr[BUFSZ];
-    char tmpstr[BUFSZ];
 
-    strncpy(substr, str, BUFSZ-1);
-    substr[BUFSZ-1] = '\0';
+    if (!str || !*str)
+        return 1;
 
-    while (strlen(substr) > (size_t) width) {
-        last_space = 0;
+    int disp_width = utf8str_width(p);
+    while (disp_width > width) {
+        const char *next =
+            curses_next_line(p, width, linebuf, sizeof linebuf);
 
-        for (count = 0; count <= width; count++) {
-            if (substr[count] == ' ')
-                last_space = count;
-
-        }
-        if (last_space == 0) {  /* No spaces found */
-            last_space = count - 1;
-        }
-        for (count = (last_space + 1); count < (int) strlen(substr); count++) {
-            tmpstr[count - (last_space + 1)] = substr[count];
-        }
-        tmpstr[count - (last_space + 1)] = '\0';
-        strcpy(substr, tmpstr);
+        if (next == p) // 防止死循环
+            break;
+        p = next;
         curline++;
+        if (!*p)
+            break;
     }
 
     return curline;
 }
 
-
-/* Break string into smaller lines to fit into a dialog window of the
-given width */
-
+/* 将字符串按给定显示宽度拆成多行 */
 char *
 curses_break_str(const char *str, int width, int line_num)
 {
-    int last_space, count;
+    const char *p = str;
+    char *curstr;
     char *retstr;
     int curline = 0;
-    int strsize = (int) strlen(str) + 1;
-#if (defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L) && !defined(_MSC_VER)
-    char substr[strsize];
-    char curstr[strsize];
-    char tmpstr[strsize];
+    unsigned cursz = Strlen(str) + 1;
 
-    strcpy(substr, str);
-#else
-#ifndef BUFSZ
-#define BUFSZ 256
-#endif
-    char substr[BUFSZ * 2];
-    char curstr[BUFSZ * 2];
-    char tmpstr[BUFSZ * 2];
-
-    if (strsize > (BUFSZ * 2) - 1) {
-        paniclog("curses", "curses_break_str() string too long.");
-        strncpy(substr, str, (BUFSZ * 2) - 2);
-        substr[(BUFSZ * 2) - 1] = '\0';
-    } else
-        strcpy(substr, str);
-#endif
-
+    curstr = (char *) alloc(cursz);
+    curstr[0] = '\0';
     while (curline < line_num) {
-        if (strlen(substr) == 0) {
+        if (!p || !*p) {
+            Strcpy(curstr, "");
             break;
         }
+        if (utf8str_width(p) <= width) {
+            // 剩余部分能完整放入当前行，直接原样返回
+            Strcpy(curstr, p);
+            p = "";
+            curline++;
+            continue;
+        }
+        p = curses_next_line(p, width, curstr, cursz);
         curline++;
-        last_space = 0;
-        for (count = 0; count <= width; count++) {
-            if (substr[count] == ' ') {
-                last_space = count;
-            } else if (substr[count] == '\0') {
-                last_space = count;
-                break;
-            }
-        }
-        if (last_space == 0) {  /* No spaces found */
-            last_space = count - 1;
-        }
-        for (count = 0; count < last_space; count++) {
-            curstr[count] = substr[count];
-        }
-        curstr[count] = '\0';
-        if (substr[count] == '\0') {
-            break;
-        }
-        for (count = (last_space + 1); count < (int) strlen(substr); count++) {
-            tmpstr[count - (last_space + 1)] = substr[count];
-        }
-        tmpstr[count - (last_space + 1)] = '\0';
-        strcpy(substr, tmpstr);
-    }
-
-    if (curline < line_num) {
-#if 0
-        return NULL;
-#else
-        /* callers aren't prepared to handle NULL return */
-        Strcpy(curstr, "");
-#endif
     }
 
     retstr = curses_copy_of(curstr);
-
+    free((genericptr_t) curstr);
     return retstr;
 }
 
-
-/* Return the remaining portion of a string after hacking-off line_num lines */
-
+/* 返回跳过 line_num 行之后剩余的字符串内容 */
 char *
 curses_str_remainder(const char *str, int width, int line_num)
 {
-    int last_space, count;
-    char *retstr;
+    const char *p = str;
+    char linebuf[BUFSZ];
     int curline = 0;
-    int strsize = strlen(str) + 1;
-#if (__STDC_VERSION__ >= 199901L) && !defined(_MSC_VER)
-    char substr[strsize];
-    char tmpstr[strsize];
 
-    strcpy(substr, str);
-#else
-#ifndef BUFSZ
-#define BUFSZ 256
-#endif
-    char substr[BUFSZ * 2];
-    char tmpstr[BUFSZ * 2];
-
-    if (strsize > (BUFSZ * 2) - 1) {
-        paniclog("curses", "curses_str_remainder() string too long.");
-        strncpy(substr, str, (BUFSZ * 2) - 2);
-        substr[(BUFSZ * 2) - 1] = '\0';
-    } else
-        strcpy(substr, str);
-#endif
+    if (!str)
+        return NULL;
 
     while (curline < line_num) {
-        if (strlen(substr) == 0) {
-            break;
+        if (!p || !*p)
+            return NULL;
+        if (utf8str_width(p) <= (size_t) width) {
+            p = "";
+            curline++;
+            continue;
         }
+        p = curses_next_line(p, width, linebuf, sizeof linebuf);
         curline++;
-        last_space = 0;
-        for (count = 0; count <= width; count++) {
-            if (substr[count] == ' ') {
-                last_space = count;
-            } else if (substr[count] == '\0') {
-                last_space = count;
-                break;
-            }
-        }
-        if (last_space == 0) {  /* No spaces found */
-            last_space = count - 1;
-        }
-        assert(IndexOk(last_space, substr));
-        if (substr[last_space] == '\0') {
-            break;
-        }
-        for (count = (last_space + 1); count < (int) strlen(substr); count++) {
-            tmpstr[count - (last_space + 1)] = substr[count];
-        }
-        tmpstr[count - (last_space + 1)] = '\0';
-        strcpy(substr, tmpstr);
     }
 
-    if (curline < line_num) {
-        return NULL;
-    }
-
-    retstr = curses_copy_of(substr);
-
-    return retstr;
+    return curses_copy_of(p);
 }
-
 
 int
 curses_utf8_char_len(unsigned char ch)
