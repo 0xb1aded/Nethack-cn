@@ -2106,11 +2106,11 @@ dospellmenu(
         buf[0] = '\0';
         if (splaction != SPELLMENU_DUMP)
             Sprintf(buf, "    ");
-        utf8str_append(buf, sizeof buf, "名称", 16);
+        utf8str_append(buf, sizeof buf, "名称", 12);
         Sprintf(eos(buf), "等级  ");
-        utf8str_append(buf, sizeof buf, "种类", 10);
+        utf8str_append(buf, sizeof buf, "种类", 8);
         Sprintf(eos(buf), "失败率  ");
-        utf8str_append_r(buf, sizeof buf, "留存率", 8);
+        utf8str_append_r(buf, sizeof buf, "留存率", 10);
         sep = ' ';
     } else {
         Sprintf(buf, "名称\t等级\t种类\t失败率\t留存率");
@@ -2120,9 +2120,9 @@ dospellmenu(
     if (wizard) {
         if (!iflags.menu_tab_sep) {
             Sprintf(eos(buf), "%c", sep);
-            utf8str_append_r(buf, sizeof buf, "回合", 6);
+            utf8str_append_r(buf, sizeof buf, "回合", 8);
         } else {
-            Sprintf(eos(buf), "%c%6s", sep, "回合");
+            Sprintf(eos(buf), "%c%8s", sep, "回合");
         }
     }
 
@@ -2131,17 +2131,17 @@ dospellmenu(
         splnum = !gs.spl_orderindx ? i : gs.spl_orderindx[i];
         if (!iflags.menu_tab_sep) {
             buf[0] = '\0';
-            utf8str_append(buf, sizeof buf, spellname(splnum), 16);
+            utf8str_append(buf, sizeof buf, spellname(splnum), 12);
             Sprintf(eos(buf), "%-2d    ", spellev(splnum));
             utf8str_append(
                 buf, sizeof buf,
-                spelltypemnemonic(spell_skilltype(spellid(splnum))), 10);
+                spelltypemnemonic(spell_skilltype(spellid(splnum))), 8);
             Sprintf(eos(buf), "  %3d%% ", 100 - percent_success(splnum));
             utf8str_append_r(buf, sizeof buf,
-                             spellretention(splnum, retentionbuf), 9);
+                             spellretention(splnum, retentionbuf), 11);
             if (wizard) {
                 Sprintf(eos(buf), "%c", sep);
-                Sprintf(eos(buf), "%6d", spellknow(i));
+                Sprintf(eos(buf), "%8d", spellknow(i));
             }
         } else {
             Sprintf(buf, fmt, spellname(splnum), spellev(splnum),
