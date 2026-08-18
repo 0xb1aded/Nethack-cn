@@ -82,6 +82,10 @@ extern int unicodeval_to_utf8str(int, uint8 *, size_t);
 extern void utf8char_info(const char *, uint8 *, uint8 *) NONNULLARG1;
 extern size_t utf8str_width(const char *) NONNULLPTRS;
 extern const char *utf8str_at_col(const char *, size_t) NONNULLARG1;
+extern unsigned utf8str_padded(char *, unsigned, const char *,
+                               unsigned) NONNULLPTRS;
+extern unsigned utf8str_padded_r(char *, unsigned, const char *,
+                                 unsigned) NONNULLPTRS;
 extern boolean copy_bytes(int, int);
 extern const char *datamodel(int);
 extern const char *what_datamodel_is_this(int, int, int, int, int, int);
