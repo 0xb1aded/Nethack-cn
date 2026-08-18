@@ -1289,7 +1289,7 @@ add_skills_to_menu(winid win, boolean selectable, boolean speedy)
                             longest - utf8str_width(P_NAME(i)), "");
                     Sprintf(eos(buf), "  %s%*s", sklnambuf,
                             6 - utf8str_width(sklnambuf), "");
-                    Sprintf(eos(buf), "%5d(%4d)", P_ADVANCE(i),
+                    Sprintf(eos(buf), "  %5d(%4d)", P_ADVANCE(i),
                             practice_needed_to_advance(P_SKILL(i)));
                 } else
                     Snprintf(buf, sizeof buf,
