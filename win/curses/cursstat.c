@@ -355,7 +355,7 @@ draw_horizontal(boolean border)
        for direct output if no highlighting is requested ('asis') but
        primarily used to measure the length */
     curs_stat_conds(0, 0, &x, &y, cbuf, &asis);
-    clen = (int) utf8str_width(cbuf);
+    clen = utf8str_width(cbuf);
 
     cap_and_hunger = 0;
     if (*status_vals[BL_HUNGER])
@@ -366,7 +366,7 @@ draw_horizontal(boolean border)
     /* don't bother conditionalizing this; always 0 for !SCORE_ON_BOTL */
     sho_score = (status_activefields[BL_SCORE] != 0);
     sho_vers = (status_activefields[BL_VERS] != 0);
-    versstart = sho_vers ? (width - (int) utf8str_width(status_vals[BL_VERS])
+    versstart = sho_vers ? (width - utf8str_width(status_vals[BL_VERS])
                             + (border ? 1 : 0))
                          : 0;
 
@@ -418,7 +418,7 @@ draw_horizontal(boolean border)
             case BL_TITLE:
                 if (iflags.wc2_hitpointbar) {
                     w += 2; /* count '[' and ']' */
-                    t = (int) utf8str_width(text);
+                    t = utf8str_width(text);
                     if (t != 30) /* HPbar() will use modified copy of title */
                         w -= (t - 30); /* '+= utf8str_width()' below will add 't';
                                         * functional result being 'w += 30' */
@@ -458,7 +458,7 @@ draw_horizontal(boolean border)
             default:
                 break;
             }
-            w += (int) utf8str_width(text);
+            w += utf8str_width(text);
             /* if preceding field has any trailing spaces, don't add extra;
                (should only apply to prev==title; status_update() handles
                others that used to have trailing spaces by stripping such) */
@@ -556,7 +556,7 @@ draw_horizontal(boolean border)
                    of borderless window, but will when there's a border);
                    could only do that after all extra spaces are gone */
                  if (!xtra) {
-                     int cap_w = (int) utf8str_width(text);
+                     int cap_w = utf8str_width(text);
                      getyx(win, ey, ex);
                      if (ex + cap_w > width - (border ? 0 : 1)) {
                          text = strcpy(ebuf, text);
@@ -639,7 +639,7 @@ draw_horizontal(boolean border)
                     if (number_of_lines == 3) {
                         int vlen = (sho_vers
                                     && fieldorder[j][i + 1] == BL_VERS)
-                                   ? ((int) utf8str_width(status_vals[BL_VERS])
+                                   ? (utf8str_width(status_vals[BL_VERS])
                                       + spacing[BL_VERS])
                                    : 0;
 
@@ -1015,7 +1015,7 @@ curs_HPbar(
     if (bar_len < 1 || bar_len > 30)
         bar_len = 30;
     /* 26 for vertical status */
-    if (bar_len > (k = (int) utf8str_width(text)))
+    if (bar_len > (k = utf8str_width(text)))
         bar_len = k;
     {
         const char *endptr = utf8str_at_col(text, bar_len);
@@ -1141,7 +1141,7 @@ curs_stat_conds(
                     Strcpy(condnam, conditions_ui[ci].text);
                 else
                     Sprintf(condnam, vert_fmt, conditions_ui[ci].text);
-                cndlen = 1 + (int) utf8str_width(condnam); /* count leading space */
+                cndlen = 1 + utf8str_width(condnam); /* count leading space */
                 if (!do_vert) {
                     getyx(win, cy, cx);
                     if (cy > cy0) /* wrap to next line shouldn't happen */
@@ -1299,7 +1299,7 @@ curs_vert_status_vals(int win_width)
                         -lbl_width, lbl_width, lbl, leadingspace, text);
                 *status_vals_long[fldidx] = highc(*status_vals_long[fldidx]);
             } else if (fldidx == BL_VERS && *text) {
-                int txtlen = (int) utf8str_width(text);
+                int txtlen = utf8str_width(text);
 
                 /* right justify without "Version :" prefix; if longer than
                    width, keep only the *end* of the value */
@@ -1326,18 +1326,18 @@ curs_vert_status_vals(int win_width)
             /* check whether 'label : value' is too wide; if so, we'll
                shorten the label's allowed width and try again */
             if (use_name) {
-                fld_width = (int) utf8str_width(status_vals_long[fldidx]);
+                fld_width = utf8str_width(status_vals_long[fldidx]);
                 /* each extension field is preceded by its base field in
                    order to append, so base's _vals_long[] has been set */
                 switch ((enum statusfields) fldidx) {
                 case BL_HPMAX:
-                    fld_width += (int) utf8str_width(status_vals_long[BL_HP]);
+                    fld_width += utf8str_width(status_vals_long[BL_HP]);
                     break;
                 case BL_ENEMAX:
-                    fld_width += (int) utf8str_width(status_vals_long[BL_ENE]);
+                    fld_width += utf8str_width(status_vals_long[BL_ENE]);
                     break;
                 case BL_EXP:
-                    fld_width += (int) utf8str_width(status_vals_long[BL_XP]);
+                    fld_width += utf8str_width(status_vals_long[BL_XP]);
                     break;
                 default:
                     break;

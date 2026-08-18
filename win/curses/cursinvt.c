@@ -316,7 +316,7 @@ curs_add_invt(
     newelement.letter = accelerator;
     aptr[pi.inuseindx++] = newelement;
 
-    len = (unsigned) utf8str_width(str);
+    len = utf8str_width(str);
     if (accelerator) {
         /* +4: " )c " inventory letter will be inserted before invtxt;
            invtxt's "a "/"an "/"the " prefix, if any, will be skipped */

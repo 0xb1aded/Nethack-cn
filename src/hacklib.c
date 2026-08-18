@@ -935,10 +935,10 @@ utf8char_info(const char *p_char, uint8 *char_len, uint8 *char_width)
 }
 
 /* 估算一个 UTF-8 字符串的显示列宽。 */
-size_t
+int
 utf8str_width(const char *str)
 {
-    size_t width = 0;
+    int width = 0;
     uint8 clen = 0, cw = 0;
     while (*str) {
         utf8char_info(str, &clen, &cw);
@@ -951,9 +951,9 @@ utf8str_width(const char *str)
 /* 返回指向字符串中第 n 个显示列之前或该列处的指针。
  * 当下一个字符会超过 n 列时停止，确保不会切断多字节字符。 */
 const char *
-utf8str_at_col(const char *str, size_t n)
+utf8str_at_col(const char *str, unsigned n)
 {
-    size_t cnt = 0;
+    unsigned cnt = 0;
     uint8 clen = 0, cw = 0;
     while (*str) {
         utf8char_info(str, &clen, &cw);
@@ -969,11 +969,11 @@ utf8str_at_col(const char *str, size_t n)
  * 若 buf 容量不够则不写入数据，并返回需要的容量（含结尾 '\0'）。
  * 若成功则返回追加后的字符串长度。 */
 unsigned
-utf8str_padded(char *buf, unsigned bufsz, const char *text, unsigned width)
+utf8str_append(char *buf, unsigned bufsz, const char *text, int width)
 {
     unsigned curr_len = (unsigned) strlen(buf);
     unsigned text_len = (unsigned) strlen(text);
-    unsigned text_width = utf8str_width(text);
+    int text_width = utf8str_width(text);
     unsigned pad = (width > text_width) ? (width - text_width) : 0;
     unsigned dest_len = curr_len + text_len + pad + 1;
 
@@ -985,15 +985,15 @@ utf8str_padded(char *buf, unsigned bufsz, const char *text, unsigned width)
     return curr_len + text_len + pad;
 }
 
-/* 同 `utf8str_padded`，类似 %Ns 的行为。
+/* 同 `utf8str_append`，类似 %Ns 的行为。
  * 若 buf 容量不够则不写入数据，并返回需要的容量（含结尾 '\0'）。
  * 若成功则返回追加后的字符串长度。 */
 unsigned
-utf8str_padded_r(char *buf, unsigned bufsz, const char *text, unsigned width)
+utf8str_append_r(char *buf, unsigned bufsz, const char *text, int width)
 {
     unsigned curr_len = (unsigned) strlen(buf);
     unsigned text_len = (unsigned) strlen(text);
-    unsigned text_width = (int) utf8str_width(text);
+    int text_width = utf8str_width(text);
     unsigned pad = (width > text_width) ? (width - text_width) : 0;
     unsigned dest_len = curr_len + text_len + pad + 1;
 

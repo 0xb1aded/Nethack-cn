@@ -85,7 +85,7 @@ do_statusline1(void)
 
     Sprintf(nb = eos(nb), "  ");
     i = gm.mrank_sz + 15;
-    j = (int) utf8str_width(newbot1);
+    j = utf8str_width(newbot1);
     if (i > j)
         Sprintf(nb = eos(nb), "%*s", i - j, " "); /* pad with spaces */
 
@@ -1161,11 +1161,11 @@ bot_via_windowport(void)
     Strcpy(nb = buf, svp.plname);
     nb[0] = highc(nb[0]);
     titl = !Upolyd ? rank() : pmname(&mons[u.umonnum], Ugender);
-    i = (int) (utf8str_width(buf) + utf8str_width(titl) + 1);
+    i = utf8str_width(buf) + utf8str_width(titl) + 1;
     // 修改: 原始逻辑为如果名称列过长则截断，但至少保证 BOTL_NSIZ 个字节
     // 现修改为列宽超过该阈值则截断，至少保证 BOTL_NSIZ 的列宽
     if (i > 30) {
-        int free_cols = 30 - (1 + (int) utf8str_width(titl));
+        int free_cols = 30 - (1 + utf8str_width(titl));
         size_t col = 0, pos = 0;
         while (buf[pos]) {
             uint8 clen = 0, cw = 0;
@@ -1179,7 +1179,7 @@ bot_via_windowport(void)
     }
     Strcpy(nb = eos(nb), " ");
     Strcpy(nb = eos(nb), titl);
-    i = (int) utf8str_width(buf);
+    i = utf8str_width(buf);
     if (i < 30)
         Sprintf(eos(buf), "%*s", 30 - i, "");
     Sprintf(gb.blstats[idx][BL_TITLE].val, "%s", buf);
@@ -1609,8 +1609,8 @@ cond_menu(void)
             // 修改: 无法直接通过 format 限制 UTF-8
             // 字符串的显示列数，所以手动计算
             Sprintf(mbuf, "%s%*s", condtests_ui[idx].text,
-                    14 - (int) utf8str_width(condtests_ui[idx].text) > 0
-                        ? 14 - (int) utf8str_width(condtests_ui[idx].text)
+                    14 - utf8str_width(condtests_ui[idx].text) > 0
+                        ? 14 - utf8str_width(condtests_ui[idx].text)
                         : 0,
                     "");
             any = cg.zeroany;
@@ -4817,7 +4817,7 @@ shlmenu_redo:
         any.a_int = fld + 1;
         /* 修改: 原本的排版方式不适用于 UTF-8 编码的中文
         Sprintf(buf, "%-18s", fldname_ui[i]); */
-        int display_width = (int) utf8str_width(fldname_ui[i]);
+        int display_width = utf8str_width(fldname_ui[i]);
         Sprintf(buf, "%s%*s", fldname_ui[i],
                 18 - display_width > 0 ? 18 - display_width : 0, "");
         if (count)
