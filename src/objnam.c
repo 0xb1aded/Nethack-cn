@@ -2336,7 +2336,7 @@ doname_base(
         if (obj->owornmask & W_RINGR)
             Concat(bp, 0, " (在右");
         if (obj->owornmask & W_RINGL)
-            Concat(bp, 0, " (在右");
+            Concat(bp, 0, " (在左");
         if (obj->owornmask & W_RING) /* either left or right */
             ConcatF1(bp, 0,"%s上)", body_part(HAND));
         if (known && objects[obj->otyp].oc_charged) {
