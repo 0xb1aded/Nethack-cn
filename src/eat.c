@@ -1796,7 +1796,7 @@ start_tin(struct obj *otmp)
     } else {
         svc.context.tin.reqtime = tmp;
         svc.context.tin.usedtime = 0;
-        set_occupation(opentin, "开启罐头", 0);
+        set_occupation(opentin, "打开罐头", 0);
     }
     return;
 }
@@ -1915,7 +1915,7 @@ eatcorpse(struct obj *otmp)
             /* make sure new ill doesn't result in improvement */
             if (Sick && (sick_time > Sick))
                 sick_time = (Sick > 1L) ? Sick - 1L : 1L;
-            make_sick(sick_time, corpse_xname(otmp, "rotted", CXN_NORMAL),
+            make_sick(sick_time, corpse_xname(otmp, "腐烂的", CXN_NORMAL),
                       TRUE, SICK_VOMITABLE);
 
             pline("(它一定是死了太久, 无法安全食用. )");
@@ -1928,7 +1928,7 @@ eatcorpse(struct obj *otmp)
     } else if (acidic(&mons[mnum]) && !Acid_resistance) {
         tp++;
         You("得了非常严重的胃酸不适.");   /* not body_part() */
-        losehp(rnd(15), !glob ? "acidic corpse" : "acidic glob",
+        losehp(rnd(15), !glob ? "酸性尸体" : "酸性团怪",
                KILLED_BY_AN); /* acid damage */
     } else if (poisonous(&mons[mnum]) && rn2(5)) {
         tp++;
