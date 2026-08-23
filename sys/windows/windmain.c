@@ -108,7 +108,7 @@ staticfn void stdio_raw_print(const char *str);
 staticfn void stdio_nonl_raw_print(const char *str);
 staticfn void stdio_raw_print_bold(const char *str);
 staticfn int stdio_nhgetch(void);
-staticfn void stdout_write_utf8(const char *str);
+void stdout_write_utf8(const char *str);
 
 #ifdef PORT_HELP
 void port_help(void);
@@ -1361,7 +1361,7 @@ set_emergency_io(void)
 
 /* Helper: write UTF-8 string to console via WriteConsoleW,
    bypassing CRT encoding issues entirely */
-staticfn void
+void
 stdout_write_utf8(const char *str)
 {
     HANDLE hOut;
