@@ -932,7 +932,7 @@ enum {
     TOPTEN_SCORE_COL_WIDTH = 10, // 分数 列宽度
     TOPTEN_NAME_COL_START = TOPTEN_RANK_COL_WIDTH + TOPTEN_SCORE_COL_WIDTH
                             + TOPTEN_COL_GAP * 2, // 姓名列起点
-    TOPTEN_SPACECUT_WIN = 16, // 空格处断行时与末列的最大距离
+    TOPTEN_SPACECUT_RANGE = 16, // 空格处断行时与末列的最大距离
 };
 
 static const char topten_head_rank[] = "排名";
@@ -1098,7 +1098,7 @@ outentry(int rank, struct toptenentry *t1, boolean so)
 
         // 在空格处换行
         if (p_space && p_space > p_name_col
-            && name_colmax - space_col <= TOPTEN_SPACECUT_WIN)
+            && name_colmax - space_col <= TOPTEN_SPACECUT_RANGE)
             p_cut = p_space;
         // 在当前列末尾换行
         if (!p_cut)
