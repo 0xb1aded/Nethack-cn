@@ -1078,7 +1078,10 @@ outentry(int rank, struct toptenentry *t1, boolean so)
     hppos = COLNO - utf8str_width(hpbuf);
 
     // 存储 姓名 列的最大列号，超出的部分需要换行
-    int name_colmax = COLNO - utf8str_width(topten_head_hp) - TOPTEN_COL_GAP;
+    static int name_colmax = 0;
+    if (name_colmax == 0)
+        name_colmax =
+            COLNO - utf8str_width(topten_head_hp) - TOPTEN_COL_GAP - 1;
     const char *p_name_col = linebuf + TOPTEN_NAME_COL_START;
     lngr = utf8str_width(linebuf);
     while (lngr >= name_colmax) {
