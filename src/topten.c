@@ -925,11 +925,15 @@ topten(int how, time_t when)
     }
 }
 
-// 排行榜的列数据
-typedef struct {
-    const char *const head_name;
-    int head_width, col_width;
-} ToptenCol;
+// 排行榜列布局参数
+enum {
+    TOPTEN_COL_GAP = 2,          // 列间距
+    TOPTEN_RANK_COL_WIDTH = 4,   // 排名 列宽度
+    TOPTEN_SCORE_COL_WIDTH = 10, // 分数 列宽度
+    TOPTEN_NAME_COL_START = TOPTEN_RANK_COL_WIDTH + TOPTEN_SCORE_COL_WIDTH
+                            + TOPTEN_COL_GAP * 2, // 姓名列起点
+    TOPTEN_SPACECUT_WIN = 16, // 空格处断行时与末列的最大距离
+};
 
 static const char topten_head_rank[] = "排名";
 static const char topten_head_score[] = "分数";
@@ -941,9 +945,12 @@ outheader(void)
 {
     char linebuf[BUFSZ];
     linebuf[0] = '\0';
-    utf8str_append(linebuf, sizeof linebuf, topten_head_rank, 6);
-    utf8str_append_r(linebuf, sizeof linebuf, topten_head_score, 10);
-    utf8str_append_r(linebuf, sizeof linebuf, topten_head_name, 6);
+    utf8str_append(linebuf, sizeof linebuf, topten_head_rank,
+                   TOPTEN_RANK_COL_WIDTH + TOPTEN_COL_GAP);
+    utf8str_append(linebuf, sizeof linebuf, topten_head_score,
+                   TOPTEN_SCORE_COL_WIDTH);
+    utf8str_append_r(linebuf, sizeof linebuf, topten_head_name,
+                     TOPTEN_COL_GAP + utf8str_width(topten_head_name));
     utf8str_append_r(linebuf, sizeof linebuf, topten_head_hp,
                      COLNO - utf8str_width(linebuf));
     topten_print(linebuf);
@@ -961,10 +968,12 @@ outentry(int rank, struct toptenentry *t1, boolean so)
     int hppos, lngr;
 
     if (rank)
-        Sprintf(linebuf, "%4d  ", rank);
+        Sprintf(linebuf, "%*d%*s", TOPTEN_RANK_COL_WIDTH, rank,
+                TOPTEN_COL_GAP, "");
     else
-        Sprintf(linebuf, "%*s", 6, "");
-    Sprintf(eos(linebuf), "%10ld  ", t1->points ? t1->points : u.urexp);
+        Sprintf(linebuf, "%*s", TOPTEN_RANK_COL_WIDTH + TOPTEN_COL_GAP, "");
+    Sprintf(eos(linebuf), "%*ld%*s", TOPTEN_SCORE_COL_WIDTH,
+            t1->points ? t1->points : u.urexp, TOPTEN_COL_GAP, "");
     Strcat(linebuf, t1->name);
     Sprintf(eos(linebuf), "-%s", t1->plrole);
     if (t1->plrace[0] != '?')
@@ -1069,13 +1078,13 @@ outentry(int rank, struct toptenentry *t1, boolean so)
     hppos = COLNO - utf8str_width(hpbuf);
 
     // 存储 姓名 列的最大列号，超出的部分需要换行
-    int name_colmax = COLNO - utf8str_width(topten_head_hp) - 2;
-    const char *p_name_col = linebuf + 18; // 从 姓名 列开始
+    int name_colmax = COLNO - utf8str_width(topten_head_hp) - TOPTEN_COL_GAP;
+    const char *p_name_col = linebuf + TOPTEN_NAME_COL_START;
     lngr = utf8str_width(linebuf);
     while (lngr >= name_colmax) {
         const char *p_cut = NULL, *p_space = NULL;
         uint8 clen, cw;
-        int col = 18, space_col = 0;
+        int col = TOPTEN_NAME_COL_START, space_col = 0;
 
         // 寻找换行点
         for (const char *p = p_name_col; *p && col < name_colmax;
@@ -1088,7 +1097,8 @@ outentry(int rank, struct toptenentry *t1, boolean so)
         }
 
         // 在空格处换行
-        if (p_space && p_space > p_name_col && name_colmax - space_col <= 16)
+        if (p_space && p_space > p_name_col
+            && name_colmax - space_col <= TOPTEN_SPACECUT_WIN)
             p_cut = p_space;
         // 在当前列末尾换行
         if (!p_cut)
@@ -1108,7 +1118,8 @@ outentry(int rank, struct toptenentry *t1, boolean so)
             topten_print(linebuf);
 
         // 续行缩进与姓名列起点对齐
-        Snprintf(linebuf, sizeof linebuf, "%18s%s", "", linebuf3);
+        Snprintf(linebuf, sizeof linebuf, "%*s%s", TOPTEN_NAME_COL_START, "",
+                 linebuf3);
         lngr = utf8str_width(linebuf);
     }
 
