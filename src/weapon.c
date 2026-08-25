@@ -1238,8 +1238,6 @@ add_skills_to_menu(winid win, boolean selectable, boolean speedy)
     for (longest = 0, i = 0; i < P_NUM_SKILLS; i++) {
         if (P_RESTRICTED(i))
             continue;
-        /* 修改: 按字节数无法对齐中文(每字3字节、占2列),改为按显示列宽
-        if ((len = Strlen(P_NAME(i))) > longest) */
         if ((len = utf8str_width(P_NAME(i))) > longest)
             longest = len;
     }

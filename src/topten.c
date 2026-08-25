@@ -925,17 +925,27 @@ topten(int how, time_t when)
     }
 }
 
+// 排行榜的列数据
+typedef struct {
+    const char *const head_name;
+    int head_width, col_width;
+} ToptenCol;
+
+static const char topten_head_rank[] = "排名";
+static const char topten_head_score[] = "分数";
+static const char topten_head_name[] = "姓名";
+static const char topten_head_hp[] = "生命值 [上限]";
+
 staticfn void
 outheader(void)
 {
     char linebuf[BUFSZ];
-    char *bp;
-
-    Strcpy(linebuf, "  排名       分数   姓名");
-    bp = eos(linebuf);
-    while (bp < linebuf + COLNO - 9)
-        *bp++ = ' ';
-    Strcpy(bp, "生命值 [上限]");
+    linebuf[0] = '\0';
+    utf8str_append(linebuf, sizeof linebuf, topten_head_rank, 6);
+    utf8str_append_r(linebuf, sizeof linebuf, topten_head_score, 10);
+    utf8str_append_r(linebuf, sizeof linebuf, topten_head_name, 6);
+    utf8str_append_r(linebuf, sizeof linebuf, topten_head_hp,
+                     COLNO - utf8str_width(linebuf));
     topten_print(linebuf);
 }
 
@@ -947,17 +957,15 @@ outentry(int rank, struct toptenentry *t1, boolean so)
 {
     boolean second_line = TRUE;
     char linebuf[BUFSZ];
-    char *bp, hpbuf[24], linebuf3[BUFSZ];
+    char *bp, hpbuf[32], linebuf3[BUFSZ];
     int hppos, lngr;
 
-    linebuf[0] = '\0';
     if (rank)
-        Sprintf(eos(linebuf), "%3d", rank);
+        Sprintf(linebuf, "%4d  ", rank);
     else
-        Strcat(linebuf, "   ");
-
-    Sprintf(eos(linebuf), " %10ld  %.10s", t1->points ? t1->points : u.urexp,
-            t1->name);
+        Sprintf(linebuf, "%*s", 6, "");
+    Sprintf(eos(linebuf), "%10ld  ", t1->points ? t1->points : u.urexp);
+    Strcat(linebuf, t1->name);
     Sprintf(eos(linebuf), "-%s", t1->plrole);
     if (t1->plrace[0] != '?')
         Sprintf(eos(linebuf), "-%s", t1->plrace);
@@ -968,8 +976,7 @@ outentry(int rank, struct toptenentry *t1, boolean so)
     Sprintf(eos(linebuf), "-%s", t1->plgend);
     if (t1->plalign[0] != '?')
         Sprintf(eos(linebuf), "-%s", t1->plalign);
-    else
-        Strcat(linebuf, " ");
+    Strcat(linebuf, " ");
     if (!strncmp("escaped", t1->death, 7)) {
         Sprintf(eos(linebuf), "逃离了地牢 %s[最高等级 %d]",
                 !strncmp("(", t1->death + 7, 2) ? t1->death + 7 + 2 : "",
@@ -1050,59 +1057,71 @@ outentry(int rank, struct toptenentry *t1, boolean so)
         (void) strsubst(bp, "; the ", ", the ");
     }
 
-    lngr = (int) strlen(linebuf);
     if (t1->hp <= 0)
-        hpbuf[0] = '-', hpbuf[1] = '\0';
+        Strcpy(hpbuf, "- ");
     else
-        Sprintf(hpbuf, "%d", t1->hp);
-    /* beginning of hp column after padding (not actually padded yet) */
-    hppos = COLNO - (int) (sizeof "  生命值 [上限]" - sizeof "");
-    while (lngr >= hppos) {
-        for (bp = eos(linebuf); !(*bp == ' ' && bp - linebuf < hppos); bp--)
-            ;
-        /* special case: word is too long, wrap in the middle */
-        if (linebuf + 15 >= bp)
-            bp = linebuf + hppos - 1;
-        /* special case: if about to wrap in the middle of maximum
-           dungeon depth reached, wrap in front of it instead */
-        if (bp > linebuf + (int) (sizeof " [上限" - 1)
-            && !strncmp(bp - (sizeof " [上限" - 1), " [上限",
-                        sizeof " [上限" - 1))
-            bp -= (sizeof " [上限" - 1);
-        if (*bp != ' ')
-            Strcpy(linebuf3, bp);
-        else
-            Strcpy(linebuf3, bp + 1);
-        *bp = '\0';
+        Sprintf(hpbuf, "%d ", t1->hp);
+    Sprintf(eos(hpbuf), "%s[%d]",
+            (t1->maxhp < 10)    ? "  "
+            : (t1->maxhp < 100) ? " "
+                                : "",
+            t1->maxhp);
+    hppos = COLNO - utf8str_width(hpbuf);
+
+    // 存储 姓名 列的最大列号，超出的部分需要换行
+    int name_colmax = COLNO - utf8str_width(topten_head_hp) - 2;
+    const char *p_name_col = linebuf + 18; // 从 姓名 列开始
+    lngr = utf8str_width(linebuf);
+    while (lngr >= name_colmax) {
+        const char *p_cut = NULL, *p_space = NULL;
+        uint8 clen, cw;
+        int col = 18, space_col = 0;
+
+        // 寻找换行点
+        for (const char *p = p_name_col; *p && col < name_colmax;
+             p += clen, col += cw) {
+            utf8char_info(p, &clen, &cw);
+            if (*p == ' ') {
+                p_space = p;
+                space_col = col;
+            }
+        }
+
+        // 在空格处换行
+        if (p_space && p_space > p_name_col && name_colmax - space_col <= 16)
+            p_cut = p_space;
+        // 在当前列末尾换行
+        if (!p_cut)
+            p_cut = utf8str_at_col(linebuf, name_colmax);
+        const char *newline = p_cut;
+        while (*newline == ' ')
+            newline++;
+        Strcpy(linebuf3, newline);
+        linebuf[p_cut - linebuf] = '\0';
+
         if (so) {
-            while (bp < linebuf + (COLNO - 1))
-                *bp++ = ' ';
-            *bp = '\0';
+            int padn = (COLNO - 1) - utf8str_width(linebuf);
+            if (padn > 0)
+                Sprintf(eos(linebuf), "%*s", padn, "");
             topten_print_bold(linebuf);
         } else
             topten_print(linebuf);
-        Snprintf(linebuf, sizeof(linebuf), "%15s %s", "", linebuf3);
-        lngr = Strlen(linebuf);
-    }
-    /* beginning of hp column not including padding */
-    hppos = COLNO - 7 - (int) strlen(hpbuf);
-    bp = eos(linebuf);
 
-    if (bp <= linebuf + hppos) {
-        /* pad any necessary blanks to the hit point entry */
-        while (bp < linebuf + hppos)
-            *bp++ = ' ';
-        Strcpy(bp, hpbuf);
-        Sprintf(eos(bp), " %s[%d]",
-                (t1->maxhp < 10) ? "  " : (t1->maxhp < 100) ? " " : "",
-                t1->maxhp);
+        // 续行缩进与姓名列起点对齐
+        Snprintf(linebuf, sizeof linebuf, "%18s%s", "", linebuf3);
+        lngr = utf8str_width(linebuf);
+    }
+
+    // 补空格到 hp 列起点
+    if (utf8str_width(linebuf) < hppos) {
+        utf8str_append_r(linebuf, sizeof linebuf, hpbuf,
+                         COLNO - utf8str_width(linebuf));
     }
 
     if (so) {
-        bp = eos(linebuf);
-        while (bp < linebuf + (COLNO - 1))
-            *bp++ = ' ';
-        *bp = '\0';
+        int padn = (COLNO - 1) - utf8str_width(linebuf);
+        if (padn > 0)
+            Sprintf(eos(linebuf), "%*s", padn, "");
         topten_print_bold(linebuf);
     } else
         topten_print(linebuf);
