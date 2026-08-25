@@ -948,16 +948,16 @@ utf8str_width(const char *str)
     return width;
 }
 
-/* 返回指向字符串中第 n 个显示列之前或该列处的指针。
- * 当下一个字符会超过 n 列时停止，确保不会切断多字节字符。 */
+/* 返回指向字符串中第 col 个显示列之前或该列处的指针。
+ * 当下一个字符会超过 col 列时停止，确保不会切断多字节字符。 */
 const char *
-utf8str_at_col(const char *str, unsigned n)
+utf8str_at_col(const char *str, int col)
 {
     unsigned cnt = 0;
     uint8 clen = 0, cw = 0;
     while (*str) {
         utf8char_info(str, &clen, &cw);
-        if (cnt + cw > n)
+        if ((int) cnt + cw > col)
             break;
         str += clen;
         cnt += cw;

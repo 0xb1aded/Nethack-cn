@@ -81,7 +81,7 @@ extern unsigned Strlen_(const char *, const char *, int) NONNULLPTRS;
 extern int unicodeval_to_utf8str(int, uint8 *, size_t);
 extern void utf8char_info(const char *, uint8 *, uint8 *) NONNULLARG1;
 extern int utf8str_width(const char *) NONNULLPTRS;
-extern const char *utf8str_at_col(const char *, unsigned) NONNULLARG1;
+extern const char *utf8str_at_col(const char *, int) NONNULLARG1;
 extern unsigned utf8str_append(char *, unsigned, const char *,
                                int) NONNULLPTRS;
 extern unsigned utf8str_append_r(char *, unsigned, const char *,

@@ -415,14 +415,12 @@ curs_show_invt(WINDOW *win)
              */
             stroffset = pi_article_skip(str); /* to skip "a "/"an "/"the " */
             /* if/when scrolled right, invtxt for item lines gets shifted */
-            stroffset = (unsigned) (utf8str_at_col(
-                                        str + stroffset, pi.coloffset) - str);
+            stroffset = utf8str_at_col(str + stroffset, pi.coloffset) - str;
         }
 
         if (stroffset < strlen(str)) {
             const char *text = str + stroffset;
-            int textlen = (int) (utf8str_at_col(
-                                           text, available_width) - text);
+            int textlen = utf8str_at_col(text, available_width) - text;
             curses_menu_color_attr(win, color, attr, ON);
             wprintw(win, "%.*s", textlen, text);
             curses_menu_color_attr(win, color, attr, OFF);
