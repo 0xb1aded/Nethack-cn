@@ -2068,6 +2068,17 @@ show_spells(void)
     }
 }
 
+// 法术菜单列布局参数
+enum {
+    SPELLMENU_COL_GAP = 2,          // 法术表格列间距
+    SPELLMENU_COL_NAME_WIDTH = 8,   // 名称
+    SPELLMENU_COL_LEVEL_WIDTH = 4,  // 等级
+    SPELLMENU_COL_TYPE_WIDTH = 4,   // 种类
+    SPELLMENU_COL_FAIL_WIDTH = 6,   // 失败率
+    SPELLMENU_COL_RETAIN_WIDTH = 8, // 留存率
+    SPELLMENU_COL_TURNS_WIDTH = 6,  // 回合数 (wizmode)
+};
+
 /* shows menu of known spells, with options to sort them.
    return FALSE on cancel, TRUE otherwise.
    spell_no is set to the internal spl_book index, if any selected */
@@ -2106,11 +2117,16 @@ dospellmenu(
         buf[0] = '\0';
         if (splaction != SPELLMENU_DUMP)
             Sprintf(buf, "    ");
-        utf8str_append(buf, sizeof buf, "名称", 12);
-        Sprintf(eos(buf), "等级  ");
-        utf8str_append(buf, sizeof buf, "种类", 8);
-        Sprintf(eos(buf), "失败率  ");
-        utf8str_append_r(buf, sizeof buf, "留存率", 10);
+        utf8str_append(buf, sizeof buf, "名称",
+                       SPELLMENU_COL_NAME_WIDTH + SPELLMENU_COL_GAP);
+        utf8str_append(buf, sizeof buf, "等级",
+                       SPELLMENU_COL_LEVEL_WIDTH + SPELLMENU_COL_GAP);
+        utf8str_append(buf, sizeof buf, "种类",
+                       SPELLMENU_COL_TYPE_WIDTH + SPELLMENU_COL_GAP);
+        utf8str_append(buf, sizeof buf, "失败率",
+                       SPELLMENU_COL_FAIL_WIDTH + SPELLMENU_COL_GAP);
+        utf8str_append_r(buf, sizeof buf, "留存率",
+                         SPELLMENU_COL_RETAIN_WIDTH);
         sep = ' ';
     } else {
         Sprintf(buf, "名称\t等级\t种类\t失败率\t留存率");
@@ -2119,8 +2135,8 @@ dospellmenu(
     }
     if (wizard) {
         if (!iflags.menu_tab_sep) {
-            Sprintf(eos(buf), "%c", sep);
-            utf8str_append_r(buf, sizeof buf, "回合", 8);
+            utf8str_append_r(buf, sizeof buf, "回合",
+                             SPELLMENU_COL_TURNS_WIDTH + SPELLMENU_COL_GAP);
         } else {
             Sprintf(eos(buf), "%c%8s", sep, "回合");
         }
@@ -2131,17 +2147,23 @@ dospellmenu(
         splnum = !gs.spl_orderindx ? i : gs.spl_orderindx[i];
         if (!iflags.menu_tab_sep) {
             buf[0] = '\0';
-            utf8str_append(buf, sizeof buf, spellname(splnum), 12);
-            Sprintf(eos(buf), "%-2d    ", spellev(splnum));
+            utf8str_append(buf, sizeof buf, spellname(splnum),
+                           SPELLMENU_COL_NAME_WIDTH + SPELLMENU_COL_GAP);
+            Sprintf(eos(buf), "%*d%*s", SPELLMENU_COL_LEVEL_WIDTH,
+                    spellev(splnum), SPELLMENU_COL_GAP, "");
             utf8str_append(
                 buf, sizeof buf,
-                spelltypemnemonic(spell_skilltype(spellid(splnum))), 8);
-            Sprintf(eos(buf), "  %3d%% ", 100 - percent_success(splnum));
+                spelltypemnemonic(spell_skilltype(spellid(splnum))),
+                SPELLMENU_COL_TYPE_WIDTH + SPELLMENU_COL_GAP);
+            Sprintf(eos(buf), "%*s%3d%%", SPELLMENU_COL_GAP, "",
+                    100 - percent_success(splnum));
             utf8str_append_r(buf, sizeof buf,
-                             spellretention(splnum, retentionbuf), 11);
+                             spellretention(splnum, retentionbuf),
+                             SPELLMENU_COL_RETAIN_WIDTH + SPELLMENU_COL_GAP);
             if (wizard) {
-                Sprintf(eos(buf), "%c", sep);
-                Sprintf(eos(buf), "%8d", spellknow(i));
+                Sprintf(eos(buf), "%*d",
+                        SPELLMENU_COL_TURNS_WIDTH + SPELLMENU_COL_GAP,
+                        spellknow(i));
             }
         } else {
             Sprintf(buf, fmt, spellname(splnum), spellev(splnum),
