@@ -68,14 +68,14 @@ jobs:
             cat ./kanjifiles.txt
             cat ./kanjifiles.txt | tr -d '\r' | while read -r file; do
               echo "Converting: $file"
-              ./opencc/bin/opencc.exe -c "./opencc-tonggui/opencc/s2tg.json" -i "$file" -o "$file --in-place"
+              ./opencc/bin/opencc.exe -c "./opencc-tonggui/opencc/s2tg.json" -i "$file" -o "$file" --in-place
             done
           else
             echo "Using orthography: ${{ matrix.orthography }}"
             cat ./kanjifiles.txt
             cat ./kanjifiles.txt | tr -d '\r' | while read -r file; do
               echo "Converting: $file"
-              ./opencc/bin/opencc.exe -c "s2${{ matrix.orthography }}.json" -i "$file" -o "$file --in-place"
+              ./opencc/bin/opencc.exe -c "s2${{ matrix.orthography }}.json" -i "$file" -o "$file" --in-place
             done
           fi
 
