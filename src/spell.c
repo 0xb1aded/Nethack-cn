@@ -1312,7 +1312,7 @@ spelleffects_check(int spell, int *res, int *energy)
          * isn't now (lost energy when losing levels or polymorphing into
          * new person or had some stripped away by traps or monsters).
          */
-        You("的能量%s还不足以施放那个法术.",
+        You("的能量%s不足以施放那个法术.",
             (u.uen < u.uenmax) ? "" /* not at full energy => normal message */
             : (*energy > u.uenpeak) ? "还" /* haven't ever had enough */
               : "了"); /* once had enough but have lost some since */
