@@ -22,7 +22,7 @@ if [ $1 == "lua" ]; then
 fi
 
 if [ $1 == "pdcursesmod" ]; then
- export CURLPDCSRC=https://github.com/Bill-Gray/PDCursesMod/archive/refs/tags/v4.4.0.zip
+ export CURLPDCSRC=https://github.com/Bill-Gray/PDCursesMod/archive/refs/tags/v4.5.3.zip
  export CURLPDCDST=pdcursesmod.zip
 
  if [ ! -f lib/pdcursesmod/curses.h ] ; then

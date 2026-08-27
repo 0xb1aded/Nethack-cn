@@ -15,7 +15,7 @@ CURLLUADST=lua-$(LUA_VERSION).tar.gz
 
 # The version of pdcursesmod that we want
 PDCDIST=pdcursesmod
-PDCURSES_VERSION = 4.4.0
+PDCURSES_VERSION = 4.5.3
 PDCURL=https://github.com/Bill-Gray/PDCursesMod/archive/refs/tags/v
 CURLPDCSRC=$(PDCURL)$(PDCURSES_VERSION).zip
 CURLPDCDST=$(PDCDIST)

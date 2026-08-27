@@ -1069,7 +1069,7 @@ else  # GIT_AVAILABLE no
 CURLLUASRC=http://www.lua.org/ftp/lua-5.4.8.tar.gz
 CURLLUADST=lua-5.4.8.tar.gz
 
-CURLPDCSRC=https://github.com/Bill-Gray/PDCursesMod/archive/refs/tags/v4.5.1.zip
+CURLPDCSRC=https://github.com/Bill-Gray/PDCursesMod/archive/refs/tags/v4.5.3.zip
 CURLPDCDST=$(PDCURSES).zip
 
 fetchlua:

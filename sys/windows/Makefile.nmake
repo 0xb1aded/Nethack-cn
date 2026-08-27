@@ -1635,7 +1635,7 @@ CURLLUASRC=http://www.lua.org/ftp/lua-5.4.8.tar.gz
 CURLLUADST=lua-5.4.8.tar.gz
 
 #CURLPDCSRC=https://github.com/wmcbrine/PDCurses/archive/refs/tags/3.9.zip
-CURLPDCSRC=https://github.com/Bill-Gray/PDCursesMod/archive/refs/tags/v4.4.0.zip
+CURLPDCSRC=https://github.com/Bill-Gray/PDCursesMod/archive/refs/tags/v4.5.3.zip
 CURLPDCDST=$(PDCDIST).zip
 
 $(LUASRC)lua.h:
@@ -2079,7 +2079,7 @@ fetch-pdcurses:
 	@if not exist $(LIBDIR)*.* mkdir $(R_LIBDIR)
 	cd $(LIBDIR)
 #	curl -L -R https://codeload.github.com/wmcbrine/PDCurses/zip/master -o pdcurses.zip
-	curl -L -R https://github.com/Bill-Gray/PDCursesMod/archive/refs/tags/v4.5.1.zip -o $(PDCDIST).zip
+	curl -L -R https://github.com/Bill-Gray/PDCursesMod/archive/refs/tags/v4.5.3.zip -o $(PDCDIST).zip
 	powershell -command "Expand-Archive -Path .\$(PDCDIST).zip -DestinationPath ./$(PDCDIST)-temp"
 	if exist .\$(PDCDIST)\* rd .\$(PDCDIST) /s /Q
 	move .\$(PDCDIST)-temp\PDCurses-master .
