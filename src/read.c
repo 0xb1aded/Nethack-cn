@@ -666,7 +666,7 @@ stripspe(struct obj *obj)
 staticfn void
 p_glow1(struct obj *otmp)
 {
-    pline("%s%s.", Yobjnam2(otmp, Blind ? "短暂振动了一下" : "发出了短暂"));
+    pline("%s%s.", Yobjnam2(otmp), Blind ? "短暂振动了一下" : "短暂发光");
 }
 
 staticfn void
@@ -679,7 +679,7 @@ p_glow2(struct obj *otmp, const char *color)
 staticfn void
 p_glow3(struct obj *otmp, const char *color)
 {
-    pline("%s了片刻%s%s.",
+    pline("%s了片刻%s%s%s.",
           Yobjnam2(otmp, Blind ? "微弱地振动" : "发出"),
           Blind ? "" : "微弱的", Blind ? "" : hcolor(color), Blind ? "" : "光");
 }

@@ -1570,7 +1570,7 @@ burn_object(anything *arg, long timeout)
                 switch (obj->where) {
                 case OBJ_INVENT:
                 case OBJ_MINVENT:
-                    pline("%s蜡烛的火焰闪烁变暗!", whose,
+                    pline("%s%s蜡烛的火焰闪烁变暗!", whose,
                           menorah ? "烛台上的" : ""/*冗余:, many ? "" : "",
                           many ? "" : "", many ? "" : ""*/);
                     break;
