@@ -1,4 +1,4 @@
-/* NetHack 5.0	objnam.c	$NHDT-Date: 1781973060 2026/06/20 16:31:00 $  $NHDT-Branch: NetHack-5.0 $:$NHDT-Revision: 1.464 $ */
+/* NetHack 5.0  objnam.c    $NHDT-Date: 1745114235 2025/04/19 17:57:15 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.453 $ */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /*-Copyright (c) Robert Patrick Rankin, 2011. */
 /* NetHack may be freely redistributed.  See license for details. */
@@ -880,7 +880,7 @@ xname_flags(
     }
 
     if (has_oname(obj) && dknown) {
-    	if (!wenthere)
+        if (!wenthere)
         {
             Concat(buf, 0, "名为"); /*冗余:你懂吧*/
         }
@@ -1517,76 +1517,10 @@ xename_flags(
     case CHAIN_CLASS:
         Strcpy(buf, actualn);
         break;
-    }
-    return FALSE;
-}
-
-#define DONAME_WITH_PRICE   1
-#define DONAME_VAGUE_QUAN   2
-#define DONAME_FOR_MENU     4 /* [not used anywhere yet] */
-#define DONAME_FORCE_GENDER 8 /* always add male or female */
-
-/* core of doname() */
-staticfn char *
-doname_base(
-    struct obj *obj,       /* object to format */
-    unsigned doname_flags) /* special case requests */
-{
-    boolean ispoisoned = FALSE,
-            with_price = (doname_flags & DONAME_WITH_PRICE) != 0,
-            vague_quan = (doname_flags & DONAME_VAGUE_QUAN) != 0,
-            for_menu = (doname_flags & DONAME_FOR_MENU) != 0,
-            with_corpse_genders = (doname_flags & DONAME_FORCE_GENDER) != 0;
-    boolean known, dknown, cknown, bknown, lknown,
-            fake_arti, force_the;
-    char prefix[PREFIX];
-    char tmpbuf[PREFIX + 1]; /* for when we have to add something at
-                              * the start of prefix instead of the
-                              * end (Strcat is used on the end) */
-    const char *aname = 0;
-    int omndx = obj->corpsenm;
-    char *bp;
-    char *bp_eos, *bp_end;
-    size_t bpspaceleft;
-
-    /* 'bp' will be within an obuf[] rather than at the start of one,
-       usually (but not always) pointing at &obuf[PREFIX];
-       gx.xnamep always points to the start of that buffer;
-       'bp_eos' and 'bpspaceleft' are used and updated by Concat*() macros */
-    bp = xname(obj);
-    bp_end = gx.xnamep + BUFSZ - 1;
-    bp_eos = eos(bp);
-    assert(bp_end >= bp_eos); /* ok provided xname() bounds checking works */
-    /* size_t cast: convert signed ptrdiff_t to unsigned size_t */
-    bpspaceleft = (size_t) (bp_end - bp_eos);
-
-    if (iflags.override_ID) {
-        known = dknown = cknown = bknown = lknown = TRUE;
-    } else {
-        known = obj->known;
-        dknown = obj->dknown;
-        cknown = obj->cknown;
-        bknown = obj->bknown;
-        lknown = obj->lknown;
-    }
-
-    /* When using xname, we want "poisoned arrow", and when using
-     * doname, we want "poisoned +0 arrow".  This kludge is about the only
-     * way to do it, at least until someone overhauls xname() and doname(),
-     * combining both into one function taking a parameter.
-     */
-    /* must check opoisoned--someone can have a weirdly-named fruit */
-    if (!strncmp(bp, "poisoned ", 9) && obj->opoisoned) {
-        bp += 9; /* doesn't affect bp_eos or bpspaceleft */
-        ispoisoned = TRUE;
-    }
-
-    /* fruits are allowed to be given artifact names; when that happens,
-       format the name like the corresponding artifact, which may or may not
-       want "the" prefix and when it doesn't, avoid "a"/"an" prefix too */
-    fake_arti = (obj->otyp == SLIME_MOLD
-                 && (aname = artifact_name(bp, (short *) 0, FALSE)) != 0);
-    force_the = (fake_arti && !strncmpi(aname, "the ", 4));
+    case ROCK_CLASS:
+        if (typ == STATUE && omndx != NON_PM) {
+            char anbuf[10];
+            const char *statue_pmname = obj_pmname(obj);
 
             Snprintf(buf, bufspaceleft, "%s%s of %s%s",
                      (Role_if(PM_ARCHEOLOGIST)
@@ -1688,59 +1622,29 @@ doname_base(
             Sprintf(buf, "%s spellbook", dn);
         break;
     case RING_CLASS:
- ring:  /* normal rings reach here 'naturally'; meat ring jumps here */
-        if (obj->owornmask & W_RINGR)
-            Concat(bp, 0, " (on right ");
-        if (obj->owornmask & W_RINGL)
-            Concat(bp, 0, " (on left ");
-        if (obj->owornmask & W_RING) /* either left or right */
-            ConcatF1(bp, 0,"%s)", body_part(HAND));
-        if (known && objects[obj->otyp].oc_charged) {
-            Sprintf(eos(prefix), "%+d ", obj->spe); /* sitoa(obj->spe)+" " */
-        }
+        if (!dknown)
+            Strcpy(buf, "ring");
+        else if (nn)
+            Sprintf(buf, "ring of %s", actualn);
+        else if (un)
+            xcallede(buf, BUFSZ - PREFIX, "ring", un);
+        else
+            Sprintf(buf, "%s ring", dn);
         break;
-    case FOOD_CLASS:
-        if (obj->oeaten)
-            Strcat(prefix, "partly eaten ");
-        if (obj->otyp == CORPSE) {
-            /* (quan == 1) => want corpse_xname() to supply article,
-               (quan != 1) => already have count or "some" as prefix;
-               "corpse" is already in the buffer returned by xname() */
-            unsigned cxarg = (((obj->quan != 1L) ? 0 : CXN_ARTICLE)
-                              | CXN_NOCORPSE);
-            char *cxstr, *save_xnamep;
-            int puzzidx = (obj->invlet >= 'A' && obj->invlet <= 'Z')
-                          ? obj->invlet - 'A'
-                      : (obj->invlet >= 'a' && obj->invlet <= 'z')
-                          ? obj->invlet - 'a' + 26
-                          : invlet_basic;  /* valid index, but always holds zero */
+    case GEM_CLASS: {
+        const char *rock = (ocl->oc_material == MINERAL) ? "stone" : "gem";
 
-            if (with_corpse_genders && puzzidx < invlet_basic
-                && gp.puzzling_criteria == 411 && gp.puzzling_ilets[puzzidx])
-                cxarg |= CXN_ADDGNDR;
-            /* corpse_xname() sets xnamep; callers other than doname_base()
-               itself shouldn't care about xnamep (pointer to start of
-               current obuf[]) but keep it accurate anyway */
-            save_xnamep = gx.xnamep;
-            cxstr = corpse_xname(obj, prefix, cxarg);
-            Sprintf(prefix, "%s ", cxstr);
-            /* avoid having doname(corpse) consume an extra obuf */
-            releaseobuf(cxstr);
-            gx.xnamep = save_xnamep;
-        } else if (obj->otyp == EGG) {
-#if 0 /* corpses don't tell if they're stale either */
-            if (known && stale_egg(obj))
-                Strcat(prefix, "stale ");
-#endif
-            if (ismnum(omndx)
-                && (known || (svm.mvitals[omndx].mvflags & MV_KNOWS_EGG))) {
-                Strcat(prefix, mons[omndx].pmnames[NEUTRAL]);
-                Strcat(prefix, " ");
-                if (obj->spe == 1)
-                    Concat(bp, 0, " (laid by you)");
-            }
-        } else if (obj->otyp == MEAT_RING) {
-            goto ring;
+        if (!dknown) {
+            Strcpy(buf, rock);
+        } else if (!nn) {
+            if (un)
+                xcallede(buf, BUFSZ - PREFIX, rock, un);
+            else
+                Sprintf(buf, "%s %s", dn, rock);
+        } else {
+            Strcpy(buf, actualn);
+            if (GemStone(typ))
+                Strcat(buf, " stone");
         }
         break;
     } /* gem */
@@ -1968,21 +1872,6 @@ mshot_xname(struct obj *obj)
     return onm;
 }
 
-/* Name of object including corpse genders. */
-char *
-doname_with_cgender(struct obj *obj)
-{
-    return doname_base(obj, DONAME_FORCE_GENDER);
-}
-
-/* doname with both price and corpse gender */
-char *
-doname_with_price_and_cgender(struct obj *obj)
-{
-    return doname_base(obj, DONAME_WITH_PRICE | DONAME_FORCE_GENDER);
-}
-
-/* "some" instead of precise quantity if obj->dknown not set */
 char *
 mshot_xename(struct obj *obj)
 {
@@ -2017,21 +1906,7 @@ the_unique_obj(struct obj *obj)
 boolean
 the_unique_pm(struct permonst *ptr)
 {
-    char *nambuf;
-    int omndx = otmp->corpsenm;
-    boolean ignore_quan = (cxn_flags & CXN_SINGULAR) != 0,
-            /* suppress "the" from "the unique monster corpse" */
-        no_prefix = (cxn_flags & CXN_NO_PFX) != 0,
-            /* include "the" for "the woodchuck corpse */
-        the_prefix = (cxn_flags & CXN_PFX_THE) != 0,
-            /* include "an" for "an ogre corpse */
-        any_prefix = (cxn_flags & CXN_ARTICLE) != 0,
-            /* leave off suffix (do_name() appends "corpse" itself) */
-        omit_corpse = (cxn_flags & CXN_NOCORPSE) != 0,
-        gndr_prefix = (cxn_flags & CXN_ADDGNDR) != 0,
-        possessive = FALSE,
-        glob = (otmp->otyp != CORPSE && otmp->globby);
-    const char *mnam, *gndr;
+    boolean uniq;
 
     /* even though monsters with personal names are unique, we want to
        describe them as "Name" rather than "the Name" */
@@ -2056,26 +1931,7 @@ add_erosion_words(struct obj *obj, char *prefix)
     boolean iscrys = (obj->otyp == CRYSKNIFE);
     boolean rknown;
 
-    gndr = (gndr_prefix && otmp->spe & CORPSTAT_MALE) != 0     ? "male "
-           : (gndr_prefix && otmp->spe & CORPSTAT_FEMALE) != 0 ? "female "
-                                                               : "";
-    if (!adjective || !*adjective) {
-        Strcat(nambuf, gndr);
-        /* normal case:  newt corpse */
-        Strcat(nambuf, mnam);
-    } else {
-        /* adjective positioning depends upon format of monster name */
-        if (possessive) /* Medusa's cursed partly eaten corpse */
-            Sprintf(eos(nambuf), "%s %s%s", mnam, gndr, adjective);
-        else /* cursed partly eaten troll corpse */
-            Sprintf(eos(nambuf), "%s %s%s", adjective, gndr, mnam);
-        /* in case adjective has a trailing space, squeeze it out */
-        mungspaces(nambuf);
-        /* doname() might include a count in the adjective argument;
-           if so, don't prepend an article */
-        if (digit(*adjective))
-            any_prefix = FALSE;
-    }
+    rknown = (iflags.override_ID == 0) ? obj->rknown : TRUE;
 
     if (!is_damageable(obj) && !iscrys)
         return;
