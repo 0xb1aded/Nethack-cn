@@ -76,7 +76,7 @@ getlock(void)
 #if defined(CHDIR) && !defined(NOCWD_ASSUMPTIONS)
         chdirx(orgdir, 0);
 #endif
-        error("Quitting.");
+        error("退出游戏.");
     }
 
     /* regularize(lock); */ /* already done in pcmain */
@@ -91,7 +91,7 @@ getlock(void)
 #endif
         perror(fq_lock);
         unlock_file(HLOCK);
-        error("Cannot open %s", fq_lock);
+        error("无法打开%s", fq_lock);
     }
 
     (void) nhclose(fd);
@@ -145,7 +145,7 @@ getlock(void)
 #if defined(CHDIR) && !defined(NOCWD_ASSUMPTIONS)
             chdirx(orgdir, 0);
 #endif
-            error("Couldn't destroy old game.");
+            error("无法摧毁旧的游戏.");
         }
 #else /*SELF_RECOVER*/
         if (recover_savefile()) {
@@ -159,7 +159,7 @@ getlock(void)
 #if defined(CHDIR) && !defined(NOCWD_ASSUMPTIONS)
             chdirx(orgdir, 0);
 #endif
-            error("Couldn't recover old game.");
+            error("无法恢复旧的游戏.");
         }
 #endif /*SELF_RECOVER*/
     else {
@@ -167,7 +167,7 @@ getlock(void)
 #if defined(CHDIR) && !defined(NOCWD_ASSUMPTIONS)
         chdirx(orgdir, 0);
 #endif
-        error("%s", "Cannot start a new game.");
+        error("%s", "无法开始新的游戏.");
     }
 
 gotlock:
@@ -177,20 +177,20 @@ gotlock:
 #if defined(CHDIR) && !defined(NOCWD_ASSUMPTIONS)
         chdirx(orgdir, 0);
 #endif
-        error("cannot creat file (%s.)", fq_lock);
+        error("无法creat文件 (%s.)", fq_lock);
     } else {
         if (write(fd, (char *) &svh.hackpid, sizeof(svh.hackpid))
             != sizeof(svh.hackpid)) {
 #if defined(CHDIR) && !defined(NOCWD_ASSUMPTIONS)
             chdirx(orgdir, 0);
 #endif
-            error("cannot write lock (%s)", fq_lock);
+            error("无法写入锁 (%s)", fq_lock);
         }
         if (nhclose(fd) == -1) {
 #if defined(CHDIR) && !defined(NOCWD_ASSUMPTIONS)
             chdirx(orgdir, 0);
 #endif
-            error("cannot close lock (%s)", fq_lock);
+            error("无法关闭锁 (%s)", fq_lock);
         }
     }
 #if defined(MSDOS) && defined(NO_TERMS)

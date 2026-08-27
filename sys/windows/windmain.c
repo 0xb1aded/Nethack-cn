@@ -252,7 +252,7 @@ _CrtSetReportFile(_CRT_ASSERT, _CRTDBG_FILE_STDERR);*/
      * the game is exited.
      */
     if (getcwd(orgdir, sizeof orgdir) == (char *) 0)
-        error("NetHack: current directory path too long");
+        error("NetHack: 当前文件路径过长");
 #endif
     getreturn_enabled = TRUE;
 #ifdef MSWIN_GRAPHICS
@@ -277,7 +277,7 @@ _CrtSetReportFile(_CRT_ASSERT, _CRTDBG_FILE_STDERR);*/
     check_recordfile((char *) 0);
     /* did something earlier flag a need to exit without starting a game? */
     if (windows_startup_state > 0) {
-        raw_printf("Exiting.");
+        raw_printf("退出.");
         nethack_exit(EXIT_FAILURE);
     }
 
@@ -286,7 +286,7 @@ _CrtSetReportFile(_CRT_ASSERT, _CRTDBG_FILE_STDERR);*/
         fqn_prefix_locked[i] = TRUE;
 
     if (!validate_prefix_locations(failbuf)) {
-        raw_printf("Some invalid directory locations were specified:\n\t%s\n",
+        raw_printf("指定了一些无效的目录位置:\n\t%s\n",
                    failbuf);
         nethack_exit(EXIT_FAILURE);
     }
@@ -323,11 +323,11 @@ _CrtSetReportFile(_CRT_ASSERT, _CRTDBG_FILE_STDERR);*/
         pline("%s\n%s\n%s\n%s\n\n", copyright_banner_line(1),
               copyright_banner_line(2), copyright_banner_line(3),
               copyright_banner_line(4));
-        pline("NetHack was unable to open the required file \"%s\"", DLBFILE);
+        pline("NetHack无法打开需要的文件\"%s\"", DLBFILE);
         if (file_exists(DLBFILE))
-            pline("\nAre you perhaps trying to run NetHack within a zip "
-                  "utility?");
-        error("dlb_init failure.");
+            pline("\n你是不是在压缩包里运行"
+                  "NetHack的?");
+        error("dlb_init失败.");
     }
 #endif
 
@@ -409,7 +409,7 @@ _CrtSetReportFile(_CRT_ASSERT, _CRTDBG_FILE_STDERR);*/
      */
     nhfp = create_levelfile(0, (char *) 0);
     if (!nhfp) {
-        raw_print("Cannot create lock file");
+        raw_print("无法创建锁文件");
     } else {
         svh.hackpid = GetCurrentProcessId();
         (void) write(nhfp->fd, (genericptr_t) &svh.hackpid, sizeof(svh.hackpid));
@@ -434,7 +434,7 @@ attempt_restore:
         }
 #endif
         if (ge.early_raw_messages)
-            raw_print("Restoring save file...");
+            raw_print("读取存档中...");
         else
             pline("读取存档中...");
         mark_synch(); /* flush output */
@@ -723,14 +723,14 @@ copy_file(const char *dst_folder, const char *dst_name,
     strcat(src_path, src_name);
 
     if (!file_exists(src_path))
-        error("Unable to copy file '%s' as it does not exist", src_path);
+        error("因为文件'%s'不存在, 所以无法复制", src_path);
 
     if (file_exists(dst_path) && !copy_even_if_it_exists)
         return;
 
     BOOL success = CopyFileA(src_path, dst_path, !copy_even_if_it_exists);
     if (!success)
-        error("Failed to copy '%s' to '%s' (%d)", src_path, dst_path, errno);
+        error("将'%s'复制到'%s'失败 (%d)", src_path, dst_path, errno);
 }
 
 /* update file copying if it does not exist or src is newer then dst */
@@ -752,7 +752,7 @@ update_file(const char *dst_folder, const char *dst_name,
     strcat(save_path, ".save");
 
     if (!file_exists(src_path))
-        error("Unable to copy file '%s' as it does not exist", src_path);
+        error("因为文件'%s'不存在, 所以无法复制", src_path);
 
     if (!file_newer(src_path, dst_path))
         return;
@@ -762,7 +762,7 @@ update_file(const char *dst_folder, const char *dst_name,
 
     BOOL success = CopyFileA(src_path, dst_path, FALSE);
     if (!success)
-        error("Failed to update '%s' to '%s'", src_path, dst_path);
+        error("将'%s'更新到'%s'失败", src_path, dst_path);
 }
 
 void
@@ -1052,7 +1052,7 @@ getlock(void)
 #if defined(CHDIR) && !defined(NOCWD_ASSUMPTIONS)
         chdirx(orgdir, 0);
 #endif
-        error("Quitting.");
+        error("退出游戏.");
     }
 
     /* regularize(lock); */ /* already done in pcmain */
@@ -1065,10 +1065,10 @@ getlock(void)
 #if defined(CHDIR) && !defined(NOCWD_ASSUMPTIONS)
         chdirx(orgdir, 0);
 #endif
-        error("Bad directory or name: %s\n%s\n", fq_lock,
+        error("无效路径或文件: %s\n%s\n", fq_lock,
                   strerror(errno));
         unlock_file(HLOCK);
-        Sprintf(oops, "Cannot open %s", fq_lock);
+        Sprintf(oops, "无法打开%s", fq_lock);
         raw_print(oops);
         nethack_exit(EXIT_FAILURE);
     }
@@ -1109,7 +1109,7 @@ getlock(void)
 #if defined(CHDIR) && !defined(NOCWD_ASSUMPTIONS)
             chdirx(orgdir, 0);
 #endif
-            raw_print("Couldn't recover the old game.");
+            raw_print("无法恢复旧的游戏.");
         }
     } else if (prompt_result < 0) {    /* destroy old game */
         if (eraseoldlocks()) {
@@ -1123,7 +1123,7 @@ getlock(void)
 #if defined(CHDIR) && !defined(NOCWD_ASSUMPTIONS)
             chdirx(orgdir, 0);
 #endif
-            raw_print("Couldn't destroy the old game.");
+            raw_print("无法摧毁旧的游戏.");
             return 0;
         }
     } else {
@@ -1143,8 +1143,8 @@ gotlock:
 #if defined(CHDIR) && !defined(NOCWD_ASSUMPTIONS)
         chdirx(orgdir, 0);
 #endif
-        Sprintf(oops, "cannot creat file (%s.)\n%s\n%s\"%s\" exists?\n", fq_lock,
-              strerror(ern), " Are you sure that the directory",
+        Sprintf(oops, "无法creat文件 (%s.)\n%s\n%s\"%s\"这个路径存在吗?\n", fq_lock,
+              strerror(ern), "你确定",
               gf.fqn_prefix[LEVELPREFIX]);
         raw_print(oops);
     } else {
@@ -1153,13 +1153,13 @@ gotlock:
 #if defined(CHDIR) && !defined(NOCWD_ASSUMPTIONS)
             chdirx(orgdir, 0);
 #endif
-            error("cannot write lock (%s)", fq_lock);
+            error("无法写入锁 (%s)", fq_lock);
         }
         if (nhclose(fd) == -1) {
 #if defined(CHDIR) && !defined(NOCWD_ASSUMPTIONS)
             chdirx(orgdir, 0);
 #endif
-            error("cannot close lock (%s)", fq_lock);
+            error("无法关闭锁 (%s)", fq_lock);
         }
     }
     return prompt_result;
@@ -1338,7 +1338,7 @@ chdirx(const char *dir, boolean wr)
     static char thisdir[] = ".";
 
     if (dir && chdir(dir) < 0) {
-        error("Cannot chdir to %s.", dir);
+        error("无法chdir到%s.", dir);
     }
 
     /* warn the player if we can't write the record file */
@@ -1391,7 +1391,7 @@ stdio_wait_synch(void)
 {
     char valid[] = { ' ', '\n', '\r', '\033', '\0' };
 
-    stdout_write_utf8("--More--");
+    stdout_write_utf8("--更多--");
     while (!strchr(valid, nhgetch()))
         ;
 }
