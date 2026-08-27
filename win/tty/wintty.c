@@ -1779,7 +1779,7 @@ process_menu_window(winid window, struct WinDesc *cw)
             dmore(cw, resp);
         } else {
             /* just put the cursor back... */
-            tty_curs(window, (int) utf8str_width(cw->morestr) + 2, page_lines);
+            tty_curs(window, utf8str_width(cw->morestr) + 2, page_lines);
             xwaitforspace(resp);
         }
 

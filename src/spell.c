@@ -2068,6 +2068,17 @@ show_spells(void)
     }
 }
 
+// 法术菜单列布局参数
+enum {
+    SPELLMENU_COL_GAP = 2,          // 法术表格列间距
+    SPELLMENU_COL_NAME_WIDTH = 8,   // 名称
+    SPELLMENU_COL_LEVEL_WIDTH = 4,  // 等级
+    SPELLMENU_COL_TYPE_WIDTH = 4,   // 种类
+    SPELLMENU_COL_FAIL_WIDTH = 6,   // 失败率
+    SPELLMENU_COL_RETAIN_WIDTH = 8, // 留存率
+    SPELLMENU_COL_TURNS_WIDTH = 6,  // 回合数 (wizmode)
+};
+
 /* shows menu of known spells, with options to sort them.
    return FALSE on cancel, TRUE otherwise.
    spell_no is set to the internal spl_book index, if any selected */
@@ -2099,30 +2110,69 @@ dospellmenu(
      * For SPELLMENU_DUMP, (2) is untrue, so four spaces
      * need to be subtracted.
      */
+
+    // 修改: 重新调整了法术列表的排版，使其能正常对齐。
+    // 对话框的显示宽度更适合中文
     if (!iflags.menu_tab_sep) {
-        Sprintf(buf, "%s%-20s 等级 %-12s 失败率 留存率",
-                splaction == SPELLMENU_DUMP ? "" : "    ",
-                "名称",
-                "种类");
-        fmt = "%-20s  %2d   %-12s %3d%% %9s";
+        buf[0] = '\0';
+        if (splaction != SPELLMENU_DUMP)
+            Sprintf(buf, "    ");
+        utf8str_append(buf, sizeof buf, "名称",
+                       SPELLMENU_COL_NAME_WIDTH + SPELLMENU_COL_GAP);
+        utf8str_append(buf, sizeof buf, "等级",
+                       SPELLMENU_COL_LEVEL_WIDTH + SPELLMENU_COL_GAP);
+        utf8str_append(buf, sizeof buf, "种类",
+                       SPELLMENU_COL_TYPE_WIDTH + SPELLMENU_COL_GAP);
+        utf8str_append(buf, sizeof buf, "失败率",
+                       SPELLMENU_COL_FAIL_WIDTH + SPELLMENU_COL_GAP);
+        utf8str_append_r(buf, sizeof buf, "留存率",
+                         SPELLMENU_COL_RETAIN_WIDTH);
         sep = ' ';
     } else {
         Sprintf(buf, "名称\t等级\t种类\t失败率\t留存率");
         fmt = "%s\t%-d\t%s\t%-d%%\t%s";
         sep = '\t';
     }
-    if (wizard)
-        Sprintf(eos(buf), "%c%6s", sep, "回合");
+    if (wizard) {
+        if (!iflags.menu_tab_sep) {
+            utf8str_append_r(buf, sizeof buf, "回合",
+                             SPELLMENU_COL_TURNS_WIDTH + SPELLMENU_COL_GAP);
+        } else {
+            Sprintf(eos(buf), "%c%8s", sep, "回合");
+        }
+    }
 
     add_menu_heading(tmpwin, buf);
     for (i = 0; i < MAXSPELL && spellid(i) != NO_SPELL; i++) {
         splnum = !gs.spl_orderindx ? i : gs.spl_orderindx[i];
-        Sprintf(buf, fmt, spellname(splnum), spellev(splnum),
+        if (!iflags.menu_tab_sep) {
+            buf[0] = '\0';
+            utf8str_append(buf, sizeof buf, spellname(splnum),
+                           SPELLMENU_COL_NAME_WIDTH + SPELLMENU_COL_GAP);
+            Sprintf(eos(buf), "%*d%*s", SPELLMENU_COL_LEVEL_WIDTH,
+                    spellev(splnum), SPELLMENU_COL_GAP, "");
+            utf8str_append(
+                buf, sizeof buf,
                 spelltypemnemonic(spell_skilltype(spellid(splnum))),
-                100 - percent_success(splnum),
-                spellretention(splnum, retentionbuf));
-        if (wizard)
-            Sprintf(eos(buf), "%c%6d", sep, spellknow(i));
+                SPELLMENU_COL_TYPE_WIDTH + SPELLMENU_COL_GAP);
+            Sprintf(eos(buf), "%*s%3d%%", SPELLMENU_COL_GAP, "",
+                    100 - percent_success(splnum));
+            utf8str_append_r(buf, sizeof buf,
+                             spellretention(splnum, retentionbuf),
+                             SPELLMENU_COL_RETAIN_WIDTH + SPELLMENU_COL_GAP);
+            if (wizard) {
+                Sprintf(eos(buf), "%*d",
+                        SPELLMENU_COL_TURNS_WIDTH + SPELLMENU_COL_GAP,
+                        spellknow(i));
+            }
+        } else {
+            Sprintf(buf, fmt, spellname(splnum), spellev(splnum),
+                    spelltypemnemonic(spell_skilltype(spellid(splnum))),
+                    100 - percent_success(splnum),
+                    spellretention(splnum, retentionbuf));
+            if (wizard)
+                Sprintf(eos(buf), "%c%6d", sep, spellknow(i));
+        }
 
         any.a_int = splnum + 1; /* must be non-zero */
         add_menu(tmpwin, &nul_glyphinfo, &any, spellet(splnum), 0,

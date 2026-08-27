@@ -222,7 +222,7 @@ more(void)
     ttyDisplay->inmore++;
 
     if (ttyDisplay->toplin) {
-        int morecols = (int) utf8str_width(defmorestr);
+        int morecols = utf8str_width(defmorestr);
 
         tty_curs(BASE_WINDOW, cw->curx + 1, cw->cury);
         if (cw->curx >= CO - morecols)
@@ -267,10 +267,9 @@ update_topl(const char *bp)
     /* If there is room on the line, print message on same line */
     /* But messages like "You die..." deserve their own line */
     n0 = strlen(bp);
-    if ((ttyDisplay->toplin == TOPLINE_NEED_MORE || skip)
-        && cw->cury == 0
-        && (int) utf8str_width(gt.toplines) + (int) utf8str_width(bp) + 3
-               < CO - (int) utf8str_width(defmorestr)
+    if ((ttyDisplay->toplin == TOPLINE_NEED_MORE || skip) && cw->cury == 0
+        && utf8str_width(gt.toplines) + utf8str_width(bp) + 3
+               < CO - utf8str_width(defmorestr)
         && (notdied = strncmp(bp, "You die", 7)) != 0) {
         Strcat(gt.toplines, "  ");
         Strcat(gt.toplines, bp);

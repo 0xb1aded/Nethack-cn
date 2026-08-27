@@ -1031,7 +1031,13 @@ curses_raw_print(const char *str)
         return;
     }
 #endif
+#ifdef _WIN32
+    extern void stdout_write_utf8(const char *);
+    stdout_write_utf8(str);
+    stdout_write_utf8("\n");
+#else
     puts(str);
+#endif
     iflags.raw_printed++;
 }
 
