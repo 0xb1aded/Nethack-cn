@@ -3383,8 +3383,8 @@ monkilled(
 
     if (fltxt && (mdef->wormno ? worm_known(mdef)
                                : cansee(mdef->mx, mdef->my)))
-        pline_mon(mdef, "%s被%s%s%s了!", Monnam(mdef),
-              *fltxt ? "" : "", fltxt, /*修改语序:nonliving(mptr) ? "摧毁" : "杀死",*/
+        pline_mon(mdef, "%s被%s%s了!", Monnam(mdef),
+              /*冗余:*fltxt ? "" : "",*/ fltxt, /*修改语序:nonliving(mptr) ? "摧毁" : "杀死",*/
               nonliving(mptr) ? "摧毁" : "杀死"); /*修改语序:*fltxt ? "" : "", fltxt);*/
     else
         /* sad feeling is deferred until after potential life-saving */
@@ -3713,9 +3713,9 @@ xkilled(
         if (!unique_corpstat(mdat)) {
             boolean mname = has_mgivenname(mtmp);
 
-            livelog_printf(LL_KILLEDPET, "谋杀了%s忠实的%s%s%s",
+            livelog_printf(LL_KILLEDPET, "谋杀了%s忠实的%s%s",
                            uhis(), pmname(mdat, Mgender(mtmp)), /*修改语序:mname ? MGIVENNAME(mtmp) : "",*/
-                           mname ? "" : "",
+                           /*冗余:mname ? "" : "",*/
                            mname ? MGIVENNAME(mtmp) : ""); /*修改语序:uhis(), pmname(mdat, Mgender(mtmp)));*/
         }
     } else if (mtmp->mpeaceful)

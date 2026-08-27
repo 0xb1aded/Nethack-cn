@@ -1251,10 +1251,10 @@ seffect_enchant_armor(struct obj **sobjp)
             maybe_adjust_light(otmp, old_light);
         return;
     }
-    pline("%s%s%s%s了%s%s%s%s.", Yname2(otmp), /*修改语序:多了一个%s*/
+    pline("%s%s%s了%s%s%s%s.", Yname2(otmp), /*修改语序:多了一个%s*/
           (s == 0) ? "猛烈地" : "",
           otense(otmp, Blind ? "振动" : "发出"),
-          (!Blind && !same_color) ? "" : "",
+          /*冗余:(!Blind && !same_color) ? "" : "",*/
           (s * s > 1) ? "一会" : "片刻", (Blind || same_color) ? "" : ((s * s > 1) ? "" : "的"), /*修改语序:(Blind || same_color);*/
           (Blind || same_color) ? "" : hcolor(scursed ? NH_BLACK : NH_SILVER), /*修改语序:? "" : hcolor(scursed ? NH_BLACK : NH_SILVER), (Blind || same_color) ? "" : "光",*/ /*修改语序:? "" : hcolor(scursed ? NH_BLACK : NH_SILVER),*/
           (Blind || same_color) ? "" : "光"); /*修改语序:(s * s > 1) ? "一会儿" : "一刹那");*/
@@ -2950,7 +2950,7 @@ do_genocide(
         /* use actual type */
         Strcpy(buf, realbuf);
         if ((ptr->geno & G_UNIQ) && ptr != &mons[PM_HIGH_CLERIC])
-            which = !type_is_pname(ptr) ? "" : "";
+            which = ""; //冗余:!type_is_pname(ptr) ? "" : "";
     }
 
     if (how & REALLY) {

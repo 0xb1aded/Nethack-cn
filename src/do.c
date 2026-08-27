@@ -332,8 +332,8 @@ flooreffects(
         if (cansee(x,y)) {
             /* unconditional "ground" is safe as this only runs for
                room and corridor tiles */
-            pline("%s%s滚烫的地板加热.", Tobjnam(obj, "被"),
-                  is_plural(obj) ? "" : "");
+            pline("%s滚烫的地板加热.", Tobjnam(obj, "被")
+                  /*冗余:is_plural(obj) ? "" : ""*/);
         }
 
         int survival_chance = obj->blessed ? 70 : 50;
@@ -1757,10 +1757,10 @@ goto_level(
                fly up the stairs; fly up along the ladder */
             great_effort = (Punished && !Levitation);
             if (flags.verbose || great_effort)
-                pline("%s%s上%s%s.",
+                pline("%s%s上了%s.",
                       great_effort ? "你费了很大力气" : "你",
                       u_locomotion("爬"),
-                      (Flying && ga.at_ladder) ? "" : "",
+                      /*(Flying && ga.at_ladder) ? "" : "",*/
                       ga.at_ladder ? "梯子" : "楼梯");
         } else { /* down */
             stairway *stway = stairway_find_from(&u.uz0, ga.at_ladder);
@@ -2416,9 +2416,9 @@ legs_in_no_shape(const char *for_what, /* jumping, kicking, riding */
 
         if (wl == BOTH_SIDES)
             bp = makeplural(bp);
-        Your("%s%s%s不适合%s.",
+        Your("%s%s不适合%s.",
              (wl == LEFT_SIDE) ? "左" : (wl == RIGHT_SIDE) ? "右" : "",
-             bp, (wl == BOTH_SIDES) ? "" : "", for_what);
+             bp, /*冗余:(wl == BOTH_SIDES) ? "" : "",*/ for_what);
     }
 }
 

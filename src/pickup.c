@@ -3425,13 +3425,13 @@ in_or_out_menu(
              ATR_NONE, clr, buf, MENU_ITEMFLAGS_NONE);
     if (outokay) {
         any.a_int = 2; /* 'o' */
-        Sprintf(buf, "拿出物品%s", something ? "" : "");
+        Sprintf(buf, "拿出物品"/*冗余:, something ? "" : ""*/);
         add_menu(win, &nul_glyphinfo, &any, menuselector[any.a_int], 0,
                  ATR_NONE, clr, buf, MENU_ITEMFLAGS_NONE);
     }
     if (inokay) {
         any.a_int = 3; /* 'i' */
-        Sprintf(buf, "放入物品%s", something ? "" : "");
+        Sprintf(buf, "放入物品"/*冗余:, something ? "" : ""*/);
         add_menu(win, &nul_glyphinfo, &any, menuselector[any.a_int], 0,
                  ATR_NONE, clr, buf, MENU_ITEMFLAGS_NONE);
     }

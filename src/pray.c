@@ -1402,10 +1402,10 @@ water_prayer(boolean bless_water)
             other = TRUE;
     }
     if (!Blind && changed) {
-        pline("%s药水%s落在祭坛上的片刻, 发出了%s%s光.",
+        pline("%s药水落在祭坛上的片刻, 发出了%s光.",
               ((other && changed > 1L) ? "其中一些"
                                        : (other ? "其中一瓶" : "")),
-              ((other || changed > 1L) ? "" : ""), (changed > 1L ? "" : ""),
+              /*冗余:((other || changed > 1L) ? "" : ""), (changed > 1L ? "" : ""),*/
               (bless_water ? hcolor(NH_LIGHT_BLUE) : hcolor(NH_BLACK)));
     }
     return (boolean) (changed > 0L);
@@ -1580,8 +1580,8 @@ offer_real_amulet(struct obj *otmp, aligntyp altaralign)
         SetVoice((struct monst *) 0, 0, 80, voice_deity);
         verbalize(
           "君子万年, 介尔景福!");
-        You("升为%s半神...",
-            flags.female ? "" : "");
+        You("升为半神..."
+            /*冗余:flags.female ? "" : ""*/);
         done(ASCENDED);
         /*NOTREACHED*/
     }

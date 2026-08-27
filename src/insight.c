@@ -337,20 +337,20 @@ fmt_elapsed_time(char *outbuf, int final)
     Strcpy(outbuf, fieldcnt ? "" : "无"); /* 'none' should never happen */
     if (edays) {
         Sprintf(eos(outbuf), " %ld天%s", edays, plur(edays));
-        if (fieldcnt > 1) /* hours and/or minutes and/or seconds to follow */
-            Strcat(outbuf, (fieldcnt == 2) ? "" : "");
+        //if (fieldcnt > 1) /* hours and/or minutes and/or seconds to follow */
+            //Strcat(outbuf, (fieldcnt == 2) ? "" : ""); /*冗余:这些应该没用吧... 应该...*/
         --fieldcnt; /* edays has been processed */
     }
     if (ehours) {
         Sprintf(eos(outbuf), " %ld小时%s", ehours, plur(ehours));
-        if (fieldcnt > 1) /* minutes and/or seconds to follow */
-            Strcat(outbuf, (fieldcnt == 2) ? "" : "");
+        //if (fieldcnt > 1) /* minutes and/or seconds to follow */
+            //Strcat(outbuf, (fieldcnt == 2) ? "" : "");
         --fieldcnt; /* ehours has been processed */
     }
     if (eminutes) {
         Sprintf(eos(outbuf), " %ld分钟%s", eminutes, plur(eminutes));
-        if (fieldcnt > 1) /* seconds to follow */
-            Strcat(outbuf, "");
+        //if (fieldcnt > 1) /* seconds to follow */
+            //Strcat(outbuf, "");
         /* eminutes has been processed but no need to decrement fieldcnt */
     }
     if (eseconds)

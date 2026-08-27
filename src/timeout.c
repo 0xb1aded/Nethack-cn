@@ -1248,8 +1248,8 @@ slip_or_trip(void)
         if (Hallucination) {
             what = strcpy(buf, what);
             buf[0] = highc(buf[0]);
-            pline("天哪! %s咬了%s你的%s!", what,
-                  (!otmp || otmp->quan == 1L) ? "" : "", body_part(FOOT));
+            pline("天哪! %s咬了你的%s!", what,
+                  /*冗余:(!otmp || otmp->quan == 1L) ? "" : "", */body_part(FOOT));
         } else {
             You("被%s绊倒.", what);
         }
@@ -1552,15 +1552,15 @@ burn_object(anything *arg, long timeout)
                 switch (obj->where) {
                 case OBJ_INVENT:
                 case OBJ_MINVENT:
-                    pline("%s%s蜡烛%s在变短.", whose,
+                    pline("%s%s蜡烛在变短.", whose,
                           menorah ? "烛台上的" : "",
-                          many ? "" : "");
+                          /*冗余:many ? "" : ""*/);
                     break;
                 case OBJ_FLOOR:
-                    You_see("%s蜡烛%s在变短.",
-                            menorah ? "烛台上的" : many ? ""
+                    You_see("%s蜡烛在变短.",
+                            menorah ? "烛台上的" : ""/*冗余:, many ? ""
                                                                 : "",
-                            many ? "" : "");
+                            many ? "" : ""*/);
                     break;
                 }
             break;
@@ -1570,15 +1570,15 @@ burn_object(anything *arg, long timeout)
                 switch (obj->where) {
                 case OBJ_INVENT:
                 case OBJ_MINVENT:
-                    pline("%s%s蜡烛%s的火焰%s闪烁%s变暗!", whose,
-                          menorah ? "烛台上的" : "", many ? "" : "",
-                          many ? "" : "", many ? "" : "");
+                    pline("%s蜡烛的火焰闪烁变暗!", whose,
+                          menorah ? "烛台上的" : ""/*冗余:, many ? "" : "",
+                          many ? "" : "", many ? "" : ""*/);
                     break;
                 case OBJ_FLOOR:
-                    You_see("%s蜡烛%s的火焰%s闪烁变暗!",
-                            menorah ? "烛台上的" : many ? ""
+                    You_see("%s蜡烛的火焰闪烁变暗!",
+                            menorah ? "烛台上的" : "" /*冗余:many ? ""
                                                                 : "",
-                            many ? "" : "", many ? "" : "");
+                            many ? "" : "", many ? "" : ""*/);
                     break;
                 }
             break;
@@ -1597,8 +1597,8 @@ burn_object(anything *arg, long timeout)
                               many ? "熄灭了" : "熄灭了");
                         break;
                     case OBJ_FLOOR:
-                        You_see("烛台的火焰%s熄灭了.",
-                                many ? "" : "");
+                        You_see("烛台的火焰熄灭了."
+                                /*冗余:many ? "" : ""*/);
                         break;
                     }
                 } else {
@@ -1609,15 +1609,15 @@ burn_object(anything *arg, long timeout)
                            FALLTHROUGH;
                         /*FALLTHRU*/
                     case OBJ_MINVENT:
-                        pline("%s%s燃尽了!", Yname2(obj),
-                              many ? "" : "");
+                        pline("%s燃尽了!", Yname2(obj)
+                              /*冗余:many ? "" : ""*/);
                         break;
                     case OBJ_FLOOR:
                         /*
                           You see some wax candles consumed!
                           You see a wax candle consumed!
                          */
-                        You_see("%s%s燃尽了!", many ? "" : "",
+                        You_see("%s燃尽了!", //冗余:many ? "" : "",
                                 many ? xname(obj) : an(xname(obj)));
                         need_newsym = TRUE;
                         break;

@@ -1924,8 +1924,8 @@ otransit_msg(struct obj *otmp, boolean nodrop, boolean chainthere, long num)
         /* As of 3.6.2: use a separate buffer for the suffix to avoid risk of
            overrunning obuf[] (let pline() handle truncation if necessary) */
         if (num) { /* means: other objects are impacted */
-            Sprintf(xbuf, "%s%s物品%s", otense(otmp, "击中"),
-                    (num == 1L) ? "另一个" : "其他", (num > 1L) ? "" : "");
+            Sprintf(xbuf, "%s%s物品", otense(otmp, "击中"),
+                    (num == 1L) ? "另一个" : "其他"/*冗余:, (num > 1L) ? "" : ""*/);
         } else { /* chain-only msg */
             Sprintf(xbuf, "%s了你的锁链", otense(otmp, "震动"));
         }

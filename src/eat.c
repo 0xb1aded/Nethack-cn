@@ -1651,8 +1651,8 @@ consume_tin(const char *mesg)
 
     } else { /* spinach... */
         if (tin->cursed) {
-            pline("它含有一些腐烂的%s%s物质.",
-                  Blind ? "" : "", Blind ? "" : hcolor(NH_GREEN));
+            pline("它含有一些腐烂的%s物质.",
+                  /*冗余:Blind ? "" : "",*/ Blind ? "" : hcolor(NH_GREEN));
         } else {
             pline("里面是菠菜.");
             observe_object(tin);
@@ -2004,11 +2004,11 @@ eatcorpse(struct obj *otmp)
 
         if (!strncmpi(pmxnam, "the ", 4))
             pmxnam += 4;
-        pline("%s%s%s%s%c",
+        pline("%s%s%s%c",
               type_is_pname(&mons[mnum])
                  ? "" : the_unique_pm(&mons[mnum]) ? "那个" : "这个",
               pmxnam,
-              use_is ? "" : "", /*危险:use_is ? "很" : "尝起来",*/
+              /*冗余:use_is ? "" : "", *//*危险:use_is ? "很" : "尝起来",*/
                   /* tiger reference is to TV ads for "Frosted Flakes",
                      breakfast cereal targeted at kids by "Tony the tiger" */
               Hallucination

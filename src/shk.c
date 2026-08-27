@@ -823,8 +823,8 @@ u_entered_shop(char *enterstring)
     } else if (eshkp->surcharge) {
         if (!Deaf && !muteshk(shkp)) {
             SetVoice(shkp, 0, 80, 0);
-            verbalize("又回来了, %s? 我一直盯着你呢%s.",
-                      svp.plname, mbodypart(shkp, EYE) ? "" : ""); /*危险:svp.plname, mbodypart(shkp, EYE));*/
+            verbalize("又回来了, %s? 我一直盯着你呢.",
+                      svp.plname/*冗余:, mbodypart(shkp, EYE) ? "" : ""*/); /*危险:svp.plname, mbodypart(shkp, EYE));*/
         } else {
             pline_The("%s的%s的气氛似乎不太友好.",
                       s_suffix(shkname(shkp)), shtypes[rt - SHOPBASE].name);
@@ -1695,8 +1695,8 @@ menu_pick_pay_items(
        the bill, no matter whether there are also any intact items;
        note: ibill[] has been sorted to hold used-up items first */
     if (ibill[0].usedup <= PartlyUsedUp) {
-        Sprintf(buf, "用光的物品%s:",
-                (ibillct > 1 && ibill[1].usedup <= PartlyUsedUp) ? "" : "");
+        Sprintf(buf, "用光的物品:"
+                /*冗余:(ibillct > 1 && ibill[1].usedup <= PartlyUsedUp) ? "" : ""*/);
         add_menu_heading(win, buf);
     }
     for (i = 0; i < ibillct; ++i) {
@@ -1704,7 +1704,7 @@ menu_pick_pay_items(
            one was shown before the first menu entry */
         if (i > 0 && ibill[i - 1].usedup <= PartlyUsedUp
             && ibill[i].usedup >= PartlyIntact) {
-            Sprintf(buf, "未付物品%s:", (i < ibillct - 1) ? "" : "");
+            Sprintf(buf, "未付物品:"/*冗余:, (i < ibillct - 1) ? "" : ""*/);
             add_menu_heading(win, buf);
         }
         otmp = ibill[i].obj;
@@ -1916,9 +1916,9 @@ dopay(void)
             }
             pline("但是由于%s的商店最近被抢劫了,",
                   noit_mhis(shkp));
-            pline("你补偿了%s的%s%s损失.",
-                  shkname(shkp), (umoney < ltmp) ? "一部分" : "", /*修改语序:(umoney < ltmp) ? "一部分" : "", shkname(shkp),*/
-                  noit_mhis(shkp) ? "" : "");
+            pline("你补偿了%s的%s损失.",
+                  shkname(shkp), (umoney < ltmp) ? "部分" : "", /*修改语序:(umoney < ltmp) ? "一部分" : "", shkname(shkp),*/
+                  /*冗余:noit_mhis(shkp) ? "" : ""*/);
             pay(umoney < ltmp ? umoney : ltmp, shkp);
             make_happy_shk(shkp, FALSE);
         } else {
@@ -4137,21 +4137,18 @@ sellobj(
                when container's contents are unknown, plural "items"
                should be used to not give away information.
              */
-            Sprintf(qbuf, "%s出价%s%ld 金币%s购买%s%s",
+            Sprintf(qbuf, "%s出价%s%ld 金币购买%s",
                     Shknam(shkp), short_funds ? "仅" : "", offer,
-                    plur(offer),
-                    (cltmp && !ltmp)
-                        ? ((yourc == 1L) ? "" : "")
-                        : "",
+                    /*冗余:plur(offer), */
                     obj->unpaid ? "该" : "你的");
             one = !ltmp ? (yourc == 1L) : (obj->quan == 1L && !cltmp);
             Sprintf(qsfx, "%s. 卖出%s?",
-                    (cltmp && ltmp)
-                        ? (only_partially_your_contents
+                    cltmp ?
+                        (ltmp ? (only_partially_your_contents
                                ? ((yourc == 1L) ? "及其内容物"
                                                 : "及其部分内容物")
-                               : and_its_contents)
-                        : "", /*危险:自己看*/ //2026.07.07 我当时是怎么写的，，， --Francium-223
+                               : and_its_contents) : "里的物品")
+                        : "", /*危险:自己看*/ //2026.07.07 我当时是怎么写的，，， --Francium-223 //2026.08.27 ←这个人当时怎么写的???
                     one ? "它" : "它们");
             record_price_quote(obj->otyp, offer / obj->quan, FALSE);
             (void) safe_qbuf(qbuf, qbuf, qsfx, obj, xname, simpleonames,
@@ -5622,8 +5619,8 @@ kops_gone(boolean silent)
         }
     }
     if (cnt && !silent)
-        pline_The("警察%s(失望地)消失%s在空气中.",
-                  plur(cnt), (cnt == 1) ? "" : "");
+        pline_The("警察(失望地)消失在空气中."
+                  /*冗余:plur(cnt), (cnt == 1) ? "" : ""*/);
 }
 
 staticfn long

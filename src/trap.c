@@ -5098,8 +5098,8 @@ drown(void)
         return FALSE;
 
     if ((i = number_leashed()) > 0) {
-        pline_The("狗链%s变%s松了.", (i > 1) ? "" : "",
-                  (i > 1) ? "" : "");
+        pline_The("狗链变松了.", /*冗余:(i > 1) ? "" : "",
+                  (i > 1) ? "" : ""*/);
         unleash_all();
     }
 
@@ -6911,12 +6911,12 @@ lava_effects(void)
             }
         }
         if (usurvive && burncount > burnmesgcount)
-            pline("你的背包中的%s物品%s%s被摧毁了.",
+            pline("你的背包中的%s物品%s被摧毁了.",
                   (burnmesgcount > 0)
                     ? ((burncount - burnmesgcount == 1) ? "另一个" : "另一些")
                     : ((burncount == 1) ? "一个" : "一些"),
-                  plur(burncount - burnmesgcount),
-                  (burncount - burnmesgcount == 1) ? "" : "");
+                  plur(burncount - burnmesgcount)
+                  /*冗余:(burncount - burnmesgcount == 1) ? "" : ""*/);
 
         /* s/he died... */
         boil_away = (u.umonnum == PM_WATER_ELEMENTAL

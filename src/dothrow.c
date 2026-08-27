@@ -2616,7 +2616,7 @@ breakmsg(struct obj *obj, boolean in_view)
     if (is_crackable(obj)) /* breakobj() will call erode_obj() for message */
         return;
 
-    to_pieces = "";
+    to_pieces = "了";
     switch (obj->oclass == POTION_CLASS ? POT_WATER : obj->otyp) {
     default: /* glass or crystal wand */
         if (obj->oclass != WAND_CLASS)
@@ -2634,8 +2634,8 @@ breakmsg(struct obj *obj, boolean in_view)
         if (!in_view)
             You_hear("%s粉碎了!", something);
         else
-            pline("%s粉碎%s%s!", Doname2(obj),
-                  (obj->quan == 1L) ? "" : "", to_pieces);
+            pline("%s粉碎%s!", Doname2(obj),
+                  /*冗余:(obj->quan == 1L) ? "" : "", */to_pieces);
         break;
     case EGG:
     case MELON:

@@ -273,9 +273,9 @@ its_dead(coordxy rx, coordxy ry, int *resp)
                     corpse = nxtobj(corpse, CORPSE, TRUE);
             } while (corpse && !reviver);
         }
-        You("断定%s不幸的人%s%s%s死了.",
+        You("断定%s不幸的人%s%s死了.",
             one ? (here ? "这个" : "那个") : (here ? "这些" : "那些"),
-            one ? "" : "", reviver ? "大部分都" : "", "已经"); /*修改语序:one ? "" : "", one ? "" : "", reviver ? "大部分都" : "");*/
+            reviver ? "大部分都" : "", "已经"); /*修改语序:one ? "" : "", one ? "" : "", reviver ? "大部分都" : "");*/
         return TRUE;
 
     } else { /* statue */
@@ -2799,9 +2799,9 @@ use_stone(struct obj *tstone)
 
     Sprintf(stonebuf, "石头%s", plur(tstone->quan));
     if (do_scratch)
-        You("在%s上磨出了%s%s划痕.", stonebuf, /*修改语序:You("磨出了%s%s划痕在%s上.",*/
-            streak_color ? streak_color : (const char *) "",
-            streak_color ? "" : ""); /*修改语序:streak_color ? " " : "", stonebuf);*/
+        You("在%s上磨出了%s划痕.", stonebuf, /*修改语序:You("磨出了%s%s划痕在%s上.",*/
+            streak_color ? streak_color : (const char *) ""
+            ); /*修改语序:streak_color ? " " : "", stonebuf);*/
     else if (streak_color)
         You_see("%s条划痕留在%s上.", streak_color, stonebuf);
     else

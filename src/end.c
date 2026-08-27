@@ -929,8 +929,8 @@ artifact_score(
                 /* not observe_object; dead characters don't observe */
                 otmp->known = otmp->dknown = otmp->bknown = otmp->rknown = 1;
                 /* assumes artifacts don't have quan > 1 */
-                Sprintf(pbuf, "%s%s (价值%ld %s, 分数%ld)",
-                        the_unique_obj(otmp) ? "" : "",
+                Sprintf(pbuf, "%s (价值%ld %s, 分数%ld)",
+                        /*冗余:the_unique_obj(otmp) ? "" : "",*/
                         otmp->oartifact ? artiname(otmp->oartifact)
                                         : OBJ_NAME(objects[otmp->otyp]),
                         value, currency(value), points);

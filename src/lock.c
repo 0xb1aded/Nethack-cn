@@ -691,12 +691,12 @@ doforce(void)
     if (!u_have_forceable_weapon()) {
         boolean use_plural = uwep && uwep->quan > 1;
 
-        You_cant("在%s武器%s的情况下用力推任何东西.",
+        You_cant("在%s武器的情况下用力推任何东西.",
                  !uwep ? "未装备"
                  : (uwep->oclass != WEAPON_CLASS && !is_weptool(uwep))
-                   ? (use_plural ? "没有合适的" : "没有合适的")
-                   : (use_plural ? "装备那些" : "装备那个"),
-                 use_plural ? "" : "");
+                   ? ("没有合适的")
+                   : (use_plural ? "装备那些" : "装备那个")
+                 /*冗余:use_plural ? "" : ""*/);
         return ECMD_OK;
     }
     if (!can_reach_floor(TRUE)) {

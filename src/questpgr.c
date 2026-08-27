@@ -51,7 +51,7 @@ ldrname(void)
 {
     int i = gu.urole.ldrnum;
 
-    Sprintf(gn.nambuf, "%s%s", type_is_pname(&mons[i]) ? "" : "",
+    Sprintf(gn.nambuf, "%s", /*冗余:type_is_pname(&mons[i]) ? "" : "",*/
             mons[i].pmnames[NEUTRAL]);
     return gn.nambuf;
 }
@@ -125,7 +125,7 @@ neminame(void)
 {
     int i = gu.urole.neminum;
 
-    Sprintf(gn.nambuf, "%s%s", type_is_pname(&mons[i]) ? "" : "",
+    Sprintf(gn.nambuf, "%s", /*冗余:type_is_pname(&mons[i]) ? "" : "",*/
             mons[i].pmnames[NEUTRAL]);
     return gn.nambuf;
 }

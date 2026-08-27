@@ -1701,8 +1701,8 @@ mime_action(const char *word)
     } else
         bp = buf;
 
-    You("假装在%s%s%s%s%s某物.", bp, /*危险:You("假装在%s%s%s%s%s某物.", ing_suffix(bp),*/
-        pfx ? "" : "", pfx ? pfx : "", sfx ? "" : "", sfx ? sfx : "");
+    You("假装在%s%s%s某物.", bp, /*危险:You("假装在%s%s%s%s%s某物.", ing_suffix(bp),*/
+        /*冗余:pfx ? "" : "", */pfx ? pfx : "", /*冗余:sfx ? "" : "", */sfx ? sfx : "");
 }
 
 /* getobj callback that allows any object - but not hands. */

@@ -2166,9 +2166,9 @@ look_traps(boolean nearby)
                 cmode = (iflags.getpos_coords != GPCOORDS_NONE)
                            ? iflags.getpos_coords : GPCOORDS_MAP;
                 if (count == 1) {
-                    Sprintf(outbuf, "%s看到或记得的陷阱%s:",
-                            nearby ? "附近" : "该层",
-                            nearby ? "" : "");
+                    Sprintf(outbuf, "%s看到或记得的陷阱:",
+                            nearby ? "附近" : "该层"
+                            /*冗余:nearby ? "" : ""*/);
                     putstr(win, 0, upstart(outbuf));
                     /* hack alert! Qt watches a text window for any line
                        with 4 consecutive spaces and renders the window

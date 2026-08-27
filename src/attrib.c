@@ -331,9 +331,9 @@ poisoned(
         boolean plural = (reason[strlen(reason) - 1] == 's') ? 1 : 0;
 
         /* avoid "The" Orcus's sting was poisoned... */
-        pline("%s%s%s有毒的!",
-              isupper((uchar) *reason) ? "" : "", reason,
-              plural ? "是" : "是");
+        pline("%s是有毒的!",
+              /*冗余:isupper((uchar) *reason) ? "" : "",*/ reason
+              /*冗余:plural ? "是" : "是"*/); 
     }
     if (Poison_resistance) {
         if (blast)
