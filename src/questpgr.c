@@ -312,7 +312,7 @@ convert_arg(char c)
         str = Blind ? "感受" : "看";
         break;
     case 'Z':
-        str = svd.dungeons[0].dcname;
+        str = svd.dcname[0];
         break;
     case '%':
         str = "%";

@@ -1132,6 +1132,10 @@ struct instance_globals_saved_c {
 struct instance_globals_saved_d {
     /* dungeon.c */
     dungeon dungeons[MAXDUNGEON]; /* ini'ed by init_dungeon() */
+    char dcname[MAXDUNGEON][24]; /* Chinese dungeon names; parallel to
+                                    dungeons[] and NOT saved (kept out of
+                                    struct dungeon to preserve savefile
+                                    compatibility with upstream NetHack) */
     struct dgn_topology dungeon_topology;
     /* decl.c */
     dest_area dndest;

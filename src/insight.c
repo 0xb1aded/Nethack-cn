@@ -610,13 +610,13 @@ background_enlightenment(int unused_mode UNUSED, int final)
                  !strncmp(tmpbuf, "位面", 5) ? "元素" : "", tmpbuf);
     } else if (Is_knox(&u.uz)) {
         /* this gives away the fact that the knox branch is only 1 level */
-        Sprintf(buf, "在%s中", svd.dungeons[u.uz.dnum].dcname);
+        Sprintf(buf, "在%s中", svd.dcname[u.uz.dnum]);
         /* TODO? maybe phrase it differently when actually inside the fort,
            if we're able to determine that (not trivial) */
     } else {
         char dgnbuf[QBUFSZ];
 
-        Strcpy(dgnbuf, svd.dungeons[u.uz.dnum].dcname);
+        Strcpy(dgnbuf, svd.dcname[u.uz.dnum]);
         if (!strncmpi(dgnbuf, "The ", 4))
             *dgnbuf = lowc(*dgnbuf);
         Sprintf(tmpbuf, "%d层",

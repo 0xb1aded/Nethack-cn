@@ -281,7 +281,7 @@ dname_to_dnum(const char *s)
     xint16 i;
 
     for (i = 0; i < svn.n_dgns; i++)
-        if (!strcmp(svd.dungeons[i].dname, s) || !strcmp(svd.dungeons[i].dcname, s))
+        if (!strcmp(svd.dungeons[i].dname, s) || !strcmp(svd.dcname[i], s))
             return i;
 
     panic("Couldn't resolve dungeon number for name \"%s\".", s);
@@ -320,7 +320,7 @@ find_branch(const char *s, /* dungeon name */
         const char *dnam, *dcnam;
 
         for (br = svb.branches; br; br = br->next) {
-            dnam = svd.dungeons[br->end2.dnum].dname; dcnam = svd.dungeons[br->end2.dnum].dcname;
+            dnam = svd.dungeons[br->end2.dnum].dname; dcnam = svd.dcname[br->end2.dnum];
             if (!strcmpi(dnam, s)
                 || ((!strncmpi(dnam, "The ", 4) && !strcmpi(dnam + 4, s)) || !strcmpi(dnam, s) || !strcmpi(dcnam, s)))
                 break;
@@ -1022,7 +1022,10 @@ init_dungeon_dungeons(lua_State *L, struct proto_dungeon *pd, int dngidx)
 
     if (Strlen(dgn_name) >= sizeof svd.dungeons[dngidx].dname)
         panic("dname too long for dungeon %d", dngidx);
-    Strcpy(svd.dungeons[dngidx].dname, dgn_name); Strcpy(svd.dungeons[dngidx].dcname, dgn_cname); /*危险:自己看dungeons.lua*/
+    Strcpy(svd.dungeons[dngidx].dname, dgn_name);
+    if (Strlen(dgn_cname) >= sizeof svd.dcname[dngidx])
+        panic("dcname too long for dungeon %d", dngidx);
+    Strcpy(svd.dcname[dngidx], dgn_cname);
 
     if (Strlen(dgn_protoname) >= sizeof svd.dungeons[dngidx].proto)
         panic("proto too long for dungeon %d", dngidx);
@@ -2232,7 +2235,7 @@ print_branch(winid win, int dnum, int lower_bound, int upper_bound,
             && br->end1.dlevel <= upper_bound) {
             Sprintf(buf, "%c 到%s的%s: %d",
                     bymenu ? chr_u_on_lvl(&br->end1) : ' ',
-                    svd.dungeons[br->end2.dnum].dcname, br_string(br->type), /*修改语序:br_string(br->type), svd.dungeons[br->end2.dnum].dname,*/
+                    svd.dcname[br->end2.dnum], br_string(br->type), /*修改语序:br_string(br->type), svd.dungeons[br->end2.dnum].dname,*/
                     depth(&br->end1));
             if (bymenu)
                 tport_menu(win, buf, lchoices_p, &br->end1,
@@ -2270,11 +2273,11 @@ print_dungeon(boolean bymenu, schar *rlev, xint16 *rdgn)
         descr = unplaced ? "层深" : "层";
         nlev = dptr->num_dunlevs;
         if (nlev > 1)
-            Snprintf(buf, sizeof buf, "%s: %d到%d%s", dptr->dcname,
+            Snprintf(buf, sizeof buf, "%s: %d到%d%s", svd.dcname[i],
                      dptr->depth_start, dptr->depth_start + nlev - 1,
                      makeplural(descr)); /*修改语序:自己看*/
         else
-            Snprintf(buf, sizeof buf, "%s: %d%s", dptr->dcname, dptr->depth_start,
+            Snprintf(buf, sizeof buf, "%s: %d%s", svd.dcname[i], dptr->depth_start,
                      descr); /*修改语序:自己看*/
 
         /* Most entrances are uninteresting. */
@@ -2346,7 +2349,7 @@ print_dungeon(boolean bymenu, schar *rlev, xint16 *rdgn)
                 putstr(win, 0, "飘浮分支");
                 first = FALSE;
             }
-            Sprintf(buf, "   到%s的%s", svd.dungeons[br->end2.dnum].dcname,
+            Sprintf(buf, "   到%s的%s", svd.dcname[br->end2.dnum],
                     br_string(br->type)); /*修改语序:交换*/
             putstr(win, 0, buf);
         }
@@ -3491,13 +3494,13 @@ print_mapseen(
         if (svd.dungeons[dnum].dunlev_ureached == svd.dungeons[dnum].entry_lev
             /* suppress the negative numbers in the endgame */
             || In_endgame(&mptr->lev))
-            Sprintf(buf, "%s:", svd.dungeons[dnum].dcname);
+            Sprintf(buf, "%s:", svd.dcname[dnum]);
         else if (builds_up(&mptr->lev))
-            Sprintf(buf, "%s: %d层往上到%d层", svd.dungeons[dnum].dcname,
+            Sprintf(buf, "%s: %d层往上到%d层", svd.dcname[dnum],
                     depthstart + svd.dungeons[dnum].entry_lev - 1,
                     depthstart + svd.dungeons[dnum].dunlev_ureached - 1);
         else
-            Sprintf(buf, "%s: %d层到%d层", svd.dungeons[dnum].dcname,
+            Sprintf(buf, "%s: %d层到%d层", svd.dcname[dnum],
                     depthstart,
                     depthstart + svd.dungeons[dnum].dunlev_ureached - 1);
 
@@ -3630,7 +3633,7 @@ print_mapseen(
 
     /* print out branches */
     if (mptr->br) {
-        Sprintf(buf, "%s到%s的%s", PREFIX, svd.dungeons[mptr->br->end2.dnum].dcname,
+        Sprintf(buf, "%s到%s的%s", PREFIX, svd.dcname[mptr->br->end2.dnum],
                 br_string2(mptr->br)); /*修改语序:同上*/
 
         /* Since mapseen objects are printed out in increasing order

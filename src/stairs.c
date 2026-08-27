@@ -227,7 +227,7 @@ stairs_description(
     } else {
         /* known branch stairs; tacking on destination level is too verbose */
         Sprintf(outbuf, "前往%s的分支%s%s",
-                svd.dungeons[tolev.dnum].dcname, updown, stairs); /*修改语序:stairs, updown, svd.dungeons[tolev.dnum].dname);*/
+                svd.dcname[tolev.dnum], updown, stairs); /*修改语序:stairs, updown, svd.dungeons[tolev.dnum].dname);*/
         /* dungeons[].dname is capitalized; undo that for "The <Branch>" */
         (void) strsubst(outbuf, "The ", "the ");
     }

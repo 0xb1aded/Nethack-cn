@@ -456,7 +456,7 @@ describe_level(
     int ret = 1;
 
     if (Is_knox(&u.uz)) {
-        Sprintf(buf, "%s", svd.dungeons[u.uz.dnum].dcname);
+        Sprintf(buf, "%s", svd.dcname[u.uz.dnum]);
         addbranch = FALSE;
     } else if (In_quest(&u.uz)) {
         Sprintf(buf, "家 %d", dunlev(&u.uz));
@@ -476,7 +476,7 @@ describe_level(
         ret = 0;
     }
     if (addbranch) {
-        Sprintf(eos(buf), ", %s", svd.dungeons[u.uz.dnum].dcname);
+        Sprintf(eos(buf), ", %s", svd.dcname[u.uz.dnum]);
         /* 冗余: 大小写操作在中文语境下失效，考虑直接删除
         (void) strsubst(buf, "The ", "the "); */
     }
