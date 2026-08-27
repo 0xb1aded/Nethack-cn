@@ -1,4 +1,4 @@
-/* NetHack 5.0  rumors.c    $NHDT-Date: 1594370241 2020/07/10 08:37:21 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.56 $ */
+/* NetHack 5.0	rumors.c	$NHDT-Date: 1781973065 2026/06/20 16:31:05 $  $NHDT-Branch: NetHack-5.0 $:$NHDT-Revision: 1.93 $ */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /*-Copyright (c) Robert Patrick Rankin, 2012. */
 /* NetHack may be freely redistributed.  See license for details. */
@@ -554,10 +554,11 @@ outrumor(
     switch (mechanism) {
     case BY_ORACLE:
         /* Oracle delivers the rumor */
-        pline("不背其言, 神谕者%s说:",
-              (!rn2(4) ? "随口"
+        pline("不背其言, 神谕者%s%s:",
+              (!rn2(4) ? "漫不经心地"
                        : (!rn2(3) ? "随意"
-                                  : (rn2(2) ? "若无其事地" : ""))));
+                                  : (rn2(2) ? "若无其事地" : ""))),
+              says());
         SetVoice((struct monst *) 0, 0, 80, voice_oracle);
         verbalize1(line);
         /* [WIS exercised by getrumor()] */

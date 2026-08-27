@@ -48,7 +48,7 @@
   <ItemDefinitionGroup Condition="Exists('$(PDCURSESMOD)')">
     <ClCompile>
       <AdditionalIncludeDirectories>$(PDCURSES);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>CURSES_GRAPHICS;PDC_NCMOUSE;PDC_RGB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CURSES_GRAPHICS;PDC_NCMOUSE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(ToolsDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -84,7 +84,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalOptions>/Gs /Oi- /w44774 /w45262 /utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Gs /Oi- /w44774 /w45262 %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings Condition="'$(Platform)'=='ARM64'">4100;4244;4245;4310;4706;4820;4324</DisableSpecificWarnings>
       <DisableSpecificWarnings Condition="'$(Platform)'!='ARM64'">4244;4245;4310;4706;4820;4324</DisableSpecificWarnings>
       <Optimization>Disabled</Optimization>
@@ -281,6 +281,7 @@
     <ClCompile Include="$(WinWin32Dir)mswproc.c" />
     <ClCompile Include="$(WinWin32Dir)NetHackW.c" />
     <ClCompile Include="$(SrcDir)sfbase.c" />
+    <ClCompile Include="$(SrcDir)revision.c" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="$(WinWin32Dir)NetHackW.rc" />
@@ -386,6 +387,7 @@
     <ClInclude Include="$(IncDir)sfprocs.h" />
     <ClInclude Include="$(IncDir)savefile.h" />
     <ClInclude Include="$(IncDir)sfmacros.h" />
+    <ClInclude Include="$(IncDir)revision.h" />
     <ClInclude Include="..\resource.h" />
   </ItemGroup>
   <ItemGroup>

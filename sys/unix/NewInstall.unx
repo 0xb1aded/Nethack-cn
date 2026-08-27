@@ -98,6 +98,9 @@ additional interfaces. See below.
 |          |       |                 |                                      |
 |          |       |                 | One possible way:                    |
 |          |       |                 |    brew install xquartz              |
+|          |       |                 |    brew install libxft               |
+|          |       |                 |    brew install fontconfig           |
+|          |       |                 |    brew install freetype             |
 |----------+-------+-----------------+--------------------------------------|
 | MacOS    | Qt    | WANT_WIN_QT     | You will need to obtain and          |
 |          |       |                 | install Qt if you want Qt            |
@@ -154,6 +157,10 @@ additional interfaces. See below.
 |          |       |                 |sudo apt-get install \                |
 |          |       |                 |  qt6-multimedia-dev                  |
 +----------+-------+-----------------+--------------------------------------+
+
+There are other hints file options that are meant to impact your NetHack build
+in various other ways too. A reference list can be found in
+sys/unix/README.hints. 
 
 # NetHack 5.0  NewInstall.unx       $NHDT-Date: 1652276817 2022/05/11 13:46:57 $  $NHDT-Branch: NetHack-5.0 $:$NHDT-Revision: 1.11 $
 # Copyright (c) 2009 by Kenneth Lorber, Kensington, Maryland

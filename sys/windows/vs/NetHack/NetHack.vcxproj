@@ -50,7 +50,7 @@
   <ItemDefinitionGroup Condition="Exists('$(PDCURSES)')">
     <ClCompile>
       <AdditionalIncludeDirectories>$(PDCURSES);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>CURSES_GRAPHICS;CURSES_UNICODE;PDC_NCMOUSE;PDC_WIDE;PDC_FORCE_UTF8;PDC_RGB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CURSES_GRAPHICS;PDC_NCMOUSE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(ToolsDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -69,7 +69,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalOptions>/Gs /Oi- /w44774 /w45262 /utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Gs /Oi- /w44774 /w45262 %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings Condition="'$(Platform)'=='ARM64'">4100;4244;4245;4310;4706;4820;4324</DisableSpecificWarnings>
       <DisableSpecificWarnings Condition="'$(Platform)'!='ARM64'">4244;4245;4310;4706;4820;4324</DisableSpecificWarnings>
       <Optimization>Disabled</Optimization>
@@ -234,6 +234,7 @@
     <ClCompile Condition="Exists('$(PDCURSES)')" Include="$(WinCursDir)curswins.c" />
     <ClCompile Condition="Exists('$(FMODINCDIR)\fmod.h') And Exists('$(FMODLIBLIB)') And Exists('$(FMODLIBDLL)')" Include="$(FMODSRC)" />
     <ClCompile Include="$(SrcDir)sfbase.c" />
+    <ClCompile Include="$(SrcDir)revision.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(IncDir)align.h" />
@@ -312,6 +313,7 @@
     <ClInclude Include="$(IncDir)sfprocs.h" />
     <ClInclude Include="$(IncDir)savefile.h" />
     <ClInclude Include="$(IncDir)sfmacros.h" />
+    <ClInclude Include="$(IncDir)revision.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="$(WinWin32Dir)NetHack.rc" />

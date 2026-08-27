@@ -1,4 +1,4 @@
-/* NetHack 5.0  shk.c   $NHDT-Date: 1736516428 2025/01/10 05:40:28 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.306 $ */
+/* NetHack 5.0	shk.c	$NHDT-Date: 1781973066 2026/06/20 16:31:06 $  $NHDT-Branch: NetHack-5.0 $:$NHDT-Revision: 1.323 $ */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /*-Copyright (c) Robert Patrick Rankin, 2012. */
 /* NetHack may be freely redistributed.  See license for details. */
@@ -1075,6 +1075,18 @@ shop_keeper(char rmno)
                correct the underlying svr.rooms[].resident issue but... */
             return (struct monst *) 0;
         }
+    } else {
+        if (!level_status.shkready) {
+            int hmm UNUSED = 1;
+#if (NH_DEVEL_STATUS != NH_STATUS_RELEASED \
+     && NH_DEVEL_STATUS != NH_STATUS_POSTRELEASE)
+            impossible("untrustworthy null shkp; level_status.shkready"
+                        " is FALSE (%d, %d, %d, &d)",
+                        level_status.making, level_status.loading,
+                        level_status.shkready, level_status.ready);
+#endif
+            nhUse(hmm);
+        }
     }
     return shkp;
 }
@@ -1719,7 +1731,7 @@ menu_pick_pay_items(
         any.a_int = i + 1; /* +1: avoid 0 */
         tmpglyph = obj_to_glyph(otmp, rn2_on_display_rng);
         map_glyphinfo(0, 0, tmpglyph, 0U, &tmpglyphinfo);
-        add_menu(win, &nul_glyphinfo, &any, 0, 0, ATR_NONE, NO_COLOR, buf,
+        add_menu(win, &tmpglyphinfo, &any, 0, 0, ATR_NONE, NO_COLOR, buf,
                  MENU_ITEMFLAGS_NONE);
     }
 
@@ -2035,6 +2047,12 @@ dopay(void)
         nhUse(ibill);
     }
     return paid ? ECMD_TIME : ECMD_OK;
+}
+
+const char *
+says(void)
+{
+    return Deaf ? "signs" : "says";
 }
 
 /* for menustyle=Traditional, choose between paying for everything (by

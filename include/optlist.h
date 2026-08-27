@@ -137,7 +137,7 @@ static int optfn_##a(int, int, boolean, char *, char *);
                 "你的起始阵营(lawful, neutral, or chaotic)")
     /* end of special ordering; remainder of entries are in alphabetical order
      */
-    NHOPTB(accessiblemsg, Advanced, 0, opt_out, set_in_game,
+    NHOPTB(accessiblemsg, Advanced, 0, opt_in, set_in_game,
            Off, Yes, No, No, NoAlias, &a11y.accessiblemsg, Term_False,
            "在消息中添加位置信息")
     NHOPTB(acoustics, Advanced, 0, opt_out, set_in_game,
@@ -159,6 +159,10 @@ static int optfn_##a(int, int, boolean, char *, char *);
     NHOPTB(altmeta, Advanced, 0, opt_out, set_in_game,
            Off, Yes, No, No, NoAlias, &iflags.altmeta, Term_False,
            "将\"ESC c\"视为M-c(Meta+c, 8th bit set)")
+#elif defined(AMIGA_INTUITION)
+    NHOPTB(altmeta, Advanced, 0, opt_out, set_in_game,
+           On, Yes, No, No, NoAlias, &sysflags.altmeta, Term_False,
+           "将ALT+c视为M-c(Meta+c, 8th bit set)")
 #else
     NHOPTB(altmeta, Advanced, 0, opt_out, set_in_config,
            Off, Yes, No, No, NoAlias, (boolean *) 0, Term_False,
@@ -167,7 +171,9 @@ static int optfn_##a(int, int, boolean, char *, char *);
     NHOPTB(armorstatus, Advanced, 0, opt_in, set_in_game,
                 Off, Yes, No, No, NoAlias, &flags.armorstatus, Term_False,
                 "在状态栏中汇总当前穿戴的护甲")
-    NHOPTB(ascii_map, Advanced, 0, opt_in, set_in_game,
+    /* this one needs unique handling because different window ports
+       expect different defaults */
+    NHOPTB(ascii_map, Advanced, 0, ascii_map_Def, set_in_game,
                 ascii_map_Def, Yes, No, No, NoAlias, &iflags.wc_ascii_map,
                 Term_False, "以文本显示地图")
     NHOPTO("autocompletions", Advanced, o_autocomplete, BUFSZ, opt_in,
@@ -181,7 +187,7 @@ static int optfn_##a(int, int, boolean, char *, char *);
     NHOPTB(autoopen, Behavior, 0, opt_out, set_in_game,
            On, Yes, No, No, NoAlias, &flags.autoopen, Term_False,
            "走向门时尝试打开")
-    NHOPTB(autopickup, Behavior, 0, opt_out, set_in_game,
+    NHOPTB(autopickup, Behavior, 0, opt_in, set_in_game,
            Off, Yes, No, No, NoAlias, &flags.pickup, Term_False,
            "自动捡起物品")
     NHOPTO("autopickup exceptions", Behavior, o_autopickup_exceptions, BUFSZ,
@@ -233,7 +239,7 @@ static int optfn_##a(int, int, boolean, char *, char *);
     NHOPTB(cmdassist, Behavior, 0, opt_out, set_in_game,
            On, Yes, No, No, NoAlias, &iflags.cmdassist, Term_False,
            "输入方向错误时显示帮助信息")
-    NHOPTB(color, Map, 0, opt_in, set_in_game,
+    NHOPTB(color, Map, 0, opt_out, set_in_game,
            On, Yes, No, No, "colour", &iflags.wc_color, Term_False,
            "使用地图颜色")
     NHOPTB(confirm, Advanced, 0, opt_out, set_in_game,
@@ -357,11 +363,15 @@ static int optfn_##a(int, int, boolean, char *, char *);
     NHOPTB(herecmd_menu, Advanced, 0, opt_in, set_in_game,
            Off, Yes, No, No, NoAlias, &iflags.herecmd_menu, Term_False,
            "显示此位置可用的命令")
-#if defined(MACOS9)
+#if 0
+/* there is no optfn_hicolor() defined in options.c presently
+   and that is required for NHOPTC */
+#if defined(MAC68K)
     NHOPTC(hicolor, Advanced, 15, opt_in, set_in_config,
                 No, Yes, No, No, NoAlias,
                 "同palette, 只是顺序相反")
 #endif
+#endif /* 0 */
     NHOPTB(hilite_pet, Map, 0, opt_in, set_in_game,
            Off, Yes, No, No, NoAlias, &iflags.wc_hilite_pet, Term_False,
            "高亮宠物")
@@ -390,7 +400,7 @@ static int optfn_##a(int, int, boolean, char *, char *);
     NHOPTB(idlecheckpoint, Advanced, 0, opt_in, set_in_game,
            Off, Yes, No, No, NoAlias, &iflags.idlecheckpoint, Term_Off,
            "如果输入处于空闲状态10秒, 则更新检查点文件")
-#ifndef MACOS9
+#ifndef MAC68K
     NHOPTB(ignintr, Advanced, 0, opt_in, set_in_game,
            Off, Yes, No, No, NoAlias, &flags.ignintr, Term_False,
            "忽略中断信号")
@@ -420,7 +430,7 @@ static int optfn_##a(int, int, boolean, char *, char *);
            On, Yes, No, No, NoAlias, &flags.biff, Term_False,
            "启用传信小鬼")
     NHOPTC(map_mode, Advanced, 20, opt_in, set_gameview,
-                Yes, Yes, No, No, NoAlias, "Windows下的地图显示模式")
+                Yes, Yes, Yes, No, NoAlias, "Windows下的地图显示模式")
     NHOPTB(mention_decor, Advanced, 0, opt_in, set_in_game,
            Off, Yes, No, No, NoAlias, &flags.mention_decor, Term_False,
            "在经过有趣的地块特征时提供反馈")
@@ -452,7 +462,7 @@ static int optfn_##a(int, int, boolean, char *, char *);
            Yes, Yes, No, Yes, "use_menu_glyphs",
            "在菜单中显示物品符号")
 #ifdef TTY_GRAPHICS
-    NHOPTB(menu_overlay, Advanced, 0, opt_in, set_in_game,
+    NHOPTB(menu_overlay, Advanced, 0, opt_out, set_in_game,
            On, Yes, No, No, NoAlias, &iflags.menu_overlay, Term_False,
            "菜单叠加并向右对齐")
 #else
@@ -542,7 +552,7 @@ static int optfn_##a(int, int, boolean, char *, char *);
                 No, Yes, No, No, NoAlias,
                 "物品栏中的物品种类顺序")
 #ifdef CHANGE_COLOR
-#ifndef MACOS9     /* not old Mac OS9 */
+#ifndef MAC68K     /* not old Mac OS9 */
     NHOPTC(palette, Advanced, 15, opt_in, set_gameview,
                 No, Yes, Yes, No, "hicolor",
                 "样式(以palette(color/R-G-B)调整RGB颜色)")
@@ -764,7 +774,7 @@ static int optfn_##a(int, int, boolean, char *, char *);
            "在状态行中显示游戏回合数")
 #ifdef TIMED_DELAY
     NHOPTB(timed_delay, Map, 0, opt_out, set_in_game,
-           Off, Yes, No, No, NoAlias, &flags.nap, Term_False,
+           On, Yes, No, No, NoAlias, &flags.nap, Term_False,
            "暂停时使用延迟以实现显示效果")
 #else
     NHOPTB(timed_delay, Map, 0, opt_in, set_in_config,
@@ -787,11 +797,11 @@ static int optfn_##a(int, int, boolean, char *, char *);
            On, Yes, No, No, NoAlias, &flags.travelcmd, Term_False,
            "允许通过鼠标点击旅行")
 #ifdef DEBUG
-    NHOPTB(travel_debug, Advanced, 0, opt_out, set_wizonly,
+    NHOPTB(travel_debug, Advanced, 0, opt_in, set_wizonly,
            Off, Yes, No, No, NoAlias, &iflags.trav_debug, Term_False,
            (char *)0)
 #else
-    NHOPTB(travel_debug, Advanced, 0, opt_out, set_wizonly,
+    NHOPTB(travel_debug, Advanced, 0, opt_in, set_wizonly,
            Off, No, No, No, NoAlias, (boolean *) 0, Term_False,
            (char *)0)
 #endif
@@ -815,7 +825,7 @@ static int optfn_##a(int, int, boolean, char *, char *);
            (char *)0)
     NHOPTC(versinfo, Advanced, 80, opt_out, set_in_game,
            No, Yes, No, Yes, NoAlias, "'showvers'显示额外信息")
-#ifdef MSDOS
+#if defined(MSDOS) && defined(NO_TERMS)
     NHOPTC(video, Advanced, 20, opt_in, set_in_config,
                 No, Yes, No, No, NoAlias, "视频更新的方法")
 #endif

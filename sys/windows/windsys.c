@@ -517,7 +517,7 @@ nethack_exit(int code)
      * GUILaunched is defined and set in consoletty.c.
      */
 
-    if (getreturn_enabled) {
+    if (getreturn_enabled && !program_state.exiting) {
         raw_print("\n");
         if (iflags.window_inited)
             wait_synch();
@@ -526,6 +526,13 @@ nethack_exit(int code)
     genl_status_finish();
 #ifdef MSWIN_GRAPHICS
     free_winmain_stuff();
+#endif
+#ifdef WIN32CON
+#ifdef CURSES_GRAPHICS
+    if (WINDOWPORT(curses)) {
+        console_exit();
+    }
+#endif
 #endif
     exit(code);
 }
@@ -677,7 +684,7 @@ BOOL winos_font_support_cp437(HFONT hFont)
 
     DWORD size = (size_t) GetFontUnicodeRanges(hdc, NULL);
     if (size) {
-        GLYPHSET *glyphSet = (GLYPHSET *) malloc((size_t) size);
+        GLYPHSET *glyphSet = (GLYPHSET *) alloc((size_t) size);
         if (glyphSet != NULL) {
 #ifdef _MSC_VER
 #pragma warning( push )

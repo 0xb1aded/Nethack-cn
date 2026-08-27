@@ -1,4 +1,4 @@
-/* NetHack 5.0	save.c	$NHDT-Date: 1737610109 2025/01/22 21:28:29 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.232 $ */
+/* NetHack 5.0	save.c	$NHDT-Date: 1781973065 2026/06/20 16:31:05 $  $NHDT-Branch: NetHack-5.0 $:$NHDT-Revision: 1.263 $ */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /*-Copyright (c) Michael Allison, 2009. */
 /* NetHack may be freely redistributed.  See license for details. */
@@ -284,7 +284,33 @@ savegamestate(NHFILE *nhfp)
                                       urealtime.start_timing);
     Sfo_long(nhfp, &svw.wreserve, "wreserve");
     Sfo_int32(nhfp, &svw.wtreserved, "wtreserved");
+    /*
+     * In a normal save operation initiated by the player,
+     * the u.ustuck_mid and u.usteed_mid were already set
+     * by savemonchn() called from savelev_core(). Under
+     * that operation, u.ustuck and u.usteed pointers no longer
+     * point to valid locations here. Their non-zero values serve
+     * only to flag that they are were set, but the pointers
+     * must not be dereferenced.
+     */
+    if (program_state.in_checkpoint) {
+        /*
+         * It is critical to ensure that u.ustuck_mid and u.usteed_mid
+         * hold current and correct data, in case this is needed by
+         * recover. The pointers, if set, are still pointing at
+         * valid data during a checkpoint operation, unlike during
+         * a synchronized save operation.
+         */
+        u.ustuck_mid = (u.ustuck) ? u.ustuck->m_id : 0;
+        u.usteed_mid = (u.usteed) ? u.usteed->m_id : 0;
+    }
     Sfo_you(nhfp, &u, "gamestate-you");
+
+    /* clear the in-memory value of these, now that they have been
+     * successfully written out.
+     */
+    u.ustuck_mid = 0;
+    u.usteed_mid = 0;
     Sfo_char(nhfp, yyyymmddhhmmss(ubirthday), "gamestate-ubirthday", 14);
     Sfo_long(nhfp, &urealtime.realtime, "gamestate-realtime");
     Sfo_char(nhfp, yyyymmddhhmmss(urealtime.start_timing), "gamestate-start_timing", 14);
@@ -353,6 +379,9 @@ savestateinlock(void)
     int hpid = 0;
     char whynot[BUFSZ];
     NHFILE *nhfp;
+
+    if (!program_state.something_worth_saving || program_state.in_self_recover)
+        return;
 
     program_state.saving++; /* inhibit status and perm_invent updates */
     /* When checkpointing is on, the full state needs to be written
@@ -519,7 +548,7 @@ savelev_core(NHFILE *nhfp, xint8 lev)
     Sfo_dest_area(nhfp, &svd.dndest, "lev-dndest");
     save_adjust_levelflags();
     Sfo_levelflags(nhfp, &svl.level.flags, "lev-level_flags");
-    rest_adjust_levelflags();
+    rest_adjust_levelflags(0L);
 
     Sfo_int(nhfp, &svd.doors_alloc, "lev-doors_alloc");
     /* don't rely on underlying write() behavior to write
@@ -1175,8 +1204,8 @@ freedynamicdata(void)
     if (options_set_window_colors_flag)
         options_free_window_colors();
 
-    if (glyphid_cache_status())
-        free_glyphid_cache();
+    if (glyphname_hash_indices_loaded())
+        empty_glyphname_hash_indices();
 
     if (tnhfp) {
         close_nhfile(tnhfp);

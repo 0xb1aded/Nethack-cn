@@ -1,5 +1,4 @@
-﻿/* NetHack 5.0  botl.c  $NHDT-Date: 1769839231 2026/01/30 22:00:31 $
- * $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.277 $ */
+﻿/* NetHack 5.0	botl.c	$NHDT-Date: 1781973042 2026/06/20 16:30:42 $  $NHDT-Branch: NetHack-5.0 $:$NHDT-Revision: 1.286 $ */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /*-Copyright (c) Michael Allison, 2006. */
 /* NetHack may be freely redistributed.  See license for details. */
@@ -775,7 +774,7 @@ static struct istat_s initblstats[MAXBLSTATS] = {
     INIT_BLSTAT("gold", " %s", ANY_LONG, 40, BL_GOLD),
     INIT_BLSTATP("power", " 能量:%s", ANY_INT, 10, BL_ENEMAX, BL_ENE),
     INIT_BLSTAT("power-max", "(%s)", ANY_INT, 10, BL_ENEMAX),
-    INIT_BLSTATP("experience-level", " 等级:%s", ANY_INT, 10, BL_EXP, BL_XP),
+    INIT_BLSTATP("experience-level", " 等级:%s", ANY_INT, 10, BL_XP, BL_XP),
     INIT_BLSTAT("armor-class", " 护甲:%s", ANY_INT, 10, BL_AC),
     INIT_BLSTAT("HD", " 生命骰:%s", ANY_INT, 10, BL_HD),
     INIT_BLSTAT("time", " 回合:%s", ANY_LONG, 30, BL_TIME),

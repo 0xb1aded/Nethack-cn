@@ -35,16 +35,40 @@ static const char *curses_next_line(const char *str, int width, char *line,
     int curses_getch(void)
 {
     int ch;
+    boolean timeoutset = FALSE;
 
-    if (iflags.debug_fuzzer)
+    if (iflags.debug_fuzzer) {
         ch = randomkey();
-    else
+    } else if (iflags.idlecheckpoint) {
+        boolean done_a_checkpoint = FALSE;
+
+        timeout(IDLECHECKPOINT_WAIT_TIME * 1000);
+        timeoutset = TRUE;
+
+        while (1) {
+            ch = getch();
+            if (ch == ERR && !done_a_checkpoint) {
+#ifdef INSURANCE
+                save_currentstate();
+#endif /* INSURANCE */
+                done_a_checkpoint = TRUE;
+                timeout(-1);
+                timeoutset = FALSE;
+            } else {
+                if (timeoutset) {
+                    timeout(-1);
+                    timeoutset = FALSE;
+                }
+                break;
+            }
+        }
+    } else {
         ch = getch();
+    }
     return ch;
 }
 
 /* Read a character of input from the user */
-
 int
 curses_read_char(void)
 {
@@ -66,6 +90,12 @@ curses_read_char(void)
     }
 
     return ch;
+}
+
+boolean
+curses_has_256color(void)
+{
+    return (COLORS >= 256) && (COLOR_PAIRS >= 256 * CURSES_NUM_BACKGROUND_COLORS);
 }
 
 /* Turn on or off the specified color and / or attribute */
@@ -124,7 +154,7 @@ curses_toggle_color_attr(WINDOW *win, int color, int attr, int onoff)
             if (use_bold) {
                 wattron(win, A_BOLD);
             }
-            wattron(win, COLOR_PAIR(curses_color));
+            wcolor_set(win, curses_color, &curses_color);
         }
 
         if (attr != NONE) {
