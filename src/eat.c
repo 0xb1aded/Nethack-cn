@@ -2218,7 +2218,7 @@ fprefx(struct obj *otmp)
                      : (otmp->otyp == CRAM_RATION
                         || otmp->otyp == K_RATION
                         || otmp->otyp == C_RATION)
-                        ? "味道很平淡."
+                        ? "味道很淡."
                         : Hallucination ? "简直绝了!" : "很美味!");
         }
         break; /* default */
