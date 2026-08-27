@@ -666,7 +666,7 @@ stripspe(struct obj *obj)
 staticfn void
 p_glow1(struct obj *otmp)
 {
-    pline("%s%s.", Yobjnam2(otmp), Blind ? "短暂振动了一下" : "短暂发光");
+    pline("%s.", Yobjnam2(otmp, Blind ? "短暂振动了一下" : "短暂发光"));
 }
 
 staticfn void
