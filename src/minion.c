@@ -299,7 +299,7 @@ demon_talk(struct monst *mtmp)
             pline("%s说: \"狩猎好运, %s. \"", Amonnam(mtmp),
                   flags.female ? "姐妹" : "兄弟");
         else if (canseemon(mtmp))
-            pline("%s%s什么.", Amonnam(mtmp),
+            pline("%s%s了什么.", Amonnam(mtmp),
                   says());
         if (!tele_restrict(mtmp))
             (void) rloc(mtmp, RLOC_MSG);

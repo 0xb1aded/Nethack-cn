@@ -3948,7 +3948,7 @@ tipcontainer_gettarget(
             any = cg.zeroany;
             any.a_obj = &dummyobj;
             /* tip to floor does not require free hands */
-            Sprintf(on_the_surface, "on the %s", surface(u.ux, u.uy));
+            Sprintf(on_the_surface, "到%s", surface(u.ux, u.uy));
             add_menu(win, &nul_glyphinfo, &any, '-', 0, ATR_NONE, clr,
                      on_the_surface, MENU_ITEMFLAGS_SELECTED);
             add_menu_str(win, "");
