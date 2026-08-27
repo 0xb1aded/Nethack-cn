@@ -2910,7 +2910,7 @@ zapyourself(struct obj *obj, boolean ordinary)
         learn_it = TRUE; /* (no effect for spells...) */
         healup(d(6, obj->otyp == SPE_EXTRA_HEALING ? 8 : 4), 0, FALSE,
                (obj->blessed || obj->otyp == SPE_EXTRA_HEALING));
-        You_feel("你感觉%s.", obj->otyp == SPE_EXTRA_HEALING ? "好多了" : "好些了");
+        You_feel("%s.", obj->otyp == SPE_EXTRA_HEALING ? "好多了" : "好些了");
         break;
     case WAN_LIGHT: /* (broken wand) */
         /* assert( !ordinary ); */
