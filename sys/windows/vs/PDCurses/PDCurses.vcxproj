@@ -121,9 +121,6 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <PreBuildEvent>
-      <Command>if exist "$(PDCURSES)\pdcurses\refresh.c" copy "$(LibDir)\..\lib-patch\pdcursesmod-refresh.c" "$(PDCURSES)\pdcurses\refresh.c"</Command>
-    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
