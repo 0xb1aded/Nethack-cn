@@ -833,8 +833,8 @@ topten(int how, time_t when)
                     char pbuf[BUFSZ];
 
                     Sprintf(pbuf,
-                            "在前%d名的榜单中, 你达到了排行榜第%d名.",
-                            rank0, sysopt.entrymax); /*危险: 移除复数s后缀*/
+                            "在总共%d名的排行榜中, 你达到了第%d名.",
+                            sysopt.entrymax, rank0); /*危险: 移除复数s后缀*/
                     topten_print(pbuf);
                 }
                 topten_print("");
@@ -958,6 +958,34 @@ outheader(void)
 
 DISABLE_WARNING_FORMAT_NONLITERAL
 
+/* Map an English role/race/gender/alignment filecode ("Bar", "Hum", "Mal",
+ * "Neu") to its Chinese counterpart ("蛮", "人", "男", "中"); fall back to the
+ * original string if there's no match or no Chinese code available. */
+staticfn const char *
+cfilecode_role(const char *fc)
+{
+    int i = str2role(fc);
+    return (i >= 0 && roles[i].cfilecode) ? roles[i].cfilecode : fc;
+}
+staticfn const char *
+cfilecode_race(const char *fc)
+{
+    int i = str2race(fc);
+    return (i >= 0 && races[i].cfilecode) ? races[i].cfilecode : fc;
+}
+staticfn const char *
+cfilecode_gend(const char *fc)
+{
+    int i = str2gend(fc);
+    return (i >= 0 && genders[i].cfilecode) ? genders[i].cfilecode : fc;
+}
+staticfn const char *
+cfilecode_align(const char *fc)
+{
+    int i = str2align(fc);
+    return (i >= 0 && aligns[i].cfilecode) ? aligns[i].cfilecode : fc;
+}
+
 /* so>0: standout line; so=0: ordinary line */
 staticfn void
 outentry(int rank, struct toptenentry *t1, boolean so)
@@ -975,16 +1003,16 @@ outentry(int rank, struct toptenentry *t1, boolean so)
     Sprintf(eos(linebuf), "%*ld%*s", TOPTEN_SCORE_COL_WIDTH,
             t1->points ? t1->points : u.urexp, TOPTEN_COL_GAP, "");
     Strcat(linebuf, t1->name);
-    Sprintf(eos(linebuf), "-%s", t1->plrole);
+    Sprintf(eos(linebuf), "-%s", cfilecode_role(t1->plrole));
     if (t1->plrace[0] != '?')
-        Sprintf(eos(linebuf), "-%s", t1->plrace);
+        Sprintf(eos(linebuf), "-%s", cfilecode_race(t1->plrace));
     /* Printing of gender and alignment is intentional.  It has been
      * part of the NetHack Geek Code, and illustrates a proper way to
      * specify a character from the command line.
      */
-    Sprintf(eos(linebuf), "-%s", t1->plgend);
+    Sprintf(eos(linebuf), "-%s", cfilecode_gend(t1->plgend));
     if (t1->plalign[0] != '?')
-        Sprintf(eos(linebuf), "-%s", t1->plalign);
+        Sprintf(eos(linebuf), "-%s", cfilecode_align(t1->plalign));
     Strcat(linebuf, " ");
     if (!strncmp("escaped", t1->death, 7)) {
         Sprintf(eos(linebuf), "逃离了地牢 %s[最高等级 %d]",
