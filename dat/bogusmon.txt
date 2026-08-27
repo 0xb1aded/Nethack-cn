@@ -320,10 +320,10 @@ WireShark
 多余的制表符
 
 # bugs
-波尔虫
-曼德尔虫
-薛定谔虫
-海森堡虫
+玻尔bug
+曼德尔bug
+薛定谔的bug
+海森bug
 
 # DooM
 恶恶魔
