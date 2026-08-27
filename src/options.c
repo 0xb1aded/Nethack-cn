@@ -349,7 +349,7 @@ static const menu_cmd_t default_menu_cmd_info[] = {
     { (char *) 0, '\0', (char *) 0 }
 };
 
-static const char n_currently_set[] = "(%d currently set)";
+static const char n_currently_set[] = "(已设定%d)";
 
 staticfn void nmcpy(char *, const char *, int);
 staticfn void escapes(const char *, char *);
