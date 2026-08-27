@@ -24,7 +24,7 @@ OPTIONS=symset:IBMGraphics_2,roguesymset:RogueEpyx
 #OPTIONS=symset:NHAccess,roguesymset:NHAccess
 
 # Optional curses port interface
-OPTIONS=windowtype:curses
+#OPTIONS=windowtype:curses
 #
 # Keyboard handling
 # Ray Chason's keyboard handling
