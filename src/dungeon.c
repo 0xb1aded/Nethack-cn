@@ -1290,6 +1290,55 @@ init_dungeons(void)
 #endif
 }
 
+/* Reload the Chinese dungeon names (static display strings) from DUNGEON_FILE
+ * into svd.dcname[].  They are not part of the save file, so they must be
+ * re-populated after restoring a saved game: restgamestate() restores the
+ * English dname[] inside each struct dungeon but not the Chinese names.
+ * Match by English name so the result does not depend on iteration order. */
+void
+init_dungeon_cnames(void)
+{
+    lua_State *L;
+    int i, tidx;
+    nhl_sandbox_info sbi = { NHL_SB_SAFE, 1 * 1024 * 1024, 0,
+                             1 * 1024 * 1024 };
+
+    L = nhl_init(&sbi);
+    if (!L) {
+        panic1("'nhl_init' failed; can't continue.");
+        /*NOTREACHED*/
+    }
+    if (!nhl_loadlua(L, DUNGEON_FILE))
+        panic1("Cannot open dungeon description.");
+
+    lua_getglobal(L, "dungeon");
+    if (!lua_istable(L, -1))
+        panic("dungeon is not a lua table");
+
+    tidx = lua_gettop(L);
+    lua_pushnil(L); /* first key */
+    while (lua_next(L, tidx) != 0) {
+        if (lua_istable(L, -1)) {
+            char *dgn_name = get_table_str(L, "name");
+            char *dgn_cname = get_table_str(L, "cname");
+
+            for (i = 0; i < svn.n_dgns; ++i) {
+                if (!strcmp(svd.dungeons[i].dname, dgn_name)) {
+                    if (Strlen(dgn_cname) >= sizeof svd.dcname[i])
+                        panic("dcname too long for dungeon %d", i);
+                    Strcpy(svd.dcname[i], dgn_cname);
+                    break;
+                }
+            }
+            free((genericptr_t) dgn_name);
+            free((genericptr_t) dgn_cname);
+        }
+        lua_pop(L, 1); /* pop the dungeon table */
+    }
+    lua_pop(L, 1); /* pop the dungeon global */
+    nhl_done(L);
+}
+
 #undef DUNGEON_FILE
 
 /* return the level number for lev in *this* dungeon */

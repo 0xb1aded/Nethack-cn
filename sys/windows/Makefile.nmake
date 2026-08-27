@@ -792,7 +792,7 @@ MAKESRC       = $(U)makedefs.c
 MAKEDEFSOBJS  = $(OUTL)makedefs.o $(OUTL)monst$(HOST).o $(OUTL)objects$(HOST).o \
 		$(OUTL)date.o $(OUTL)alloc.o $(OUTL)panic.o
 
-RECOVOBJS      = $(OUTL)recover.o
+RECOVOBJS      = $(OUTL)recover.o $(OUTL)recover-version.o
 
 TILEFILES      = $(WSHR)monsters.txt $(WSHR)objects.txt $(WSHR)other.txt
 
@@ -2221,6 +2221,9 @@ $(U)recover.exe: $(RECOVOBJS) $(OUTLHACKLIB)
 
 $(OUTL)recover.o: $(CONFIG_H) $(U)recover.c $(MSWSYS)win32api.h
 	$(Q)$(CC) $(CFLAGS) $(TTYDEF) -Fo$@ $(U)recover.c
+
+$(OUTL)recover-version.o: $(SRC)version.c $(HACK_H) $(INCL)dlb.h
+	$(Q)$(CC) $(CFLAGS) $(TTYDEF) -DMINIMAL_FOR_RECOVER -Fo$@ $(SRC)version.c
 
 #==========================================
 #  Tile Mapping

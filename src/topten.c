@@ -1043,18 +1043,21 @@ outentry(int rank, struct toptenentry *t1, boolean so)
             }
             Sprintf(eos(linebuf), fmt, arg);
         } else {
-            Sprintf(eos(linebuf), " 在%s中", svd.dcname[t1->deathdnum]);
+            Sprintf(eos(linebuf), "在%s", svd.dcname[t1->deathdnum]);
             if (t1->deathdnum != knox_level.dnum)
-                Sprintf(eos(linebuf), " 于第%d层", t1->deathlev);
+                Sprintf(eos(linebuf), "第%d层", t1->deathlev);
             if (t1->deathlev != t1->maxlvl)
-                Sprintf(eos(linebuf), " [最大%d]", t1->maxlvl);
+                Sprintf(eos(linebuf), "[最大%d]", t1->maxlvl);
         }
 
         /* kludge for "quit while already on Charon's boat" */
-        if (!strncmp(t1->death, "quit ", 5) || !cnstrcmp(t1->death, "退出"))
+        if (!strncmp(t1->death, "quit ", 5))
             Strcat(linebuf, t1->death + 4);
+        else if (!cnstrcmp(t1->death, "退出")
+                 && strcmp(t1->death, "退出游戏"))
+            Strcat(linebuf, t1->death + 6);
     }
-    Strcat(linebuf, ".");
+    Strcat(linebuf, ". ");
 
     /* Quit, starved, ascended, and escaped contain no second line */
     if (second_line) {

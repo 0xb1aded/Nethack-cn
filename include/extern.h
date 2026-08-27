@@ -885,6 +885,7 @@ extern void save_dungeon(NHFILE *, boolean, boolean) NONNULLARG1;
 extern void restore_dungeon(NHFILE *) NONNULLARG1;
 extern void insert_branch(branch *, boolean) NONNULLARG1;
 extern void init_dungeons(void);
+extern void init_dungeon_cnames(void);
 extern s_level *find_level(const char *) NONNULLARG1;
 extern s_level *Is_special(d_level *) NONNULLARG1;
 extern branch *Is_branchlev(d_level *) NONNULLARG1;

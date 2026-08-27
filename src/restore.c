@@ -842,6 +842,7 @@ dorecover(NHFILE *nhfp)
     }
     /* after restgamestate() -> restnames() so that 'bases[]' is populated */
     init_oclass_probs(); /* recompute go.oclass_prob_totals[] */
+    init_dungeon_cnames(); /* Chinese dungeon names aren't in the save file */
 
     restlevelstate();
     rtmp = restlevelfile(ledger_no(&u.uz));
