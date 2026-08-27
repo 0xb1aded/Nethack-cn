@@ -5098,7 +5098,7 @@ drown(void)
         return FALSE;
 
     if ((i = number_leashed()) > 0) {
-        pline_The("狗链变松了.", /*冗余:(i > 1) ? "" : "",
+        pline_The("狗链变松了."/*冗余:, (i > 1) ? "" : "",
                   (i > 1) ? "" : ""*/);
         unleash_all();
     }

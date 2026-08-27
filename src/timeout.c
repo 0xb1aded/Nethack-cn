@@ -1553,7 +1553,7 @@ burn_object(anything *arg, long timeout)
                 case OBJ_INVENT:
                 case OBJ_MINVENT:
                     pline("%s%s蜡烛在变短.", whose,
-                          menorah ? "烛台上的" : "",
+                          menorah ? "烛台上的" : ""
                           /*冗余:many ? "" : ""*/);
                     break;
                 case OBJ_FLOOR:

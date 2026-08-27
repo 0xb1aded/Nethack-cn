@@ -1917,7 +1917,7 @@ dopay(void)
             pline("但是由于%s的商店最近被抢劫了,",
                   noit_mhis(shkp));
             pline("你补偿了%s的%s损失.",
-                  shkname(shkp), (umoney < ltmp) ? "部分" : "", /*修改语序:(umoney < ltmp) ? "一部分" : "", shkname(shkp),*/
+                  shkname(shkp), (umoney < ltmp) ? "部分" : "" /*修改语序:(umoney < ltmp) ? "一部分" : "", shkname(shkp),*/
                   /*冗余:noit_mhis(shkp) ? "" : ""*/);
             pay(umoney < ltmp ? umoney : ltmp, shkp);
             make_happy_shk(shkp, FALSE);

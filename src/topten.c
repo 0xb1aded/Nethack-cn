@@ -995,7 +995,7 @@ outentry(int rank, struct toptenentry *t1, boolean so)
             *bp = (t1->deathdnum == astral_level.dnum) ? '\0' : ' ';
         second_line = FALSE;
     } else if (!strncmp("ascended", t1->death, 8)) {
-        Sprintf(eos(linebuf), "升为半神",
+        Sprintf(eos(linebuf), "升为半神"
                 /*冗余:(t1->plgend[0] == 'F') ? "" : ""*/);
         second_line = FALSE;
     } else {
