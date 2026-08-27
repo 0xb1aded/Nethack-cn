@@ -198,7 +198,6 @@ R_WSHR      = ..\win\share   # Tile support files
 R_QT        = ..\win\Qt      # QT support files
 R_X11       = ..\win\X11     # X11 support files
 R_LIBDIR    = ..\lib         # libraries and external bits
-R_LIBPATCH  = ..\lib-patch   # local patches for bundled libraries
 R_SUBM      = ..\submodules  # NetHack git submodules
 R_SndWavDir = ..\sound\wav # sound files that get integrated
 R_BinDir    = ..\binary
@@ -225,7 +224,6 @@ WSHR      = $(R_WSHR)$(BACKSLASH)
 QT        = $(R_QT)$(BACKSLASH)
 X11       = $(R_X11)$(BACKSLASH)
 LIBDIR    = $(R_LIBDIR)$(BACKSLASH)
-LIBPATCH  = $(R_LIBPATCH)$(BACKSLASH)
 SUBM      = $(R_SUBM)$(BACKSLASH)
 DOC       = $(R_DOC)$(BACKSLASH)
 SndWavDir = $(R_SndWavDir)$(BACKSLASH)
@@ -618,7 +616,6 @@ PDCTXTFOLDER            = wincon
 PDCURSES_CURSES_H	= $(PDCURSES_TOP)curses.h
 PDCURSES_CURSPRIV_H	= $(PDCURSES_TOP)curspriv.h
 PDCURSES_HEADERS	= $(PDCURSES_CURSES_H) $(PDCURSES_CURSPRIV_H)
-PDCURSES_REFRESH_PATCH = $(LIBPATCH)pdcursesmod-refresh.c
 R_PDCSRC                = $(PDCURSES_TOP)pdcurses
 PDCSRC                  = $(R_PDCSRC)$(BACKSLASH)
 !IF "$(CURSES_CONSOLE)" == "Y"
@@ -1547,10 +1544,6 @@ DLB =
 {$(R_PDCURSES_TOP)}.c{$(R_OBJPDC)}.o:
 	$(Q)$(CC) /wd4244 $(PDCINCL) $(CFLAGS) $(CURSESDEF2) /wd5262 $(CROSSCOMPILE) $(CROSSCOMPILE_TARGET) -Fo$@ $<
 
-$(OPDC)refresh.o: $(PDCSRC)refresh.c $(PDCURSES_REFRESH_PATCH)
-	@copy /Y "$(PDCURSES_REFRESH_PATCH)" "$(PDCSRC)refresh.c"
-	$(Q)$(CC) /wd4244 /wd4267 /wd4774 $(PDCINCL) $(CFLAGS:-w44774= ) $(CURSESDEF2) /wd5262 $(CROSSCOMPILE) $(CROSSCOMPILE_TARGET) -Fo$@ $(PDCSRC)refresh.c
-
 {$(R_PDCSRC)}.c{$(R_OBJPDC)}.o:
 	$(Q)$(CC) /wd4244 /wd4267 /wd4774 $(PDCINCL) $(CFLAGS:-w44774= ) $(CURSESDEF2) /wd5262 $(CROSSCOMPILE) $(CROSSCOMPILE_TARGET) -Fo$@ $<
 
@@ -1635,7 +1628,7 @@ CURLLUASRC=http://www.lua.org/ftp/lua-5.4.8.tar.gz
 CURLLUADST=lua-5.4.8.tar.gz
 
 #CURLPDCSRC=https://github.com/wmcbrine/PDCurses/archive/refs/tags/3.9.zip
-CURLPDCSRC=https://github.com/Bill-Gray/PDCursesMod/archive/refs/tags/v4.5.3.zip
+CURLPDCSRC=https://github.com/Bill-Gray/PDCursesMod/archive/5a255460769fd70067ee46989e85570729ceeae8.zip
 CURLPDCDST=$(PDCDIST).zip
 
 $(LUASRC)lua.h:
@@ -2079,7 +2072,7 @@ fetch-pdcurses:
 	@if not exist $(LIBDIR)*.* mkdir $(R_LIBDIR)
 	cd $(LIBDIR)
 #	curl -L -R https://codeload.github.com/wmcbrine/PDCurses/zip/master -o pdcurses.zip
-	curl -L -R https://github.com/Bill-Gray/PDCursesMod/archive/refs/tags/v4.5.3.zip -o $(PDCDIST).zip
+	curl -L -R https://github.com/Bill-Gray/PDCursesMod/archive/5a255460769fd70067ee46989e85570729ceeae8.zip -o $(PDCDIST).zip
 	powershell -command "Expand-Archive -Path .\$(PDCDIST).zip -DestinationPath ./$(PDCDIST)-temp"
 	if exist .\$(PDCDIST)\* rd .\$(PDCDIST) /s /Q
 	move .\$(PDCDIST)-temp\PDCurses-master .
