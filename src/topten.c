@@ -961,25 +961,25 @@ DISABLE_WARNING_FORMAT_NONLITERAL
 /* Map an English role/race/gender/alignment filecode ("Bar", "Hum", "Mal",
  * "Neu") to its Chinese counterpart ("蛮", "人", "男", "中"); fall back to the
  * original string if there's no match or no Chinese code available. */
-staticfn const char *
+const char *
 cfilecode_role(const char *fc)
 {
     int i = str2role(fc);
     return (i >= 0 && roles[i].cfilecode) ? roles[i].cfilecode : fc;
 }
-staticfn const char *
+const char *
 cfilecode_race(const char *fc)
 {
     int i = str2race(fc);
     return (i >= 0 && races[i].cfilecode) ? races[i].cfilecode : fc;
 }
-staticfn const char *
+const char *
 cfilecode_gend(const char *fc)
 {
     int i = str2gend(fc);
     return (i >= 0 && genders[i].cfilecode) ? genders[i].cfilecode : fc;
 }
-staticfn const char *
+const char *
 cfilecode_align(const char *fc)
 {
     int i = str2align(fc);

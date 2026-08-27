@@ -1575,6 +1575,47 @@ reset_oattached_mids(boolean ghostly)
 }
 
 #ifdef SELECTSAVED
+/* translate the "-role-race-gend-algn" suffix (English filecodes) of a
+ * saved-game menu string into Chinese cfilecode values, in place.
+ * The role/race/gend/align codes are each 3 bytes (both the English
+ * filecode and the Chinese cfilecode are 3 UTF-8 bytes), so in-place
+ * replacement keeps the buffer length unchanged. */
+staticfn void
+savedgame_to_cfilecode(char *buf)
+{
+    char *dash[4];
+    char *p = buf + Strlen(buf) - 1;
+    int i;
+
+    /* locate the 4 dashes separating role|race|gend|algn, walking back
+       from the end; plname may itself contain dashes and is left alone */
+    for (i = 0; i < 4; ++i) {
+        while (p > buf && *p != '-')
+            --p;
+        if (*p != '-')
+            return; /* not the expected format; leave unchanged */
+        dash[i] = p;
+        --p;
+    }
+    /* dash[3]=before role, dash[2]=before race, dash[1]=before gend,
+       dash[0]=before algn */
+    for (i = 3; i >= 0; --i) {
+        char code[4];
+        const char *repl;
+
+        memcpy(code, dash[i] + 1, 3);
+        code[3] = '\0';
+        switch (i) {
+        case 3: repl = cfilecode_role(code); break;
+        case 2: repl = cfilecode_race(code); break;
+        case 1: repl = cfilecode_gend(code); break;
+        default: repl = cfilecode_align(code); break;
+        }
+        if (repl != code && Strlen(repl) == 3)
+            memcpy(dash[i] + 1, repl, 3);
+    }
+}
+
 /* put up a menu listing each character from this player's saved games;
    returns 1: use svp.plname[], 0: new game, -1: quit */
 int
@@ -1623,6 +1664,7 @@ restore_menu(
                 Sprintf(menutext, "%.*s", PL_NSIZ_PLUS - 1, next);
             else
                 Sprintf(menutext, "%c %.*s", mode, PL_NSIZ_PLUS - 1, next);
+            savedgame_to_cfilecode(menutext);
             add_menu(tmpwin, &nul_glyphinfo, &any, 0, 0, ATR_NONE, clr,
                      menutext, MENU_ITEMFLAGS_SKIPMENUCOLORS);
         }
