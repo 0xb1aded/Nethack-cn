@@ -1064,13 +1064,13 @@ OBJECT(OBJ("meat ring", NoDes, "肉环", NoDes),
        0, FOOD_CLASS, 0, 1, 5, 1, 0, 0, 0, 0, 5, CLR_BROWN, MEAT_RING),
 /* pudding 'corpses' will turn into these and combine;
    must be in same order as the pudding monsters */
-FOOD("glob of gray ooze", "灰色软泥团",     0,  2, 20, 0, FLESH,  20, CLR_GRAY,
+FOOD("glob of gray ooze", "灰色软泥",     0,  2, 20, 0, FLESH,  20, CLR_GRAY,
                                                        GLOB_OF_GRAY_OOZE),
-FOOD("glob of brown pudding", "棕色布丁团", 0,  2, 20, 0, FLESH,  20, CLR_BROWN,
+FOOD("glob of brown pudding", "棕色布丁", 0,  2, 20, 0, FLESH,  20, CLR_BROWN,
                                                        GLOB_OF_BROWN_PUDDING),
-FOOD("glob of green slime", "绿色黏液团",   0,  2, 20, 0, FLESH,  20, CLR_GREEN,
+FOOD("glob of green slime", "绿色黏液",   0,  2, 20, 0, FLESH,  20, CLR_GREEN,
                                                        GLOB_OF_GREEN_SLIME),
-FOOD("glob of black pudding", "黑色布丁团", 0,  2, 20, 0, FLESH,  20, CLR_BLACK,
+FOOD("glob of black pudding", "黑色布丁", 0,  2, 20, 0, FLESH,  20, CLR_BLACK,
                                                        GLOB_OF_BLACK_PUDDING),
 
 /* fruits & veggies */
@@ -1085,9 +1085,9 @@ FOOD("melon", "甜瓜",                10,  1,  5, 0, VEGGY, 100, CLR_BRIGHT_GRE
                                                           MELON),
 FOOD("banana", "香蕉",               10,  1,  2, 0, VEGGY,  80, CLR_YELLOW, BANANA),
 FOOD("carrot", "胡萝卜",               15,  1,  2, 0, VEGGY,  50, CLR_ORANGE, CARROT),
-FOOD("sprig of wolfsbane", "附子草枝",    7,  1,  1, 0, VEGGY,  40, CLR_GREEN,
+FOOD("sprig of wolfsbane", "附子草",    7,  1,  1, 0, VEGGY,  40, CLR_GREEN,
                                                           SPRIG_OF_WOLFSBANE),
-FOOD("clove of garlic", "蒜瓣",       7,  1,  1, 0, VEGGY,  40, CLR_WHITE,
+FOOD("clove of garlic", "大蒜",       7,  1,  1, 0, VEGGY,  40, CLR_WHITE,
                                                           CLOVE_OF_GARLIC),
 /* name of slime mold is changed based on player's OPTION=fruit:something
    and bones data might have differently named ones from prior games */
@@ -1103,7 +1103,7 @@ FOOD("candy bar", "条形糖果",            13,  1,  2, 0, VEGGY, 100, CLR_BRIG
 FOOD("fortune cookie", "幸运饼干",       55,  1,  1, 0, VEGGY,  40, CLR_YELLOW,
                                                               FORTUNE_COOKIE),
 FOOD("pancake", "煎饼",              25,  2,  2, 0, VEGGY, 200, CLR_YELLOW, PANCAKE),
-FOOD("lembas wafer", "兰巴斯片",         20,  2,  5, 0, VEGGY, 800, CLR_WHITE,
+FOOD("lembas wafer", "兰巴斯",         20,  2,  5, 0, VEGGY, 800, CLR_WHITE,
                                                                 LEMBAS_WAFER),
 FOOD("cram ration", "压缩口粮",          20,  3, 15, 0, VEGGY, 600, HI_ORGANIC,
                                                                 CRAM_RATION),

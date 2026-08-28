@@ -519,6 +519,141 @@ safe_etypename(int otyp)
     return res;
 }
 
+char *
+quantifier(struct obj *obj)
+{
+    switch(obj->otyp)
+    {
+        case DART:
+        case SHURIKEN:
+        case LAND_MINE:
+        case MEAT_RING:
+        case GOLD_PIECE:
+            return "枚";
+        case UNICORN_HORN:
+        case TALLOW_CANDLE:
+        case WAX_CANDLE:
+        case TOWEL:
+        case LEASH:
+        case WOODEN_FLUTE:
+        case MAGIC_FLUTE:
+        case MEAT_STICK:
+        case BANANA:
+        case CARROT:
+        case CANDY_BAR:
+            return "根";
+        case CANDELABRUM_OF_INVOCATION:
+            return "座";
+        case CREDIT_CARD:
+            return "张";
+        case BRASS_LANTERN:
+        case OIL_LAMP:
+        case MAGIC_LAMP:
+        case BRASS_LANTERN:
+            return "盏";
+        case MIRROR:
+            return "面";
+        case LENSES:
+        case BLINDFOLD:
+            return "副";
+        case MAGIC_MARKER:
+        case BUGLE:
+        case TOOLED_HORN:
+        case FROST_HORN:
+        case FIRE_HORN:
+        case HORN_OF_PLENTY:
+            return "支";
+        case BEARTRAP:
+        case CORPSE:
+            return "具";
+        case WOODEN_HARP:
+        case MAGIC_HARP:
+            return "把";
+        case BELL:
+            return "只";
+        case ENORMOUS_MEATBALL:
+            return "";
+        case GLOB_OF_GRAY_OOZE:
+        case GLOB_OF_BROWN_PUDDING:
+        case GLOB_OF_GREEN_SLIME:
+        case GLOB_OF_BLACK_PUDDING:
+            return "团";
+        case SPRIG_OF_WOLFSBANE:
+            return "枝";
+        case CLOVE_OF_GARLIC:
+            return "瓣";
+        case LUMP_OF_ROYAL_JELLY:
+        case FORTUNE_COOKIE:
+        case PANCAKE:
+        case BOULDER:
+            return "块";
+        case LEMBAS_WAFER:
+        case KELP_FROND:
+        case EUCALYPTUS_LEAF:
+            return "片";
+        case CRAM_RATION:
+        case FOOD_RATION:
+        case K_RATION:
+        case C_RATION:
+            return "份";
+        case SPE_NOVEL:
+        case SPE_BOOK_OF_THE_DEAD:
+            return "本";
+    }
+    switch(obj->oclass)
+    {
+        case RING_CLASS:
+            return "枚";
+        case SCROLL_CLASS:
+            return "张";
+        case POTION_CLASS:
+            return "瓶";
+        case SPBOOK_CLASS:
+            return "本";
+        case WAND_CLASS:
+            return "根";
+        case GEM_CLASS:
+        case ROCK_CLASS:
+            return "块";
+        case WEAPON_CLASS:
+        case TOOL_CLASS:
+        switch(objects[obj->otyp].oc_skill)
+        {
+            case -P_BOW:
+            case -P_CROSSBOW:
+                return "支";
+            case P_SPEAR:
+            case P_TRIDENT:
+            case P_CLUB:
+            case P_WHIP:
+            case P_QUARTERSTAFF:
+                return "根";
+            case P_DAGGER:
+            case P_KNIFE:
+            case P_AXE:
+            case P_SHORT_SWORD:
+            case P_SABER:
+            case P_BROAD_SWORD:
+            case P_LONG_SWORD:
+            case P_TWO_HANDED_SWORD:
+            case P_AXE:
+            case P_PICK_AXE:
+            case P_HAMMER:
+            case P_BOW:
+            case P_CROSSBOW:
+                return "把";
+            case P_POLEARMS:
+            case P_MACE:
+                return "柄";
+            case P_MORNING_STAR:
+            case P_FLAIL:
+                return "副";
+        }
+        break;
+    }
+    return "个";
+}
+
 boolean
 obj_is_pname(struct obj *obj)
 {
@@ -1866,7 +2001,7 @@ mshot_xname(struct obj *obj)
     if (gm.m_shot.n > 1 && gm.m_shot.o == obj->otyp) {
         /* "the Nth arrow"; value will eventually be passed to an() or
            The(), both of which correctly handle this "the " prefix */
-        Sprintf(tmpbuf, "第%d个", gm.m_shot.i);
+        Sprintf(tmpbuf, "第%d%s", gm.m_shot.i, quantifier(obj));
         onm = strprepend(onm, tmpbuf);
     }
     return onm;
