@@ -833,7 +833,7 @@ topten(int how, time_t when)
                     char pbuf[BUFSZ];
 
                     Sprintf(pbuf,
-                            "在总共%d名的排行榜中, 你达到了第%d名.",
+                            "在总共%d名的排行榜中, 你位列第%d.",
                             sysopt.entrymax, rank0); /*危险: 移除复数s后缀*/
                     topten_print(pbuf);
                 }

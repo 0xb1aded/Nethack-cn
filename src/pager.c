@@ -2765,7 +2765,7 @@ dowhatdoes(void)
             pline("%8.8s%s", reslt, p + 1);
         }
     } else {
-        pline("没有这种命令'%s', char code %d (0%03o or 0x%02x).",
+        pline("没有'%s'这种命令, char code %d (0%03o or 0x%02x).",
               visctrl(q), (uchar) q, (uchar) q, (uchar) q);
     }
     return ECMD_OK;

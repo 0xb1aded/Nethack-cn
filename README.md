@@ -99,7 +99,7 @@ Windows curses界面中，输入\#后输入汉字退格退不满（这个地方�
 - [x] attrib.c
 - [x] ball.c
 - [x] bones.c
-- [ ] botl.c
+- [x] botl.c
 - [x] calendar.c
 - [x] cfgfiles.c
 - [x] cmd.c
