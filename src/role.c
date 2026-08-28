@@ -1389,8 +1389,8 @@ promptsep(char *buf, int num_post_attribs)
 
     if (num_post_attribs > 1 && gr.role_post_attribs < num_post_attribs
         && gr.role_post_attribs > 1)
-        Strcat(buf, ",");
-    Strcat(buf, "");
+        Strcat(buf, ", ");
+    //冗余: Strcat(buf, "");
     --gr.role_post_attribs;
     if (!gr.role_post_attribs && num_post_attribs > 1)
         Strcat(buf, conjuct);

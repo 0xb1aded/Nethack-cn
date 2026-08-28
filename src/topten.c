@@ -828,7 +828,7 @@ topten(int how, time_t when)
         if (!done_stopprint)
             if (rank0 > 0) {
                 if (rank0 <= 10) {
-                    topten_print("You made the top ten list!");
+                    topten_print("你进入了前十名!");
                 } else {
                     char pbuf[BUFSZ];
 
@@ -958,9 +958,6 @@ outheader(void)
 
 DISABLE_WARNING_FORMAT_NONLITERAL
 
-/* Map an English role/race/gender/alignment filecode ("Bar", "Hum", "Mal",
- * "Neu") to its Chinese counterpart ("蛮", "人", "男", "中"); fall back to the
- * original string if there's no match or no Chinese code available. */
 const char *
 cfilecode_role(const char *fc)
 {

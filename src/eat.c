@@ -1082,7 +1082,7 @@ givit(int type, struct permonst *ptr)
         debugpline0("Trying to give telepathy");
         if (!(HTelepat & FROMOUTSIDE)) {
             You_feel(Hallucination ? "接触到了宇宙."
-                                   : "一种奇怪的精神敏锐.");
+                                   : "到一种奇怪的精神敏锐.");
             HTelepat |= FROMOUTSIDE;
             /* If blind, make sure monsters show up. */
             if (Blind)
@@ -1210,7 +1210,7 @@ cpostfx(int pm)
                 livelog_printf(LL_CONDUCT,
                             "第一次变身, 模仿成%s",
                                tempshape);
-            You("无法抗拒模仿%s的诱惑.", tempshape); /*换pline:You_cant*/
+            You("无法抗拒模仿成%s的诱惑.", tempshape); /*换pline:You_cant*/
             /* A pile of gold can't ride. */
             if (u.usteed)
                 dismount_steed(DISMOUNT_FELL);

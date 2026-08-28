@@ -2638,7 +2638,7 @@ you_aggravate(struct monst *mtmp)
 #endif
     show_glyph(mtmp->mx, mtmp->my, mon_to_glyph(mtmp, rn2_on_display_rng));
     display_self();
-    You_feel("对%s恼火.", noit_mon_nam(mtmp));
+    You_feel("对%s很恼火.", noit_mon_nam(mtmp));
     display_nhwindow(WIN_MAP, TRUE);
     docrt();
     if (unconscious()) {
