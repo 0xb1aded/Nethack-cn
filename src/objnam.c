@@ -314,11 +314,11 @@ obj_typename(int otyp)
             Sprintf(eos(buf), " (%s)", dn);
         return buf;
     case ARMOR_CLASS:
-        if (objects[otyp].oc_armcat == ARM_GLOVES
+        /*if (objects[otyp].oc_armcat == ARM_GLOVES
             || objects[otyp].oc_armcat == ARM_BOOTS)
             Strcpy(buf, "一双");
         else if (otyp >= GRAY_DRAGON_SCALES && otyp <= YELLOW_DRAGON_SCALES)
-            Strcpy(buf, "一套");
+            Strcpy(buf, "一套");*/
         FALLTHROUGH;
         /*FALLTHRU*/
     default:
@@ -522,7 +522,7 @@ safe_etypename(int otyp)
 char *
 quantifier(struct obj *obj)
 {
-    switch(obj->otyp)
+    switch (obj->otyp)
     {
         case DART:
         case SHURIKEN:
@@ -549,7 +549,6 @@ quantifier(struct obj *obj)
         case BRASS_LANTERN:
         case OIL_LAMP:
         case MAGIC_LAMP:
-        case BRASS_LANTERN:
             return "盏";
         case MIRROR:
             return "面";
@@ -599,6 +598,12 @@ quantifier(struct obj *obj)
         case SPE_NOVEL:
         case SPE_BOOK_OF_THE_DEAD:
             return "本";
+        case DWARVISH_MITHRIL_COAT:
+        case ELVEN_MITHRIL_COAT:
+        case LEATHER_JACKET:
+            return "件";
+        case MUMMY_WRAPPING:
+            return "卷";
     }
     switch(obj->oclass)
     {
@@ -616,40 +621,56 @@ quantifier(struct obj *obj)
         case ROCK_CLASS:
             return "块";
         case WEAPON_CLASS:
+        case ARMOR_CLASS:
+            switch (objects[obj->otyp].oc_armcat)
+            {
+                case ARM_HELM:
+                    return "顶";
+                case ARM_SUIT:
+                    return "套";
+                case ARM_SHIRT:
+                case ARM_CLOAK:
+                    return "件";
+                case ARM_SHIELD:
+                    return "块";
+                case ARM_GLOVES:
+                case ARM_BOOTS:
+                    return "双";
+            }
+            break;
         case TOOL_CLASS:
-        switch(objects[obj->otyp].oc_skill)
-        {
-            case -P_BOW:
-            case -P_CROSSBOW:
-                return "支";
-            case P_SPEAR:
-            case P_TRIDENT:
-            case P_CLUB:
-            case P_WHIP:
-            case P_QUARTERSTAFF:
-                return "根";
-            case P_DAGGER:
-            case P_KNIFE:
-            case P_AXE:
-            case P_SHORT_SWORD:
-            case P_SABER:
-            case P_BROAD_SWORD:
-            case P_LONG_SWORD:
-            case P_TWO_HANDED_SWORD:
-            case P_AXE:
-            case P_PICK_AXE:
-            case P_HAMMER:
-            case P_BOW:
-            case P_CROSSBOW:
-                return "把";
-            case P_POLEARMS:
-            case P_MACE:
-                return "柄";
-            case P_MORNING_STAR:
-            case P_FLAIL:
-                return "副";
-        }
-        break;
+            switch(objects[obj->otyp].oc_skill)
+            {
+                case -P_BOW:
+                case -P_CROSSBOW:
+                    return "支";
+                case P_SPEAR:
+                case P_TRIDENT:
+                case P_CLUB:
+                case P_WHIP:
+                case P_QUARTERSTAFF:
+                    return "根";
+                case P_DAGGER:
+                case P_KNIFE:
+                case P_AXE:
+                case P_SHORT_SWORD:
+                case P_SABER:
+                case P_BROAD_SWORD:
+                case P_LONG_SWORD:
+                case P_TWO_HANDED_SWORD:
+                case P_PICK_AXE:
+                case P_HAMMER:
+                case P_BOW:
+                case P_CROSSBOW:
+                    return "把";
+                case P_POLEARMS:
+                case P_MACE:
+                    return "柄";
+                case P_MORNING_STAR:
+                case P_FLAIL:
+                    return "副";
+            }
+            break;
     }
     return "个";
 }
@@ -1070,10 +1091,10 @@ xname_flags(
     case TOOL_CLASS:
         /* note: lenses or towel prefix would overwrite poisoned weapon
            prefix if both were simultaneously possible, but they aren't */
-        if (typ == LENSES){
+        /*if (typ == LENSES){
             Strcat(buf, "一对");
         }
-        else if (is_wet_towel(obj)){
+        else*/if (is_wet_towel(obj)){
             Strcat(buf, (obj->spe < 3) ? "湿润的" : "湿的");
         }
 
@@ -1104,10 +1125,10 @@ xname_flags(
     case ARMOR_CLASS:
         /* depends on order of the dragon scales objects */
         if (typ >= GRAY_DRAGON_SCALES && typ <= YELLOW_DRAGON_SCALES) {
-            Sprintf(buf, "一套%s", actualn);
+            //Sprintf(buf, "一套%s", actualn);
             break;
         } else if (is_boots(obj) || is_gloves(obj)) {
-            Strcat(buf, "一双");
+            ;//Strcat(buf, "一双");
             /*FALLTHRU*/
         } else if (is_shield(obj) && !dknown) {
             if (obj->otyp >= ELVEN_SHIELD && obj->otyp <= ORCISH_SHIELD) {
@@ -2429,7 +2450,7 @@ doname_base(
             /* separately formatted suffix avoids need for ConcatF3() */
             Sprintf(suffix, "%s%s", plur(obj->spe),
                     !obj->lamplit ? "已插上" : "已点燃");
-            ConcatF2(bp, 0, " (7个蜡烛中%d个%s)", obj->spe, suffix);
+            ConcatF2(bp, 0, " (7根蜡烛中%d根%s)", obj->spe, suffix);
             break;
         } else if (obj->otyp == OIL_LAMP || obj->otyp == MAGIC_LAMP
                    || obj->otyp == BRASS_LANTERN || Is_candle(obj)) {
@@ -3124,7 +3145,7 @@ char *
 just_an(char *outbuf, const char *str)
 {
     *outbuf = '\0';
-    Strcpy(outbuf, "一个");
+    Strcpy(outbuf, "一");
     return outbuf;
 }
 
@@ -3255,11 +3276,11 @@ aobjnam(struct obj *otmp, const char *verb)
     char *bp = cxname(otmp);
 
     if (otmp->quan != 1L) {
-        Sprintf(prefix, "%ld个", otmp->quan);
+        Sprintf(prefix, "%ld%s", otmp->quan, quantifier(otmp));
         bp = strprepend(bp, prefix);
     }
     if (verb) {
-        Strcat(bp, "");
+        //冗余:Strcat(bp, "");
         Strcat(bp, otense(otmp, verb));
     }
     return bp;
