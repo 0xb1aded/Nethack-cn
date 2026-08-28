@@ -631,7 +631,7 @@ quantifier(struct obj *obj)
                 case ARM_CLOAK:
                     return "件";
                 case ARM_SHIELD:
-                    return "块";
+                    return "面";
                 case ARM_GLOVES:
                 case ARM_BOOTS:
                     return "双";
