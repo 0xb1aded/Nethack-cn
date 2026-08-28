@@ -4187,7 +4187,7 @@ choose_behavior:
 
 choose_value:
     if (retry++ > 5) {
-        pline("尝试次数已经够多了. ");
+        pline("你试了够多次了.");
         return FALSE;
     }
     if (behavior == BL_TH_VAL_PERCENTAGE || behavior == BL_TH_VAL_ABSOLUTE) {
@@ -4236,17 +4236,17 @@ choose_value:
         }
         if (*inp == '%') {
             if (!percent) {
-                pline("不应出现百分比. ");
+                pline("不应出现百分比.");
                 goto choose_behavior;
             }
             *inp = '\0'; /* strip '%' [this accepts trailing junk!] */
         } else if (*inp) {
             /* some random characters */
-            pline("\"%s\" 不是一个可识别的数字. ", inp);
+            pline("\"%s\"不是一个可识别的数字.", inp);
             goto choose_value;
         }
         if (!gotnum) {
-            pline("那是个隐形数字吗？");
+            pline("那是个隐形数字吗?");
             goto choose_value;
         }
         op = (lt_gt_eq == LT_VALUE)   ? "<"
@@ -4277,7 +4277,7 @@ choose_value:
                 || (val == 0 && lt_gt_eq == LT_VALUE)
                 || (val == 100 && lt_gt_eq == GT_VALUE)
                 || (val > 100 && (val != 101 || lt_gt_eq != LT_VALUE))) {
-                pline("'%s%d%%' 不是一个有效的百分比值. ", op, val);
+                pline("'%s%d%%'不是一个有效的百分比值.", op, val);
                 goto choose_value;
             }
             /* restore suffix for use in color and attribute prompts */

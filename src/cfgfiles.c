@@ -176,19 +176,19 @@ do_write_config_file(void)
     char tmp[BUFSZ];
 
     if (!configfile[0]) {
-        pline("奇怪，无法确定配置文件名。");
+        pline("奇怪, 无法确定配置文件名.");
         return ECMD_OK;
     }
     if (flags.suppress_alert < FEATURE_NOTICE_VER(3,7,0)) {
-        pline("警告: saveoptions 是高度实验性的!");
+        pline("警告: saveoptions是高度实验性的!");
         wait_synch();
-        pline("某些设置未保存！");
+        pline("某些设置未保存!");
         wait_synch();
-        pline("All manual customization and comments are removed"
-              " from the file!");
+        pline("文件中所有手动自定义内容已"
+              "删除!");
         wait_synch();
     }
-#define overwrite_prompt "Overwrite config file %.*s?"
+#define overwrite_prompt "确定要覆盖配置文件%.*s?"
     Sprintf(tmp, overwrite_prompt,
             (int) (BUFSZ - sizeof overwrite_prompt - 2), configfile);
 #undef overwrite_prompt
@@ -207,7 +207,7 @@ do_write_config_file(void)
         fclose(fp);
         strbuf_empty(&buf);
         if (wrote != len)
-            pline("发生错误，仅写入部分数据（%zu/%zu）。",
+            pline("发生错误, 仅写入部分数据(%zu/%zu).",
                   wrote, len);
     }
     return ECMD_OK;
