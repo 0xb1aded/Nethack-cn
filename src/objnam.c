@@ -620,7 +620,6 @@ quantifier(struct obj *obj)
         case GEM_CLASS:
         case ROCK_CLASS:
             return "块";
-        case WEAPON_CLASS:
         case ARMOR_CLASS:
             switch (objects[obj->otyp].oc_armcat)
             {
@@ -638,6 +637,7 @@ quantifier(struct obj *obj)
                     return "双";
             }
             break;
+        case WEAPON_CLASS:
         case TOOL_CLASS:
             switch(objects[obj->otyp].oc_skill)
             {
@@ -2275,11 +2275,11 @@ doname_base(
     force_the = (fake_arti && !strncmpi(aname, "the ", 4));
 
     prefix[0] = '\0';
-    if (obj->quan != 1L) {
+    if (obj->quan /*!= 1L*/) {
         if (dknown || !vague_quan)
-            Sprintf(prefix, "%ld ", obj->quan);
+            Sprintf(prefix, "%ld%s", obj->quan, quantifier(obj));
         else
-            Strcpy(prefix, "几个");
+            Strcpy(prefix, "数个");
     } else if (obj->otyp == CORPSE) {
         /* skip article prefix for corpses [else corpse_xname()
            would have to be taught how to strip it off again] */
