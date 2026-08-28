@@ -828,7 +828,7 @@ topten(int how, time_t when)
         if (!done_stopprint)
             if (rank0 > 0) {
                 if (rank0 <= 10) {
-                    topten_print("你进入了前十名!");
+                    topten_print("你跻身前十之列!");
                 } else {
                     char pbuf[BUFSZ];
 
