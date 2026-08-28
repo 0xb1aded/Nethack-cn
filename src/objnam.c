@@ -570,8 +570,6 @@ quantifier(struct obj *obj)
             return "把";
         case BELL:
             return "只";
-        case ENORMOUS_MEATBALL:
-            return "";
         case GLOB_OF_GRAY_OOZE:
         case GLOB_OF_BROWN_PUDDING:
         case GLOB_OF_GREEN_SLIME:
@@ -583,6 +581,7 @@ quantifier(struct obj *obj)
             return "瓣";
         case LUMP_OF_ROYAL_JELLY:
         case FORTUNE_COOKIE:
+        case ENORMOUS_MEATBALL:
         case PANCAKE:
         case BOULDER:
             return "块";
@@ -674,6 +673,9 @@ quantifier(struct obj *obj)
     }
     return "个";
 }
+
+static const char* quantifiers[] = {"块", "双", "柄", "片", "根", "把", "个", "件", "盏", "卷", "枝", "本", "面", "座", "枚", "只", "套", "副", "团", "份", "具", "支", "瓶", "瓣", "张", "顶", "\0"};
+static const char* one_quantifiers[] = {"一块", "一双", "一柄", "一片", "一根", "一把", "一个", "一件", "一盏", "一卷", "一枝", "一本", "一面", "一座", "一枚", "一只", "一套", "一副", "一团", "一份", "一具", "一支", "一瓶", "一瓣", "一张", "一顶", "\0"};
 
 boolean
 obj_is_pname(struct obj *obj)
@@ -2277,7 +2279,7 @@ doname_base(
     prefix[0] = '\0';
     if (obj->quan /*!= 1L*/) {
         if (dknown || !vague_quan)
-            Sprintf(prefix, "%ld%s", obj->quan, quantifier(obj));
+            Sprintf(prefix, "%ld %s", obj->quan, quantifier(obj));
         else
             Strcpy(prefix, "数个");
     } else if (obj->otyp == CORPSE) {
@@ -3366,7 +3368,7 @@ paydoname(struct obj *obj)
                 p += strlen("一个");
             /*冗余:else if (!strncmp(p, "an ", 3))
                 p += 3;*/
-            p = strprepend(p, obj->unpaid ? "一个未付款的" : "你的");
+            p = strprepend(p, obj->unpaid ? "未付款的" : "你的");
         }
 
         if (!obj->cknown) {
@@ -3510,7 +3512,7 @@ ansimpleoname(struct obj *obj)
            an() will allocate another obuf[]; we want to avoid using two */
         obufp = an(simpleoname);
         Strcpy(simpleoname, obufp);
-        releaseobuf(obufp);
+        releaseobuf(obufp); Strcat(simpleoname, quantifier(obj));
     }
     return simpleoname;
 }
@@ -5688,7 +5690,15 @@ readobjnam_preparse(struct _readobjnam_data *d)
         res = 0;
 
         if (!strncmpi(d->bp, "an ", l = 3) || !strncmpi(d->bp, "a ", l = 2) ||
-            !cnstrcmpi(d->bp, "一个", l)) {
+            !cnstrcmpi(d->bp, "一个", l) || !cnstrcmpi(d->bp, "一块", l) || !cnstrcmpi(d->bp, "一双", l) ||
+            !cnstrcmpi(d->bp, "一柄", l) || !cnstrcmpi(d->bp, "一片", l) || !cnstrcmpi(d->bp, "一根", l) ||
+            !cnstrcmpi(d->bp, "一把", l) || !cnstrcmpi(d->bp, "一件", l) || !cnstrcmpi(d->bp, "一盏", l) ||
+            !cnstrcmpi(d->bp, "一卷", l) || !cnstrcmpi(d->bp, "一枝", l) || !cnstrcmpi(d->bp, "一本", l) ||
+            !cnstrcmpi(d->bp, "一面", l) || !cnstrcmpi(d->bp, "一座", l) || !cnstrcmpi(d->bp, "一枚", l) ||
+            !cnstrcmpi(d->bp, "一只", l) || !cnstrcmpi(d->bp, "一套", l) || !cnstrcmpi(d->bp, "一副", l) ||
+            !cnstrcmpi(d->bp, "一团", l) || !cnstrcmpi(d->bp, "一份", l) || !cnstrcmpi(d->bp, "一具", l) ||
+            !cnstrcmpi(d->bp, "一支", l) || !cnstrcmpi(d->bp, "一瓶", l) || !cnstrcmpi(d->bp, "一瓣", l) ||
+            !cnstrcmpi(d->bp, "一张", l) || !cnstrcmpi(d->bp, "一顶", l)) { //见one_quantifiers
             d->cnt = 1;
         } else if (!strncmpi(d->bp, "the ", l = 4)) {
             ; /* just increment `bp' by `l' below */
@@ -5707,6 +5717,16 @@ readobjnam_preparse(struct _readobjnam_data *d)
             while (*d->bp == ' ')
                 d->bp++;
             l = 0;
+        } else if (!cnstrcmpi(d->bp, "块", l) || !cnstrcmpi(d->bp, "双", l) || !cnstrcmpi(d->bp, "柄", l) ||
+                   !cnstrcmpi(d->bp, "片", l) || !cnstrcmpi(d->bp, "根", l) || !cnstrcmpi(d->bp, "把", l) ||
+                   !cnstrcmpi(d->bp, "件", l) || !cnstrcmpi(d->bp, "盏", l) || !cnstrcmpi(d->bp, "卷", l) ||
+                   !cnstrcmpi(d->bp, "枝", l) || !cnstrcmpi(d->bp, "本", l) || !cnstrcmpi(d->bp, "面", l) ||
+                   !cnstrcmpi(d->bp, "座", l) || !cnstrcmpi(d->bp, "枚", l) || !cnstrcmpi(d->bp, "只", l) ||
+                   !cnstrcmpi(d->bp, "套", l) || !cnstrcmpi(d->bp, "副", l) || !cnstrcmpi(d->bp, "团", l) ||
+                   !cnstrcmpi(d->bp, "份", l) || !cnstrcmpi(d->bp, "具", l) || !cnstrcmpi(d->bp, "支", l) ||
+                   !cnstrcmpi(d->bp, "瓶", l) || !cnstrcmpi(d->bp, "瓣", l) || !cnstrcmpi(d->bp, "张", l) ||
+                   !cnstrcmpi(d->bp, "顶", l)) { //见quantifiers
+            ; //pass
         } else if (!cnstrcmpi(d->bp, "菠菜", l) || !cnstrcmpi(d->bp, "菠菜的", l)) {
             d->contents = TIN_SPINACH;
         } else if (!strncmpi(d->bp, "blessed ", l = 8) || !strncmpi(d->bp, "holy ", l = 5) ||

@@ -1056,7 +1056,7 @@ FOOD("meatball", "肉丸",              0,  1,  1, 0, FLESH,   5, CLR_BROWN,
 FOOD("meat stick", "肉棍",            0,  1,  1, 0, FLESH,   5, CLR_BROWN,
                                                         MEAT_STICK),
 /* formerly "huge chunk of meat" */
-FOOD("enormous meatball", "大块肉",     0, 20,400, 0, FLESH,2000, CLR_BROWN,
+FOOD("enormous meatball", "大肉",     0, 20,400, 0, FLESH,2000, CLR_BROWN,
                                                         ENORMOUS_MEATBALL),
 /* special case because it's not mergeable */
 OBJECT(OBJ("meat ring", NoDes, "肉环", NoDes),
