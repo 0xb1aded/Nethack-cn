@@ -534,7 +534,6 @@ quantifier(struct obj *obj)
         case TALLOW_CANDLE:
         case WAX_CANDLE:
         case TOWEL:
-        case LEASH:
         case WOODEN_FLUTE:
         case MAGIC_FLUTE:
         case MEAT_STICK:
@@ -552,6 +551,8 @@ quantifier(struct obj *obj)
             return "盏";
         case MIRROR:
             return "面";
+        case LEASH:
+            return "条";
         case LENSES:
         case BLINDFOLD:
             return "副";
@@ -674,8 +675,8 @@ quantifier(struct obj *obj)
     return "个";
 }
 
-static const char* quantifiers[] = {"块", "双", "柄", "片", "根", "把", "个", "件", "盏", "卷", "枝", "本", "面", "座", "枚", "只", "套", "副", "团", "份", "具", "支", "瓶", "瓣", "张", "顶", "\0"};
-static const char* one_quantifiers[] = {"一块", "一双", "一柄", "一片", "一根", "一把", "一个", "一件", "一盏", "一卷", "一枝", "一本", "一面", "一座", "一枚", "一只", "一套", "一副", "一团", "一份", "一具", "一支", "一瓶", "一瓣", "一张", "一顶", "\0"};
+static const char* quantifiers[] = {"块", "双", "柄", "片", "根", "把", "个", "件", "盏", "卷", "枝", "本", "面", "座", "枚", "只", "套", "副", "团", "份", "具", "支", "瓶", "瓣", "张", "顶", "条", "\0"};
+static const char* one_quantifiers[] = {"一块", "一双", "一柄", "一片", "一根", "一把", "一个", "一件", "一盏", "一卷", "一枝", "一本", "一面", "一座", "一枚", "一只", "一套", "一副", "一团", "一份", "一具", "一支", "一瓶", "一瓣", "一张", "一顶", "一条", "\0"};
 
 boolean
 obj_is_pname(struct obj *obj)
@@ -5698,7 +5699,7 @@ readobjnam_preparse(struct _readobjnam_data *d)
             !cnstrcmpi(d->bp, "一只", l) || !cnstrcmpi(d->bp, "一套", l) || !cnstrcmpi(d->bp, "一副", l) ||
             !cnstrcmpi(d->bp, "一团", l) || !cnstrcmpi(d->bp, "一份", l) || !cnstrcmpi(d->bp, "一具", l) ||
             !cnstrcmpi(d->bp, "一支", l) || !cnstrcmpi(d->bp, "一瓶", l) || !cnstrcmpi(d->bp, "一瓣", l) ||
-            !cnstrcmpi(d->bp, "一张", l) || !cnstrcmpi(d->bp, "一顶", l)) { //见one_quantifiers
+            !cnstrcmpi(d->bp, "一张", l) || !cnstrcmpi(d->bp, "一顶", l) || !cnstrcmpi(d->bp, "一条", l)) { //见one_quantifiers
             d->cnt = 1;
         } else if (!strncmpi(d->bp, "the ", l = 4)) {
             ; /* just increment `bp' by `l' below */
@@ -5725,7 +5726,7 @@ readobjnam_preparse(struct _readobjnam_data *d)
                    !cnstrcmpi(d->bp, "套", l) || !cnstrcmpi(d->bp, "副", l) || !cnstrcmpi(d->bp, "团", l) ||
                    !cnstrcmpi(d->bp, "份", l) || !cnstrcmpi(d->bp, "具", l) || !cnstrcmpi(d->bp, "支", l) ||
                    !cnstrcmpi(d->bp, "瓶", l) || !cnstrcmpi(d->bp, "瓣", l) || !cnstrcmpi(d->bp, "张", l) ||
-                   !cnstrcmpi(d->bp, "顶", l)) { //见quantifiers
+                   !cnstrcmpi(d->bp, "顶", l) || !cnstrcmpi(d->bp, "条", l)) { //见quantifiers
             ; //pass
         } else if (!cnstrcmpi(d->bp, "菠菜", l) || !cnstrcmpi(d->bp, "菠菜的", l)) {
             d->contents = TIN_SPINACH;

@@ -864,7 +864,7 @@ use_leash_core(struct obj *obj, struct monst *mtmp, coord *cc, int spotmon)
     } else {
         /* applying a leash which is currently in use */
         if (obj->leashmon != (int) mtmp->m_id) {
-            pline("这个狗链没有连接到那个生物.");
+            pline("这条狗链没有连接到那个生物.");
         } else if (obj->cursed) {
             pline_The("狗链被锁上了!");
             set_bknown(obj, 1);
