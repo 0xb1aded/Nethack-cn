@@ -3148,7 +3148,7 @@ char *
 just_an(char *outbuf, const char *str)
 {
     *outbuf = '\0';
-    Strcpy(outbuf, "一");
+    Strcpy(outbuf, "一个");
     return outbuf;
 }
 
