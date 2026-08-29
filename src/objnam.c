@@ -190,7 +190,6 @@ strprepend(char *s, const char *pref)
 /* manage a pool of BUFSZ buffers, so callers don't have to */
 static char NEARDATA obufs[NUMOBUF][BUFSZ];
 static int obufidx = 0;
-int wenthere = 0;
 
 staticfn char *
 nextobuf(void)
@@ -1031,32 +1030,23 @@ xname_flags(
      */
     if (obj->oartifact && obj->dknown)
         find_artifact(obj);
-    //pline("has_oname(obj): %s", has_oname(obj) ? "True" : "False");
-    if (obj_is_pname(obj))
-    {
-        wenthere = 1;
-        goto nameit;
-    }
-
-    if (has_oname(obj) && dknown) {
-        if (!wenthere)
-        {
-            Concat(buf, 0, "名为"); /*冗余:你懂吧*/
-        }
-
-        /* jump directly here if obj passes the has-personal-name test */
- nameit:
-        /*assert(has_oname(obj));*/
+    if (obj_is_pname(obj)) {
+        /* 有个人命名的神器: 只显示名字, 跳过"名为...的"及职业名称 */
         obufp = eos(buf); /* remember where the name will start */
         Concat(buf, 0, ONAME(obj));
         /* downcase "The" in "<quest-artifact-item> named The ..." */
         if (obj->oartifact && !strncmp(obufp, "The ", 4))
             *obufp = lowc(*obufp); /* change 'T' in "The " to 't' */
-        if (wenthere) /*goto过来的*/
-        {
-            wenthere = 0;
-            goto namefinish;
-        }
+        goto namefinish;
+    }
+
+    if (has_oname(obj) && dknown) {
+        Concat(buf, 0, "名为");
+        obufp = eos(buf); /* remember where the name will start */
+        Concat(buf, 0, ONAME(obj));
+        /* downcase "The" in "<quest-artifact-item> named The ..." */
+        if (obj->oartifact && !strncmp(obufp, "The ", 4))
+            *obufp = lowc(*obufp); /* change 'T' in "The " to 't' */
         Concat(buf, 0, "的");
     }
 
@@ -1536,9 +1526,13 @@ xename_flags(
     if (obj->oartifact && obj->dknown)
         find_artifact(obj);
 
-    if (obj_is_pname(obj))
-    {
-        wenthere = 1;
+    if (obj_is_pname(obj)) {
+        /* 有个人命名的神器: 只显示名字, 跳过职业名称和 "named" 前缀 */
+        obufp = eos(buf); /* remember where the name will start */
+        Concat(buf, 0, ONAME(obj));
+        /* downcase "The" in "<quest-artifact-item> named The ..." */
+        if (obj->oartifact && !strncmp(obufp, "The ", 4))
+            *obufp = lowc(*obufp); /* change 'T' in "The " to 't' */
         goto nameit;
     }
 
@@ -1876,17 +1870,13 @@ xename_flags(
 
     if (has_oname(obj) && dknown) {
         Concat(buf, 0, " named ");
-
-        /* jump directly here if obj passes the has-personal-name test */
- nameit:
-        /*assert(has_oname(obj));*/
         obufp = eos(buf); /* remember where the name will start */
         Concat(buf, 0, ONAME(obj));
         /* downcase "The" in "<quest-artifact-item> named The ..." */
         if (obj->oartifact && !strncmp(obufp, "The ", 4))
             *obufp = lowc(*obufp); /* change 'T' in "The " to 't' */
     }
-
+ nameit:
     if (!strncmpi(buf, "the ", 4))
         buf += 4;
 
@@ -2214,6 +2204,7 @@ erosion_matters(struct obj *obj)
 #define DONAME_VAGUE_QUAN   2
 #define DONAME_FOR_MENU     4 /* [not used anywhere yet] */
 #define DONAME_FORCE_GENDER 8 /* always add male or female */
+#define DONAME_WITH_SPACE 64 /* 官方的下一个bitmask肯定是16, 留个位置 */
 
 /* core of doname() */
 staticfn char *
@@ -2225,7 +2216,8 @@ doname_base(
             with_price = (doname_flags & DONAME_WITH_PRICE) != 0,
             vague_quan = (doname_flags & DONAME_VAGUE_QUAN) != 0,
             for_menu = (doname_flags & DONAME_FOR_MENU) != 0,
-            with_corpse_genders = (doname_flags & DONAME_FORCE_GENDER) != 0;
+            with_corpse_genders = (doname_flags & DONAME_FORCE_GENDER) != 0,
+            with_space = (doname_flags & DONAME_WITH_SPACE) != 0;
     boolean known, dknown, cknown, bknown, lknown,
             fake_arti, force_the;
     char prefix[PREFIX];
@@ -2279,10 +2271,16 @@ doname_base(
 
     prefix[0] = '\0';
     if (obj->quan /*!= 1L*/) {
-        if (dknown || !vague_quan)
-            Sprintf(prefix, "%ld %s", obj->quan, quantifier(obj));
-        else
+        if (dknown || !vague_quan) {
+            if (with_space) {
+                Sprintf(prefix, "%ld %s", obj->quan, quantifier(obj));
+            } else {
+                Sprintf(prefix, "%ld%s", obj->quan, quantifier(obj));
+            }
+        }
+        else {
             Strcpy(prefix, "数个");
+        }
     } else if (obj->otyp == CORPSE) {
         /* skip article prefix for corpses [else corpse_xname()
            would have to be taught how to strip it off again] */
@@ -2419,11 +2417,15 @@ doname_base(
         add_erosion_words(obj, prefix);
         if (known) {
             char *prefix_end = eos(prefix);
-
-            if (prefix_end == prefix || prefix_end[-1] == ' ')
-                Sprintf(prefix_end, "%+d ", obj->spe);
-            else
-                Sprintf(prefix_end, " %+d ", obj->spe);
+            if (with_space) {
+                if (prefix_end == prefix || prefix_end[-1] == ' ') {
+                    Sprintf(prefix_end, "%+d ", obj->spe);
+                } else {
+                    Sprintf(prefix_end, " %+d ", obj->spe);
+                }
+            } else {
+                Sprintf(prefix_end, "%+d", obj->spe);
+            }
         }
         break;
     case TOOL_CLASS:
@@ -2503,10 +2505,15 @@ doname_base(
         if (known && objects[obj->otyp].oc_charged) {
             char *prefix_end = eos(prefix);
 
-            if (prefix_end == prefix || prefix_end[-1] == ' ')
-                Sprintf(prefix_end, "%+d ", obj->spe);
-            else
-                Sprintf(prefix_end, " %+d ", obj->spe);
+            if (with_space) {
+                if (prefix_end == prefix || prefix_end[-1] == ' ') {
+                    Sprintf(prefix_end, "%+d ", obj->spe);
+                } else {
+                    Sprintf(prefix_end, " %+d ", obj->spe);
+                }
+            } else {
+                Sprintf(prefix_end, "%+d", obj->spe);
+            }
         }
         break;
     case FOOD_CLASS:
@@ -2795,6 +2802,19 @@ char *
 doname_with_price_and_cgender(struct obj *obj)
 {
     return doname_base(obj, DONAME_WITH_PRICE | DONAME_FORCE_GENDER);
+}
+
+/* doname with space, for invent menu */
+char *
+doname_with_space(struct obj *obj)
+{
+    return doname_base(obj, DONAME_WITH_SPACE);
+}
+
+char *
+doname_with_space_and_cgender(struct obj *obj)
+{
+    return doname_base(obj, DONAME_WITH_SPACE | DONAME_FORCE_GENDER);
 }
 
 /* "some" instead of precise quantity if obj->dknown not set */

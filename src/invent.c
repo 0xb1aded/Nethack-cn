@@ -3368,8 +3368,8 @@ display_pickinv(
                 tmpglyph = obj_to_glyph(otmp, rn2_on_display_rng);
                 map_glyphinfo(0, 0, tmpglyph, 0U, &tmpglyphinfo);
                 formattedobj = !puzzling_count
-                                   ? doname(otmp)
-                                   : doname_with_cgender(otmp);
+                                   ? doname_with_space(otmp)
+                                   : doname_with_space_and_cgender(otmp);
                 add_menu(win, &tmpglyphinfo, &any, ilet,
                          wizid ? def_oc_syms[(int) otmp->oclass].sym : 0,
                          ATR_NONE, clr, formattedobj, MENU_ITEMFLAGS_NONE);

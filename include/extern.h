@@ -2247,6 +2247,8 @@ extern char *doname(struct obj *) NONNULLARG1;
 extern char *doname_with_price(struct obj *) NONNULLARG1;
 extern char *doname_with_cgender(struct obj *) NONNULLARG1;
 extern char *doname_with_price_and_cgender(struct obj *) NONNULLARG1;
+extern char *doname_with_space(struct obj *) NONNULLARG1;
+extern char *doname_with_space_and_cgender(struct obj *) NONNULLARG1;
 extern char *doname_vague_quan(struct obj *) NONNULLARG1;
 extern boolean not_fully_identified(struct obj *) NONNULLARG1;
 extern char *corpse_xname(struct obj *, const char *, unsigned) NONNULLARG1;
