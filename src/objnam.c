@@ -2205,6 +2205,7 @@ erosion_matters(struct obj *obj)
 #define DONAME_FOR_MENU     4 /* [not used anywhere yet] */
 #define DONAME_FORCE_GENDER 8 /* always add male or female */
 #define DONAME_WITH_SPACE 64 /* 官方的下一个bitmask肯定是16, 留个位置 */
+#define DONAME_FORCE_QUAN 128 /* "1个foo"而非"一个foo"/"foo" */
 
 /* core of doname() */
 staticfn char *
@@ -2217,7 +2218,8 @@ doname_base(
             vague_quan = (doname_flags & DONAME_VAGUE_QUAN) != 0,
             for_menu = (doname_flags & DONAME_FOR_MENU) != 0,
             with_corpse_genders = (doname_flags & DONAME_FORCE_GENDER) != 0,
-            with_space = (doname_flags & DONAME_WITH_SPACE) != 0;
+            with_space = (doname_flags & DONAME_WITH_SPACE) != 0,
+            force_quan = (doname_flags & DONAME_FORCE_QUAN) != 0;
     boolean known, dknown, cknown, bknown, lknown,
             fake_arti, force_the;
     char prefix[PREFIX];
@@ -2273,9 +2275,15 @@ doname_base(
     if (obj->quan /*!= 1L*/) {
         if (dknown || !vague_quan) {
             if (with_space) {
-                Sprintf(prefix, "%ld %s", obj->quan, quantifier(obj));
+                if (obj->quan != 1L || force_quan) {
+                    Sprintf(prefix, "%ld %s", obj->quan, quantifier(obj));
+                }
             } else {
-                Sprintf(prefix, "%ld%s", obj->quan, quantifier(obj));
+                if (obj->quan != 1L || force_quan) {
+                    Sprintf(prefix, "%ld%s", obj->quan, quantifier(obj));
+                } else if (obj->quan == 1L) {
+                    Sprintf(prefix, "一%s", quantifier(obj));
+                }
             }
         }
         else {
@@ -2812,9 +2820,46 @@ doname_with_space(struct obj *obj)
 }
 
 char *
+doname_force_quan(struct obj *obj)
+{
+    return doname_base(obj, DONAME_FORCE_QUAN);
+}
+
+/* 排列组合... */
+char *
+doname_with_space_force_quan(struct obj *obj)
+{
+    return doname_base(obj, DONAME_FORCE_QUAN);
+}
+
+char *
 doname_with_space_and_cgender(struct obj *obj)
 {
     return doname_base(obj, DONAME_WITH_SPACE | DONAME_FORCE_GENDER);
+}
+
+char *
+doname_with_price_and_space(struct obj *obj)
+{
+    return doname_base(obj, DONAME_WITH_SPACE | DONAME_WITH_PRICE);
+}
+
+char *
+doname_with_price_and_cgender_and_space(struct obj *obj)
+{
+    return doname_base(obj, DONAME_WITH_SPACE | DONAME_FORCE_GENDER | DONAME_WITH_PRICE);
+}
+
+char *
+doname_with_price_force_quan(struct obj *obj)
+{
+    return doname_base(obj, DONAME_WITH_PRICE | DONAME_FORCE_QUAN);
+}
+
+char *
+doname_with_price_and_cgender_force_quan(struct obj *obj)
+{
+    return doname_base(obj, DONAME_WITH_PRICE | DONAME_FORCE_GENDER | DONAME_FORCE_QUAN);
 }
 
 /* "some" instead of precise quantity if obj->dknown not set */

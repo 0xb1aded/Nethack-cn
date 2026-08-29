@@ -1137,8 +1137,8 @@ query_objlist(const char *qstr,        /* query string */
                            : (first && curr->oclass == COIN_CLASS) ? '$' : 0,
                          def_oc_syms[(int) objects[curr->otyp].oc_class].sym,
                          ATR_NONE, clr,
-                         (puzzling_count) ? doname_with_price_and_cgender(curr)
-                                          : doname_with_price(curr),
+                         (puzzling_count) ? doname_with_price_and_cgender_and_space(curr)
+                                          : doname_with_price_and_space(curr),
                          MENU_ITEMFLAGS_NONE);
                 first = FALSE;
             }

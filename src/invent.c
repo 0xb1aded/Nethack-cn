@@ -2928,7 +2928,7 @@ prinv(const char *prefix, struct obj *obj, long quan)
     totalbuf[0] = '\0';
     if (total_of)
         Snprintf(totalbuf, sizeof totalbuf,
-                 " (共%ld个).", obj->quan);
+                 " (共%ld%s).", obj->quan, quantifier(obj));
     pline("%s%s%s%s", prefix, *prefix ? " " : "",
           xprname(obj, (char *) 0, obj_to_let(obj), !total_of, 0L, quan),
           flags.verbose ? totalbuf : "");
@@ -2966,7 +2966,7 @@ xprname(
     fmt = "%c - %.*s%s";
     if (!txt) {
         assert(obj != NULL);
-        txt = doname(obj);
+        txt = doname_with_space_force_quan(obj);
     }
     txtlen = (int) strlen(txt);
 
@@ -3547,7 +3547,7 @@ display_used_invlets(char avoidlet)
                     tmpglyph = obj_to_glyph(otmp, rn2_on_display_rng);
                     map_glyphinfo(0, 0, tmpglyph, 0U, &tmpglyphinfo);
                     add_menu(win, &tmpglyphinfo, &any, ilet, 0,
-                             ATR_NONE, clr, doname(otmp),
+                             ATR_NONE, clr, doname_with_space(otmp),
                              MENU_ITEMFLAGS_NONE);
                 }
             }
