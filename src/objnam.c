@@ -272,6 +272,8 @@ obj_typename(int otyp)
 
     buf[0] = '\0'; /* redundant */
     /* here for ring/scroll/potion/wand */
+    if (un) /* 3: length of " (" + ")" which will enclose 'dn' */
+        xcalled(buf, BUFSZ - (dn ? (int) strlen(dn) + 3 : 0), "", un);
     if (nn && (ocl->oc_class == RING_CLASS || 
                ocl->oc_class == SCROLL_CLASS || 
                ocl->oc_class == POTION_CLASS || 
@@ -345,8 +347,6 @@ obj_typename(int otyp)
             Strcpy(buf, actualn);
         }
     }
-    if (un) /* 3: length of " (" + ")" which will enclose 'dn' */
-        xcalled(buf, BUFSZ - (dn ? (int) strlen(dn) + 3 : 0), "", un);
     if (dn)
         Sprintf(eos(buf), " (%s)", dn);
     return buf;
