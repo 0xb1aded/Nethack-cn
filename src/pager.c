@@ -81,7 +81,7 @@ is_swallow_sym(int c)
 staticfn int
 append_str(char *buf, const char *new_str)
 {
-    static const char sep[] = " or ";
+    static const char sep[] = "或"; //很危险, 我也不知道为什么
     size_t oldlen, space_left;
 
     if (strstri(buf, new_str))
@@ -1392,7 +1392,7 @@ do_screen_description(
                 need_to_look = TRUE;
                 if (!found) {
                     Sprintf(out_str, "%s%s",
-                            prefix, an(def_monsyms[i].explain));
+                            prefix, def_monsyms[i].explain); //冗余:an
                     *firstmatch = def_monsyms[i].explain;
                     found++;
                 } else {

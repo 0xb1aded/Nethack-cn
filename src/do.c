@@ -521,7 +521,7 @@ dosinkring(struct obj *obj)
         You("闻到腐烂的%s味道.", makeplural(fruitname(FALSE)));
         break;
     case RIN_AGGRAVATE_MONSTER:
-        pline("几个围绕在水槽的%s生气地嗡嗡叫.",
+        pline("几个围绕在水槽边的%s生气地嗡嗡叫.",
               Hallucination ? makeplural(rndmonnam(NULL)) : "苍蝇");
         break;
     case RIN_SHOCK_RESISTANCE:

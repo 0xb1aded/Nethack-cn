@@ -95,7 +95,7 @@ thitu(
         knm = name;
         /* [perhaps ought to check for plural here too] */
         if (!strncmpi(name, "the ", 4) || !strncmpi(name, "an ", 3)
-            || !strncmpi(name, "a ", 2) || !strncmpi(name, "一个", strlen("一个")))
+            || !strncmpi(name, "a ", 2) || !strncmpi(name, "一", strlen("一"))) //危险:一个
             kprefix = KILLED_BY;
     }
     onm = (obj && obj_is_pname(obj)) ? the(name)

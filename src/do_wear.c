@@ -1793,7 +1793,7 @@ armor_or_accessory_off(struct obj *obj)
         } else {
             Strcpy(why, "; 它嵌在你身上");
         }
-        You_cant("脱那个%s.", why);
+        You_cant("脱下那%s%s.", quantifier(obj), why);
         return ECMD_OK;
     }
 
@@ -2328,7 +2328,7 @@ accessory_or_armor_on(struct obj *obj)
 
             if (ublindf) {
                 if (ublindf->otyp == TOWEL)
-                    Your("%s已经盖着一个毛巾了.",
+                    Your("%s已经盖着一根毛巾了.",
                          body_part(FACE));
                 else if (ublindf->otyp == BLINDFOLD) {
                     if (obj->otyp == LENSES)
@@ -2613,9 +2613,9 @@ glibr(void)
             /* preceding msg was about non-dominant hand */
             which = URIGHTY ? "右" : "左";
         }
-        pline("%s%s%s%s%s从你的%s%s.", /*修改语序:pline("%s%s%s%s%s从你的%s%s.",*/
+        pline("%s%s%s%s%s%s从你的%s%s.", /*修改语序:pline("%s%s%s%s%s从你的%s%s.",*/
               !strncmp(thiswep, "尸体", 6) ? "" : "你的",
-              otherwep ? "另一个" : "", thiswep, xfl ? "也" : "",
+              otherwep ? "另一" : "", xfl ? quantifier(otmp) : "", thiswep, xfl ? "也" : "",
               which, hand, otense(otmp, "滑落")); /*修改语序:otense(otmp, "滑落"), which, hand);*/
         /* xfl++; */
         otmp->quan = savequan;
@@ -2729,13 +2729,13 @@ select_off(struct obj *otmp)
     /* special glove checks */
     if (otmp == uarmg) {
         if (welded(uwep)) {
-            You("不能在拿着那个%s时取下你的%s.",
-                is_sword(uwep) ? c_sword : c_weapon, c_gloves); /*修改语序:c_gloves, is_sword(uwep) ? c_sword : c_weapon);*/
+            You("不能在拿着那%s%s时取下你的%s.",
+                is_sword(uwep) ? "把" : "个", is_sword(uwep) ? c_sword : c_weapon, c_gloves); /*修改语序:c_gloves, is_sword(uwep) ? c_sword : c_weapon);*/
             set_bknown(uwep, 1);
             return 0;
         } else if (Glib) {
-            pline("%s%s太滑了, 脱不下来.",
-                  uarmg->unpaid ? "这个" : "你的", /* simplified Shk_Your() */
+            pline("%s%s%s太滑了, 脱不下来.",
+                  uarmg->unpaid ? "这" : "你的", uarmg->unpaid ? quantifier(uarmg) : "", /* simplified Shk_Your() */
                   gloves_simple_name(uarmg));
             return 0;
         }

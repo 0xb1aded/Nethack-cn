@@ -145,7 +145,7 @@ temple_priest_sound(struct monst *mtmp)
            priest is not currently standing on the altar; he's mobile). */
         static const char *const temple_msg[] = {
             "*有人在赞美%s.", "*有人在祈求%s.",
-            "#一个动物尸体被献为祭品.",
+            "#一具动物尸体被献为祭品.",
             "*有人在恳切地呼吁捐款.",
         };
         const char *msg;

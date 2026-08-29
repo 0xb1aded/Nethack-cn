@@ -525,7 +525,7 @@ mcast_geyser(int dmg)
     /* this is physical damage (force not heat),
      * not magical damage or fire damage
      */
-    pline("一个突然不知从哪里来的间歇泉掉下来猛击了你!");
+    pline("一座突然不知从哪里来的间歇泉掉下来猛击了你!");
     dmg = d(8, 6);
     if (Half_physical_damage)
         dmg = (dmg + 1) / 2;

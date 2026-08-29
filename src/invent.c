@@ -2028,7 +2028,7 @@ getobj(
             }
         }
         if (cntgiven && (!strcmp(word, "throw") || !strcmp(word, "扔什么"))) {
-            static const char only_one[] = "你一次只能扔一个";
+            static const char only_one[] = "你一次只能扔一";
             boolean coins;
 
             /* permit counts for throwing gold, but don't accept counts
@@ -2040,11 +2040,11 @@ getobj(
             coins = (otmp->oclass == COIN_CLASS);
             if (cnt > 1L && (!coins || cnt > otmp->quan)) {
                 if (cnt > otmp->quan)
-                    You("只有%ld个%s%s.", otmp->quan,
+                    You("只有%ld%s%s%s%s.", otmp->quan, quantifier(otmp),
                         (!coins && otmp->quan > 1L) ? ", 而且" : "",
-                        (!coins && otmp->quan > 1L) ? only_one : "");
+                        (!coins && otmp->quan > 1L) ? only_one : "", (!coins && otmp->quan > 1L) ? quantifier(otmp) : "");
                 else
-                    You("%s.", only_one);
+                    You("%s个.", only_one);
                 continue;
             }
         }
@@ -2063,7 +2063,7 @@ getobj(
                 return (struct obj *) 0;
             continue;
         } else if (cnt < 0L || otmp->quan < cnt) {
-            You("没有那么多! 你只有%ld个.", otmp->quan);
+            You("没有那么多! 你只有%ld%s.", otmp->quan, quantifier(otmp));
             if (gi.in_doagain)
                 return (struct obj *) 0;
             continue;
@@ -2118,8 +2118,8 @@ silly_thing(const char *word,
             s1 = "R", s2 = "摘下", s3 = "";
     }
     if (s1)
-        pline("使用'%s'键以%s%s%s.", s1, s2,
-              !(is_plural(otmp) || pair_of(otmp)) ? "那个" : "那些", s3);
+        pline("使用'%s'键以%s%s%s%s.", s1, s2,
+              !(is_plural(otmp)) ? "那" : "那些", !(is_plural(otmp)) ? quantifier(otmp) : "", s3); //危险:原来有pair_of的
     else
 #endif
     /* see comment about Amulet of Yendor in objtyp_is_callable(do_name.c);
@@ -4614,7 +4614,7 @@ int
 doprwep(void)
 {
     if (!uwep) {
-        You("是一个%s.", empty_handed());
+        You("现在%s.", empty_handed()); //我当时怎么没看出来??? - Francium-223
     } else if (!iflags.menu_requested) {
         prinv((char *) 0, uwep, 0L);
         if (u.twoweap)

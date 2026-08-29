@@ -426,7 +426,7 @@ moverock_core(coordxy sx, coordxy sy)
         if (verysmall(gy.youmonst.data) && !u.usteed) {
             if (Blind)
                 feel_location(sx, sy);
-            pline("你太小了, 推不动那个%s.", xname(otmp));
+            pline("你太小了, 推不动那%s%s.", quantifier(otmp), xname(otmp));
             return cannot_push(otmp, sx, sy);
         }
         if (isok(rx, ry) && !IS_OBSTRUCTED(levl[rx][ry].typ)
@@ -3838,7 +3838,7 @@ pickup_checks(void)
         else if (IS_DOOR(lev->typ) && (lev->doormask & D_ISOPEN))
             pline("它在门框上怎么取不下来.");
         else if (IS_ALTAR(lev->typ))
-            pline("移动祭坛将是一个非常糟糕的主意.");
+            pline("移动祭坛是个非常糟糕的主意.");
         else if (lev->typ == STAIRS)
             pline_The("楼梯被牢牢固定住了.");
         else

@@ -2245,7 +2245,7 @@ doseduce(struct monst *mon)
             disp.botl = TRUE;
             break;
         case 3:
-            pline("这是一个非常有教育意义的经验.");
+            pline("这是一次非常有教育意义的体验.");
             pluslvl(FALSE);
             exercise(A_WIS, TRUE);
             break;

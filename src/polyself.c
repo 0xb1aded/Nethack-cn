@@ -1755,7 +1755,7 @@ dogaze(void)
                  * effect would be too weird.
                  */
                 if (mtmp->data == &mons[PM_MEDUSA] && !mtmp->mcan) {
-                    pline("注视睁着眼的%s不是一个非常好的主意.",
+                    pline("注视睁着眼的%s不是个非常好的主意.",
                           l_monnam(mtmp));
                     /* as if gazing at a sleeping anything is fruitful... */
                     urgent_pline("你变成了石头...");

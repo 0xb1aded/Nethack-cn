@@ -1683,8 +1683,8 @@ carry_count(struct obj *obj,            /* object to pick up... */
     /* we can carry qq of them */
     if (qq > 0) {
         if (qq < count)
-            You("只能%s%s%s的%s中的%s.", verb, verb2, /*修改语序:You("只能%s %s %s %s.", verb,*/
-                where, obj_nambuf, (qq == 1L) ? "一个" : "一些"); /*修改语序:(qq == 1L) ? "一个" : "一些", obj_nambuf, where);*/
+            You("只能%s%s%s的%s中的一%s.", verb, verb2, /*修改语序:You("只能%s %s %s %s.", verb,*/
+                where, obj_nambuf, (qq == 1L) ? quantifier(obj) : "些"); /*修改语序:(qq == 1L) ? "一个" : "一些", obj_nambuf, where);*/
         *wt_after = wt;
         return qq;
     }
@@ -1718,7 +1718,7 @@ lift_object(
     int result, old_wt, new_wt, prev_encumbr, next_encumbr;
 
     if (obj->otyp == BOULDER && Sokoban) {
-        You("无法用你的%s抱住这个%s.", body_part(HAND),
+        You("无法用你的%s抱住这%s%s.", body_part(HAND), quantifier(obj),
             xname(obj));
         return -1;
     }
@@ -1735,8 +1735,8 @@ lift_object(
            [this was using simpleonames(obj) for shortest description, but
            that's suboptimal for loadstones because it omits user-assigned
            type name which is something of interest for gray stones] */
-        You("携带的物品太多, 不能再拾取%s%s.",
-            (obj->quan == 1L) ? "另一个" : "更多的", xname(obj));
+        You("携带的物品太多, 不能再拾取%s%s%s.",
+            (obj->quan == 1L) ? "另一" : "更多", (obj->quan == 1L) ? quantifier(obj) : "", xname(obj));
         return -1;
     }
 
@@ -3775,11 +3775,11 @@ tipcontainer(struct obj *box) /* or bag */
          */
         if (targetbox)
             pline("%s滚进了%s.",
-                  box->cobj->nobj ? "一些物体" : "一个物体",
+                  box->cobj->nobj ? "一些物品" : "一个物品",
                   the(xname(targetbox)));
         else
             pline("%s出来%c",
-              box->cobj->nobj ? "一些东西掉落" : "一个东西掉落",
+              box->cobj->nobj ? "一些物品掉落" : "一个物品掉落",
               terse ? ':' : '.');
 
         for (otmp = box->cobj; otmp; otmp = nobj) {

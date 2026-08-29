@@ -1054,7 +1054,7 @@ revive(struct obj *corpse, boolean by_hero)
         } else if (shkp) {
             /* need some prior description of the corpse since
                stolen_value() will refer to the object as "it" */
-            pline("一个尸体苏醒了.");
+            pline("一具尸体苏醒了.");
         }
         /* don't charge for shopkeeper's own corpse if we just revived him */
         if (shkp && mtmp != shkp){

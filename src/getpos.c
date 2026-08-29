@@ -117,7 +117,7 @@ getpos_getvalids_selection(
 static const char *const gloc_descr[NUM_GLOCS][4] = {
     { "任何怪物", "怪物", "下一个/上一个怪物", "怪物" },
     { "任何物品", "物品", "下一个/上一个物品", "物品" },
-    { "任何门", "门", "下一个/上一个门/门口",
+    { "任何门", "门", "下一扇/上一扇门/门口",
       "门/门口" },
     { "任何未探索区域", "未探索区域", "未探索位置",
       "未探索的相邻位置" },
@@ -708,7 +708,7 @@ getpos_menu(coord *ccp, int gloc)
         }
     }
 
-    Sprintf(tmpbuf, "选择%s一个目标%s%s",
+    Sprintf(tmpbuf, "选择%s目标%s%s",
             an(gloc_descr[gloc][1]),
             gloc_filtertxt[iflags.getloc_filter],
             iflags.getloc_travelmode ? "以自动旅行" : "");

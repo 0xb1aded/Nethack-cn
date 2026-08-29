@@ -1331,7 +1331,7 @@ use_candelabrum(struct obj *obj)
     if (obj->spe <= 0) {
         struct obj *otmp;
 
-        pline("这个%s没有%s.", xname(obj), s);
+        pline("这%s%s没有%s.", quantifier(obj), xname(obj), s);
         /* only output tip if candles are in inventory */
         for (otmp = gi.invent; otmp; otmp = otmp->nobj)
             if (Is_candle(otmp))
@@ -1665,7 +1665,7 @@ use_lamp(struct obj *obj)
             else
                 pline("%s", nothing_seems_to_happen);
         } else {
-            pline("这个%s燃尽了.", xname(obj));
+            pline("这%s%s燃尽了.", quantifier(obj), xname(obj));
         }
         return;
     }
@@ -3582,7 +3582,7 @@ use_cream_pie(struct obj *obj)
         You("给自己做面膜.");
     else
         You("把你的%s浸入到%s%s里.", body_part(FACE),
-              several ? "一个" : "",
+              several ? "一" : "", quantifier(obj),
               several ? makeplural(the(xname(obj))) : the(xname(obj)));
     if (can_blnd((struct monst *) 0, &gy.youmonst, AT_WEAP, obj)) {
         int blindinc = rnd(25);
@@ -3654,7 +3654,7 @@ use_royal_jelly(struct obj **optr)
 
     if (obj->cursed) {
         if (eobj->timed || eobj->corpsenm != oldcorpsenm)
-            pline("这个%s在微弱地%s.", xname(eobj), otense(eobj, "颤抖"));
+            pline("这%s%s在微弱地%s.", quantifier(obj), xname(eobj), otense(eobj, "颤抖"));
         else
             pline("%s", nothing_seems_to_happen);
         kill_egg(eobj);

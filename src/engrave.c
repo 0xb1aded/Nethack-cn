@@ -719,7 +719,7 @@ doengrave_sfx_item_WAN(struct _doengrave_ctx *de)
         de->type = ENGRAVE;
         if (!objects[de->otmp->otyp].oc_name_known) {
             if (flags.verbose)
-                pline("这个%s是一把挖掘魔杖!", xname(de->otmp));
+                pline("这根%s是挖掘魔杖!", xname(de->otmp));
             de->doknown = TRUE;
         }
         Strcpy(de->post_engr_text,
@@ -742,7 +742,7 @@ doengrave_sfx_item_WAN(struct _doengrave_ctx *de)
         de->type = BURN;
         if (!objects[de->otmp->otyp].oc_name_known) {
             if (flags.verbose)
-                pline("这个%s是一把火焰魔杖!", xname(de->otmp));
+                pline("这根%s是火焰魔杖!", xname(de->otmp));
             de->doknown = TRUE;
         }
         Strcpy(de->post_engr_text, Blind ? "你感到魔杖热了起来."
@@ -753,7 +753,7 @@ doengrave_sfx_item_WAN(struct _doengrave_ctx *de)
         de->type = BURN;
         if (!objects[de->otmp->otyp].oc_name_known) {
             if (flags.verbose)
-                pline("这个%s是一根闪电魔杖!", xname(de->otmp));
+                pline("这根%s是闪电魔杖!", xname(de->otmp));
             de->doknown = TRUE;
         }
         if (!Blind) {
@@ -896,7 +896,7 @@ doengrave_sfx_item(struct _doengrave_ctx *de)
                               de->frosted ? "很冷" : "布满灰尘");
                     de->dengr = TRUE;
                 } else {
-                    pline("%s无法擦除这个雕刻.",
+                    pline("%s无法擦除这里的刻字.",
                           Yname2(de->otmp));
                 }
             } else {
@@ -1222,7 +1222,7 @@ doengrave(void)
 
     /* Tell adventurer what is going on */
     if (de->otmp != &hands_obj)
-        You("用%s%s在%s%s字.", (de->type == ENGRAVE && de->otmp->quan > 1L) ? "一个" : "", doname(de->otmp), /*修改语序:You("%s在%s上用%s%s。", de->everb, de->eloc,*/
+        You("用%s%s%s在%s%s字.", (de->type == ENGRAVE && de->otmp->quan > 1L) ? "一个" : "", (de->type == ENGRAVE && de->otmp->quan > 1L) ? quantifier(de->otmp) : "", doname(de->otmp), /*修改语序:You("%s在%s上用%s%s。", de->everb, de->eloc,*/
             /* since doname() yields "N items" when quantity is more than
                one, match that by using "1 of" rather than "one of" when
                informing the player that the stack will be split */
@@ -1402,7 +1402,7 @@ engrave(void)
            not welded to the hero's hand(s) */
         if (stylus->quan > 1L) {
             if (firsttime)
-                pline("%s中的一个变钝了.", yname(stylus));
+                pline("%s中的一%s变钝了.", yname(stylus), quantifier(stylus));
             stylus = svc.context.engraving.stylus = splitobj(stylus, 1L);
             /* if stack is wielded or quivered, the split-off one isn't */
             stylus->owornmask = 0L;
@@ -1440,7 +1440,7 @@ engrave(void)
         }
         if (splitstack) {
             obj_extract_self(stylus);
-            stylus = hold_another_object(stylus, "你丢下了一个%s!",
+            stylus = hold_another_object(stylus, "你丢下了%s!",
                                          doname(stylus), (char *) NULL);
             nhUse(stylus);
         } else if (dulled && stylus->known) {

@@ -2454,7 +2454,7 @@ reject_purchase(
             Snprintf(which, sizeof which, "%s里的%s东西", /*修改语序:Snprintf(which, sizeof which, "the one%s in %s",*/
                      thesimpleoname(obj->ocontainer), plur(intact_quan)); /*修改语序:plur(intact_quan), thesimpleoname(obj->ocontainer));*/
         else
-            Sprintf(which, "%s", (intact_quan > 1L) ? "这些" : "这个");
+            Sprintf(which, "这%s", (intact_quan > 1L) ? "些" : quantifier(obj));
 
         SetVoice(shkp, 0, 80, 0);
         verbalize("在买%s之前%s先把其他的%s付了.",  /*修改语序:which放到最后*/
@@ -3577,11 +3577,11 @@ addtobill(
            add_one_tobill above */
 
         if (!ltmp) {
-            pline("%s不卖这个%s.", Shknam(shkp), the(xname(obj)));
+            pline("%s不卖%s.", Shknam(shkp), the(xname(obj)));
             return;
         }
         if (!ininv) {
-            pline("%s%s花费%ld %s.",  (obj->quan > 1L) ? "每个" : "", The(xname(obj)), ltmp, /*修改语序:pline("%s花费%ld %s%s.", The(xname(obj)), ltmp,*/
+            pline("%s%s%s花费%ld %s.", (obj->quan > 1L) ? "每" : "", (obj->quan > 1L) ? quantifier(obj) : "", The(xname(obj)), ltmp, /*修改语序:pline("%s花费%ld %s%s.", The(xname(obj)), ltmp,*/
                   currency(ltmp)); /*修改语序:currency(ltmp), (obj->quan > 1L) ? "每个" : "");*/
         } else {
             long save_quan = obj->quan;
@@ -3596,22 +3596,21 @@ addtobill(
             }
             obj->quan = 1L; /* fool xname() into giving singular */
             set_voice(shkp, 0, 80, 0);
-            pline("%s, 你需要为%s%s%s支付%ld %s. \"", buf, (save_quan > 1L) ? "每个"
-                                   : (contentscount && !obj->unpaid)
-                                       ? "这个"
-                                       : "这个",
-                  xname(obj),
-                  (contentscount && obj->unpaid) ? and_its_contents : "", ltmp, currency(ltmp)
+            pline("%s, 你需要为%s%s%s%s支付%ld %s. \"", buf,
+                  (save_quan > 1L) ? "每" : "", quantifier(obj),
+                  xname(obj), //Francium-233: 无言以对
+                  contentscount ? (obj->unpaid ? and_its_contents : the_contents_of) : "", ltmp, currency(ltmp)
                   ); /*修改语序:去翻原版吧,,,这么多换行*/
             obj->quan = save_quan;
         }
     } else if (!silent) {
         if (ltmp) {
             set_voice(shkp, 0, 80, 0);
-            pline_The("%s%s%s的标价为%ld %s.",
-                      (obj->quan > 1L) ? "每个" : "", /*修改语序:(contentscount && !obj->unpaid) ? "" : "",*/
+            pline_The("%s%s的标价为%s%s%ld %s.",
                       the(xname(obj)),
                       contentscount ? (obj->unpaid ? and_its_contents : the_contents_of) : "", /*危险:(contentscount && obj->unpaid) ? and_its_contents : "",*/
+                      (obj->quan > 1L) ? "每" : "", /*修改语序:(contentscount && !obj->unpaid) ? "" : "",*/
+                      (obj->quan > 1L) ? quantifier(obj) : "",
                       ltmp, currency(ltmp)); /*修改语序:ltmp, currency(ltmp), (obj->quan > 1L) ? " 每个" : "");*/
         } else {
             pline("%s没有注意.", Shknam(shkp));
@@ -5454,7 +5453,7 @@ price_quote(struct obj *first_obj)
             Strcpy(price, "免费");
             contentsonly = FALSE;
         } else {
-            Sprintf(price, "%s%ld %s", (otmp->quan) > 1L ? "每个" : "", cost, /*修改语序:Sprintf(price, "%ld %s%s", cost, currency(cost),*/
+            Sprintf(price, "%s%s%ld %s", (otmp->quan) > 1L ? "每" : "", (otmp->quan) > 1L ? quantifier(otmp) : "", cost, /*修改语序:Sprintf(price, "%ld %s%s", cost, currency(cost),*/
                     currency(cost)); /*修改语序:(otmp->quan) > 1L ? " 每个" : "");*/
         }
         Sprintf(buf, "%s%s, %s", doname(otmp),
@@ -5474,7 +5473,7 @@ price_quote(struct obj *first_obj)
             Sprintf(buf, "%s%s", doname(first_obj),
                     contentsonly ? the_contents_of : "");
             SetVoice(shkp, 0, 80, 0);
-            verbalize("%s, 价格%s%ld %s%s", upstart(buf), (first_obj->quan > 1L) ? "每个" : "", cost, /*修改语序:verbalize("%s,价格%s%ld %s%s", upstart(buf), cost,*/
+            verbalize("%s, %s价格%ld %s%s", upstart(buf), (first_obj->quan > 1L) ? "每" : "", (first_obj->quan > 1L) ? quantifier(first_obj) : "", cost, /*修改语序:verbalize("%s,价格%s%ld %s%s", upstart(buf), cost,*/
                       currency(cost), /*修改语序:currency(cost), (first_obj->quan > 1L) ? "each" : "",*/
                       contentsonly ? "." : shk_embellish(first_obj, cost));
         }

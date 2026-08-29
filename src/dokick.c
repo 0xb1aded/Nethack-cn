@@ -1162,8 +1162,8 @@ kick_nondoor(coordxy x, coordxy y, int avrg_attrib)
                  * may not refer to the correct object */
                 treefruit = mksobj(frtype, TRUE, FALSE);
                 treefruit->quan = nfruit - nfall;
-                pline("%ld个%s被树枝挂住了.",
-                      nfruit - nfall, xname(treefruit));
+                pline("%ld%s%s被树枝挂住了.",
+                      nfruit - nfall, quantifier(treefruit), xname(treefruit));
                 dealloc_obj(treefruit);
             }
             exercise(A_DEX, TRUE);
@@ -1596,18 +1596,18 @@ impact_drop(
     }
 
     if (dct && cansee(x, y)) { /* at least one object fell */
-        const char *what = (dct == 1L ? "物体掉落" : "物体掉落");
+        //冗余:const char *what = (dct == 1L ? "物体掉落" : "物体掉落");
 
         if (missile)
-            pline("遭受冲击, 另外%s%s了.",
-                  dct == oct ? "那个" : dct == 1L ? "一个" : "", what);
+            pline("遭受冲击, 另外%s物品掉落了.",
+                  dct == oct ? "那个" : dct == 1L ? "一个" : "");
         else if (oct == dct)
-            pline("%s相邻的%s%s.", dct == 1L ? "" : "所有", what,
+            pline("%s相邻的物品掉落%s.", dct == 1L ? "" : "所有", what,
                   gg.gate_str);
         else
-            pline("%s相邻的%s%s.",
+            pline("%s相邻的物品掉落%s.",
                   dct == 1L ? "其中一个" : "一些",
-                  dct == 1L ? "物体掉落" : what, gg.gate_str);
+                  gg.gate_str);
     }
 
     if (costly && shkp && price) {

@@ -186,7 +186,7 @@ watch_on_duty(struct monst *mtmp)
                     mon_yells(mtmp, "站住, 小偷! 你被捕了!");
                     (void) angry_guards(!!Deaf);
                 } else {
-                    mon_yells(mtmp, "嘿, 别再翘那个锁了!");
+                    mon_yells(mtmp, "嘿, 别再撬那个锁了!");
                     levl[x][y].looted |= D_WARNED;
                 }
                 stop_occupation();

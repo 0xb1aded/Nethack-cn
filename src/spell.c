@@ -688,7 +688,7 @@ rejectcasting(void)
 {
     /* rejections which take place before selecting a particular spell */
     if (Stunned) {
-        You("身体不稳, 不能施放法术.");
+        You("身体不稳, 不能施展魔法.");
         return TRUE;
     } else if (!can_chant(&gy.youmonst)) {
         You("不能念咒.");
@@ -1249,7 +1249,7 @@ spelleffects_check(int spell, int *res, int *energy)
      * decrement of spell knowledge is done every turn.
      */
     if (spellknow(spell) <= 0) {
-        Your("对这个魔法的知识扭曲了.");
+        Your("对这个法术的知识扭曲了.");
         pline("它在你的心中产生噩梦般的图像...");
         spell_backfire(spell);
         u.uen -= rnd(*energy);
@@ -1259,13 +1259,13 @@ spelleffects_check(int spell, int *res, int *energy)
         *res = ECMD_TIME;
         return TRUE;
     } else if (spellknow(spell) <= KEEN / 200) { /* 100 turns left */
-        You("尽力回想这个魔法.");
+        You("尽力回想这个法术.");
     } else if (spellknow(spell) <= KEEN / 40) { /* 500 turns left */
-        You("回想这个魔法有困难.");
+        You("很难回想这个法术.");
     } else if (spellknow(spell) <= KEEN / 20) { /* 1000 turns left */
-        Your("对这个魔法的知识越来越模糊.");
+        Your("对这个法术的知识越来越模糊.");
     } else if (spellknow(spell) <= KEEN / 10) { /* 2000 turns left */
-        Your("对这个魔法的记忆力正在逐渐消退.");
+        Your("对这个法术的记忆力正在逐渐消退.");
     }
 
     if (u.uhunger <= 10 && spellid(spell) != SPE_DETECT_FOOD) {
@@ -1273,7 +1273,7 @@ spelleffects_check(int spell, int *res, int *energy)
         *res = ECMD_OK;
         return TRUE;
     } else if (ACURR(A_STR) < 4 && spellid(spell) != SPE_RESTORE_ABILITY) {
-        You("的力量不足以来施展魔法.");
+        You("的力量不足以施展魔法.");
         *res = ECMD_OK;
         return TRUE;
     } else if (check_capacity(
@@ -1312,7 +1312,7 @@ spelleffects_check(int spell, int *res, int *energy)
          * isn't now (lost energy when losing levels or polymorphing into
          * new person or had some stripped away by traps or monsters).
          */
-        You("的能量%s不足以施放那个法术.",
+        You("的能量%s不足以施放那个魔法.",
             (u.uen < u.uenmax) ? "" /* not at full energy => normal message */
             : (*energy > u.uenpeak) ? "还" /* haven't ever had enough */
               : "了"); /* once had enough but have lost some since */

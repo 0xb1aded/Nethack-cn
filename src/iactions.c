@@ -438,7 +438,7 @@ itemactions(struct obj *otmp)
     /* E: engrave with item */
     if (otmp->otyp == TOWEL) {
         ia_addmenu(win, IA_ENGRAVE_OBJ, 'E',
-                   "用这个毛巾擦地");
+                   "用这根毛巾擦地");
     } else if (otmp->otyp == MAGIC_MARKER) {
         ia_addmenu(win, IA_ENGRAVE_OBJ, 'E',
                    "在地板上涂鸦");
@@ -483,7 +483,7 @@ itemactions(struct obj *otmp)
            include corpses on Astral and don't include amulets off Astral */
         if (otmp->otyp == CORPSE)
             ia_addmenu(win, IA_SACRIFICE, 'O',
-                       "在祭坛上献祭这个尸体");
+                       "在祭坛上献祭这具尸体");
         else if (otmp->otyp == AMULET_OF_YENDOR
                  || otmp->otyp == FAKE_AMULET_OF_YENDOR)
             ia_addmenu(win, IA_SACRIFICE, 'O',
@@ -516,7 +516,7 @@ itemactions(struct obj *otmp)
             if (!uleft || !uright)
                 Strcpy(buf, "戴上这枚戒指");
             else
-                Sprintf(buf, "[两个戒指指 %s 均在用]",
+                Sprintf(buf, "[两个%s都已戴有戒指]",
                         makeplural(body_part(FINGER)));
         } else if (otmp->otyp == BLINDFOLD || otmp->otyp == TOWEL
                    || otmp->otyp == LENSES) {
@@ -526,7 +526,7 @@ itemactions(struct obj *otmp)
                 Strcpy(buf, "戴上这副透镜");
             else
                 Sprintf(buf, "戴上这个%s",
-                        (otmp->otyp == TOWEL) ? "蒙上眼睛" : "");
+                        (otmp->otyp == TOWEL) ? "来蒙上眼睛" : "");
         }
         if (*buf)
             ia_addmenu(win, IA_WEAR_OBJ, 'P', buf);
@@ -554,7 +554,7 @@ itemactions(struct obj *otmp)
 
     /* R: remove accessory or rub item */
     if (otmp->owornmask & W_ACCESSORY) {
-        Sprintf(buf, "拿下这个%s",
+        Sprintf(buf, "拿下这%s%s", quantifier(otmp),
                 (otmp->owornmask & W_AMUL) ? "护身符"
                 : (otmp->owornmask & W_RING) ? "戒指"
                   : (otmp->owornmask & W_TOOL) ? "眼镜"
@@ -563,7 +563,7 @@ itemactions(struct obj *otmp)
     }
     if (otmp->otyp == OIL_LAMP || otmp->otyp == MAGIC_LAMP
         || otmp->otyp == BRASS_LANTERN) {
-        Sprintf(buf, "摩擦这个%s", simpleonames(otmp));
+        Sprintf(buf, "摩擦这%s%s", quantifier(otmp), simpleonames(otmp));
         ia_addmenu(win, IA_RUB_OBJ, 'R', buf);
     } else if (otmp->oclass == GEM_CLASS && is_graystone(otmp))
         ia_addmenu(win, IA_RUB_OBJ, 'R', "在这块石头上摩擦物品");
@@ -617,8 +617,8 @@ itemactions(struct obj *otmp)
         ; /* either already wielded or can't wield anything; skip 'w' */
     } else if (otmp->oclass == WEAPON_CLASS || is_weptool(otmp)
                || is_wet_towel(otmp) || otmp->otyp == HEAVY_IRON_BALL) {
-        Sprintf(buf, "把这个%s装备为武器",
-                (otmp->quan > 1L) ? "堆叠" : "物品");
+        Sprintf(buf, "把这%s物品装备为武器",
+                (otmp->quan > 1L) ? "些" : "个");
         ia_addmenu(win, IA_WIELD_OBJ, 'w', buf);
     } else if (otmp->otyp == TIN_OPENER) {
         ia_addmenu(win, IA_WIELD_OBJ, 'w',

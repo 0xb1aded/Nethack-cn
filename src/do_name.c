@@ -299,8 +299,8 @@ do_oname(struct obj *obj)
         return;
     }
 
-    Sprintf(qbuf, "你想要把%s",
-            is_plural(obj) ? "这些" : "这个");
+    Sprintf(qbuf, "你想要把%s%s",
+            is_plural(obj) ? "这些" : "这", is_plural(obj) ? "" : quantifier(obj));
     (void) safe_qbuf(qbuf, qbuf, "命名为什么?", obj, xname, simpleonames, "物品");
     /* use getlin() to get a name string from the player */
     if (!name_from_player(buf, qbuf, safe_oname(obj)))
@@ -416,8 +416,8 @@ oname(
                                bare_artifactname(obj));
             else
                 livelog_printf(LL_ARTIFACT,
-                               "将一个%s命名成了\"%s\"",
-                               ansimpleoname(obj), bare_artifactname(obj));
+                               "将一%s%s命名成了\"%s\"",
+                               ansimpleoname(obj), quantifier(obj), bare_artifactname(obj));
         }
     }
     if (carried(obj) && !skip_inv_update)
@@ -577,7 +577,7 @@ docallcmd(void)
             (void) xname(obj);
 
             if (!obj->dknown) {
-                You("把这两个再也分不清了.");
+                You("再也分不清这两个了.");
 #if 0
             } else if (call_ok(obj) == GETOBJ_EXCLUDE) {
                 You("know those as well as you ever will.");
@@ -742,11 +742,11 @@ namefloorobj(void)
               The(buf), use_plural ? "决定" : "决定",
               unames[rn2_on_display_rng(SIZE(unames))]);
     } else if (call_ok(obj) == GETOBJ_EXCLUDE) {
-        pline("%s%s不能被指定类型名字.",
-              use_plural ? "那些" : "那个", buf);
+        pline("%s%s%s不能被指定类型名字.",
+              use_plural ? "那些" : "那", use_plural ? "" : quantifier(obj), buf);
     } else if (!obj->dknown) {
-        You("对%s%s了解不多, 所以不能命名%s.",
-            use_plural ? "那些" : "那个", buf, use_plural ? "它们" : "它");
+        You("对%s%s%s了解不多, 所以不能命名%s.",
+            use_plural ? "那些" : "那", use_plural ? "" : quantifier(obj), buf, use_plural ? "它们" : "它");
     } else {
         docall(obj);
     }

@@ -1367,7 +1367,7 @@ lantern_message(struct obj *obj)
             pline("电池目前还没有被发明.");
         break;
     case OBJ_FLOOR:
-        You_see("一个灯变暗了.");
+        You_see("一盏灯变暗了.");
         break;
     case OBJ_MINVENT:
         pline("%s的灯变暗了.", s_suffix(Monnam(obj->ocarry)));
@@ -1520,7 +1520,7 @@ burn_object(anything *arg, long timeout)
                     break;
                 case OBJ_FLOOR:
                     if (obj->otyp == BRASS_LANTERN)
-                        You_see("一个灯笼燃尽了.");
+                        You_see("一盏灯笼燃尽了.");
                     else
                         You_see("%s燃尽了.", an(xname(obj)));
                     break;

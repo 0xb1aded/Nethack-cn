@@ -712,7 +712,7 @@ digactualhole(coordxy x, coordxy y, struct monst *madeby, int ttyp)
         if (IS_STWALL(old_typ))
             pline_The("%s倒塌成了%s.", surface_type, an(tname));
         else
-            pline("在%s中出现了一个%s.", An(tname), surface_type);
+            pline("在%s中出现了%s.", surface_type, An(tname));
     }
     if (IS_FURNITURE(old_typ) && cansee(x, y))
         pline_The("%s掉进了%s里!", furniture, tname);
@@ -1393,14 +1393,14 @@ watch_dig(struct monst *mtmp, coordxy x, coordxy y, boolean zap)
                 const char *str;
 
                 if (IS_DOOR(lev->typ))
-                    str = "门";
+                    str = "扇门";
                 else if (IS_TREE(lev->typ))
-                    str = "树";
+                    str = "棵树";
                 else if (IS_OBSTRUCTED(lev->typ))
-                    str = "墙";
+                    str = "堵墙";
                 else
-                    str = "喷泉";
-                verbalize("嘿, 别破坏那个%s!", str);
+                    str = "座喷泉";
+                verbalize("嘿, 别破坏那%s!", str);
                 svc.context.digging.warned = TRUE;
             }
             if (is_digging())
@@ -1591,7 +1591,7 @@ zap_dig(void)
                               stway->isladder ? "梯子" : "楼梯",
                               ceiling(u.ux, u.uy));
                 }
-                You("从%s上翘下一块岩石.", ceiling(u.ux, u.uy));
+                You("从%s上撬下一块岩石.", ceiling(u.ux, u.uy));
                 pline("它掉到了你的%s上!", body_part(HEAD));
                 dmg = rnd(hard_helmet(uarmh) ? 2 : 6);
                 losehp(Maybe_Half_Phys(dmg), "falling rock", KILLED_BY_AN);

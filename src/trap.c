@@ -5457,7 +5457,7 @@ try_disarm(
     }
     /* We might be forced to move onto the trap's location. */
     if (sobj_at(BOULDER, ttmp->tx, ttmp->ty) && !Passes_walls && !under_u) {
-        There("有一个巨石挡在你前面.");
+        There("有一块巨石挡在你前面.");
         return 0;
     }
     /* duplicate tight-space checks from test_move */
@@ -6056,10 +6056,10 @@ untrap(
         You("%s那里没有门.", Blind ? "感觉" : "看到");
         return 0;
     case D_ISOPEN:
-        pline("这个门被破坏了.");
+        pline("这扇门被破坏了.");
         return 0;
     case D_BROKEN:
-        pline("这个门坏了.");
+        pline("这扇门坏了.");
         return 0;
     }
 
@@ -6090,7 +6090,7 @@ untrap(
                 newexplevel();
             }
         } else
-            pline("这个门没有陷阱.");
+            pline("这扇门没有陷阱.");
         return 1;
     } else {
         You("在门上没找到陷阱.");
@@ -6162,7 +6162,7 @@ openholdingtrap(
     assert(t != NULL);
     if (!which)
         which = t->tseen ? the_your[t->madeby_u]
-                         : strchr(vowels, *trapdescr) ? "一个" : "一个";
+                         : "一个";//冗余: strchr(vowels, *trapdescr) ? "一个" : "一个";
     assert(which != 0);
     if (*which)
         which = strcat(strcpy(whichbuf, which), " ");

@@ -504,7 +504,7 @@ gain_guardian_angel(void)
                      message will be heard even if that fails) */
     if (Conflict) {
        if (!Deaf)
-            pline("一个轰鸣的声音:");
+            pline("一个声音轰鸣:");
         else
             You_feel("到轰鸣的声音:");
         SetVoice((struct monst *) 0, 0, 80, voice_deity);

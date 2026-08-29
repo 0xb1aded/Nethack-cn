@@ -814,7 +814,7 @@ hurtle_step(genericptr_t arg, coordxy x, coordxy y)
             You("撞到了铁栅栏上. 嗷!");
         } else if ((obj = sobj_at(BOULDER, x, y)) != 0) {
             why = "撞到巨石上";
-            You("撞到了一个%s上. 嗷!", xname(obj));
+            You("撞到了一%s%s上. 嗷!", quantifier(obj), xname(obj));
         }  else if (!may_pass) {
             /* did we hit a no-dig non-wall position? */
             why = "触摸宇宙的边界";

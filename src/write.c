@@ -105,7 +105,7 @@ dowrite(struct obj *pen)
                  : "卷轴";
     if (Blind) {
         if (!paper->dknown) {
-            You("不知道那个%s是否空白.", typeword);
+            You("不知道那%s%s是否空白.", quantifier(paper), typeword);
             return ECMD_OK;
         } else if (paper->oclass == SPBOOK_CLASS) {
             /* can't write a magic book while blind */
@@ -116,7 +116,7 @@ dowrite(struct obj *pen)
     }
     observe_object(paper);
     if (paper->otyp != SCR_BLANK_PAPER && paper->otyp != SPE_BLANK_PAPER) {
-        pline("那个%s不是空白的!", typeword);
+        pline("那个%s%s不是空白的!", quantifier(paper), typeword);
         exercise(A_WIS, FALSE);
         return ECMD_TIME;
     }

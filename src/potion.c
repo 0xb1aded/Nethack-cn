@@ -1030,7 +1030,7 @@ staticfn void
 peffect_gain_ability(struct obj *otmp)
 {
     if (otmp->cursed) {
-        pline("呃! 那个药水尝起来令人作呕!");
+        pline("呃! 那瓶药水尝起来令人作呕!");
         gp.potion_unkn++;
     } else if (Fixed_abil) {
         gp.potion_nothing++;
@@ -1951,7 +1951,7 @@ potionbreathe(struct obj *obj)
     case POT_GAIN_ABILITY:
         if (obj->cursed) {
             if (!breathless(gy.youmonst.data)) {
-                pline("呃! 那个药水闻起来很糟!");
+                pline("呃! 那瓶药水闻起来很糟!");
             } else if (haseyes(gy.youmonst.data)) {
                 const char *eyes = body_part(EYE);
 

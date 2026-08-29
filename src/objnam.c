@@ -562,7 +562,6 @@ quantifier(struct obj *obj)
         case FIRE_HORN:
         case HORN_OF_PLENTY:
             return "支";
-        case BEARTRAP:
         case CORPSE:
             return "具";
         case WOODEN_HARP:
