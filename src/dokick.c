@@ -1602,7 +1602,7 @@ impact_drop(
             pline("遭受冲击, 另外%s物品掉落了.",
                   dct == oct ? "那个" : dct == 1L ? "一个" : "");
         else if (oct == dct)
-            pline("%s相邻的物品掉落%s.", dct == 1L ? "" : "所有", what,
+            pline("%s相邻的物品掉落%s.", dct == 1L ? "" : "所有",
                   gg.gate_str);
         else
             pline("%s相邻的物品掉落%s.",

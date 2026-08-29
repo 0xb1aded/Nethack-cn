@@ -2212,7 +2212,7 @@ fprefx(struct obj *otmp)
 #endif
         } else {
  give_feedback:
-            pline("这%s%s%s", singular(otmp, xname), quantifier(obj),
+            pline("这%s%s%s", singular(otmp, xname), quantifier(otmp),
                   otmp->cursed
                      ? (Hallucination ? "很恶心!" : "很难吃!")
                      : (otmp->otyp == CRAM_RATION
