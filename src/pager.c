@@ -1001,6 +1001,114 @@ checkfile(
             alt = ep + strlen("的");
             if ((ap = strstri(dbase_str, "的")) != 0 && ap < ep)
                 ep = ap; /* "named" is alt but truncate at "called" */
+		} else if ((ep = strstri(dbase_str, "块")) != 0) { //见objnam.c
+            alt = ep + strlen("块");
+            if ((ap = strstri(dbase_str, "块")) != 0 && ap < ep)
+                ep = ap;
+        } else if ((ep = strstri(dbase_str, "双")) != 0) {
+            alt = ep + strlen("双");
+            if ((ap = strstri(dbase_str, "双")) != 0 && ap < ep)
+                ep = ap;
+        } else if ((ep = strstri(dbase_str, "柄")) != 0) {
+            alt = ep + strlen("柄");
+            if ((ap = strstri(dbase_str, "柄")) != 0 && ap < ep)
+                ep = ap;
+        } else if ((ep = strstri(dbase_str, "片")) != 0) {
+            alt = ep + strlen("片");
+            if ((ap = strstri(dbase_str, "片")) != 0 && ap < ep)
+                ep = ap;
+        } else if ((ep = strstri(dbase_str, "根")) != 0) {
+            alt = ep + strlen("根");
+            if ((ap = strstri(dbase_str, "根")) != 0 && ap < ep)
+                ep = ap;
+        } else if ((ep = strstri(dbase_str, "把")) != 0) {
+            alt = ep + strlen("把");
+            if ((ap = strstri(dbase_str, "把")) != 0 && ap < ep)
+                ep = ap;
+        } else if ((ep = strstri(dbase_str, "个")) != 0) {
+            alt = ep + strlen("个");
+            if ((ap = strstri(dbase_str, "个")) != 0 && ap < ep)
+                ep = ap;
+        } else if ((ep = strstri(dbase_str, "件")) != 0) {
+            alt = ep + strlen("件");
+            if ((ap = strstri(dbase_str, "件")) != 0 && ap < ep)
+                ep = ap;
+        } else if ((ep = strstri(dbase_str, "盏")) != 0) {
+            alt = ep + strlen("盏");
+            if ((ap = strstri(dbase_str, "盏")) != 0 && ap < ep)
+                ep = ap;
+        } else if ((ep = strstri(dbase_str, "卷")) != 0) {
+            alt = ep + strlen("卷");
+            if ((ap = strstri(dbase_str, "卷")) != 0 && ap < ep)
+                ep = ap;
+        } else if ((ep = strstri(dbase_str, "枝")) != 0) {
+            alt = ep + strlen("枝");
+            if ((ap = strstri(dbase_str, "枝")) != 0 && ap < ep)
+                ep = ap;
+        } else if ((ep = strstri(dbase_str, "本")) != 0) {
+            alt = ep + strlen("本");
+            if ((ap = strstri(dbase_str, "本")) != 0 && ap < ep)
+                ep = ap;
+        } else if ((ep = strstri(dbase_str, "面")) != 0) {
+            alt = ep + strlen("面");
+            if ((ap = strstri(dbase_str, "面")) != 0 && ap < ep)
+                ep = ap;
+        } else if ((ep = strstri(dbase_str, "座")) != 0) {
+            alt = ep + strlen("座");
+            if ((ap = strstri(dbase_str, "座")) != 0 && ap < ep)
+                ep = ap;
+        } else if ((ep = strstri(dbase_str, "枚")) != 0) {
+            alt = ep + strlen("枚");
+            if ((ap = strstri(dbase_str, "枚")) != 0 && ap < ep)
+                ep = ap;
+        } else if ((ep = strstri(dbase_str, "只")) != 0) {
+            alt = ep + strlen("只");
+            if ((ap = strstri(dbase_str, "只")) != 0 && ap < ep)
+                ep = ap;
+        } else if ((ep = strstri(dbase_str, "套")) != 0) {
+            alt = ep + strlen("套");
+            if ((ap = strstri(dbase_str, "套")) != 0 && ap < ep)
+                ep = ap;
+        } else if ((ep = strstri(dbase_str, "副")) != 0) {
+            alt = ep + strlen("副");
+            if ((ap = strstri(dbase_str, "副")) != 0 && ap < ep)
+                ep = ap;
+        } else if ((ep = strstri(dbase_str, "团")) != 0) {
+            alt = ep + strlen("团");
+            if ((ap = strstri(dbase_str, "团")) != 0 && ap < ep)
+                ep = ap;
+        } else if ((ep = strstri(dbase_str, "份")) != 0) {
+            alt = ep + strlen("份");
+            if ((ap = strstri(dbase_str, "份")) != 0 && ap < ep)
+                ep = ap;
+        } else if ((ep = strstri(dbase_str, "具")) != 0) {
+            alt = ep + strlen("具");
+            if ((ap = strstri(dbase_str, "具")) != 0 && ap < ep)
+                ep = ap;
+        } else if ((ep = strstri(dbase_str, "支")) != 0) {
+            alt = ep + strlen("支");
+            if ((ap = strstri(dbase_str, "支")) != 0 && ap < ep)
+                ep = ap;
+        } else if ((ep = strstri(dbase_str, "瓶")) != 0) {
+            alt = ep + strlen("瓶");
+            if ((ap = strstri(dbase_str, "瓶")) != 0 && ap < ep)
+                ep = ap;
+        } else if ((ep = strstri(dbase_str, "瓣")) != 0) {
+            alt = ep + strlen("瓣");
+            if ((ap = strstri(dbase_str, "瓣")) != 0 && ap < ep)
+                ep = ap;
+        } else if ((ep = strstri(dbase_str, "张")) != 0) {
+            alt = ep + strlen("张");
+            if ((ap = strstri(dbase_str, "张")) != 0 && ap < ep)
+                ep = ap;
+        } else if ((ep = strstri(dbase_str, "顶")) != 0) {
+            alt = ep + strlen("顶");
+            if ((ap = strstri(dbase_str, "顶")) != 0 && ap < ep)
+                ep = ap;
+        } else if ((ep = strstri(dbase_str, "条")) != 0) {
+            alt = ep + strlen("条");
+            if ((ap = strstri(dbase_str, "条")) != 0 && ap < ep)
+                ep = ap;
         } else if ((ep = strstri(dbase_str, " called ")) != 0) {
             copynchars(givenname, ep + 8, BUFSZ - 1);
             alt = givenname;
@@ -1278,7 +1386,7 @@ add_cmap_descr(
             *hit_trap = TRUE;
         } else {
             Sprintf(out_str, "%s%s", prefix, (article == 2) ? x_str /*危险:Sprintf(out_str, "%s%s", prefix, (article == 2) ? the(x_str)*/
-                                             : (article == 1) ? one(x_str) /*危险:: (article == 1) ? an(x_str)*/
+                                             : (article == 1) ? x_str /*危险:: (article == 1) ? an(x_str)*/
                                                : x_str);
         }
         *firstmatch = x_str;
@@ -1292,7 +1400,7 @@ add_cmap_descr(
                        && glyph_to_trap(glyph) == VIBRATING_SQUARE))) {
         /* append unless out_str already contains the string to append */
         found += append_str(out_str, (article == 2) ? x_str /*危险:同上*/
-                                     : (article == 1) ? one(x_str) /*危险:同上*/
+                                     : (article == 1) ? x_str /*危险:同上*/
                                        : x_str);
         if (is_cmap_trap(idx) && idx != S_vibrating_square)
             *hit_trap = TRUE;
@@ -1392,11 +1500,11 @@ do_screen_description(
                 need_to_look = TRUE;
                 if (!found) {
                     Sprintf(out_str, "%s%s",
-                            prefix, def_monsyms[i].explain); //冗余:an
+                            prefix, def_monsyms[i].explain); //冗余:an(野蛮岛国语言什么东西都得加个冠词不加就难受,,,)
                     *firstmatch = def_monsyms[i].explain;
                     found++;
                 } else {
-                    found += append_str(out_str, an(def_monsyms[i].explain));
+                    found += append_str(out_str, def_monsyms[i].explain); //冗余:an
                 }
             }
         }
@@ -1446,7 +1554,7 @@ do_screen_description(
                     continue;
                 }
                 if (!found) {
-                    Sprintf(out_str, "%s%s", prefix, an(oc_ptr));
+                    Sprintf(out_str, "%s%s", prefix, oc_ptr);  //冗余:an
                     /* note: if the value assigned to *firstmatch ever
                        becomes dynamically constructed, it will need to be
                        copied into a static buffer; as of now, all alternate
@@ -1454,7 +1562,7 @@ do_screen_description(
                     *firstmatch = oc_ptr;
                     found++;
                 } else {
-                    found += append_str(out_str, an(oc_ptr));
+                    found += append_str(out_str, oc_ptr);  //冗余:an
                 }
             }
         }
@@ -1467,11 +1575,11 @@ do_screen_description(
                                                        : invisexplain;
 
         if (!found) {
-            Sprintf(out_str, "%s%s", prefix, an(unseen_explain));
+            Sprintf(out_str, "%s%s", prefix, unseen_explain); //冗余:an
             *firstmatch = unseen_explain;
             found++;
         } else {
-            found += append_str(out_str, an(unseen_explain));
+            found += append_str(out_str, unseen_explain); //冗余:an
         }
     }
     if ((glyph && glyph_is_nothing(glyph))
@@ -1588,11 +1696,11 @@ do_screen_description(
     if (skipped_venom && found < 2) {
         x_str = def_oc_syms[VENOM_CLASS].explain;
         if (!found) {
-            Sprintf(out_str, "%s%s", prefix, an(x_str));
+            Sprintf(out_str, "%s%s", prefix, x_str); //冗余:an
             *firstmatch = x_str;
             found++;
         } else {
-            found += append_str(out_str, an(x_str));
+            found += append_str(out_str, x_str);  //冗余:an
         }
     }
 
