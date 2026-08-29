@@ -603,6 +603,8 @@ quantifier(struct obj *obj)
             return "件";
         case MUMMY_WRAPPING:
             return "卷";
+        case STATUE:
+            return "个";
     }
     switch(obj->oclass)
     {
