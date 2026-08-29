@@ -342,7 +342,7 @@ WEAPON("bec de corbin", "beaked polearm", "鸦啄战锤", "喙长柄武器",
 
 /* formerly grouped with the polearms but don't use polearms skill;
    lance isn't even two-handed */
-WEAPON("dwarvish mattock", "broad pick", "矮人镐", "宽头镐",
+WEAPON("dwarvish mattock", "broad pick", "矮人镐", "扁镐",
        0, 0, 1, 13, 120,  50, 12,  8, -1, B,  P_PICK_AXE, IRON, HI_METAL,
                                                         DWARVISH_MATTOCK),
 WEAPON("lance", NoDes, "长戟", NoDes,
