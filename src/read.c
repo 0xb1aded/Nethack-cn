@@ -3038,7 +3038,7 @@ punish(struct obj *sobj)
     if (amorphous(gy.youmonst.data) || is_whirly(gy.youmonst.data)
         || unsolid(gy.youmonst.data)) {
         if (!reuse_ball) {
-            pline("一个球和链出现了, 然后松开了.");
+            pline("一个球连着链出现了, 然后松开了.");
             dropy(mkobj(BALL_CLASS, TRUE));
         } else {
             dropy(reuse_ball);

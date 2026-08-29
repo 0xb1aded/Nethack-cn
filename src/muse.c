@@ -135,8 +135,8 @@ precheck(struct monst *mon, struct obj *obj)
         /* 3.6.1: no Deaf filter; 'if' message doesn't warrant it, 'else'
            message doesn't need it since You_hear() has one of its own */
         if (vis) {
-            pline_mon(mon, "%s挥舞%s, 然后它突然爆炸!", Monnam(mon),
-                  an(xname(obj)));
+            pline_mon(mon, "%s挥舞一%s%s, 然后它突然爆炸!", Monnam(mon),
+                   quantifier(obj), xname(obj));
         } else {
             /* same near/far threshold as mzapwand() */
             int range = couldsee(mon->mx, mon->my) /* 9 or 5 */
@@ -222,10 +222,10 @@ mplayhorn(
         objnamp = xname(otmp);
         if (strlen(objnamp) >= QBUFSZ)
             objnamp = simpleonames(otmp);
-        pline("%s%s%s!",
+        pline("%s对准了你吹奏一%s%s!",
               /* monverbself() would adjust the verb if hallucination made
                  subject plural; stick with singular here, at least for now */
-              Monnam(mtmp), "对准了你吹奏", an(objnamp));
+              Monnam(mtmp), quantifier(otmp), objnamp);
         makeknown(otmp->otyp);
         stop_occupation();
     }

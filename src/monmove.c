@@ -402,7 +402,7 @@ bee_eat_jelly(struct monst *mon, struct obj *obj)
         if (obj->quan > 1L)
             obj = splitobj(obj, 1L);
         if (canseemon(mon))
-            pline_mon(mon, "%s吃下了%s.", Monnam(mon), an(xname(obj)));
+            pline_mon(mon, "%s吃下了一%s%s.", Monnam(mon), quantifier(obj), xname(obj));
         delobj(obj);
 
         if ((int) mon->m_lev < mons[PM_QUEEN_BEE].mlevel - 1)

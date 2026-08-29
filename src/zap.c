@@ -420,9 +420,9 @@ bhitm(struct monst *mtmp, struct obj *otmp)
             Sprintf(buf, "%s%s", s_suffix(Monnam(mtmp)),
                     distant_name(obj, xname));
             if (cansee(mtmp->mx, mtmp->my)) {
-                if (!canspotmon(mtmp))
-                    Strcpy(buf, An(distant_name(obj, xname)));
-                pline("%s掉落到%s.", buf,
+                //冗余,这是怎么写的:if (!canspotmon(mtmp))
+                //    Strcpy(buf, An(distant_name(obj, xname)));
+                pline("%s掉落到%s.", distant_name(obj, xname),
                       surface(mtmp->mx, mtmp->my));
             } else if (canspotmon(mtmp)) {
                 pline("%s掉了下去.", buf);
@@ -1218,10 +1218,10 @@ unturn_dead(struct monst *mon)
                 owner[0] = '\0';
             }
             if (youseeit)
-                pline("%s%s突然%s%s%s!", owner, corpse,
+                pline("%s%s突然%s%s%s%s!", owner, corpse,
                       nonliving(mtmp2->data) ? "复活" : "活过来",
-                      different_type ? "成" : "",
-                      different_type ? an(mon_pmname(mtmp2)) : "");
+                      different_type ? "成一" : "", different_type ? mon_quantifier(mtmp2) : "",
+                      different_type ? mon_pmname(mtmp2) : "");
             else if (canseemon(mtmp2))
                 pline("%s突然出现了!", Amonnam(mtmp2));
         } else {
@@ -2258,7 +2258,7 @@ bhito(struct obj *obj, struct obj *otmp)
                         the(xname(obj)),
                         /* unfortunately, we can't tell whether rndmonnam()
                            picks a form which can't leave a corpse */
-                        an(Hallucination ? rndmonnam((char *) 0) : "猫"));
+                        Hallucination ? rndmonnam((char *) 0) : "一只猫");
                     obj->cknown = 0;
                 } else {
                     struct obj *o;
@@ -2385,10 +2385,10 @@ bhito(struct obj *obj, struct obj *otmp)
                         /* couldn't see corpse's location */
                         if (Role_if(PM_HEALER) && !Deaf
                             && !nonliving(&mons[corpsenm])) {
-                            if (!type_is_pname(&mons[corpsenm]))
-                                corpsname = an(corpsname);
+                            /*if (!type_is_pname(&mons[corpsenm]))
+                                corpsname = an(corpsname);*/
                             if (!Hallucination)
-                                You_hear("%s在复活.", corpsname);
+                                You_hear("%s%s在复活.", !type_is_pname(&mons[corpsenm]) ? "一具" : "", corpsname);
                             else
                                 You_hear("除颤器的声音.");
                             learn_it = by_u ? TRUE : gz.zap_oseen;
@@ -3801,7 +3801,7 @@ zap_map(
                 use_the = !hallu ? (ttmp->ttyp == VIBRATING_SQUARE
                                     && Invocation_lev(&u.uz))
                                  : !rn2(4);
-                You("发现%s%c",
+                You("发现了%s%c",
                     use_the ? the(ttmpname) : an(ttmpname),
                     use_the ? '!' : '.');
                 learn_it = !hallu;

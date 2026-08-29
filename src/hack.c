@@ -1062,7 +1062,7 @@ test_move(
                     if (sym == S_stone)
                         Strcpy(buf, "坚硬的石头");
                     else if (sym >= 0)
-                        Strcpy(buf, an(defsyms[sym].explanation));
+                        Strcpy(buf, defsyms[sym].explanation); //我懒得写量词了,,,
                     else
                         Sprintf(buf, "不可能的 [背景字形=%d]",
                                 glyph);
@@ -2057,14 +2057,14 @@ domove_fight_web(coordxy x, coordxy y)
             } else if (uwep->quan == 1L /* singular */
                        /* unless secondary is suppressed due to same type */
                        && !(u.twoweap && onewep)) {
-                uwepstr = an(uwepbuf);
+                uwepstr = uwepbuf; //冗余:an
             } else { /* plural */
                 uwepstr = makeplural(uwepbuf);
             }
             if (!onewep) {
                 assert(uswapwep != NULL);
-                scndstr = (uswapwep->quan == 1L) ? an(scndbuf)
-                                                 : makeplural(scndbuf);
+                scndstr = scndbuf; //冗余:(uswapwep->quan == 1L) ? scndbuf //冗余:an
+                                                // : makeplural(scndbuf);
             }
             You_cant("用%s%s%s切断蜘蛛网!", uwepstr,
                      !onewep ? "或" : "", !onewep ? scndstr : "");
@@ -4191,7 +4191,7 @@ unmul(const char *msg_override)
            declining to die since can't be both Unchanging and Lifesaved) */
         if (Upolyd && !strncmpi(gn.nomovemsg, "你从死亡边缘活了回来", strlen("你从死亡边缘活了回来"))) /*危险:if (Upolyd && !strncmpi(gn.nomovemsg, "You survived that ", 18))*/
             You("是%s.",
-                an(pmname(&mons[u.umonnum], Ugender))); /* (ignore Hallu) */
+                an_pmname(&mons[u.umonnum], Ugender)); /* (ignore Hallu) */
     }
     gn.nomovemsg = 0;
     u.usleep = 0;
@@ -4441,7 +4441,7 @@ dump_weights(void)
             Snprintf(&nmbuf[7], sizeof nmbuf - 7, "%s%s", "the body of ",
                      (cm)                     ? the(mons[i].pmnames[NEUTRAL])
                      : weightlist[cnt].unique ? mons[i].pmnames[NEUTRAL]
-                                              : an(mons[i].pmnames[NEUTRAL]));
+                                              : an(mons[i].pmnames[NEUTRAL])); //待写: 这是什么???!!!
             weightlist[cnt].nm = dupstr(nmbuf);
             cnt++;
         }

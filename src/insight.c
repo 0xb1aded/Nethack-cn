@@ -184,7 +184,7 @@ enlght_combatinc(
     else
         modif = "超量";
 
-    modif = !incamt ? "无" : an(modif); /* ("no" case shouldn't happen) */
+    modif = !incamt ? "无" : modif; /* ("no" case shouldn't happen) */
     bonus = (incamt >= 0) ? "加成" : "惩罚";
     /* "bonus <foo>" (to hit) vs "<bar> bonus" (damage, defense) */
     invrt = (strcmp(inctyp, "to hit") && strcmp(inctyp, "命中"))? TRUE : FALSE;
@@ -1297,12 +1297,12 @@ weapon_insight(int final)
 
         if (!strcmpi(what, "armor") || !strcmpi(what, "food")
             || !strcmpi(what, "venom") || !strcmpi(what, "防具")
-            || !strcmpi(what, "食物") || !strcmpi(what, "毒液"))
-            Sprintf(buf, "手持着%s", what);
-        else
+            || !strcmpi(what, "食物") || !strcmpi(what, "毒液")){
+            Sprintf(buf, "手持着%s", what);}
+        else{
             /* [maybe include known blessed?] */
-            Sprintf(buf, "装备着%s",
-                    (uwep->quan == 1L) ? an(what) : makeplural(what));
+            Sprintf(buf, "装备着%s%s%s", (uwep->quan == 1L) ? "一" : "", (uwep->quan == 1L) ? quantifier(uwep) : "",
+                    (uwep->quan == 1L) ? an(what) : makeplural(what));}
         you_are(buf, "");
     }
 
@@ -1867,23 +1867,23 @@ attributes_enlightenment(
         /* foreign shape (except were-form which is handled below) */
         if (!vampshifted(&gy.youmonst))
             Sprintf(buf, "已变形为%s",
-                    an(pmname(gy.youmonst.data,
-                              flags.female ? FEMALE : MALE)));
+                    an_pmname(gy.youmonst.data,
+                              flags.female ? FEMALE : MALE));
         else
             Sprintf(buf, "变形为%s的%s形态",
-                    an(pmname(&mons[gy.youmonst.cham],
-                              flags.female ? FEMALE : MALE)),
+                    an_pmname(&mons[gy.youmonst.cham],
+                              flags.female ? FEMALE : MALE),
                     pmname(gy.youmonst.data, flags.female ? FEMALE : MALE));
         if (wizard)
             Sprintf(eos(buf), " (%d)", u.mtimedone);
         you_are(buf, "");
     }
     if (lays_eggs(gy.youmonst.data) && flags.female) /* Upolyd */
-        you_can("可以下单", "");
+        you_can("可以下蛋", "");
     if (ismnum(u.ulycn)) {
         /* "you are a werecreature [in beast form]" */
-        Strcpy(buf, an(pmname(&mons[u.ulycn],
-               flags.female ? FEMALE : MALE)));
+        Strcpy(buf, an_pmname(&mons[u.ulycn],
+               flags.female ? FEMALE : MALE));
         if (u.umonnum == u.ulycn) {
             Strcat(buf, "是野兽形态");
             if (wizard)
@@ -2033,7 +2033,7 @@ youhiding(boolean via_enlghtmt, /* enlightenment line vs topl message */
            for the hypothetical furniture and monster cases */
         bp = eos(strcpy(buf, "在模拟"));
         if (U_AP_TYPE == M_AP_OBJECT) {
-            Sprintf(bp, "%s", an(simple_typename(gy.youmonst.mappearance)));
+            Sprintf(bp, "一%s%s", mon_quantifier(&gy.youmonst), simple_typename(gy.youmonst.mappearance));
         } else if (U_AP_TYPE == M_AP_FURNITURE) {
             Strcpy(bp, "什么东西");
         } else if (U_AP_TYPE == M_AP_MONSTER) {
@@ -2905,7 +2905,7 @@ list_vanquished(char defquery, boolean ask)
                     /*冗余: if (nkilled == 1)
                         Strcpy(buf, an(mons[i].pmnames[NEUTRAL]));
                     else*/
-                        Sprintf(buf, "%3d %s", nkilled,
+                        Sprintf(buf, "%3d%s%s", nkilled, pm_to_quantifier(&mons[i]),
                                 makeplural(mons[i].pmnames[NEUTRAL]));
                 }
                 /* number of leading spaces to match 3 digit prefix */

@@ -244,7 +244,7 @@ dowrite(struct obj *pen)
     /* KMH, conduct */
     if (!u.uconduct.literate++)
         livelog_printf(LL_CONDUCT,
-                       "因写%s而脱离文盲", an(typeword));
+                       "因写一%s%s而脱离文盲", quantifier(paper), typeword);
 
     new_obj = mksobj(i, FALSE, FALSE);
     new_obj->bknown = (paper->bknown && pen->bknown);

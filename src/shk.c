@@ -2451,7 +2451,7 @@ reject_purchase(
         char which[BUFSZ];
 
         if (obj->where == OBJ_CONTAINED)
-            Snprintf(which, sizeof which, "%s里的%s东西", /*修改语序:Snprintf(which, sizeof which, "the one%s in %s",*/
+            Snprintf(which, sizeof which, "%s里面的%s东西", /*修改语序:Snprintf(which, sizeof which, "the one%s in %s",*/
                      thesimpleoname(obj->ocontainer), plur(intact_quan)); /*修改语序:plur(intact_quan), thesimpleoname(obj->ocontainer));*/
         else
             Sprintf(which, "这%s", (intact_quan > 1L) ? "些" : quantifier(obj));

@@ -933,7 +933,7 @@ chwepon(struct obj *otmp, int amount)
         if (amount >= 0 && uwep && will_weld(uwep)) { /* cursed tin opener */
             if (!Blind) {
                 Sprintf(buf, "%s出%s的光晕.",
-                        Yobjnam2(uwep, "散发"), an(hcolor(NH_AMBER)));
+                        Yobjnam2(uwep, "散发"), hcolor(NH_AMBER));
                 uwep->bknown = !Hallucination; /* ok to bypass set_bknown() */
             } else {
                 /* cursed tin opener is wielded in right hand */

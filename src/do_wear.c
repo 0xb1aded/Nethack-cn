@@ -93,8 +93,8 @@ on_msg(struct obj *otmp)
         how[0] = '\0';
         if (otmp->otyp == TOWEL)
             Sprintf(how, "围住了你的%s", body_part(HEAD));
-        You("%s%s%s.", /*修改语序:多一个%s*/
-            (otmp->otyp == TOWEL) ? "用" : "穿上了", obj_is_pname(otmp) ? the(otmp_name) : an(otmp_name), how); /*修改语序:obj_is_pname(otmp) ? the(otmp_name) : an(otmp_name), how);*/
+        You("%s%s%s%s%s.", /*修改语序:多一个%s*/
+            (otmp->otyp == TOWEL) ? "用" : "穿上了", obj_is_pname(otmp) ? "" : "一", obj_is_pname(otmp) ? "" : quantifier(otmp), otmp_name, how); /*修改语序:obj_is_pname(otmp) ? the(otmp_name) : an(otmp_name), how);*/
     }
 }
 
@@ -2070,7 +2070,7 @@ canwearobj(struct obj *otmp, long *mask, boolean noisy)
     if (is_helmet(otmp)) {
         if (uarmh) {
             if (noisy)
-                already_wearing(an(helm_simple_name(uarmh)));
+                already_wearing(helm_simple_name(uarmh));
             err++;
         } else if (Upolyd && has_horns(gy.youmonst.data) && !is_flimsy(otmp)) {
             /* (flimsy exception matches polyself handling) */
@@ -2084,7 +2084,7 @@ canwearobj(struct obj *otmp, long *mask, boolean noisy)
     } else if (is_shield(otmp)) {
         if (uarms) {
             if (noisy)
-                already_wearing(an(c_shield));
+                already_wearing(c_shield);
             err++;
         } else if (uwep && bimanual(uwep)) {
             if (noisy)
@@ -2158,7 +2158,7 @@ canwearobj(struct obj *otmp, long *mask, boolean noisy)
         if (uarm || uarmc || uarmu) {
             if (uarmu) {
                 if (noisy)
-                    already_wearing(an(c_shirt));
+                    already_wearing(c_shirt);
             } else {
                 if (noisy)
                     You_cant("把它穿在你的%s外面.",
@@ -2171,7 +2171,7 @@ canwearobj(struct obj *otmp, long *mask, boolean noisy)
     } else if (is_cloak(otmp)) {
         if (uarmc) {
             if (noisy)
-                already_wearing(an(cloak_simple_name(uarmc)));
+                already_wearing(cloak_simple_name(uarmc));
             err++;
         } else
             *mask = W_ARMC;
@@ -2341,7 +2341,7 @@ accessory_or_armor_on(struct obj *obj)
                     else
                         already_wearing("眼镜");
                 } else {
-                    already_wearing(something); /* ??? */
+                    already_wearing("什么东西"); /* ??? */
                 }
                 return ECMD_OK;
             }

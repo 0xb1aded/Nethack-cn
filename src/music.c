@@ -715,7 +715,7 @@ do_improvisation(struct obj *instr)
             /* TODO maybe: sound effects for these riffs */
             You("%s一段%s.",
                 rn2(2) ? "胡乱敲出" : rn2(2) ? "勉强敲出" : "成功敲出",
-                an(ROLL_FROM(beats)));
+                ROLL_FROM(beats));
             Hero_playnotes(obj_to_instr(&itmp), improvisation, 50);
         }
         awaken_monsters(u.ulevel * (mundane ? 5 : 40));

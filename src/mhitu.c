@@ -697,8 +697,8 @@ mattacku(struct monst *mtmp)
             char buf[BUFSZ];
 
             Sprintf(buf, "你看上去又变回了%s.",
-                    Upolyd ? (const char *) an(pmname(gy.youmonst.data,
-                                                      flags.female))
+                    Upolyd ? (const char *) pmname(gy.youmonst.data,
+                                                      flags.female) //这个地方感觉不用an_pmname也可以?
                            : (const char *) "你自己");
             unmul(buf); /* immediately stop mimicking */
         }
@@ -2030,7 +2030,7 @@ doseduce(struct monst *mon)
             }
             /* confirmation prompt when charisma is high bypassed if deaf */
             if (!Deaf && rn2(20) < ACURR(A_CHA)) {
-                (void) safe_qbuf(qbuf, "\"那个",
+                (void) safe_qbuf(qbuf, "\"那枚", //危险: 会不会不是戒指?
                                  "真好看. 我可以拿走吗? \"", ring,
                                  xname, simpleonames, "戒指");
                 makeknown(RIN_ADORNMENT);
@@ -2061,7 +2061,7 @@ doseduce(struct monst *mon)
             }
             /* confirmation prompt when charisma is high bypassed if deaf */
             if (!Deaf && rn2(20) < ACURR(A_CHA)) {
-                (void) safe_qbuf(qbuf, "\"那个",
+                (void) safe_qbuf(qbuf, "\"那枚", //危险: 会不会不是戒指?
                                 "真好看. 你可以给我戴上吗? \"",
                                  ring, xname, simpleonames, "戒指");
                 makeknown(RIN_ADORNMENT);

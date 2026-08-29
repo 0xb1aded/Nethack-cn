@@ -1317,6 +1317,20 @@ Mgender(struct monst *mtmp)
     return mgender;
 }
 
+
+const char * /* 一+量词+怪物名 */
+an_pmname(struct permonst *pm, int mgender)
+{
+    char *outbuf = nextmbuf();
+    const char *quant = pm_to_quantifier(pm);
+
+    if (mgender < MALE || mgender >= NUM_MGENDERS || !pm->pmnames[mgender])
+        mgender = NEUTRAL;
+    Sprintf(outbuf, "%s%s%s", *quant ? "一" : "", quant,
+            pm->pmnames[mgender]);
+    return outbuf;
+}
+
 const char *
 pmname(struct permonst *pm, int mgender)
 {
@@ -1332,6 +1346,107 @@ mon_pmname(struct monst *mon)
 {
     /* for neuter, mon->data->pmnames[MALE] will be Null and use [NEUTRAL] */
     return pmname(mon->data, Mgender(mon));
+}
+
+/* permonst 的量词: 独特怪没有量词, 其余按类符号 */
+const char *
+pm_to_quantifier(struct permonst *pm)
+{
+    switch (pm->pmidx)
+    {
+        case PM_VLAD_THE_IMPALER:
+        case PM_WIZARD_OF_YENDOR:
+        case PM_CROESUS:
+        case PM_JUIBLEX:
+        case PM_YEENOGHU:
+        case PM_ORCUS:
+        case PM_GERYON:
+        case PM_DISPATER:
+        case PM_BAALZEBUB:
+        case PM_ASMODEUS:
+        case PM_DEMOGORGON:
+        case PM_DEATH:
+        case PM_PESTILENCE:
+        case PM_FAMINE:
+        case PM_LORD_CARNARVON:
+        case PM_PELIAS:
+        case PM_SHAMAN_KARNOV:
+        case PM_HIPPOCRATES:
+        case PM_KING_ARTHUR:
+        case PM_GRAND_MASTER:
+        case PM_ARCH_PRIEST:
+        case PM_ORION:
+        case PM_MASTER_OF_THIEVES:
+        case PM_LORD_SATO:
+        case PM_TWOFLOWER:
+        case PM_NORN:
+        case PM_NEFERET_THE_GREEN:
+        case PM_MINION_OF_HUHETOTL:
+        case PM_THOTH_AMON:
+        case PM_CHROMATIC_DRAGON:
+        case PM_CYCLOPS:
+        case PM_IXOTH:
+        case PM_MASTER_KAEN:
+        case PM_NALZOK:
+        case PM_SCORPIUS:
+        case PM_MASTER_ASSASSIN:
+        case PM_ASHIKAGA_TAKAUJI:
+        case PM_LORD_SURTUR:
+        case PM_DARK_ONE:
+            return "";
+    }
+    return sym_to_quantifier(pm->mlet);
+}
+
+const char *
+sym_to_quantifier(int sym)
+{
+    switch (sym)
+    {
+        case S_ANT:
+        case S_COCKATRICE:
+        case S_DOG: //狼要不要换成匹? -- Francium-223
+        case S_FELINE:
+        case S_RODENT:
+        case S_XAN:
+        case S_BAT:
+        case S_JABBERWOCK:
+        case S_YETI:
+        case S_ZOMBIE:
+        case S_SPIDER:
+        case S_LIZARD:
+            return "只";
+        case S_QUADRUPED:
+        case S_DRAGON: //西方的龙应该不是条吧,?
+        case S_EEL: //同样需细化
+            return "头";
+        case S_UNICORN:
+            return "匹";
+        case S_VORTEX: //漩涡应该用什么?
+        case S_FUNGUS: //同上
+            return "片";
+        case S_WORM:
+        case S_NAGA:
+        case S_SNAKE:
+            return "条";
+        case S_LIGHT:
+            return "道";
+        case S_MUMMY:
+            return "具";
+        case S_GOLEM:
+            return "尊";
+        case S_JELLY: //我现在懒得改名字, 要改还要修mon_chinese.inc
+        case S_PUDDING:
+            return "团";
+    }
+    return "个";
+}
+
+/* 怪物的量词: 直接按物种查 */
+const char *
+mon_quantifier(struct monst *mon)
+{
+    return pm_to_quantifier(mon->data);
 }
 
 /* mons[]->pmname for a corpse or statue or figurine */
@@ -1422,7 +1537,7 @@ rndmonnam(char *code)
     if (name >= SPECIAL_PM) {
         mnam = bogusmon(buf, code);
     } else {
-        mnam = strcpy(buf, pmname(&mons[name], rn2_on_display_rng(2)));
+        mnam = strcpy(buf, an_pmname(&mons[name], rn2_on_display_rng(2))); //危险:pmname
     }
     return mnam;
 #undef BOGUSMONSIZE

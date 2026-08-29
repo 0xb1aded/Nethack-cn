@@ -365,7 +365,7 @@ death_inflicted_by(
         struct permonst *mptr = mtmp->data,
             *champtr = (ismnum(mtmp->cham)) ? &mons[mtmp->cham] : mptr;
         const char *realnm = pmname(champtr, Mgender(mtmp)),
-            *fakenm = pmname(mptr, Mgender(mtmp));
+            *fakenm = an_pmname(mptr, Mgender(mtmp));
 
         /* greatly simplified extract from done_in_by(), primarily for
            reason for death due to 'touch of death' spell; if mtmp is
@@ -375,7 +375,7 @@ death_inflicted_by(
             realnm = an(realnm);
         Sprintf(eos(outbuf), "%s", ", 由"); /*修改语序:Sprintf(eos(outbuf), ", 由%s%s导致",*/
         if (champtr != mptr){ /*修改语序:the_unique_pm(mptr) ? "" : "", realnm);*/
-            Sprintf(eos(outbuf), "模仿成%s的", an(fakenm));}/*修改语序:if (champtr != mptr)*/
+            Sprintf(eos(outbuf), "模仿成%s的", fakenm);}/*修改语序:if (champtr != mptr)*/
         Sprintf(eos(outbuf), "%s%s导致", the_unique_pm(mptr) ? "" : "", realnm); /*修改语序:Sprintf(eos(outbuf), "(模仿成%s)", an(fakenm));*/ Sprintf(eos(outbuf), "%s", deathreason); /*危险:原来没有*/
     }
     return outbuf;
@@ -689,7 +689,7 @@ mcast_insects(struct monst *mtmp)
             if (what != whatbuf)
                 what = strcpy(whatbuf, what);
             /* unseen caster summoned seen critter(s) */
-            arg = (newseen == oldseen + 1) ? an(makesingular(what))
+            arg = (newseen == oldseen + 1) ? makesingular(what)
                                            : whatbuf;
             if (!Deaf) {
                 Soundeffect(se_someone_summoning, 100);

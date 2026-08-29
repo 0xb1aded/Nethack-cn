@@ -510,7 +510,7 @@ pick_lock(
                 } else if (picktyp == CREDIT_CARD && !otmp->olocked) {
                     /* credit cards are only good for unlocking */
                     You_cant("用%s做那个.",
-                             an(simple_typename(picktyp)));
+                             simple_typename(picktyp));
                     return PICKLOCK_LEARNED_SOMETHING;
                 } else if (autounlock
                            && !touch_artifact(pick, &gy.youmonst)) {
@@ -1314,7 +1314,7 @@ chest_shatter_msg(struct obj *otmp)
         disposition = "被摧毁了";
         break;
     }
-    pline("%s%s!", An(thing), disposition);
+    pline("一%s%s%s!", quantifier(otmp), thing, disposition);
 }
 
 /*lock.c*/

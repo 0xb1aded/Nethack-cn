@@ -441,8 +441,8 @@ invault(void)
             } while (otmp);
             /* You_hear() will handle Deaf/!Deaf */
             func = !Blind ? You_see : You_hear;
-            (*func)("%s粉碎了.",
-                    (bcnt == 1) ? an(bname) : makeplural(bname));
+            (*func)("%s粉碎了.", (bcnt == 1) ? "一块" : "一些", //,,,
+                    (bcnt == 1) ? bname : makeplural(bname));
         }
         spotted = canspotmon(guard);
         if (spotted) {

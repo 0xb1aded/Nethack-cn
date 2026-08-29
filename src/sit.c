@@ -362,7 +362,7 @@ lay_an_egg(void)
     if (!flags.female) {
         pline("%s不能下蛋!",
               Hallucination
-              ? "你可能认为你是一个鸭嘴兽, 但雄性仍然"
+              ? "你可能觉得你是一只鸭嘴兽, 但雄性仍然"
               : "雄性");
         return ECMD_OK;
     } else if (u.uhunger < (int) objects[EGG].oc_nutrition) {
@@ -388,7 +388,7 @@ lay_an_egg(void)
     set_corpsenm(uegg, egg_type_from_parent(u.umonnum, FALSE));
     uegg->known = 1;
     observe_object(uegg);
-    You("%s.", eggs_in_water(gy.youmonst.data) ? "下了一个蛋" : "下了一个蛋");
+    You("%s下了一个蛋.", eggs_in_water(gy.youmonst.data) ? "产" : ""); //待写:???
     dropy(uegg);
     stackobj(uegg);
     morehungry((int) objects[EGG].oc_nutrition);

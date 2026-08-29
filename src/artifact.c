@@ -2562,9 +2562,9 @@ retouch_object(
                    game's silver item without stating that it is silver
                    potentially leads to confusion about cause of death */
                 if (obj->oclass == RING_CLASS)
-                    what = "一个银戒指";
+                    what = "一枚银戒指";
                 else if (obj->oclass == WAND_CLASS)
-                    what = "一个银魔杖";
+                    what = "一根银魔杖";
                 /* for anything else, stick with killer_xname() */
             }
             /* damage is somewhat arbitrary; half the usual 1d20 physical

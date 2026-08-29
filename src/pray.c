@@ -753,7 +753,7 @@ angrygods(aligntyp resp_god)
     case 5:
         gods_angry(resp_god);
         if (!Blind && !Antimagic)
-            pline("%s光芒围绕着你.", An(hcolor(NH_BLACK)));
+            pline("一圈%s光芒围绕着你.", hcolor(NH_BLACK)); //一圈吗？
         if (rn2(2) || !attrcurse())
             rndcurse();
         break;
@@ -944,7 +944,7 @@ gcrownu(void)
     case A_CHAOTIC: {
         char swordbuf[BUFSZ];
 
-        Sprintf(swordbuf, "%s剑", hcolor(NH_BLACK));
+        Sprintf(swordbuf, "一把%s剑", hcolor(NH_BLACK));
         if (class_gift != STRANGE_OBJECT) {
             ; /* already got bonus above */
         } else if (obj && in_hand) {
@@ -955,7 +955,7 @@ gcrownu(void)
             obj = oname(obj, artiname(ART_STORMBRINGER),
                         ONAME_GIFT | ONAME_KNOW_ARTI);
             obj->spe = 1;
-            at_your_feet(An(swordbuf));
+            at_your_feet(swordbuf);
             dropy(obj);
             u.ugifts++;
             livelog_printf(LL_DIVINEGIFT | LL_ARTIFACT,
@@ -1192,7 +1192,7 @@ pleased(aligntyp g_align)
                     if (!Blind) {
                         pline("%s%s光晕%s.",
                               Yobjnam2(uwep, "发出柔和的"),
-                              an(hcolor(NH_LIGHT_BLUE)), repair_buf);
+                              hcolor(NH_LIGHT_BLUE), repair_buf);
                         iflags.last_msg = PLNMSG_OBJ_GLOWS;
                     } else
                         You_feel("%s对%s的祝福.", u_gname(),

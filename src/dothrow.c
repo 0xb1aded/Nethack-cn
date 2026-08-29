@@ -871,7 +871,7 @@ hurtle_step(genericptr_t arg, coordxy x, coordxy y)
             /* this is a bodily collision, so check for body armor */
             && !uarmu && !uarm && !uarmc) {
             Sprintf(svk.killer.name, "撞到%s",
-                    an(pmname(mon->data, NEUTRAL)));
+                    pmname(mon->data, NEUTRAL));
             instapetrify(svk.killer.name);
         }
         if (touch_petrifies(gy.youmonst.data)
@@ -928,7 +928,7 @@ hurtle_step(genericptr_t arg, coordxy x, coordxy y)
             (void) drown();
             return FALSE;
         } else if (!Is_waterlevel(&u.uz) && !stopping_short) {
-            Norep("你在%s上移动.", an(is_moat(x, y) ? "护城河" : "水池"));
+            Norep("你在%s上移动.", is_moat(x, y) ? "护城河" : "水池");
         }
     } else if (is_lava(x, y) && !stopping_short) {
         Norep("你在熔岩上移动.");
@@ -1386,8 +1386,8 @@ toss_up(struct obj *obj, boolean hitsroof)
                     if (!harmless) /* !harmless => less_damage here */
                         pline("幸运的是, 你戴着一顶硬头盔.");
                     else
-                        pline("不幸的是, 你戴着%s.",
-                              an(helm_simple_name(uarmh))); /* helm or hat */
+                        pline("不幸的是, 你戴着一顶%s.",
+                              helm_simple_name(uarmh)); /* helm or hat */
                 }
 
             /* helmet definitely protects you when it blocks petrification */
@@ -1643,7 +1643,7 @@ throwit(
             } else if (obj->oclass != GEM_CLASS) {
                 range /= 2;
                 pline("你没有装备%s, 因此你只能用%s投掷你的%s.",
-                      an(skill_name(weapon_type(obj))),
+                      skill_name(weapon_type(obj)),
                       weapon_descr(obj),
                       body_part(HAND));
             }
@@ -2742,8 +2742,8 @@ throw_gold(struct obj *obj)
                       ceiling(u.ux, u.uy), body_part(HEAD));
             /* some self damage? */
             if (uarmh)
-                pline("幸运的是, 你戴着%s!",
-                      an(helm_simple_name(uarmh)));
+                pline("幸运的是, 你戴着一顶%s!",
+                      helm_simple_name(uarmh));
         }
         gb.bhitpos.x = u.ux;
         gb.bhitpos.y = u.uy;

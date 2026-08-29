@@ -518,7 +518,7 @@ safe_etypename(int otyp)
     return res;
 }
 
-char *
+const char *
 quantifier(struct obj *obj)
 {
     switch (obj->otyp)
@@ -1417,7 +1417,7 @@ namefinish:
             break;
         case HAWAIIAN_SHIRT:
             ConcatF1(buf, 0, ", 上面有%s",
-                     an(hawaiian_motif(obj, tmpbuf)));
+                     hawaiian_motif(obj, tmpbuf));
             break;
         default:
             break;
@@ -3578,9 +3578,9 @@ ansimpleoname(struct obj *obj)
     } else if (obj->quan == 1L) {
         /* simpleoname[] is singular if quan==1, plural otherwise;
            an() will allocate another obuf[]; we want to avoid using two */
-        obufp = an(simpleoname);
-        Strcpy(simpleoname, obufp);
-        releaseobuf(obufp); Strcat(simpleoname, quantifier(obj));
+        //obufp = an(simpleoname);
+        Sprintf(simpleoname, "一%s%s", quantifier(obj), obufp); //危险:Strcpy(simpleoname, obufp);
+        releaseobuf(obufp); //这谁写的代码? Strcat(simpleoname, quantifier(obj));
     }
     return simpleoname;
 }
@@ -5575,11 +5575,13 @@ wizterrainwish(struct _readobjnam_data *d)
             /* feedback */
             dbuf[0] = '\0';
             if (lev->doormask & D_TRAPPED)
-                Strcat(dbuf, "陷阱 ");
-            if (lev->doormask & D_LOCKED)
-                Strcat(dbuf, "坏锁的");
+                Strcat(dbuf, "一扇陷阱");
+            else if (lev->doormask & D_LOCKED)
+                Strcat(dbuf, "一扇坏锁的");
+            else if (!((lev->doormask & ~D_TRAPPED) == D_NODOOR))
+                Strcat(dbuf, "一扇"); //你觉得我知道怎么写吗
             if (lev->typ == SDOOR) {
-                Strcat(dbuf, "秘密门");
+                Strcat(dbuf, "一扇秘密门");
             } else {
                 /* these should be mutually exclusive but we describe them
                    as if they're independent to maybe catch future bugs... */
@@ -5590,11 +5592,11 @@ wizterrainwish(struct _readobjnam_data *d)
                 if (lev->doormask & D_BROKEN)
                     Strcat(dbuf, "坏锁的");
                 if ((lev->doormask & ~D_TRAPPED) == D_NODOOR)
-                    Strcat(dbuf, "无门的门洞");
+                    Strcat(dbuf, "一个无门的门洞");
                 else
                     Strcat(dbuf, "门");
             }
-            pline("%s.", upstart(an(dbuf)));
+            pline("%s.", dbuf);
             madeterrain = TRUE;
         } else {
             Strcpy(dbuf, secret ? "秘密门" : "门");

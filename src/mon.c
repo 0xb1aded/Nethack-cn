@@ -3760,7 +3760,7 @@ mon_to_stone(struct monst *mtmp)
             pline_mon(mtmp, "%s变硬了...", Monnam(mtmp));
         if (newcham(mtmp, &mons[PM_STONE_GOLEM], NO_NC_FLAGS)) {
             if (canseemon(mtmp))
-                pline("现在它是一个%s.", an(pmname(mtmp->data, Mgender(mtmp))));
+                pline("现在它是%s.", an_pmname(mtmp->data, Mgender(mtmp)));
         } else {
             if (canseemon(mtmp))
                 pline("...并恢复正常.");

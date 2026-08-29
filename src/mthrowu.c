@@ -278,19 +278,19 @@ monshoot(struct monst *mtmp, struct obj *otmp, struct obj *mwep)
         if (multishot > 1) {
             /* "N arrows"; multishot > 1 implies otmp->quan > 1, so
                xname()'s result will already be pluralized */
-            Sprintf(onmbuf, "%d %s", multishot, xname(otmp));
+            Sprintf(onmbuf, "%d%s%s", multishot, quantifier(otmp), xname(otmp));
             onm = onmbuf;
         } else {
             /* "an arrow" */
             onm = singular(otmp, xname);
-            onm = obj_is_pname(otmp) ? the(onm) : an(onm);
+            //冗余:onm = obj_is_pname(otmp) ? the(onm) : an(onm);
         }
         gm.m_shot.s = ammo_and_launcher(otmp, mwep) ? TRUE : FALSE;
         Strcpy(trgbuf, mtarg ? some_mon_nam(mtarg) : "");
         set_msg_xy(mtmp->mx, mtmp->my);
-        pline("%s%s%s%s了%s!", Monnam(mtmp),
+        pline("%s%s%s%s了%s%s%s!", Monnam(mtmp),
               mtarg ? "向" : "", trgbuf, /*修改语序:gm.m_shot.s ? "向" : "", onm,*/
-              gm.m_shot.s ? "射出" : "投掷", onm); /*修改语序:mtarg ? "射出" : "投掷", trgbuf);*/
+              gm.m_shot.s ? "射出" : "投掷", obj_is_pname(otmp) ? "" : "一", obj_is_pname(otmp) ? "" : quantifier(otmp), onm); /*修改语序:mtarg ? "射出" : "投掷", trgbuf);*/
         gm.m_shot.o = otmp->otyp;
     } else {
         gm.m_shot.o = STRANGE_OBJECT; /* don't give multishot feedback */
@@ -1219,10 +1219,10 @@ thrwmu(struct monst *mtmp)
 
         if (canseemon(mtmp)) {
             onm = xname(otmp);
-            pline_mon(mtmp, "%s%s%s.", Monnam(mtmp),
+            pline_mon(mtmp, "%s%s%s%s.", Monnam(mtmp),
                   /* "thrusts" or "swings", or "bashes with" if adjacent */
                   mswings_verb(otmp, (rang <= 2) ? TRUE : FALSE),
-                  obj_is_pname(otmp) ? the(onm) : an(onm));
+                  obj_is_pname(otmp) ? "" : "一", obj_is_pname(otmp) ? "" : quantifier(otmp), onm);
         }
 
         dam = dmgval(otmp, &gy.youmonst);

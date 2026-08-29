@@ -413,8 +413,8 @@ slime_dialogue(void)
                 if (!Blind) /* [what if you're already green?] */
                     urgent_pline(buf, hcolor(NH_GREEN));
             } else {
-                urgent_pline(buf, an(Hallucination ? rndmonnam(NULL)
-                                                   : "绿色黏液"));
+                urgent_pline(buf, Hallucination ? rndmonnam(NULL)
+                                                   : "绿色黏液");
             }
         } else {
             urgent_pline("%s", buf);
@@ -1097,8 +1097,8 @@ hatch_egg(anything *arg, long timeout)
         if (cansee_hatchspot) {
             /* [bug?  m_monnam() yields accurate monster type
                regardless of hallucination] */
-            Sprintf(monnambuf, "%s%s", siblings ? "一些" : "",
-                    siblings ? makeplural(m_monnam(mon)) : an(m_monnam(mon)));
+            Sprintf(monnambuf, "%s%s%s", siblings ? "一些" : "一", siblings ? "" : mon_quantifier(mon),
+                    m_monnam(mon));//冗余:siblings ? makeplural(m_monnam(mon)) : m_monnam(mon));
             /* we don't learn the egg type here because learning
                an egg type requires either seeing the egg hatch
                or being familiar with the egg already,
@@ -1256,7 +1256,7 @@ slip_or_trip(void)
         if (!uarmf && otmp->otyp == CORPSE
             && touch_petrifies(&mons[otmp->corpsenm]) && !Stone_resistance) {
             Sprintf(svk.killer.name, "被%s的尸体绊倒",
-                    an(mons[otmp->corpsenm].pmnames[NEUTRAL]));
+                    mons[otmp->corpsenm].pmnames[NEUTRAL]);
             instapetrify(svk.killer.name);
         }
     } else if ((HFumbling & FROMOUTSIDE) || (is_ice(u.ux, u.uy) && !rn2(3))) {
@@ -1350,7 +1350,7 @@ see_lamp_flicker(struct obj *obj, const char *tailer)
         pline("%s在闪烁%s.", Yname2(obj), tailer);
         break;
     case OBJ_FLOOR:
-        You_see("%s在闪烁%s.", an(xname(obj)), tailer);
+        You_see("一%s%s在闪烁%s.", quantifier(obj), xname(obj), tailer);
         break;
     }
 }
@@ -1497,7 +1497,7 @@ burn_object(anything *arg, long timeout)
                         pline("%s看上去要熄灭了.", Yname2(obj));
                         break;
                     case OBJ_FLOOR:
-                        You_see("%s快要熄灭了.", an(xname(obj)));
+                        You_see("一%s%s快要熄灭了.", quantifier(obj), xname(obj));
                         break;
                     }
                 }
@@ -1522,7 +1522,7 @@ burn_object(anything *arg, long timeout)
                     if (obj->otyp == BRASS_LANTERN)
                         You_see("一盏灯笼燃尽了.");
                     else
-                        You_see("%s燃尽了.", an(xname(obj)));
+                        You_see("一%s%s燃尽了.", quantifier(obj), xname(obj));
                     break;
                 }
             }
@@ -1617,8 +1617,8 @@ burn_object(anything *arg, long timeout)
                           You see some wax candles consumed!
                           You see a wax candle consumed!
                          */
-                        You_see("%s燃尽了!", //冗余:many ? "" : "",
-                                many ? xname(obj) : an(xname(obj)));
+                        You_see("一%s%s燃尽了!", //冗余:many ? "" : "",
+                                many ? "些" : quantifier(obj), xname(obj));
                         need_newsym = TRUE;
                         break;
                     }

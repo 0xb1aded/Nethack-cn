@@ -325,7 +325,7 @@ livelog_newform(boolean viapoly, int oldgend, int newgend)
             Sprintf(buf, "%.10s %.30s", genders[flags.female].adj, newrank);
             livelog_printf(LL_MINORAC, "%s成了%s",
                            viapoly ? "变形" : "转变", /* 注:transform=性别转变, polymorph=变形 */
-                           an(strcmp(newrole, oldrole) ? newrole
+                           (strcmp(newrole, oldrole) ? newrole
                               : strcmp(newrank, oldrank) ? newrank
                                 : buf));
         }
@@ -609,7 +609,7 @@ polyself(int psflags)
                 if (the_unique_pm(&mons[mntmp]))
                     pm_name = the(pm_name);
                 else if (!type_is_pname(&mons[mntmp]))
-                    pm_name = an(pm_name);
+                    pm_name = an_pmname(&mons[mntmp], flags.female ? FEMALE : MALE);
                 You_cant("变形为%s.", pm_name);
             } else
                 break;
@@ -680,7 +680,7 @@ polyself(int psflags)
             }
             if (controllable_poly) {
                 Sprintf(buf, "变成%s?",
-                        an(pmname(&mons[mntmp], gvariant)));
+                        an_pmname(&mons[mntmp], gvariant));
                 if (y_n(buf) != 'y')
                     return;
             }
@@ -751,7 +751,7 @@ polymon(int mntmp)
     if (!u.uconduct.polyselfs++)
         livelog_printf(LL_CONDUCT,
                        "第一次变形, 变成了%s",
-                       an(pmname(&mons[mntmp], flags.female ? FEMALE : MALE)));
+                       an_pmname(&mons[mntmp], flags.female ? FEMALE : MALE));
 
     /* exercise used to be at the very end but only Wis was affected
        there since the polymorph was always in effect by then */
@@ -795,14 +795,14 @@ polymon(int mntmp)
 
     Strcpy(ustuckNam, u.ustuck ? Some_Monnam(u.ustuck) : "");
 
-    Strcpy(buf, (u.umonnum != mntmp) ? "" : "新");
+    //Strcpy(buf, (u.umonnum != mntmp) ? "" : "新");
     if (dochange) {
         flags.female = !flags.female;
         Strcat(buf, (is_male(&mons[mntmp]) || is_female(&mons[mntmp]))
                        ? "" : flags.female ? "女的" : "男的");
     }
     Strcat(buf, pmname(&mons[mntmp], flags.female ? FEMALE : MALE));
-    You("%s%s!", (u.umonnum != mntmp) ? "变成了" : "感觉像是", an(buf));
+    You("%s%s%s%s!", (u.umonnum != mntmp) ? "变成了一" : "感觉像是", (u.umonnum != mntmp) ? pm_to_quantifier(&mons[mntmp]) : "", (u.umonnum != mntmp) ? "新" : "", buf);
 
     if (Stoned && poly_when_stoned(&mons[mntmp])) {
         /* poly_when_stoned already checked stone golem genocide */
@@ -957,7 +957,7 @@ polymon(int mntmp)
             pline("%s碰到了%s.", no_longer_petrify_resistant,
                   mon_nam(u.usteed));
             Sprintf(buf, "骑乘%s",
-                    an(pmname(u.usteed->data, Mgender(u.usteed))));
+                    an_pmname(u.usteed->data, Mgender(u.usteed)));
             instapetrify(buf);
         }
         if (!can_ride(u.usteed))
@@ -1828,8 +1828,8 @@ dohide(void)
             /* for the plural case, we'll say "cockatrice corpses" or
                "chickatrice corpses" depending on the top of the pile
                even if both types are present */
-            if (ct == 1)
-                corpse_name = an(corpse_name);
+            //冗余(如果有人看到了这里的注释, 你想写三元表达式就在下面写吧. 不过我觉得这里没必要有"一个". ):if (ct == 1)
+                //corpse_name = corpse_name;
             /* no need to check poly_when_stoned(); no hide-underers can
                turn into stone golems instead of becoming petrified */
             pline("躲在%s%s下面是个致命的错误...",
@@ -1882,7 +1882,7 @@ dopoly(void)
         polyself(POLY_MONSTER);
         if (savedat != gy.youmonst.data) {
             You("转变成了%s.",
-                an(pmname(gy.youmonst.data, Ugender)));
+                an_pmname(gy.youmonst.data, Ugender));
             newsym(u.ux, u.uy);
         }
     }

@@ -627,7 +627,7 @@ CLOAK("robe", NoDes, "长袍", NoDes,
       1, 1,          0,  6, 0, 15, 50,  8, 2,  CLOTH, CLR_RED, ROBE),
         /* robe was adopted from slash'em, where it's worn as a suit
            rather than as a cloak and there are several variations */
-CLOAK("alchemy smock", "apron", "炼金术罩衫", "围裙",
+CLOAK("alchemy smock", "apron", "炼金术工作服", "围裙",
       0, 1, POISON_RES, 11, 0, 10, 50,  9, 1,  CLOTH, CLR_WHITE,
                                                         ALCHEMY_SMOCK),
 CLOAK("leather cloak", NoDes, "皮斗篷", NoDes,

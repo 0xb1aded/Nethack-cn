@@ -1346,14 +1346,14 @@ trapeffect_rocktrap(
             otmp = t_missile(ROCK, trap);
             place_object(otmp, u.ux, u.uy);
 
-            pline("%s上的陷阱门打开了, %s落到了你的%s上!",
-                  the(ceiling(u.ux, u.uy)), an(xname(otmp)), body_part(HEAD));
+            pline("%s上的陷阱门打开了, 一%s%s落到了你的%s上!",
+                  the(ceiling(u.ux, u.uy)), quantifier(otmp), xname(otmp), body_part(HEAD));
             if (uarmh) {
                 /* normally passes_rocks() would protect against a falling
                    rock, but not when wearing a helmet */
                 if (passes_rocks(gy.youmonst.data)) {
-                    pline("不幸的是, 你戴着%s.",
-                          an(helm_simple_name(uarmh))); /* helm or hat */
+                    pline("不幸的是, 你戴着一顶%s.",
+                          helm_simple_name(uarmh)); /* helm or hat */
                     dmg = 2;
                 } else if (hard_helmet(uarmh)) {
                     pline("幸运的是, 你戴着一顶硬头盔.");
@@ -3322,7 +3322,7 @@ launch_obj(
     case ROLL | LAUNCH_UNSEEN:
         if (otyp == BOULDER) {
             if (cansee(x1, y1)) {
-                You_see("%s在滚动.", an(xname(singleobj)));
+                You_see("%s%s在滚动.", quantifier(singleobj), xname(singleobj));
             } else if (Hallucination) {
                 Soundeffect(se_someone_bowling, 60);
                 You_hear("有人在打保龄球.");
@@ -3892,7 +3892,7 @@ selftouch(const char *arg)
         && !Stone_resistance) {
         corpse_pmname = obj_pmname(uwep);
         pline("%s碰到了%s的尸体.", arg, corpse_pmname);
-        Sprintf(kbuf, "%s的尸体", an(corpse_pmname));
+        Sprintf(kbuf, "%s的尸体", corpse_pmname);
         instapetrify(kbuf);
         /* life-saved; unwield the corpse if we can't handle it */
         if (!uarmg && !Stone_resistance)
@@ -3904,7 +3904,7 @@ selftouch(const char *arg)
         && touch_petrifies(&mons[uswapwep->corpsenm]) && !Stone_resistance) {
         corpse_pmname = obj_pmname(uswapwep);
         pline("%s碰到了%s的尸体.", arg, corpse_pmname);
-        Sprintf(kbuf, "%s的尸体", an(corpse_pmname));
+        Sprintf(kbuf, "%s的尸体", corpse_pmname);
         instapetrify(kbuf);
         /* life-saved; unwield the corpse */
         if (!uarmg && !Stone_resistance)
@@ -5744,7 +5744,7 @@ help_monster_out(
         } else {
             char kbuf[BUFSZ];
 
-            Sprintf(kbuf, "试图把%s拉出坑", an(mtmp_pmname));
+            Sprintf(kbuf, "试图把一%s%s拉出坑", mon_quantifier(mtmp), mtmp_pmname);
             instapetrify(kbuf);
             return 1;
         }

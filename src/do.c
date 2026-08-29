@@ -448,7 +448,7 @@ polymorph_sink(void)
     /* give message even if blind; we know we're not levitating,
        so can feel the outcome even if we can't directly see it */
     if (levl[u.ux][u.uy].typ != ROOM)
-        pline_The("水槽变形成了一个%s!", an(defsyms[sym].explanation));
+        pline_The("水槽变形成了一个%s!", defsyms[sym].explanation);
     else
         pline_The("水槽消失了.");
     newsym(u.ux, u.uy);
@@ -521,7 +521,7 @@ dosinkring(struct obj *obj)
         You("闻到腐烂的%s味道.", makeplural(fruitname(FALSE)));
         break;
     case RIN_AGGRAVATE_MONSTER:
-        pline("几个围绕在水槽边的%s生气地嗡嗡叫.",
+        pline("几个%s围绕在水槽边的生气地嗡嗡叫.",
               Hallucination ? makeplural(rndmonnam(NULL)) : "苍蝇");
         break;
     case RIN_SHOCK_RESISTANCE:
@@ -2193,7 +2193,7 @@ revive_corpse(struct obj *corpse)
                 if (mcarry && canseemon(mcarry))
                     pline("惊愕之下, %s丢下了%s的%s!",
                           mon_nam(mcarry), canspotmon(mtmp) ? "复活" : "消失", /*修改语序:mon_nam(mcarry), an(cname),*/
-                          an(cname)); /*修改语序:canspotmon(mtmp) ? "复活" : "消失");*/
+                          cname); /*修改语序:canspotmon(mtmp) ? "复活" : "消失");*/
                 else if (canspotmon(mtmp))
                     pline("%s突然出现了!",
                           chewed ? Adjmonnam(mtmp, "布满咬痕的")

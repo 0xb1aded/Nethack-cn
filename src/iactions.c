@@ -650,7 +650,7 @@ itemactions(struct obj *otmp)
             if (!o)
                 Strcpy(buf, "穿戴这件防具");
             else
-                Sprintf(buf, "[已穿戴 %s]", an(armor_simple_name(o)));
+                Sprintf(buf, "[已穿戴 %s]", armor_simple_name(o));
 
             ia_addmenu(win, IA_WEAR_OBJ, 'W', buf);
         }

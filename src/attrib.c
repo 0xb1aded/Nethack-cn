@@ -1335,7 +1335,7 @@ uchangealign(
         /* worn helm of opposite alignment might block change */
         if (!uarmh || uarmh->otyp != HELM_OF_OPPOSITE_ALIGNMENT)
             u.ualign.type = u.ualignbase[A_CURRENT];
-        You("%s有一个新的方向感.",
+        You("%s有了新的方向感.",
             (u.ualign.type != oldalign) ? "突然" : "");
     } else {
         /* putting on or taking off a helm of opposite alignment */

@@ -1281,7 +1281,7 @@ hmon_hitmon_misc_obj(
                 char *what = The(xname(obj));
 
                 if (!hmd->thrown && obj->quan > 1L)
-                    what = An(singular(obj, xname));
+                    what = singular(obj, xname);//冗余:An(singular(obj, xname));
                 /* note: s_suffix returns a modifiable buffer */
                 if (haseyes(hmd->mdat)
                     && hmd->mdat != &mons[PM_FLOATING_EYE])
@@ -3394,9 +3394,9 @@ mhitm_ad_wrap(
                                    && !Is_waterlevel(&u.uz);
 
                     urgent_pline("%s把你淹死了...", Monnam(magr));
-                    svk.killer.format = KILLED_BY_AN;
-                    Sprintf(svk.killer.name, "%s淹死于%s中",
-                            an(pmname(magr->data, Mgender(magr))), /*修改语序:moat ? "moat" : "pool of water",*/
+                    svk.killer.format = NO_KILLER_PREFIX;
+                    Sprintf(svk.killer.name, "被%s淹死于%s中",
+                            an_pmname(magr->data, Mgender(magr)), /*修改语序:moat ? "moat" : "pool of water",*/
                             moat ? "护城河" : "水池"); /*修改语序:an(pmname(magr->data, Mgender(magr))));*/
                     done(DROWNING);
                 } else if (mattk->aatyp == AT_HUGS) {
@@ -5021,7 +5021,7 @@ gulpum(struct monst *mdef, struct attack *mattk)
             const char *mnam = pmname(pd, Mgender(mdef));
 
             if (!type_is_pname(pd))
-                mnam = an(mnam);
+                mnam = an_pmname(pd, Mgender(mdef));
             You("%s了%s.", u_digest ? "吞下" : "围住", mon_nam(mdef));
             Sprintf(kbuf, "%s%s%s",
                     u_digest ? "吞下"

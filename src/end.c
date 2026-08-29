@@ -247,8 +247,9 @@ done_in_by(struct monst *mtmp, int how)
             Strcpy(shape, fakenm);
         else if (the_unique_pm(mptr)) /* "the"; don't use the() here */
             Sprintf(shape, "%s", fakenm);
-        else /* "a"/"an" */
-            Strcpy(shape, an(fakenm));
+        else /* "a"/"an" */{
+            Sprintf(shape, "一%s%s", pm_to_quantifier(mptr), fakenm);
+        }
         /* omit "called" to avoid excessive verbosity */
         Sprintf(eos(buf),
                 alt ? "%s(处于%s形态)"
@@ -1359,7 +1360,7 @@ really_done(int how)
              (u.ugrave_arise != PM_GREEN_SLIME)
                  ? "尸体从死亡中站起"
                  : "复仇还在持续",
-             an(pmname(&mons[u.ugrave_arise], Ugender)));
+             an_pmname(&mons[u.ugrave_arise], Ugender));
         display_nhwindow(WIN_MESSAGE, FALSE);
     }
 

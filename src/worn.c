@@ -1326,7 +1326,7 @@ mon_break_armor(struct monst *mon, boolean polyspot)
 
             You("碰到了%s.", mon_nam(u.usteed));
             Sprintf(buf, "从%s身上跌落",
-                    an(pmname(u.usteed->data, Mgender(u.usteed))));
+                    an_pmname(u.usteed->data, Mgender(u.usteed)));
             instapetrify(buf);
         }
         dismount_steed(DISMOUNT_FELL);

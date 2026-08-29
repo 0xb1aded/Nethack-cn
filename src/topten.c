@@ -95,11 +95,11 @@ formatkiller(
 {
     static NEARDATA const char *const killed_by_prefix[] = {
         /* DIED, CHOKING, POISONING, STARVING, */
-        "死于", "噎死于", "中毒于", "死于",
+        "b杀死", "b噎死", "b毒死", "死于",
         /* DROWNING, BURNING, DISSOLVED, CRUSHING, */
-        "淹死于", "烧死于", "溶解于", "压死于",
+        "淹死于", "b烧死", "b溶解", "b压死",
         /* STONING, TURNED_SLIME, GENOCIDED, */
-        "石化于", "粘菌化于", "死于",
+        "b变成石头", "b变成黏液", "b杀死",
         /* PANICKED, TRICKED, QUIT, ESCAPED, ASCENDED */
         "", "", "", "", ""
     };
@@ -107,6 +107,14 @@ formatkiller(
     char c, *kname = svk.killer.name;
 
     buf[0] = '\0'; /* lint suppression */
+    /* 无助时的具体原因("在...时")放到死亡原因前面 */
+    if (incl_helpless && gm.multi < 0 && gm.multi_reason
+        && strlen(gm.multi_reason) + sizeof "在时" <= siz) {
+        Sprintf(buf, "在%s时", gm.multi_reason);
+        l = Strlen(buf);
+        buf += l, siz -= l;
+        incl_helpless = FALSE; /* 已在前缀中体现, 不再追加", 无力回天" */
+    }
     switch (svk.killer.format) {
     default:
         impossible("bad killer format? (%d)", svk.killer.format);
@@ -114,48 +122,75 @@ formatkiller(
         /*FALLTHRU*/
     case NO_KILLER_PREFIX:
         break;
-    case KILLED_BY_AN:
-        kname = an(kname);
+    case KILLED_BY_AN: {
+        char tmpname[BUFSZ];
+        int kndx;
+
+        /* 按凶手名字反查怪物, 拼"一+量词+名字", 如"一条小狗" */
+        Strcpy(tmpname, kname);
+        if ((kndx = name_to_mon(tmpname, (int *) 0)) != NON_PM)
+            Sprintf(kname, "一%s%s", pm_to_quantifier(&mons[kndx]), tmpname);
+        /* 查不到怪物(如噎死的食物): 保留原名, 不加"一" */
         FALLTHROUGH;
+    }
         /*FALLTHRU*/
     case KILLED_BY:
-        (void) strncat(buf, killed_by_prefix[how], siz - 1);
+        if (killed_by_prefix[how][0] == 'b') {
+            Strcat(buf, "被");
+            l = Strlen(buf);
+            buf += l, siz -= l;
+            /* Copy kname into buf[].
+             * Object names and named fruit have already been sanitized, but
+             * monsters can have "called 'arbitrary text'" attached to them,
+             * so make sure that that text can't confuse field splitting when
+             * record, logfile, or xlogfile is re-read at some later point.
+             */
+            while (--siz > 0) {
+                c = *kname++;
+                if (!c)
+                    break;
+                else if (c == ',')
+                    c = ';';
+                /* 'xlogfile' doesn't really need protection for '=', but
+                   fixrecord.awk for corrupted 3.6.0 'record' does (only
+                   if using xlogfile rather than logfile to repair record) */
+                else if (c == '=')
+                    c = '_';
+                /* tab is not possible due to use of mungspaces() when naming;
+                   it would disrupt xlogfile parsing if it were present */
+                else if (c == '\t')
+                    c = ' ';
+                *buf++ = c;
+            }
+            *buf = '\0';
+            Strcat(buf, killed_by_prefix[how] + 1);
+        } else {
+            (void) strncat(buf, killed_by_prefix[how], siz - 1);
+            l = Strlen(buf);
+            buf += l, siz -= l;
+            while (--siz > 0) {
+                c = *kname++;
+                if (!c)
+                    break;
+                else if (c == ',')
+                    c = ';';
+                else if (c == '=')
+                    c = '_';
+                else if (c == '\t')
+                    c = ' ';
+                *buf++ = c;
+            }
+            *buf = '\0';
+        }
         l = Strlen(buf);
         buf += l, siz -= l;
         break;
     }
-    /* Copy kname into buf[].
-     * Object names and named fruit have already been sanitized, but
-     * monsters can have "called 'arbitrary text'" attached to them,
-     * so make sure that that text can't confuse field splitting when
-     * record, logfile, or xlogfile is re-read at some later point.
-     */
-    while (--siz > 0) {
-        c = *kname++;
-        if (!c)
-            break;
-        else if (c == ',')
-            c = ';';
-        /* 'xlogfile' doesn't really need protection for '=', but
-           fixrecord.awk for corrupted 3.6.0 'record' does (only
-           if using xlogfile rather than logfile to repair record) */
-        else if (c == '=')
-            c = '_';
-        /* tab is not possible due to use of mungspaces() when naming;
-           it would disrupt xlogfile parsing if it were present */
-        else if (c == '\t')
-            c = ' ';
-        *buf++ = c;
-    }
-    *buf = '\0';
+    
 
     if (incl_helpless && gm.multi < 0) {
-        /* X <= siz: 'sizeof "string"' includes 1 for '\0' terminator */
-        if (gm.multi_reason
-            && strlen(gm.multi_reason) + sizeof ", 在时" <= siz)
-            Sprintf(buf, ", 在%s时", gm.multi_reason);
-        /* either gm.multi_reason wasn't specified or wouldn't fit */
-        else if (sizeof ", 无力回天" <= siz)
+        /* 没有具体原因(或原因太长放不下): 在末尾补"无力回天" */
+        if (sizeof ", 无力回天" <= siz)
             Strcpy(buf, ", 无力回天");
         /* else extra death info won't fit, so leave it out */
     }

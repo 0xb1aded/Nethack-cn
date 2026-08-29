@@ -70,7 +70,7 @@ use_saddle(struct obj *otmp)
         You("碰到了%s.", mon_nam(mtmp));
         if (!(poly_when_stoned(gy.youmonst.data) && polymon(PM_STONE_GOLEM))) {
             Sprintf(kbuf, "试图给%s装上鞍",
-                    an(pmname(mtmp->data, Mgender(mtmp))));
+                    an_pmname(mtmp->data, Mgender(mtmp)));
             instapetrify(kbuf);
         }
     }
@@ -290,7 +290,7 @@ mount_steed(
 
         You("碰到了%s.", mon_nam(mtmp));
         Sprintf(kbuf, "试图骑乘%s",
-                an(pmname(mtmp->data, Mgender(mtmp))));
+                an_pmname(mtmp->data, Mgender(mtmp)));
         instapetrify(kbuf);
     }
     if (!mtmp->mtame || mtmp->isminion) {
@@ -643,7 +643,7 @@ dismount_steed(
         }
         if (!has_mgivenname(mtmp)) {
             pline("你骑着无名的%s横穿了地牢.",
-                  an(pmname(mtmp->data, Mgender(mtmp))));
+                  an_pmname(mtmp->data, Mgender(mtmp)));
             if (Hallucination)
                 pline("走出雨中的感觉真好.");
         } else

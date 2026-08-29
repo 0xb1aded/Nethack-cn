@@ -1155,7 +1155,7 @@ kick_nondoor(coordxy x, coordxy y, int avrg_attrib)
             if (is_plural(treefruit))
                 pline("一些%s从树上掉了下来!", xname(treefruit));
             else
-                pline("%s从树上掉了下来!", An(xname(treefruit)));
+                pline("一%s%s从树上掉了下来!", quantifier(treefruit), xname(treefruit));
             nfall = scatter(x, y, 2, MAY_HIT, treefruit);
             if (nfall != nfruit) {
                 /* scatter left some in the tree, but treefruit

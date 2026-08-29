@@ -209,7 +209,7 @@ mhidden_description(
         if (M_AP_TYPE(mon) == M_AP_FURNITURE) {
             what = defsyms[mon->mappearance].explanation;
             if (incl_article)
-                what = an(what);
+                what = an(what); //待写:what = an(what);
             Strcat(outbuf, what); Strcat(outbuf, ")"); /*危险:删掉第二句*/
         } else if (M_AP_TYPE(mon) == M_AP_OBJECT
                    /* remembered glyph, not glyph_at() which is 'mon' */
@@ -221,7 +221,7 @@ mhidden_description(
                    ? simpleonames(otmp)
                    : obj_descr[STRANGE_OBJECT].oc_name;
             if (incl_article && (!otmp || otmp->quan == 1L))
-                what = an(what);
+                Sprintf(what, "一%s%s", quantifier(otmp), what); //同上
             Strcat(outbuf, what);
 
             if (fakeobj && otmp) {
@@ -237,7 +237,7 @@ mhidden_description(
                 Strcat(outbuf, " (伪装成");
             what = pmname(&mons[mon->mappearance], Mgender(mon));
             if (incl_prefix)
-                what = an(what);
+                what = an_pmname(&mons[mon->mappearance], Mgender(mon)); //同上
             Strcat(outbuf, what); Strcat(outbuf, ")"); /*危险:删掉第二句*/
         }
     } else if (isyou ? u.uundetected : mon->mundetected) {
@@ -2546,7 +2546,7 @@ doidtrap(void)
                         : (tt == HOLE || tt == PIT)
                            ? "挖出的"
                            : "设置的",
-                  an(trapname(tt, FALSE))); /*修改语序:!trap->madeby_u ? "" : "由你");*/
+                  trapname(tt, FALSE)); /*修改语序:!trap->madeby_u ? "" : "由你");*/
             return ECMD_OK;
         }
     pline("那里看不到陷阱.");

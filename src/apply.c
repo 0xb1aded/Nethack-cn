@@ -836,7 +836,7 @@ use_leash_core(struct obj *obj, struct monst *mtmp, coord *cc, int spotmon)
     } else if (!obj->leashmon) {
         /* applying a leash which isn't currently in use */
         if (mtmp->mleashed) {
-            pline("这个%s已经被拴着了.",
+            pline("这%s%s已经被拴着了.", mon_quantifier(mtmp),
                   spotmon ? l_monnam(mtmp) : "怪物");
         } else if (unsolid(mtmp->data)) {
             pline("狗链会掉下来.");
@@ -910,7 +910,7 @@ mleashed_next2u(struct monst *mtmp)
             otmp->leashmon = 0;
             update_inventory();
             You_feel("%s狗链变松了.",
-                     (number_leashed() > 1) ? "" : "这个");
+                     (number_leashed() > 1) ? "" : "这根");
         }
     }
     return FALSE;
@@ -1070,7 +1070,7 @@ use_mirror(struct obj *obj)
             } else if (u.uhs >= WEAK) {
                 You(look_str, "营养不良");
             } else if (Upolyd) {
-                You("看起来像%s.", an(pmname(&mons[u.umonnum], Ugender)));
+                You("看起来像一%s%s.", an_pmname(&mons[u.umonnum], Ugender)); //an()能摧眉折腰事str, 使我不得开心颜
             } else {
                 You("看起来像往常一样%s.", uvisage);
             }
@@ -2198,7 +2198,7 @@ use_tinning_kit(struct obj *obj)
     mptr = &mons[corpse->corpsenm];
     if (touch_petrifies(mptr) && !Stone_resistance && !uarmg) {
         char kbuf[BUFSZ];
-        const char *corpse_name = an(cxname(corpse));
+        const char *corpse_name = cxname(corpse); //Francium-223: 这里有"一具"的必要吗?
 
         if (poly_when_stoned(gy.youmonst.data)) {
             You("罐装%s时没有戴手套.", corpse_name);
@@ -2430,7 +2430,7 @@ fig_transform(anything *arg, long timeout)
         struct obj *mshelter = svl.level.objects[mtmp->mx][mtmp->my];
 
         /* [m_monnam() yields accurate mon type, overriding hallucination] */
-        Sprintf(monnambuf, "%s", an(m_monnam(mtmp)));
+        Sprintf(monnambuf, "一%s%s", mon_quantifier(mtmp), m_monnam(mtmp));
         and_vanish[0] = '\0';
         if ((mtmp->minvis && !See_invisible)
             || (mtmp->data->mlet == S_MIMIC
@@ -2462,7 +2462,7 @@ fig_transform(anything *arg, long timeout)
             if (cansee_spot && !silent) {
                 set_msg_xy(cc.x, cc.y);
                 if (suppress_see)
-                    pline("%s突然消失了!", an(xname(figurine)));
+                    pline("一个%s突然消失了!", xname(figurine));
                 else
                     You_see("一个小雕像变成了%s%s!", monnambuf,
                             and_vanish);
@@ -2716,7 +2716,7 @@ use_stone(struct obj *tstone)
             pline("哇, 看看这些漂亮的碎片.");
         else
             pline("一声脆响粉碎了%s%s.",
-                  (obj->quan > 1L) ? "其中一个" : "", the(xname(obj)));
+                  (obj->quan > 1L) ? "其中一块" : "", the(xname(obj)));
         useup(obj);
         return ECMD_TIME;
     }
@@ -3050,8 +3050,8 @@ use_whip(struct obj *obj)
                 return ECMD_TIME;
             }
             if (otmp && proficient) {
-                You("把你的牛鞭缠住%s上的%s.", /*修改语序:You("把你的牛鞭缠住%s周围到%s上的.",*/
-                    surface(u.ux, u.uy), an(singular(otmp, xname))); /*修改语序:an(singular(otmp, xname)), surface(u.ux, u.uy));*/
+                You("把你的牛鞭缠绕到%s的一个%s上.", /*修改语序:You("把你的牛鞭缠住%s周围到%s上的.",*/
+                    surface(u.ux, u.uy), singular(otmp, xname)); /*修改语序:an(singular(otmp, xname)), surface(u.ux, u.uy));*/
                 if (rnl(6) || pickup_object(otmp, 1L, TRUE) < 1)
                     pline1(msg_slipsfree);
                 return ECMD_TIME;
@@ -3158,7 +3158,7 @@ use_whip(struct obj *obj)
             const char *mon_hand;
             boolean gotit = proficient && (!Fumbling || !rn2(10));
 
-            Strcpy(onambuf, cxname(otmp));
+            Sprintf(onambuf, "%s%s%s", (otmp->quan == 1L) ? "一" : "", (otmp->quan == 1L) ? quantifier(otmp) : "", cxname(otmp)); //Strcpy(onambuf, cxname(otmp));
             if (gotit) {
                 mon_hand = mbodypart(mtmp, HAND);
                 if (bimanual(otmp))
@@ -3217,8 +3217,8 @@ use_whip(struct obj *obj)
                              && polymon(PM_STONE_GOLEM))) {
                         char kbuf[BUFSZ];
 
-                        Strcpy(kbuf, (otmp->quan == 1L) ? an(onambuf)
-                                                        : onambuf);
+                        Strcpy(kbuf, onambuf); //冗余: (otmp->quan == 1L) ? an(onambuf)
+                                                        //: onambuf);
                         pline("抢夺%s是个致命的错误.", kbuf);
                         /* corpse probably has a rot timer but is now
                            OBJ_FREE; end of game cleanup will panic if
@@ -4532,7 +4532,7 @@ flip_coin(struct obj *obj)
     struct obj *otmp = obj;
     boolean lose_coin = FALSE;
 
-    You("投%s.", an(singular(obj, xname)));
+    You("投一枚%s.", singular(obj, xname));
     if (Underwater) {
         pline("它翻滚着漂走了.");
         lose_coin = TRUE;

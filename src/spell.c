@@ -1162,7 +1162,7 @@ cast_protection(void)
                                        : IS_STWALL(rmtyp) ? "你周围的石头"
                                          : "空气");
                 pline_The("%s开始泛起微弱的暗淡%s色.",
-                          atmosphere, an(hgolden));
+                          atmosphere, hgolden);
             }
         }
         u.uspellprot += gain;

@@ -770,7 +770,7 @@ dipsink(struct obj *obj)
         break;
     case POT_OBJECT_DETECTION:
         if (!(levl[u.ux][u.uy].looted & S_LRING)) {
-            You("感受到一个戒指掉进了下水道.");
+            You("感受到一枚戒指掉进了下水道.");
             try_call = TRUE;
             break;
         }

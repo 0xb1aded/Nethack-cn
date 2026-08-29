@@ -810,8 +810,8 @@ domonnoise(struct monst *mtmp)
                     verbl_msg = verbuf;
                 } else if (vampindex == 1) {
                     Sprintf(verbuf, vampmsg[vampindex],
-                            Upolyd ? an(pmname(&mons[u.umonnum],
-                                               flags.female ? FEMALE : MALE))
+                            Upolyd ? an_pmname(&mons[u.umonnum],
+                                               flags.female ? FEMALE : MALE)
                                    : an(racenoun));
                     verbl_msg = verbuf;
                 } else if (vampindex > 1) {
@@ -1264,7 +1264,7 @@ dochat(void)
 
     if (is_silent(gy.youmonst.data)) {
         pline("身为%s, 你无法说话.",
-              an(pmname(gy.youmonst.data, flags.female ? FEMALE : MALE)));
+              an_pmname(gy.youmonst.data, flags.female ? FEMALE : MALE));
         return ECMD_OK;
     }
     if (Strangled) {

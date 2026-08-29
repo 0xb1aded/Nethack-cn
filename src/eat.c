@@ -1218,10 +1218,10 @@ cpostfx(int pm)
             gm.multi_reason = "模仿成一堆金币";
             Sprintf(buf,
                     Hallucination
-                       ? "你突然恐惧被剥皮, 然后再次模仿成%s!"
-                       : "你觉得还是模仿成%s比较好.",
-                    an(Upolyd ? pmname(gy.youmonst.data, Ugender)
-                              : gu.urace.noun));
+                       ? "你突然恐惧被剥皮, 然后再次模仿成一%s%s!"
+                       : "你觉得还是模仿成一%s%s比较好.", mon_quantifier(&gy.youmonst),
+                    Upolyd ? pmname(gy.youmonst.data, Ugender)
+                              : gu.urace.noun);
             ge.eatmbuf = dupstr(buf);
             gn.nomovemsg = ge.eatmbuf;
             ga.afternmv = eatmdone;
@@ -1881,14 +1881,14 @@ eatcorpse(struct obj *otmp)
         if (!u.uconduct.unvegan++) {
             livelog_printf(LL_CONDUCT,
                   "第一次食用动物制品: %s",
-                           an(food_xname(otmp, FALSE)));
+                           food_xname(otmp, FALSE));
             ll_conduct++;
         }
     if (!vegetarian(&mons[mnum])) {
         if (!u.uconduct.unvegetarian && !ll_conduct)
             livelog_printf(LL_CONDUCT,
                            "第一次吃肉: %s",
-                           an(food_xname(otmp, FALSE)));
+                           food_xname(otmp, FALSE));
         violated_vegetarian();
     }
     if (!nonrotting_corpse(mnum)) {
@@ -2784,14 +2784,14 @@ doeat_nonfood(struct obj *otmp)
         if (!u.uconduct.unvegan++ && !ll_conduct) {
             livelog_printf(LL_CONDUCT,
                   "第一次食用动物制品: %s",
-                           an(food_xname(otmp, FALSE)));
+                           food_xname(otmp, FALSE));
             ll_conduct++;
         }
         if (material != WAX) {
             if (!u.uconduct.unvegetarian && !ll_conduct)
                 livelog_printf(LL_CONDUCT,
                    "第一次食用肉制品: %s",
-                               an(food_xname(otmp, FALSE)));
+                               food_xname(otmp, FALSE));
             violated_vegetarian();
         }
     }
@@ -3010,14 +3010,14 @@ doeat(void)
             if (!u.uconduct.unvegan++ && !ll_conduct) {
                 livelog_printf(LL_CONDUCT,
                   "第一次食用动物制品: %s",
-                               an(food_xname(otmp, FALSE)));
+                               food_xname(otmp, FALSE));
                 ll_conduct++;
             }
             if (otmp->otyp != EGG) {
                 if (!u.uconduct.unvegetarian && !ll_conduct)
                     livelog_printf(LL_CONDUCT,
                                "第一次吃肉: %s",
-                                   an(food_xname(otmp, FALSE)));
+                                   food_xname(otmp, FALSE));
 
                 violated_vegetarian();
             }
