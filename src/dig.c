@@ -1229,7 +1229,7 @@ use_pick_axe2(struct obj *obj)
             } else if (IS_TREE(lev->typ)) {
                 You("需要斧头来砍树.");
             } else if (IS_OBSTRUCTED(lev->typ)) {
-                You("需要鹤嘴锄来挖掘岩石.");
+                You("需要镐子来挖掘岩石.");
             } else if ((boulder = sobj_at(BOULDER, rx, ry)) != 0
                        || sobj_at(STATUE, rx, ry)) {
                 /* if both boulders and statues are present, the topmost

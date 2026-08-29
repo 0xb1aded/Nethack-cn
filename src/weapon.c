@@ -133,7 +133,7 @@ weapon_descr(struct obj *obj)
     case P_PICK_AXE:
         /* even if "dwarvish mattock" hasn't been discovered yet */
         if (obj->otyp == DWARVISH_MATTOCK)
-            descr = "鹤嘴锄";
+            descr = "镐";
         break;
     default:
         break;

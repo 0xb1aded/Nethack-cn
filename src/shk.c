@@ -871,7 +871,7 @@ u_entered_shop(char *enterstring)
                     if (pick->otyp == PICK_AXE)
                         ++cnt;
             } else { /* assert(mattock != 0) */
-                tool = "鹤嘴锄";
+                tool = "锄头";
                 while ((mattock = mattock->nobj) != 0)
                     if (mattock->otyp == DWARVISH_MATTOCK)
                         ++cnt;

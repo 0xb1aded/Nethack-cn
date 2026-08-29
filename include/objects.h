@@ -342,7 +342,7 @@ WEAPON("bec de corbin", "beaked polearm", "鸦啄战锤", "喙长柄武器",
 
 /* formerly grouped with the polearms but don't use polearms skill;
    lance isn't even two-handed */
-WEAPON("dwarvish mattock", "broad pick", "矮人鹤嘴锄", "宽阔锄头",
+WEAPON("dwarvish mattock", "broad pick", "矮人镐", "宽头镐",
        0, 0, 1, 13, 120,  50, 12,  8, -1, B,  P_PICK_AXE, IRON, HI_METAL,
                                                         DWARVISH_MATTOCK),
 WEAPON("lance", NoDes, "长戟", NoDes,
@@ -1004,7 +1004,7 @@ TOOL("leather drum",      "drum", "皮革鼓", "鼓", 0, 0, 0, 0,  4, 25, 25, LE
 TOOL("drum of earthquake","drum", "地震鼓", "鼓", 0, 0, 1, 1,  2, 25, 25, LEATHER, HI_LEATHER,
                                                           DRUM_OF_EARTHQUAKE),
 /* tools useful as weapons */
-WEPTOOL("pick-axe", NoDes, "鹤嘴锄", NoDes,
+WEPTOOL("pick-axe", NoDes, "镐", NoDes,
         1, 0, 0, 20, 100,  50,  6,  3, WHACK,  P_PICK_AXE, IRON, HI_METAL,
                                                                 PICK_AXE),
 WEPTOOL("grappling hook", NoDes, "爪钩", "铁钩",

@@ -1679,7 +1679,7 @@ struct ext_func_tab extcmdlist[] = {
               doorganize, IFBURIED | AUTOCOMPLETE | GENERALCMD, NULL },
     { M('A'), "annotate", "命名当前层",
               donamelevel, IFBURIED | AUTOCOMPLETE | GENERALCMD | CMD_M_PREFIX, NULL },
-    { 'a',    "apply", "激活(使用)工具(鹤嘴锄, 钥匙, 提灯...)",
+    { 'a',    "apply", "激活(使用)工具(镐, 钥匙, 提灯...)",
               doapply, CMD_M_PREFIX, NULL },
     { C('x'), "attributes", "显示你的属性",
               doattributes, IFBURIED | GENERALCMD, NULL },
