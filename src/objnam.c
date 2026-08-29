@@ -567,6 +567,7 @@ quantifier(struct obj *obj)
             return "具";
         case WOODEN_HARP:
         case MAGIC_HARP:
+        case SKELETON_KEY:
             return "把";
         case BELL:
             return "只";

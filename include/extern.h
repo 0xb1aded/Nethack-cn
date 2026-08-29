@@ -2232,6 +2232,7 @@ extern void maybereleaseobuf(char *) NONNULLARG1;
 extern char *obj_typename(int);
 extern char *simple_typename(int);
 extern char *safe_typename(int);
+extern char *quantifier(struct obj *) NONNULLARG1;
 extern boolean obj_is_pname(struct obj *) NONNULLARG1;
 extern char *distant_name(struct obj *, char *(*)(struct obj *)) NONNULLPTRS;
 extern char *fruitname(boolean);

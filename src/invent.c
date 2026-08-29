@@ -2966,7 +2966,7 @@ xprname(
     fmt = "%c - %.*s%s";
     if (!txt) {
         assert(obj != NULL);
-        txt = doname_with_space_force_quan(obj);
+        txt = doname_with_space(obj);
     }
     txtlen = (int) strlen(txt);
 
