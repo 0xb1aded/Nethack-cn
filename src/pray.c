@@ -1414,15 +1414,15 @@ water_prayer(boolean bless_water)
 staticfn void
 godvoice(aligntyp g_align, const char *words)
 {
-    const char *quot = "";
+    const char *quot = "", *space = "";
 
-    if (words)
-        quot = "\"";
-    else
+    if (words) {
+        quot = "\""; space = " ";
+    } else {
         words = "";
-
-    pline_The("%s的声音%s: %s%s%s", align_gname(g_align),
-              ROLL_FROM(godvoices), quot, words, quot);
+    }
+    pline_The("%s的声音%s: %s%s%s%s", align_gname(g_align),
+              ROLL_FROM(godvoices), quot, words, space, quot);
 }
 
 staticfn void

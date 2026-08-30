@@ -1120,10 +1120,10 @@ xname_flags(
     case ARMOR_CLASS:
         /* depends on order of the dragon scales objects */
         if (typ >= GRAY_DRAGON_SCALES && typ <= YELLOW_DRAGON_SCALES) {
-            //Sprintf(buf, "一套%s", actualn);
+            Sprintf(buf, "%s", actualn);
             break;
         } else if (is_boots(obj) || is_gloves(obj)) {
-            ;//Strcat(buf, "一双");
+            Strcat(buf, "");;//Strcat(buf, "一双");
             /*FALLTHRU*/
         } else if (is_shield(obj) && !dknown) {
             if (obj->otyp >= ELVEN_SHIELD && obj->otyp <= ORCISH_SHIELD) {
