@@ -3576,11 +3576,10 @@ ansimpleoname(struct obj *obj)
         Strcpy(simpleoname, obufp);
         releaseobuf(obufp);
     } else if (obj->quan == 1L) {
-        /* simpleoname[] is singular if quan==1, plural otherwise;
-           an() will allocate another obuf[]; we want to avoid using two */
-        //obufp = an(simpleoname);
-        Sprintf(simpleoname, "一%s%s", quantifier(obj), obufp); //危险:Strcpy(simpleoname, obufp);
-        releaseobuf(obufp); //这谁写的代码? Strcat(simpleoname, quantifier(obj));
+        char namebuf[BUFSZ];
+
+        Strcpy(namebuf, simpleoname);
+        Sprintf(simpleoname, "一%s%s", quantifier(obj), namebuf);
     }
     return simpleoname;
 }
