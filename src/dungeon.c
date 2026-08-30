@@ -3617,8 +3617,10 @@ print_mapseen(
             /* only print out altar's god if they are all to your god */
             atmp = mptr->feat.msalign;              /*    0,  1,  2,  3 */
             atmp = Msa2amask(atmp);                 /*    0,  1,  2,  4 */
-            if (Amask2align(atmp) == u.ualign.type) /* -128, -1,  0, +1 */
-                Sprintf(buf, "%s的%s", align_gname(u.ualign.type), buf); /*危险,修改语序:Sprintf(eos(buf), "%s的", align_gname(u.ualign.type));*/
+            if (Amask2align(atmp) == u.ualign.type) { /* -128, -1,  0, +1 */
+                Strcpy(tmpbuf, buf);
+                Sprintf(buf, "%s的%s", align_gname(u.ualign.type), tmpbuf);
+            }
         }
         ADDNTOBUF("王座", mptr->feat.nthrone);
         ADDNTOBUF("喷泉", mptr->feat.nfount);
