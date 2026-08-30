@@ -1015,10 +1015,12 @@ x_monnam(
     case ARTICLE_THE:
         Strcpy(buf2, "");
         break;
-    case ARTICLE_A:
-        /* avoid an() here */
-        (void) just_an(buf2, buf); /* copy "a " or "an " into buf2[] */
+    case ARTICLE_A: {
+        struct permonst *qdat = do_mappear ? &mons[mtmp->mappearance] : mdat;
+
+        Sprintf(buf2, "一%s", pm_to_quantifier(qdat));
         break;
+    }
     case ARTICLE_NONE:
     default:
         insertbuf2 = FALSE;
