@@ -620,7 +620,7 @@ findword(
 const char *
 ordin(int n)               /* note: should be non-negative */
 {
-    int dd = n % 10;
+    //int dd = n % 10;
     return ""; /*危险*/
 }
 

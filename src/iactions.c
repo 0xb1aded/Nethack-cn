@@ -456,7 +456,7 @@ itemactions(struct obj *otmp)
     /* f: fire quivered ammo */
     if (otmp == uquiver) {
         boolean shoot = ammo_and_launcher(otmp, uwep);
-        //Sprintf(buf, ""); /*危险:去掉*/
+        buf[0] = '\0';
         /* FIXME: see the multi-shot FIXME about "one of" for 't: throw' */
         if (shoot) { /*危险:反过来*/
             assert(uwep != NULL);

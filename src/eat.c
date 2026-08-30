@@ -2005,7 +2005,7 @@ eatcorpse(struct obj *otmp)
         };
         int idx = vegetarian(&mons[mnum]) ? 0 : rn2(SIZE(palatable_msgs));
         const char *palat_msg = palatable_msgs[idx];
-        boolean use_is = (Hallucination || (palatable && *palat_msg == 'I'));
+        //boolean use_is = (Hallucination || (palatable && *palat_msg == 'I'));
 
         if (!strncmpi(pmxnam, "the ", 4))
             pmxnam += 4;

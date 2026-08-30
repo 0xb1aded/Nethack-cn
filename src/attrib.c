@@ -328,7 +328,7 @@ poisoned(
        "blast" has given a "blast of poison gas" message; "poison arrow",
        "poison dart", etc have implicitly given poison messages too... */
     if (!blast && (!strstri(reason, "poison") || !strstri(reason, "毒"))) {
-        boolean plural = (reason[strlen(reason) - 1] == 's') ? 1 : 0;
+        //boolean plural = (reason[strlen(reason) - 1] == 's') ? 1 : 0;
 
         /* avoid "The" Orcus's sting was poisoned... */
         pline("%s是有毒的!",

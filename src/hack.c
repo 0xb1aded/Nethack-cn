@@ -2563,7 +2563,7 @@ avoid_trap_andor_region(coordxy x, coordxy y)
                hero can't tell what they are, so treat as dangerous */
             || Hallucination)) {
         int traptype = (Hallucination ? rnd(TRAPNUM - 1) : (int) trap->ttyp);
-        boolean into = into_vs_onto(traptype);
+        //boolean into = into_vs_onto(traptype);
 
         Snprintf(qbuf, sizeof qbuf, "真的要%s到那个%s%s?", /*修改语序:Snprintf(qbuf, sizeof qbuf, "真的要%s%s那个%s?",*/
                  u_locomotion("走"), /*修改语序:u_locomotion("走"), into ? "进" : "上",*/

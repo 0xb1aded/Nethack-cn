@@ -2862,7 +2862,7 @@ setup_rolemenu(
     anything any;
     int i;
     boolean role_ok;
-    char thisch, lastch = '\0', rolenamebuf[50];
+    char rolenamebuf[50];
     int clr = NO_COLOR;
 
     any = cg.zeroany; /* zero out all bits */
@@ -2878,10 +2878,6 @@ setup_rolemenu(
             any.a_int = i + 1;
         else
             any.a_string = roles[i].name.m;
-            thisch = '\0';
-        /*危险，冗余:thisch = lowc(*roles[i].name.m);*/
-        /*危险，冗余:if (thisch == lastch)
-            thisch = highc(thisch);*/
         Strcpy(rolenamebuf, roles[i].name.m);
         if (roles[i].name.f) {
             /* role has distinct name for female (C,P) */
@@ -2900,7 +2896,6 @@ setup_rolemenu(
                  ATR_NONE, clr, rolenamebuf,
                  (!filtering && !role_ok)
                     ? MENU_ITEMFLAGS_SELECTED : MENU_ITEMFLAGS_NONE);
-        //lastch = thisch;
     }
 }
 
@@ -2913,7 +2908,6 @@ setup_racemenu(
     anything any;
     boolean race_ok;
     int i;
-    char this_ch;
     int clr = NO_COLOR;
 
     any = cg.zeroany;
@@ -2928,7 +2922,6 @@ setup_racemenu(
             any.a_int = i + 1;
         else
             any.a_string = races[i].noun;
-        this_ch = *races[i].noun;
         /* filtering: picking race, so choose by first letter, with
            capital letter as unseen accelerator;
            !filtering: resetting filter rather than picking, choose by
@@ -2951,7 +2944,6 @@ setup_gendmenu(
     anything any;
     boolean gend_ok;
     int i;
-    char this_ch;
     int clr = NO_COLOR;
 
     any = cg.zeroany;
@@ -2966,7 +2958,6 @@ setup_gendmenu(
             any.a_int = i + 1;
         else
             any.a_string = genders[i].adj;
-        this_ch = *genders[i].adj;
         /* (see setup_racemenu for explanation of selector letters
            and setup_rolemenu for preselection) */
         add_menu(win, &nul_glyphinfo, &any,
@@ -2987,7 +2978,6 @@ setup_algnmenu(
     anything any;
     boolean algn_ok;
     int i;
-    char this_ch;
     int clr = NO_COLOR;
 
     any = cg.zeroany;
@@ -3002,7 +2992,6 @@ setup_algnmenu(
             any.a_int = i + 1;
         else
             any.a_string = aligns[i].adj;
-        this_ch = *aligns[i].adj;
         /* (see setup_racemenu for explanation of selector letters
            and setup_rolemenu for preselection) */
         add_menu(win, &nul_glyphinfo, &any,

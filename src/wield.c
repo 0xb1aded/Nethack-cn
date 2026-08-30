@@ -194,7 +194,7 @@ ready_weapon(struct obj *wep)
         /* Weapon WILL be wielded after this point */
         res = ECMD_TIME;
         if (will_weld(wep)) {
-            const char *tmp = xname(wep), *thestr = "The ";
+            const char *tmp = xname(wep) /*, *thestr = "The "*/;
 
             /*冗余:if (strncmp(tmp, thestr, 4) && !strncmp(The(tmp), thestr, 4))
                 tmp = thestr;

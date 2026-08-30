@@ -4980,7 +4980,7 @@ back_on_ground(boolean rescued)
 {
     const char *preposit = (Levitation || Flying) ? "飞回了" : "回到了",
                *surf = surface(u.ux, u.uy), *you_are_back;
-    char icebuf[QBUFSZ];
+    //char icebuf[QBUFSZ];
 
     //if (is_ice(u.ux, u.uy)) { /*危险、冗余*/
         /* "on ice" */
