@@ -802,7 +802,7 @@ polymon(int mntmp)
                        ? "" : flags.female ? "女的" : "男的");
     }
     //Strcat(buf, an_pmname(&mons[mntmp], flags.female ? FEMALE : MALE));
-    You("%s%s%s!", (u.umonnum != mntmp) ? "变成了一" : "感觉像是", buf, an_pmname(&mons[mntmp], flags.female ? FEMALE : MALE)); //"变成了一头新龙"感觉有点怪怪的
+    You("%s%s%s!", (u.umonnum != mntmp) ? "变成了" : "感觉像是", buf, an_pmname(&mons[mntmp], flags.female ? FEMALE : MALE)); //"变成了一头新龙"感觉有点怪怪的
 
     if (Stoned && poly_when_stoned(&mons[mntmp])) {
         /* poly_when_stoned already checked stone golem genocide */
