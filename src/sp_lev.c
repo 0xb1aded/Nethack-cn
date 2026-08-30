@@ -3694,12 +3694,12 @@ lspo_object(lua_State *L)
                         pm = &mons[i];
                         tmpobj.spe = 0;
                         break;
-                    } else if (mons[i].pmnames[MALE] != 0
+                    } else if (mons[i].epmnames[MALE] != 0
                                && !strcmpi(mons[i].epmnames[MALE], montype)) {
                         lflags |= CORPSTAT_MALE;
                         pm = &mons[i];
                         break;
-                    } else if (mons[i].pmnames[FEMALE] != 0
+                    } else if (mons[i].epmnames[FEMALE] != 0
                                && !strcmpi(mons[i].epmnames[FEMALE], montype)) {
                         lflags |= CORPSTAT_FEMALE;
                         pm = &mons[i];
