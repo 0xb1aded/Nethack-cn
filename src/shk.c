@@ -5473,7 +5473,8 @@ price_quote(struct obj *first_obj)
             Sprintf(buf, "%s%s", doname(first_obj),
                     contentsonly ? the_contents_of : "");
             SetVoice(shkp, 0, 80, 0);
-            verbalize("%s, %s价格%ld %s%s", upstart(buf), (first_obj->quan > 1L) ? "每" : "", (first_obj->quan > 1L) ? quantifier(first_obj) : "", cost, /*修改语序:verbalize("%s,价格%s%ld %s%s", upstart(buf), cost,*/
+            verbalize("%s, %s价格%ld %s%s", upstart(buf), (first_obj->quan > 1L) ? "每" : "",
+                      cost, /*修改语序:verbalize("%s,价格%s%ld %s%s", upstart(buf), cost,*/
                       currency(cost), /*修改语序:currency(cost), (first_obj->quan > 1L) ? "each" : "",*/
                       contentsonly ? "." : shk_embellish(first_obj, cost));
         }

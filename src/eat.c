@@ -2011,7 +2011,7 @@ eatcorpse(struct obj *otmp)
             pmxnam += 4;
         pline("%s%s%s%c",
               type_is_pname(&mons[mnum])
-                 ? "" : the_unique_pm(&mons[mnum]) ? "那个" : "这个",
+                 ? "" : the_unique_pm(&mons[mnum]) ? "那个" : "这个", //"这具***尸体很硬"显得有点奇怪, 就用"个"吧
               pmxnam,
               /*冗余:use_is ? "" : "", *//*危险:use_is ? "很" : "尝起来",*/
                   /* tiger reference is to TV ads for "Frosted Flakes",
@@ -2212,7 +2212,7 @@ fprefx(struct obj *otmp)
 #endif
         } else {
  give_feedback:
-            pline("这%s%s%s", singular(otmp, xname), quantifier(otmp),
+            pline("这%s%s%s", quantifier(otmp), singular(otmp, xname),
                   otmp->cursed
                      ? (Hallucination ? "很恶心!" : "很难吃!")
                      : (otmp->otyp == CRAM_RATION

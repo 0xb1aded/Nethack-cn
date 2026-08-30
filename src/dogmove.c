@@ -1531,10 +1531,8 @@ quickmimic(struct monst *mtmp)
             m_unleash(mtmp, FALSE);
         }
         if (glyph_at(mtmp->mx, mtmp->my) != prev_glyph)
-            You("%s%s%s%s在%s原来的地方!",
-                seeloc ? "看见" : "感觉到", (what != something) ? "一" : "",
-                (what != something) ? mon_quantifier(mtmp) : "", what,
-                seeloc ? "出现" : "已经出现", buf);
+            You("%s%s出现在%s原来的地方!",
+                seeloc ? "看见" : "感觉到", what, buf);
         else
             You("感觉%s感觉有点像%s.", buf, what);
 

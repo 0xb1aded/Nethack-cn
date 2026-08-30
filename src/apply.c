@@ -1070,7 +1070,7 @@ use_mirror(struct obj *obj)
             } else if (u.uhs >= WEAK) {
                 You(look_str, "营养不良");
             } else if (Upolyd) {
-                You("看起来像一%s%s.", an_pmname(&mons[u.umonnum], Ugender)); //an()能摧眉折腰事str, 使我不得开心颜
+                You("看起来像%s.", an_pmname(&mons[u.umonnum], Ugender)); //an()能摧眉折腰事str, 使我不得开心颜
             } else {
                 You("看起来像往常一样%s.", uvisage);
             }
@@ -3581,7 +3581,7 @@ use_cream_pie(struct obj *obj)
     if (Hallucination)
         You("给自己做面膜.");
     else
-        You("把你的%s浸入到%s%s里.", body_part(FACE),
+        You("把你的%s浸入到%s%s%s里.", body_part(FACE),
               several ? "一" : "", quantifier(obj),
               several ? makeplural(the(xname(obj))) : the(xname(obj)));
     if (can_blnd((struct monst *) 0, &gy.youmonst, AT_WEAP, obj)) {
