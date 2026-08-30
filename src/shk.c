@@ -3862,14 +3862,15 @@ stolen_value(
                 }
                 still = "你仍";
             }
+            buf[0] = '\0';
             if (u_count) /* u_count > 0 implies Has_contents(obj) */
-                Sprintf(still, "为了购买%s它里面的%s东西, 你", //eos(buf)吗?
+                Sprintf(buf, "为了购买%s它里面的%s东西, 你",
                         was_unpaid ? "它和" : "",
                         (c_count > u_count) ? "一些" : "");
             else if (obj->oclass != COIN_CLASS)
-                Sprintf(eos(buf), "为了购买它%s, 你",
+                Sprintf(buf, "为了购买它%s, 你",
                         (obj->quan > 1L) ? "们" : "");
-            Sprintf(buf, "%s需支付%s%ld %s", still, shkname(shkp), /*修改语序:3848*/
+            Sprintf(eos(buf), "%s需支付%s %ld %s", still, shkname(shkp),
                     value, currency(value));
 
             pline("%s!", buf); /* "You owe <shk> N zorkmids for it!" */ //换pline: 你
