@@ -1589,7 +1589,7 @@ seffect_remove_curse(struct obj **sobjp)
                    doesn't show things glowing but saddle does */
                 if (!Blind) {
                     pline("%s了%s光.", Yobjnam2(obj, "发出"),
-                              hcolor("琥珀"));
+                              hcolor("琥珀色"));
                     obj->bknown = Hallucination ? 0 : 1;
                 } else {
                     obj->bknown = 0; /* skip set_bknown() */
