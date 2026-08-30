@@ -1702,7 +1702,7 @@ optfn_fruit(int optidx UNUSED, int req, boolean negated, char *opts, char *op)
             }
         }
     goodfruit:
-        strncpy(svp.pl_fruit, op, PL_FSIZ); /*危险:nmcpy*/
+        nmcpy(svp.pl_fruit, op, PL_FSIZ);
         //危险,冗余,要是出问题了就把注释去掉:sanitize_name(svp.pl_fruit);
         /* OBJ_NAME(objects[SLIME_MOLD]) won't work for this after
            initialization; it gets changed to generic "fruit" */
@@ -6674,19 +6674,38 @@ nh_getenv(const char *ev)
         return (char *) 0;
 }
 
-/* copy up to maxlen-1 characters; 'dest' must be able to hold maxlen;
-   treat comma as alternate end of 'src' */
+/* UTF-8 字符占用的字节数 (由首字节决定) */
+staticfn int
+utf8_char_len(unsigned char c)
+{
+    if ((c & 0x80) == 0)
+        return 1;
+    if ((c & 0xE0) == 0xC0)
+        return 2;
+    if ((c & 0xF0) == 0xE0)
+        return 3;
+    if ((c & 0xF8) == 0xF0)
+        return 4;
+    return 1;
+}
+
+/* copy up to maxlen-1 bytes but never split a multibyte character;
+   'dest' must be able to hold maxlen; treat comma as alternate end */
 staticfn void
 nmcpy(char *dest, const char *src, int maxlen)
 {
-    int count;
+    const char *sp;
+    char *dp = dest;
+    int clen;
 
-    for (count = 1; count < maxlen; count++) {
-        if (*src == ',' || *src == '\0')
-            break; /*exit on \0 terminator*/
-        *dest++ = *src++;
+    for (sp = src; *sp && *sp != ','; ) {
+        clen = utf8_char_len((unsigned char) *sp);
+        if (dp - dest + clen >= maxlen)
+            break; /* 整个字符放不下, 不劈开 */
+        while (clen-- > 0)
+            *dp++ = *sp++;
     }
-    *dest = '\0';
+    *dp = '\0';
 }
 
 /*
