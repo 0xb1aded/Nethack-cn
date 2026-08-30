@@ -1,4 +1,4 @@
-﻿/* NetHack 5.0	engrave.c	$NHDT-Date: 1781973048 2026/06/20 16:30:48 $  $NHDT-Branch: NetHack-5.0 $:$NHDT-Revision: 1.179 $ */
+/* NetHack 5.0	engrave.c	$NHDT-Date: 1781973048 2026/06/20 16:30:48 $  $NHDT-Branch: NetHack-5.0 $:$NHDT-Revision: 1.179 $ */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /*-Copyright (c) Robert Patrick Rankin, 2012. */
 /* NetHack may be freely redistributed.  See license for details. */
@@ -137,10 +137,16 @@ wipeout_text(
     int i, j, nxt, use_rubout;
     
     unsigned num_chars = 0;
+    char *end = engr + strlen(engr); /* points at the terminating NUL */
     char *p = engr;
-    while (*p) {
+
+    while (p < end) {
+        int clen = utf8_char_len((unsigned char) *p);
+
         num_chars++;
-        p += utf8_char_len((unsigned char)*p);
+        p += clen;
+        if (p > end) /* truncated trailing multibyte char */
+            p = end;
     }
 
     if (num_chars && cnt > 0) {
@@ -159,14 +165,23 @@ wipeout_text(
             
             s = engr;
             for (int k = 0; k < nxt; k++) {
-                s += utf8_char_len((unsigned char)*s);
-            }
+                int clen = utf8_char_len((unsigned char) *s);
 
-            int char_bytes = utf8_char_len((unsigned char)*s);
+                s += clen;
+                if (s > end)
+                    s = end;
+            }
+            if (s >= end)
+                continue;
+
+            int char_bytes = utf8_char_len((unsigned char) *s);
+            if (s + char_bytes > end) /* truncated multibyte char */
+                char_bytes = 1;
 
             if (char_bytes > 1) {
                 *s = '?';
                 memmove(s + 1, s + char_bytes, strlen(s + char_bytes) + 1);
+                end = engr + strlen(engr); /* string shrank */
                 continue;
             }
 
@@ -205,9 +220,8 @@ wipeout_text(
         }
     }
 
-    unsigned byte_len = (unsigned) strlen(engr);
-    while (byte_len && engr[byte_len - 1] == ' ')
-        engr[--byte_len] = '\0';
+    while (end > engr && end[-1] == ' ')
+        *--end = '\0';
 }
 
 /* check whether hero can reach something at ground level */
@@ -1388,10 +1402,11 @@ engrave(void)
 
     /* Step 2: Compute last character that can be engraved this action. */
     i = rate;
-    for (endc = svc.context.engraving.nextc; *endc && i > 0; endc++) {
+    for (endc = svc.context.engraving.nextc; *endc && i > 0; ) {
         if (*endc != ' ') {
             i--;
         }
+        endc += utf8_char_len((unsigned char) *endc);
     }
 
     /* Step 3: affect stylus from engraving - it might wear out. */
@@ -1498,8 +1513,13 @@ engrave(void)
 
     space_left = (int) (sizeof buf - strlen(buf) - 1U);
     if (endc - svc.context.engraving.nextc > space_left) {
+        char *tmp = svc.context.engraving.nextc;
+
         You("写不下了.");
-        endc = svc.context.engraving.nextc + space_left;
+        while (*tmp && tmp + utf8_char_len((unsigned char) *tmp)
+                       <= svc.context.engraving.nextc + space_left)
+            tmp += utf8_char_len((unsigned char) *tmp);
+        endc = tmp;
         truncate = TRUE;
     }
 

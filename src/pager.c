@@ -209,8 +209,11 @@ mhidden_description(
         if (M_AP_TYPE(mon) == M_AP_FURNITURE) {
             what = defsyms[mon->mappearance].explanation;
             if (incl_article)
-                Sprintf(what, "一%s%s", sym_to_quantifier(mon->mappearance), what); //待写:what = an(what);
-            Strcat(outbuf, what); Strcat(outbuf, ")"); /*危险:删掉第二句*/
+                Sprintf(eos(outbuf), "一%s%s",
+                        terrain_quantifier(mon->mappearance), what);
+            else
+                Strcat(outbuf, what);
+            Strcat(outbuf, ")");
         } else if (M_AP_TYPE(mon) == M_AP_OBJECT
                    /* remembered glyph, not glyph_at() which is 'mon' */
                    && glyph_is_object(glyph)) {
@@ -221,8 +224,10 @@ mhidden_description(
                    ? simpleonames(otmp)
                    : obj_descr[STRANGE_OBJECT].oc_name;
             if (incl_article && (!otmp || otmp->quan == 1L))
-                Sprintf(what, "一%s%s", quantifier(otmp), what); //同上
-            Strcat(outbuf, what);
+                Sprintf(eos(outbuf), "一%s%s",
+                        otmp ? quantifier(otmp) : "个", what);
+            else
+                Strcat(outbuf, what);
 
             if (fakeobj && otmp) {
                 otmp->where = OBJ_FREE; /* object_from_map set to OBJ_FLOOR */
