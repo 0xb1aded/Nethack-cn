@@ -1062,7 +1062,7 @@ test_move(
                     if (sym == S_stone)
                         Strcpy(buf, "坚硬的石头");
                     else if (sym >= 0)
-                        Strcpy(buf, defsyms[sym].explanation); //我懒得写量词了,,,
+                        Sprintf(buf, "一%s%s", sym_to_quantifier(sym), defsyms[sym].explanation); //我懒得写量词了,,,
                     else
                         Sprintf(buf, "不可能的 [背景字形=%d]",
                                 glyph);

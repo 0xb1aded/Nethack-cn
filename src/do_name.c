@@ -1403,6 +1403,44 @@ sym_to_quantifier(int sym)
 {
     switch (sym)
     {
+        //地形
+        case S_stone:
+            return "块";
+        case S_vwall:
+        case S_hwall:
+        case S_trcorn:
+        case S_blcorn:
+        case S_brcorn:
+        case S_crwall:
+        case S_tuwall:
+        case S_tdwall:
+        case S_tlwall:
+        case S_trwall:
+            return "堵";
+        case S_vodoor:
+        case S_hodoor:
+        case S_vcdoor:
+        case S_hcdoor:
+            return "扇";
+        case S_tree:
+            return "棵";
+        case S_grave:
+        case S_vodbridge:
+        case S_hodbridge:
+        case S_vcdbridge:
+        case S_hcdbridge:
+            return "座";
+        case S_pool:
+        case S_lava:
+            return "池";
+        case S_ice:
+            return "面";
+        case S_air:
+        case S_cloud:
+        case S_water:
+        case S_poisoncloud:
+            return "片";
+        //怪物
         case S_ANT:
         case S_COCKATRICE:
         case S_DOG: //狼要不要换成匹? -- Francium-223

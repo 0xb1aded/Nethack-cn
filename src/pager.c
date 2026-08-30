@@ -209,7 +209,7 @@ mhidden_description(
         if (M_AP_TYPE(mon) == M_AP_FURNITURE) {
             what = defsyms[mon->mappearance].explanation;
             if (incl_article)
-                what = an(what); //待写:what = an(what);
+                Sprintf(what, "一%s%s", sym_to_quantifier(mon->mappearance), what); //待写:what = an(what);
             Strcat(outbuf, what); Strcat(outbuf, ")"); /*危险:删掉第二句*/
         } else if (M_AP_TYPE(mon) == M_AP_OBJECT
                    /* remembered glyph, not glyph_at() which is 'mon' */
