@@ -1328,13 +1328,13 @@ xname_flags(
             Strcpy(buf, "戒指");
         }
         else if (nn){
-            Sprintf(buf, "%s戒指", actualn);
+            Sprintf(buf, "%s%s戒指", buf, actualn);
         }
         else if (un){
             xcalled(buf, BUFSZ - PREFIX, "戒指", un);
         }
         else{
-            Sprintf(buf, "%s戒指", dn);
+            Sprintf(buf, "%s%s戒指", buf, dn);
         }
         break;
     case GEM_CLASS: {
@@ -1347,7 +1347,7 @@ xname_flags(
                 xcalled(buf, BUFSZ - PREFIX, rock, un);
             }
             else{
-                Sprintf(buf, "%s%s", dn, rock);
+                Sprintf(buf, "%s%s%s", buf, dn, rock);
             }
         } else {
             Strcat(buf, actualn);
