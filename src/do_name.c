@@ -1399,83 +1399,90 @@ pm_to_quantifier(struct permonst *pm)
 }
 
 const char *
+terrain_quantifier(int sym)
+{
+    switch (sym)
+    {
+    case S_stone:
+        return "块";
+    case S_vwall:
+    case S_hwall:
+    case S_trcorn:
+    case S_blcorn:
+    case S_brcorn:
+    case S_crwall:
+    case S_tuwall:
+    case S_tdwall:
+    case S_tlwall:
+    case S_trwall:
+        return "堵";
+    case S_vodoor:
+    case S_hodoor:
+    case S_vcdoor:
+    case S_hcdoor:
+        return "扇";
+    case S_tree:
+        return "棵";
+    case S_grave:
+    case S_vodbridge:
+    case S_hodbridge:
+    case S_vcdbridge:
+    case S_hcdbridge:
+        return "座";
+    case S_pool:
+    case S_lava:
+        return "池";
+    case S_ice:
+        return "面";
+    case S_air:
+    case S_cloud:
+    case S_water:
+    case S_poisoncloud:
+        return "片";
+    }
+    return "个";
+}
+
+const char *
 sym_to_quantifier(int sym)
 {
     switch (sym)
     {
-        //地形
-        case S_stone:
-            return "块";
-        case S_vwall:
-        case S_hwall:
-        case S_trcorn:
-        case S_blcorn:
-        case S_brcorn:
-        case S_crwall:
-        case S_tuwall:
-        case S_tdwall:
-        case S_tlwall:
-        case S_trwall:
-            return "堵";
-        case S_vodoor:
-        case S_hodoor:
-        case S_vcdoor:
-        case S_hcdoor:
-            return "扇";
-        case S_tree:
-            return "棵";
-        case S_grave:
-        case S_vodbridge:
-        case S_hodbridge:
-        case S_vcdbridge:
-        case S_hcdbridge:
-            return "座";
-        case S_pool:
-        case S_lava:
-            return "池";
-        case S_ice:
-            return "面";
-        case S_air:
-        case S_cloud:
-        case S_water:
-        case S_poisoncloud:
-            return "片";
-        //怪物
-        case S_ANT:
-        case S_COCKATRICE:
-        case S_DOG: //狼要不要换成匹? -- Francium-223
-        case S_FELINE:
-        case S_RODENT:
-        case S_XAN:
-        case S_BAT:
-        case S_JABBERWOCK:
-        case S_YETI:
-        case S_ZOMBIE:
-        case S_SPIDER:
-        case S_LIZARD:
-            return "只";
-        case S_QUADRUPED:
-        case S_DRAGON: //西方的龙应该不是条吧,?
-        case S_EEL: //同样需细化
-            return "头";
-        case S_UNICORN:
-            return "匹";
-        case S_VORTEX: //漩涡应该用什么?
-        case S_FUNGUS: //同上
-            return "片";
-        case S_WORM:
-        case S_NAGA:
-        case S_SNAKE:
-            return "条";
-        case S_LIGHT:
-            return "道";
-        case S_MUMMY:
-            return "具";
-        case S_GOLEM:
-            return "尊";
-        case S_JELLY: //我现在懒得改名字, 要改还要修mon_chinese.inc
-        case S_PUDDING:
-            return "团";
+    case S_ANT:
+    case S_COCKATRICE:
+    case S_DOG: //狼要不要换成匹? -- Francium-223
+    case S_FELINE:
+    case S_RODENT:
+    case S_XAN:
+    case S_BAT:
+    case S_JABBERWOCK:
+    case S_YETI:
+    case S_ZOMBIE:
+    case S_SPIDER:
+    case S_LIZARD:
+        return "只";
+    case S_QUADRUPED:
+    case S_DRAGON: //西方的龙应该不是条吧,?
+    case S_EEL: //同样需细化
+        return "头";
+    case S_UNICORN:
+        return "匹";
+    case S_VORTEX: //漩涡应该用什么?
+    case S_FUNGUS: //同上
+        return "片";
+    case S_WORM:
+    case S_NAGA:
+    case S_SNAKE:
+        return "条";
+    case S_LIGHT:
+        return "道";
+    case S_MUMMY:
+        return "具";
+    case S_GOLEM:
+        return "尊";
+    case S_JELLY: //我现在懒得改名字, 要改还要修mon_chinese.inc
+    case S_PUDDING:
+        return "团";
     }
     return "个";
 }

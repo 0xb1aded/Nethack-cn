@@ -2236,6 +2236,7 @@ extern const char *quantifier(struct obj *) NONNULLARG1;
 extern const char *an_pmname(struct permonst *, int);
 extern const char *pm_to_quantifier(struct permonst *);
 extern const char *sym_to_quantifier(int);
+extern const char *terrain_quantifier(int);
 extern const char *mon_quantifier(struct monst *);
 extern boolean obj_is_pname(struct obj *) NONNULLARG1;
 extern char *distant_name(struct obj *, char *(*)(struct obj *)) NONNULLPTRS;
