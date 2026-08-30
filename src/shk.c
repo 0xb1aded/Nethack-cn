@@ -1979,7 +1979,7 @@ dopay(void)
         } else {
             Sprintf(sbuf, "因你使用过商品,");
         }
-        Snprintf(sbuf, sizeof sbuf, "你需支付%s%ld %s.", shkname(shkp), dtmp,
+        Snprintf(sbuf, sizeof sbuf, "你需支付%s %ld %s.", shkname(shkp), dtmp,
                 currency(dtmp)); /*修改语序:移到if(loan)前面*/
         pline1(sbuf);
         if (umoney + eshkp->credit < dtmp) {
