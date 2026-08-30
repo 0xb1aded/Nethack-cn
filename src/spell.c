@@ -1161,7 +1161,7 @@ cast_protection(void)
                                      : IS_TREE(rmtyp) ? "你周围的植被"
                                        : IS_STWALL(rmtyp) ? "你周围的石头"
                                          : "空气");
-                pline_The("%s开始泛起微弱的暗淡%s色.",
+                pline_The("%s开始泛起微弱的暗淡%s.",
                           atmosphere, hgolden);
             }
         }
