@@ -135,7 +135,7 @@ cursed_book(struct obj *bp)
 
     switch (rn2(lev)) {
     case 0:
-        You_feel("一阵扭曲.");
+        You("感到一阵扭曲."); //You_feel
         tele(); /* teleport him */
         break;
     case 1:

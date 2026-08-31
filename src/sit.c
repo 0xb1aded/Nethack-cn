@@ -187,7 +187,7 @@ throne_sit_effect(void)
                 You_feel("被威胁了.");
                 aggravate();
             } else {
-                You_feel("一阵扭曲.");
+                You("感到一阵扭曲."); //You_feel
                 tele(); /* teleport him */
             }
             break;

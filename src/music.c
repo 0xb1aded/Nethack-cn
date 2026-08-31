@@ -602,7 +602,7 @@ do_improvisation(struct obj *instr)
             pline("%s%s.", Tobjnam(instr, do_spec ? "吹奏出颤音" : "吹响了"),
                   same_old_song ? "一段熟悉的曲子" : "");
         else
-            You_feel("%s%s.", yname(instr), do_spec ? "一阵颤音" : "嘟嘟声");
+            You_feel("%s发出来%s.", yname(instr), do_spec ? "一阵颤音" : "嘟嘟声");
         Hero_playnotes(obj_to_instr(&itmp), improvisation, 50);
         if (do_spec)
             charm_snakes(u.ulevel * 3);

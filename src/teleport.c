@@ -1477,7 +1477,7 @@ tele_trap(struct trap *trap)
     if (In_endgame(&u.uz) || Antimagic || noteleport_level(&gy.youmonst)) {
         if (Antimagic)
             shieldeff(u.ux, u.uy);
-        You_feel("一阵扭曲.");
+        You("感到一阵扭曲."); //You_feel
     } else if (!next_to_u()) {
         You1(shudder_for_moment);
     } else if (trap->once) {
@@ -1525,7 +1525,7 @@ level_tele_trap(struct trap *trap, unsigned int trflags)
         shieldeff(u.ux, u.uy);
     }
     if ((Antimagic && !intentional) || In_endgame(&u.uz)) {
-        You_feel("一阵扭曲.");
+        You("感到一阵扭曲."); //You_feel
         return;
     }
     deltrap(trap);
