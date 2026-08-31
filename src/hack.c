@@ -403,7 +403,7 @@ moverock_core(coordxy sx, coordxy sy)
                 sokoban_guilt();
                 res = 0; /* move to <sx,sy> */
             } else {
-                There("有巨石挡在你前面.");
+                pline("有巨石挡在你前面."); //There
                 /* use a move if hero learns something; see test_move() for
                    how/why 'context.door_opened' is being dragged into this */
                 if (glyph_at(sx, sy) != oldglyph)

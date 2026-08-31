@@ -411,7 +411,7 @@ fix_worst_trouble(int trouble)
         disp.botl = TRUE;
         break;
     case TROUBLE_SICK:
-        You_feel("好多了.");
+        You_feel("好些了.");
         make_sick(0L, (char *) 0, FALSE, SICK_ALL);
         break;
     case TROUBLE_REGION:

@@ -81,7 +81,7 @@ use_saddle(struct obj *otmp)
     }
     if (mtmp->isminion || mtmp->isshk || mtmp->ispriest || mtmp->isgd
         || mtmp->iswiz) {
-        pline("我想%s会介意的.", mon_nam(mtmp));
+        pline("我觉得%s会介意的.", mon_nam(mtmp));
         return ECMD_TIME;
     }
     if (!can_saddle(mtmp)) {

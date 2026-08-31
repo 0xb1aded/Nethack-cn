@@ -1026,7 +1026,7 @@ drag_down(void)
             dragchance -= 2;
         }
         if ((int) dragchance >= rnd(6)) {
-            pline_The("铁球把你拖下楼梯!");
+            pline_The("铁球把你拖下了楼梯!");
             losehp(Maybe_Half_Phys(rnd(3)),
                    "被一个铁球拖下楼梯", NO_KILLER_PREFIX);
             exercise(A_STR, FALSE);

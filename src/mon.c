@@ -4800,7 +4800,7 @@ hideunder(struct monst *mtmp)
             if (!locomo)
                 locomo = locomotion(mtmp->data, "藏");
             set_msg_xy(mtmp->mx, mtmp->my); /* pline() will reset this */
-            You_see("你看到%s%s在%s下.", seenmon, locomo, seenobj);
+            You_see("看到%s%s在%s下.", seenmon, locomo, seenobj);
             iflags.last_msg = PLNMSG_HIDE_UNDER;
             gl.last_hider = mtmp->m_id;
         }

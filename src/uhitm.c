@@ -3067,7 +3067,7 @@ mhitm_ad_curs(
                 were_change(mdef);
             if (pd == &mons[PM_CLAY_GOLEM]) {
                 if (gv.vis && canseemon(mdef)) {
-                    pline("%s被消灭了!",
+                    pline("%s头上的文字消失了!",
                           s_suffix(mon_nam(mdef)));
                     pline_mon(mdef, "%s被摧毁了!", Monnam(mdef));
                 }

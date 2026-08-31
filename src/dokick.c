@@ -686,7 +686,7 @@ really_kick_object(coordxy x, coordxy y)
      */
     if (range < 2) {
         if (!Is_box(gk.kickedobj))
-            pline("咚!");
+            pline("砰!");
         return (!rn2(3) || martial());
     }
 
@@ -709,7 +709,7 @@ really_kick_object(coordxy x, coordxy y)
                 return 1;
             }
             if (gk.kickedobj->quan > 300L) {
-                pline("咚!");
+                pline("砰!");
                 return (!rn2(3) || martial());
             }
         }
@@ -1737,7 +1737,7 @@ ship_object(struct obj *otmp, coordxy x, coordxy y, boolean shop_floor_obj)
         } else {
             Soundeffect(se_glass_crashing, 25);
         }
-        You_hear("一声沉闷的%s.", result);
+        You_hear("一声低沉的%s.", result);
         obj_extract_self(otmp);
         obfree(otmp, (struct obj *) 0);
         return TRUE;

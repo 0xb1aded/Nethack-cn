@@ -376,7 +376,7 @@ do_earthquake(int force)
                                   Amonnam(mtmp));
                         } else if (!is_flyer(mtmp->data)) {
                             Soundeffect(se_thump, 50);
-                            You_hear("砰的一声.");
+                            You_hear("咚的一声.");
                         }
                     }
                 }

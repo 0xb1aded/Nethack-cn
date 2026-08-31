@@ -724,8 +724,8 @@ nh_timeout(void)
                 break;
             case FAST:
                 if (!Very_fast)
-                    You_feel("你的速度变%s慢了.",
-                             Fast ? "得有点" : "");
+                    You_feel("你的速度变慢了%s.",
+                             Fast ? "一点" : "");
                 break;
             case CONFUSION:
                 /* So make_confused works properly */

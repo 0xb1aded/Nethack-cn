@@ -913,7 +913,7 @@ destroy_drawbridge(coordxy x, coordxy y)
                 pline_The("吊桥的吊闸掉进了%s!",
                           lava ? hliquid("熔岩") : "护城河");
             else
-                You_hear("响亮的*扑通*声!");  /* Deaf-aware */
+                You_hear("响亮的*哗啦*声!");  /* Deaf-aware */
         } else {
             if (cansee(x, y) || u_at(x, y))
                 pline_The("吊桥倒塌进了%s!",

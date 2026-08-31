@@ -751,7 +751,7 @@ mcast_paralyze(struct monst *mtmp)
         shieldeff(u.ux, u.uy);
         monstseesu(M_SEEN_MAGR);
         if (gm.multi >= 0)
-            You("僵住了一刹那.");
+            You("短暂僵住了.");
         dmg = 1; /* to produce nomul(-1), not actual damage */
     } else {
         if (gm.multi >= 0)

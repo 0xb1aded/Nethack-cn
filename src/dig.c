@@ -970,9 +970,9 @@ dighole(boolean pit_only, boolean by_magic, coord *cc)
              * We can't dig a hole here since that will destroy
              * the drawbridge.  The following is a cop-out. --dlc
              */
-            pline_The("%s%s这里太硬了, 无法挖掘.",
+            pline_The("%s%s里太硬了, 无法挖掘.",
                       surface(dig_x, dig_y),
-                      (dig_x != u.ux || dig_y != u.uy) ? "t" : "");
+                      (dig_x != u.ux || dig_y != u.uy) ? "那" : "这");
         } else {
             lev->drawbridgemask &= ~DB_UNDER;
             lev->drawbridgemask |= (typ == LAVAPOOL) ? DB_LAVA : DB_MOAT;
@@ -1270,7 +1270,7 @@ use_pick_axe2(struct obj *obj)
                 You("挥动%s, 但碎石无处可去.",
                     yobjnam(obj, (char *) 0));
             } else {
-                You("对空气挥动%s.", yobjnam(obj, (char *) 0));
+                You("对着空气挥动%s.", yobjnam(obj, (char *) 0));
             }
         } else {
             static const char *const d_action[6] = { "挥动", "挖掘",

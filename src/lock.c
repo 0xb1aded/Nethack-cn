@@ -84,7 +84,7 @@ picklock(void)
             You("不能锁打开的门.");
             return ((gx.xlock.usedtime = 0));
         case D_BROKEN:
-            pline("这扇门坏了.");
+            pline("这扇门已经坏了.");
             return ((gx.xlock.usedtime = 0));
         }
     }
@@ -219,7 +219,7 @@ forcelock(void)
         return ((gx.xlock.usedtime = 0)); /* you or it moved */
 
     if (gx.xlock.usedtime++ >= 50 || !uwep || nohands(gy.youmonst.data)) {
-        You("放弃了尝试撬锁.");
+        You("放弃了尝试强行开锁.");
         if (gx.xlock.usedtime >= 50) /* you made the effort */
             exercise((gx.xlock.picktyp) ? A_DEX : A_STR, TRUE);
         return ((gx.xlock.usedtime = 0));
@@ -599,7 +599,7 @@ pick_lock(
             You("不能锁打开的门.");
             return PICKLOCK_LEARNED_SOMETHING;
         case D_BROKEN:
-            pline("这扇门坏了.");
+            pline("这扇门已经坏了.");
             return PICKLOCK_LEARNED_SOMETHING;
         default:
             if ((flags.autounlock & AUTOUNLOCK_UNTRAP) != 0
@@ -848,7 +848,7 @@ doopen_indir(coordxy x, coordxy y)
             pline("%s那里有东西可可以搜刮.",
                   Blind ? "你感觉" : "好像");
         else
-            You("%s那里没有门.", Blind ? "感觉到" : "看到");
+            You("%s那里没有门.", Blind ? "感受到" : "看到");
         return res;
     }
 
@@ -1012,7 +1012,7 @@ doclose(void)
             pline("没有明显的方式来关闭吊桥."); /*换pline:There*/
         else {
  nodoor:
-            You("%s那里没有门.", Blind ? "感觉到" : "看到");
+            You("%s那里没有门.", Blind ? "感受到" : "看到");
         }
         return res;
     }
@@ -1062,7 +1062,7 @@ boxlock(struct obj *obj, struct obj *otmp) /* obj *is* a box */
     case SPE_WIZARD_LOCK:
         if (!obj->olocked) { /* lock it; fix if broken */
             Soundeffect(se_klunk, 50);
-            pline("哐啷!");
+            pline("哐当!");
             obj->olocked = 1;
             obj->obroken = 0;
             if (Role_if(PM_WIZARD))

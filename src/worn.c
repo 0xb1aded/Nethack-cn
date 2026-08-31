@@ -993,7 +993,7 @@ m_dowear_type(
     /* if couldn't see it but now can, or vice versa */
     if (!creation && (sawmon ^ canseemon(mon))) {
         if (mon->minvis && !See_invisible) {
-            pline("突然间你看不到%s了.", nambuf);
+            pline("突然你看不见%s了.", nambuf);
             makeknown(best->otyp);
         /* } else if (!mon->minvis) {
          *     pline("%s suddenly appears!", Amonnam(mon)); */
@@ -1236,7 +1236,7 @@ mon_break_armor(struct monst *mon, boolean polyspot)
                 pline_mon(mon, "%s的盔甲从%s身上掉下来了!",
                           s_suffix(Monnam(mon)), pronoun);
             else
-                You_hear("当啷声.");
+                You_hear("砰的一声.");
             m_lose_armor(mon, otmp, polyspot);
         }
         if ((otmp = which_armor(mon, W_ARMC)) != 0

@@ -2297,7 +2297,7 @@ bhito(struct obj *obj, struct obj *otmp)
                 if (cansee(obj->ox, obj->oy))
                     pline_The("巨石破碎了.");
                 else
-                    You_hear("你听到一阵碎裂声.");
+                    You_hear("一阵碎裂声.");
                 fracture_rock(obj);
             } else if (obj->otyp == STATUE) {
                 if (break_statue(obj)) {
@@ -2729,7 +2729,7 @@ zapyourself(struct obj *obj, boolean ordinary)
         learn_it = TRUE;
         if (Antimagic) {
             shieldeff(u.ux, u.uy);
-            pline("嘭!");
+            pline("咚!");
             monstseesu(M_SEEN_MAGR);
         } else {
             if (ordinary) {
@@ -2845,7 +2845,7 @@ zapyourself(struct obj *obj, boolean ordinary)
 
         if (BInvis && uarmc->otyp == MUMMY_WRAPPING) {
             /* A mummy wrapping absorbs it and protects you */
-            You_feel("%s下面相当痒.", yname(uarmc));
+            You_feel("%s下面有点痒.", yname(uarmc));
             break;
         }
         incr_itimeout(&HInvis, rn1(15, 31));

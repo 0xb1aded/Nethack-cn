@@ -493,7 +493,7 @@ ghost_from_bottle(void)
     pline("当你打开了瓶子, 一个巨大的%s浮现出来!",
           Hallucination ? rndmonnam(NULL) : (const char *) "鬼魂");
     if (flags.verbose)
-        You("害怕得要死, 无法移动了.");
+        You("害怕得要死, 无法移动.");
     nomul(-3);
     gm.multi_reason = "害怕得要死";
     gn.nomovemsg = "你重新镇定下来.";
@@ -1832,8 +1832,8 @@ potionhit(struct monst *mon, struct obj *obj, int how)
             if (mon_hates_blessings(mon) /* undead or demon */
                 || is_were(mon->data) || is_vampshifter(mon)) {
                 if (obj->blessed) {
-                    pline("%s在痛苦中%s!", Monnam(mon),
-                          is_silent(mon->data) ? "扭动" : "尖叫");
+                    pline("%s在疼痛地%s!", Monnam(mon),
+                          is_silent(mon->data) ? "翻滚" : "尖叫");
                     if (!is_silent(mon->data))
                         wake_nearto(tx, ty, mon->data->mlevel * 10);
                     mon->mhp -= d(2, 6);

@@ -1265,7 +1265,7 @@ break_armor(void)
         if ((otmp = uarmh) != 0) {
             if (donning(otmp))
                 cancel_don();
-            Your("%s掉落在了%s上!", helm_simple_name(otmp),
+            Your("%s掉到了%s上!", helm_simple_name(otmp),
                  surface(u.ux, u.uy));
             (void) Helmet_off();
             dropp(otmp);

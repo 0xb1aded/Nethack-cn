@@ -2095,7 +2095,7 @@ canwearobj(struct obj *otmp, long *mask, boolean noisy)
             err++;
         } else if (u.twoweap) {
             if (noisy)
-                You("没有脚...");
+                You("不能在使用双武器时佩戴盾牌.");
             err++;
         } else
             *mask = W_ARMS;

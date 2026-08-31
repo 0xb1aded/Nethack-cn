@@ -1884,7 +1884,7 @@ dopay(void)
     if (shkp != resident && NOTANGRY(shkp)) {
         umoney = money_cnt(gi.invent);
         if (!ltmp) {
-            You("在%s没有欠钱.", shkname(shkp));
+            You("没有欠%s钱.", shkname(shkp));
         } else if (!umoney) {
             You("%s没有金币.", stashed_gold ? "似乎" : "");
             if (stashed_gold)
@@ -3883,7 +3883,7 @@ stolen_value(
                 Norep("%s吼道: \"%s, 你个小偷! \"",
                       Shknam(shkp), svp.plname);
             } else if (!Deaf) {
-                Norep("你听到一声尖叫, \"贼! \"");  /* Deaf-aware */
+                Norep("你听见一声尖叫, \"抓小偷啊! \"");  /* Deaf-aware */
             }
         }
         hot_pursuit(shkp);
@@ -5044,7 +5044,7 @@ shopdig(int fall)
         return;
     if (!inhishop(shkp)) {
         if (Role_if(PM_KNIGHT)) {
-            You_feel("像个庸俗的窃贼.");
+            You_feel("像个庸俗的小偷.");
             adjalign(-sgn(u.ualign.type));
         }
         return;

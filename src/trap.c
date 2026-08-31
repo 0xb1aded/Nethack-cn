@@ -5457,7 +5457,7 @@ try_disarm(
     }
     /* We might be forced to move onto the trap's location. */
     if (sobj_at(BOULDER, ttmp->tx, ttmp->ty) && !Passes_walls && !under_u) {
-        There("有一块巨石挡在你前面.");
+        pline("有巨石挡在你前面."); //There
         return 0;
     }
     /* duplicate tight-space checks from test_move */
@@ -6405,7 +6405,7 @@ chest_trap(
                     You("因物品被毁, 你需支付%ld %s.", loss,
                         currency(loss));
                 } else {
-                    You("造成了%ld %s的损失!", loss,
+                    You("造成了价值%ld %s的损失!", loss,
                         currency(loss));
                     make_angry_shk(shkp, ox, oy);
                 }

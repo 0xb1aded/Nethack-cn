@@ -1088,7 +1088,7 @@ hurtle(int dx, int dy, int range, boolean verbose)
      * for diagonal movement, give the player a message and return.
      */
     if (Punished && !carried(uball)) {
-        You_feel("铁球传来一阵拉扯.");
+        You_feel("到铁球的拉力.");
         nomul(0);
         return;
     } else if (u.utrap) {

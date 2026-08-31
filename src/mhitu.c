@@ -164,7 +164,7 @@ u_slow_down(void)
 {
     HFast = 0L;
     if (!Fast)
-        You("慢了下来.");
+        You("的速度变慢了.");
     else /* speed boots */
         Your("迅捷感觉不那么自然了.");
     exercise(A_DEX, FALSE);
