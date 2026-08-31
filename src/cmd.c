@@ -1595,7 +1595,7 @@ int
 do_rush(void)
 {
     if ((gd.domove_attempting & DOMOVE_RUSH)) {
-        Norep("双重奔跑前缀, 已取消.");
+        Norep("双重冲刺前缀, 已取消.");
         svc.context.run = 0;
         gd.domove_attempting = 0;
         return ECMD_CANCEL;
@@ -2027,21 +2027,21 @@ struct ext_func_tab extcmdlist[] = {
     { '\0',   "movesouthwest", "向西南(左下)移动",
               do_move_southwest, MOVEMENTCMD | CMD_MOVE_PREFIXES, NULL },
     /* rush; accept m prefix but not g/G/F */
-    { '\0',   "rushwest", "向西(左)奔跑",
+    { '\0',   "rushwest", "向西(左)冲刺",
               do_rush_west, MOVEMENTCMD | CMD_M_PREFIX, NULL },
-    { '\0',   "rushnorthwest", "向西北(左上)奔跑",
+    { '\0',   "rushnorthwest", "向西北(左上)冲刺",
               do_rush_northwest, MOVEMENTCMD | CMD_M_PREFIX, NULL },
-    { '\0',   "rushnorth", "向北(上)奔跑",
+    { '\0',   "rushnorth", "向北(上)冲刺",
               do_rush_north, MOVEMENTCMD | CMD_M_PREFIX, NULL },
-    { '\0',   "rushnortheast", "向东北(右上)奔跑",
+    { '\0',   "rushnortheast", "向东北(右上)冲刺",
               do_rush_northeast, MOVEMENTCMD | CMD_M_PREFIX, NULL },
-    { '\0',   "rusheast", "向东(右)奔跑",
+    { '\0',   "rusheast", "向东(右)冲刺",
               do_rush_east, MOVEMENTCMD | CMD_M_PREFIX, NULL },
-    { '\0',   "rushsoutheast", "向东南(右下)奔跑",
+    { '\0',   "rushsoutheast", "向东南(右下)冲刺",
               do_rush_southeast, MOVEMENTCMD | CMD_M_PREFIX, NULL },
-    { '\0',   "rushsouth", "向南(下)奔跑",
+    { '\0',   "rushsouth", "向南(下)冲刺",
               do_rush_south, MOVEMENTCMD | CMD_M_PREFIX, NULL },
-    { '\0',   "rushsouthwest", "向西南(左下)奔跑",
+    { '\0',   "rushsouthwest", "向西南(左下)冲刺",
               do_rush_southwest, MOVEMENTCMD | CMD_M_PREFIX, NULL },
     /* run; accept m prefix but not g/G/F */
     { '\0',   "runwest", "向西(左)奔跑",

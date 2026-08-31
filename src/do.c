@@ -542,7 +542,7 @@ dosinkring(struct obj *obj)
     case RIN_GAIN_CONSTITUTION:
         pline_The("%s流似乎变得更%s了.",
                   hliquid("水"),
-                  (obj->spe < 0) ? "弱" : "强");
+                  (obj->spe < 0) ? "细" : "粗");
         break;
     case RIN_INCREASE_ACCURACY: /* KMH */
         pline_The("%s流%s下水口.",
