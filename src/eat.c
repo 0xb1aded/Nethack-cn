@@ -1822,7 +1822,7 @@ Hear_again(void)
 staticfn int
 rottenfood(struct obj *obj)
 {
-    pline("呕! 这%s%s%s!", quantifier(obj),
+    pline("呕! 这%s%s!",// quantifier(obj),
           foodword(obj), is_rottable(obj) ? "已经烂了" : "真糟糕"); /*修改语序:is_rottable(obj) ? "已经烂了" : "真糟糕", foodword(obj));*/
     if (!rn2(4)) {
         if (Hallucination)
