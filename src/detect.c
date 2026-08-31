@@ -1116,7 +1116,7 @@ furniture_detect(void)
         }
 
     if (!found)
-        There("这层似乎没有任何值得关注的东西.");
+        pline("这层似乎没有任何值得关注的东西."); //There
     else if (!revealed)
         /* [what about clipped map with points of interest outside of the
             currently shown area?] */

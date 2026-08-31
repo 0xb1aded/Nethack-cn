@@ -1164,7 +1164,7 @@ test_move(
             return FALSE;
         case 1:
             if (mode == DO_MOVE)
-                Your("的身体太大了, 不能顺利通过.");
+                Your("身体太大了, 不能顺利通过.");
             return FALSE;
         default:
             break; /* can squeeze through */
