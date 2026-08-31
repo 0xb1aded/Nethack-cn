@@ -495,7 +495,7 @@ monflee(
             } else if (flees_light(mtmp)) {
                 if (Unaware) {
                     /* tell the player even if the hero is unconscious */
-                    pline_mon(mtmp, "%s很到害怕.", Monnam(mtmp));
+                    pline_mon(mtmp, "%s感到害怕.", Monnam(mtmp));
                 } else if (rn2(10) || Deaf) {
                     /* via flees_light(), will always be either via uwep
                        (Sunsword) or uarm (gold dragon scales/mail) or both;

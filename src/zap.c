@@ -1038,6 +1038,7 @@ revive(struct obj *corpse, boolean by_hero)
         if (cansee(x, y)) {
             char buf[BUFSZ];
 
+            buf[0] = '\0';
             (void) shk_your(eos(buf), corpse);
             Strcat(buf, one_of ? "其中一具" : "");
             /* shk_your: "the " or "your " or "<mon>'s " or "<Shk>'s ".

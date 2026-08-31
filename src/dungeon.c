@@ -3618,8 +3618,7 @@ print_mapseen(
             atmp = mptr->feat.msalign;              /*    0,  1,  2,  3 */
             atmp = Msa2amask(atmp);                 /*    0,  1,  2,  4 */
             if (Amask2align(atmp) == u.ualign.type) { /* -128, -1,  0, +1 */
-                Strcpy(tmpbuf, buf);
-                Sprintf(buf, "%s的%s", align_gname(u.ualign.type), tmpbuf);
+                Sprintf(eos(buf), "(%s的)", align_gname(u.ualign.type));
             }
         }
         ADDNTOBUF("王座", mptr->feat.nthrone);
