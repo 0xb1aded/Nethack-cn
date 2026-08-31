@@ -2075,7 +2075,7 @@ bury_objs(int x, int y)
     maybe_unhide_at(x, y);
 
     if (costly && loss) {
-        You("欠%s%ld %s埋着的商品.", shkname(shkp), loss,
+        You("欠%s %ld %s埋着的商品.", shkname(shkp), loss,
             currency(loss));
     }
 }

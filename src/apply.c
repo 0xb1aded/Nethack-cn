@@ -1321,7 +1321,7 @@ use_bell(struct obj **optr)
 staticfn void
 use_candelabrum(struct obj *obj)
 {
-    const char *s = (obj->spe != 1) ? "蜡烛" : "蜡烛";
+    const char *s = "蜡烛";//(obj->spe != 1) ? "蜡烛" : "蜡烛";
 
     if (obj->lamplit) {
         You("掐灭了%s.", s);
@@ -1352,7 +1352,7 @@ use_candelabrum(struct obj *obj)
         return;
     }
     if (obj->spe < 7) {
-        pline("%s上%s%d %s.", the(xname(obj)), vtense(s, "只有"), obj->spe, /*修改语序,换pline:There("%s%d根%s在%s中.", vtense(s, "只有"), obj->spe, s,*/
+        pline("%s上%s%d根%s.", the(xname(obj)), vtense(s, "只有"), obj->spe, /*修改语序,换pline:There("%s%d根%s在%s中.", vtense(s, "只有"), obj->spe, s,*/
               s); /*修改语序:the(xname(obj)));*/
         if (!Blind)
             pline("%s点着了. %s出朦胧的光.", obj->spe == 1 ? "它" : "它们",
@@ -1391,7 +1391,7 @@ use_candle(struct obj **optr)
 {
     struct obj *obj = *optr;
     struct obj *otmp;
-    const char *s = (obj->quan != 1) ? "蜡烛" : "蜡烛";
+    const char *s = "蜡烛";//(obj->quan != 1) ? "蜡烛" : "蜡烛";
     char qbuf[QBUFSZ], qsfx[QBUFSZ], *q;
     boolean was_lamplit;
 
@@ -1436,13 +1436,13 @@ use_candle(struct obj **optr)
         if (was_lamplit)
             end_burn(obj, TRUE);
 
-        You("把%ld %s%s粘到%s上.", obj->quan, !otmp->spe ? "" : "根多的", s,
+        You("把%ld根%s%s粘到%s上.", obj->quan, !otmp->spe ? "" : "多的", s,
             the(xname(otmp)));
         if (!otmp->spe || otmp->age > obj->age)
             otmp->age = obj->age;
         otmp->spe += (int) obj->quan;
         if (otmp->lamplit && !was_lamplit)
-            pline_The("新粘上%s魔法般地%s了!", s, vtense(s, "点燃"));
+            pline_The("新粘上的%s魔法般地%s了!", s, vtense(s, "点燃"));
         else if (!otmp->lamplit && was_lamplit)
             pline("%s了.", (obj->quan > 1L) ? "它们熄灭" : "它熄灭");
         if (obj->unpaid) {

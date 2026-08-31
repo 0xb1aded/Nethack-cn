@@ -4657,7 +4657,7 @@ burn_floor_objects(
                 cnt += delquan;
                 if (give_feedback) {
                     if (delquan > 1L)
-                        pline("%ld %s在燃烧.", delquan, buf2);
+                        pline("%ld%s%s在燃烧.", delquan, quantifier(obj), buf2);
                     else
                         pline("%s在燃烧.", An(buf1));
                 }

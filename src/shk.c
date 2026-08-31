@@ -1028,7 +1028,7 @@ shopper_financial_report(void)
             else if (shkp == this_shkp)
                 You("在这里没有信用.");
             if ((amt = shop_debt(eshkp)) != 0)
-                You("欠%s%ld %s.", shkname(shkp), amt, currency(amt));
+                You("欠%s %ld %s.", shkname(shkp), amt, currency(amt));
             else if (shkp == this_shkp)
                 You("在这里没有欠钱.");
         }
@@ -1891,7 +1891,7 @@ dopay(void)
                 pline("但是你有些金币藏起来了.");
         } else {
             if (umoney > ltmp) {
-                You("按照%s的要求给了%s%ld %s.", /*修改语序:You("给%s%ld %s%s所要求的.",*/
+                You("按照%s的要求给了%s %ld %s.", /*修改语序:You("给%s%ld %s%s所要求的.",*/
                     shkname(shkp), noit_mhe(shkp), ltmp, plur(ltmp)); /*修改语序:shkname(shkp), ltmp, plur(ltmp), noit_mhe(shkp));*/
                 pay(ltmp, shkp);
             } else {
@@ -5723,24 +5723,24 @@ check_unpaid_usage(struct obj *otmp, boolean altusage)
     arg1 = arg2 = "";
     if (otmp->oclass == SPBOOK_CLASS) {
         fmt = "%s你欠%s%ld %s.";
-        Sprintf(buf, "这不是免费的图书馆, %s!", cad(FALSE));
+        Sprintf(buf, "这不是免费的图书馆, %s! ", cad(FALSE));
         arg1 = rn2(2) ? buf : "";
-        arg2 = ESHK(shkp)->debit > 0L ? "额外" : "";
+        arg2 = ESHK(shkp)->debit > 0L ? "额外的" : "";
     } else if (otmp->otyp == POT_OIL) {
         fmt = "%s%s你需支付%ld %s(岩德利亚燃油税).";
     } else if (altusage && (otmp->otyp == BAG_OF_TRICKS
                             || otmp->otyp == HORN_OF_PLENTY)) {
         fmt = "%s%s倒出内容物者需支付%ld %s.";
         if (!rn2(3))
-            arg1 = "哇哦!";
+            arg1 = "哇哦! ";
         if (!rn2(3))
-            arg1 = "小心!";
+            arg1 = "小心! ";
     } else {
         fmt = "%s%s使用费, %ld %s.";
         if (!rn2(3))
-            arg1 = "嘿!";
+            arg1 = "嘿! ";
         if (!rn2(3))
-            arg2 = "咳咳.";
+            arg2 = "咳咳. ";
     }
 
     if (!Deaf && !muteshk(shkp)) {
@@ -5796,7 +5796,7 @@ costly_gold(
             if (eshkp->debit)
                 Your("欠款增加了%ld %s.", delta, currency(delta));
             else
-                You("欠%s%ld %s.", shkname(shkp), delta, currency(delta));
+                You("欠%s %ld %s.", shkname(shkp), delta, currency(delta));
         }
         eshkp->debit += delta;
         eshkp->loan += delta;

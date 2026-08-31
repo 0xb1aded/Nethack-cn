@@ -379,7 +379,7 @@ bribe(struct monst *mtmp, const char *prompt)
         You("把你所有的金币都给了%s.", mon_nam(mtmp));
         offer = umoney;
     } else {
-        You("给了%s%ld %s.", mon_nam(mtmp), offer, currency(offer));
+        You("给了%s %ld %s.", mon_nam(mtmp), offer, currency(offer));
     }
     (void) money2mon(mtmp, offer);
     disp.botl = TRUE;

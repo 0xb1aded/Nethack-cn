@@ -242,9 +242,9 @@ throw_obj(struct obj *obj, int shotlimit)
        attempted to specify a count */
     if (multishot > 1 || shotlimit > 0) {
         /* "You shoot N arrows." or "You throw N daggers." */
-        You("%s%d %s.", gm.m_shot.s ? "发射" : "投掷",
+        You("%s了%d%s%s.", gm.m_shot.s ? "射出" : "投掷",
             multishot, /* (might be 1 if player gave shotlimit) */
-            (multishot == 1) ? singular(obj, xname) : xname(obj));
+            quantifier(obj), (multishot == 1) ? singular(obj, xname) : xname(obj));
     }
 
     wep_mask = obj->owornmask;
