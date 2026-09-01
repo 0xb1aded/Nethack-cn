@@ -2295,7 +2295,7 @@ doname_base(
             }
         }
         else {
-            Strcpy(prefix, "数个");
+            Strcpy(prefix, "");
         }
     } else if (obj->otyp == CORPSE) {
         /* skip article prefix for corpses [else corpse_xname()
