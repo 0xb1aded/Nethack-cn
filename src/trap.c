@@ -684,7 +684,7 @@ fall_through(
         if (dist > 1)
             You("%s下一个%s%s竖井!",
                 controlled_flight ? "飞" : "掉",
-                dist > 3 ? "非常" : "很",
+                dist > 3 ? "非常" : (dist > 2 ? "很" : ""),
                 dist > 2 ? "深的" : "");
     }
     if (!td)
