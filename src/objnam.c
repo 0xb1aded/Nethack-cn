@@ -1108,10 +1108,16 @@ xname_flags(
         ConcUpdate(buf);
 
         if (typ == FIGURINE && omndx != NON_PM) {
-            /*冗余:char anbuf[10];*/ /* [4] would be enough: 'a','n',' ','\0' */
+            char tmpbuf[BUFSZ];
             const char *pm_name = obj_pmname(obj);
+            const char *oname = nn ? actualn : dn;
+            size_t blen = strlen(buf), olen = strlen(oname);
 
-            Sprintf(buf, "%s%s的%s", buf, pm_name, actualn); /*危险:ConcatF2(buf, 0, " of %s%s", just_an(anbuf, pm_name), pm_name);*/
+            if (blen >= olen) {
+                Strcpy(tmpbuf, buf);
+                tmpbuf[blen - olen] = '\0';
+                Sprintf(buf, "%s%s的%s", tmpbuf, pm_name, oname);
+            }
         } else if (is_wet_towel(obj)) {
             if (wizard)
                 ConcatF1(buf, 0, " (%d)", obj->spe);
