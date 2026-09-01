@@ -935,11 +935,11 @@ from_what(
              */
             if ((propidx == BLINDED && u.uroleplay.blind)
                 || (propidx == DEAF && u.uroleplay.deaf))
-                Sprintf(buf, "从出生就有");
+                Sprintf(buf, ", 从出生就有");
             else if (innateness == FROM_ROLE || innateness == FROM_RACE)
-                Strcpy(buf, "天赋");
+                Strcpy(buf, ", 因为你的天赋");
             else if (innateness == FROM_INTR) /* [].intrinsic & FROMOUTSIDE */
-                Strcpy(buf, "内在属性");
+                Strcpy(buf, ", 因为你的内在属性"); //危险,待写:暂时权衡一下吧
             else if (innateness == FROM_EXP)
                 Strcpy(buf, ", 因为你的经验");
             else if (innateness == FROM_LYCN)

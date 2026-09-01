@@ -336,25 +336,25 @@ fmt_elapsed_time(char *outbuf, int final)
 
     Strcpy(outbuf, fieldcnt ? "" : "无"); /* 'none' should never happen */
     if (edays) {
-        Sprintf(eos(outbuf), " %ld天%s", edays, plur(edays));
+        Sprintf(eos(outbuf), "%ld天%s", edays, plur(edays));
         //if (fieldcnt > 1) /* hours and/or minutes and/or seconds to follow */
             //Strcat(outbuf, (fieldcnt == 2) ? "" : ""); /*冗余:这些应该没用吧... 应该...*/
         --fieldcnt; /* edays has been processed */
     }
     if (ehours) {
-        Sprintf(eos(outbuf), " %ld小时%s", ehours, plur(ehours));
+        Sprintf(eos(outbuf), "%ld小时%s", ehours, plur(ehours));
         //if (fieldcnt > 1) /* minutes and/or seconds to follow */
             //Strcat(outbuf, (fieldcnt == 2) ? "" : "");
         --fieldcnt; /* ehours has been processed */
     }
     if (eminutes) {
-        Sprintf(eos(outbuf), " %ld分钟%s", eminutes, plur(eminutes));
+        Sprintf(eos(outbuf), "%ld分钟%s", eminutes, plur(eminutes));
         //if (fieldcnt > 1) /* seconds to follow */
             //Strcat(outbuf, "");
         /* eminutes has been processed but no need to decrement fieldcnt */
     }
     if (eseconds)
-        Sprintf(eos(outbuf), " %ld秒%s", eseconds, plur(eseconds));
+        Sprintf(eos(outbuf), "%ld秒%s", eseconds, plur(eseconds));
     return outbuf;
 }
 
@@ -633,7 +633,7 @@ background_enlightenment(int unused_mode UNUSED, int final)
 
     /* this is shown even if the 'time' option is off */
     if (svm.moves == 1L) {
-        you_have("的冒险之旅刚刚开始", "");
+        enl_msg("你的冒险之旅", "曾", "", "刚刚开始", ""); //you_are("刚刚开始冒险之旅", ""); //待写:理想是“你的冒险之旅{曾}刚刚开始”
     } else {
         /* 'turns' grates on the nerves in this context... */
         Sprintf(buf, "在%ld回合%s前进入地牢",
@@ -1166,14 +1166,14 @@ status_enlightenment(int mode, int final)
                 enl_msg(steednambuf, "有", "曾有", buf, "");
             }
         } else {
-            you_have(buf, "");
+            enl_msg(You_, "有", "曾有", buf, "");
         }
     }
     if (Glib) {
         Sprintf(buf, "油腻的%s", fingers_or_gloves(TRUE));
         if (wizard)
             Sprintf(eos(buf), " (%ld)", (Glib & TIMEOUT));
-        you_have(buf, "");
+        enl_msg(You_, "有", "曾有", buf, "");
     }
     if (Fumbling) {
         if (magic || cause_known(FUMBLING))
@@ -1254,8 +1254,8 @@ status_enlightenment(int mode, int final)
         (void) enlght_combatinc("命中", -gu.urole.spelarmr, final, buf);
         /* if from_what() ever gets extended from wizard mode to normal
            play, it could be adapted to handle this */
-        Sprintf(eos(buf), "因你的%s", suit_simple_name(uarm));
-        you_have(buf, "");
+        Sprintf(eos(buf), ", 因你的%s", suit_simple_name(uarm));
+        enl_msg("你", "有", "曾有", buf, ""); //you_have(buf, "");
     }
     /* report 'nudity' */
     if (!uarm && !uarmu && !uarmc && !uarms && !uarmg && !uarmf && !uarmh) {
@@ -1397,7 +1397,7 @@ weapon_insight(int final)
                 if (twoskl < sklvl2) {
                     /* twoskil is at least unskilled, sklvl2 at least basic */
                     Sprintf(pfx, "你的%s技能", sknambuf2);
-                    Sprintf(sfx, " %s因使用双持而%s",
+                    Sprintf(sfx, "%s因使用双持而%s",
                             also, twobuf);
                 } else if (twoskl > sklvl2) {
                     /* sklvl2 might be restricted */
@@ -1774,16 +1774,16 @@ attributes_enlightenment(
     if (u.uhitinc) {
         (void) enlght_combatinc("命中", u.uhitinc, final, buf);
         if (iflags.tux_penalty && !Upolyd)
-            Sprintf(eos(buf), " %s你的套装惩罚",
+            Sprintf(eos(buf), "%s你的套装惩罚",
                     (u.uhitinc < 0) ? "增加"
                     : (u.uhitinc < 4 * gu.urole.spelarmr / 5)
                       ? "部分抵消"
                       : (u.uhitinc < gu.urole.spelarmr) ? "几乎抵消"
                         : "克服");
-        you_have(buf, "");
+        enl_msg("你", "有", "曾有", buf, ""); //you_have(buf, "");
     }
     if (u.udaminc)
-        you_have(enlght_combatinc("伤害", u.udaminc, final, buf), ""); /*危险:*/
+        enl_msg("你", "有", "曾有", enlght_combatinc("伤害", u.udaminc, final, buf), ""); //危险:you_have(enlght_combatinc("伤害", u.udaminc, final, buf), "");
     if (u.uspellprot || Protection) {
         int prot = 0;
 
@@ -1797,7 +1797,7 @@ attributes_enlightenment(
             prot += u.ublessed;
         prot += u.uspellprot;
         if (prot)
-            you_have(enlght_combatinc("防御", prot, final, buf), "");
+            enl_msg("你", "有", "曾有", enlght_combatinc("防御", prot, final, buf), ""); //危险:you_have(enlght_combatinc("防御", prot, final, buf), "");
     }
     if ((armpro = magic_negation(&gy.youmonst)) > 0) {
         /* magic cancellation factor, conferred by worn armor */
@@ -2577,7 +2577,7 @@ show_gamelog(int final)
         if (!final && !wizard && spoilerevent(llmsg))
             continue;
         if (!eventcnt++)
-            putstr(win, 0, " 回合");
+            putstr(win, 0, "回合");
         Snprintf(buf, sizeof buf, "%5ld: %s", llmsg->turn, llmsg->text);
         putstr(win, 0, buf);
     }
@@ -3484,8 +3484,8 @@ ustatusline(void)
         Snprintf(eos(info), sizeof info - ln, ", 在一片%s云中",
                  reg_damg(reg) ? "毒气" : "蒸汽");
 
-    pline("%s的状态(%s): Lvl %d  HP %d(%d)  AC %d%s.", svp.plname,
-          piousness(FALSE, align_str(u.ualign.type)),
+    pline("%s的状态(%s属于%s): Lvl %d  HP %d(%d)  AC %d%s.", svp.plname,
+          piousness(FALSE, ""), align_str(u.ualign.type), //危险:piousness(FALSE, align_str(u.ualign.type)),
           Upolyd ? mons[u.umonnum].mlevel : u.ulevel, Upolyd ? u.mh : u.uhp,
           Upolyd ? u.mhmax : u.uhpmax, u.uac, info);
 }
