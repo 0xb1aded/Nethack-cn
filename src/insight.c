@@ -2905,7 +2905,7 @@ list_vanquished(char defquery, boolean ask)
                     /*冗余: if (nkilled == 1)
                         Strcpy(buf, an(mons[i].pmnames[NEUTRAL]));
                     else*/
-                        Sprintf(buf, "%3d%s%s", nkilled, pm_to_quantifier(&mons[i]),
+                        Sprintf(buf, "%3d %s%s", nkilled, pm_to_quantifier(&mons[i]), //待写:1只电子虫 or 1 只电子虫哪个更好？
                                 makeplural(mons[i].pmnames[NEUTRAL]));
                 }
                 /* number of leading spaces to match 3 digit prefix */
