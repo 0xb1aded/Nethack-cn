@@ -2837,7 +2837,7 @@ doname_force_quan(struct obj *obj)
 char *
 doname_with_space_force_quan(struct obj *obj)
 {
-    return doname_base(obj, DONAME_FORCE_QUAN);
+    return doname_base(obj, DONAME_WITH_SPACE | DONAME_FORCE_QUAN);
 }
 
 char *
