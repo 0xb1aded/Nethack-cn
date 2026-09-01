@@ -165,7 +165,7 @@ enlght_combatinc(
     char *outbuf)
 {
     const char *modif, *bonus;
-    boolean invrt;
+    //boolean invrt;
     int absamt;
 
     absamt = abs(incamt);
@@ -187,10 +187,10 @@ enlght_combatinc(
     modif = !incamt ? "无" : modif; /* ("no" case shouldn't happen) */
     bonus = (incamt >= 0) ? "加成" : "惩罚";
     /* "bonus <foo>" (to hit) vs "<bar> bonus" (damage, defense) */
-    invrt = (strcmp(inctyp, "to hit") && strcmp(inctyp, "命中"))? TRUE : FALSE;
+    //invrt = (strcmp(inctyp, "to hit") && strcmp(inctyp, "命中"))? TRUE : FALSE;
 
-    Sprintf(outbuf, "%s%s%s", modif, invrt ? inctyp : bonus,
-            invrt ? bonus : inctyp);
+    Sprintf(outbuf, "%s%s%s", modif, inctyp, bonus);//冗余:invrt ? inctyp : bonus,
+            //invrt ? bonus : inctyp);
     if (final || wizard)
         Sprintf(eos(outbuf), " (%s%d)", (incamt > 0) ? "+" : "", incamt);
 
@@ -1302,7 +1302,7 @@ weapon_insight(int final)
         else{
             /* [maybe include known blessed?] */
             Sprintf(buf, "装备着%s%s%s", (uwep->quan == 1L) ? "一" : "", (uwep->quan == 1L) ? quantifier(uwep) : "",
-                    (uwep->quan == 1L) ? an(what) : makeplural(what));}
+                    what);}
         you_are(buf, "");
     }
 

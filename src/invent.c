@@ -4366,8 +4366,8 @@ look_here(
                 break;
             }
             putstr(tmpwin, 0,
-                   (puzzling_count) ? doname_with_price_and_cgender(otmp)
-                                    : doname_with_price(otmp));
+                   (puzzling_count) ? doname_with_price_and_cgender_and_space_force_quan(otmp)
+                                    : doname_with_price_and_space_force_quan(otmp));
         }
         display_nhwindow(tmpwin, TRUE);
         destroy_nhwindow(tmpwin);

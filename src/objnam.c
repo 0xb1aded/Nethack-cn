@@ -2870,6 +2870,18 @@ doname_with_price_and_cgender_force_quan(struct obj *obj)
     return doname_base(obj, DONAME_WITH_PRICE | DONAME_FORCE_GENDER | DONAME_FORCE_QUAN);
 }
 
+char *
+doname_with_price_and_space_force_quan(struct obj *obj)
+{
+    return doname_base(obj, DONAME_WITH_SPACE | DONAME_WITH_PRICE | DONAME_FORCE_QUAN);
+}
+
+char *
+doname_with_price_and_cgender_and_space_force_quan(struct obj *obj)
+{
+    return doname_base(obj, DONAME_WITH_SPACE | DONAME_WITH_PRICE | DONAME_FORCE_GENDER | DONAME_FORCE_QUAN);
+}
+
 /* "some" instead of precise quantity if obj->dknown not set */
 char *
 doname_vague_quan(struct obj *obj)
