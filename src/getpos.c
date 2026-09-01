@@ -277,7 +277,7 @@ getpos_help(boolean force, const char *goal)
             Sprintf(kbuf, "'%s'", visctrl(gc.Cmd.spkeys[NHKF_GETPOS_PICK]));
         }
         Snprintf(sbuf, sizeof(sbuf),
-                 "Type a %s when you are at the right place.", kbuf);
+                 "当你选到想要的位置后, 按下%s.", kbuf);
         putstr(tmpwin, 0, sbuf);
         if (doing_what_is) {
             Sprintf(sbuf,

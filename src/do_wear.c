@@ -2267,7 +2267,7 @@ accessory_or_armor_on(struct obj *obj)
                 mask = LEFT_RING;
             } else {
                 do {
-                    Sprintf(qbuf, "戴在哪个%s上, 右边或左边?",
+                    Sprintf(qbuf, "戴在哪个%s上, 右边还是左边?",
                             humanoid(gy.youmonst.data) ? "无名指"
                             : body_part(FINGER)); /*修改语序:自己看*/
                     answer = yn_function(qbuf, rightleftchars, '\0', TRUE);
