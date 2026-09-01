@@ -426,7 +426,7 @@ kick_steed(void)
             else
                 /* if hallucinating, might yield "He rouses herself" or
                    "She rouses himself" */
-                pline("%s!", monverbself(u.usteed, He, "惊醒", (char *) 0));
+                pline("%s!", monverbself(u.usteed, He, "惊醒了", (char *) 0));
         } else
             pline("%s没有反应.", He);
         return;

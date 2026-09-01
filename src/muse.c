@@ -180,8 +180,8 @@ mzapwand(
                                  ? "附近的" : "远处的");
         unknow_object(otmp); /* hero loses info when unseen obj is used */
     } else if (self) {
-        pline("%s%s!",
-              monverbself(mtmp, Monnam(mtmp), "挥舞", (char *) 0),
+        pline("%s挥舞%s!",
+              monverbself(mtmp, Monnam(mtmp), "对", (char *) 0),
               doname(otmp));
     } else {
         pline_mon(mtmp, "%s挥舞%s!", Monnam(mtmp), an(xname(otmp)));
@@ -213,9 +213,9 @@ mplayhorn(
         objnamp = xname(otmp);
         if (strlen(objnamp) >= QBUFSZ)
             objnamp = simpleonames(otmp);
-        Sprintf(objbuf, "一个%s", objnamp);
+        Sprintf(objbuf, "吹奏一%s%s", quantifier(otmp), objnamp);
         /* "<mon> plays a <horn> directed at himself!" */
-        pline("%s!", monverbself(mtmp, Monnam(mtmp), "吹奏", objbuf));
+        pline("%s!", monverbself(mtmp, Monnam(mtmp), "对", objbuf));
         makeknown(otmp->otyp); /* (wands handle this slightly differently) */
     } else {
         observe_object(otmp);
