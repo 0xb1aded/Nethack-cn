@@ -1683,7 +1683,7 @@ use_lamp(struct obj *obj)
     } else {
         if (lamp) { /* lamp or lantern */
             check_unpaid(obj);
-            pline("%s%s现在已经点亮.", Shk_Your(buf, obj), lamp);
+            pline("%s%s点亮了.", Shk_Your(buf, obj), lamp);
         } else { /* candle(s) */
             pline("%s火焰%s%s%s", s_suffix(Yname2(obj)), Blind ? "在" : "", /*修改语序:pline("%s火焰%s%s%s", s_suffix(Yname2(obj)), plur(obj->quan),*/
                   otense(obj, "燃烧"), Blind ? "." : "得很明亮!");

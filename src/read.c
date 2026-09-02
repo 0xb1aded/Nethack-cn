@@ -2556,7 +2556,7 @@ litroom(
             if (Blind)
                 ; /* no feedback */
             else if (digests(u.ustuck->data))
-                pline("%s%s被点亮了.", s_suffix(Monnam(u.ustuck)),
+                pline("%s%s点亮了.", s_suffix(Monnam(u.ustuck)),
                       mbodypart(u.ustuck, STOMACH));
             else if (is_whirly(u.ustuck->data))
                 pline("%s短暂地照耀了一会.", Monnam(u.ustuck));
