@@ -557,13 +557,13 @@ do_improvisation(struct obj *instr)
         if (!Deaf)
             You("发出令人讨厌低沉单调的声音.");
         else
-            You_feel("一个单调的振动.");
+            You_feel("到一个单调的振动.");
         break;
     case PLAY_CONFUSED:
         if (!Deaf)
             You("发出刺耳的噪音.");
         else
-            You_feel("一个不和谐的振动.");
+            You_feel("到一个不和谐的振动.");
         break;
     case PLAY_HALLU:
         You("产生出千变万化的飞舞的蝴蝶.");

@@ -2002,7 +2002,7 @@ mfind0(struct monst *mtmp, boolean via_warning)
         if (!canspotmon(mtmp)) {
             map_invisible(x, y);
             set_msg_xy(x, y);
-            You_feel("一个看不见的怪物!");
+            You_feel("到一个看不见的怪物!");
         } else if (!sensemon(mtmp)) {
             set_msg_xy(x, y);
             You("找到了一个%s.", mtmp->mtame ? y_monnam(mtmp) : a_monnam(mtmp));
