@@ -2005,7 +2005,7 @@ mfind0(struct monst *mtmp, boolean via_warning)
             You_feel("到一个看不见的怪物!");
         } else if (!sensemon(mtmp)) {
             set_msg_xy(x, y);
-            You("找到了一个%s.", mtmp->mtame ? y_monnam(mtmp) : a_monnam(mtmp));
+            You("找到了%s.", mtmp->mtame ? y_monnam(mtmp) : a_monnam(mtmp));
         }
         return 1;
     }
