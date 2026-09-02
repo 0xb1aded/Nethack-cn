@@ -2562,7 +2562,7 @@ doname_base(
             if (ismnum(omndx)
                 && (known || (svm.mvitals[omndx].mvflags & MV_KNOWS_EGG))) {
                 Strcat(prefix, mons[omndx].pmnames[NEUTRAL]);
-                Strcat(prefix, " ");
+                //冗余:Strcat(prefix, " ");
                 if (obj->spe == 1)
                     Concat(bp, 0, " (你下的)");
             }
