@@ -1285,7 +1285,7 @@ xname_flags(
         if (!dknown){
             Strcpy(buf, "魔杖");
         }
-        if (nn){
+        else if (nn){
             Sprintf(buf, "%s%s魔杖", buf, actualn);
         }
         else if (un){
