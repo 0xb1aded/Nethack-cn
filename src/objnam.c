@@ -2545,15 +2545,36 @@ doname_base(
             if (with_corpse_genders && puzzidx < invlet_basic
                 && gp.puzzling_criteria == 411 && gp.puzzling_ilets[puzzidx])
                 cxarg |= CXN_ADDGNDR;
-            /* corpse_xname() sets xnamep; callers other than doname_base()
-               itself shouldn't care about xnamep (pointer to start of
-               current obuf[]) but keep it accurate anyway */
-            save_xnamep = gx.xnamep;
-            cxstr = corpse_xname(obj, prefix, cxarg);
-            Sprintf(prefix, "%s", cxstr);
-            /* avoid having doname(corpse) consume an extra obuf */
-            releaseobuf(cxstr);
-            gx.xnamep = save_xnamep;
+
+            if (has_oname(obj) && dknown) {
+                /* 有名字的尸体: xname() 已经把 "名为<名字>的" 拼到 bp 开头,
+                   corpse_xname() 则把物种名加到 prefix 末尾, 二者一拼就成了
+                   "一具地精" + "名为X的尸体" = "一具地精名为X的尸体"。
+                   修正: 不把物种名放进 prefix, 而是把它插到 bp 里 "尸体" 之前,
+                   得到 "一具" + "名为X的地精尸体"。 */
+                const char *pmname = obj_pmname(obj);
+                const char *corpsestr = OBJ_NAME(objects[CORPSE]);
+                size_t pmname_len = strlen(pmname),
+                       corpse_len = strlen(corpsestr);
+                char *body = bp_eos - corpse_len; /* 指向 "尸体" */
+
+                /* 把物种名插到 "尸体" 前面 */
+                memmove(body + pmname_len, body, corpse_len + 1);
+                (void) memcpy(body, pmname, pmname_len);
+                /* bp 变长了, 刷新结尾指针与剩余空间供后续 Concat() 使用 */
+                bp_eos = eos(bp);
+                bpspaceleft = (size_t) (bp_end - bp_eos);
+            } else {
+                /* corpse_xname() sets xnamep; callers other than doname_base()
+                   itself shouldn't care about xnamep (pointer to start of
+                   current obuf[]) but keep it accurate anyway */
+                save_xnamep = gx.xnamep;
+                cxstr = corpse_xname(obj, prefix, cxarg);
+                Sprintf(prefix, "%s", cxstr);
+                /* avoid having doname(corpse) consume an extra obuf */
+                releaseobuf(cxstr);
+                gx.xnamep = save_xnamep;
+            }
         } else if (obj->otyp == EGG) {
 #if 0 /* corpses don't tell if they're stale either */
             if (known && stale_egg(obj))

@@ -1166,7 +1166,7 @@ use_pick_axe2(struct obj *obj)
     struct trap *trap, *trap_with_u;
     int dig_target;
     boolean ispick = is_pick(obj);
-    const char *verbing = ispick ? "挖" : "劈";
+    const char *verbing = ispick ? "挖掘" : "劈开";
 
     if (u.uswallow && do_attack(u.ustuck)) {
         ; /* return 1 */
