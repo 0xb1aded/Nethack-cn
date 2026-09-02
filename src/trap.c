@@ -1208,7 +1208,7 @@ trapeffect_arrow_trap(
         }
         trap->once = 1;
         seetrap(trap);
-        pline("一枝箭射向你!");
+        pline("一支箭射向你!");
         otmp = t_missile(ARROW, trap);
         dam = dmgval(otmp, &gy.youmonst);
         if (u.usteed && !rn2(2) && steedintrap(trap, otmp)) {
