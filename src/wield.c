@@ -264,7 +264,7 @@ ready_weapon(struct obj *wep)
                 != (struct monst *) 0) {
                 /* check msound because we don't have access to muteshk() */
                 if (!Deaf && this_shkp->data->msound > MS_ANIMAL)
-                    pline("%s %s \"小心点, 别弄坏我的%s!\"",
+                    pline("%s%s:\"小心点, 别弄坏我的%s!\"",
                           shkname(this_shkp), says(), xname(wep));
                 else
                     pline("%s看你拿着%s%s的武器不太放心.",

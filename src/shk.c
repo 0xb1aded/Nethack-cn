@@ -2052,7 +2052,7 @@ dopay(void)
 const char *
 says(void)
 {
-    return Deaf ? "signs" : "says";
+    return Deaf ? "比划" : "说";
 }
 
 /* for menustyle=Traditional, choose between paying for everything (by
