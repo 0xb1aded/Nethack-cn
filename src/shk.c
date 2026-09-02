@@ -3597,7 +3597,7 @@ addtobill(
             obj->quan = 1L; /* fool xname() into giving singular */
             set_voice(shkp, 0, 80, 0);
             pline("%s, 你需要为%s%s%s%s支付%ld %s. \"", buf,
-                  (save_quan > 1L) ? "每" : "", quantifier(obj),
+                  (save_quan > 1L) ? "每" : "这", quantifier(obj),
                   xname(obj), //Francium-233: 无言以对
                   contentscount ? (obj->unpaid ? and_its_contents : the_contents_of) : "", ltmp, currency(ltmp)
                   ); /*修改语序:去翻原版吧,,,这么多换行*/
