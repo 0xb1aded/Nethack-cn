@@ -309,8 +309,6 @@ obj_typename(int otyp)
             Strcat(buf, actualn);
         else
             Strcat(buf, "护身符");
-        if (un)
-            xcalled(buf, BUFSZ - (dn ? (int) strlen(dn) + 3 : 0), "", un);
         if (dn)
             Sprintf(eos(buf), " (%s)", dn);
         return buf;
@@ -327,8 +325,6 @@ obj_typename(int otyp)
             Strcat(buf, actualn);
             if (GemStone(otyp))
                 Strcat(buf, "石头");
-            if (un) /* 3: length of " (" + ")" which will enclose 'dn' */
-                xcalled(buf, BUFSZ - (dn ? (int) strlen(dn) + 3 : 0), "", un);
             if (dn)
                 Sprintf(eos(buf), " (%s)", dn);
         } else {
@@ -336,8 +332,6 @@ obj_typename(int otyp)
             if (ocl->oc_class == GEM_CLASS)
                 Strcat(buf,
                        (ocl->oc_material == MINERAL) ? "石头" : "宝石");
-            if (un)
-                xcalled(buf, BUFSZ, "", un);
         }
         return buf;
     }
