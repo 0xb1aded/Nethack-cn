@@ -2654,7 +2654,7 @@ altar_wrath(coordxy x, coordxy y)
     aligntyp altaralign = a_align(x, y);
 
     if (u.ualign.type == altaralign && u.ualign.record > -rn2(4)) {
-        godvoice(altaralign, "汝焉敢污吾%s!");
+        godvoice(altaralign, "汝焉敢污吾圣坛!");
         (void) adjattrib(A_WIS, -1, FALSE);
         u.ualign.record--;
     } else {
