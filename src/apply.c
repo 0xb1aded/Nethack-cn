@@ -472,8 +472,8 @@ use_stethoscope(struct obj *obj)
     return res;
 }
 
-static const char whistle_str[] = "发出%s的哨声.",
-                  alt_whistle_str[] = "产生出%s的剧烈振动.";
+static const char whistle_str[] = "发出%s哨声.",
+                  alt_whistle_str[] = "产生出%s剧烈振动.";
 
 staticfn void
 use_whistle(struct obj *obj)
