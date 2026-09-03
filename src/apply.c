@@ -1644,7 +1644,7 @@ use_lamp(struct obj *obj)
 
     if (obj->lamplit) {
         if (lamp) /* lamp or lantern */
-            pline("%s%s现在熄灭了.", Shk_Your(buf, obj), lamp);
+            pline("%s%s熄灭了.", Shk_Your(buf, obj), lamp);
         else
             You("掐灭了%s.", yname(obj));
         end_burn(obj, TRUE);
