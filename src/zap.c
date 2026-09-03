@@ -4659,7 +4659,7 @@ burn_floor_objects(
                     if (delquan > 1L)
                         pline("%ld%s%s在燃烧.", delquan, quantifier(obj), buf2);
                     else
-                        pline("%s在燃烧.", An(buf1));
+                        pline("一%s%s在燃烧.", quantifier(obj), buf1);
                 }
             }
         }
@@ -5078,7 +5078,7 @@ melt_ice(coordxy x, coordxy y, const char *msg)
         Norep("%s", msg);
     if ((otmp = sobj_at(BOULDER, x, y)) != 0) {
         if (cansee(x, y))
-            pline("%s下沉...", An(xname(otmp)));
+            pline("一%s%s下沉...", quantifier(otmp), xname(otmp));
         do {
             obj_extract_self(otmp); /* boulder isn't being pushed */
             if (!boulder_hits_pool(otmp, x, y, FALSE))

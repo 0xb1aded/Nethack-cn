@@ -1245,7 +1245,7 @@ pleased(aligntyp g_align)
             /*FALLTHRU*/
         case 2:
             if (!Blind)
-                You("被一圈%s光芒环绕.", an(hcolor(NH_GOLDEN)));
+                You("被一圈%s光芒环绕.", hcolor(NH_GOLDEN));
             /* if any levels have been lost (and not yet regained),
                treat this effect like blessed full healing */
             if (u.ulevel < u.ulevelmax) {
@@ -1287,7 +1287,7 @@ pleased(aligntyp g_align)
             if (Blind)
                 You_feel("到%s的力量.", u_gname());
             else
-                You("被一圈%s光环环绕.", an(hcolor(NH_LIGHT_BLUE)));
+                You("被一圈%s光环环绕.", hcolor(NH_LIGHT_BLUE));
             for (otmp = gi.invent; otmp; otmp = nextobj) {
                 nextobj = otmp->nobj;
                 if (otmp->cursed
@@ -1729,7 +1729,7 @@ sacrifice_your_race(
         if (altaralign == A_CHAOTIC && u.ualign.type != A_CHAOTIC) {
             pline(
             "血液淹没了祭坛, 祭坛消失在%s云里!",
-                    an(hcolor(NH_BLACK)));
+                    hcolor(NH_BLACK));
             levl[u.ux][u.uy].typ = ROOM;
             levl[u.ux][u.uy].altarmask = 0;
             newsym(u.ux, u.uy);

@@ -184,7 +184,7 @@ mzapwand(
               monverbself(mtmp, Monnam(mtmp), "对", (char *) 0),
               doname(otmp));
     } else {
-        pline_mon(mtmp, "%s挥舞%s!", Monnam(mtmp), an(xname(otmp)));
+        pline_mon(mtmp, "%s挥舞一%s%s!", Monnam(mtmp), quantifier(otmp), xname(otmp));
         stop_occupation();
     }
     otmp->spe -= 1;

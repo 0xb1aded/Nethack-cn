@@ -246,7 +246,7 @@ hawaiian_design(struct obj *shirt, char *buf)
     unsigned bg = shirt->o_id ^ (unsigned) ~ubirthday;
 
     Sprintf(buf, "的%s背景上印有%s", /*修改语序:Sprintf(buf, "%s的%s背景上",*/
-            an(hawaiian_bgs[bg % SIZE(hawaiian_bgs)]), /*修改语序:makeplural(hawaiian_motif(shirt, buf)),*/
+            hawaiian_bgs[bg % SIZE(hawaiian_bgs)], /*修改语序:makeplural(hawaiian_motif(shirt, buf)),*/
             makeplural(hawaiian_motif(shirt, buf))); /*修改语序:an(hawaiian_bgs[bg % SIZE(hawaiian_bgs)]));*/
     return buf;
 }
@@ -1373,7 +1373,7 @@ seffect_destroy_armor(struct obj **sobjp)
             struct obj *atmp;
 
             if (!objects[sobj->otyp].oc_name_known)
-                pline("这是%s!", an(actualoname(sobj)));
+                pline("这是%s!", actualoname(sobj));
             gk.known = TRUE;
             atmp = getobj("摧毁什么", any_worn_armor_ok, GETOBJ_PROMPT);
             /* check the return value, if user picked non-valid obj */
@@ -3010,8 +3010,8 @@ do_genocide(
             /* accumulated 'cnt' doesn't take groups into account;
                assume bringing in new mon(s) didn't remove any old ones */
             cnt = monster_census(FALSE) - census;
-            pline("派来了%s%s.", (cnt > 1) ? "一些" : "",
-                  (cnt > 1) ? makeplural(buf) : an(buf));
+            pline("派来了一%s%s.", (cnt > 1) ? "些" : pm_to_quantifier(&mons[mntmp]),
+                  (cnt > 1) ? makeplural(buf) : buf);
         } else
             pline1(nothing_happens);
     }
