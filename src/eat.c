@@ -2001,7 +2001,7 @@ eatcorpse(struct obj *otmp)
         static const char *const palatable_msgs[] = {
             /* first char: T = tastes ... , I = is ... */
             /* veggies are always just "okay" */
-            "尝起来还行", "很筋道", "很膻味", "很油", "很硬"
+            "味道还行", "很筋道", "很膻味", "很油", "很硬"
         };
         int idx = vegetarian(&mons[mnum]) ? 0 : rn2(SIZE(palatable_msgs));
         const char *palat_msg = palatable_msgs[idx];
