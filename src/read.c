@@ -3010,7 +3010,7 @@ do_genocide(
             /* accumulated 'cnt' doesn't take groups into account;
                assume bringing in new mon(s) didn't remove any old ones */
             cnt = monster_census(FALSE) - census;
-            pline("派来了一%s%s.", (cnt > 1) ? "些" : pm_to_quantifier(&mons[mntmp]),
+            pline("派来了一%s%s.", (cnt > 1) ? "些" : pm_to_quantifier(&mons[mndx]),
                   (cnt > 1) ? makeplural(buf) : buf);
         } else
             pline1(nothing_happens);
