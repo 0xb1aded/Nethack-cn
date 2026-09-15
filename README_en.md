@@ -275,7 +275,7 @@ Macros are used to intercept the Windows API functions `drawTextA`, `drawText`, 
 
 Location: [hack.h](include/hack.h)
 
-Function: A macro that returns the plural suffix based on the quantity parameter x.
+Function: Retrieves the plural suffix macro based on the numeric argument x.
 
 **Solution**: Always return an empty string, regardless of singular or plural form.
 
@@ -283,7 +283,7 @@ Function: A macro that returns the plural suffix based on the quantity parameter
 
 Location: [objnam.c](src/objnam.c)
 
-Function: Converts `oldstr` to the plural form and returns it.
+Function: Converts `oldstr` to plural form and returns it.
 
 **Solution**: Replace all instances where the suffix `s` is appended with an empty string.
 
@@ -291,7 +291,7 @@ Function: Converts `oldstr` to the plural form and returns it.
 
 Location: [objnam.c](src/objnam.c)
 
-Functionality: Calls `just_an()`; after processing, it typically prepends `“a ”` or `“an ”` to the string
+Functionality: Calls `just_an()`. After processing, it typically prepends `“a ”` or `“an ”` to the string.
 
 **Solution**: `just_an()` returns `“一个”`
 
@@ -299,33 +299,31 @@ Functionality: Calls `just_an()`; after processing, it typically prepends `“a 
 
 Location: [hacklib.c](src/hacklib.c)
 
-Functionality: Appends the suffix `“s”` to the string
+Functionality: Appends `“s”` to the end of a string
 
-**Solution**: Return `s` directly.
+**Solution**: Return `s` directly
 
 ##### ing_suffix(const char *s)
 
 Location: [hacklib.c](src/hacklib.c)
 
-Function: Appends the suffix `“s”` to the string.
+Function: Appends the suffix `“s”` to a string
 
-**Solution**: Return `s` directly.
+**Solution**: Return `s` directly
 
 ##### vtense(const char *subj, const char *verb)
 
 Location: [objnam.c](src/objnam.c)
 
-Function: Returns the correct form of the verb `verb` in the third-person present tense
+Functionality: Returns the correct form of the verb `verb` in the third-person present tense
 
-**Solution**: Replace the `s` suffix with an empty string
+**Solution**: Replace the position where the suffix `s` is added with an empty string
 
 ##### uhe(), uhim(), uhis()
 
 Location: [you.h](include/you.h)
 
-Function: Returns the nominative, accusative, and possessive forms of personal pronouns (male: “he,” “him,” ‘his’; female: “she,” “her,” “her”)
-
-**Solution**: “he,” “she”
+Functionality: Returns the nominative, accusative, and possessive forms of personal pronouns (masculine: “he,” “him,” ‘his’; feminine: “she,” “her,” “her”)
 
 ##### ordin(int n)
 
@@ -339,17 +337,17 @@ Function: Returns the ordinal suffix corresponding to the number n (1→st, 2→
 
 Location: [light.c](src/light.c)
 
-Function: Returns “radiantly”/“brilliantly”/“brightly”/“dimly”/“strangely”
+Functionality: Returns “radiantly”/“brilliantly”/“brightly”/“dimly”/“strangely”
 
-**Solution**: Return only the content word without “的”; when using it, please append “的光芒” to the end.
+**Solution**: Return only the headword without the particle “的”; when using it, append “的光芒” to the end.
 
 ##### objdescr_is(struct obj *obj, const char *descr)
 
 Location: [o_init.c](src\o_init.c)
 
-Function: Checks whether the description of an item ((obj_descr[(obj).oc_descr_idx].oc_descr)) is equal to descr.
+Function: Checks whether the description of an item ((obj_descr[(obj).oc_descr_idx].oc_descr)) is equal to descr
 
-**Solution**: Change it to compare its edesc; please retain the English text when calling this function.
+**Solution**: Modify the function to compare its `edescr` instead; when calling this function, please retain the English text.
 
 ##### getobj(const char *word, int (*obj_ok)(OBJ_P), unsigned int ctrlflags)
 
