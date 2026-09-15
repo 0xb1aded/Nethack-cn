@@ -54,7 +54,8 @@ env:
     if [ "$VARIANT_LIBC" = "static" ]; then
       EXTRA_ARGS="$EXTRA_ARGS LFLAGS=-static"
     fi
-    make GIT=1 NO_NHUUID=1 CCFLAGS=-O2 COLCMD=cat \
+    make GIT=1 NO_NHUUID=1 CCFLAGS="-O2 -D_GNU_SOURCE" COLCMD=cat \
+      NROFF_FLAGS=-Tutf8 \
       WANT_WIN_TTY=1 WANT_WIN_CURSES=1 HACKDIR=. $EXTRA_ARGS all
 
     STAGE="$PWD/stage/NetHack-cn"
@@ -264,7 +265,7 @@ jobs:
           # USEMACPORTS=1 only disables the hints' homebrew/ncurses detection,
           # so we link the system ncurses instead of an unlinked brew keg
           # (which would create a dyld dependency ordinary Macs cannot satisfy)
-          make GIT=1 CCFLAGS=-O2 USEMACPORTS=1 \
+          make GIT=1 CCFLAGS=-O2 USEMACPORTS=1 COLCMD=cat NROFF_FLAGS=-Tutf8 \
             WANT_WIN_TTY=1 WANT_WIN_CURSES=1 HACKDIR=. all
 
       - name: Stage and package
