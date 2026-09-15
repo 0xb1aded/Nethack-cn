@@ -9,7 +9,7 @@ English README: [README_en.md](README_en.md)
 
 ### 待完成
 
-sys里的文件：各平台的界面文件，里面也有文本
+sys里的文件：各平台的界面文件，里面也有文本（Win、Linux基本翻差不多了）
 
 data.base：百科全书，总共有几千行
 
@@ -237,6 +237,7 @@ Windows curses界面中，输入\#后输入汉字退格退不满（这个地方�
 - [x] optlist.h
 - [x] hh
 - [ ] data.base (重中之重)
+- [ ] tribute
 - [x] help
 - [x] hh
 - [x] history
@@ -324,6 +325,8 @@ Windows curses界面中，输入\#后输入汉字退格退不满（这个地方�
 
 功能: 返回人称代词的主格、宾格、形容词性物主代词（男："he"、"him"、"his"；女："she"、"her"、"her"；）
 
+**处理方案**: "他"、"她"
+
 ##### ordin(int n)
 
 位置: [hacklib.c](src/hacklib.c)
@@ -355,3 +358,9 @@ Windows curses界面中，输入\#后输入汉字退格退不满（这个地方�
 功能: 寻找适合obj_ok行为的所有物品供玩家选择（若没有则默认展示所有物品）。
 
 **处理方案**: 这个\*word对字符串不敏感。它会问你："你想要"+传入的\*word+"?"（汉语的这个地方填的词可能是离合的，如：“写在什么上面”）。注意此处填写的词应该保证去掉“什么”后仍通顺。“你想要**写在**什么**上**”和“你想要**写在**什么**上面**”都是合理的，但是“你没有可以**写在上**的东西”就不如“你没有可以**写在上面**的东西”通顺。
+
+##### classifier(struct obj * )
+
+位置: [objnam.c](src/objnam.c)
+
+功能：传入一个obj结构体，传出它对应的量词。（pm_to_classifier(struct permonst \*pm)、terrain_classifier(int sym)、sym_to_classifier(int sym)、mon_classifier(struct monst *mon)同理）

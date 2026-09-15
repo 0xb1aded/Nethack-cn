@@ -7,6 +7,36 @@ Chinese README：[README.md](README.md)
 ### Quick Start
 No need to compile locally; you can download the automatically built Chinese localization preview version directly from [this project’s Release page](http://github.com/stackC00ki3/nethack-cn/releases)
 
+### To Be Completed
+
+Files in the “sys” directory: Interface files for various platforms, which also contain text (the Windows and Linux versions are mostly translated)
+
+data.base: Encyclopedia, totaling several thousand lines
+
+### Known Issues to Be Resolved
+
+On Windows TTY, if you enter the game using a non-English input method (launching the main game from the Start menu), the game freezes and becomes unresponsive (though it runs fine once you’re inside)
+
+(Specifically, this happens when the game asks if you want to keep your save in Exploration Mode and you press ‘y’)
+
+In curses mode, the animation for engraving Chinese characters is much slower.
+
+The layout of the status bar below is a bit too wide; sometimes, if too much information is displayed, it may overflow.
+
+~~In tty mode, some Chinese strings result in garbled text (curses mode works fine). There’s a comment at the end of the line: // Chinese garbled text~~ Resolved
+
+~~But there’s still a question mark in curses!~~ Resolved
+
+~~Also, in the code, all comments like “//debugfuzzer issue: number” have a number following them that records the number of times the issue occurred~~ Resolved
+
+~~There are some buffer overflows (this section is too long to include here)~~ Resolved
+
+~~Putting on clothes causes the AC to change, but the screen refresh is limited; some parts of the status bar below don’t refresh (possibly [botl.c](src/botl.c)?)~~ Resolved
+
+In the Windows curses interface, after typing \# and then entering Chinese characters, the backspace key does not fully clear the text (is there a need or risk associated with entering Chinese characters here???)
+
+It is now possible to set fruit names in Chinese characters (pretending this name doesn’t require `sanitize_name()`), but I expect this will cause problems in the future
+
 ### Roadmap
 
 - [x] UTF-8 support for the tty interface
@@ -43,19 +73,21 @@ No need to compile locally; you can download the automatically built Chinese loc
 
 When translating, please remove all spaces between English words; use spaces only to separate numbers, for example: “There are %ld coins here.”
 
-Please use half-width punctuation marks (i.e., English punctuation) when translating.
+When translating, please use half-width punctuation marks (i.e., English punctuation).
 
 When encountering a comma, please add a space after it.
 
-If you need to change the word order (the order in which variables appear in a string), please add a comment at the end of the line: /* Changed word order: (original code) */
+If you need to change the word order (the order in which variables appear in a string), please add a comment at the end of the line: /\* Changed word order: (original code)\*/
 
-If you need to use a function that does not yet exist (to be added later), please write the modified code in a comment at the end of the line: /* To be written: (modified code) */
+If you need to use a function that does not yet exist (to be added later), please write the modified code in a comment at the end of the line: /\* To be written: (modified code)\*/
 
-If there is redundant code, please mark the commented-out code with “Redundant:” before it: /* Redundant: (redundant code) */
+If there is redundant code, please mark the commented-out code with “Redundant:” before it: /\*Redundant: (redundant code)\*/
 
-If you are unsure about the modified code, please add a comment at the end of the line: /* Risk: (original code) */
+If you are unsure about the modified code, please add a comment at the end of the line: /\*Danger: (original code)\*/
 
-If you are simply replacing a function of the `pline` class (such as `You`, `Your`, or `pline_The`), please add a comment at the end of the line: /* Replace pline: (original function) */
+If you are simply replacing a function in the `pline` class (such as `You`, `Your`, or `pline_The`), please add a comment at the end of the line: `/* Replace pline: (original function) */`
+
+If the debugfuzzer crashes at a specific point, and if you can locate it, add the following after that line of code: //debugfuzzer issue (if already present, increment the number by 1)
 
 #### Manual Review
 ##### Source Code
@@ -67,7 +99,7 @@ If you are simply replacing a function of the `pline` class (such as `You`, `You
 - [x] attrib.c
 - [x] ball.c
 - [x] bones.c
-- [ ] botl.c
+- [x] botl.c
 - [x] calendar.c
 - [x] cfgfiles.c
 - [x] cmd.c
@@ -192,18 +224,28 @@ If you are simply replacing a function of the `pline` class (such as `You`, `You
 - [x] write.c
 - [x] zap.c
 
-##### Text Files (Major Ones; There Are Many More)
+##### Text Files
 
 - [x] bogusmon.txt
 - [x] dungeon.lua
-- [ ] engrave.txt
+- [x] engrave.txt
 - [x] epitaph.txt
 - [x] oracles.txt
 - [x] rumors.fal
 - [x] rumors.tru
+- [x] quest.lua
+- [x] optlist.h
+- [x] hh
+- [ ] data.base (重中之重)
 - [ ] tribute
-- [ ] quest.lua
-- [ ] optlist.h
+- [x] help
+- [x] hh
+- [x] history
+- [x] keyhelp
+- [x] license
+- [x] opthelp
+- [x] usagehelp
+- [x] wizhelp
 
 ### Technical Details
 
@@ -233,7 +275,7 @@ Macros are used to intercept the Windows API functions `drawTextA`, `drawText`, 
 
 Location: [hack.h](include/hack.h)
 
-Function: Retrieves the plural suffix macro based on the numeric argument x.
+Function: A macro that returns the plural suffix based on the quantity parameter x.
 
 **Solution**: Always return an empty string, regardless of singular or plural form.
 
@@ -241,7 +283,7 @@ Function: Retrieves the plural suffix macro based on the numeric argument x.
 
 Location: [objnam.c](src/objnam.c)
 
-Function: Converts `oldstr` to plural form and returns it.
+Function: Converts `oldstr` to the plural form and returns it.
 
 **Solution**: Replace all instances where the suffix `s` is appended with an empty string.
 
@@ -249,7 +291,7 @@ Function: Converts `oldstr` to plural form and returns it.
 
 Location: [objnam.c](src/objnam.c)
 
-Functionality: Calls `just_an()`. After processing, it typically prepends `“a ”` or `“an ”` to the string.
+Functionality: Calls `just_an()`; after processing, it typically prepends `“a ”` or `“an ”` to the string
 
 **Solution**: `just_an()` returns `“一个”`
 
@@ -257,31 +299,33 @@ Functionality: Calls `just_an()`. After processing, it typically prepends `“a 
 
 Location: [hacklib.c](src/hacklib.c)
 
-Functionality: Appends `“s”` to the end of a string
+Functionality: Appends the suffix `“s”` to the string
 
-**Solution**: Return `s` directly
+**Solution**: Return `s` directly.
 
 ##### ing_suffix(const char *s)
 
 Location: [hacklib.c](src/hacklib.c)
 
-Function: Appends the suffix `“s”` to a string
+Function: Appends the suffix `“s”` to the string.
 
-**Solution**: Return `s` directly
+**Solution**: Return `s` directly.
 
 ##### vtense(const char *subj, const char *verb)
 
 Location: [objnam.c](src/objnam.c)
 
-Functionality: Returns the correct form of the verb `verb` in the third-person present tense
+Function: Returns the correct form of the verb `verb` in the third-person present tense
 
-**Solution**: Replace the position where the suffix `s` is added with an empty string
+**Solution**: Replace the `s` suffix with an empty string
 
 ##### uhe(), uhim(), uhis()
 
 Location: [you.h](include/you.h)
 
-Functionality: Returns the nominative, accusative, and possessive forms of personal pronouns (masculine: “he,” “him,” ‘his’; feminine: “she,” “her,” “her”)
+Function: Returns the nominative, accusative, and possessive forms of personal pronouns (male: “he,” “him,” ‘his’; female: “she,” “her,” “her”)
+
+**Solution**: “he,” “she”
 
 ##### ordin(int n)
 
@@ -295,17 +339,17 @@ Function: Returns the ordinal suffix corresponding to the number n (1→st, 2→
 
 Location: [light.c](src/light.c)
 
-Functionality: Returns “radiantly”/“brilliantly”/“brightly”/“dimly”/“strangely”
+Function: Returns “radiantly”/“brilliantly”/“brightly”/“dimly”/“strangely”
 
-**Solution**: Return only the headword without the particle “的”; when using it, append “的光芒” to the end.
+**Solution**: Return only the content word without “的”; when using it, please append “的光芒” to the end.
 
 ##### objdescr_is(struct obj *obj, const char *descr)
 
 Location: [o_init.c](src\o_init.c)
 
-Function: Checks whether the description of an item ((obj_descr[(obj).oc_descr_idx].oc_descr)) is equal to descr
+Function: Checks whether the description of an item ((obj_descr[(obj).oc_descr_idx].oc_descr)) is equal to descr.
 
-**Solution**: Modify the function to compare its `edescr` instead; when calling this function, please retain the English text.
+**Solution**: Change it to compare its edesc; please retain the English text when calling this function.
 
 ##### getobj(const char *word, int (*obj_ok)(OBJ_P), unsigned int ctrlflags)
 
@@ -314,3 +358,9 @@ Location: [invent.c](src/invent.c)
 Function: Finds all items that match the behavior of obj_ok for the player to choose from (if none exist, all items are displayed by default).
 
 **Solution**: This \*word is not case-sensitive. It will ask you: “你想要” + the passed \*word + “?” (In Chinese, the word entered here may be a compound phrase, such as “写在什么上面”). Note that the word entered here should remain grammatically correct even after removing “什么.” “你想要**写在**什么**上**” and “你想要**写在**什么**上面**” are both valid, but “你没有可以**写在上**的东西” is less natural than “你没有可以**写在上面**的东西.”
+
+##### classifier(struct obj * )
+
+Location: [objnam.c](src/objnam.c)
+
+Function: Takes an `obj` structure as input and returns the corresponding classifier. (The same applies to `pm_to_classifier(struct permonst *pm)`, `terrain_classifier(int sym)`, `sym_to_classifier(int sym)`, and `mon_classifier(struct monst *mon)`.)
