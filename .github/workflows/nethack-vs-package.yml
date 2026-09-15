@@ -43,6 +43,7 @@ env:
     cd sys/unix
     sh setup.sh hints/linux.500
     cd ../..
+    make fetch-lua
     # keep the sysconf lookup relative (see comment above)
     sed -i 's|-DSYSCF_FILE=\\"$(HACKDIR)/sysconf\\"|-DSYSCF_FILE=\\"sysconf\\"|' Makefile
 
@@ -255,6 +256,7 @@ jobs:
           cd sys/unix
           sh setup.sh hints/macOS.500
           cd ../..
+          make fetch-lua
           # keep the sysconf lookup relative so the app bundle-free zip
           # can be unpacked anywhere
           sed -i '' 's|-DSYSCF_FILE=\\"$(HACKDIR)/sysconf\\"|-DSYSCF_FILE=\\"sysconf\\"|' Makefile
