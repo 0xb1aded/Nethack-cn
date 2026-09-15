@@ -32,7 +32,7 @@ env:
       DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends \
         build-essential groff libncurses-dev pkg-config curl ca-certificates git
     else
-      apk add --no-cache build-base groff ncurses-dev pkgconf curl ca-certificates git coreutils
+      apk add --no-cache build-base groff ncurses-dev pkgconf curl ca-certificates git coreutils linux-headers
       if [ "$VARIANT_LIBC" = "static" ]; then
         apk add --no-cache ncurses-static
       fi
