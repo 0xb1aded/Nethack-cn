@@ -32,7 +32,7 @@ env:
       DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends \
         build-essential groff libncurses-dev pkg-config curl ca-certificates git
     else
-      apk add --no-cache build-base groff ncurses-dev pkgconf curl ca-certificates git
+      apk add --no-cache build-base groff ncurses-dev pkgconf curl ca-certificates git coreutils
       if [ "$VARIANT_LIBC" = "static" ]; then
         apk add --no-cache ncurses-static
       fi
@@ -78,6 +78,7 @@ jobs:
   build:
     runs-on: windows-latest
     strategy:
+      fail-fast: false
       matrix:
         orthography: [s, t, tg, twp]
     defaults:
@@ -291,7 +292,10 @@ jobs:
 
   release:
     needs: [build, build-linux, build-macos]
-    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch))
+    # publish whatever builds succeeded; don't require every matrix leg to pass
+    # (!cancelled(), not always(): a run superseded by concurrency cancellation
+    # must not publish a release)
+    if: ${{ !cancelled() && (github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch))) }}
     runs-on: ubuntu-latest
 
     steps:
@@ -301,6 +305,18 @@ jobs:
           pattern: nethack-*
           path: release-assets
           merge-multiple: true
+
+      - name: Check for any successful build
+        id: have-assets
+        shell: bash
+        run: |
+          shopt -s nullglob
+          files=(release-assets/*.zip release-assets/*.tar.gz release-assets/**/*.zip release-assets/**/*.tar.gz)
+          echo "Found ${#files[@]} artifact files"
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "No artifacts from any build job - nothing to release"
+          fi
+          echo "ok=$([ ${#files[@]} -gt 0 ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
 
       - name: Prepare release metadata
         id: meta
@@ -315,6 +331,7 @@ jobs:
           } >> "$GITHUB_OUTPUT"
 
       - name: Publish prerelease
+        if: steps.have-assets.outputs.ok == 'true'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.meta.outputs.tag }}
