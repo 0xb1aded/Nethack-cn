@@ -363,4 +363,4 @@ Windows curses界面中，输入\#后输入汉字退格退不满（这个地方�
 
 位置: [objnam.c](src/objnam.c)
 
-功能：传入一个obj结构体，传出它对应的量词。（pm_to_classifier(struct permonst \*pm)、terrain_classifier(int sym)、sym_to_classifier(int sym)、mon_classifier(struct monst *mon)同理）
+功能：传入一个obj结构体，传出它对应的量词。（pm_to_classifier(struct permonst \*pm)、terrain_classifier(int sym)、sym_to_classifier(int sym)、mon_classifier(struct monst \*mon)同理）
