@@ -22,20 +22,13 @@ env:
   # path, so after extraction everything is resolved from the launcher's
   # own location and the tarball can be unpacked anywhere.
   #   glibc  -> dynamic build against glibc (debian:12), needs ncurses at runtime
-  #   musl   -> dynamic build against musl (alpine:3.20), needs ncurses at runtime
   #   static -> static build against glibc (debian:12), no runtime deps
   LINUX_BUILD_SCRIPT: |
     set -eu
 
-    if command -v apt-get >/dev/null 2>&1; then
-      apt-get update -qq
-      DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends \
-        build-essential groff libncurses-dev pkg-config curl ca-certificates git
-    else
-      # musl only: musl-dev does not ship the kernel UAPI headers
-      # (sys/vt.h in unixtty.c needs linux/vt.h from linux-headers)
-      apk add --no-cache build-base groff ncurses-dev pkgconf curl ca-certificates git coreutils linux-headers
-    fi
+    apt-get update -qq
+    DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends \
+      build-essential groff libncurses-dev pkg-config curl ca-certificates git
 
     git config --global --add safe.directory /src
 
@@ -43,41 +36,29 @@ env:
     sh setup.sh hints/linux.500
     cd ../..
     make fetch-lua
-    # keep the sysconf lookup relative (see comment above)
-    sed -i 's|-DSYSCF_FILE=\\"$(HACKDIR)/sysconf\\"|-DSYSCF_FILE=\\"sysconf\\"|' Makefile
 
     EXTRA_ARGS=""
-    CCFLAGS_VALUE="-O2 -D_GNU_SOURCE"
-    if [ "$VARIANT_LIBC" = "musl" ]; then
-      EXTRA_ARGS="$EXTRA_ARGS MUSL=1"
-      # musl has no __sighandler_t; the hints' ifndef-MUSL guard for
-      # -DSIG_RET_TYPE=__sighandler_t doesn't take effect in this setup,
-      # so disable signal handling on musl instead
-      CCFLAGS_VALUE="$CCFLAGS_VALUE -DNO_SIGNAL"
-    fi
     if [ "$VARIANT_LIBC" = "static" ]; then
       EXTRA_ARGS="$EXTRA_ARGS LFLAGS=-static"
     fi
-    make GIT=1 NO_NHUUID=1 CCFLAGS="$CCFLAGS_VALUE" COLCMD=cat \
-      NROFF_FLAGS=-Tutf8 \
+    make GIT=1 NO_NHUUID=1 CCFLAGS="-O2 -D_GNU_SOURCE" \
       WANT_WIN_TTY=1 WANT_WIN_CURSES=1 HACKDIR=. $EXTRA_ARGS all
 
+    strip src/nethack util/recover
+
     STAGE="$PWD/stage/NetHack-cn"
-    make install \
-      HACKDIR="$STAGE/nethackdir" INSTDIR="$STAGE/nethackdir" \
-      VARDIR="$STAGE/nethackdir" SHELLDIR="$STAGE/bin"
+    mkdir -p "$STAGE/save"
+    cp src/nethack util/recover "$STAGE/"
+    cp dat/nhdat dat/license dat/symbols "$STAGE/"
+    cp sys/unix/sysconf "$STAGE/sysconf"
+    chmod 755 "$STAGE/nethack" "$STAGE/recover"
+    touch "$STAGE/perm" "$STAGE/record" "$STAGE/logfile" \
+      "$STAGE/xlogfile" "$STAGE/livelog"
 
-    strip "$STAGE/nethackdir/nethack" "$STAGE/nethackdir/recover"
-    # rewrite the launcher so it finds the game dir next to itself
-    sed -i 's|^HACKDIR=.*|HACKDIR=$(CDPATH= cd -- "$(dirname -- "$0")/../nethackdir" \&\& pwd)|' \
-      "$STAGE/bin/nethack"
-
-    mkdir -p "$STAGE/doc"
-    cp -f doc/Guidebook "$STAGE/doc/" 2>/dev/null || true
     # VARIANT_ORTHO selects which orthography variant (s/t/tg/twp) the
     # sources were converted to on the runner before entering the container;
     # it only affects the tarball name.
-    tar -czf "NetHack-cn-linux-$VARIANT_ARCH-$VARIANT_LIBC-$VARIANT_ORTHO.tar.gz" -C stage NetHack-cn
+    tar -czf "NetHack-500-linux-$VARIANT_ARCH-$VARIANT_LIBC-$VARIANT_ORTHO.tar.gz" -C stage/NetHack-cn .
 
 jobs:
   build:
@@ -180,11 +161,10 @@ jobs:
       matrix:
         # amd64 / i386 build natively in 32-bit-capable containers on x86_64
         # runners; arm64 uses the free public-repo arm64 runner natively.
-        # glibc and static builds use debian:12 (gcc), musl builds use
-        # alpine:3.20 (derived from matrix.libc in the docker step below).
+        # All builds use debian:12 (glibc); the static variant links statically.
         orthography: [s, t, tg, twp]
         arch: [amd64, i386, arm64]
-        libc: [glibc, musl, static]
+        libc: [glibc, static]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -228,20 +208,20 @@ jobs:
               && mv -f "$file.converted" "$file"
           done
 
-      - name: Build NetHack in ${{ matrix.libc == 'musl' && 'alpine:3.20' || 'debian:12' }} container
+      - name: Build NetHack in debian:12 container
         run: |
           docker run --rm --platform linux/${{ matrix.arch }} \
             -v "${{ github.workspace }}:/src" -w /src \
             -e VARIANT_ARCH=${{ matrix.arch }} \
             -e VARIANT_LIBC=${{ matrix.libc }} \
             -e VARIANT_ORTHO=${{ matrix.orthography }} \
-            ${{ matrix.libc == 'musl' && 'alpine:3.20' || 'debian:12' }} /bin/sh -euc "$LINUX_BUILD_SCRIPT"
+            debian:12 /bin/sh -euc "$LINUX_BUILD_SCRIPT"
 
       - name: Upload workflow artifact
         uses: actions/upload-artifact@v4
         with:
           name: nethack-linux-${{ matrix.arch }}-${{ matrix.libc }}-${{ matrix.orthography }}
-          path: NetHack-cn-linux-*.tar.gz
+          path: NetHack-500-linux-*.tar.gz
           if-no-files-found: error
 
   build-macos:
