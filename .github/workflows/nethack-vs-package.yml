@@ -1,4 +1,4 @@
-name: Build NetHack VS package
+name: Build NetHack-cn pre-release
 
 on:
   push:
@@ -17,6 +17,60 @@ env:
   BUILD_CONFIGURATION: Release
   BUILD_PLATFORM: x64
   PACKAGE_DIR: vspackage
+  # Shared recipe for the Linux container builds (build-linux job).
+  # The game is compiled with a relative HACKDIR and a relative sysconf
+  # path, so after extraction everything is resolved from the launcher's
+  # own location and the tarball can be unpacked anywhere.
+  #   glibc  -> dynamic build against glibc (debian:12), needs ncurses at runtime
+  #   musl   -> dynamic build against musl (alpine:3.20), needs ncurses at runtime
+  #   static -> fully static musl build (alpine:3.20), no runtime deps at all
+  LINUX_BUILD_SCRIPT: |
+    set -eu
+    git config --global --add safe.directory /src
+
+    if command -v apt-get >/dev/null 2>&1; then
+      apt-get update -qq
+      DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends \
+        build-essential groff libncurses-dev pkg-config curl ca-certificates git
+    else
+      apk add --no-cache build-base groff ncurses-dev pkgconf curl ca-certificates git
+      if [ "$VARIANT_LIBC" = "static" ]; then
+        apk add --no-cache ncurses-static
+      fi
+    fi
+
+    cd sys/unix
+    sh setup.sh hints/linux.500
+    cd ../..
+    # keep the sysconf lookup relative (see comment above)
+    sed -i 's|-DSYSCF_FILE=\\"$(HACKDIR)/sysconf\\"|-DSYSCF_FILE=\\"sysconf\\"|' Makefile
+
+    EXTRA_ARGS=""
+    if [ "$VARIANT_LIBC" != "glibc" ]; then
+      EXTRA_ARGS="$EXTRA_ARGS MUSL=1"
+    fi
+    if [ "$VARIANT_LIBC" = "static" ]; then
+      EXTRA_ARGS="$EXTRA_ARGS LFLAGS=-static"
+    fi
+    make GIT=1 NO_NHUUID=1 CCFLAGS=-O2 COLCMD=cat \
+      WANT_WIN_TTY=1 WANT_WIN_CURSES=1 HACKDIR=. $EXTRA_ARGS all
+
+    STAGE="$PWD/stage/NetHack-cn"
+    make install \
+      HACKDIR="$STAGE/nethackdir" INSTDIR="$STAGE/nethackdir" \
+      VARDIR="$STAGE/nethackdir" SHELLDIR="$STAGE/bin"
+
+    strip "$STAGE/nethackdir/nethack" "$STAGE/nethackdir/recover"
+    # rewrite the launcher so it finds the game dir next to itself
+    sed -i 's|^HACKDIR=.*|HACKDIR=$(CDPATH= cd -- "$(dirname -- "$0")/../nethackdir" \&\& pwd)|' \
+      "$STAGE/bin/nethack"
+
+    mkdir -p "$STAGE/doc"
+    cp -f doc/Guidebook "$STAGE/doc/" 2>/dev/null || true
+    # VARIANT_ORTHO selects which orthography variant (s/t/tg/twp) the
+    # sources were converted to on the runner before entering the container;
+    # it only affects the tarball name.
+    tar -czf "NetHack-cn-linux-$VARIANT_ARCH-$VARIANT_LIBC-$VARIANT_ORTHO.tar.gz" -C stage NetHack-cn
 
 jobs:
   build:
@@ -110,8 +164,128 @@ jobs:
           path: vspackage/*.zip
           if-no-files-found: error
 
+  build-linux:
+    name: linux-${{ matrix.arch }}-${{ matrix.libc }}-${{ matrix.orthography }}
+    runs-on: ${{ matrix.arch == 'arm64' && 'ubuntu-24.04-arm' || 'ubuntu-latest' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        # amd64 / i386 build natively in 32-bit-capable containers on x86_64
+        # runners; arm64 uses the free public-repo arm64 runner natively.
+        # glibc builds use debian:12, musl/static builds use alpine:3.20
+        # (derived from matrix.libc in the docker step below).
+        orthography: [s, t, tg, twp]
+        arch: [amd64, i386, arm64]
+        libc: [glibc, musl, static]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          lfs: true
+
+      - name: Set up OpenCC
+        if: matrix.orthography != 's'
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq opencc
+
+      - name: Set up General Standard Traditional (opencc-tonggui)
+        if: matrix.orthography == 'tg'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release download --repo amorphobia/opencc-tonggui --pattern "*tonggui*.zip" --dir ./opencc-tonggui
+          unzip ./opencc-tonggui/*tonggui*.zip -d ./opencc-tonggui
+
+      - name: Get All Kanji Files
+        if: matrix.orthography != 's'
+        run: python3 ./.github/workflows/findkanjifiles.py
+
+      - name: Orthographic Convert
+        if: matrix.orthography != 's'
+        shell: bash
+        run: |
+          if [ "${{ matrix.orthography }}" = "tg" ]; then
+            CONFIG="./opencc-tonggui/opencc/s2tg.json"
+          else
+            CONFIG="/usr/share/opencc/s2${{ matrix.orthography }}.json"
+          fi
+          echo "Using orthography: ${{ matrix.orthography }} ($CONFIG)"
+          cat ./kanjifiles.txt
+          cat ./kanjifiles.txt | tr -d '\r' | while read -r file; do
+            echo "Converting: $file"
+            opencc -c "$CONFIG" -i "$file" -o "$file" --in-place
+          done
+
+      - name: Build NetHack in ${{ matrix.libc == 'glibc' && 'debian:12' || 'alpine:3.20' }} container
+        run: |
+          docker run --rm --platform linux/${{ matrix.arch }} \
+            -v "${{ github.workspace }}:/src" -w /src \
+            -e VARIANT_ARCH=${{ matrix.arch }} \
+            -e VARIANT_LIBC=${{ matrix.libc }} \
+            -e VARIANT_ORTHO=${{ matrix.orthography }} \
+            ${{ matrix.libc == 'glibc' && 'debian:12' || 'alpine:3.20' }} /bin/sh -euc "$LINUX_BUILD_SCRIPT"
+
+      - name: Upload workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: nethack-linux-${{ matrix.arch }}-${{ matrix.libc }}-${{ matrix.orthography }}
+          path: NetHack-cn-linux-*.tar.gz
+          if-no-files-found: error
+
+  build-macos:
+    name: macos-arm64
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          lfs: true
+
+      - name: Install groff
+        run: brew install groff
+
+      - name: Build NetHack
+        run: |
+          cd sys/unix
+          sh setup.sh hints/macOS.500
+          cd ../..
+          # keep the sysconf lookup relative so the app bundle-free zip
+          # can be unpacked anywhere
+          sed -i '' 's|-DSYSCF_FILE=\\"$(HACKDIR)/sysconf\\"|-DSYSCF_FILE=\\"sysconf\\"|' Makefile
+          # USEMACPORTS=1 only disables the hints' homebrew/ncurses detection,
+          # so we link the system ncurses instead of an unlinked brew keg
+          # (which would create a dyld dependency ordinary Macs cannot satisfy)
+          make GIT=1 CCFLAGS=-O2 USEMACPORTS=1 \
+            WANT_WIN_TTY=1 WANT_WIN_CURSES=1 HACKDIR=. all
+
+      - name: Stage and package
+        run: |
+          STAGE="$PWD/stage/NetHack-cn"
+          make install \
+            HACKDIR="$STAGE/nethackdir" INSTDIR="$STAGE/nethackdir" \
+            VARDIR="$STAGE/nethackdir" SHELLDIR="$STAGE/bin"
+
+          strip "$STAGE/nethackdir/nethack" "$STAGE/nethackdir/recover"
+          sed -i '' 's|^HACKDIR=.*|HACKDIR=$(CDPATH= cd -- "$(dirname -- "$0")/../nethackdir" \&\& pwd)|' \
+            "$STAGE/bin/nethack"
+
+          mkdir -p "$STAGE/doc"
+          cp -f doc/Guidebook "$STAGE/doc/" 2>/dev/null || true
+
+          ( cd stage && zip -ry "$GITHUB_WORKSPACE/NetHack-cn-macos-arm64.zip" NetHack-cn )
+
+      - name: Upload workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: nethack-macos-arm64
+          path: NetHack-cn-macos-arm64.zip
+          if-no-files-found: error
+
   release:
-    needs: build
+    needs: [build, build-linux, build-macos]
     if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch))
     runs-on: ubuntu-latest
 
@@ -119,7 +293,7 @@ jobs:
       - name: Download packaged artifacts
         uses: actions/download-artifact@v4
         with:
-          pattern: nethack-vspackage-*
+          pattern: nethack-*
           path: release-assets
           merge-multiple: true
 
@@ -144,8 +318,10 @@ jobs:
           files: |
             release-assets/*.zip
             release-assets/**/*.zip
+            release-assets/*.tar.gz
+            release-assets/**/*.tar.gz
           body: |
-            Automated NetHack Visual Studio package build.
+            Automated NetHack package build.
 
             - Branch: `${{ github.ref_name }}`
             - Commit: `${{ github.sha }}`
