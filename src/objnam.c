@@ -125,7 +125,7 @@ static const struct Jitem Japanese_items[] = {
     { HELMET, "兜" },
     { LEATHER_GLOVES, "弽" },
     { FOOD_RATION, "兵粮" },
-    { POT_BOOZE, "烧酒" },
+    { POT_BOOZE, "清酒" },
     { 0, "" }
 };
 
