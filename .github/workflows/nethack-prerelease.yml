@@ -345,7 +345,7 @@ jobs:
             | `linux-i386` | Linux，32 位|
             | `linux-arm64` | Linux，ARM 64 位|
             | `macos-arm64` | macOS，Apple Silicon 芯片 |
-            | `NetHack-cn-src-*` | 源代码包，需要自行编译 |
+            | `NetHack-cn-src-*` | 源代码包|
 
             ### 2. Linux 用户：选择 glibc 还是 static
 
@@ -356,12 +356,12 @@ jobs:
 
             ### 3. 选择汉字规范（文件名结尾的 `-s` / `-t` / `-tg` / `-twp`）
 
-            | 后缀 | 规范
-            |---|---|---|
-            | `-s` | 简体（原文）
-            | `-t` | OpenCC 標準繁體 
-            | `-tg` | 通用規範漢字表繁體
-            | `-twp` | 台灣正體
+            | 后缀 | 规范 |
+            |---|---|
+            | `-s` | 简体（原文） |
+            | `-t` | OpenCC 標準繁體 | 
+            | `-tg` | 通用規範漢字表繁體 |
+            | `-twp` | 台灣正體 |
 
             > macOS 版本目前仅有简体（`-s`）。
 
