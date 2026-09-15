@@ -26,7 +26,6 @@ env:
   #   static -> fully static musl build (alpine:3.20), no runtime deps at all
   LINUX_BUILD_SCRIPT: |
     set -eu
-    git config --global --add safe.directory /src
 
     if command -v apt-get >/dev/null 2>&1; then
       apt-get update -qq
@@ -38,6 +37,8 @@ env:
         apk add --no-cache ncurses-static
       fi
     fi
+
+    git config --global --add safe.directory /src
 
     cd sys/unix
     sh setup.sh hints/linux.500
@@ -215,7 +216,9 @@ jobs:
           cat ./kanjifiles.txt
           cat ./kanjifiles.txt | tr -d '\r' | while read -r file; do
             echo "Converting: $file"
-            opencc -c "$CONFIG" -i "$file" -o "$file" --in-place
+            # distro opencc has no --in-place; write to a temp file first
+            opencc -c "$CONFIG" -i "$file" -o "$file.converted" \
+              && mv -f "$file.converted" "$file"
           done
 
       - name: Build NetHack in ${{ matrix.libc == 'glibc' && 'debian:12' || 'alpine:3.20' }} container
