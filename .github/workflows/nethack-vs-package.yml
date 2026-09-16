@@ -41,16 +41,16 @@ env:
     if [ "$VARIANT_LIBC" = "static" ]; then
       EXTRA_ARGS="$EXTRA_ARGS LFLAGS=-static"
     fi
-    make GIT=1 NO_NHUUID=1 CCFLAGS="-O2 -D_GNU_SOURCE" \
-      WANT_WIN_TTY=1 WANT_WIN_CURSES=1 HACKDIR=. $EXTRA_ARGS all
+    make GIT=1 NO_NHUUID=1 CCFLAGS="-O2" \
+      WANT_WIN_TTY=1 WANT_WIN_CURSES=1 $EXTRA_ARGS all
 
     strip src/nethack util/recover
 
     STAGE="$PWD/stage/NetHack-cn"
-    mkdir -p "$STAGE/save"
+    mkdir -p "$STAGE"
     cp src/nethack util/recover "$STAGE/"
     cp dat/nhdat dat/license dat/symbols "$STAGE/"
-    cp doc/Guidebook.txt "$STAGE/"
+    cp doc/Guidebook.txt doc/nethack.txt "$STAGE/"
     chmod 755 "$STAGE/nethack" "$STAGE/recover"
     touch "$STAGE/perm" "$STAGE/record" "$STAGE/logfile" \
       "$STAGE/xlogfile" "$STAGE/livelog" "$STAGE/sysconf"
