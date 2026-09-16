@@ -500,21 +500,16 @@ curses_utf8_decode(const char *src, unsigned long *codepoint, int *srclen)
     return TRUE;
 }
 
-static int
-curses_utf8_char_cols(const char *src, int *srclen)
+/* Display columns occupied by one Unicode code point.  ncursesw's
+   locale-aware wcwidth() wins where it is available; everywhere else
+   (and whenever wcwidth() can't answer) an explicit table is used, so
+   a given character measures the same on every windowport.  MSVC has
+   neither wcwidth() nor wcswidth(), and PDCursesMod keeps its own
+   width table private, hence the fallback. */
+int
+curses_ucs_cols(unsigned long cp)
 {
-    unsigned long cp;
-    int len = 1;
-
-    if (!curses_utf8_decode(src, &cp, &len)) {
-        if (srclen)
-            *srclen = 1;
-        return 1;
-    }
-    if (srclen)
-        *srclen = len;
-
-#ifdef CURSES_UNICODE
+#ifdef NCURSES_WIDECHAR
     if (cp <= (unsigned long) WCHAR_MAX) {
         int columns = wcwidth((wchar_t) cp);
 
@@ -535,6 +530,23 @@ curses_utf8_char_cols(const char *src, int *srclen)
         return 2;
 
     return 1;
+}
+
+static int
+curses_utf8_char_cols(const char *src, int *srclen)
+{
+    unsigned long cp;
+    int len = 1;
+
+    if (!curses_utf8_decode(src, &cp, &len)) {
+        if (srclen)
+            *srclen = 1;
+        return 1;
+    }
+    if (srclen)
+        *srclen = len;
+
+    return curses_ucs_cols(cp);
 }
 
 int

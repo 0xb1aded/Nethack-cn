@@ -52,6 +52,15 @@ glyph_info mesg_gi;
 #endif /* WIDE */
 #endif /* CURSES_GENL_PUTMIXED */
 
+/* ncurses caps the wide string held in a cchar_t at CCHARW_MAX entries,
+   while PDCursesMod's getcchar() fills as many as 20.  Size the buffer
+   for whichever windowport is actually in use. */
+#ifdef CCHARW_MAX
+#define NH_CCHARW_MAX CCHARW_MAX
+#else
+#define NH_CCHARW_MAX 20
+#endif
+
 /* Message window routines for curses interface */
 
 /* Private declarations */
@@ -80,6 +89,29 @@ static nhprev_mesg *last_mesg = NULL;
 static int max_messages;
 static int num_messages = 0;
 static int last_messages = 0;
+
+#if defined(PDC_WIDE) || defined(NCURSES_WIDECHAR)
+/* Display columns occupied by a NUL-terminated wide string, matching
+   what curses_utf8_str_cols() reports for the equivalent narrow
+   string.  Only the Windows build has 16-bit wchar_t, where astral
+   characters arrive as surrogate pairs and have to be recombined
+   before the width lookup. */
+static int
+curses_wcs_cols(const wchar_t *w)
+{
+    int cols = 0;
+
+    while (*w) {
+        unsigned long cp = (unsigned long) *w++;
+
+        if (cp >= 0xd800 && cp <= 0xdbff && *w >= 0xdc00 && *w <= 0xdfff)
+            cp = 0x10000UL + ((cp - 0xd800UL) << 10)
+                 + ((unsigned long) *w++ - 0xdc00UL);
+        cols += curses_ucs_cols(cp);
+    }
+    return cols;
+}
+#endif /* PDC_WIDE || NCURSES_WIDECHAR */
 
 /* Write string to the message window.  Attributes set by calling function. */
 
@@ -173,7 +205,7 @@ curses_message_win_puts(const char *message, boolean recursed)
                      (bold || adjustbold) ? A_BOLD : A_NORMAL,
                      leadin_color, 0) == OK) {
             have_mixed_leadin = TRUE;
-            mixed_leadin_width = wcswidth(w, 1);
+            mixed_leadin_width = curses_wcs_cols(w);
             if (mixed_leadin_width < 1)
                 mixed_leadin_width = 1;
             message_length += mixed_leadin_width;
@@ -413,7 +445,7 @@ curses_clear_unhighlight_message_window(void)
             for (rx = brdroffset; rx < mw; rx++) {
 #if defined(PDC_WIDE) || defined(NCURSES_WIDECHAR)
                 cchar_t cell;
-                wchar_t chars[CCHARW_MAX];
+                wchar_t chars[NH_CCHARW_MAX];
                 attr_t attrs;
                 short pair;
                 int cell_width;
@@ -421,7 +453,7 @@ curses_clear_unhighlight_message_window(void)
                 if (mvwin_wch(win, ry, rx, &cell) == ERR
                     || getcchar(&cell, chars, &attrs, &pair, NULL) == ERR)
                     continue;
-                cell_width = wcswidth(chars, CCHARW_MAX);
+                cell_width = curses_wcs_cols(chars);
                 if (cell_width < 1)
                     cell_width = 1;
                 if (cell_width > mw - rx)
