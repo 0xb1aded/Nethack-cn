@@ -3,7 +3,14 @@
 /* Copyright (c) Karl Garrison, 2010. */
 /* NetHack may be freely redistributed.  See license for details. */
 
+#if defined(CURSES_UNICODE) && !defined(_XOPEN_SOURCE)
+#define _XOPEN_SOURCE 700
+#endif
+#if defined(CURSES_UNICODE) && !defined(_XOPEN_SOURCE_EXTENDED)
+#define _XOPEN_SOURCE_EXTENDED 1
+#endif
 #include "curses.h"
+#include <wchar.h>
 #include "hack.h"
 #include "wincurs.h"
 #include "cursmesg.h"
@@ -84,10 +91,11 @@ curses_message_win_puts(const char *message, boolean recursed)
     WINDOW *win = curses_get_nhwin(MESSAGE_WIN);
     boolean bold, border = curses_window_has_border(MESSAGE_WIN),
                   adjustbold = FALSE;
-    int message_length = (int) strlen(message);
+    int message_length = curses_utf8_str_cols(message);
 #ifdef USE_CURSES_PUTMIXED
     boolean have_mixed_leadin = FALSE;
     cchar_t mixed_leadin_cchar[2];
+    int mixed_leadin_width = 0;
 #endif
 
 #if 0
@@ -165,7 +173,10 @@ curses_message_win_puts(const char *message, boolean recursed)
                      (bold || adjustbold) ? A_BOLD : A_NORMAL,
                      leadin_color, 0) == OK) {
             have_mixed_leadin = TRUE;
-            message_length++; /* account for that additional column */
+            mixed_leadin_width = wcswidth(w, 1);
+            if (mixed_leadin_width < 1)
+                mixed_leadin_width = 1;
+            message_length += mixed_leadin_width;
         }
     }
 #endif  /* USE_CURSES_PUTMIXED */
@@ -212,14 +223,15 @@ curses_message_win_puts(const char *message, boolean recursed)
 #ifdef USE_CURSES_PUTMIXED
         if (have_mixed_leadin) {
             mvwadd_wch(win, my, mx, mixed_leadin_cchar);
-            ++mx;
-            message_length--;
+            mx += mixed_leadin_width;
+            message_length -= mixed_leadin_width;
             mesg_mixed = 0;
             have_mixed_leadin = FALSE;
             nhUse(have_mixed_leadin);
         }
 #endif
-        mvwprintw(win, my, mx, "%s", tmpstr), mx += (int) strlen(tmpstr);
+        mvwprintw(win, my, mx, "%s", tmpstr);
+        mx += curses_utf8_str_cols(tmpstr);
         /* one space to separate first part of message from rest [is this
            actually useful?] */
         if (mx < width)
@@ -234,8 +246,8 @@ curses_message_win_puts(const char *message, boolean recursed)
 #ifdef USE_CURSES_PUTMIXED
         if (have_mixed_leadin) {
             mvwadd_wch(win, my, mx, mixed_leadin_cchar);
-            ++mx;
-            message_length--;
+            mx += mixed_leadin_width;
+            message_length -= mixed_leadin_width;
             mesg_mixed = 0;
             have_mixed_leadin = FALSE;
             nhUse(have_mixed_leadin);
@@ -399,9 +411,29 @@ curses_clear_unhighlight_message_window(void)
 
         for (ry = brdroffset; ry < mh; ry++) {
             for (rx = brdroffset; rx < mw; rx++) {
+#if defined(PDC_WIDE) || defined(NCURSES_WIDECHAR)
+                cchar_t cell;
+                wchar_t chars[CCHARW_MAX];
+                attr_t attrs;
+                short pair;
+                int cell_width;
+
+                if (mvwin_wch(win, ry, rx, &cell) == ERR
+                    || getcchar(&cell, chars, &attrs, &pair, NULL) == ERR)
+                    continue;
+                cell_width = wcswidth(chars, CCHARW_MAX);
+                if (cell_width < 1)
+                    cell_width = 1;
+                if (cell_width > mw - rx)
+                    cell_width = mw - rx;
+                mvwchgat(win, ry, rx, cell_width, attrs & ~A_BOLD, pair,
+                         NULL);
+                rx += cell_width - 1;
+#else
                 chtype cht = mvwinch(win, ry, rx);
 
                 mvwchgat(win, ry, rx, 1, A_NORMAL, PAIR_NUMBER(cht), NULL);
+#endif
             }
         }
 
