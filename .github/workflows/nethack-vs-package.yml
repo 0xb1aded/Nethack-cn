@@ -245,28 +245,20 @@ jobs:
           sh setup.sh hints/macOS.500
           cd ../..
           make fetch-lua
-          # keep the sysconf lookup relative so the app bundle-free zip
-          # can be unpacked anywhere
-          sed -i '' 's|-DSYSCF_FILE=\\"$(HACKDIR)/sysconf\\"|-DSYSCF_FILE=\\"sysconf\\"|' Makefile
-          # USEMACPORTS=1 only disables the hints' homebrew/ncurses detection,
-          # so we link the system ncurses instead of an unlinked brew keg
-          # (which would create a dyld dependency ordinary Macs cannot satisfy)
           make GIT=1 CCFLAGS=-O2 USEMACPORTS=1 COLCMD=cat NROFF_FLAGS=-Tutf8 \
             WANT_WIN_TTY=1 WANT_WIN_CURSES=1 HACKDIR=. all
 
       - name: Stage and package
         run: |
           STAGE="$PWD/stage/NetHack-cn"
-          make install \
-            HACKDIR="$STAGE/nethackdir" INSTDIR="$STAGE/nethackdir" \
-            VARDIR="$STAGE/nethackdir" SHELLDIR="$STAGE/bin"
-
-          strip "$STAGE/nethackdir/nethack" "$STAGE/nethackdir/recover"
-          sed -i '' 's|^HACKDIR=.*|HACKDIR=$(CDPATH= cd -- "$(dirname -- "$0")/../nethackdir" \&\& pwd)|' \
-            "$STAGE/bin/nethack"
-
-          mkdir -p "$STAGE/doc"
-          cp -f doc/Guidebook "$STAGE/doc/" 2>/dev/null || true
+          mkdir -p "$STAGE/save"
+          cp src/nethack util/recover "$STAGE/"
+          cp dat/nhdat dat/license dat/symbols "$STAGE/"
+          cp doc/Guidebook.txt doc/nethack.txt "$STAGE/"
+          chmod 755 "$STAGE/nethack" "$STAGE/recover"
+          touch "$STAGE/perm" "$STAGE/record" "$STAGE/logfile" \
+            "$STAGE/xlogfile" "$STAGE/livelog" "$STAGE/sysconf"
+          echo "GENERICUSERS=*" > "$STAGE/sysconf"
 
           ( cd stage && zip -ry "$GITHUB_WORKSPACE/NetHack-cn-macos-arm64.zip" NetHack-cn )
 
