@@ -38,7 +38,7 @@ env:
       EXTRA_ARGS="$EXTRA_ARGS LFLAGS=-static"
     fi
     make GIT=1 NO_NHUUID=1 CCFLAGS="-O2" \
-      WANT_WIN_TTY=1 WANT_WIN_CURSES=1 HACKDIR=. $EXTRA_ARGS all
+      WANT_WIN_TTY=1 WANT_WIN_CURSES=1 NROFF_FLAGS=-Tutf8 HACKDIR=. $EXTRA_ARGS all
 
     strip src/nethack util/recover
 
