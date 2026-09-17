@@ -42,7 +42,7 @@ env:
       EXTRA_ARGS="$EXTRA_ARGS LFLAGS=-static"
     fi
     make GIT=1 NO_NHUUID=1 CCFLAGS="-O2" \
-      WANT_WIN_TTY=1 WANT_WIN_CURSES=1 $EXTRA_ARGS all
+      WANT_WIN_TTY=1 WANT_WIN_CURSES=1 HACKDIR=. $EXTRA_ARGS all
 
     strip src/nethack util/recover
 
@@ -54,6 +54,7 @@ env:
     chmod 755 "$STAGE/nethack" "$STAGE/recover"
     touch "$STAGE/perm" "$STAGE/record" "$STAGE/logfile" \
       "$STAGE/xlogfile" "$STAGE/livelog" "$STAGE/sysconf"
+    echo "GENERICUSERS=*" > "$STAGE/sysconf"
 
     # VARIANT_ORTHO selects which orthography variant (s/t/tg/twp) the
     # sources were converted to on the runner before entering the container;
