@@ -47,7 +47,7 @@ env:
     strip src/nethack util/recover
 
     STAGE="$PWD/stage/NetHack-cn"
-    mkdir -p "$STAGE"
+    mkdir -p "$STAGE/save"
     cp src/nethack util/recover "$STAGE/"
     cp dat/nhdat dat/license dat/symbols "$STAGE/"
     cp doc/Guidebook.txt doc/nethack.txt "$STAGE/"
