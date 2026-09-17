@@ -758,9 +758,9 @@ curses_init_options(void)
     /* Remove a few options that are irrelevant to this windowport */
     set_option_mod_status("eight_bit_tty", set_in_config);
 
-    /* If we don't have a symset defined, load the curses symset by default */
+    /* Use the conservative Unicode map when no symset was explicitly set. */
     if (!gs.symset[PRIMARYSET].explicitly)
-        load_symset("curses", PRIMARYSET);
+        load_symset("Enhanced1", PRIMARYSET);
     if (!gs.symset[ROGUESET].explicitly)
         load_symset("default", ROGUESET);
 

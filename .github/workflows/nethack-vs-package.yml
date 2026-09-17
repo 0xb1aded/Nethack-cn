@@ -1,4 +1,4 @@
-name: Build NetHack VS package
+name: Build NetHack-cn pre-release
 
 on:
   push:
@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: nethack-vs-package-${{ github.ref }}
+  group: nethack-prerelease-${{ github.ref }}
   cancel-in-progress: true
 
 env:
@@ -17,11 +17,49 @@ env:
   BUILD_CONFIGURATION: Release
   BUILD_PLATFORM: x64
   PACKAGE_DIR: vspackage
+  #   glibc  -> dynamic build against glibc (debian:12), needs ncurses at runtime
+  #   static -> static build against glibc (debian:12), no runtime deps
+  LINUX_BUILD_SCRIPT: |
+    set -eu
+
+    apt-get update -qq
+    DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends \
+      build-essential groff libncurses-dev pkg-config curl ca-certificates git
+
+    git config --global --add safe.directory /src
+
+    cd sys/unix
+    sh setup.sh hints/linux.500
+    cd ../..
+    make fetch-lua
+
+    EXTRA_ARGS=""
+    if [ "$VARIANT_LIBC" = "static" ]; then
+      EXTRA_ARGS="$EXTRA_ARGS LFLAGS=-static"
+    fi
+    make GIT=1 NO_NHUUID=1 CCFLAGS="-O2" \
+      WANT_WIN_TTY=1 WANT_WIN_CURSES=1 NROFF_FLAGS=-Tutf8 HACKDIR=. $EXTRA_ARGS all
+
+    strip src/nethack util/recover
+
+    STAGE="$PWD/stage/NetHack-cn"
+    mkdir -p "$STAGE/save"
+    cp src/nethack util/recover "$STAGE/"
+    cp dat/nhdat dat/license dat/symbols "$STAGE/"
+    cp doc/Guidebook.txt doc/nethack.txt "$STAGE/"
+    chmod 755 "$STAGE/nethack" "$STAGE/recover"
+    touch "$STAGE/perm" "$STAGE/record" "$STAGE/logfile" \
+      "$STAGE/xlogfile" "$STAGE/livelog" "$STAGE/sysconf"
+    echo "GENERICUSERS=*" > "$STAGE/sysconf"
+
+    tar -czf "NetHack-500-linux-$VARIANT_ARCH-$VARIANT_LIBC-$VARIANT_ORTHO.tar.gz" -C stage/NetHack-cn .
 
 jobs:
-  build:
+  build-windows:
+    name: windows-x64-${{ matrix.orthography }}
     runs-on: windows-latest
     strategy:
+      fail-fast: false
       matrix:
         orthography: [s, t, tg, twp]
     defaults:
@@ -110,18 +148,144 @@ jobs:
           path: vspackage/*.zip
           if-no-files-found: error
 
+  build-linux:
+    name: linux-${{ matrix.arch }}-${{ matrix.libc }}-${{ matrix.orthography }}
+    runs-on: ${{ matrix.arch == 'arm64' && 'ubuntu-24.04-arm' || 'ubuntu-latest' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        # amd64 / i386 build natively in 32-bit-capable containers on x86_64
+        # runners; arm64 uses the free public-repo arm64 runner natively.
+        # All builds use debian:12 (glibc); the static variant links statically.
+        orthography: [s, t, tg, twp]
+        arch: [amd64, i386, arm64]
+        libc: [glibc, static]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          lfs: true
+
+      - name: Set up OpenCC
+        if: matrix.orthography != 's'
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq opencc
+
+      - name: Set up General Standard Traditional (opencc-tonggui)
+        if: matrix.orthography == 'tg'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release download --repo amorphobia/opencc-tonggui --pattern "*tonggui*.zip" --dir ./opencc-tonggui
+          unzip ./opencc-tonggui/*tonggui*.zip -d ./opencc-tonggui
+
+      - name: Get All Kanji Files
+        if: matrix.orthography != 's'
+        run: python3 ./.github/workflows/findkanjifiles.py
+
+      - name: Orthographic Convert
+        if: matrix.orthography != 's'
+        shell: bash
+        run: |
+          if [ "${{ matrix.orthography }}" = "tg" ]; then
+            CONFIG="./opencc-tonggui/opencc/s2tg.json"
+          else
+            CONFIG="/usr/share/opencc/s2${{ matrix.orthography }}.json"
+          fi
+          echo "Using orthography: ${{ matrix.orthography }} ($CONFIG)"
+          cat ./kanjifiles.txt
+          cat ./kanjifiles.txt | tr -d '\r' | while read -r file; do
+            echo "Converting: $file"
+            # distro opencc has no --in-place; write to a temp file first
+            opencc -c "$CONFIG" -i "$file" -o "$file.converted" \
+              && mv -f "$file.converted" "$file"
+          done
+
+      - name: Build NetHack in debian:12 container
+        run: |
+          docker run --rm --platform linux/${{ matrix.arch }} \
+            -v "${{ github.workspace }}:/src" -w /src \
+            -e VARIANT_ARCH=${{ matrix.arch }} \
+            -e VARIANT_LIBC=${{ matrix.libc }} \
+            -e VARIANT_ORTHO=${{ matrix.orthography }} \
+            debian:12 /bin/sh -euc "$LINUX_BUILD_SCRIPT"
+
+      - name: Upload workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: nethack-linux-${{ matrix.arch }}-${{ matrix.libc }}-${{ matrix.orthography }}
+          path: NetHack-500-linux-*.tar.gz
+          if-no-files-found: error
+
+  build-macos:
+    name: macos-arm64
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          lfs: true
+
+      - name: Install groff
+        run: brew install groff
+
+      - name: Build NetHack
+        run: |
+          cd sys/unix
+          sh setup.sh hints/macOS.500
+          cd ../..
+          make fetch-lua
+          make GIT=1 CCFLAGS=-O2 USEMACPORTS=1 COLCMD=cat NROFF_FLAGS=-Tutf8 \
+            WANT_WIN_TTY=1 WANT_WIN_CURSES=1 HACKDIR=. all
+
+      - name: Stage and package
+        run: |
+          STAGE="$PWD/stage/NetHack-cn"
+          mkdir -p "$STAGE/save"
+          cp src/nethack util/recover "$STAGE/"
+          cp dat/nhdat dat/license dat/symbols "$STAGE/"
+          cp doc/Guidebook.txt doc/nethack.txt "$STAGE/"
+          chmod 755 "$STAGE/nethack" "$STAGE/recover"
+          touch "$STAGE/perm" "$STAGE/record" "$STAGE/logfile" \
+            "$STAGE/xlogfile" "$STAGE/livelog" "$STAGE/sysconf"
+          echo "GENERICUSERS=*" > "$STAGE/sysconf"
+
+          ( cd stage && zip -ry "$GITHUB_WORKSPACE/NetHack-cn-macos-arm64.zip" NetHack-cn )
+
+      - name: Upload workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: nethack-macos-arm64
+          path: NetHack-cn-macos-arm64.zip
+          if-no-files-found: error
+
   release:
-    needs: build
-    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch))
+    needs: [build-windows, build-linux, build-macos]
+    if: ${{ !cancelled() && (github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch))) }}
     runs-on: ubuntu-latest
 
     steps:
       - name: Download packaged artifacts
         uses: actions/download-artifact@v4
         with:
-          pattern: nethack-vspackage-*
+          pattern: nethack-*
           path: release-assets
           merge-multiple: true
+
+      - name: Check for any successful build
+        id: have-assets
+        shell: bash
+        run: |
+          shopt -s nullglob
+          files=(release-assets/*.zip release-assets/*.tar.gz release-assets/**/*.zip release-assets/**/*.tar.gz)
+          echo "Found ${#files[@]} artifact files"
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "No artifacts from any build job - nothing to release"
+          fi
+          echo "ok=$([ ${#files[@]} -gt 0 ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
 
       - name: Prepare release metadata
         id: meta
@@ -136,6 +300,7 @@ jobs:
           } >> "$GITHUB_OUTPUT"
 
       - name: Publish prerelease
+        if: steps.have-assets.outputs.ok == 'true'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.meta.outputs.tag }}
@@ -144,8 +309,52 @@ jobs:
           files: |
             release-assets/*.zip
             release-assets/**/*.zip
+            release-assets/*.tar.gz
+            release-assets/**/*.tar.gz
           body: |
-            Automated NetHack Visual Studio package build.
+            ⚠️ 这是自动化构建的**预发布版本**，可能存在bug。
 
-            - Branch: `${{ github.ref_name }}`
-            - Commit: `${{ github.sha }}`
+            - branch: `${{ github.ref_name }}`
+            - commit: `${{ github.sha }}`
+
+            ## 如何选择版本
+
+            ### 1. 选择操作系统和 CPU 架构
+
+            | 文件名片段 | 说明 |
+            |---|---|
+            | `win-x64` / `.zip` | Windows，64 位|
+            | `linux-amd64` | Linux，64 位 |
+            | `linux-i386` | Linux，32 位|
+            | `linux-arm64` | Linux，ARM 64 位|
+            | `macos-arm64` | macOS，Apple Silicon 芯片 |
+            | `NetHack-cn-src-*` | 源代码包|
+
+            ### 2. Linux 用户：选择 glibc 还是 static
+
+            | 变体 | 说明 |
+            |---|---|
+            | `glibc` | 体积更小，但运行时系统需要已安装 ncurses 库（多数发行版自带） |
+            | `static` | 解压即玩。如果在 glibc 版本上遇到库缺失或版本不兼容问题，请选这个 |
+
+            ### 3. 选择汉字规范（文件名结尾的 `-s` / `-t` / `-tg` / `-twp`）
+
+            | 后缀 | 规范 |
+            |---|---|
+            | `-s` | 简体（原文） |
+            | `-t` | OpenCC 標準繁體 | 
+            | `-tg` | 通用規範漢字表繁體 |
+            | `-twp` | 台灣正體 |
+
+            > macOS 版本目前仅有简体（`-s`）。
+
+            ### 文件名速查
+
+            ```
+            NetHack-500-linux-{架构}-{glibc|static}-{汉字规范}.tar.gz   # Linux
+            nethack-500-win-x64-{汉字规范}.zip                        # Windows
+            nethack-500-win-x64-debugsymbols-{汉字规范}.zip           # Windows 调试符号（普通用户无需下载）
+            NetHack-cn-macos-arm64.zip                                # macOS (Apple Silicon, 简体)
+            NetHack-cn-src-{汉字规范}.zip                              # 源代码
+            ```
+            

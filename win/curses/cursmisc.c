@@ -3,7 +3,14 @@
 /* Copyright (c) Karl Garrison, 2010. */
 /* NetHack may be freely redistributed.  See license for details. */
 
+#if defined(CURSES_UNICODE) && !defined(_XOPEN_SOURCE)
+#define _XOPEN_SOURCE 700
+#endif
+#if defined(CURSES_UNICODE) && !defined(_XOPEN_SOURCE_EXTENDED)
+#define _XOPEN_SOURCE_EXTENDED 1
+#endif
 #include "curses.h"
+#include <wchar.h>
 #include "hack.h"
 #include "wincurs.h"
 #include "cursmisc.h"
@@ -27,8 +34,8 @@ static boolean modifiers_available = FALSE;
 static int modified(int ch);
 static void update_modifiers(void);
 static int parse_escape_sequence(int, boolean *);
-static const char *curses_next_line(const char *str, int width, char *line,
-                                    unsigned linesz) NONNULLPTRS;
+static int curses_utf8_char_cols(const char *, int *);
+static void curses_line_span(const char *, int, size_t *, size_t *);
 
 #define SS3 M(C('O')) /* 8-bit escape sequence initiator for VT number pad */
 
@@ -272,139 +279,119 @@ curses_copy_of(const char *s)
     return dupstr(s);
 }
 
-/* 从 str 中按显示列宽切出第一行。
- * 将这一行写入 line（以 '\0' 结尾），并返回剩余部分的起始指针。
- * 仅在 str 已知无法放入 width 列时调用。 */
-static const char *
-curses_next_line(const char *str, int width, char *line, unsigned linesz)
+/* Find one display line without splitting a UTF-8 character. */
+static void
+curses_line_span(const char *str, int width, size_t *line_bytes,
+                 size_t *next_offset)
 {
-    const char *p, *last_space = NULL;
-    if (linesz > 0)
-        line[0] = '\0';
+    size_t offset = 0, last_space = 0;
+    int columns = 0;
+    boolean have_space = FALSE;
 
-    int col = 0;
-    uint8 clen = 0, cw = 0;
-    for (p = str; *p; p += clen) {
-        utf8char_info(p, &clen, &cw);
-        if (col + cw > width)
-            break;
-        if (*p == ' ')
-            last_space = p;
-        col += cw;
-    }
+    *line_bytes = *next_offset = 0;
+    if (!str || !*str)
+        return;
 
-    if (last_space) {
-        ptrdiff_t len = last_space - str;
-        if (len >= linesz)
-            len = linesz - 1;
-        if (linesz > 0) {
-            memcpy(line, str, len);
-            line[len] = '\0';
+    while (str[offset]) {
+        int char_bytes = 1;
+        int char_columns = curses_utf8_char_cols(str + offset, &char_bytes);
+
+        if (char_bytes < 1)
+            char_bytes = 1;
+        if (str[offset] == ' ' && char_bytes == 1 && offset > 0) {
+            last_space = offset;
+            have_space = TRUE;
         }
-        return last_space + 1;
+        if (width > 0 && columns + char_columns <= width) {
+            columns += char_columns;
+            offset += (size_t) char_bytes;
+            continue;
+        }
+        if (offset == 0) {
+            /* Invalid input and a glyph wider than width must still advance. */
+            offset = (size_t) char_bytes;
+        } else if (have_space) {
+            *line_bytes = last_space;
+            *next_offset = last_space + 1;
+            return;
+        }
+        *line_bytes = *next_offset = offset;
+        return;
     }
-
-    // 没有空格可断行，在第一个放不下的字符处断开
-    if (p == str && *p) {
-        // 连一个字符都放不下时，也先消费一个完整字符，保证能向前推进
-        utf8char_info(p, &clen, &cw);
-        p += clen;
-    }
-
-    ptrdiff_t len = p - str;
-    if (len >= linesz)
-        len = linesz - 1;
-    if (linesz > 0) {
-        memcpy(line, str, len);
-        line[len] = '\0';
-    }
-
-    return p;
+    *line_bytes = *next_offset = offset;
 }
 
-/* 计算一个字符串在给定显示宽度的对话框中需要多少行 */
+/* Determine the number of lines needed for a string for a dialog window
+   of the given width */
 int
 curses_num_lines(const char *str, int width)
 {
-    const char *p = str;
-    char linebuf[BUFSZ];
-    int curline = 1;
+    int lines = 0;
+    const char *remaining = str ? str : "";
 
-    if (!str || !*str)
-        return 1;
+    while (*remaining) {
+        size_t line_bytes, next_offset;
 
-    while (utf8str_width(p) > width) {
-        const char *next =
-            curses_next_line(p, width, linebuf, sizeof linebuf);
-
-        if (next == p) // 防止死循环
+        curses_line_span(remaining, width, &line_bytes, &next_offset);
+        ++lines;
+        if (!next_offset)
             break;
-        p = next;
-        curline++;
-        if (!*p)
-            break;
+        remaining += next_offset;
     }
-
-    return curline;
+    return lines ? lines : 1;
 }
 
-/* 将字符串按给定显示宽度拆成多行 */
+/* Break string into smaller lines to fit into a dialog window of the
+given width */
 char *
 curses_break_str(const char *str, int width, int line_num)
 {
-    const char *p = str;
-    char *curstr;
-    char *retstr;
-    int curline = 0;
-    unsigned cursz = Strlen(str) + 1;
+    int current_line = 1;
+    const char *remaining = str ? str : "";
 
-    curstr = (char *) alloc(cursz);
-    curstr[0] = '\0';
-    while (curline < line_num) {
-        if (!p || !*p) {
-            Strcpy(curstr, "");
+    if (line_num < 1)
+        return curses_copy_of("");
+    do {
+        size_t line_bytes, next_offset;
+
+        curses_line_span(remaining, width, &line_bytes, &next_offset);
+        if (current_line == line_num) {
+            char *retstr = (char *) alloc((unsigned) line_bytes + 1);
+
+            (void) memcpy(retstr, remaining, line_bytes);
+            retstr[line_bytes] = '\0';
+            return retstr;
+        }
+        if (!*remaining || !next_offset)
             break;
-        }
-        if (utf8str_width(p) <= width) {
-            // 剩余部分能完整放入当前行，直接原样返回
-            Strcpy(curstr, p);
-            p = "";
-            curline++;
-            continue;
-        }
-        p = curses_next_line(p, width, curstr, cursz);
-        curline++;
-    }
+        remaining += next_offset;
+        ++current_line;
+    } while (1);
 
-    retstr = curses_copy_of(curstr);
-    free((genericptr_t) curstr);
-    return retstr;
+    /* callers aren't prepared to handle NULL return */
+    return curses_copy_of("");
 }
 
-/* 返回跳过 line_num 行之后剩余的字符串内容 */
+/* Return the remaining portion of a string after hacking-off line_num lines */
 char *
 curses_str_remainder(const char *str, int width, int line_num)
 {
-    const char *p = str;
-    char linebuf[BUFSZ];
-    int curline = 0;
+    int current_line;
+    const char *remaining = str ? str : "";
 
-    if (!str)
-        return NULL;
+    if (line_num < 1)
+        return curses_copy_of(remaining);
+    for (current_line = 0; current_line < line_num; ++current_line) {
+        size_t line_bytes, next_offset;
 
-    while (curline < line_num) {
-        if (!p || !*p)
+        if (!*remaining)
             return NULL;
-        if (utf8str_width(p) <= (size_t) width) {
-            p = "";
-            curline++;
-            continue;
-        }
-        p = curses_next_line(p, width, linebuf, sizeof linebuf);
-        curline++;
+        curses_line_span(remaining, width, &line_bytes, &next_offset);
+        if (!next_offset)
+            return NULL;
+        remaining += next_offset;
     }
-
-    return curses_copy_of(p);
+    return curses_copy_of(remaining);
 }
 
 int
@@ -484,7 +471,7 @@ curses_utf8_decode(const char *src, unsigned long *codepoint, int *srclen)
         return TRUE;
     }
     for (i = 1; i < len; ++i)
-        if (!curses_utf8_continuation(s[i]))
+        if (!s[i] || !curses_utf8_continuation(s[i]))
             return FALSE;
 
     switch (len) {
@@ -503,9 +490,46 @@ curses_utf8_decode(const char *src, unsigned long *codepoint, int *srclen)
     for (i = 1; i < len; ++i)
         cp = (cp << 6) | (unsigned long) (s[i] & 0x3f);
 
+    if ((len == 2 && cp < 0x80) || (len == 3 && cp < 0x800)
+        || (len == 4 && cp < 0x10000)
+        || (cp >= 0xd800 && cp <= 0xdfff) || cp > 0x10ffff)
+        return FALSE;
+
     *codepoint = cp;
     *srclen = len;
     return TRUE;
+}
+
+/* Display columns occupied by one Unicode code point.  ncursesw's
+   locale-aware wcwidth() wins where it is available; everywhere else
+   (and whenever wcwidth() can't answer) an explicit table is used, so
+   a given character measures the same on every windowport.  MSVC has
+   neither wcwidth() nor wcswidth(), and PDCursesMod keeps its own
+   width table private, hence the fallback. */
+int
+curses_ucs_cols(unsigned long cp)
+{
+#ifdef NCURSES_WIDECHAR
+    if (cp <= (unsigned long) WCHAR_MAX) {
+        int columns = wcwidth((wchar_t) cp);
+
+        if (columns >= 0)
+            return columns;
+    }
+#endif
+    if (cp >= 0x1100
+        && (cp <= 0x115f || cp == 0x2329 || cp == 0x232a
+            || (cp >= 0x2e80 && cp <= 0xa4cf)
+            || (cp >= 0xac00 && cp <= 0xd7a3)
+            || (cp >= 0xf900 && cp <= 0xfaff)
+            || (cp >= 0xfe10 && cp <= 0xfe19)
+            || (cp >= 0xfe30 && cp <= 0xfe6f)
+            || (cp >= 0xff00 && cp <= 0xff60)
+            || (cp >= 0xffe0 && cp <= 0xffe6)
+            || (cp >= 0x20000 && cp <= 0x3fffd)))
+        return 2;
+
+    return 1;
 }
 
 static int
@@ -522,19 +546,7 @@ curses_utf8_char_cols(const char *src, int *srclen)
     if (srclen)
         *srclen = len;
 
-    if (cp >= 0x1100
-        && (cp <= 0x115f || cp == 0x2329 || cp == 0x232a
-            || (cp >= 0x2e80 && cp <= 0xa4cf)
-            || (cp >= 0xac00 && cp <= 0xd7a3)
-            || (cp >= 0xf900 && cp <= 0xfaff)
-            || (cp >= 0xfe10 && cp <= 0xfe19)
-            || (cp >= 0xfe30 && cp <= 0xfe6f)
-            || (cp >= 0xff00 && cp <= 0xff60)
-            || (cp >= 0xffe0 && cp <= 0xffe6)
-            || (cp >= 0x20000 && cp <= 0x3fffd)))
-        return 2;
-
-    return 1;
+    return curses_ucs_cols(cp);
 }
 
 int

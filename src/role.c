@@ -1672,7 +1672,14 @@ plnamesuffix(void)
     /* some generic user names will be ignored in favor of prompting */
     if (sysopt.genericusers) {
         if (*sysopt.genericusers == '*') {
-            svp.plname[0] = '\0';
+            /* '*' = always ask, but role_init() calls plnamesuffix()
+               again on newgame/restore; asking once is enough */
+            static boolean generic_prompted = FALSE;
+
+            if (!generic_prompted) {
+                svp.plname[0] = '\0';
+                generic_prompted = TRUE;
+            }
         } else {
             /* need to ignore appended '-role-race-gender-alignment';
                'plnamelen' is non-zero when dealing with plname[] value that
