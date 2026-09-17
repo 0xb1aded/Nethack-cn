@@ -17,10 +17,6 @@ env:
   BUILD_CONFIGURATION: Release
   BUILD_PLATFORM: x64
   PACKAGE_DIR: vspackage
-  # Shared recipe for the Linux container builds (build-linux job).
-  # The game is compiled with a relative HACKDIR and a relative sysconf
-  # path, so after extraction everything is resolved from the launcher's
-  # own location and the tarball can be unpacked anywhere.
   #   glibc  -> dynamic build against glibc (debian:12), needs ncurses at runtime
   #   static -> static build against glibc (debian:12), no runtime deps
   LINUX_BUILD_SCRIPT: |
@@ -56,9 +52,6 @@ env:
       "$STAGE/xlogfile" "$STAGE/livelog" "$STAGE/sysconf"
     echo "GENERICUSERS=*" > "$STAGE/sysconf"
 
-    # VARIANT_ORTHO selects which orthography variant (s/t/tg/twp) the
-    # sources were converted to on the runner before entering the container;
-    # it only affects the tarball name.
     tar -czf "NetHack-500-linux-$VARIANT_ARCH-$VARIANT_LIBC-$VARIANT_ORTHO.tar.gz" -C stage/NetHack-cn .
 
 jobs:
@@ -271,9 +264,6 @@ jobs:
 
   release:
     needs: [build-windows, build-linux, build-macos]
-    # publish whatever builds succeeded; don't require every matrix leg to pass
-    # (!cancelled(), not always(): a run superseded by concurrency cancellation
-    # must not publish a release)
     if: ${{ !cancelled() && (github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch))) }}
     runs-on: ubuntu-latest
 
