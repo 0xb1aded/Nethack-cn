@@ -26,6 +26,8 @@ extern boolean curs_mesg_no_suppress; /* ditto */
 extern int mesg_mixed;
 extern glyph_info mesg_gi;
 
+extern void stdout_write_utf8(const char *); // from windmain.c
+
 #ifndef CURSES_GENL_PUTMIXED
 #if defined(PDC_WIDE) || defined(NCURSES_WIDECHAR)
 #define USE_CURSES_PUTMIXED
@@ -1031,7 +1033,6 @@ curses_raw_print(const char *str)
     }
 #endif
 #ifdef _WIN32
-    extern void stdout_write_utf8(const char *);
     stdout_write_utf8(str);
     stdout_write_utf8("\n");
 #else
