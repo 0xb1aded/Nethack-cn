@@ -586,7 +586,8 @@ onMSNHCommand(HWND hWnd, WPARAM wParam, LPARAM lParam)
         text_view = GetDlgItem(hWnd, IDC_MENU_TEXT);
         if (!text_view)
             panic("cannot get text view window");
-        SetWindowText(text_view, data->menui.text.text);
+        // NOTE: 此处直接 `SetWindowText` 会导致文本被提前截断，原因不明
+        SendMessage(text_view, WM_SETTEXT, 0, (LPARAM) data->menui.text.text);
 
         /* calculate dimensions of the added line of text */
         hdc = GetDC(text_view);
