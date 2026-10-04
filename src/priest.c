@@ -502,7 +502,7 @@ intemple(int roomno)
 
         switch (rn2(4)) {
         case 0:
-            You("有一阵诡异感...");
+            You("感觉到有点诡异...");
             break;
         case 1:
             You_feel("好像你正被注视着.");
