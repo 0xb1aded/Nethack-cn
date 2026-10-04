@@ -3688,7 +3688,7 @@ check_special_room(boolean newlev)
 
                 pline("快%s! 快%s!", run, run);
             } else
-                You("有一种莫名其妙的感觉...");
+                You("感到莫名其妙...");
             break;
         case BEEHIVE:
             You("进入了一个巨型蜂巢!");

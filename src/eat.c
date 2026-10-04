@@ -787,7 +787,7 @@ maybe_cannibal(int pm, boolean allowmsg)
             || (ismnum(u.ulycn) && were_beastie(pm) == u.ulycn))) {
         if (allowmsg) {
             if (Upolyd && your_race(fptr))
-                You("内心深处有一种不好的感觉.");
+                You("内心深处感到不祥.");
             You("吃掉了同类! 你会后悔的!");
         }
         HAggravate_monster |= FROMOUTSIDE;

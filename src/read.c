@@ -1001,7 +1001,7 @@ recharge(struct obj *obj, int curse_bless)
 
     } else {
  not_chargable:
-        You("有一种失落感.");
+        You("感觉有点失落.");
     }
 
     /* prevent enchantment from getting out of range */

@@ -2205,7 +2205,7 @@ doseduce(struct monst *mon)
                 You_feel("不成样子.");
                 losexp("过度劳累");
             } else {
-                You("有一种古怪的感觉...");
+                You("感到很古怪...");
             }
             exercise(A_CON, FALSE);
             exercise(A_DEX, FALSE);

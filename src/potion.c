@@ -796,7 +796,7 @@ peffect_enlightenment(struct obj *otmp)
 {
     if (otmp->cursed) {
         gp.potion_unkn++;
-        You("有一种不安的感觉...");
+        You("感到不安...");
         exercise(A_WIS, FALSE);
     } else {
         if (otmp->blessed) {
@@ -1104,7 +1104,7 @@ peffect_gain_level(struct obj *otmp)
             You("升起, 穿过%s!", ceiling(u.ux, u.uy));
             goto_level(&newlevel, FALSE, FALSE, FALSE);
         } else {
-            You("有一种不安的感觉.");
+            You("感到不安.");
         }
         return;
     }

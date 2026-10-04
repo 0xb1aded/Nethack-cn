@@ -1455,7 +1455,7 @@ staticfn void
 familiar_level_msg(void)
 {
     static const char *const fam_msgs[4] = {
-        "你有一种似曾相识感.",
+        "你感觉似曾相识.",
         "你感觉你好像来过这里.",
         "这个地方%s熟悉...", 0 /* no message */
     };

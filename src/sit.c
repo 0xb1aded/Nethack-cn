@@ -173,7 +173,7 @@ throne_sit_effect(void)
                         Your("%s在%s...", eye, vtense(eye, "刺痛"));
                         break;
                     case 0: /* no eyes */
-                        You("的%s中有一种非常奇怪的感觉.",
+                        You("的%s里感觉非常奇怪.",
                             body_part(HEAD));
                         break;
                     }

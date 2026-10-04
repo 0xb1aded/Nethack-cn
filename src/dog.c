@@ -190,7 +190,7 @@ make_familiar(struct obj *otmp, coordxy x, coordxy y, boolean quietly)
             reallytame = FALSE; /* not tame after all */
             if (chance == 2) {  /* hostile (cursed figurine) */
                 if (!quietly)
-                    You("对此有一种不祥的预感.");
+                    You("对此感到不祥.");
                 mtmp->mpeaceful = 0;
                 set_malign(mtmp);
             }

@@ -1637,7 +1637,7 @@ offer_different_alignment_altar(
     if (ugod_is_angry() || (altaralign == A_NONE && Inhell)) {
         if (u.ualignbase[A_CURRENT] == u.ualignbase[A_ORIGINAL]
             && altaralign != A_NONE) {
-            You("有一种强烈的感觉%s生气了...", u_gname());
+            You("强烈感觉到%s生气了...", u_gname());
             consume_offering(otmp);
             pline("%s接受了你的忠诚.", a_gname());
 
@@ -2061,7 +2061,7 @@ offer_corpse(struct obj *otmp, boolean highaltar, aligntyp altaralign)
             if (Hallucination)
                 pline_The("神似乎很苛刻.");
             else
-                You("有一种不称职的感觉.");
+                You("感觉很不称职.");
         }
     } else if (ugod_is_angry()) {
         if (value > MAXVALUE)
@@ -2081,14 +2081,14 @@ offer_corpse(struct obj *otmp, boolean highaltar, aligntyp altaralign)
                 if (Hallucination)
                     You("认识到众神和你我不一样.");
                 else
-                    You("有一种希望的感觉.");
+                    You("感觉有希望了.");
                 if ((int) u.uluck < 0)
                     change_luck(1);
             } else {
                 if (Hallucination)
                     pline("总的来说, 有一种炸洋葱的味道.");
                 else
-                    You("有一种和解的感觉.");
+                    You("感觉和解了.");
                 if ((int) u.uluck < 0)
                     u.uluck = 0;
             }
