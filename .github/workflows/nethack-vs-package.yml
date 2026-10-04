@@ -29,9 +29,9 @@ env:
     git config --global --add safe.directory /src
 
     cd sys/unix
-    sh setup.sh hints/linux.500
+    sh setup.sh "hints/linux.${NHVER}"
     cd ../..
-    make fetch-lua
+    # Lua is vendored in nhlua/lua now; 'make fetch-lua' no longer exists.
 
     EXTRA_ARGS=""
     if [ "$VARIANT_LIBC" = "static" ]; then
@@ -52,9 +52,39 @@ env:
       "$STAGE/xlogfile" "$STAGE/livelog" "$STAGE/sysconf"
     echo "GENERICUSERS=*" > "$STAGE/sysconf"
 
-    tar -czf "NetHack-500-linux-$VARIANT_ARCH-$VARIANT_LIBC-$VARIANT_ORTHO.tar.gz" -C stage/NetHack-cn .
+    tar -czf "NetHack-${NHVER}-linux-$VARIANT_ARCH-$VARIANT_LIBC-$VARIANT_ORTHO.tar.gz" -C stage/NetHack-cn .
 
 jobs:
+  # 版本号的唯一来源：include/patchlevel.h
+  #   VERSION_MAJOR / VERSION_MINOR / PATCHLEVEL  ->  501
+  # Linux、macOS 的 hints 文件名（linux.501 / macOS.501）、产物名、发布说明全部由它推导，
+  # 上游 bump 版本时这里不用改任何东西。
+  version:
+    name: resolve version
+    runs-on: ubuntu-latest
+    outputs:
+      ver: ${{ steps.nhver.outputs.ver }}
+    steps:
+      - name: Checkout patchlevel.h
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: include
+
+      - name: Resolve NetHack version
+        id: nhver
+        shell: bash
+        run: |
+          set -eu
+          # awk 而非 sed：GNU/BSD 通用，避开 macOS 上 sed 不支持 \+ 的坑
+          get() { awk -v k="$1" '$1=="#define" && $2==k { print $3; exit }' include/patchlevel.h; }
+          ver="$(get VERSION_MAJOR)$(get VERSION_MINOR)$(get PATCHLEVEL)"
+          case "$ver" in
+            [0-9][0-9][0-9]*) : ;;
+            *) echo "无法从 include/patchlevel.h 解析版本号（得到 '$ver'）" >&2; exit 1 ;;
+          esac
+          echo "ver=$ver" >> "$GITHUB_OUTPUT"
+          echo "resolved NetHack $ver"
+
   build-windows:
     name: windows-x64-${{ matrix.orthography }}
     runs-on: windows-latest
@@ -150,6 +180,7 @@ jobs:
 
   build-linux:
     name: linux-${{ matrix.arch }}-${{ matrix.libc }}-${{ matrix.orthography }}
+    needs: version
     runs-on: ${{ matrix.arch == 'arm64' && 'ubuntu-24.04-arm' || 'ubuntu-latest' }}
     strategy:
       fail-fast: false
@@ -210,17 +241,19 @@ jobs:
             -e VARIANT_ARCH=${{ matrix.arch }} \
             -e VARIANT_LIBC=${{ matrix.libc }} \
             -e VARIANT_ORTHO=${{ matrix.orthography }} \
+            -e NHVER=${{ needs.version.outputs.ver }} \
             debian:12 /bin/sh -euc "$LINUX_BUILD_SCRIPT"
 
       - name: Upload workflow artifact
         uses: actions/upload-artifact@v4
         with:
           name: nethack-linux-${{ matrix.arch }}-${{ matrix.libc }}-${{ matrix.orthography }}
-          path: NetHack-500-linux-*.tar.gz
+          path: NetHack-*-linux-*.tar.gz
           if-no-files-found: error
 
   build-macos:
     name: macos-arm64
+    needs: version
     runs-on: macos-latest
     steps:
       - name: Checkout repository
@@ -235,9 +268,8 @@ jobs:
       - name: Build NetHack
         run: |
           cd sys/unix
-          sh setup.sh hints/macOS.500
+          sh setup.sh hints/macOS.${{ needs.version.outputs.ver }}
           cd ../..
-          make fetch-lua
           make GIT=1 CCFLAGS=-O2 USEMACPORTS=1 COLCMD=cat NROFF_FLAGS=-Tutf8 \
             WANT_WIN_TTY=1 WANT_WIN_CURSES=1 HACKDIR=. all
 
@@ -263,7 +295,7 @@ jobs:
           if-no-files-found: error
 
   release:
-    needs: [build-windows, build-linux, build-macos]
+    needs: [version, build-windows, build-linux, build-macos]
     if: ${{ !cancelled() && (github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch))) }}
     runs-on: ubuntu-latest
 
@@ -351,9 +383,9 @@ jobs:
             ### 文件名速查
 
             ```
-            NetHack-500-linux-{架构}-{glibc|static}-{汉字规范}.tar.gz   # Linux
-            nethack-500-win-x64-{汉字规范}.zip                        # Windows
-            nethack-500-win-x64-debugsymbols-{汉字规范}.zip           # Windows 调试符号（普通用户无需下载）
+            NetHack-${{ needs.version.outputs.ver }}-linux-{架构}-{glibc|static}-{汉字规范}.tar.gz   # Linux
+            nethack-${{ needs.version.outputs.ver }}-win-x64-{汉字规范}.zip                        # Windows
+            nethack-${{ needs.version.outputs.ver }}-win-x64-debugsymbols-{汉字规范}.zip           # Windows 调试符号（普通用户无需下载）
             NetHack-cn-macos-arm64.zip                                # macOS (Apple Silicon, 简体)
             NetHack-cn-src-{汉字规范}.zip                              # 源代码
             ```
