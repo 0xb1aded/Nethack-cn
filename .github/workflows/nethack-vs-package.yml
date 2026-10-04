@@ -17,6 +17,12 @@ env:
   BUILD_CONFIGURATION: Release
   BUILD_PLATFORM: x64
   PACKAGE_DIR: vspackage
+  # 注意：make 命令行上的 CCFLAGS 会整体覆盖 makefile 里的赋值（GNU make
+  # 命令行变量优先），而 hint 里 CCFLAGS 只有两处内容：优化级别和 Lua 头
+  # 文件目录（sys/unix/hints/include/compiler.501 第 8、16 行）。所以这里
+  # 必须把 Lua 的 -I 一起写上，否则 include/nhlua.h 找不到 lua.h。
+  # upstream 的 CI（azure-pipelines.yml）不传 CCFLAGS，用 hint 默认的 -g。
+  NH_CCFLAGS: -O2 -I../nhlua/lua/src
   #   glibc  -> dynamic build against glibc (debian:12), needs ncurses at runtime
   #   static -> static build against glibc (debian:12), no runtime deps
   LINUX_BUILD_SCRIPT: |
@@ -35,9 +41,11 @@ env:
 
     EXTRA_ARGS=""
     if [ "$VARIANT_LIBC" = "static" ]; then
+      # 命令行 LFLAGS 同样会覆盖 hint 里的 'LFLAGS+=-rdynamic'（glibc 栈回溯用）；
+      # 静态链接下 -rdynamic 本就没有意义，丢掉无妨。
       EXTRA_ARGS="$EXTRA_ARGS LFLAGS=-static"
     fi
-    make GIT=1 NO_NHUUID=1 CCFLAGS="-O2" \
+    make GIT=1 NO_NHUUID=1 CCFLAGS="$NH_CCFLAGS" \
       WANT_WIN_TTY=1 WANT_WIN_CURSES=1 NROFF_FLAGS=-Tutf8 HACKDIR=. $EXTRA_ARGS all
 
     strip src/nethack util/recover
@@ -242,6 +250,7 @@ jobs:
             -e VARIANT_LIBC=${{ matrix.libc }} \
             -e VARIANT_ORTHO=${{ matrix.orthography }} \
             -e NHVER=${{ needs.version.outputs.ver }} \
+            -e NH_CCFLAGS="$NH_CCFLAGS" \
             debian:12 /bin/sh -euc "$LINUX_BUILD_SCRIPT"
 
       - name: Upload workflow artifact
@@ -270,7 +279,7 @@ jobs:
           cd sys/unix
           sh setup.sh hints/macOS.${{ needs.version.outputs.ver }}
           cd ../..
-          make GIT=1 CCFLAGS=-O2 USEMACPORTS=1 COLCMD=cat NROFF_FLAGS=-Tutf8 \
+          make GIT=1 CCFLAGS="$NH_CCFLAGS" USEMACPORTS=1 COLCMD=cat NROFF_FLAGS=-Tutf8 \
             WANT_WIN_TTY=1 WANT_WIN_CURSES=1 HACKDIR=. all
 
       - name: Stage and package
