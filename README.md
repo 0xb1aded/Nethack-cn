@@ -73,4 +73,4 @@ English README: [README_en.md](README_en.md)
 
 #### 英语语法函数
 
-见[grammatical_functions.md](doc/grammatical_functions.md)
+见[grammatical_functions.md](doc/grammatical_functions.md)。
