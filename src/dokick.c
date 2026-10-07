@@ -825,7 +825,7 @@ kickstr(char *buf, const char *kickobjnam)
     else if (gm.maploc->typ == LADDER)
         what = "梯子";
     else if (gm.maploc->typ == IRONBARS)
-        what = "一根铁栏杆";
+        what = "一排铁栅栏";
     else
         what = "某种奇怪的东西";
     return strcat(strcpy(buf, "踢"), what);

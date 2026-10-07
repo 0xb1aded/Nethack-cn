@@ -1,0 +1,156 @@
+##### 源代码
+
+- [x] allmain.c
+- [x] alloc.c
+- [x] apply.c
+- [x] artifact.c
+- [x] attrib.c
+- [x] ball.c
+- [x] bones.c
+- [x] botl.c
+- [x] calendar.c
+- [x] cfgfiles.c
+- [x] cmd.c
+- [x] coloratt.c
+- [x] date.c
+- [x] dbridge.c
+- [x] decl.c
+- [x] detect.c
+- [x] dig.c
+- [x] display.c (无需翻译)
+- [x] dlb.c (无需翻译)
+- [x] do.c
+- [x] dog.c
+- [x] dogmove.c
+- [x] dokick.c
+- [x] dothrow.c
+- [x] do_name.c
+- [x] do_wear.c
+- [x] drawing.c
+- [x] dungeon.c
+- [x] earlyarg.c (无需翻译)
+- [x] eat.c
+- [x] end.c
+- [x] engrave.c
+- [x] exper.c
+- [x] explode.c
+- [x] extralev.c (无需翻译)
+- [x] files.c (无需翻译)
+- [x] fountain.c
+- [x] getpos.c
+- [x] glyphs.c
+- [x] hack.c
+- [x] hacklib.c (无需翻译)
+- [x] iactions.c
+- [x] insight.c
+- [x] invent.c
+- [x] isaac64.c (无需翻译)
+- [x] light.c
+- [x] lock.c
+- [x] mail.c
+- [x] makemon.c
+- [x] mcastu.c
+- [x] mdlib.c
+- [x] mhitm.c
+- [x] mhitu.c
+- [x] minion.c
+- [x] mklev.c
+- [x] mkmap.c
+- [x] mkmaze.c
+- [x] mkobj.c
+- [x] mkroom.c
+- [x] mon.c
+- [x] mondata.c
+- [x] monmove.c
+- [x] monst.c
+- [x] mplayer.c
+- [x] mthrowu.c
+- [x] muse.c
+- [x] music.c
+- [x] nhlobj.c (无需翻译)
+- [x] nhlsel.c (无需翻译)
+- [x] nhlua.c (无需翻译)
+- [x] nhmd4.c
+- [x] objects.c
+- [x] objnam.c
+- [x] options.c
+- [x] o_init.c
+- [x] pager.c
+- [x] pickup.c
+- [x] pline.c
+- [x] polyself.c
+- [x] potion.c
+- [x] pray.c
+- [x] priest.c
+- [x] quest.c
+- [x] questpgr.c
+- [x] read.c
+- [x] rect.c (无需翻译)
+- [x] region.c
+- [x] report.c
+- [x] restore.c
+- [x] rip.c
+- [x] rnd.c (无需翻译)
+- [x] role.c
+- [x] rumors.c
+- [x] save.c
+- [x] selvar.c (无需翻译)
+- [x] sfbase.c (无需翻译)
+- [x] sfstruct.c (无需翻译)
+- [x] shk.c
+- [x] shknam.c
+- [x] sit.c
+- [x] sounds.c
+- [x] spell.c
+- [x] sp_lev.c (无需翻译)
+- [x] stairs.c
+- [x] steal.c
+- [x] steed.c
+- [x] strutil.c
+- [x] symbols.c (无需翻译)
+- [x] sys.c (无需翻译)
+- [x] teleport.c
+- [x] tile.c
+- [x] timeout.c
+- [x] topten.c
+- [x] track.c (无需翻译)
+- [x] trap.c
+- [x] uhitm.c
+- [x] utf8map.c (无需翻译)
+- [x] u_init.c (无需翻译)
+- [x] vault.c
+- [x] version.c (无需翻译)
+- [x] vision.c (无需翻译)
+- [x] weapon.c
+- [x] were.c
+- [x] wield.c
+- [x] windows.c
+- [x] wizard.c
+- [x] wizcmds.c
+- [x] worm.c
+- [x] worn.c
+- [x] write.c
+- [x] zap.c
+
+##### 文本文件
+
+- [x] bogusmon.txt
+- [x] dungeon.lua
+- [x] engrave.txt
+- [x] epitaph.txt
+- [x] oracles.txt
+- [x] rumors.fal
+- [x] rumors.tru
+- [x] quest.lua
+- [x] optlist.h
+- [x] hh
+- [ ] data.base
+- [ ] tribute
+- [x] help
+- [x] hh
+- [x] history
+- [x] keyhelp
+- [x] license
+- [x] opthelp
+- [x] usagehelp
+- [x] wizhelp

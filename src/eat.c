@@ -3646,7 +3646,7 @@ floorfood(
             boolean nodig = (levl[u.ux][u.uy].wall_info & W_NONDIGGABLE) != 0;
 
             c = 'n';
-            Strcpy(qbuf, "这里有铁栏杆, ");
+            Strcpy(qbuf, "这里有铁栅栏, ");
             if (nodig || u.uhunger > 1500) {
                 pline("%s但你%s吃它.", qbuf,
                       nodig ? "不能" : "太饱了, 不能");

@@ -1,15 +1,17 @@
 # 通用翻译标准
 
-## 谓词（src/mondata.c:1367；src/uhitm.c:1653；src/potion.c:1121；src/worn.c:981；src/objnam.c:1391）
+仅供参考，具体以实际代码为准（上次更新06.17，可想而知）。（Francium-223，2026.10.07）
+
+## 动词和形容词（src/mondata.c:1367; src/uhitm.c:1653; src/potion.c:1121; src/worn.c:981; src/objnam.c:1391）
 
 |英文|中文|
 |----|----|
 |bounce|反弹|
 |reflect|反射|
 |hit(结果)|击中|
-|better（恢复）|好些了|
-|much better|好多了|
-|shine|照耀<sup>[1](#note1)</sup>|
+|better（恢复）|好些<sup>[1](#note1)</sup>了|
+|much better|好多<sup>[1](#note1)</sup>了|
+|shine|照耀<sup>[2](#note2)</sup>|
 |glow|发/散发|
 |violently glow|爆发|
 |shatter|粉碎|
@@ -47,14 +49,14 @@
 |polymorph|变形|
 |open,closed(门)|打开的,关上的|
 
-## 体词（include/monsters.h:2127；include/objects.h:141；include/defsym.h:110；include/defsym.h:177；src/trap.c:1905）
+## 名词（include/monsters.h:2127; include/objects.h:141; include/defsym.h:110; include/defsym.h:177; src/trap.c:1905）
 
 |英文|中文|
 |----|----|
 |form(变形)|形态|
-|quantum mechanic(怪物)|量子技工<sup>[2](#note2)</sup>|
-|thou, thee, thy, thine|汝，汝，尔，尔<sup>[3](#note3)</sup>|
-|arrow, bolt|箭<sup>[4](#note4)</sup>|
+|quantum mechanic(怪物)|量子技工<sup>[3](#note4)</sup>|
+|thou, thee, thy, thine|汝，汝，尔，尔<sup>[4](#note4)</sup>|
+|arrow, bolt|箭<sup>[5](#note5)</sup>|
 |barb|倒刺|
 |debris(空气元素)|碎片|
 |flash|闪光|
@@ -65,8 +67,11 @@
 |shape changers|变形怪|
 |iron bars|铁栅栏|
 
+## 量词（src/do_name.c:1354; ）
 
-## 死因（src/zap.c:5778；src/wield.c:150；src/worn.c:1328；src/uhitm.c:2162；src/uhitm.c:2470）
+见
+
+## 死因（src/zap.c:5778; src/wield.c:150; src/worn.c:1328; src/uhitm.c:2162; src/uhitm.c:2470）
 
 |英文|中文|
 |----|----|
@@ -82,7 +87,7 @@
 |expire|消散|
 
 
-## 声音（src/worn.c:1199；src/zap.c:5426；src/sounds.c:222；src/trap.c:1200；dat/data.base:2849）
+## 声音（src/worn.c:1199; src/zap.c:5426; src/sounds.c:222; src/trap.c:1200; dat/data.base:2849）
 
 |英文|中文|
 |----|----|
@@ -100,7 +105,7 @@
 |clatter|哐当声|
 |snicker-snack|咔嚓|
 
-## 感叹词/拟声词（src/uhitm.c:233；src/potion.c:774；src/trap.c:2558；src/region.c:989；src/sounds.c:549）
+## 感叹词/拟声词（src/uhitm.c:233; src/potion.c:774; src/trap.c:2558; src/region.c:989; src/sounds.c:549）
 
 |英文|中文|
 |----|----|
@@ -123,7 +128,7 @@
 |Crash!|哗啦!|
 
 
-## 技能（src/weapon.c:52；src/weapon.c:1092）
+## 技能（src/weapon.c:52; src/weapon.c:1092）
 
 |英文|中文|
 |----|----|
@@ -243,7 +248,7 @@
 |floor|地板|
 |ground|地|
 
-## 移动和燃烧谓词（src/mondata.c:1367；src/mondata.c:1411）
+## 移动和燃烧谓词（src/mondata.c:1367; src/mondata.c:1411）
 
 |英文|中文|
 |----|----|
@@ -282,7 +287,7 @@
 |blast of poison gas|毒气冲击|
 |blast of acid|酸液冲击|
 
-## 死因和毁坏原因（src/zap.c:5778；src/mcastu.c:332；src/mcastu.c:482）
+## 死因和毁坏原因（src/zap.c:5778; src/mcastu.c:332; src/mcastu.c:482）
 
 |英文|中文|
 |----|----|
@@ -299,7 +304,7 @@
 |the touch of death|死亡之触|
 |strength loss|力量流失|
 
-## 陷阱和侵蚀（src/trap.c:79；src/trap.c:178）
+## 陷阱和侵蚀（src/trap.c:79; src/trap.c:178）
 
 |英文|中文|
 |----|----|
@@ -327,7 +332,7 @@
 |corrosion|腐蚀|
 |impact|冲击|
 
-## 怪物声音（src/sounds.c:341；src/sounds.c:351）
+## 怪物声音（src/sounds.c:341; src/sounds.c:351）
 
 |英文|中文|
 |----|----|
@@ -401,7 +406,7 @@
 |bill|账单|
 |compensation|赔偿|
 
-## 神殿和祭司术语（src/priest.c:320；src/priest.c:452）
+## 神殿和祭司术语（src/priest.c:320; src/priest.c:452）
 
 |英文|中文|
 |----|----|
@@ -427,12 +432,12 @@
 |----|----|
 |under you|在你下面(不能是脚下，因为你可能没有脚LOL)|
 
-<a id="note1">1</a> 见[鱼佬的解释](https://github.com/SunnyYuer/NetHack-cn/wiki#shine-shining)。
+<a id="note1">1</a> 表示状态变化的比较近，有much和无much有区别的，无much的用“些”，有much的用“多”。
 
-<a id="note2">2</a> 根据[Wiki](https://nethackwiki.com/wiki/Quantum_mechanic#Origin)，这是一个对quantum mechanics（单数，“量子力学”）错误逆构词导致的双关，且从[贴图](https://nethackwiki.com/wiki/File:Quantum_mechanic.png)和游戏内信息可以推断出quantum mechanic显然是人形生物，不应翻译为“量子力学”。
+<a id="note2">2</a> 见[鱼佬的解释](https://github.com/SunnyYuer/NetHack-cn/wiki#shine-shining)。
 
-<a id="note3">3</a> 含有这种人称代词或shalt(shall 2nd sg)、art(be 2nd sg)、-est(2nd sg)、-eth(3rd sg)等的句子当译为文言。
-~~也不一定是文言吧，或者像[浅文理和合本](https://www.bible.com/bible/1577/)那样的浅近文言？~~不行，还是不够高语域。
-拉丁语我打算保留一个原句再加一个翻译。
+<a id="note3">3</a> 根据[Wiki](https://nethackwiki.com/wiki/Quantum_mechanic#Origin)，这是一个对quantum mechanics（单数，“量子力学”）错误逆构词导致的双关，且从[贴图](https://nethackwiki.com/wiki/File:Quantum_mechanic.png)和游戏内信息可以推断出quantum mechanic显然是人形生物，不应翻译为“量子力学”。
 
-<a id="note4">4</a> bolt只有crossbow bolt（弩箭）一种，和arrow没有最小对立。
+<a id="note4">4</a> 含有这种人称代词或shalt(shall 2nd sg)、art(be 2nd sg)、-est(2nd sg)、-eth(3rd sg)等的句子当译为文言。
+
+<a id="note5">5</a> bolt只有crossbow bolt（弩箭）一种，和arrow没有最小对立。
