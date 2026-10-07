@@ -1,7 +1,10 @@
 ## Nethack-cn
 
+![](https://avatars.githubusercontent.com/u/295338404)
+
 [![Build Status](https://github.com/StackC00ki3/nethack-cn/actions/workflows//nethack-vs-package.yml/badge.svg)](http://github.com/stackC00ki3/nethack-cn/releases)
 ![Version](https://img.shields.io/badge/version-5.0.1-blue)
+[![Origin](https://img.shields.io/badge/origin-NetHack-blue)](https://github.com/NetHack/NetHack)
 [![License](https://img.shields.io/badge/license-NGPL-green)](dat/license)
 
 English README: [README_en.md](README_en.md)
