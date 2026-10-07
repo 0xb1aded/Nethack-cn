@@ -1,6 +1,6 @@
 ## 物品简中译名标准（objects.h）
 
-当前有效条目共 480 条，其中备注为 `5.0.0 新增` 的条目共 27 条。
+当前有效条目共 480 条，其中备注为 `5.0.0 新增` 的条目共 28 条。
 
 ### 通用占位
 
@@ -115,7 +115,7 @@
 | bill-guisarme | 倒勾刀 |  |
 | lucern hammer | 苜蓿锤 |  |
 | bec de corbin | 鸦啄战锤 |  |
-| dwarvish mattock | 矮人鹤嘴锄 |  |
+| dwarvish mattock | 矮人镐 |  |
 | lance | 长戟 |  |
 | mace | 钉头锤 |  |
 | silver mace | 银钉头锤 | 5.0.0 新增 |
@@ -130,9 +130,9 @@
 | bow | 弓 |  |
 | elven bow | 精灵弓 |  |
 | orcish bow | 兽人弓 |  |
-| yumi | 弩 |  |
+| yumi | 和弓 |  |
 | sling | 投石器 |  |
-| crossbow | 十字弓 |  |
+| crossbow | 弩 |  |
 
 #### 未鉴定物品名称
 
@@ -168,7 +168,7 @@
 | hooked polearm | 弯曲长柄武器 |  |
 | pronged polearm | 分叉长柄武器 |  |
 | beaked polearm | 喙长柄武器 |  |
-| broad pick | 宽阔锄头 |  |
+| broad pick | 扁镐 |  |
 | staff | 棒子 |  |
 | thonged club | 皮带棍棒 |  |
 | runed bow | 符文弓 |  |
@@ -215,7 +215,7 @@
 | yellow dragon scales | 黄龙鳞 |  |
 | plate mail | 板甲 |  |
 | crystal plate mail | 水晶板甲 |  |
-| bronze plate mail | 青铜板甲 |  |
+| bronze plate mail | 黄铜板甲 |  |
 | splint mail | 板条甲 |  |
 | banded mail | 带链甲 |  |
 | dwarvish mithril-coat | 矮人秘银胶衣 |  |
@@ -236,7 +236,7 @@
 | dwarvish cloak | 矮人斗篷 |  |
 | oilskin cloak | 油布斗篷 |  |
 | robe | 长袍 |  |
-| alchemy smock | 炼金术罩衫 |  |
+| alchemy smock | 炼金术工作服 |  |
 | leather cloak | 皮斗篷 |  |
 | cloak of protection | 保护斗篷 |  |
 | cloak of invisibility | 隐身斗篷 |  |
@@ -289,7 +289,7 @@
 | tattered cape | 破烂的斗篷 |  |
 | opera cloak | 夜礼服斗篷 |  |
 | ornamental cope | 装饰性长袍 |  |
-| piece of cloth | 一块布 |  |
+| piece of cloth | 布块 |  |
 | wooden shield | 木制盾牌 |  |
 | wooden shield | 木制盾牌 | 5.0.0 新增 |
 | blue and green shield | 蓝绿盾 |  |
@@ -449,7 +449,7 @@
 | stethoscope | 听诊器 |  |
 | tinning kit | 装罐器 |  |
 | tin opener | 开罐器 |  |
-| can of grease | 开罐器 |  |
+| can of grease | 涂油罐 |  |
 | figurine | 小雕像 |  |
 | magic marker | 魔笔 |  |
 | land mine | 地雷 |  |
@@ -468,7 +468,7 @@
 | bugle | 军号 |  |
 | leather drum | 皮革鼓 |  |
 | drum of earthquake | 地震鼓 |  |
-| pick-axe | 鹤嘴锄 |  |
+| pick-axe | 镐 |  |
 | grappling hook | 爪钩 |  |
 | unicorn horn | 独角兽的角 |  |
 | Candelabrum of Invocation | 祈祷烛台 |  |
@@ -504,12 +504,12 @@
 | egg | 蛋 |  |
 | meatball | 肉丸 |  |
 | meat stick | 肉棍 |  |
-| enormous meatball | 大块肉 |  |
+| enormous meatball | 大肉 | 5.0.0 新增 |
 | meat ring | 肉环 |  |
-| glob of gray ooze | 灰色软泥团 |  |
-| glob of brown pudding | 棕色布丁团 |  |
-| glob of green slime | 绿色黏液团 |  |
-| glob of black pudding | 黑色布丁团 |  |
+| glob of gray ooze | 灰色软泥 |  |
+| glob of brown pudding | 棕色布丁 |  |
+| glob of green slime | 绿色黏液 |  |
+| glob of black pudding | 黑色布丁 |  |
 | kelp frond | 海藻叶子 |  |
 | eucalyptus leaf | 桉叶 |  |
 | apple | 苹果 |  |
@@ -518,15 +518,15 @@
 | melon | 甜瓜 |  |
 | banana | 香蕉 |  |
 | carrot | 胡萝卜 |  |
-| sprig of wolfsbane | 附子草枝 |  |
-| clove of garlic | 蒜瓣 |  |
+| sprig of wolfsbane | 附子草 |  |
+| clove of garlic | 大蒜 |  |
 | slime mold | 黏菌 |  |
 | lump of royal jelly | 蜂王浆 |  |
 | cream pie | 奶油派 |  |
 | candy bar | 条形糖果 |  |
 | fortune cookie | 幸运饼干 |  |
 | pancake | 煎饼 |  |
-| lembas wafer | 兰巴斯片 |  |
+| lembas wafer | 兰巴斯 |  |
 | cram ration | 压缩口粮 |  |
 | food ration | 口粮 |  |
 | K-ration | K-口粮 |  |
@@ -771,7 +771,7 @@
 | checkered | 方格花纹的 | 5.0.0 新增 |
 | plain | 空白 |  |
 | paperback | 平装本 |  |
-| papyrus | 纸莎草 |  |
+| papyrus | 莎草纸 |  |
 
 ### 魔杖
 
@@ -874,15 +874,15 @@
 | obsidian | 黑曜石 |  |
 | agate | 玛瑙 |  |
 | jade | 翡翠 |  |
-| worthless piece of white glass | 毫无价值的一块白色玻璃 |  |
-| worthless piece of blue glass | 毫无价值的一块蓝色玻璃 |  |
-| worthless piece of red glass | 毫无价值的一块红色玻璃 |  |
-| worthless piece of yellowish brown glass | 毫无价值的一块杏色玻璃 |  |
-| worthless piece of orange glass | 毫无价值的一块橙色玻璃 |  |
-| worthless piece of yellow glass | 毫无价值的一块黄色玻璃 |  |
-| worthless piece of black glass | 毫无价值的一块黑色玻璃 |  |
-| worthless piece of green glass | 毫无价值的一块绿色玻璃 |  |
-| worthless piece of violet glass | 毫无价值的一块紫色玻璃 |  |
+| worthless piece of white glass | 毫无价值的白色玻璃碎片 |  |
+| worthless piece of blue glass | 毫无价值的蓝色玻璃碎片 |  |
+| worthless piece of red glass | 毫无价值的红色玻璃碎片 |  |
+| worthless piece of yellowish brown glass | 毫无价值的杏色玻璃碎片 |  |
+| worthless piece of orange glass | 毫无价值的橙色玻璃碎片 |  |
+| worthless piece of yellow glass | 毫无价值的黄色玻璃碎片 |  |
+| worthless piece of black glass | 毫无价值的黑色玻璃碎片 |  |
+| worthless piece of green glass | 毫无价值的绿色玻璃碎片 |  |
+| worthless piece of violet glass | 毫无价值的紫色玻璃碎片 |  |
 | luckstone | 幸运石 |  |
 | loadstone | 负重石 |  |
 | touchstone | 试金石 |  |

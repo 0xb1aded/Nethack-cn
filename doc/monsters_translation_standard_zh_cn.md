@@ -93,7 +93,7 @@
 | dwarf lord | 矮人领主 | dwarf lady | 矮人女领主 | dwarf leader | 矮人领袖 | 5.0.0 新增：dwarf lady，dwarf leader |
 | dwarf king | 矮人王 | dwarf queen | 矮人女王 | dwarf ruler | 矮人统治者 | 5.0.0 新增：dwarf queen，dwarf ruler |
 | * | * | * | * | mind flayer | 夺心魔 |  |
-| * | * | * | * | master mind flayer | 夺心魔大师 |  |
+| * | * | * | * | master mind flayer | 高阶夺心魔 |  |
 
 #### 小恶魔类 (S_IMP)
 
@@ -353,8 +353,8 @@
 | * | * | * | * | frost giant | 霜巨人 |  |
 | * | * | * | * | ettin | 双头巨人 |  |
 | * | * | * | * | storm giant | 风暴巨人 |  |
-| * | * | * | * | titan | 提坦 |  |
-| * | * | * | * | minotaur | 弥诺陶洛斯 |  |
+| * | * | * | * | titan | 泰坦 |  |
+| * | * | * | * | minotaur | 牛头人 |  |
 | * | * | * | * | Cyclops | 独眼巨人 |  |
 | * | * | * | * | Lord Surtur | 苏尔特领主 |  |
 
@@ -399,9 +399,9 @@
 
 | 男性英文名 | 男性中文名 | 女性英文名 | 女性中文名 | 中性英文名 | 中性中文名 | 备注 |
 | --- | --- | --- | --- | --- | --- | --- |
-| * | * | * | * | red naga hatchling | 红幼纳迦 |  |
-| * | * | * | * | black naga hatchling | 黑幼纳迦 |  |
-| * | * | * | * | golden naga hatchling | 金幼纳迦 |  |
+| * | * | * | * | red naga hatchling | 幼红纳迦 |  |
+| * | * | * | * | black naga hatchling | 幼黑纳迦 |  |
+| * | * | * | * | golden naga hatchling | 幼金纳迦 |  |
 | * | * | * | * | guardian naga hatchling | 幼纳迦守卫 |  |
 | * | * | * | * | red naga | 红纳迦 |  |
 | * | * | * | * | black naga | 黑纳迦 |  |
@@ -534,7 +534,7 @@
 
 | 男性英文名 | 男性中文名 | 女性英文名 | 女性中文名 | 中性英文名 | 中性中文名 | 备注 |
 | --- | --- | --- | --- | --- | --- | --- |
-| * | * | * | * | human | 人 |  |
+| * | * | * | * | human | 人类 |  |
 | * | * | * | * | wererat | 鼠人 |  |
 | * | * | * | * | werejackal | 豺狼人 |  |
 | * | * | * | * | werewolf | 狼人 |  |
@@ -549,8 +549,8 @@
 | * | * | * | * | guard | 警卫 |  |
 | * | * | * | * | prisoner | 囚犯 |  |
 | * | * | * | * | Oracle | 神谕 |  |
-| priest | 男牧师 | priestess | 女牧师 | aligned cleric | 阵营牧师 | 5.0.0 新增：aligned cleric |
-| high priest | 高级男祭司 | high priestess | 高级女祭司 | high cleric | 高级祭司 | 5.0.0 新增：high priestess，high cleric |
+| priest | 祭司 | priestess |  | aligned cleric |  | 5.0.0 新增：aligned cleric |
+| high priest | 高阶祭司 | high priestess |  | high cleric |  | 5.0.0 新增：high priestess，high cleric |
 | * | * | * | * | soldier | 士兵 |  |
 | * | * | * | * | sergeant | 中士 |  |
 | * | * | * | * | nurse | 护士 |  |
@@ -564,11 +564,11 @@
 | * | * | * | * | Charon | 卡戎 |  |
 | * | * | * | * | archeologist | 考古学家 |  |
 | * | * | * | * | barbarian | 野蛮人 |  |
-| caveman | 男穴居人 | cavewoman | 女穴居人 | cave dweller | 穴居人 | 5.0.0 新增：cave dweller |
+| caveman | 穴居人 | cavewoman |  | cave dweller |  | 5.0.0 新增：cave dweller |
 | * | * | * | * | healer | 医生 |  |
 | * | * | * | * | knight | 骑士 |  |
-| * | * | * | * | monk | 僧侣 |  |
-| priest | 男祭司 | priestess | 女祭司 | cleric | 祭司 | 5.0.0 新增：cleric |
+| * | * | * | * | monk | 武僧 |  |
+| priest | 牧师 | priestess |  | cleric |  | 5.0.0 新增：cleric |
 | * | * | * | * | ranger | 游侠 |  |
 | * | * | * | * | rogue | 盗贼 |  |
 | * | * | * | * | samurai | 武士 |  |
@@ -598,7 +598,7 @@
 | * | * | * | * | neanderthal | 尼安德特人 |  |
 | * | * | * | * | attendant | 护理者 |  |
 | * | * | * | * | page | 实习骑士 |  |
-| * | * | * | * | abbot | 方丈 |  |
+| * | * | * | * | abbot | 修道院院长 |  |
 | * | * | * | * | acolyte | 侍祭 |  |
 | * | * | * | * | hunter | 猎人 |  |
 | * | * | * | * | thug | 刺客 |  |
